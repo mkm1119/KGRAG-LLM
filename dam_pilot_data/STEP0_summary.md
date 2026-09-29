@@ -13,7 +13,7 @@
 | 공공데이터포털(www/apis.data.go.kr) | 접근 가능. API는 서비스키 필요 (키 없이 호출 시 401 `SERVICE_KEY_IS_NULL` 확인·저장) |
 | 법제처 www.law.go.kr (DRF, `OC=test` 샘플값) | 접근 가능(간헐적 리셋 → 재시도). `law.go.kr`(www 없음)/`open.law.go.kr` 차단 |
 | 기상자료개방포털 data.kma.go.kr | 페이지 접근 가능, **상세 다운로드는 로그인 필요**(자동 우회 안 함). `apihub.kma.go.kr`/`www.kma.go.kr` egress 403 |
-| **WAMIS, 한강홍수통제소(hrfco/api.hrfco)** | **접근 불가**(https 연결 리셋, http 503, no-www 호스트 egress 403; 다회 재시도 동일). 원인(egress 정책 vs 해외 IP 차단)은 판별하지 못함 |
+| **WAMIS, 한강홍수통제소(hrfco/api.hrfco)** | **사이트 접근 불가**(단, 방류승인은 data.go.kr 파일데이터로 확보 §5)(https 연결 리셋, http 503, no-www 호스트 egress 403; 다회 재시도 동일). 원인(egress 정책 vs 해외 IP 차단)은 판별하지 못함 |
 | 환경부 me.go.kr, opendata.kwater.or.kr | egress 403 |
 
 증적: `04_reports/access_probe.tsv`, `access_probe_retry.tsv`, `proxy_relay_failures_snapshot.json`.
@@ -25,7 +25,7 @@
 - `getHydr` (댐별 수위·저수량·저수율·강우량·유입량·총방류량): 11개 시설 일·시간 2021-01-01~2026-09-28. (10분 `getHydr`은 수집하지 않음)
 - `getBasic` 제원: 11개 시설.
 - `getRain` (우량A/수위C 관측소): 94개 지점 목록 확보. **주의: 응답이 기간 시계열이 아니라 요청 창 끝 시점 1건이라 관측소 시계열로는 사용할 수 없음.** 지점 시계열은 `getRainTrend`가 필요하나 수집하지 않음.
-- 규모: 원본 JSON 3,024개(약 476MB, 압축 아카이브 53MB `01_raw_archive/`), 정규화 long/wide 테이블(gz) 6개.
+- 승인 CSV 1개(3,929행) 별도. 규모: 원본 JSON 3,024개(약 476MB, 압축 아카이브 53MB `01_raw_archive/`), 정규화 long/wide 테이블(gz) 6개.
 - 완전성(`04_reports/quality_window_completeness.csv`): 1,376개 period 윈도 중 1,375개가 기대 행수와 일치, **1개 불일치**(H1/group3/DATA1/2021-01-01_2021-01-30: 721행 vs 기대 720; 보정하지 않고 원본 유지).
 - 결측 규칙: null/'' 없이 **해당 COLn 키가 응답에서 사라짐**(정규화에서 `key_present_in_raw=N`). 한강 K-water 시설 시간자료에서는 시설당 1건.
 - 값 일치성: 같은 댐·시각의 `getPeriod`(2자리)와 `getHydr`(3~4자리) 일자료 25,164쌍이 표시 정밀도 내(최대차 0.005)에서 일치.
@@ -55,11 +55,10 @@
 - `유입량`·`총방류량`의 K-water 내부 서술 차이, 충주조정지에서 유입량≠자체유입량(관찰만), KHNP `방류량` vs K-water `총방류량`(동일시 금지).
 - 시간자료 hour=24 표기(시각 규약 REVIEW_REQUIRED), 시간대 미명시, 실시간·잠정 vs 최종 구분 미명시(KHNP는 잠정 고지).
 
-## 5. Approval / Operation — 현재 수집 환경에서는 실제 instance를 확보하지 못함
-"존재하지 않음"이 아니라 **접근 한계로 미확보**이다. 별도 gap-filling task로 넘긴다.
-- 규범 근거만 확인: 연계운영규정 제6조②(수문조작 시 홍수통제소장 사전 승인), 제14조(비상방류 통보·지시).
-- 시도/확인한 경로와 결과: 한강홍수통제소·WAMIS(접속 불가), data.go.kr 카탈로그 검색(K-water 수문 방류정보 API 15140222: 인증키 + **심의승인**, host opendata.kwater.or.kr는 egress 차단; 홍수통제소 관련 행안부 API: 운영단계 심의승인), MyWater 메뉴(홍수 운영현황은 현재 스냅샷뿐).
-- gap-filling에 필요한 사용자 조치: 아래 §7.
+## 5. Approval / Operation
+**Approval — 실제 record 확보 (초기 결론 "미확보"를 대체).** 공공데이터포털 파일데이터 15085926(한강홍수통제소 댐방류승인 CSV, 로그인 없이 다운로드)에서 **3,929건, 승인 2010-07-16~2021-07-16, 16개 시설**(팔당·괴산·청평·의암·춘천·화천댐, 강천·여주·이포보, 광동·횡성·충주조정지·충주·소양강·달방·군남)을 원본 그대로 보존했다(`01_raw/FloodControl/`). 원본 컬럼: `순차번호, 관측소코드, 관측소명, 승인년월일시분, 방류시작시간, 접수방류량, 접수일자, 비고`. 방류종료시간 컬럼은 없고 `비고`(3,764건 내용)는 원문 그대로 보존했으며 Rationale/Operation으로 해석하지 않았다. 상세는 `04_reports/J_Approval_Gap_Filling_Report.md`.
+- 한계: 파일은 "수시(1회성)" 스냅샷이라 **2021-07-16 이후 이력 없음**; 홍수통제소 웹 테이블(`hrfco.go.kr/sumun/dam/damFct.do`)의 다운로드/AJAX endpoint는 접속 불가로 확인하지 못함; `접수방류량`이 승인방류량과 같은지 미확인; 확보한 Measurement(2021-01-01~)와의 시간 겹침은 승인 57건뿐.
+**Operation — 현재 수집 환경에서는 실제 instance를 확보하지 못함.** 규범 근거(연계운영규정 제6조②, 제14조)만 확인. 승인 파일은 Operation이 아님. (K-water 수문 방류정보 API 15140222는 인증키+심의승인 필요.)
 
 ## 6. 재현·보존
 - 코드 `scripts/`(수집: `fetch_kwater_mywater.py`, `fetch_kwater_station.py`, `mywater_client.py`, `fetch_law.py`, `probe_*`; 정규화/분석: `build_*.py`, `analyze_*.py`). 함수 분리는 `fetch_kwater()`/`fetch_law()` 등 source별 파일 단위.
@@ -74,11 +73,12 @@
 5. 10분 자료 요청 구간은 6/21~9/30이며 규정상 홍수기 정의(6/21~9/20)보다 넓음.
 6. 법제처 DRF는 문서상 샘플 `OC=test` 사용. 정식·대량 사용은 본인 OC 등록 필요.
 7. 사이트가 `한강`으로 표기한 하천 그룹 라벨은 검증된 수계가 아님(달방댐·단양수중보는 별표1 한강수계 목록에 없음).
-8. KHNP 자료는 현재/전일 스냅샷뿐이며 과거 시계열 없음. 기상청 강수(ASOS/AWS) 미수집 → Dam–Weather Station 대응표 미작성(선정 근거를 기록할 수 없어 임의 작성하지 않음).
+8. (Approval) 위 §5 한계 참조.
+9. KHNP 자료는 현재/전일 스냅샷뿐이며 과거 시계열 없음. 기상청 강수(ASOS/AWS) 미수집 → Dam–Weather Station 대응표 미작성(선정 근거를 기록할 수 없어 임의 작성하지 않음).
 
-## 8. 다음(gap-filling) 시 필요한 사용자 조치
+## 8. 남은 gap-filling 시 필요한 사용자 조치 (Operation, 2021-07 이후 승인)
 - 세션 egress에 `www.wamis.go.kr`, `www.hrfco.go.kr`, `api.hrfco.go.kr`, `apihub.kma.go.kr`, `open.law.go.kr`, `opendata.kwater.or.kr` 등 허용 (`04_reports/G_API_Requirement_Report.md` 참조).
 - 공공데이터포털 serviceKey(환경변수 `SERVICE_KEY`), 필요 시 법제처 OC, 기상청 authKey.
 
 ## 산출물 색인 (요청 1~10)
-1. raw: `01_raw/`, `01_raw_archive/`  2. 코드: `scripts/`  3. endpoint/parameter/batch: 본 문서 §6, `mywater_*_manifest.csv`, `G_API_Requirement_Report.md`  4. request/error log: `02_metadata/*manifest*.csv`, `04_reports/access_probe*.tsv`, `*.log`, `proxy_relay_failures_snapshot.json`, `quality_*.csv`  5. `02_metadata/source_catalog.csv`  6. `02_metadata/variable_dictionary.csv`, `time_conventions.csv`  7. `03_normalized/dam_catalog.csv`, `observation_station_list.csv`, `measurement_dataset_list.csv`  8. `03_normalized/criterion_list.csv`, `document_list.csv`  9. `03_normalized/dam_network_evidence.csv`, `han_system_membership_byeolpyo1.csv`  10. `04_reports/I_Ontology_Compatibility_Report.md`
+1. raw: `01_raw/`, `01_raw_archive/`  2. 코드: `scripts/`  3. endpoint/parameter/batch: 본 문서 §6, `mywater_*_manifest.csv`, `G_API_Requirement_Report.md`  4. request/error log: `02_metadata/*manifest*.csv`, `04_reports/access_probe*.tsv`, `*.log`, `proxy_relay_failures_snapshot.json`, `quality_*.csv`  5. `02_metadata/source_catalog.csv`(S16 승인 추가)  6. `02_metadata/variable_dictionary.csv`, `time_conventions.csv`  7. `03_normalized/dam_catalog.csv`, `observation_station_list.csv`, `measurement_dataset_list.csv`  8. `03_normalized/criterion_list.csv`, `document_list.csv`, **승인: `approval_records_hrfco_raw_fields.csv`, `approval_facility_code_crosswalk.csv`, `J_Approval_Gap_Filling_Report.md`**  9. `03_normalized/dam_network_evidence.csv`, `han_system_membership_byeolpyo1.csv`  10. `04_reports/I_Ontology_Compatibility_Report.md`

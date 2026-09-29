@@ -1,0 +1,17 @@
+﻿approval_file_관측소코드,approval_file_관측소명,n_records,first_승인,last_승인,MyWater_DAM_CD_same_code,MyWater_name_for_that_code,MyWater_code_with_similar_name,relation_status
+1017310,팔당댐,1194,2010-07-16,2021-07-13,,,,no MyWater counterpart collected
+1004310,괴산댐,723,2010-07-17,2021-07-08,,,,no MyWater counterpart collected
+1015310,청평댐,681,2010-07-16,2020-09-13,,,,no MyWater counterpart collected
+1013310,의암댐,520,2010-08-15,2020-11-08,,,,no MyWater counterpart collected
+1010320,춘천댐,352,2010-09-01,2020-09-10,,,,no MyWater counterpart collected
+1010310,화천댐,107,2010-08-15,2020-09-09,,,,no MyWater counterpart collected
+1007802,여주보,82,2012-06-29,2021-07-16,,,1007602,similar name but DIFFERENT code
+1007803,이포보,82,2012-06-29,2021-07-16,,,1007603,similar name but DIFFERENT code
+1007801,강천보,81,2012-06-29,2021-07-16,,,1007601,similar name but DIFFERENT code
+1001210,광동,36,2016-07-04,2021-07-09,1001210,광동댐,1001210,same code AND similar name (동일시설 여부는 REVIEW_REQUIRED)
+1006110,횡성,24,2010-09-10,2020-09-02,1006110,횡성댐,1006110,same code AND similar name (동일시설 여부는 REVIEW_REQUIRED)
+1003611,충주조정지,21,2011-05-01,2012-08-30,1003611,충주조정지,1003611,same code AND similar name (동일시설 여부는 REVIEW_REQUIRED)
+1003110,충주,15,2010-09-22,2020-09-02,1003110,충주댐,1003110,same code AND similar name (동일시설 여부는 REVIEW_REQUIRED)
+1012110,소양강,6,2011-07-27,2020-09-02,1012110,소양강댐,1012110,same code AND similar name (동일시설 여부는 REVIEW_REQUIRED)
+1302210,달방,3,2020-09-01,2020-09-04,1302210,달방댐,1302210,same code AND similar name (동일시설 여부는 REVIEW_REQUIRED)
+1021701,군남,2,2011-08-13,2017-08-27,1021701,군남댐,1021701,same code AND similar name (동일시설 여부는 REVIEW_REQUIRED)
