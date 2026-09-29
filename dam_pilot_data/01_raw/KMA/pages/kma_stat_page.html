@@ -1,0 +1,3690 @@
+<!DOCTYPE html>
+<html lang="ko-KR" dir="ltr">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>기상자료개방포털[기후통계분석:통계분석:조건별통계]</title>
+<meta name="keywords" content="기상청, 기상자료개방포털" />
+<meta name="description" content="기상청, 기상자료개방포털" />
+<meta name="viewport" content="width=device-width" /><!-- , initial-scale=1, maximum-scale=1, user-scalable=0 -->
+
+<link rel="shortcut icon" href="/resources/images/favicon.png"/>
+<link rel="stylesheet" type="text/css" href="/resources/css/common.css" media="all" />
+<link rel="stylesheet" type="text/css" href="/resources/css/font-awesome.min.css" media="all" />
+<link rel="stylesheet" type="text/css" href="/resources/css/board.css" media="all" />
+<link rel="stylesheet" type="text/css" href="/resources/css/layout.css" media="all" />
+<link rel="stylesheet" type="text/css" href="/resources/css/sub.css" media="all" />
+<link rel="stylesheet" type="text/css" href="/resources/css/sub-etc.css" media="all" />
+<link rel="stylesheet" type="text/css" href="/resources/css/messagebox1.css" media="all" />
+<link rel="stylesheet" type="text/css" href="/resources/css/srvEvl.css" />
+<link rel="stylesheet" type="text/css" href="/resources/css/contents.css" />
+
+<script src="/resources/js/jquery-2.1.0.min.js"></script>
+<script src="/resources/js/ddlist.jquery.min.js"></script>
+<script src="/resources/js/common.js"></script>
+<script src="/resources/js/jquery-ui.min.js"></script>
+<script src="/resources/js/slick.min.js"></script>
+<script src="/resources/js/jquery.scrollTo.js"></script>
+<script src="/resources/js/TweenMax.min.js"></script>
+<script src="/resources/js/menu.js"></script>
+<script src="/resources/js/jquery.messagebox.min.js"></script>
+
+<script src="/resources/js/browser.js"></script>
+<script src="/resources/js/custom.js"></script>
+<!-- 공통 조회조건 필수 스크립트 시작 -->
+<script src="/resources/js/userGroup.js"></script>
+<!-- 공통 조회조건 필수 스크립트 종료 -->
+<script src="/resources/js/dts.js"></script>
+
+<script src="/resources/js/messages.js"></script>
+<script src="/resources/js/gdsUtil.js"></script>
+<script src="/resources/js/sub.js"></script>
+
+<!-- Datepicker-->
+<link rel="stylesheet" type="text/css" href="/resources/svc/js/datepicker/jquery-ui.css" media="all"/>
+<script src="/resources/svc/js/datepicker/jquery-ui.js;jsessionid=DMMULX5OVI9j0z70nVrkwiUSRgQ9mc0BmBR5PL0sSa85vmBJTQbS11HkhTRwtVQC.was02_servlet_engine5"></script>
+<script src="/resources/svc/js/datepicker/jquery.ui.datepicker-ko.js;jsessionid=DMMULX5OVI9j0z70nVrkwiUSRgQ9mc0BmBR5PL0sSa85vmBJTQbS11HkhTRwtVQC.was02_servlet_engine5" ></script>
+<style>
+#loading-mask {
+    position:absolute;
+    top:0;
+    left:0;
+    background-color:#ffffff;
+    opacity:0.80;
+    filter:alpha(opacity=80);
+    z-index:30000;
+    display:none;
+}
+</style>
+
+<script>
+$(function(){  
+	var tab_name = $.trim($(".wrap_tab").children("ul.lst").children("li.on").children("a").text());
+	if(tab_name != null && tab_name != ""){
+		var title_text = $("title").text().split(']')[0];
+		$("title").text(title_text+":"+tab_name+"]")
+	}
+}); 
+
+</script>
+<!-- Matomo -->
+<script>
+  var _paq = window._paq || [];
+  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+	  var u="https://monitoring.kma.go.kr/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '2']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<!-- End Matomo Code -->
+<!-- page script -->
+</head>
+<body>
+	
+		<!-- wrap -->
+		<div id="wrap" class="analysis">
+			<header id="header">
+			<div class="skip">
+	            <strong class="blind">바로가기 목록</strong>
+	            <ul class="skip_nav">
+	               <li><a href="#gnb">주메뉴 바로가기</a></li>
+	               <li><a href="#contents">본문 바로가기</a></li>
+	            </ul>
+	         </div>
+			<!-- Start:Top Area -->
+			<script>
+var moveURLFlag = false;
+var moveURL = '';
+$(document).ready(function () {
+	/* 폰트 변경 및 form submit 시 fontSize 파라미터 추가. custom.js 에..... */
+	changeFontSize();
+	$("form").each(function(){
+		addFontSizeToFormOnsubmit($(this).attr("id"));
+	});
+	
+	// 로그인
+	$("#loginBtn").on('click', function(e){
+		e.preventDefault();
+// 		loginPopup("Y");
+		popLayer(this);
+	});
+	
+	// 로그아웃
+	$("#logoutBtn").on('click', function(e){
+		e.preventDefault();
+		$("#loginYn").val("N");
+		$("#topForm").attr("method", "post");
+		$("#topForm").attr("action", $(this).attr('href')).submit();
+	});
+	
+	// 회원가입
+	$("#memberJoinBtn, #mypageBtn, #siteMapBtn").on('click', function(e){
+		e.preventDefault();
+		$("#topForm").attr("method", "post");
+		$("#topForm").attr("action", $(this).attr('href')).submit();
+	});
+	
+	//즐겨찾기
+	$("#favBtn").on('click', function(e){
+		e.preventDefault();
+		favoritePopup();
+	});
+	
+	loginSessionChk();
+	
+	$("input[name=dataSearch]").on("keypress", function(e){
+		
+		var kcode= (e.keyCode ? e.keyCode : e.which);
+		if (kcode == 13){
+			var dataSch = $("#dataSearch").val();
+			
+			if (dataSch.length < 2){
+				Message.alert('검색어는 최소 2자 이상 입력해주세요');
+				return false;
+			}	
+			
+			goSearchResult(e);			
+		}
+		
+		//return false;
+	});
+
+});
+
+var GDSsessionExpireTime;
+var isLogin = false;
+
+function loginSessionChk(){
+	if(isLogin){
+		if(GDSsessionExpireTime == undefined ){
+			GDSsessionExpireTime = new Date().getTime() + 10*60*1000;
+		}
+		if(GDSsessionExpireTime != undefined && GDSsessionExpireTime != ''){
+			var currentTimeMillis = new Date().getTime();
+			if(GDSsessionExpireTime < currentTimeMillis){
+				Message.alert('로그아웃 되었습니다.');
+				GDSsessionExpireTime = undefined;
+				window.location.href='/login/logout.do';
+			}
+		}
+		setTimeout('loginSessionChk()', 10000);
+	}
+}
+
+function loginPopup(reloadYn){
+	$("#loginPop").show();
+	$(".layer").focus();
+}
+
+function changeLayOut(loginYN){
+	$("#loginYn").val(loginYN);
+	if(loginYN == "Y"){
+		$("#myPage").show();
+		$("#join").hide();
+		$("#login").hide();
+		$("#logout").show();
+		$(".LOGIN_AREA").hide();
+	}else{
+		$("#myPage").hide();
+		$("#join").show();
+		$("#login").show();
+		$("#logout").hide();
+		$(".LOGIN_AREA").show();
+	}
+	
+	checkLoginStatus();
+	
+	if(moveURLFlag){
+		location.href = moveURL;
+	}
+}
+
+//로그인 상태 체크
+function checkLoginStatus(){
+	//nothing to do
+	//삭제 금지..
+}
+
+function goSearchResult(e){
+	layer_beforeFocus = e;
+	var dataSch = $("#dataSearch").val();
+	
+	if (dataSch.length < 2){
+		Message.alert('검색어는 최소 2자 이상 입력해주세요');
+		return false;
+	}	
+	
+	$("#searchForm").attr("method", "post");
+	$("#searchForm").attr("action", $(this).attr('href')).submit();
+}
+function fontSizeUp() {
+   $('*').each(function(){
+      if($(this).find('div, h1, h2, h3, h4, h5, ul, ol, li, p, strong, span, th, td, dl, dt, dd, a, label').length<1){
+         $('body').addClass('changeFontSize');
+         var currentSize = $(this).css("font-size");
+         var num = parseFloat(currentSize, 10);
+         var unit = currentSize.slice(-2);
+         num += 2;
+      	$(this).css("fontSize", num + unit);
+      }
+   })
+}
+
+function fontSizeDown() {
+   $('div, li, dt, dd, p, strong, span, em, a, th, td, input, button, textarea, label, select, h1, h2, h3, h4, h5, h6').each(function(){
+      if($(this).find('div, h1, h2, h3, h4, h5, ul, ol, li, p, strong, span, th, td, dl, dt, dd, a, label').length<1){
+         $('body').addClass('changeFontSize');
+         var currentSize = $(this).css("font-size");
+         var num = parseFloat(currentSize, 10);
+         var unit = currentSize.slice(-2);
+         num -= 2;
+      	$(this).css("fontSize", num + unit);
+      }
+   })
+}
+
+</script>	
+	<form id="topForm" name="topForm" method="post" action="/;jsessionid=DMMULX5OVI9j0z70nVrkwiUSRgQ9mc0BmBR5PL0sSa85vmBJTQbS11HkhTRwtVQC.was02_servlet_engine5" >
+		<input type="hidden" name="loginYn" id="loginYn" value="N" /> 
+	</form>
+	<div id="top">
+		<div class="wfix">
+			<h1>
+				<a href="/cmmn/main.do;jsessionid=DMMULX5OVI9j0z70nVrkwiUSRgQ9mc0BmBR5PL0sSa85vmBJTQbS11HkhTRwtVQC.was02_servlet_engine5">
+					<img src="/resources/images/common/logo_top1.png" alt="기상청">
+					<img src="/resources/images/common/logo_top2.png" alt="기상자료개방포털">
+					<!-- <img src="/resources/images/common/logo_top3.png" alt="보다 나은 정부"> -->
+				</a>
+			</h1>
+			
+			<div class="menu_top">
+				<a id="orgIntro" href="/cmmn/static/staticPage.do?page=orgIntro&pgmNo=700" class="link_org">국가기후데이터센터 소개</a>
+				<ul>
+					<a href="/cmmn/static/staticPage.do;jsessionid=DMMULX5OVI9j0z70nVrkwiUSRgQ9mc0BmBR5PL0sSa85vmBJTQbS11HkhTRwtVQC.was02_servlet_engine5?page=intro" class="link_org">기상자료개방포털이란?</a>
+				</ul>
+				<ul class="ctr_font">
+					<li><button type="button" class="btn_font_plus" onclick="javascript:fontSizeUp();" ><i class="ico_comm" >글자 크게 보기</i></button></li>
+					<li><button type="button" class="btn_font_minus" onclick="javascript:fontSizeDown();" ><i class="ico_comm" >글자 작게 보기</i></button></li>
+				</ul>
+				
+				<ul class="lst_link">
+					<li id="myPage" class="no-bg"  style="display:none;"  ><a href="/mypage/member/updateMyInfo.do?pgmNo=76" id="mypageBtn">마이페이지</a></li>
+					<li id="login"  ><a href="/login/login.do" id="loginBtn" data-layer="login">로그인</a></li>
+					<li id="logout"  style="display:none;"  ><a href="/login/logout.do" id="logoutBtn">로그아웃</a></li>
+					<li id="siteMap"><a id="siteMapBtn" href="/cmmn/siteMap.do">사이트맵</a></li>
+					<li><a id="favBtn" href="javascript:;" class="ico_bfr" data-layer="favorite">즐겨찾기</a></li>
+					<li><a href="/resources/html/en/aowdp.html">ENG(info)</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+<script>
+function favoritePopup(){
+	$("#favoritePop").remove();
+	
+	$.ajax({
+		type: 'post',
+		url: "/cmmn/myFavoriteLayerPopup.do;jsessionid=DMMULX5OVI9j0z70nVrkwiUSRgQ9mc0BmBR5PL0sSa85vmBJTQbS11HkhTRwtVQC.was02_servlet_engine5",
+		dataType : "html",
+		success: function(data) {
+
+			var pop = $('<div id="favoritePop" class="wrap_layer on" style="display: block;">'+data+'</div>');
+			$('body').append($(pop).clone());
+						
+			$(".favorite-pop").show();
+			$(".favorite-pop").focus();
+			
+			var loginYN = $("#loginYn").val();
+			if(loginYN === 'Y' || 'N' === 'Y'){
+				$("#myMenu").show();
+			} else {
+				$("#info").show();
+			}
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			Message.alert(textStatus);
+			return false;			
+		}
+	});
+		
+}
+</script>
+<!-- End:Top Area -->
+			<!-- Start:Header Area -->
+			<!-- 2025-12-18 이명진 주무관 요청 : logger 스크립트 추가 -->
+<!-- LOGGER(TM) TRACKING SCRIPT V.40 FOR logger.co.kr / 100040 : COMBINE TYPE / DO NOT ALTER THIS SCRIPT. -->
+<script type="text/javascript">var _TRK_LID = "100040";var _L_TD = "webstats.kma.go.kr";var _TRK_CDMN = ".kma.go.kr";</script>
+<script type="text/javascript">var _CDN_DOMAIN = location.protocol == "https:" ? "https://webstats.kma.go.kr" : "http://webstats.kma.go.kr"; 
+(function (b, s) { var f = b.getElementsByTagName(s)[0], j = b.createElement(s); j.async = true; j.src = "//webstats.kma.go.kr/fs4/bstrk.sol.js"; f.parentNode.insertBefore(j, f); })(document, "script");
+</script>
+<noscript><img alt="Logger Script" width="1" height="1" src="http://webstats.kma.go.kr/tracker.sol.tsp?u=100040&amp;js=N"/></noscript>
+<!-- END OF LOGGER TRACKING SCRIPT -->
+
+<script src="/resources/js/UserScriptConf.js"></script>
+
+<script>
+	$(document).on("keydown", "form #txtStnNm", function(event) {
+	    return event.key != "Enter";
+	});
+
+	function goMenuPage(url, pgmNo, popupYn){
+		
+		if(popupYn == undefined || popupYn == null){
+			popupYn = "N";
+		}
+		
+		if(popupYn == "Y"){
+			//window.open(url,"menuPopup","width=1200,height=800, toolbar=yes,menubar=yes,location=no,scrollbars=yes,status=no,resizable=yes");
+			window.open(url, "_blank");
+			return false;
+		}
+
+        if(FormUtil.inStr(url, "?")){
+        	url = url + "?";
+        }else{
+        	url = url + "&";
+        }
+        url += "pgmNo="+pgmNo;
+
+        $("#headerForm").attr("method", "post");
+        $("#headerForm").attr("action", url).submit();
+	}
+
+	$(document).ready(function () {
+		
+		$(".sitemap-d2 li").mouseover(function(){
+			$(this).find(".sitemap-d3").show();
+			$(this).addClass("on");
+		});
+		
+		$(".sitemap-d2 li").mouseout(function(){
+			$(this).find(".sitemap-d3").hide();
+			$(this).removeClass("on");
+		});
+		
+	});
+	
+	function goPopular(){
+		var page = $('#popularList').val()
+		if(page!="none"){
+			location.href = page;
+		}
+	}
+</script>
+
+	<!-- header -->
+	<div class="hd_sch">
+		<div class="wfix">
+			<form id="headerForm" name="headerForm"  action="/;jsessionid=DMMULX5OVI9j0z70nVrkwiUSRgQ9mc0BmBR5PL0sSa85vmBJTQbS11HkhTRwtVQC.was02_servlet_engine5">
+				<input type="hidden" name="gFontSize" id="gFontSize" value="" /> <!-- 폰트 크기 유지 위함. -->
+			</form>
+			
+			<form id="downloadForm" name="downloadForm"  action="/;jsessionid=DMMULX5OVI9j0z70nVrkwiUSRgQ9mc0BmBR5PL0sSa85vmBJTQbS11HkhTRwtVQC.was02_servlet_engine5">
+				<!-- 설명서 다운로드를 위한 linkMenuCd -->
+			</form>
+		   <h3 class="title_main">
+			  <span>기상청 날씨데이터 서비스</span>
+			  <strong class="tit"><em>기상</em>자료개방포털</strong>
+		   </h3>
+		   <a href="#search" class="tgl_sch mo"><i class="ico_comm">검색 열기</i></a>
+		   <div id="search">
+			  <label for="dataSearch" class="blind">통합 검색</label>
+			  <button type="button" class="close_sch mo">검색 닫기</button>
+			  <div class="wrap_inp">
+				<form id="searchForm" name="searchForm" action="/sub/cmmn/searchResultMain.do">
+					<input type="text" 		name="dataSearch" 			id="dataSearch" 		value=""	maxlength="30"	title="'관측'을 검색하세요" placeholder="'관측'을 검색하세요" />
+					<input type="hidden" 		name="similarRegionStr" 	id="similarRegionStr" 	value="" />
+					<input type="hidden" 		name="similarWordStr" 		id="similarWordStr" 	value="" />	<!-- operation$2020 FUN-07 -->
+					<input type="hidden" 		name="mistakeWordStr" 		id="mistakeWordStr" 	value="" />
+					 
+				 </form>
+				 <button type="button" class="btn_sch" onclick="goSearchResult(this);"><i class="ico_comm">검색</i></button>
+			  </div>
+			  
+			  <div class="wrap_slt">
+				 <label for="popularList" class="blind">인기 검색어</label>
+				 <select name="popularList" id="popularList"  title="인기 검색어">
+					<option value="none">&nbsp;&nbsp;인기검색어</option>
+				<option value="/data/grnd/selectAwsRltmList.do?pgmNo=56">&nbsp;&nbsp;1. 방재기상관측(AWS)</option>
+				<option value="/data/grnd/selectAsosRltmList.do?pgmNo=36">&nbsp;&nbsp;2. 종관기상관측(ASOS)</option>
+				<option value="/data/typhoonData/typInfoTYList.do?pgmNo=689">&nbsp;&nbsp;3. 태풍정보</option>
+				<option value="/data/grnd/selectAwosRltmList.do?pgmNo=638">&nbsp;&nbsp;4. 공공기관 기상관측</option>
+				<option value="/data/weatherIssue/slthtList.do?pgmNo=690">&nbsp;&nbsp;5. 폭염</option>
+				<option value="/data/sea/selectBuoyRltmList.do?pgmNo=52">&nbsp;&nbsp;6. 해양기상부이</option>
+				<option value="/data/air/selectAmosRltmList.do?pgmNo=575">&nbsp;&nbsp;7. 공항기상관측(AMOS)</option>
+				<option value="/data/weatherReport/eqkList.do?pgmNo=654">&nbsp;&nbsp;8. 지진정보</option>
+				<option value="/data/weatherReport/microquake.do?pgmNo=710">&nbsp;&nbsp;8. 미소지진</option>
+				<option value="/data/weatherReport/wsrList.do?pgmNo=647">&nbsp;&nbsp;9. 기상특보</option>
+				<option value="/data/sea/selectFargoBuoyRltmList.do?pgmNo=55">&nbsp;&nbsp;10. 파고부이</option>
+				</select>
+				 <button type="button" class="btn_sch" onclick="goPopular();"><i class="ico_comm">검색</i></button>
+			  </div>
+		   </div>
+		</div>
+	</div>
+	<!-- //header -->
+	
+	<button type="button" class="tgl_menu mo"><i>메뉴 열기/닫기</i></button>
+	<nav id="gnb" tabindex="-1">
+	    <ul class="links_member">
+	        <li><a href="javascript:;" onclick="popLayer(this)" data-layer="login">로그인</a></li>
+	        <li><a href="/cmmn/selectMemberAgree.do">회원가입</a></li>
+	    </ul>
+	    <h2 class="blind">사이트 메뉴</h2>
+	
+	    <div class="wfix">
+	        <ul class="lst_menu">
+	            <li class="m2">
+	                <a href="/data/grnd/selectAsosRltmList.do;jsessionid=DMMULX5OVI9j0z70nVrkwiUSRgQ9mc0BmBR5PL0sSa85vmBJTQbS11HkhTRwtVQC.was02_servlet_engine5?pgmNo=36" class="d1">데이터</a>
+	                <a href="javascript:;" class="tit_d1 mo">데이터</a>
+	                <div class="wrap_sub">
+	                    <ul class="depth2">
+	                        
+							<li>
+	                            <a href="/data/grnd/selectAsosRltmList.do" onclick="goMenuPage('/data/grnd/selectAsosRltmList.do','36','N');return false;"  class="d2 ico_bfr">기상관측</a>
+	                            <a href="javascript:;" class="tit_d2 mo">기상관측</a>
+	                            <ul class="depth3">
+									<li ><a href="/data/grnd/selectAsosRltmList.do" onclick="goMenuPage('/data/grnd/selectAsosRltmList.do','36','N');return false;" class="d3">지상</a></li>
+									<li ><a href="/data/sea/selectBuoyRltmList.do" onclick="goMenuPage('/data/sea/selectBuoyRltmList.do','52','N');return false;" class="d3">해양</a></li>
+									<li ><a href="/data/hr/selectRdsdRltmList.do" onclick="goMenuPage('/data/hr/selectRdsdRltmList.do','49','N');return false;" class="d3">고층</a></li>
+									<li ><a href="/data/air/selectAmosRltmList.do" onclick="goMenuPage('/data/air/selectAmosRltmList.do','575','N');return false;" class="d3">항공</a></li>
+									<li ><a href="/data/ogd/selectGtsRltmList.do" onclick="goMenuPage('/data/ogd/selectGtsRltmList.do','658','N');return false;" class="d3">세계기상전문(GTS)</a></li>
+									</ul>
+	                        </li>
+							<li>
+	                            <a href="/data/rmt/rmtList.do?code=21" onclick="goMenuPage('/data/rmt/rmtList.do?code=21','683','N');return false;"  class="d2 ico_bfr">기상위성</a>
+	                            <a href="javascript:;" class="tit_d2 mo">기상위성</a>
+	                            <ul class="depth3">
+									<li ><a href="/data/rmt/rmtList.do?code=20" onclick="goMenuPage('/data/rmt/rmtList.do?code=20','63','N');return false;" class="d3">천리안 위성 1호</a></li>
+									<li ><a href="/data/rmt/rmtList.do?code=21" onclick="goMenuPage('/data/rmt/rmtList.do?code=21','683','N');return false;" class="d3">천리안 위성 2A호</a></li>
+									</ul>
+	                        </li>
+							<li>
+	                            <a href="/data/rmt/rmtList.do?code=10" onclick="goMenuPage('/data/rmt/rmtList.do?code=10','61','N');return false;"  class="d2 ico_bfr">레이더</a>
+	                            <a href="javascript:;" class="tit_d2 mo">레이더</a>
+	                            <ul class="depth3">
+									<li ><a href="/data/rmt/rmtList.do?code=10" onclick="goMenuPage('/data/rmt/rmtList.do?code=10','61','N');return false;" class="d3">사이트</a></li>
+									<li ><a href="/data/rmt/rmtList.do?code=11" onclick="goMenuPage('/data/rmt/rmtList.do?code=11','62','N');return false;" class="d3">합성</a></li>
+									</ul>
+	                        </li>
+							<li>
+	                            <a href="/data/rmt/rmtList.do?code=400" onclick="goMenuPage('/data/rmt/rmtList.do?code=400','570','N');return false;"  class="d2 ico_bfr">기상예보</a>
+	                            <a href="javascript:;" class="tit_d2 mo">기상예보</a>
+	                            <ul class="depth3">
+									<li ><a href="/data/rmt/rmtList.do?code=400" onclick="goMenuPage('/data/rmt/rmtList.do?code=400','570','N');return false;" class="d3">동네예보</a></li>
+									<li ><a href="/data/weatherReport/wsrList.do" onclick="goMenuPage('/data/weatherReport/wsrList.do','647','N');return false;" class="d3">기상특보</a></li>
+									<li ><a href="/data/typhoonData/typList.do" onclick="goMenuPage('/data/typhoonData/typList.do','688','N');return false;" class="d3">태풍예보</a></li>
+									<li ><a href="/data/weatherReport/hwImpactList.do" onclick="goMenuPage('/data/weatherReport/hwImpactList.do','696','N');return false;" class="d3">영향예보</a></li>
+									</ul>
+	                        </li>
+							<li>
+	                            <a href="/data/rmt/rmtList.do?code=312" onclick="goMenuPage('/data/rmt/rmtList.do?code=312','64','N');return false;"  class="d2 ico_bfr">수치모델</a>
+	                            <a href="javascript:;" class="tit_d2 mo">수치모델</a>
+	                            <ul class="depth3">
+									<li ><a href="/data/rmt/rmtList.do?code=372" onclick="goMenuPage('/data/rmt/rmtList.do?code=372','568','N');return false;" class="d3">수치분석일기도</a></li>
+									<li ><a href="/data/rmt/rmtList.do?code=312" onclick="goMenuPage('/data/rmt/rmtList.do?code=312','64','N');return false;" class="d3">단·중기예측</a></li>
+									<li ><a href="/data/rmt/rmtList.do?code=320" onclick="goMenuPage('/data/rmt/rmtList.do?code=320','66','N');return false;" class="d3">초단기예측</a></li>
+									<li ><a href="/data/rmt/rmtList.do?code=330" onclick="goMenuPage('/data/rmt/rmtList.do?code=330','87','N');return false;" class="d3">파랑모델</a></li>
+									</ul>
+	                        </li>
+							<li>
+	                            <a href="/data/gaw/selectGHGsRltmList.do" onclick="goMenuPage('/data/gaw/selectGHGsRltmList.do','587','N');return false;"  class="d2 ico_bfr">기후</a>
+	                            <a href="javascript:;" class="tit_d2 mo">기후</a>
+	                            <ul class="depth3">
+									<li ><a href="/data/gaw/selectGHGsRltmList.do" onclick="goMenuPage('/data/gaw/selectGHGsRltmList.do','587','N');return false;" class="d3">기후변화감시</a></li>
+									<li ><a href="/data/gaw/selectSpiRltmList.do" onclick="goMenuPage('/data/gaw/selectSpiRltmList.do','734','N');return false;" class="d3">가뭄</a></li>
+									</ul>
+	                        </li>
+							<li>
+	                            <a href="/data/lwi/lwiRltmList.do" onclick="goMenuPage('/data/lwi/lwiRltmList.do','635','N');return false;"  class="d2 ico_bfr">응용기상</a>
+	                            <a href="javascript:;" class="tit_d2 mo">응용기상</a>
+	                            <ul class="depth3">
+									<li ><a href="/data/lwi/lwiRltmList.do" onclick="goMenuPage('/data/lwi/lwiRltmList.do','635','N');return false;" class="d3">기상지수</a></li>
+									<li ><a href="/data/weatherResourceMap/selectWeatherResourceMapSlaNew.do?srt=ANN&amp;sNreYr=2020&amp;eNreYr=2024" onclick="goMenuPage('/data/weatherResourceMap/selectWeatherResourceMapSlaNew.do?srt=ANN&amp;sNreYr=2020&amp;eNreYr=2024','756','N');return false;" class="d3">기상자원지도</a></li>
+									</ul>
+	                        </li>
+							<li>
+	                            <a href="/data/weatherReport/eqkList.do" onclick="goMenuPage('/data/weatherReport/eqkList.do','654','N');return false;"  class="d2 ico_bfr">지진화산</a>
+	                            <a href="javascript:;" class="tit_d2 mo">지진화산</a>
+	                            <ul class="depth3">
+									<li ><a href="/data/weatherReport/eqkList.do" onclick="goMenuPage('/data/weatherReport/eqkList.do','654','N');return false;" class="d3">지진화산 특·정보</a></li>
+									</ul>
+	                        </li>
+							<li>
+	                            <a href="/data/focusobs/focusobsList.do?gubun=KEOP" onclick="goMenuPage('/data/focusobs/focusobsList.do?gubun=KEOP','750','N');return false;"  class="d2 ico_bfr">집중관측</a>
+	                            <a href="javascript:;" class="tit_d2 mo">집중관측</a>
+	                            <ul class="depth3">
+									<li ><a href="/data/focusobs/focusobsList.do?gubun=KEOP" onclick="goMenuPage('/data/focusobs/focusobsList.do?gubun=KEOP','750','N');return false;" class="d3">연구용집중관측</a></li>
+									<li ><a href="/data/focusobs/focusobsList.do?gubun=FRSTFIRE" onclick="goMenuPage('/data/focusobs/focusobsList.do?gubun=FRSTFIRE','751','N');return false;" class="d3">산불지원</a></li>
+									<li ><a href="/data/focusobs/focusobsList.do?gubun=KWYD" onclick="goMenuPage('/data/focusobs/focusobsList.do?gubun=KWYD','752','N');return false;" class="d3">강원영동</a></li>
+									<li ><a href="/data/focusobs/focusobsList.do?gubun=MTRAREA" onclick="goMenuPage('/data/focusobs/focusobsList.do?gubun=MTRAREA','753','N');return false;" class="d3">수도권 위험기상</a></li>
+									</ul>
+	                        </li>
+							<li>
+	                            <a href="/data/weatherIssue/slthtList.do" onclick="goMenuPage('/data/weatherIssue/slthtList.do','690','N');return false;"  class="d2 ico_bfr">날씨 이슈별 데이터</a>
+	                            <a href="javascript:;" class="tit_d2 mo">날씨 이슈별 데이터</a>
+	                            <ul class="depth3">
+									<li ><a href="/data/weatherIssue/slthtList.do" onclick="goMenuPage('/data/weatherIssue/slthtList.do','690','N');return false;" class="d3">폭염</a></li>
+									<li ><a href="/data/weatherIssue/ydstList.do" onclick="goMenuPage('/data/weatherIssue/ydstList.do','695','N');return false;" class="d3">황사</a></li>
+									<li ><a href="/data/weatherIssue/cdwvList.do" onclick="goMenuPage('/data/weatherIssue/cdwvList.do','723','N');return false;" class="d3">한파</a></li>
+									<li ><a href="/data/weatherIssue/typList.do" onclick="goMenuPage('/data/weatherIssue/typList.do','724','N');return false;" class="d3">태풍</a></li>
+									</ul>
+	                        </li>
+							<li>
+	                            <a href="/data/history/selectJoseonDynastyHistoryList.do" onclick="goMenuPage('/data/history/selectJoseonDynastyHistoryList.do','81','N');return false;"  class="d2 ico_bfr">역사기후</a>
+	                            <a href="javascript:;" class="tit_d2 mo">역사기후</a>
+	                            <ul class="depth3">
+									<li ><a href="/cdps/record/selectRecordList.do" onclick="goMenuPage('/cdps/record/selectRecordList.do','45','N');return false;" class="d3">자기기록지</a></li>
+									<li ><a href="/cdps/weather/selectWeatherList.do" onclick="goMenuPage('/cdps/weather/selectWeatherList.do','44','N');return false;" class="d3">종이일기도</a></li>
+									<li ><a href="/cdps/original/selectOriginalList.do" onclick="goMenuPage('/cdps/original/selectOriginalList.do','46','N');return false;" class="d3">통계원부류</a></li>
+									<li ><a href="/cdps/original/selectOriginalMaritimeList.do" onclick="goMenuPage('/cdps/original/selectOriginalMaritimeList.do','202','N');return false;" class="d3">역사자료</a></li>
+									<li ><a href="/data/publication/publicationHsList.do" onclick="goMenuPage('/data/publication/publicationHsList.do','153','N');return false;" class="d3">기상기록집</a></li>
+									</ul>
+	                        </li>
+							<li>
+	                            <a href="/tmeta/stn/selectStnList.do" onclick="goMenuPage('/tmeta/stn/selectStnList.do','123','N');return false;"  class="d2 ico_bfr">메타데이터</a>
+	                            <a href="javascript:;" class="tit_d2 mo">메타데이터</a>
+	                            <ul class="depth3">
+									<li ><a href="/tmeta/stn/selectStnList.do" onclick="goMenuPage('/tmeta/stn/selectStnList.do','123','N');return false;" class="d3">지점정보</a></li>
+									<li ><a href="/tmeta/stcs/selectMetaList.do" onclick="goMenuPage('/tmeta/stcs/selectMetaList.do','714','N');return false;" class="d3">통계정보</a></li>
+									<li ><a href="/tmeta/selectNumericalModelList.do?grupCd=06" onclick="goMenuPage('/tmeta/selectNumericalModelList.do?grupCd=06','745','N');return false;" class="d3">수치예보모델</a></li>
+									</ul>
+	                        </li>
+							<li>
+	                            <a href="/data/qualityInfo/qcPresentList.do" onclick="goMenuPage('/data/qualityInfo/qcPresentList.do','676','N');return false;"  class="d2 ico_bfr">품질정보</a>
+	                            <a href="javascript:;" class="tit_d2 mo">품질정보</a>
+	                            <ul class="depth3">
+									<li ><a href="/data/qualityInfo/qcPresentList.do" onclick="goMenuPage('/data/qualityInfo/qcPresentList.do','676','N');return false;" class="d3">품질현황</a></li>
+									<li ><a href="/data/qualityInfo/qcReportList.do" onclick="goMenuPage('/data/qualityInfo/qcReportList.do','677','N');return false;" class="d3">데이터품질리포트</a></li>
+									</ul>
+	                        </li>
+							</ul>
+	                </div>
+	            </li>
+	            
+	            <li class="m5"><a href="https://apihub.kma.go.kr" class="d1" target="_brank">API</a></li>
+	            
+	            <li class="m3">
+					<a href="/stcs/grnd/grndTaList.do;jsessionid=DMMULX5OVI9j0z70nVrkwiUSRgQ9mc0BmBR5PL0sSa85vmBJTQbS11HkhTRwtVQC.was02_servlet_engine5?pgmNo=70" class="d1">기후통계분석</a>
+					<a href="javascript:;" class="tit_d1 mo">기후통계분석</a>
+	                <div class="wrap_sub">
+	                    <ul class="depth2">
+							<li><a href="/climate/average30Years/selectAverage30YearsKoreaList.do" onclick="goMenuPage('/climate/average30Years/selectAverage30YearsKoreaList.do','188','N');return false;" class="d2 ico_bfr">평년값</a><a href="javascript:;" class="tit_d2 mo">평년값</a>
+	                            <ul class="depth3">
+									<li><a href="/climate/average30Years/selectAverage30YearsKoreaList.do" onclick="goMenuPage('/climate/average30Years/selectAverage30YearsKoreaList.do','188','N');return false;" class="d3">우리나라 기후평년값</a></li>
+									<li><a href="/climate/average30Years/selectAverage30YearsNorthKoreaList.do" onclick="goMenuPage('/climate/average30Years/selectAverage30YearsNorthKoreaList.do','731','N');return false;" class="d3">북한 기후평년값</a></li>
+									<li><a href="/climate/average30Years/selectAverage30YearsWorldList.do" onclick="goMenuPage('/climate/average30Years/selectAverage30YearsWorldList.do','560','N');return false;" class="d3">세계기후평년값</a></li>
+									</ul>
+	                        </li>
+							
+	                        <li><a href="/climate/RankState/selectRankStatisticsDivisionList.do" onclick="goMenuPage('/climate/RankState/selectRankStatisticsDivisionList.do','179','N');return false;" class="d2 ico_bfr">통계분석</a><a href="javascript:;" class="tit_d2 mo">통계분석</a>
+	                            <ul class="depth3">
+									<li><a href="/climate/RankState/selectRankStatisticsDivisionList.do" onclick="goMenuPage('/climate/RankState/selectRankStatisticsDivisionList.do','179','N');return false;" class="d3">조건별통계</a></li>
+									<li><a href="/stcs/grnd/grndTaList.do" onclick="goMenuPage('/stcs/grnd/grndTaList.do','70','N');return false;" class="d3">기온분석</a></li>
+									<li><a href="/stcs/grnd/grndRnList.do" onclick="goMenuPage('/stcs/grnd/grndRnList.do','69','N');return false;" class="d3">강수량분석</a></li>
+									<li><a href="/climate/StatisticsDivision/selectStatisticsDivision.do" onclick="goMenuPage('/climate/StatisticsDivision/selectStatisticsDivision.do','158','N');return false;" class="d3">다중지점통계</a></li>
+									<li><a href="/climate/solarTerms/solarTerms.do" onclick="goMenuPage('/climate/solarTerms/solarTerms.do','104','N');return false;" class="d3">24절기</a></li>
+									<li><a href="/climate/extremum/selectExtremumList.do" onclick="goMenuPage('/climate/extremum/selectExtremumList.do','103','N');return false;" class="d3">순위값</a></li>
+									<li><a href="/climate/rainySeason/selectRainySeasonList.do" onclick="goMenuPage('/climate/rainySeason/selectRainySeasonList.do','120','N');return false;" class="d3">장마</a></li>
+									</ul>
+	                        </li>
+							
+	                        <li><a href="/climate/heatWave/selectHeatWaveChart.do" onclick="goMenuPage('/climate/heatWave/selectHeatWaveChart.do','106','N');return false;" class="d2 ico_bfr">기상현상일수</a><a href="javascript:;" class="tit_d2 mo">기상현상일수</a>
+	                            <ul class="depth3">
+									<li><a href="/stcs/grnd/grndRnDayList.do" onclick="goMenuPage('/stcs/grnd/grndRnDayList.do','156','N');return false;" class="d3">강수일수</a></li>
+									<li><a href="/climate/snw/selectSnwChart.do" onclick="goMenuPage('/climate/snw/selectSnwChart.do','697','N');return false;" class="d3">눈일수</a></li>
+									<li><a href="/climate/yellowDust/selectYellowDustChart.do" onclick="goMenuPage('/climate/yellowDust/selectYellowDustChart.do','112','N');return false;" class="d3">황사일수</a></li>
+									<li><a href="/climate/heatWave/selectHeatWaveChart.do" onclick="goMenuPage('/climate/heatWave/selectHeatWaveChart.do','106','N');return false;" class="d3">폭염일수</a></li>
+									<li><a href="/climate/tropicalNight/selectTropicalNightChart.do" onclick="goMenuPage('/climate/tropicalNight/selectTropicalNightChart.do','105','N');return false;" class="d3">열대야일수</a></li>
+									<li><a href="/climate/fog/selectFogChart.do" onclick="goMenuPage('/climate/fog/selectFogChart.do','706','N');return false;" class="d3">안개일수</a></li>
+									<li><a href="/climate/frst/selectFrstChart.do" onclick="goMenuPage('/climate/frst/selectFrstChart.do','705','N');return false;" class="d3">서리일수</a></li>
+									<li><a href="/climate/frz/selectFrzChart.do" onclick="goMenuPage('/climate/frz/selectFrzChart.do','707','N');return false;" class="d3">결빙일수</a></li>
+									<li><a href="/climate/hail/selectHailChart.do" onclick="goMenuPage('/climate/hail/selectHailChart.do','698','N');return false;" class="d3">우박일수</a></li>
+									<li><a href="/climate/storm/selectStormChart.do" onclick="goMenuPage('/climate/storm/selectStormChart.do','708','N');return false;" class="d3">폭풍일수</a></li>
+									<li><a href="/climate/thdblt/selectThdbltChart.do" onclick="goMenuPage('/climate/thdblt/selectThdbltChart.do','699','N');return false;" class="d3">뇌전일수</a></li>
+									<li><a href="/climate/cdwv/selectCdwvChart.do" onclick="goMenuPage('/climate/cdwv/selectCdwvChart.do','733','N');return false;" class="d3">한파일수</a></li>
+									</ul>
+	                        </li>
+							
+	                        <li><a href="/stcs/grnd/selectCloudSpecifyDay.do" onclick="goMenuPage('/stcs/grnd/selectCloudSpecifyDay.do','671','N');return false;" class="d2 ico_bfr">계급별일수</a><a href="javascript:;" class="tit_d2 mo">계급별일수</a>
+	                            <ul class="depth3">
+									<li><a href="/stcs/grnd/selectCloudSpecifyDay.do" onclick="goMenuPage('/stcs/grnd/selectCloudSpecifyDay.do','671','N');return false;" class="d3">전운량 계급별일수</a></li>
+									<li><a href="/stcs/grnd/selectRnSpecifyDay.do" onclick="goMenuPage('/stcs/grnd/selectRnSpecifyDay.do','672','N');return false;" class="d3">강수 계급별일수</a></li>
+									<li><a href="/climate/ObsValSearch/selectObsValSearchWindRose.do" onclick="goMenuPage('/climate/ObsValSearch/selectObsValSearchWindRose.do','161','N');return false;" class="d3">바람 계급별일수(바람장미)</a></li>
+									</ul>
+	                        </li>
+							
+	                        <li><a href="/climate/windChill/selectWindChillChart.do" onclick="goMenuPage('/climate/windChill/selectWindChillChart.do','111','N');return false;" class="d2 ico_bfr">응용기상분석</a><a href="javascript:;" class="tit_d2 mo">응용기상분석</a>
+	                            <ul class="depth3">
+									<li><a href="/climate/windChill/selectWindChillChart.do" onclick="goMenuPage('/climate/windChill/selectWindChillChart.do','111','N');return false;" class="d3">체감온도</a></li>
+									<li><a href="/climate/sot/selectSotChart.do" onclick="goMenuPage('/climate/sot/selectSotChart.do','100','N');return false;" class="d3">적산온도</a></li>
+									</ul>
+	                        </li>
+							
+	                        </ul>
+	                </div>
+	            </li>
+	            <li class="m4"><a href="/data/publication/publicationAsosList.do;jsessionid=DMMULX5OVI9j0z70nVrkwiUSRgQ9mc0BmBR5PL0sSa85vmBJTQbS11HkhTRwtVQC.was02_servlet_engine5?pgmNo=143" class="d1">간행물</a><a href="javascript:;" class="tit_d1 mo">간행물</a>
+	                <div class="wrap_sub">
+	                    <ul class="depth2">
+							<li>
+								<a href="/data/publication/publicationAsosList.do" onclick="goMenuPage('/data/publication/publicationAsosList.do','143','N');return false;" class="d2 ico_bfr">지상</a>
+								<a href="javascript:;" class="tit_d2 mo">지상</a>
+		                            <ul class="depth3">
+										<li><a href="/data/publication/publicationAsosList.do" onclick="goMenuPage('/data/publication/publicationAsosList.do','143','N');return false;" class="d3">지상</a></li>
+		                                <li><a href="/data/publication/publicationAwsList.do" onclick="goMenuPage('/data/publication/publicationAwsList.do','145','N');return false;" class="d3">방재</a></li>
+		                                <li><a href="/data/publication/publicationAgList.do" onclick="goMenuPage('/data/publication/publicationAgList.do','146','N');return false;" class="d3">농업</a></li>
+		                                <li><a href="/data/publication/publicationNkList.do" onclick="goMenuPage('/data/publication/publicationNkList.do','566','N');return false;" class="d3">북한</a></li>
+		                                </ul>
+		                        </li>
+							<li>
+								<a href="/data/publication/publicationSeList.do" onclick="goMenuPage('/data/publication/publicationSeList.do','148','N');return false;" class="d2 ico_bfr">해양</a>
+								<a href="javascript:;" class="tit_d2 mo">해양</a>
+		                            <ul class="depth3">
+										<li><a href="/data/publication/publicationSeList.do" onclick="goMenuPage('/data/publication/publicationSeList.do','148','N');return false;" class="d3">해양</a></li>
+		                                </ul>
+		                        </li>
+							<li>
+								<a href="/data/publication/publicationTmList.do" onclick="goMenuPage('/data/publication/publicationTmList.do','147','N');return false;" class="d2 ico_bfr">고층</a>
+								<a href="javascript:;" class="tit_d2 mo">고층</a>
+		                            <ul class="depth3">
+										<li><a href="/data/publication/publicationTmList.do" onclick="goMenuPage('/data/publication/publicationTmList.do','147','N');return false;" class="d3">고층</a></li>
+		                                </ul>
+		                        </li>
+							<li>
+								<a href="https://www.kma.go.kr/kma/archive/pub.jsp?field1=grp&text1=lgt_yearly" onclick="goMenuPage('https://www.kma.go.kr/kma/archive/pub.jsp?field1=grp&text1=lgt_yearly','149','Y');return false;" class="d2 ico_bfr">레이더</a>
+								<a href="javascript:;" class="tit_d2 mo">레이더</a>
+		                            <ul class="depth3">
+										<li><a href="https://www.kma.go.kr/kma/archive/pub.jsp?field1=grp&text1=lgt_yearly" onclick="goMenuPage('https://www.kma.go.kr/kma/archive/pub.jsp?field1=grp&text1=lgt_yearly','149','Y');return false;" class="d3">낙뢰연보</a></li>
+		                                </ul>
+		                        </li>
+							<li>
+								<a href="https://www.kma.go.kr/kma/archive/pub.jsp?field1=grp&text1=earthquakeye" onclick="goMenuPage('https://www.kma.go.kr/kma/archive/pub.jsp?field1=grp&text1=earthquakeye','150','Y');return false;" class="d2 ico_bfr">지진</a>
+								<a href="javascript:;" class="tit_d2 mo">지진</a>
+		                            <ul class="depth3">
+										<li><a href="https://www.kma.go.kr/kma/archive/pub.jsp?field1=grp&text1=earthquakeye" onclick="goMenuPage('https://www.kma.go.kr/kma/archive/pub.jsp?field1=grp&text1=earthquakeye','150','Y');return false;" class="d3">지진연보</a></li>
+		                                </ul>
+		                        </li>
+							<li>
+								<a href="https://amo.kma.go.kr/weather/stat/airport-climate.do" onclick="goMenuPage('https://amo.kma.go.kr/weather/stat/airport-climate.do','152','Y');return false;" class="d2 ico_bfr">항공</a>
+								<a href="javascript:;" class="tit_d2 mo">항공</a>
+		                            <ul class="depth3">
+										<li><a href="/data/publication/publicationMetList.do" onclick="goMenuPage('/data/publication/publicationMetList.do','682','N');return false;" class="d3">항공기상연월보</a></li>
+		                                <li><a href="https://amo.kma.go.kr/weather/stat/airport-climate.do" onclick="goMenuPage('https://amo.kma.go.kr/weather/stat/airport-climate.do','152','Y');return false;" class="d3">항공기후정보</a></li>
+		                                </ul>
+		                        </li>
+							<li>
+								<a href="http://www.climate.go.kr/home/bbs/list.php?code=25&bname=report" onclick="goMenuPage('http://www.climate.go.kr/home/bbs/list.php?code=25&bname=report','151','Y');return false;" class="d2 ico_bfr">기후변화</a>
+								<a href="javascript:;" class="tit_d2 mo">기후변화</a>
+		                            <ul class="depth3">
+										<li><a href="http://www.climate.go.kr/home/bbs/list.php?code=25&bname=report" onclick="goMenuPage('http://www.climate.go.kr/home/bbs/list.php?code=25&bname=report','151','Y');return false;" class="d3">지구대기감시보고서</a></li>
+		                                <li><a href="http://www.climate.go.kr/home/bbs/list.php?code=93&amp;bname=abnormal" onclick="goMenuPage('http://www.climate.go.kr/home/bbs/list.php?code=93&amp;bname=abnormal','154','Y');return false;" class="d3">이상기후보고서</a></li>
+		                                </ul>
+		                        </li>
+							<li>
+								<a href="/data/publication/publicationWbList.do" onclick="goMenuPage('/data/publication/publicationWbList.do','155','N');return false;" class="d2 ico_bfr">백서</a>
+								</li>
+							<li>
+								<a href="/data/publication/publicationGlList.do" onclick="goMenuPage('/data/publication/publicationGlList.do','681','N');return false;" class="d2 ico_bfr">규정&middot;지침</a>
+								</li>
+							</ul>
+	                </div>
+	            </li>
+	            <li class="m5"><a href="/community/board/selectBoardList.do;jsessionid=DMMULX5OVI9j0z70nVrkwiUSRgQ9mc0BmBR5PL0sSa85vmBJTQbS11HkhTRwtVQC.was02_servlet_engine5?bbrdTypeNo=2&amp;pgmNo=40" class="d1">소통과 참여</a><a href="javascript:;" class="tit_d1 mo">소통과 참여</a>
+	                <div class="wrap_sub">
+	                    <div class="quick">
+							<a href="/community/board/selectBoardList.do?bbrdTypeNo=3&pgmNo=95" class="link_faq">FAQ</a>
+							<a href="/community/board/selectBoardList.do?bbrdTypeNo=1&pgmNo=96" class="link_qna">QnA</a>
+						</div>
+	                    <ul class="depth2">
+							<li><a href="/community/board/selectBoardList.do?bbrdTypeNo=2" class="d2 ico_bfr" onclick="goMenuPage('/community/board/selectBoardList.do?bbrdTypeNo=2','40','N');return false;">공지사항</a></li>
+							<li><a href="/community/board/selectBoardList.do?bbrdTypeNo=4" class="d2 ico_bfr" onclick="goMenuPage('/community/board/selectBoardList.do?bbrdTypeNo=4','92','N');return false;">자료실</a></li>
+							<li><a href="/community/board/selectBoardList.do?bbrdTypeNo=3" class="d2 ico_bfr" onclick="goMenuPage('/community/board/selectBoardList.do?bbrdTypeNo=3','95','N');return false;">FAQ</a></li>
+							<li><a href="/community/board/selectBoardList.do?bbrdTypeNo=1" class="d2 ico_bfr" onclick="goMenuPage('/community/board/selectBoardList.do?bbrdTypeNo=1','96','N');return false;">QnA</a></li>
+							<li><a href="/community/selectErrorDataList.do" class="d2 ico_bfr" onclick="goMenuPage('/community/selectErrorDataList.do','141','N');return false;">데이터품질대화방</a></li>
+							<li><a href="/community/board/selectBoardList.do?bbrdTypeNo=7" class="d2 ico_bfr" onclick="goMenuPage('/community/board/selectBoardList.do?bbrdTypeNo=7','59','N');return false;">자유게시판</a></li>
+							<li><a href="/community/selectVisualizationList.do" class="d2 ico_bfr" onclick="goMenuPage('/community/selectVisualizationList.do','722','N');return false;">시각화 정보</a></li>
+							<li><a href="/community/selectNuriLove.do" class="d2 ico_bfr" onclick="goMenuPage('/community/selectNuriLove.do','747','N');return false;">누리사랑방</a></li>
+							</ul>
+	                </div>
+	            </li>
+	            
+	            <li class="m5"><a href="http://minwon.kma.go.kr" class="d1" target="_brank">기상현상증명</a></li>
+	            
+	        </ul>
+	        <a href="javascript:;" class="btn_allmenu "><i class="ico_comm">전체메뉴 열기/닫기</i></a>
+	        <div class="wrap_allMenu">
+	            <ul class="allMenu">
+	                <li class="m2"><a href="#" onclick="javascript:goMenuPage('/data/grnd/selectAsosRltmList.do','36');return false;" class="d1">데이터</a><a href="javascript:;" class="tit_d1 mo">데이터</a>
+						<div class="wrap_sub">
+	                        <ul class="depth2">
+								<li><a href="#" onclick="javascript:goMenuPage('/data/grnd/selectAsosRltmList.do','36');return false;" class="d2 ico_bfr">기상관측</a><a href="javascript:;" class="tit_d2 mo">기상관측</a><ul class="depth3">
+										<li><a href="#" onclick="javascript:goMenuPage('/data/grnd/selectAsosRltmList.do','36');return false;" class="d3">지상</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/data/sea/selectBuoyRltmList.do','52');return false;" class="d3">해양</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/data/hr/selectRdsdRltmList.do','49');return false;" class="d3">고층</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/data/air/selectAmosRltmList.do','575');return false;" class="d3">항공</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/data/ogd/selectGtsRltmList.do','658');return false;" class="d3">세계기상전문(GTS)</a></li>
+	                                    </ul>
+	                                </li>
+	                            <li><a href="#" onclick="javascript:goMenuPage('/data/rmt/rmtList.do?code=21','683');return false;" class="d2 ico_bfr">기상위성</a><a href="javascript:;" class="tit_d2 mo">기상위성</a><ul class="depth3">
+										<li><a href="#" onclick="javascript:goMenuPage('/data/rmt/rmtList.do?code=20','63');return false;" class="d3">천리안 위성 1호</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/data/rmt/rmtList.do?code=21','683');return false;" class="d3">천리안 위성 2A호</a></li>
+	                                    </ul>
+	                                </li>
+	                            <li><a href="#" onclick="javascript:goMenuPage('/data/rmt/rmtList.do?code=10','61');return false;" class="d2 ico_bfr">레이더</a><a href="javascript:;" class="tit_d2 mo">레이더</a><ul class="depth3">
+										<li><a href="#" onclick="javascript:goMenuPage('/data/rmt/rmtList.do?code=10','61');return false;" class="d3">사이트</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/data/rmt/rmtList.do?code=11','62');return false;" class="d3">합성</a></li>
+	                                    </ul>
+	                                </li>
+	                            <li><a href="#" onclick="javascript:goMenuPage('/data/rmt/rmtList.do?code=400','570');return false;" class="d2 ico_bfr">기상예보</a><a href="javascript:;" class="tit_d2 mo">기상예보</a><ul class="depth3">
+										<li><a href="#" onclick="javascript:goMenuPage('/data/rmt/rmtList.do?code=400','570');return false;" class="d3">동네예보</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/data/weatherReport/wsrList.do','647');return false;" class="d3">기상특보</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/data/typhoonData/typList.do','688');return false;" class="d3">태풍예보</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/data/weatherReport/hwImpactList.do','696');return false;" class="d3">영향예보</a></li>
+	                                    </ul>
+	                                </li>
+	                            <li><a href="#" onclick="javascript:goMenuPage('/data/rmt/rmtList.do?code=312','64');return false;" class="d2 ico_bfr">수치모델</a><a href="javascript:;" class="tit_d2 mo">수치모델</a><ul class="depth3">
+										<li><a href="#" onclick="javascript:goMenuPage('/data/rmt/rmtList.do?code=372','568');return false;" class="d3">수치분석일기도</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/data/rmt/rmtList.do?code=312','64');return false;" class="d3">단·중기예측</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/data/rmt/rmtList.do?code=320','66');return false;" class="d3">초단기예측</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/data/rmt/rmtList.do?code=330','87');return false;" class="d3">파랑모델</a></li>
+	                                    </ul>
+	                                </li>
+	                            <li><a href="#" onclick="javascript:goMenuPage('/data/gaw/selectGHGsRltmList.do','587');return false;" class="d2 ico_bfr">기후</a><a href="javascript:;" class="tit_d2 mo">기후</a><ul class="depth3">
+										<li><a href="#" onclick="javascript:goMenuPage('/data/gaw/selectGHGsRltmList.do','587');return false;" class="d3">기후변화감시</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/data/gaw/selectSpiRltmList.do','734');return false;" class="d3">가뭄</a></li>
+	                                    </ul>
+	                                </li>
+	                            <li><a href="#" onclick="javascript:goMenuPage('/data/lwi/lwiRltmList.do','635');return false;" class="d2 ico_bfr">응용기상</a><a href="javascript:;" class="tit_d2 mo">응용기상</a><ul class="depth3">
+										<li><a href="#" onclick="javascript:goMenuPage('/data/lwi/lwiRltmList.do','635');return false;" class="d3">기상지수</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/data/weatherResourceMap/selectWeatherResourceMapSlaNew.do?srt=ANN&amp;sNreYr=2020&amp;eNreYr=2024','756');return false;" class="d3">기상자원지도</a></li>
+	                                    </ul>
+	                                </li>
+	                            <li><a href="#" onclick="javascript:goMenuPage('/data/weatherReport/eqkList.do','654');return false;" class="d2 ico_bfr">지진화산</a><a href="javascript:;" class="tit_d2 mo">지진화산</a><ul class="depth3">
+										<li><a href="#" onclick="javascript:goMenuPage('/data/weatherReport/eqkList.do','654');return false;" class="d3">지진화산 특·정보</a></li>
+	                                    </ul>
+	                                </li>
+	                            <li><a href="#" onclick="javascript:goMenuPage('/data/focusobs/focusobsList.do?gubun=KEOP','750');return false;" class="d2 ico_bfr">집중관측</a><a href="javascript:;" class="tit_d2 mo">집중관측</a><ul class="depth3">
+										<li><a href="#" onclick="javascript:goMenuPage('/data/focusobs/focusobsList.do?gubun=KEOP','750');return false;" class="d3">연구용집중관측</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/data/focusobs/focusobsList.do?gubun=FRSTFIRE','751');return false;" class="d3">산불지원</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/data/focusobs/focusobsList.do?gubun=KWYD','752');return false;" class="d3">강원영동</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/data/focusobs/focusobsList.do?gubun=MTRAREA','753');return false;" class="d3">수도권 위험기상</a></li>
+	                                    </ul>
+	                                </li>
+	                            <li><a href="#" onclick="javascript:goMenuPage('/data/weatherIssue/slthtList.do','690');return false;" class="d2 ico_bfr">날씨 이슈별 데이터</a><a href="javascript:;" class="tit_d2 mo">날씨 이슈별 데이터</a><ul class="depth3">
+										<li><a href="#" onclick="javascript:goMenuPage('/data/weatherIssue/slthtList.do','690');return false;" class="d3">폭염</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/data/weatherIssue/ydstList.do','695');return false;" class="d3">황사</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/data/weatherIssue/cdwvList.do','723');return false;" class="d3">한파</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/data/weatherIssue/typList.do','724');return false;" class="d3">태풍</a></li>
+	                                    </ul>
+	                                </li>
+	                            <li><a href="#" onclick="javascript:goMenuPage('/data/history/selectJoseonDynastyHistoryList.do','81');return false;" class="d2 ico_bfr">역사기후</a><a href="javascript:;" class="tit_d2 mo">역사기후</a><ul class="depth3">
+										<li><a href="#" onclick="javascript:goMenuPage('/cdps/record/selectRecordList.do','45');return false;" class="d3">자기기록지</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/cdps/weather/selectWeatherList.do','44');return false;" class="d3">종이일기도</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/cdps/original/selectOriginalList.do','46');return false;" class="d3">통계원부류</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/cdps/original/selectOriginalMaritimeList.do','202');return false;" class="d3">역사자료</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/data/publication/publicationHsList.do','153');return false;" class="d3">기상기록집</a></li>
+	                                    </ul>
+	                                </li>
+	                            <li><a href="#" onclick="javascript:goMenuPage('/tmeta/stn/selectStnList.do','123');return false;" class="d2 ico_bfr">메타데이터</a><a href="javascript:;" class="tit_d2 mo">메타데이터</a><ul class="depth3">
+										<li><a href="#" onclick="javascript:goMenuPage('/tmeta/stn/selectStnList.do','123');return false;" class="d3">지점정보</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/tmeta/stcs/selectMetaList.do','714');return false;" class="d3">통계정보</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/tmeta/selectNumericalModelList.do?grupCd=06','745');return false;" class="d3">수치예보모델</a></li>
+	                                    </ul>
+	                                </li>
+	                            <li><a href="#" onclick="javascript:goMenuPage('/data/qualityInfo/qcPresentList.do','676');return false;" class="d2 ico_bfr">품질정보</a><a href="javascript:;" class="tit_d2 mo">품질정보</a><ul class="depth3">
+										<li><a href="#" onclick="javascript:goMenuPage('/data/qualityInfo/qcPresentList.do','676');return false;" class="d3">품질현황</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/data/qualityInfo/qcReportList.do','677');return false;" class="d3">데이터품질리포트</a></li>
+	                                    </ul>
+	                                </li>
+	                            </ul>
+	                    </div>
+	                </li>
+	                <li class="m2"><a href="#" onclick="javascript:goMenuPage('/climate/RankState/selectRankStatisticsDivisionList.do','179');return false;" class="d1">기후통계분석</a><a href="javascript:;" class="tit_d1 mo">기후통계분석</a>
+						<div class="wrap_sub">
+	                        <ul class="depth2">
+								<li><a href="#" onclick="javascript:goMenuPage('/climate/average30Years/selectAverage30YearsKoreaList.do','188');return false;" class="d2 ico_bfr">평년값</a><a href="javascript:;" class="tit_d2 mo">평년값</a><ul class="depth3">
+										<li><a href="#" onclick="javascript:goMenuPage('/climate/average30Years/selectAverage30YearsKoreaList.do','188');return false;" class="d3">우리나라 기후평년값</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/climate/average30Years/selectAverage30YearsNorthKoreaList.do','731');return false;" class="d3">북한 기후평년값</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/climate/average30Years/selectAverage30YearsWorldList.do','560');return false;" class="d3">세계기후평년값</a></li>
+	                                    </ul>
+	                                </li>
+	                            <li><a href="#" onclick="javascript:goMenuPage('/climate/RankState/selectRankStatisticsDivisionList.do','179');return false;" class="d2 ico_bfr">통계분석</a><a href="javascript:;" class="tit_d2 mo">통계분석</a><ul class="depth3">
+										<li><a href="#" onclick="javascript:goMenuPage('/climate/RankState/selectRankStatisticsDivisionList.do','179');return false;" class="d3">조건별통계</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/stcs/grnd/grndTaList.do','70');return false;" class="d3">기온분석</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/stcs/grnd/grndRnList.do','69');return false;" class="d3">강수량분석</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/climate/StatisticsDivision/selectStatisticsDivision.do','158');return false;" class="d3">다중지점통계</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/climate/solarTerms/solarTerms.do','104');return false;" class="d3">24절기</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/climate/extremum/selectExtremumList.do','103');return false;" class="d3">순위값</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/climate/rainySeason/selectRainySeasonList.do','120');return false;" class="d3">장마</a></li>
+	                                    </ul>
+	                                </li>
+	                            <li><a href="#" onclick="javascript:goMenuPage('/climate/heatWave/selectHeatWaveChart.do','106');return false;" class="d2 ico_bfr">기상현상일수</a><a href="javascript:;" class="tit_d2 mo">기상현상일수</a><ul class="depth3">
+										<li><a href="#" onclick="javascript:goMenuPage('/stcs/grnd/grndRnDayList.do','156');return false;" class="d3">강수일수</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/climate/snw/selectSnwChart.do','697');return false;" class="d3">눈일수</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/climate/yellowDust/selectYellowDustChart.do','112');return false;" class="d3">황사일수</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/climate/heatWave/selectHeatWaveChart.do','106');return false;" class="d3">폭염일수</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/climate/tropicalNight/selectTropicalNightChart.do','105');return false;" class="d3">열대야일수</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/climate/fog/selectFogChart.do','706');return false;" class="d3">안개일수</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/climate/frst/selectFrstChart.do','705');return false;" class="d3">서리일수</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/climate/frz/selectFrzChart.do','707');return false;" class="d3">결빙일수</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/climate/hail/selectHailChart.do','698');return false;" class="d3">우박일수</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/climate/storm/selectStormChart.do','708');return false;" class="d3">폭풍일수</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/climate/thdblt/selectThdbltChart.do','699');return false;" class="d3">뇌전일수</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/climate/cdwv/selectCdwvChart.do','733');return false;" class="d3">한파일수</a></li>
+	                                    </ul>
+	                                </li>
+	                            <li><a href="#" onclick="javascript:goMenuPage('/stcs/grnd/selectCloudSpecifyDay.do','671');return false;" class="d2 ico_bfr">계급별일수</a><a href="javascript:;" class="tit_d2 mo">계급별일수</a><ul class="depth3">
+										<li><a href="#" onclick="javascript:goMenuPage('/stcs/grnd/selectCloudSpecifyDay.do','671');return false;" class="d3">전운량 계급별일수</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/stcs/grnd/selectRnSpecifyDay.do','672');return false;" class="d3">강수 계급별일수</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/climate/ObsValSearch/selectObsValSearchWindRose.do','161');return false;" class="d3">바람 계급별일수(바람장미)</a></li>
+	                                    </ul>
+	                                </li>
+	                            <li><a href="#" onclick="javascript:goMenuPage('/climate/windChill/selectWindChillChart.do','111');return false;" class="d2 ico_bfr">응용기상분석</a><a href="javascript:;" class="tit_d2 mo">응용기상분석</a><ul class="depth3">
+										<li><a href="#" onclick="javascript:goMenuPage('/climate/windChill/selectWindChillChart.do','111');return false;" class="d3">체감온도</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/climate/sot/selectSotChart.do','100');return false;" class="d3">적산온도</a></li>
+	                                    </ul>
+	                                </li>
+	                            </ul>
+	                    </div>
+	                </li>
+	                <li class="m2"><a href="#" onclick="javascript:goMenuPage('/data/publication/publicationAsosList.do','143');return false;" class="d1">간행물</a><a href="javascript:;" class="tit_d1 mo">간행물</a>
+						<div class="wrap_sub">
+	                        <ul class="depth2">
+								<li><a href="#" onclick="javascript:goMenuPage('/data/publication/publicationAsosList.do','143');return false;" class="d2 ico_bfr">지상</a><a href="javascript:;" class="tit_d2 mo">지상</a><ul class="depth3">
+										<li><a href="#" onclick="javascript:goMenuPage('/data/publication/publicationAsosList.do','143');return false;" class="d3">지상</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/data/publication/publicationAwsList.do','145');return false;" class="d3">방재</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/data/publication/publicationAgList.do','146');return false;" class="d3">농업</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('/data/publication/publicationNkList.do','566');return false;" class="d3">북한</a></li>
+	                                    </ul>
+	                                </li>
+	                            <li><a href="#" onclick="javascript:goMenuPage('/data/publication/publicationSeList.do','148');return false;" class="d2 ico_bfr">해양</a><a href="javascript:;" class="tit_d2 mo">해양</a><ul class="depth3">
+										<li><a href="#" onclick="javascript:goMenuPage('/data/publication/publicationSeList.do','148');return false;" class="d3">해양</a></li>
+	                                    </ul>
+	                                </li>
+	                            <li><a href="#" onclick="javascript:goMenuPage('/data/publication/publicationTmList.do','147');return false;" class="d2 ico_bfr">고층</a><a href="javascript:;" class="tit_d2 mo">고층</a><ul class="depth3">
+										<li><a href="#" onclick="javascript:goMenuPage('/data/publication/publicationTmList.do','147');return false;" class="d3">고층</a></li>
+	                                    </ul>
+	                                </li>
+	                            <li><a href="#" onclick="javascript:goMenuPage('https://www.kma.go.kr/kma/archive/pub.jsp?field1=grp&text1=lgt_yearly','149');return false;" class="d2 ico_bfr">레이더</a><a href="javascript:;" class="tit_d2 mo">레이더</a><ul class="depth3">
+										<li><a href="#" onclick="javascript:goMenuPage('https://www.kma.go.kr/kma/archive/pub.jsp?field1=grp&text1=lgt_yearly','149');return false;" class="d3">낙뢰연보</a></li>
+	                                    </ul>
+	                                </li>
+	                            <li><a href="#" onclick="javascript:goMenuPage('https://www.kma.go.kr/kma/archive/pub.jsp?field1=grp&text1=earthquakeye','150');return false;" class="d2 ico_bfr">지진</a><a href="javascript:;" class="tit_d2 mo">지진</a><ul class="depth3">
+										<li><a href="#" onclick="javascript:goMenuPage('https://www.kma.go.kr/kma/archive/pub.jsp?field1=grp&text1=earthquakeye','150');return false;" class="d3">지진연보</a></li>
+	                                    </ul>
+	                                </li>
+	                            <li><a href="#" onclick="javascript:goMenuPage('https://amo.kma.go.kr/weather/stat/airport-climate.do','152');return false;" class="d2 ico_bfr">항공</a><a href="javascript:;" class="tit_d2 mo">항공</a><ul class="depth3">
+										<li><a href="#" onclick="javascript:goMenuPage('/data/publication/publicationMetList.do','682');return false;" class="d3">항공기상연월보</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('https://amo.kma.go.kr/weather/stat/airport-climate.do','152');return false;" class="d3">항공기후정보</a></li>
+	                                    </ul>
+	                                </li>
+	                            <li><a href="#" onclick="javascript:goMenuPage('http://www.climate.go.kr/home/bbs/list.php?code=25&bname=report','151');return false;" class="d2 ico_bfr">기후변화</a><a href="javascript:;" class="tit_d2 mo">기후변화</a><ul class="depth3">
+										<li><a href="#" onclick="javascript:goMenuPage('http://www.climate.go.kr/home/bbs/list.php?code=25&bname=report','151');return false;" class="d3">지구대기감시보고서</a></li>
+	                                    <li><a href="#" onclick="javascript:goMenuPage('http://www.climate.go.kr/home/bbs/list.php?code=93&amp;bname=abnormal','154');return false;" class="d3">이상기후보고서</a></li>
+	                                    </ul>
+	                                </li>
+	                            <li><a href="#" onclick="javascript:goMenuPage('/data/publication/publicationWbList.do','155');return false;" class="d2 ico_bfr">백서</a></li>
+	                            <li><a href="#" onclick="javascript:goMenuPage('/data/publication/publicationGlList.do','681');return false;" class="d2 ico_bfr">규정&middot;지침</a></li>
+	                            </ul>
+	                    </div>
+	                </li>
+	                <li class="m2"><a href="#" onclick="javascript:goMenuPage('/community/board/selectBoardList.do?bbrdTypeNo=2','40');return false;" class="d1">소통과참여</a><a href="javascript:;" class="tit_d1 mo">소통과참여</a>
+						<div class="wrap_sub">
+	                        <ul class="depth2">
+								<li><a href="#" onclick="javascript:goMenuPage('/community/board/selectBoardList.do?bbrdTypeNo=2','40');return false;" class="d2 ico_bfr">공지사항</a></li>
+	                            <li><a href="#" onclick="javascript:goMenuPage('/community/board/selectBoardList.do?bbrdTypeNo=4','92');return false;" class="d2 ico_bfr">자료실</a></li>
+	                            <li><a href="#" onclick="javascript:goMenuPage('/community/board/selectBoardList.do?bbrdTypeNo=3','95');return false;" class="d2 ico_bfr">FAQ</a></li>
+	                            <li><a href="#" onclick="javascript:goMenuPage('/community/board/selectBoardList.do?bbrdTypeNo=1','96');return false;" class="d2 ico_bfr">QnA</a></li>
+	                            <li><a href="#" onclick="javascript:goMenuPage('/community/selectErrorDataList.do','141');return false;" class="d2 ico_bfr">데이터품질대화방</a></li>
+	                            <li><a href="#" onclick="javascript:goMenuPage('/community/board/selectBoardList.do?bbrdTypeNo=7','59');return false;" class="d2 ico_bfr">자유게시판</a></li>
+	                            <li><a href="#" onclick="javascript:goMenuPage('/community/selectVisualizationList.do','722');return false;" class="d2 ico_bfr">시각화 정보</a></li>
+	                            <li><a href="#" onclick="javascript:goMenuPage('/community/selectNuriLove.do','747');return false;" class="d2 ico_bfr">누리사랑방</a></li>
+	                            </ul>
+	                    </div>
+	                </li>
+	                </ul>
+	        </div>
+	    </div>
+	</nav>
+<!-- End:Header Area -->
+			</header>
+			
+			<div id="container">
+				<div class="wfix">
+			
+					<!-- Start:Left Area -->
+					<script>
+	$(document).ready(function () {
+		/*
+		$("#leftMenuUi li").mouseover(function(){
+			$(this).find("ul").show();
+			$(this).addClass("on");
+			//$(this).find("ul > li:first").addClass("on");
+		});
+		
+		$("#leftMenuUi li").mouseout(function(){
+			$(this).find("ul").hide();
+			$(this).removeClass("on");
+		});
+		*/
+		
+	});
+	/* 2016.1.4 스크립트 수정 */
+	$(document).ready(function () {
+		/*
+		$("#leftMenuUi>li").on('mouseover', function(e){
+			e.stopPropagation();
+			var selectIndex = $("#leftMenuUi > li").index(this);
+			
+			$(this).addClass("on");
+			$(this).children('ul').stop().animate({'max-height': '1000px'}, 800);
+			
+			$("#leftMenuUi > li").each(function(idx){
+				if(idx != selectIndex){
+					//$(this).removeClass("on");
+					//$(this).children('ul').stop().animate({'max-height': '0'}, 800);
+				}
+			});
+		});
+		*/
+	});
+
+	//서브메뉴를 오픈한다.
+	function openSubMenu(menu){
+		//alert($(menu).hasClass('on'));
+		if(	$(menu).parent().hasClass('on') ){
+			$(menu).parent().children('ul').stop().animate({'max-width': '0px'}, 600, function() {
+			    // Animation complete.
+				$(menu).parent().removeClass('on');
+			});
+		}else{
+			$(menu).parent().addClass('on');
+			$(menu).parent().children('ul').stop().animate({'max-height': '200px'}, 600);
+		}
+	}
+	
+	//서브메뉴 btn
+	$(document).ready(function(){
+	  $('').click(function(){
+	       $('.has-child').parent().toggleClass('togbtn');
+	  });
+	  $(".tgl").on("click",function(){
+		 
+		  if($(this).parents().attr('class') == 'it_d2 on hv'){
+			  $(this).text("열기");
+		  }else if($(this).parents().attr('class') == 'it_d2 on'){
+			  $(this).text("닫기");
+		  }else if($(this).parents().attr('class') == 'it_d2 hv'){
+			  $(this).text("닫기");
+		  }else if($(this).parents().attr('class') == 'it_d2'){
+			  $(this).text("열기");
+		  }else if($(this).parents().attr('class') == 'it_d2  hv'){
+			  $(this).text("닫기");
+		  }
+		  
+		  if($(this).parents().attr('class') == 'it_d1 on hv'){
+			  $(this).html('<i class="ico_comm">열기</i>');
+		  }else if($(this).parents().attr('class') == 'it_d1 on'){
+			  $(this).html('<i class="ico_comm">닫기</i>');
+		  }else if($(this).parents().attr('class') == 'it_d1  hv'){
+			  $(this).html('<i class="ico_comm">닫기</i>');
+		  }else if($(this).parents().attr('class') == 'it_d1 hv'){
+			  $(this).html('<i class="ico_comm">닫기</i>');
+		  }else if($(this).parents().attr('class') == 'it_d1'){
+			  $(this).html('<i class="ico_comm">열기</i>');
+		  }
+	  });
+	  
+	  
+	});
+	
+</script>
+<div id="snb">
+    <h3 class="tit_snb">
+        
+                기후통계분석
+            </h3>
+    <nav class="wrap_snb">
+        <ul class="lst">
+            <li class="it_d1 ">
+                            <a href="#" onclick="goMenuPage('/climate/average30Years/selectAverage30YearsKoreaList.do','188','N');return false;" class="d1 ico_aft">평년값</a>
+                                <a href="javascript:;" class="tgl">
+                                	<i class="ico_comm">
+                                	열기</i>
+	                            </a>
+                                <ul class="depth2">
+                                    <li class="it_d2 ">
+                                                <a href="#" onclick="javascript:goMenuPage('/climate/average30Years/selectAverage30YearsKoreaList.do','188','N');return false;" class="d2">우리나라 기후평년값</a>
+                                                    </li>
+        <li class="it_d2 ">
+                                                <a href="#" onclick="javascript:goMenuPage('/climate/average30Years/selectAverage30YearsNorthKoreaList.do','731','N');return false;" class="d2">북한 기후평년값</a>
+                                                    </li>
+        <li class="it_d2 ">
+                                                <a href="#" onclick="javascript:goMenuPage('/climate/average30Years/selectAverage30YearsWorldList.do','560','N');return false;" class="d2">세계기후평년값</a>
+                                                    </li>
+        </ul>
+        </li>
+        <li class="it_d1 on">
+                            <a href="#" onclick="goMenuPage('/climate/RankState/selectRankStatisticsDivisionList.do','179','N');return false;" class="d1 ico_aft">통계분석</a>
+                                <a href="javascript:;" class="tgl">
+                                	<i class="ico_comm">
+                                	닫기</i>
+	                            </a>
+                                <ul class="depth2">
+                                    <li class="it_d2 on">
+                                                <a href="#" onclick="javascript:goMenuPage('/climate/RankState/selectRankStatisticsDivisionList.do','179','N');return false;" class="d2">조건별통계</a>
+                                                    </li>
+        <li class="it_d2 ">
+                                                <a href="#" onclick="javascript:goMenuPage('/stcs/grnd/grndTaList.do','70','N');return false;" class="d2">기온분석</a>
+                                                    </li>
+        <li class="it_d2 ">
+                                                <a href="#" onclick="javascript:goMenuPage('/stcs/grnd/grndRnList.do','69','N');return false;" class="d2">강수량분석</a>
+                                                    </li>
+        <li class="it_d2 ">
+                                                <a href="#" onclick="javascript:goMenuPage('/climate/StatisticsDivision/selectStatisticsDivision.do','158','N');return false;" class="d2">다중지점통계</a>
+                                                    </li>
+        <li class="it_d2 ">
+                                                <a href="#" onclick="javascript:goMenuPage('/climate/solarTerms/solarTerms.do','104','N');return false;" class="d2">24절기</a>
+                                                    </li>
+        <li class="it_d2 ">
+                                                <a href="#" onclick="javascript:goMenuPage('/climate/extremum/selectExtremumList.do','103','N');return false;" class="d2">순위값</a>
+                                                    </li>
+        <li class="it_d2 ">
+                                                <a href="#" onclick="javascript:goMenuPage('/climate/rainySeason/selectRainySeasonList.do','120','N');return false;" class="d2">장마</a>
+                                                    </li>
+        </ul>
+        </li>
+        <li class="it_d1 ">
+                            <a href="#" onclick="goMenuPage('/climate/heatWave/selectHeatWaveChart.do','106','N');return false;" class="d1 ico_aft">기상현상일수</a>
+                                <a href="javascript:;" class="tgl">
+                                	<i class="ico_comm">
+                                	열기</i>
+	                            </a>
+                                <ul class="depth2">
+                                    <li class="it_d2 ">
+                                                <a href="#" onclick="javascript:goMenuPage('/stcs/grnd/grndRnDayList.do','156','N');return false;" class="d2">강수일수</a>
+                                                    </li>
+        <li class="it_d2 ">
+                                                <a href="#" onclick="javascript:goMenuPage('/climate/snw/selectSnwChart.do','697','N');return false;" class="d2">눈일수</a>
+                                                    </li>
+        <li class="it_d2 ">
+                                                <a href="#" onclick="javascript:goMenuPage('/climate/yellowDust/selectYellowDustChart.do','112','N');return false;" class="d2">황사일수</a>
+                                                    </li>
+        <li class="it_d2 ">
+                                                <a href="#" onclick="javascript:goMenuPage('/climate/heatWave/selectHeatWaveChart.do','106','N');return false;" class="d2">폭염일수</a>
+                                                    </li>
+        <li class="it_d2 ">
+                                                <a href="#" onclick="javascript:goMenuPage('/climate/tropicalNight/selectTropicalNightChart.do','105','N');return false;" class="d2">열대야일수</a>
+                                                    </li>
+        <li class="it_d2 ">
+                                                <a href="#" onclick="javascript:goMenuPage('/climate/fog/selectFogChart.do','706','N');return false;" class="d2">안개일수</a>
+                                                    </li>
+        <li class="it_d2 ">
+                                                <a href="#" onclick="javascript:goMenuPage('/climate/frst/selectFrstChart.do','705','N');return false;" class="d2">서리일수</a>
+                                                    </li>
+        <li class="it_d2 ">
+                                                <a href="#" onclick="javascript:goMenuPage('/climate/frz/selectFrzChart.do','707','N');return false;" class="d2">결빙일수</a>
+                                                    </li>
+        <li class="it_d2 ">
+                                                <a href="#" onclick="javascript:goMenuPage('/climate/hail/selectHailChart.do','698','N');return false;" class="d2">우박일수</a>
+                                                    </li>
+        <li class="it_d2 ">
+                                                <a href="#" onclick="javascript:goMenuPage('/climate/storm/selectStormChart.do','708','N');return false;" class="d2">폭풍일수</a>
+                                                    </li>
+        <li class="it_d2 ">
+                                                <a href="#" onclick="javascript:goMenuPage('/climate/thdblt/selectThdbltChart.do','699','N');return false;" class="d2">뇌전일수</a>
+                                                    </li>
+        <li class="it_d2 ">
+                                                <a href="#" onclick="javascript:goMenuPage('/climate/cdwv/selectCdwvChart.do','733','N');return false;" class="d2">한파일수</a>
+                                                    </li>
+        </ul>
+        </li>
+        <li class="it_d1 ">
+                            <a href="#" onclick="goMenuPage('/stcs/grnd/selectCloudSpecifyDay.do','671','N');return false;" class="d1 ico_aft">계급별일수</a>
+                                <a href="javascript:;" class="tgl">
+                                	<i class="ico_comm">
+                                	열기</i>
+	                            </a>
+                                <ul class="depth2">
+                                    <li class="it_d2 ">
+                                                <a href="#" onclick="javascript:goMenuPage('/stcs/grnd/selectCloudSpecifyDay.do','671','N');return false;" class="d2">전운량 계급별일수</a>
+                                                    </li>
+        <li class="it_d2 ">
+                                                <a href="#" onclick="javascript:goMenuPage('/stcs/grnd/selectRnSpecifyDay.do','672','N');return false;" class="d2">강수 계급별일수</a>
+                                                    </li>
+        <li class="it_d2 ">
+                                                <a href="#" onclick="javascript:goMenuPage('/climate/ObsValSearch/selectObsValSearchWindRose.do','161','N');return false;" class="d2">바람 계급별일수(바람장미)</a>
+                                                    </li>
+        </ul>
+        </li>
+        <li class="it_d1 ">
+                            <a href="#" onclick="goMenuPage('/climate/windChill/selectWindChillChart.do','111','N');return false;" class="d1 ico_aft">응용기상분석</a>
+                                <a href="javascript:;" class="tgl">
+                                	<i class="ico_comm">
+                                	열기</i>
+	                            </a>
+                                <ul class="depth2">
+                                    <li class="it_d2 ">
+                                                <a href="#" onclick="javascript:goMenuPage('/climate/windChill/selectWindChillChart.do','111','N');return false;" class="d2">체감온도</a>
+                                                    </li>
+        <li class="it_d2 ">
+                                                <a href="#" onclick="javascript:goMenuPage('/climate/sot/selectSotChart.do','100','N');return false;" class="d2">적산온도</a>
+                                                    </li>
+        </ul>
+        </li>
+        </ul>
+    </nav>
+    <div class="wrap_bnrs">
+        <ul class="lst_bnr">
+            <li><a href="/api/selectApiList.do?pgmNo=42"><img src="/resources/images/content/left_banner1.png" alt="데이터 개방 오픈API"></a></li>
+        </ul>
+    </div>
+</div><!-- <div id="snb"></div> -->
+					<!-- End:Left Area -->
+					
+					<div id="contents" tabindex="-1">
+						
+						<!-- Start:Body Area -->
+						<script   src="/resources/js/climate.js"></script>
+<script   src="/resources/js/echarts/echarts.js"></script>
+<script  >
+	var template = { normal : "<tr><td class='STN_ID'></td><td class='STN_NM'></td><td class='TMA'>"
+			+"</td><td class='statContent AVG_TA'></td><td class='statContent AVG_DMAX_TA'></td><td class='statContent MAX_TA'></td><td class='MAX_TA_DT'></td><td class='statContent AVG_DMIN_TA'></td><td class='statContent MIN_TA'></td><td class='MIN_TA_DT'></td><td class='MAX_MIN_TA'></td></tr>"
+			,normal2 : "<tr><td class='STN_ID'></td><td class='STN_NM'></td><td class='TMA'>"
+			+"</td><td class='statContent SUM_RN'></td><td class='statContent DD_RN'></td><td class='DD_RN_DT'></td><td class='statContent HR1_MAX_RN'></td><td class='HR1_MAX_RN_DT'></td></tr>"
+			,normal3 : "<tr><td class='STN_ID'></td><td class='STN_NM'></td><td class='TMA'>"
+			+"</td><td class='statContent AVG_WS'></td><td class='statContent MAX_WS'></td><td class='statContent MAX_WS_WD'></td><td class='MAX_WS_DT'></td><td class='statContent MAX_INS_WS'></td><td class='statContent MAX_INS_WS_WD'></td><td class='MAX_INS_WS_DT'></td></tr>"
+			,normal4 : "<tr><td class='STN_ID'></td><td class='STN_NM'></td><td class='TMA'>"
+			+"</td><td class='statContent AVG_RHM'></td><td class='statContent MIN_RHM'></td></tr>"
+			,normal5 : "<tr><td class='STN_ID'></td><td class='STN_NM'></td><td class='TMA'>"
+			+"</td><td class='statContent SUM_SS'></td><td class='statContent SSRATE'></td><td class='statContent SUM_GSR'></td></tr>"
+			,normal_area : "<tr><td class='STN_ID'></td><td class='STN_NM'></td><td class='TMA'>"
+			+"</td><td class='statContent AVG_TA'></td><td class='statContent AVG_DMAX_TA'></td><td class='statContent MAX_TA'></td><td class='MAX_TA_STN_ID'></td><td class='statContent AVG_DMIN_TA'></td><td class='statContent MIN_TA'></td><td class='MIN_TA_STN_ID'></td></tr>"
+			,normal2_area : "<tr><td class='STN_ID'></td><td class='STN_NM'></td><td class='TMA'>"
+			+"</td><td class='statContent AVG_SUM_RN'></td><td class='statContent MAX_SUM_RN'></td><td class='MAX_SUM_RN_STN_ID'></td><td class='statContent HR1_MAX_RN'></td><td class='HR1_MAX_RN_STN_ID'></td></tr>"
+			,normal3_area : "<tr><td class='STN_ID'></td><td class='STN_NM'></td><td class='TMA'>"
+			+"</td><td class='statContent AVG_WS'></td><td class='statContent MAX_WS'></td><td class='MAX_WS_STN_ID'></td><td class='statContent MAX_INS_WS'></td><td class='MAX_INS_WS_STN_ID'></td></tr>"
+			,normal4_area : "<tr><td class='STN_ID'></td><td class='STN_NM'></td><td class='DATETIME'>"
+			+"</td><td class='statContent AVG_RHM'></td><td class='statContent MIN_RHM'></td><td class='statContent MIN_RHM_STN_ID'></td></tr>"
+			,normal5_area : "<tr><td class='STN_ID'></td><td class='STN_NM'></td><td class='TMA'>"
+				+"</td><td class='statContent AVG_SUM_SS_HR'></td><td class='statContent AVG_SUM_GSR'></td><td class='statContent HR1_MAX_ICSR'></td><td class='statContent HR1_MAX_ICSR_STN_ID'></td></tr>"
+			,empty : "<tr><td colspan='5'>검색 결과가 존재하지 않습니다.</td></tr>"
+	};
+	var myChart;
+	$(document).ready(function () {
+		$("#manual").show();
+		
+		$("#dataFormCd").val("2");
+		setDataFormCd(2);
+
+		$("#startDt").datepicker({
+			dateFormat : 'yymmdd',
+			showButtonPanel : true,
+			changeYear : true,
+			changeMonth : true,
+			maxDate : Climate.getDate("min", 1)
+		}).datepicker('setDate', '20100101');
+
+		$("#endDt").datepicker({
+			dateFormat : 'yymmdd',
+			showButtonPanel : true,
+			changeYear : true,
+			changeMonth : true,
+			maxDate : Climate.getDate("min", 1)
+		}).datepicker('setDate', Climate.getDate("min", 1));
+
+		Climate.setMonthOption('startMonth', '01');
+	    Climate.setMonthOption('endMonth', '12');
+
+	    Climate.setYearOptionExt('startYear', '2016', '1904' );
+	    Climate.setYearOptionExt('endYear', '2026', '1904' );
+
+	    setStartDay('01');
+	    setEndDay('31');
+
+	    $('select[name=startYear]').on('change', function(e){
+	    	setStartDay('');
+		});
+
+	    $('select[name=startMonth]').on('change', function(e){
+	    	setStartDay('');
+		});
+
+	    $('select[name=endYear]').on('change', function(e){
+	    	setEndDay('');
+		});
+
+	    $('select[name=endMonth]').on('change', function(e){
+	    	//setEndDay('');
+		});
+
+		$('.DOWNLOAD_BTN').on('click', function(e){
+			e.preventDefault();
+			loginChk('csv');
+			//download('csv');
+		});
+
+		$('.DOWNLOAD_BTN_XLS').on('click', function(e){
+			e.preventDefault();
+			loginChk('xls');
+			//download('xls');
+		});
+
+		$('select[name=dataFormCd]').on('change', function(e){
+			setDataFormCd($(this).val());
+			setInputSelectView();
+		});
+
+		$('select[name=condit]').on('change',function(e){
+			setInputView($(this).val());
+		});
+
+		$('select[name=ureaType]').on('change',function(e){
+			//요소에 따른 입력값 선택박스 변경
+			setInputSelectView();
+		});
+
+
+		$('select[name=schType]').on('change',function(e){
+			if($(this).val() == '1'){
+				//지상(ASOS)
+				$("#mddlClssCd").val('SFC01');
+			
+				Climate.setYearOptionExt('startYear', '2016', '1904' );
+				Climate.setYearOptionExt('endYear', '2026', '1904' );
+			
+			} else if ($(this).val() == '2'){
+				//방재(AWS)
+				$("#mddlClssCd").val('SFC02');
+				 Climate.setYearOptionExt('startYear', '2016', '1997' );
+				 Climate.setYearOptionExt('endYear', '2026', '1997' );
+			}
+			setInputSelectView();
+			beforeFocus = $(this);//복귀할 focus
+			fnStnGrpPopup('schForm');
+
+		});
+		
+		goSearch();
+		
+		// 지점 정보 접기 및 펼치기
+		$("#stnInfoP").click(function(){
+			$("#stnInfoP").hide();
+			$("#stnInfoM").show();
+			$("#stnTbs").show();
+		});		
+		$("#stnInfoM").click(function(){
+			$("#stnInfoM").hide();
+			$("#stnTbs").hide();
+			$("#stnInfoP").show();
+		});
+	});
+	
+	//2025-04-15 이명진 주무관 요청 : 다운로드시 로그인 강제
+	function loginChk(val){
+		login_Check(val);
+	}
+	
+	function setDataFormCd(dataFormCd){
+		if(dataFormCd == 1){  //년
+			$("#monthCheck").attr("disabled", true);
+			$("#monthCheck").prop("checked", false);
+			$("#dayCheck").attr("disabled", true);
+			$("#dayCheck").prop("checked", false);
+			$("#seasonCheck").attr("disabled", true);
+			$("#seasonCheck").prop("checked", false);
+		}else if(dataFormCd == 2){  //월
+			$("#monthCheck").attr("disabled", false);
+			$("#monthCheck").prop("checked", true);
+			$("#dayCheck").attr("disabled", true);
+			$("#dayCheck").prop("checked", false);
+			$("#seasonCheck").attr("disabled", true);
+			$("#seasonCheck").prop("checked", false);
+		}else if(dataFormCd == 3){  //일
+			$("#monthCheck").attr("disabled", false);
+			$("#monthCheck").prop("checked", true);
+			$("#dayCheck").attr("disabled", false);
+			$("#dayCheck").prop("checked", true);
+			$("#seasonCheck").attr("disabled", true);
+			$("#seasonCheck").prop("checked", false);
+		}else if(dataFormCd == 4){  //계절
+			$("#monthCheck").attr("disabled", true);
+			$("#monthCheck").prop("checked", false);
+			$("#dayCheck").attr("disabled", true);
+			$("#dayCheck").prop("checked", false);
+			$("#seasonCheck").attr("disabled", false);
+			$("#seasonCheck").prop('checked', true);
+		}
+
+		//var row = $(template.normal);
+		//var row3 = $(template.normal3);
+
+		if(dataFormCd != 3){  //일
+			//$('#dt1').show();
+			//$('#dt2').show();
+			//$('#dt3').show();
+			//$('#dt4').show();
+			$("#dt1").show();
+			$("#dt2").html('최고기온<br/>일자');
+			$("#dt3").show();
+			$("#dt4").html('최저기온<br/>일자');			
+			$("#dt5").show();
+			$("#dt6").show();
+			$("#dt7").html('1시간최다<br/>강수량일자');
+			$("#dt8").show();
+			$("#dt12").hide();
+			if(dataFormCd == 1) {
+				$("#dt8").html('최다연강<br/>수량(mm)');
+			}else if(dataFormCd == 2) {
+				$("#dt8").html('최다월강<br/>수량(mm)');
+			}else {
+				$("#dt8").html('최다계절강<br/>수량(mm)');
+			}
+
+			if(dataFormCd == 1) {
+				$("#dt11").html('평균연강<br/>수량(mm)');
+			}else if(dataFormCd == 2) {
+				$("#dt11").html('평균월강<br/>수량(mm)');
+			}else {
+				$("#dt11").html('평균계절강<br/>수량(mm)');
+			}
+			$("#dt9").html('최대<br/>풍속일자');
+			$("#dt10").html('최대순간<br/>풍속일자');
+
+			if($('#areaId').val() == '') {
+				$("#dt8").show();
+				$("#dt8").html('일최다강<br/>수량(mm)');
+				//$("#div_03 colgroup").html('');
+				//$("#div_03 colgroup").html('<col style="width:9%" /><col style="width:9%" /><col style="width:10%" /><col style="width:9%" /><col style="width:9%" /><col style="width:9%" /><col style="width:9%" /><col style="width:9%" /><col style="width:9%" /><col style="width:9%" />');
+				$("#div_01 colgroup").html('');
+				$("#div_01 colgroup").html('<col style="width:10%" /><col style="width:10%" /><col style="width:10%" /><col style="width:10%" /><col style="width:10%" /><col style="width:10%" /><col style="width:10%" /><col style="width:10%" /><col style="width:10%" /><col style="width:10%" />');
+				$("#div_02 colgroup").html('');
+				$("#div_02 colgroup").html('<col style="width:10%" /><col style="width:10%" /><col style="width:10%" /><col style="width:10%" /><col style="width:15%" /><col style="width:15%" /><col style="width:15%" /><col style="width:15%" />');
+			}
+		} else {
+			$("#dt1").hide();
+			$("#dt2").html('최고기온시각');
+			$("#dt3").hide();
+			$("#dt4").html('최저기온시각');
+			$("#dt5").hide();
+			$("#dt6").hide();
+			$("#dt7").html('1시간최다<br/>강수량시각');
+			$("#dt8").show();
+			$("#dt8").html('최다일강<br/>수량(mm)');
+			$("#dt9").html('최대<br/>풍속시각');
+			$("#dt10").html('최대순간<br/>풍속시각');
+			$("#dt11").html('평균일강<br/>수량(mm)');
+			$("#dt12").show();
+			if($('#areaId').val() == '') {
+				//$("#div_03 colgroup").html('');
+				//$("#div_03 colgroup").html('<col style="width:9%" /><col style="width:9%" /><col style="width:10%" /><col style="width:12%" /><col style="width:12%" /><col style="width:12%" /><col style="width:12%" /><col style="width:12%" />');
+				$("#dt8").hide();
+				$("#div_01 colgroup").html('');
+				$("#div_02 colgroup").html('');
+				$("#div_01 colgroup").html('<col style="width:10%" /><col style="width:12%" /><col style="width:12%" /><col style="width:12%" /><col style="width:12%" /><col style="width:15%" /><col style="width:12%" /><col style="width:15%" />');
+				$("#div_02 colgroup").html('<colgroup><col style="width:10%" /><col style="width:10%" /><col style="width:10%" /><col style="width:10%" /><col style="width:10%" /><col style="width:20%" /><col style="width:10%" /><col style="width:20%" /></colgroup>');
+			}
+		}
+		$("#rankStatTA tr").remove();
+		$("#rankStatRn tr").remove();
+		$("#rankStatWind tr").remove();
+		$("#rankStatRhm tr").remove();
+		$("#rankStatIcsrSs tr").remove();
+		$("#rankStatTaArea tr").remove();
+		$("#rankStatRnArea tr").remove();
+		$("#rankStatWindArea tr").remove();
+		$("#rankStatRhmArea tr").remove();
+		$("#rankStatIcsrSsArea tr").remove();
+	}
+
+	function setInputView(val){
+		if(val != 0){
+			$("#inputInt2").show();
+			$("#symbol2").show();
+		}else{
+			$("#inputInt2").hide();
+			$("#symbol2").hide();
+		}
+	}
+
+	function setInputSelectView(){
+
+		var dataFormCd = $("#dataFormCd option:selected").val();
+		var val = $("#ureaType option:selected").val();
+		if(val == 1){//기온
+			$("#tempInputVal").show();
+			$("#precInputVal").hide();
+			$("#windInputVal").hide();
+			$("#rhmInputVal").hide();
+			$("#icsrInputVal").hide();
+			if($('#areaId').val() == '' && dataFormCd == 3){
+				$('#tempInputVal').empty();
+				$('#tempInputVal').append('<option value="1"  >평균기온</option>');
+				$('#tempInputVal').append('<option value="3"  >최고기온</option>');
+				$('#tempInputVal').append('<option value="5"  >최저기온</option>');
+				$('#tempInputVal').append('<option value="6"  >일교차</option>');
+				//$("#st1").hide();
+				//$("#st2").hide();
+			} else {
+				$('#tempInputVal').empty();
+				$('#tempInputVal').append('<option value="1"  >평균기온</option>');
+				$('#tempInputVal').append('<option value="2"  >평균최고기온</option>');
+				$('#tempInputVal').append('<option value="3"  >최고기온</option>');
+				$('#tempInputVal').append('<option value="4"  >평균최저기온</option>');
+				$('#tempInputVal').append('<option value="5"  >최저기온</option>');
+    
+    
+				//$("#st1").show();
+				//$("#st2").show();
+			}
+
+		}else if(val == 2){//강수량
+			$("#tempInputVal").hide();
+			$("#precInputVal").show();
+			$("#windInputVal").hide();
+			$("#rhmInputVal").hide();
+			$("#icsrInputVal").hide();
+			if($('#areaId').val() == '') {
+				$("#st3").html('강수량');
+				if(dataFormCd == 3) {
+					$('#precInputVal').empty();
+					$('#precInputVal').append('<option value="1"  id="st3">강수량</option>');
+					$('#precInputVal').append('<option value="3"  >1시간최다강수량</option>');
+					//$("#st4").hide();
+				} else {
+					$('#precInputVal').empty();
+					$('#precInputVal').append('<option value="1"  id="st3">강수량</option>');
+					$('#precInputVal').append('<option value="2"  id="st4">일최다강수량</option>');
+					$('#precInputVal').append('<option value="3"  >1시간최다강수량</option>');
+					//$("#st4").show();
+					//$("#st4").html('일최다강수량')
+				}
+			} else {
+				$('#precInputVal').empty();
+				$('#precInputVal').append('<option value="1"  id="st3">강수량</option>');
+				$('#precInputVal').append('<option value="2"  id="st4">일최다강수량</option>');
+				$('#precInputVal').append('<option value="3"  >1시간최다강수량</option>');
+				if(dataFormCd == 1) {
+					$("#st3").html('평균연강수량');
+					$("#st4").html('최다연강수량');
+				}else if(dataFormCd == 2) {
+					$("#st3").html('평균월강수량');
+					$("#st4").html('최다월강수량');
+				}else if(dataFormCd == 3) {
+					$("#st3").html('평균일강수량');
+					$("#st4").html('최다일강수량');
+				}else {
+					$("#st3").html('평균계절강수량');
+					$("#st4").html('최다계절강수량');
+				}
+			}
+
+
+		}else if(val == 3){//바람
+			$("#tempInputVal").hide();
+			$("#precInputVal").hide();
+			$("#windInputVal").show();
+			$("#rhmInputVal").hide();
+			$("#icsrInputVal").hide();
+		}else if(val == 4){//습도
+			$("#tempInputVal").hide();
+			$("#precInputVal").hide();
+			$("#windInputVal").hide();
+			$("#rhmInputVal").show();
+			$("#icsrInputVal").hide();
+		}else if(val == 5){//일조일사
+			$("#tempInputVal").hide();
+			$("#precInputVal").hide();
+			$("#windInputVal").hide();
+			$("#rhmInputVal").hide();
+			$("#icsrInputVal").show();
+			if($("#areaId").val() != ''){
+				$("#icsrInputVal option:eq(0)").prop("selected", true);
+				$("#st5").hide();
+			}else{
+				$("#st5").show();
+			}
+		}
+	}
+
+	function setStartDay(selectedVal){
+		var year = $("#startYear option:selected").val();
+		var month = $("#startMonth option:selected").val();
+
+		var lastDay = (new Date(year, month, 0)).getDate();
+
+		$("#startDay").html('');
+		for(var i = 1; i <= lastDay; i++){
+			var day = i;
+			if(day < 10){
+				day = "0" + day;
+			}
+			$("#startDay").append('<option value="'+day+'">'+day+'</option>');
+		}
+
+		if(selectedVal != null && selectedVal != ''){
+    		$("#startDay").val(selectedVal);
+    	} else {
+    		$("#startDay").val("01");
+    	}
+	}
+
+	function setEndDay(selectedVal){
+		var year = $("#endYear option:selected").val();
+		var month = $("#endMonth option:selected").val();
+
+		var lastDay = (new Date(year, month, 0)).getDate();
+
+		$("#endDay").html('');
+		for(var i = 1; i <= lastDay; i++){
+			var day = i;
+			if(day < 10){
+				day = "0" + day;
+			}
+			$("#endDay").append('<option value="'+day+'">'+day+'</option>');
+		}
+
+		if(selectedVal != null && selectedVal != ''){
+    		$("#endDay").val(selectedVal);
+    	} else {
+    		$("#endDay").val(lastDay);
+    	}
+	}
+
+	/*
+	function goPage(pageIndex) {
+	    $("#pageIndex").val(pageIndex);
+	    $("#schForm").attr("target", '_self');
+	    $("#schForm").attr("method", "post");
+	    $("#schForm").attr("action", "/climate/RankState/selectRankStatisticsDivisionList.do").submit();
+	}
+	*/
+
+	function goSearch() {
+
+		if (!fnValidate()) {
+			return false;
+		}
+		setDataFormCd($("#dataFormCd option:selected").val());
+				
+		var checkVal = $("input:checkbox:checked"); 
+		if(checkVal && checkVal.length > 0){
+			for(var i=0; i<checkVal.length; i++){
+				if(checkVal[i].value == "on"){
+					checkVal[i].value = "Y";
+				} 
+			}
+		}
+		
+		$.ajax({
+			type:'post'
+			,url:"/climate/RankState/selectRankStatisticsDivisionAjax.do"
+			,data : $('form[name=schForm]').serialize()
+			,dataType:"json"
+			,success:function(data){
+				if(data.code=='00'){
+					var resultData = data.data;
+					var chartData = data.dataList;
+					var selectVal = $("#ureaType option:selected").val();
+					tableDataAdd(resultData);
+					if(selectVal == 1){
+						drawChartTA(chartData);
+					}else if(selectVal == 2){
+						drawChartRN(chartData);
+					}
+				}
+			}
+		});
+
+	}
+
+	function tableDataAdd(data){
+		var selectVal = $("#ureaType option:selected").val();
+		if($('#areaId').val() == '') {
+			$("#div_01_area").hide();
+			$("#div_02_area").hide();
+			$("#div_03_area").hide();
+			$("#div_04_area").hide();
+			$("#div_05_area").hide();
+			if(selectVal == 1){
+				$("#div_01").show();
+				$("#div_02").hide();
+				$("#div_03").hide();
+				$("#div_04").hide();
+				$("#div_05").hide();
+			}else if(selectVal == 2){
+				$("#div_01").hide();
+				$("#div_02").show();
+				$("#div_03").hide();
+				$("#div_04").hide();
+				$("#div_05").hide();
+			}else if(selectVal == 3){
+				$("#div_01").hide();
+				$("#div_02").hide();
+				$("#div_03").show();
+				$("#div_04").hide();
+				$("#div_05").hide();
+			}else if(selectVal == 4){
+				$("#div_01").hide();
+				$("#div_02").hide();
+				$("#div_03").hide();
+				$("#div_04").show();
+				$("#div_05").hide();
+			}else if(selectVal == 5){
+				$("#div_01").hide();
+				$("#div_02").hide();
+				$("#div_03").hide();
+				$("#div_04").hide();
+				$("#div_05").show();
+			}
+		} else {
+			$("#div_01").hide();
+			$("#div_02").hide();
+			$("#div_03").hide();
+			$("#div_04").hide();
+			$("#div_05").hide();
+			if(selectVal == 1){
+				$("#div_01_area").show();
+				$("#div_02_area").hide();
+				$("#div_03_area").hide();
+				$("#div_04_area").hide();
+				$("#div_05_area").hide();
+			}else if(selectVal == 2){
+				$("#div_01_area").hide();
+				$("#div_02_area").show();
+				$("#div_03_area").hide();
+				$("#div_04_area").hide();
+				$("#div_05_area").hide();
+			}else if(selectVal == 3){
+				$("#div_01_area").hide();
+				$("#div_02_area").hide();
+				$("#div_03_area").show();
+				$("#div_04_area").hide();
+				$("#div_05_area").hide();
+			}else if(selectVal == 4){
+				$("#div_01_area").hide();
+				$("#div_02_area").hide();
+				$("#div_03_area").hide();
+				$("#div_04_area").show();
+				$("#div_05_area").hide();
+			}else if(selectVal == 5){
+				$("#div_01_area").hide();
+				$("#div_02_area").hide();
+				$("#div_03_area").hide();
+				$("#div_04_area").hide();
+				$("#div_05_area").show();
+			}
+		}
+		$("#rankStatTA tr").remove();
+		$("#rankStatRn tr").remove();
+		$("#rankStatWind tr").remove();
+		$("#rankStatRhm tr").remove();
+		$("#rankStatIcsrSs tr").remove();
+		$("#rankStatTaArea tr").remove();
+		$("#rankStatRnArea tr").remove();
+		$("#rankStatWindArea tr").remove();
+		$("#rankStatRhmArea tr").remove();
+		$("#rankStatIcsrSsArea tr").remove();
+		
+		var len = data.length;
+		if(len == 0 || len == null){
+			$(template.empty);
+		}
+
+		$(data).each(function(){
+
+			if($('#areaId').val() == '') {
+				var row = $(template.normal);
+				var row2 = $(template.normal2);
+				var row3 = $(template.normal3);
+				var row4 = $(template.normal4);
+				var row5 = $(template.normal5);
+
+				if(selectVal == 1){//기온
+					row.find('.STN_ID').text(this.stnId);
+					row.find('.STN_NM').text(this.stnNm);
+					row.find('.TMA').text(this.tma);
+					row.find('.AVG_TA').text(this.avgTa);
+					if (this.avgDmaxTa != 'undefined') {
+						row.find('.AVG_DMAX_TA').text(this.avgDmaxTa);
+					}
+					row.find('.MAX_TA_DT').text(this.maxTaDt);
+					row.find('.MAX_TA').text(this.maxTa);
+					if (this.avgDminTa != 'undefined') {
+						row.find('.AVG_DMIN_TA').text(this.avgDminTa);
+					}
+					row.find('.MIN_TA_DT').text(this.minTaDt);
+					row.find('.MIN_TA').text(this.minTa);
+					var dataFormCd = $("#dataFormCd option:selected").val();
+					if(dataFormCd == 3 && $('#areaId').val() == ''){  //일교차
+						row.find('.MAX_MIN_TA').text(this.maxMinTa);
+					}else{
+						row.find('.MAX_MIN_TA').hide();
+					}
+					$("#rankStatTA").append(row);
+				}else if(selectVal == 2){//,강수량
+					row2.find('.STN_ID').text(this.stnId);
+					row2.find('.STN_NM').text(this.stnNm);
+					row2.find('.TMA').text(this.tma);
+					row2.find('.SUM_RN').text(this.sumRn);
+					if (this.ddRn != 'undefined') {
+						row2.find('.DD_RN').text(this.ddRn);
+					}
+					if (this.ddRnDt != 'undefined') {
+						row2.find('.DD_RN_DT').text(this.ddRnDt);
+					}
+					row2.find('.HR1_MAX_RN').text(this.hr1MaxRn);
+					row2.find('.HR1_MAX_RN_DT').text(this.hr1MaxRnDt);
+					$("#rankStatRn").append(row2);
+				}else if(selectVal == 3){//바람
+					row3.find('.STN_ID').text(this.stnId);
+					row3.find('.STN_NM').text(this.stnNm);
+					row3.find('.TMA').text(this.datetime);
+					row3.find('.AVG_WS').text(this.avgWs);
+					row3.find('.MAX_WS_WD').text(this.maxWsWd);
+					row3.find('.MAX_WS').text(this.maxWs);
+					row3.find('.MAX_WS_DT').text(this.maxWsDt);
+					row3.find('.MAX_INS_WS_WD').text(this.maxInsWsWd);
+					row3.find('.MAX_INS_WS').text(this.maxInsWs);
+					row3.find('.MAX_INS_WS_DT').text(this.maxInsWsDt);
+					$("#rankStatWind").append(row3);
+				}else if(selectVal == 4){//습도
+					row4.find('.STN_ID').text(this.stnId);
+					row4.find('.STN_NM').text(this.stnNm);
+					row4.find('.TMA').text(this.tma);
+					row4.find('.AVG_RHM').text(this.avgRhm);
+					row4.find('.MIN_RHM').text(this.minRhm);
+					$("#rankStatRhm").append(row4);
+				}else if(selectVal == 5){//일조일사
+					row5.find('.STN_ID').text(this.stnId);
+					row5.find('.STN_NM').text(this.stnNm);
+					row5.find('.TMA').text(this.tma);
+					row5.find('.SUM_SS').text(this.sumSs);
+					row5.find('.SSRATE').text(this.ssrate);
+					row5.find('.SUM_GSR').text(this.sumGsr);
+					$("#rankStatIcsrSs").append(row5);
+				}
+			}
+			else {
+				var row = $(template.normal_area);
+				var row2 = $(template.normal2_area);
+				var row3 = $(template.normal3_area);
+				var row4 = $(template.normal4_area);
+				var row5 = $(template.normal5_area);
+				if(selectVal == 1){//기온
+
+					row.find('.STN_ID').text(this.stnId);
+					row.find('.STN_NM').text(this.stnNm);
+					row.find('.TMA').text(this.tma);
+					row.find('.AVG_TA').text(this.avgTa);
+					if (this.avgMaxTa != 'undefined') {
+						row.find('.AVG_DMAX_TA').text(this.avgMaxTa);
+					}
+					if (this.avgDmaxTa != 'undefined'){
+						row.find('.AVG_DMAX_TA').text(this.avgDmaxTa);
+					}
+					row.find('.MAX_TA').text(this.maxTa);
+					row.find('.MAX_TA_STN_ID').text(this.maxTaStnId);
+					if (this.avgMinTa != 'undefined') {
+						row.find('.AVG_DMIN_TA').text(this.avgMinTa);
+					}
+					if (this.avgDminTa != 'undefined'){
+						row.find('.AVG_DMIN_TA').text(this.avgDminTa);
+					}
+					row.find('.MIN_TA').text(this.minTa);
+					row.find('.MIN_TA_STN_ID').text(this.minTaStnId);
+					$("#rankStatTaArea").append(row);
+				}else if(selectVal == 2){//,강수량
+					row2.find('.STN_ID').text(this.stnId);
+					row2.find('.STN_NM').text(this.stnNm);
+					row2.find('.TMA').text(this.tma);
+					row2.find('.AVG_SUM_RN').text(this.avgSumRn);
+					row2.find('.MAX_SUM_RN').text(this.maxSumRn);
+					row2.find('.MAX_SUM_RN_STN_ID').text(this.maxSumRnStnId);
+					row2.find('.HR1_MAX_RN').text(this.hr1MaxRn);
+					row2.find('.HR1_MAX_RN_STN_ID').text(this.hr1MaxRnStnId);
+					$("#rankStatRnArea").append(row2);
+				}else if(selectVal == 3){//바람
+					row3.find('.STN_ID').text(this.stnId);
+					row3.find('.STN_NM').text(this.stnNm);
+					row3.find('.TMA').text(this.datetime);
+					row3.find('.AVG_WS').text(this.avgWs);
+					row3.find('.MAX_WS').text(this.maxWs);
+					row3.find('.MAX_WS_STN_ID').text(this.maxWsStnId);
+					row3.find('.MAX_INS_WS').text(this.maxInsWs);
+					row3.find('.MAX_INS_WS_STN_ID').text(this.maxInsWsStnId);
+					$("#rankStatWindArea").append(row3);
+				}else if(selectVal == 4){//습도
+					row4.find('.STN_ID').text(this.stnId);
+					row4.find('.STN_NM').text(this.stnNm);
+					row4.find('.DATETIME').text(this.datetime);
+					row4.find('.AVG_RHM').text(this.avgRhm);
+					row4.find('.MIN_RHM').text(this.minRhm);
+					row4.find('.MIN_RHM_STN_ID').text(this.minRhmStnId);
+					$("#rankStatRhmArea").append(row4);
+				}else if(selectVal == 5){//일조일사
+					row5.find('.STN_ID').text(this.stnId);
+					row5.find('.STN_NM').text(this.stnNm);
+					row5.find('.TMA').text(this.tma);
+					row5.find('.AVG_SUM_SS_HR').text(this.avgSumSsHr);
+					row5.find('.AVG_SUM_GSR').text(this.avgSumGsr);
+					/* row5.find('.HR1_MAX_ICSR').text(this.hr1MaxIcsr);
+					row5.find('.HR1_MAX_ICSR_STN_ID').text(this.hr1MaxIcsrStnId); */
+					$("#rankStatIcsrSsArea").append(row5);
+				}
+
+			}
+
+		});
+
+		var dataFormCd = $("#dataFormCd option:selected").val();
+		if(dataFormCd != 3){  //일
+			//$('.MAX_TA_DT').show();
+			//$('.MIN_TA_DT').show();
+			//$('.MAX_WS_DT').show();
+			//$('.MAX_INS_WS_DT').show();
+			$('.AVG_DMAX_TA').show();
+			$('.AVG_DMIN_TA').show();
+			$('.DD_RN').show();
+			$('.DD_RN_DT').show();
+
+		} else {
+			//$('.MAX_TA_DT').hide();
+			//$('.MIN_TA_DT').hide();
+			//$('.MAX_WS_DT').hide();
+			//$('.MAX_INS_WS_DT').hide();
+			if($('#areaId').val() == '') {
+				$('.AVG_DMAX_TA').hide();
+				$('.AVG_DMIN_TA').hide();
+			}
+			$('.DD_RN').hide();
+			$('.DD_RN_DT').hide();
+		}
+	}
+
+	function drawChartTA(data){
+		// configure for module loader
+		/*
+	    require.config({
+	        paths: {
+	            echarts: "/resources/module/echarts/build/dist;jsessionid=DMMULX5OVI9j0z70nVrkwiUSRgQ9mc0BmBR5PL0sSa85vmBJTQbS11HkhTRwtVQC.was02_servlet_engine5"
+	        }
+	    });
+
+	    // use
+	    require(
+	        [
+	            'echarts',
+	            'echarts/chart/line' // require the specific chart type
+	        ],
+	        function (ec) {
+	            */
+
+	        	// Initialize after dom ready
+	            if($('#areaId').val() == '') {
+	            	$("#chartDivTA").remove();
+	            	$("#div_01").prepend('<div id="chartDivTA" style="height:400px" oncontextmenu="return false" ondragstart="return false" ></div>');
+	           		myChart = echarts.init(document.getElementById('chartDivTA'));
+	            } else {
+	            	$("#chartDivTaArea").remove();
+	            	$("#div_01_area").prepend('<div id="chartDivTaArea" style="height:400px" oncontextmenu="return false" ondragstart="return false" ></div>');
+	           		myChart = echarts.init(document.getElementById('chartDivTaArea'));
+	            }
+	            
+	            var legendArr = [];
+	            var seriesArr = [];
+	            var xAxisArr = [];
+
+	            var sType = "line";
+	            //var sStack = "stack";
+	            var itemStyle = {
+	            		normal : {
+		            		lineStyle : {
+		            			type : 'solid'
+		            			,width : "1.5"
+		            		}
+	            		}
+	            }
+
+	            var BODY;
+
+	            var categoryArray = [];
+	            var avg = [];
+	            var min = [];
+	            var max = [];
+	            var maxmin = [];
+	            $(data).each(function(){
+	            	categoryArray.push(this.tma);
+	            	if(this.avgTa != 'undefined'){
+						avg.push(isNaN(this.avgTa) ? "-" : this.avgTa);
+	            	}else{
+						avg.push("-");
+	            	}
+	            	if(this.maxTa != 'undefined'){
+						max.push(isNaN(this.maxTa) ? "-" : this.maxTa);
+	            	}else{
+						max.push("-");
+	            	}
+	            	if(this.minTa != 'undefined'){
+						min.push(isNaN(this.minTa) ? "-" : this.minTa);
+	            	}else{
+	            		min.push("-");
+	            	}
+	            	if(this.maxMinTa != 'undefined'){
+	            		maxmin.push(isNaN(this.maxMinTa) ? "-" : this.maxMinTa);
+	            	}else{
+	            		maxmin.push("-");
+	            	}
+	            	
+	            	//array.push([new Date(this.dt), ( this.avgTa ) ? this.avgTa : null  ,(this.maxTa)?this.maxTa:null, (this.minTa) ? this.minTa : null]);
+				});
+
+	            legendArr = ['최저기온', '평균기온', '최고기온', '일교차'];
+
+	            if(categoryArray.length == 0){
+	            	categoryArray = ['-'];
+	            	avg = ['null'] ;
+	            	min = ['null'] ;
+	            	max = ['null'] ;
+	            	maxmin = ['null'] ;
+	            }
+	            seriesArr.push({
+	            	name : '최저기온'
+	            	,type : sType
+	            	,itemStyle : {normal : {color : '#0052C4', lineStyle : {type : 'solid', width : "1.5"}}}
+	            	,symbol : 'circle'
+	            	,symbolSize : 1.5
+	            	,data : min
+	            });
+
+	            seriesArr.push({
+	            	name : '평균기온'
+	            	,type : sType
+	            	,itemStyle : {normal : {color : '#32CD32', lineStyle : {type : 'solid', width : "1.5"}}}
+	            	,symbol : 'circle'
+	            	,symbolSize : 1.5
+	            	,data : avg
+	            });
+	            
+	            seriesArr.push({
+	            	name : '최고기온'
+	            	,type : sType
+	            	,itemStyle : {normal : {color : '#FB0019', lineStyle : {type : 'solid', width : "1.5"}}}
+	            	,symbol : 'circle'
+	            	,symbolSize : 1.5
+	            	,data : max
+	            });
+	            var dataFormCd = $("#dataFormCd option:selected").val();
+				if(dataFormCd == 3 && $('#areaId').val() == ''){  //일교차
+					seriesArr.push({
+		            	name : '일교차'
+		            	,type : sType
+		            	,itemStyle : {normal : {color : '#FAFF35', lineStyle : {type : 'solid', width : "1.5"}}}
+		            	,symbol : 'circle'
+		            	,symbolSize : 1.5
+		            	,data : maxmin
+		            });
+				}
+
+	            var chartTitle = getChartTitleTA();
+
+	            option = {
+	            		title : {text : chartTitle, x: 'center', y: 0, textStyle : {fontSize : 16, fontWeight : 'normal'}}
+			            ,toolbox: {
+		         	        show : true,
+		         	        feature : {
+		         	            mark : {show: false},
+		         	            dataView : {show: false, readOnly: false},
+		         	            magicType : {show: false, type: ['line', 'bar', 'stack', 'tiled']},
+		         	            restore : {show: false},
+// 		         	           saveAsImage : {show: true, title:"이미지저장         ", name:""}
+		         	        }
+		         	    },
+	            	    tooltip : {
+	            	        trigger: 'axis'
+	            	    },
+	            	    legend: {
+	            	    	// 범례
+	            	        data:legendArr
+	            	        ,x : 'center'
+	            	        ,y : 30
+	            	    },
+	            	    grid : {x : 50, y: 65, x2 : 20 },
+						dataZoom : [
+						    {
+	            	    	show : true
+	            	    	//,handleSize : 15
+	            	    	,showDetail : true
+	            	    	},
+	            	        {
+	            	            type: 'inside',
+	            	            realtime: true
+	            	        }
+	            	    ],
+	            	    calculable : false,
+	            	    xAxis : [ 			// x축
+	            	        {
+	            	            type : 'category',
+	            	            //name : '(Date)',
+	            	            nameLocation : 'start',
+	            	            boundaryGap : false,
+	            	            splitLine : { show : true },
+	            	            axisLine : {onZero : false},
+	            	            data : categoryArray,
+	    	        	        axisTick : {
+	    	        	        	alignWithLabel : true,
+	    						}
+	            	        }
+	            	    ],
+	            	    yAxis : [			//Y측
+	            	        {
+	            	            type : 'value',
+	            	            //splitArea : {show : true},
+	            	            name : '(°C)'
+	            	        },
+	            	        {
+	            	            type : 'value',
+	            	            name : '(°F)',
+	            	            axisLabel : {
+	            	                formatter: function(v){
+	            	                    return (v * 9 / 5) + 32;
+	            	                }
+	            	            }
+	            	        }
+	            	    ],
+
+	            	    series : seriesArr
+	            	};
+	            // Load data into the ECharts instance
+	            myChart.setOption(option);
+	        //});
+	}
+
+	function drawChartRN(data){
+		/*
+		require.config({
+	        paths: {
+	            echarts: "/resources/module/echarts/build/dist;jsessionid=DMMULX5OVI9j0z70nVrkwiUSRgQ9mc0BmBR5PL0sSa85vmBJTQbS11HkhTRwtVQC.was02_servlet_engine5"
+	        }
+	    });
+
+	    // use
+	    require(
+	        [
+	            'echarts',
+	            'echarts/chart/bar' // require the specific chart type
+	        ],
+	        function (ec) {
+	        	*/
+	            // Initialize after dom ready
+
+	            if($('#areaId').val() == '') {
+	           		myChart = echarts.init(document.getElementById('chartDivRN'));
+	            } else {
+	           		myChart = echarts.init(document.getElementById('chartDivRnArea'));
+	            }
+
+				var legendArr = [];
+	            var seriesArr = [];
+
+	            var sType = "bar";
+	            var itemStyle = {
+	            		normal : {
+		            		lineStyle : {
+		            			type : 'solid'
+		            			,width : "1"
+		            		}
+	            		}
+	            };
+
+	            var categoryArray = [];
+	            var rn = [];
+
+	            if($('#areaId').val() == '') {
+	            	$(data).each(function(){
+		            	categoryArray.push(this.tma);
+						rn.push(( this.sumRn ) ? this.sumRn : 'null');
+					});
+	            } else {
+	            	$(data).each(function(){
+		            	categoryArray.push(this.tma);
+						rn.push(( this.avgSumRn ) ? this.avgSumRn : 'null');
+					});
+	            }
+
+	            if(rn.length == 0){
+	            	categoryArray = ['-'];
+	            	rn = ['null'] ;
+	            }
+
+	            legendArr = ['강수량'];
+
+	            seriesArr.push({
+	            	name : '강수량'
+	            	,type : sType
+	            	//,itemStyle : itemStyle
+	            	//,symbol : 'none'
+	            	,data : rn
+	            	//,color : '#FF7F50'
+	            	,color : '#5387C6'
+	            });
+
+	            var chartTitle = getChartTitleRN();
+
+	            option = {
+	            		title : {text : chartTitle, x: 'center', y: 0, textStyle : {fontSize : 16, fontWeight : 'normal'}}
+			            ,toolbox: {
+		         	        show : true,
+		         	        feature : {
+		         	            mark : {show: false},
+		         	            dataView : {show: false, readOnly: false},
+		         	            magicType : {show: false, type: ['line', 'bar', 'stack', 'tiled']},
+		         	            restore : {show: false},
+// 		         	           saveAsImage : {show: true, title:"이미지저장         ", name:""}
+		         	        }
+		         	    },
+	            	    tooltip : {
+	            	        trigger: 'axis'
+	            	    },
+	            	    legend: {
+	            	    	// 범례
+	            	        data:legendArr
+	            	        ,x : 'center'
+	            	        ,y : 30
+	            	    },
+	            	    grid : {x : 50, y: 65, x2 : 20 },
+	            	    dataZoom : [
+	    						    {
+	    	            	    	show : true
+	    	            	    	//,handleSize : 15
+	    	            	    	,showDetail : true
+	    	            	    	},
+	    	            	        {
+	    	            	            type: 'inside',
+	    	            	            realtime: true
+	    	            	        }
+	    	            	    ],
+	            	    calculable : false,
+	            	    xAxis : [ 			// x축
+	            	        {
+	            	            type : 'category',
+	            	            boundaryGap : true,
+	            	            //name : '(Date)',
+	            	            nameLocation : 'start',
+	            	            data : categoryArray,
+	    	        	        axisTick : {
+	    	        	        	alignWithLabel : true,
+	    						}
+	            	        }
+	            	    ],
+	            	    yAxis : [			//Y측
+	            	        {
+	            	            type : 'value',
+	            	            //splitArea : {show : true},
+	            	            name : '(mm)'
+	            	        }
+	            	    ],
+	            	    series : seriesArr
+	            };
+	            myChart.setOption(option);
+	        //});
+	}
+
+	//차트 정보를 가져온다.
+	function getChartTitleTA(){
+		var title = "x0x1 기온분석 x2자료 (기간 : x3 ~ x4) x5";
+		title = title.replace('x0', $('#txtStnNm').val());
+
+		if ($('#stnId').val() == "")
+			title = title.replace('x1', "");
+		else
+			title = title.replace('x1', "("+$('#stnId').val()+")");
+
+		title = title.replace('x2', $("#dataFormCd option:selected").text());
+
+		var dataFormCd = $("#dataFormCd option:selected").val();
+		if(dataFormCd == '1'){
+			title = title.replace('x3', $('#startYear').val());
+			title = title.replace('x4', $('#endYear').val() + "년");
+		}else if(dataFormCd == '2'){ //월
+			title = title.replace('x3', $('#startYear').val());
+
+			var x4 = $('#endYear').val()+"년 01~12월";
+			var monthCheck = $("input:checkbox[id='monthCheck']").is(":checked");
+			if(monthCheck){
+				x4 = $('#endYear').val()+"년  "+$('#startMonth').val()+"~"+$('#endMonth').val() + "월";
+			}
+			title = title.replace('x4', x4);
+
+		}else if(dataFormCd == '3'){ // 일
+			title = title.replace('x3', $('#startYear').val());
+
+			var x4 = $('#endYear').val()+"년 01~12월 ";
+			var monthCheck = $("input:checkbox[id='monthCheck']").is(":checked");
+			var dayCheck = $("input:checkbox[id='dayCheck']").is(":checked");
+			if(monthCheck){
+				x4 = $('#endYear').val()+"년  "+$('#startMonth').val()+"~"+$('#endMonth').val() + "월 ";
+				if(dayCheck){
+					x4 += $('#startDay').val() + "~" + $('#endDay').val() + "일";
+				} else {
+					var ln = $("select[name='endDay'] option").length;
+					x4 += "01~" + ln + "일";
+
+					$("#lastDayOfMonth").val(ln);
+				}
+			} else {
+				if(dayCheck){
+					x4 += $('#startDay').val() + "~" + $('#endDay').val() + "일";
+				} else {
+					x4 += "01~ 31일";
+				}
+			}
+
+			title = title.replace('x4', x4);
+		}else if(dataFormCd == '4'){
+			title = title.replace('x3', $('#startYear').val());
+			title = title.replace('x4', $('#endYear').val()+"년 "+$('#sesn option:selected').text());
+		}
+
+		var x5 = '';
+		var elmCheck = $("input:checkbox[id='elmCheck']").is(":checked");
+		if(elmCheck){
+			x5 = "(요소 : ";
+			x5 += $("#inputInt").val() + "℃";
+
+			var symbol = $("#symbol option:selected").val();
+			if(symbol == "1"){
+				x5 += " > ";
+			} else if (symbol == "2"){
+				x5 += " ≥ ";
+			} else if (symbol == "3"){
+				x5 += " < ";
+			} else if (symbol == "4"){
+				x5 += " ≤ ";
+			} else if (symbol == "5"){
+				x5 += " = ";
+			}
+			x5 += $("#tempInputVal option:selected").text();
+
+			var condit = $("#condit option:selected").val();
+			if(condit != '0' && condit != '' ){
+				if(condit == '1'){
+					var symbol2 = $("#symbol2 option:selected").val();
+					if(symbol2 == "1"){
+						x5 += " < ";
+					} else if (symbol2 == "2"){
+						x5 += " ≤ ";
+					} else if (symbol2 == "3"){
+						x5 += " > ";
+					} else if (symbol2 == "4"){
+						x5 += " ≥ ";
+					} else if (symbol2 == "5"){
+						x5 += " = ";
+					}
+					x5 += $("#inputInt2").val() + "℃";
+				} else if (condit == '2'){
+					x5 += ", ";
+					x5 += $("#inputInt2").val() + "℃";
+
+					var symbol2 = $("#symbol2 option:selected").val();
+					if(symbol2 == "1"){
+						x5 += " > ";
+					} else if (symbol2 == "2"){
+						x5 += " ≥ ";
+					} else if (symbol2 == "3"){
+						x5 += " < ";
+					} else if (symbol2 == "4"){
+						x5 += " ≤ ";
+					} else if (symbol2 == "5"){
+						x5 += " = ";
+					}
+					x5 += $("#tempInputVal option:selected").text();
+				}
+			}
+			x5 += ")";
+		}
+		title = title.replace('x5', x5);
+
+		return title;
+	}
+
+	//차트 정보를 가져온다.
+	function getChartTitleRN(){
+		var title = "x0x1 강수량분석 x2자료 (기간 : x3 ~ x4) x5";
+		title = title.replace('x0', $('#txtStnNm').val());
+
+		if ($('#stnId').val() == "")
+			title = title.replace('x1', "");
+		else
+			title = title.replace('x1', "("+$('#stnId').val()+")");
+
+		//title = title.replace('x1', $('#stnId').val());
+		title = title.replace('x2', $("#dataFormCd option:selected").text());
+
+		var dataFormCd = $("#dataFormCd option:selected").val();
+		if(dataFormCd == '1'){ //년
+			title = title.replace('x3', $('#startYear').val());
+			title = title.replace('x4', $('#endYear').val());
+		}else if(dataFormCd == '2'){ //월
+			title = title.replace('x3', $('#startYear').val());
+
+			var x4 = $('#endYear').val()+"년 01~12월";
+			var monthCheck = $("input:checkbox[id='monthCheck']").is(":checked");
+			if(monthCheck){
+				x4 = $('#endYear').val()+"년  "+$('#startMonth').val()+"~"+$('#endMonth').val() + "월";
+			}
+			title = title.replace('x4', x4);
+
+		}else if(dataFormCd == '3'){ // 일
+			title = title.replace('x3', $('#startYear').val());
+
+			var x4 = $('#endYear').val()+"년 01~12월 ";
+			var monthCheck = $("input:checkbox[id='monthCheck']").is(":checked");
+			var dayCheck = $("input:checkbox[id='dayCheck']").is(":checked");
+			if(monthCheck){
+				x4 = $('#endYear').val()+"년  "+$('#startMonth').val()+"~"+$('#endMonth').val() + "월 ";
+				if(dayCheck){
+					x4 += $('#startDay').val() + "~" + $('#endDay').val() + "일";
+				} else {
+					var ln = $("select[name='endDay'] option").length;
+					x4 += "01~" + ln + "일";
+
+					$("#lastDayOfMonth").val(ln);
+				}
+			} else {
+				if(dayCheck){
+					x4 += $('#startDay').val() + "~" + $('#endDay').val() + "일";
+				} else {
+					x4 += "01~ 31일";
+				}
+			}
+
+			title = title.replace('x4', x4);
+		}else if(dataFormCd == '4'){ //계절
+			title = title.replace('x3', $('#startYear').val());
+			title = title.replace('x4', $('#endYear').val()+" "+$("#sesn option:selected").text());
+		}
+
+		var x5 = '';
+		var elmCheck = $("input:checkbox[id='elmCheck']").is(":checked");
+		if(elmCheck){
+			x5 = "(요소 : ";
+			x5 += $("#inputInt").val() + "mm";
+
+			var symbol = $("#symbol option:selected").val();
+			if(symbol == "1"){
+				x5 += " > ";
+			} else if (symbol == "2"){
+				x5 += " ≥ ";
+			} else if (symbol == "3"){
+				x5 += " < ";
+			} else if (symbol == "4"){
+				x5 += " ≤ ";
+			} else if (symbol == "5"){
+				x5 += " = ";
+			}
+			x5 += "강수량";
+
+			var condit = $("#condit option:selected").val();
+			if(condit != '0' && condit != '' ){
+				if(condit == '1'){
+					var symbol2 = $("#symbol2 option:selected").val();
+					if(symbol2 == "1"){
+						x5 += " < ";
+					} else if (symbol2 == "2"){
+						x5 += " ≤ ";
+					} else if (symbol2 == "3"){
+						x5 += " > ";
+					} else if (symbol2 == "4"){
+						x5 += " ≥ ";
+					} else if (symbol2 == "5"){
+						x5 += " = ";
+					}
+					x5 += $("#inputInt2").val() + "mm";
+				} else if (condit == '2'){
+					x5 += ", ";
+					x5 += $("#inputInt2").val() + "mm";
+
+					var symbol2 = $("#symbol2 option:selected").val();
+					if(symbol2 == "1"){
+						x5 += " > ";
+					} else if (symbol2 == "2"){
+						x5 += " ≥ ";
+					} else if (symbol2 == "3"){
+						x5 += " < ";
+					} else if (symbol2 == "4"){
+						x5 += " ≤ ";
+					} else if (symbol2 == "5"){
+						x5 += " = ";
+					}
+					x5 += "강수량";
+				}
+			}
+			x5 += ")";
+		}
+		title = title.replace('x5', x5);
+
+		return title;
+	}
+
+	function fnValidate() {
+
+		if ($('#stnId').val() == '' && $('#areaId').val() == '') {
+			Message.alert("지역/지점을 선택해 주세요.");
+// 			$('#btnStn').focus();
+			return false;
+		}
+
+		var elmCheck = $("input:checkbox[id='elmCheck']").is(":checked");
+		if(elmCheck){
+			if ($("#inputInt").val() == ''){
+				Message.alert('요소 범위 값을 입력하세요.');
+				return false;
+			}
+
+			var condit = $("#condit option:selected").val();
+			if(condit != '0' && condit != '' ){
+				if($("#inputInt2").val() == ''){
+					Message.alert('요소 범위 값을 입력하세요.');
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
+
+	function fnStnGrpPopup(formNm) {
+
+		//$("#selectType").val("1"); //1 : 단건선택
+
+		//showLoading();
+		$("#txtStnNm").val("");
+		$('#stnId').val("");
+
+		$.ajax({
+			type : 'post',
+			url : "/cmmn/stnGroupByStnGroupSnPopup.do",
+			data : $('form[name=' + formNm + ']').serialize(),
+			dataType : "html",
+			success : function(data) {
+				LayerUtil.show(data);
+
+			},
+			error : function() {
+				LayerUtil.hide();
+			}
+		});
+
+	}
+
+	// 지점 팝업에서 호출
+	function stnList(_stnIds, formNm) {
+
+		if(isEmpty(_stnIds)){
+			return false;
+		}
+
+		$('#txtStnNm').val("");
+		$('#stnId').val("");
+		$('#areaId').val("");
+
+		var stnNms = "";
+		var stnIds = "";
+		var areaIds = "";
+
+		var stnGroupsArr = new Array();
+		var stnIdsArr = new Array();
+		stnGroupsArr = _stnIds.split(',');
+		for (var i = 0; i < stnGroupsArr.length; i++) {
+
+			stnIdsArr = stnGroupsArr[i].split('_');
+
+			if (stnIdsArr[0] == "지역"){
+				areaIds += "," + stnIdsArr[2];
+				Climate.setYearOptionExt('startYear', '2016', '1973' );
+				Climate.setYearOptionExt('endYear', '2026', '1973' );
+			} else {
+				stnIds += "," + stnIdsArr[2];
+				if($("#mddlClssCd").val() == 'SFC01'){
+					//지상(ASOS)
+					$("#mddlClssCd").val('SFC01');
+					 Climate.setYearOptionExt('startYear', '2016', '1904' );
+					 Climate.setYearOptionExt('endYear', '2026', '1904' );
+				} else if ($("#mddlClssCd").val() == 'SFC02'){
+					//방재(AWS)
+					$("#mddlClssCd").val('SFC02');
+					 Climate.setYearOptionExt('startYear', '2016', '1997' );
+					 Climate.setYearOptionExt('endYear', '2026', '1997' );
+				}
+			}
+			stnNms += "," + stnIdsArr[3];
+
+		}
+
+		$('#txtStnNm').val(stnNms.substring(1));
+		$('#stnId').val(stnIds.substring(1));
+		$('#areaId').val(areaIds.substring(1));
+
+		setInputSelectView();
+	}
+
+	function download(fileType){
+		$('#fileType').val(fileType);
+		$("#schForm").attr("target", "hiddenFrame");
+		$('#isSample').val("N"); //샘플 파일 다운로를 위한 플래그값 설정
+		$("#schForm").attr("action", "/climate/RankState/rankStaticsDivisionDownload.do").submit();
+	}
+	
+	function download_simple(fileType){
+		$('#fileType').val(fileType);
+		$("#schForm").attr("target", "hiddenFrame");
+		$('#isSample').val("Y"); //샘플 파일 다운로를 위한 플래그값 설정
+		$("#schForm").attr("action", "/climate/RankState/rankStaticsDivisionDownload.do").submit();
+	}
+
+	function explainManual(pgmNo) {
+		 window.open("/cmmn/explainMannual/Mannual.do?pgmNo="+pgmNo+"&type=7","a","width=815,height=680,left=0,top=0")
+	}
+	</script>
+<!-- 타이틀 및 네비게이터 시작 -->
+<script>
+	/*
+	$(function () {
+
+		$("#srvEvlForm").ready(function(){
+			$.ajax({
+				type : 'post',
+				url : "/srvEvl/evlAvgResult.do",
+				data: $("#srvEvlForm").serialize(),
+				dataType : "json",
+				success : function(data) {
+					var code = data.code;
+					if(code == '00'){
+
+						var tmp = '';
+						var data = data.data;
+						for(i=0; i<data; i++){
+							tmp += '<i class="fa fa-star" aria-hidden="true"></i>';
+						}
+						for(i=0; i<(5 - data); i++){
+							tmp += '<i class="fa fa-star-o" aria-hidden="true"></i>';
+						}
+
+						$("div[id=srvEvlAvg]").html(tmp);
+					}
+				}
+			});
+		});
+	});
+	*/
+	$(function () {
+		var subTitle = $("div.wrap_tab ul.lst li.on a").text();
+		if(subTitle != null && subTitle != ''){
+			$(".title").append("<span class='crt_tab'> - "+subTitle+"</span>");
+		}
+	});
+</script>
+<div class="location">
+		<ul class="lst">
+		    <li><a href="/cmmn/main.do" class="ico_bfr">Home</a></li>
+		    <li class="ico_bfr">기후통계분석</li><li class="ico_bfr">통계분석</li><li class="ico_bfr">조건별통계</li>
+		</ul>
+	</div>
+	<div class="title_content">
+	    <h2 class="title">조건별통계</h2>
+	</div>
+	
+<!-- 타이틀 및 네비게이터 종료 -->
+<div id="wrap_content" class="selectRankStatisticsDivisionList">
+	<!-- 도움말과 자료 다운로드 표출 시작-->
+	<script>
+$(document).ready(function() {
+	$.ajax({
+		type : 'post',
+		url : "/cmmn/selectTagAjaxList.do",
+		data : "pgmNo=179",
+		dataType : "json",
+		success : function(data) {
+			if(data.code === '00'){
+				var dataList = data.dataList;
+				var len = dataList.length;
+				
+				if(len > 0){
+					var strHtml = '';
+					
+					strHtml = '<div class="wrap_tbl"><table class="tbl"><caption class="blind">조건별통계 자료설명 - 태그 목록</caption><colgroup><col width="10%"><col width="90%"></colgroup><tbody><tr><th scope="row"><strong>태그</strong></th><td>';
+					for (var i = 0; i < len; i++) {
+						strHtml += dataList[i].wordGrupNm;
+						if(i < len -1){
+							strHtml += ', ';
+						}
+					}
+					strHtml += '</td></tr></tbody></table></div>'
+					
+					$("#tagArea").html(strHtml);
+				} else {
+					
+				}
+			}			
+		},
+		error : function() {
+			LayerUtil.hide();
+		}
+	});
+});
+
+function downloadManual() {
+
+	$.ajax({
+		type : 'post',
+		url : "/download/downloadManual.do",
+		data : $('form[name=dsForm]').serialize(),
+		dataType : "html",
+		success : function(data) {
+			LayerUtil.show(data);
+		},
+		error : function() {
+			LayerUtil.hide();
+		}
+	});
+
+}
+
+function downloadPopFile(idx){
+	
+	var fileName = "";
+	var realFileName = "";
+	
+	if(idx == '111'){
+		fileName = "wndWeatherResourceMapInfo.zip";
+		realFileName = "고해상도 풍력 기상자원지도 설명자료.zip";
+	} else if(idx == '222'){
+		fileName = "slaWeatherResourceMapInfo.zip";
+		realFileName = "고해상도 태양광 기상자원지도 설명자료.zip";
+	} else if(idx == '333'){ //신 태양광자원지도 추가
+		fileName = "slaWeatherResourceMapInfoNew.zip";
+		realFileName = "위성기반 일사량자원지도 설명.zip";
+	} else if(idx == '444'){ //재현바람장
+		fileName = "wndWeatherResourceMapInfoNew.zip";
+		realFileName = "재현바람장 설명.zip";
+	}
+	
+	$('#distFileName').val(fileName);
+	$('#realFileName').val(realFileName);
+
+	$("#downForm").attr("target", "hiddenFrame");
+	$("#downForm").attr("action", "/download/downloadDataFile.do").submit();
+	
+}
+</script>
+<div class="wrap_itm">
+	<div class="hd_itm">
+			<h4 class="tit_itm">자료설명</h4>
+			<a href="javascript:;" class="btn" id="manual" style="display:none;" onclick="javascript:explainManual('179');return false;" >사용법</a>
+			</div>
+		<div class="cont_itm">
+			<p style="margin-bottom:20px;">기온, 강수량, 바람 자료 대상으로 원하는 조건의 자료를 검색할 수 있습니다.</p>
+<div id="tagArea"></div>
+		</div>
+		</div><!-- 도움말과 자료 다운로드 표출 종료 -->
+	<br/>
+	<span><b>* '지역/지점'의 '지역'은 전국 및 광역 단위의 평균 제공(1973년~)</b></span><br/>
+	<span>- 전국 및 광역별 평균 산출에 사용되는 지점은 62개 지점이며 제주도 4개 지점은 제주지역 산출에만 사용됩니다.</span><br/>
+	<a href="#" id="stnInfoP"><ins>[전국/지역별 통계 산출 지점 정보(더보기)]</ins></a> 
+	<a href="#" id="stnInfoM" style="display:none;"><ins>[전국/지역별 통계 산출 지점 정보(접기)]</ins></a>
+	<div class="cont_itm" id="stnTbs" style="display:none;">		
+        <div class="wrap_tbl">
+            <table class="tbl">
+                <caption class="blind">참고 - 전국 62개 지점과 제주 4개 지점정보</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">구분</th>
+                        <th scope="col">조회 지점</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">중부(26)</th>
+                        <td class="col_tit" style="text-align:left;">
+							서울경기: 서울(108), 인천(112), 수원(119), 강화(201), 양평(202), 이천(203)<br/>
+							강원영동: 속초(90), 강릉(105), 태백(216)*<br/>
+							강원영서: 철원(95)*, 대관령(100), 춘천(101), 원주(114), 인제(211), 홍천(212)<br/>
+							충북: 충주(127), 청주(131), 추풍령(135), 제천(221), 보은(226)<br/>
+							충남: 서산(129), 대전(133), 천안(232), 보령(235), 부여(236), 금산(238)<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">남부(36)</th>
+                        <td class="col_tit" style="text-align:left;">
+							경북: 울진(130), 안동(136)*, 포항(138), 대구(143), 봉화(271)*, 영주(272), 문경(273), 영덕(277), 의성(278), 구미(279), 영천(281)<br/>								
+							경남: 울산(152), 창원(155)*, 부산(159), 통영(162), 진주(192), 거창(284), 합천(285), 밀양(288), 산청(289), 거제(294), 남해(295)
+							전북: 군산(140), 전주(146), 부안(243), 임실(244), 정읍(245), 남원(247), 장수(248)*<br/>
+							전남: 광주(156), 목포(165), 여수(168), 완도(170), 장흥(260), 해남(261), 고흥(262)<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">제주도(4)</th>
+                        <td class="col_tit" style="text-align:left;">
+                        	제주(184), 고산(185), 성산(188), 서귀포(189)	                        
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td class="col_tit" colspan=2 style="text-align:left;">
+                    	※단, 관측개시일 및 자료량을 고려하여 6개소(철원, 안동, 창원, 태백, 장수, 봉화)는 1990년 통계부터 반영<br/>
+						 - 1973~1989년: 56개소<br/>
+						 - 1990년 이후: 62개소
+                    </tr>
+                </tbody>
+            </table>
+            <br/>
+        </div>
+    </div>
+    <br/><br/>
+    
+	<!-- 검색 조건 -->
+	<div class="wrap_itm">
+	    <div class="hd_itm">
+	        <h4 class="tit_itm">검색조건</h4>
+	    </div>
+	    <div class="box_sch">
+	        <form name="schForm" id="schForm" method="post" action=" /;jsessionid=DMMULX5OVI9j0z70nVrkwiUSRgQ9mc0BmBR5PL0sSa85vmBJTQbS11HkhTRwtVQC.was02_servlet_engine5" >
+	        <input type="hidden" id="isSample" name="isSample" value="N" />
+	        <input type="hidden" id="fileType" name="fileType" value="" />
+	        <input type="hidden" id="pgmNo" name="pgmNo" value="179" />
+	        <input type="hidden" id="menuNo" name="menuNo" value="440" />
+	        <input type="hidden" id="pageIndex" name="pageIndex" value="" />
+	        <input type="hidden" id="minTa" name="minTa" value="25.0" /> <!--  열대야는 밤 최저기온(18:01~다음날 09:00)이 25℃ 이상 유지되는 현상  -->
+	
+	        <!-- 지점 선택용 -->
+	        <input type="hidden" id="stnGroupSns" name="stnGroupSns" value="" /> <!-- 예) 1,3,4,5 				-->
+	        <!-- <input type="hidden" id="serviceSe" name="serviceSe" value="F00101" />	 -->
+	        <!-- default : F00101 			-->
+	        <input type="hidden" id="selectType" name="selectType" value="1" /> <!-- 1 : 단건선택, 2 : 여러건선택	-->
+	        <input type="hidden" id="mddlClssCd" name="mddlClssCd" value="SFC01" /> <!-- mddlClssCd	-->
+	
+	        <input type="hidden" id="lastDayOfMonth" name="lastDayOfMonth" value="31" />
+	        <input type="hidden" id="startDt" name="startDt" value="" />
+	        <input type="hidden" id="endDt" name="endDt" value="" />
+	        <div class="wrap_criteria">
+	            <dl>
+	                <dt><label for="schType">분류</label></dt>
+	                <dd>
+	                    <select id="schType" name="schType" class="slt">
+	                        <option value="1"  >지상</option>
+	                        <option value="2"  >방재</option>
+	                    </select>
+	                </dd>
+	            </dl>
+	            <dl>
+	                <dt><label for="txtStnNm">지역/지점</label></dt>
+	                <dd>
+	                    <input type="text" id="txtStnNm" name=txtStnNm class="inp" value="서울" readonly="readonly" onclick="fnStnGrpPopup('schForm');">
+	                    <button type="button" id="btnStn" name="btnStn" value=선택 onclick="fnStnGrpPopup('schForm');" class="btn_gray">선택</button>
+	                    <input type="hidden" id="stnId" name="stnId" value="108" />
+	                    <input type="hidden" id="areaId" name="areaId" value="" />
+	                </dd>
+	            </dl>
+	            <dl>
+	                <dt><label for="ureaType">요소</label></dt>
+	                <dd>
+	                    <select id="ureaType" name="ureaType" class="slt">
+	                        <option value="1"  >기온</option>
+	                        <option value="2"  >강수량</option>
+	                        <option value="3"  >바람 </option>
+	                        <option value="4"  >습도 </option>
+	                        <option value="5"  >일조일사</option>
+	                    </select>
+	                </dd>
+	            </dl>
+	            <dl>
+	                <dt>기간</dt>
+	                <dd class="wrap_period">
+	                    <label for="dataFormCd" class="blind">기간 분류</label>
+	                    <select id="dataFormCd" name="dataFormCd" class="slt">
+	                        <option value="3"  >일 </option>
+	                        <option value="2"  >월 </option>
+	                        <option value="1"  >년 </option>
+	                        <option value="4"  >계절 </option>
+	                    </select>
+	                    <label for="startYear" class="blind">시작 연도</label>
+	                    <select id="startYear" name="startYear" class="slt">
+	
+	                    </select>
+	                    <span>년</span>
+	                    <span class="wavy">~</span>
+	                    <label for="endYear" class="blind">종료 연도</label>
+	                    <select id="endYear" name="endYear" class="slt">
+	
+	                    </select>
+	                    <span>년</span>
+	                </dd>
+	            </dl>
+	            <dl class="sch_condition">
+	                <dt>조건</dt>
+	                <dd>
+	                    <ul class="lst_chk">
+	                        <li>
+	                            <input type="checkbox" id="elmCheck" name="elmCheck" value="Y" class="chk" />
+	                            <label for="elmCheck">요소</label>
+	                            <div class="opt">
+	
+	                                <label for="tempInputVal" class="blind">기온 선택</label>
+	                                <select id="tempInputVal" name="tempInputVal" class="slt">
+	                                    <option value="1"  >평균기온</option>
+	                                    <option value="2"  id="st1">평균최고기온</option>
+	                                    <option value="3"  >최고기온</option>
+	                                    <option value="4"  id="st2">평균최저기온</option>
+	                                    <option value="5"  >최저기온</option>
+	                                    <option value="6"  style="display:none" id="st6">일교차</option>
+	                                </select>
+	
+	                                <label for="precInputVal" class="blind">강수 선택</label>
+	                                <select id="precInputVal" name="precInputVal" class="slt rain_values" style="display:none">
+	                                    <option value="1"  id="st3">강수량</option>
+	                                    <option value="2"  id="st4">일최다강수량</option>
+	                                    <option value="3"  >1시간최다강수량</option>
+	                                </select>
+	
+	                                <label for="windInputVal" class="blind">풍속 선택</label>
+	                                <select id="windInputVal" name="windInputVal" class="slt rain_values" style="display:none">
+	                                    <option value="1"  >평균풍속</option>
+	                                    <option value="2"  >최대풍속</option>
+	                                    <option value="3"  >최대순간풍속</option>
+	                                </select>
+	
+	                                <label for="rhmInputVal" class="blind">습도 선택</label>
+	                                <select id="rhmInputVal" name="rhmInputVal" class="slt rain_values" style="display:none">
+	                                    <option value="1"  >평균습도</option>
+	                                    <option value="2"  >최저습도</option>
+	                                </select>
+	
+	                                <label for="icsrInputVal" class="blind">일조 선택</label>
+	                                <select id="icsrInputVal" name="icsrInputVal" class="slt rain_values" style="display:none">
+	                                    <option value="1"  >일조합</option>
+	                                    <option value="2"  id="st5" >일조율</option>
+	                                    <option value="3"  >일사합</option>
+	                                </select>
+	
+	                                <label for="symbol" class="blind">심볼 선택</label>
+	                                <select id="symbol" name="symbol" class="slt">
+	                                    <option value="1"  >&lt;</option>
+	                                    <option value="2"  >&le;</option>
+	                                    <option value="3"  >&gt;</option>
+	                                    <option value="4"  >&ge;</option>
+	                                    <option value="5"  >=</option>
+	                                </select>
+	                                <label for="inputInt" class="blind">인풋</label>
+	                                <input type="text" id="inputInt" name="inputInt" class="inp" />
+	
+	                                <label for="condit" class="blind">콘딧 선택</label>
+	                                <select id="condit" name="condit" class="slt">
+	                                    <option value=""  >선택</option>
+	                                    <option value="1"  >AND</option>
+	                                    <option value="2"  >OR</option>
+	                                </select>
+	
+	                                <label for="symbol2" class="blind">심볼 선택</label>
+	                                <select id="symbol2" name="symbol2" class="slt" style="display:none">
+	                                    <option value="1"  >&lt;</option>
+	                                    <option value="2"  >&le;</option>
+	                                    <option value="3"  >&gt;</option>
+	                                    <option value="4"  >&ge;</option>
+	                                    <option value="5"  >=</option>
+	                                </select>
+	                                <label for="inputInt2" class="blind">인풋</label>
+	                                <input type="text" id="inputInt2" name="inputInt2" class="inp" style="display:none" />
+	
+	                            </div>
+	                        </li>
+	                        <li>
+	                        	<label for="monthCheck" class="blind">체크박스</label>
+	                            <input type="checkbox" id="monthCheck" name="monthCheck" class="chk">
+	                            <label for="startMonth">월</label>
+	                            <label for="startMonth" class="blind">시작 월</label>
+	                            <select id="startMonth" name="startMonth" class="slt stmonth">
+	                            </select>
+	                            <span>월</span>
+	                            <span class="wavy">~</span>
+	                            <label for="endMonth" class="blind">종료 월</label>
+	                            <select id="endMonth" name="endMonth" class="slt endmonth">
+	                            </select>
+	                            <span>월</span>
+	                        </li>
+	                        <li>
+	                        	<label for="dayCheck" class="blind">체크박스</label>
+	                            <input type="checkbox" id="dayCheck" name="dayCheck" class="chk">
+	                            <label for="startDay">일</label>
+	                            <label for="startDay" class="blind">시작 일</label>
+	                            <select id="startDay" name="startDay" class="slt">
+	                            </select>
+	                            <span>일</span>
+	                            <span class="wavy">~</span>
+	                            <label for="endDay" class="blind">종료 일</label>
+	                            <select id="endDay" name="endDay" class="slt">
+	                            </select>
+	                            <span>일</span>
+	                        </li>
+	                        <li>
+	                        	<label for="seasonCheck" class="blind">체크박스</label>
+	                            <input type="checkbox" id="seasonCheck" name="seasonCheck" class="chk">
+	                            <label for="sesn">계절</label>
+	                            <label for="sesn" class="blind">계절 선택</label>
+	                            <select id="sesn" name="sesn" class="slt">
+	                                <option value="1">봄</option>
+	                                <option value="2">여름</option>
+	                                <option value="3">가을</option>
+	                                <option value="4">겨울</option>
+	                            </select>
+	                        </li>
+	                    </ul>
+	                </dd>
+	            </dl>
+	        </div>
+	        <div class="wrap_btn">
+	            <button type="button" class="btn" onclick="javascript:goSearch();return false;">검색</button>
+	        </div>
+	        </form>
+	    </div>
+	</div>
+	<!-- //검색 조건 -->
+	<!-- 표 -->
+	<div class="wrap_itm area_data" id="div_01">
+	    <div id="chartDivTA" style="height:400px" oncontextmenu="return false" ondragstart="return false" ></div>
+	    <div class="hd_itm">
+	        <div class="btns">
+	            <a href="javascript:;" class="btn_file DOWNLOAD_BTN" title="CSV 파일 다운로드">CSV</a>
+	            <a href="javascript:;" class="btn_file DOWNLOAD_BTN_XLS" title="Excel 파일 다운로드">Excel</a>
+	        </div>
+	        <p class="refer_tbl"><font color="blue">※조회 결과는 10건만 표출 됩니다. 상세결과는 파일 다운로드를 이용해주세요</font></p>
+	    </div>
+	    <div class="cont_itm">
+	        <div class="wrap_tbl">
+	            <table class="tbl">
+	                <!-- ny : caption에 th명 모두 써주기 -->
+	                <caption class="blind">조회 자료 결과 - 지점, 지점명, 일시, 평균기온(℃), 평균최고기온(℃), 최고기온(℃), 최고기온일자, 평균최저기온(℃), 최저기온(℃), 최저기온일자,일교차</caption>
+	                <thead>
+	                    <tr>
+	                        <th scope="col">지점</th>
+	                        <th scope="col">지점명</th>
+	                        <th scope="col">일시</th>
+	                        <th scope="col">평균기온(℃)</th>
+	                        <th scope="col" id="dt1">평균최고<br>기온(℃)</th>
+	                        <th scope="col" >최고기온(℃)</th>
+	                        <th scope="col" id="dt2">최고기온<br>일자</th>
+	                        <th scope="col" id="dt3">평균최저<br>기온(℃)</th>
+	                        <th scope="col">최저기온(℃)</th>
+	                        <th scope="col" id="dt4">최저기온<br>일자</th>
+	                        <th scope="col" id="dt12">일교차</th>
+	                    </tr>
+	                </thead>
+	                <tbody id="rankStatTA">
+	
+	                </tbody>
+	            </table>
+	        </div>
+	    </div>
+	</div>
+	<!-- //표 -->
+	<!-- 표 -->
+	<div class="wrap_itm area_data" id="div_01_area">
+	    <div id="chartDivTaArea" style="height:400px" oncontextmenu="return false" ondragstart="return false" ></div>
+	    <div class="hd_itm">
+	        <div class="btns">
+	            <a href="javascript:;" class="btn_file DOWNLOAD_BTN" title="CSV 파일 다운로드">CSV</a>
+	            <a href="javascript:;" class="btn_file DOWNLOAD_BTN_XLS" title="Excel 파일 다운로드">Excel</a>
+	        </div>
+	        <p class="refer_tbl"><font color="blue">※조회 결과는 10건만 표출 됩니다. 상세결과는 파일 다운로드를 이용해주세요</font></p>
+	    </div>
+	    <div class="cont_itm">
+	        <div class="wrap_tbl">
+	            <table class="tbl">
+	                <!-- ny : caption에 th명 모두 써주기 -->
+	                <caption class="blind">조회 자료 결과 - 지역, 지점명, 일시, 평균기온(℃), 평균최고기온(℃), 최고기온(℃), 최고기온관측지점, 평균최저기온(℃), 최저기온(℃), 최저기온관측지점</caption>
+	                <thead>
+	                    <tr>
+	                        <th scope="col">지역</th>
+	                        <th scope="col">지역명</th>
+	                        <th scope="col">일시</th>
+	                        <th scope="col">평균기온(℃)</th>
+	                        <th scope="col">평균최고<br>기온(℃)</th>
+	                        <th scope="col">최고기온(℃)</th>
+							<th scope="col">최고기온<br/>관측지점</th>
+	                        <th scope="col">평균최저<br>기온(℃)</th>
+	                        <th scope="col">최저기온(℃)</th>
+	                        <th scope="col">최저기온<br>관측지점</th>
+	                    </tr>
+	                </thead>
+	                <tbody id="rankStatTaArea" >
+	
+	                </tbody>
+	            </table>
+	        </div>
+	    </div>
+	</div>
+	<!-- //표 -->
+	<!-- 표 -->
+	<div class="wrap_itm area_data" id="div_02">
+	    <div id="chartDivRN" style="height:400px" oncontextmenu="return false" ondragstart="return false" ></div>
+	    <div class="hd_itm">
+	        <div class="btns">
+	            <a href="javascript:;" class="btn_file DOWNLOAD_BTN" title="CSV 파일 다운로드">CSV</a>
+	            <a href="javascript:;" class="btn_file DOWNLOAD_BTN_XLS" title="Excel 파일 다운로드">Excel</a>
+	        </div>
+	        <p class="refer_tbl"><font color="blue">※조회 결과는 10건만 표출 됩니다. 상세결과는 파일 다운로드를 이용해주세요</font></p>
+	    </div>
+	    <div class="cont_itm">
+	        <div class="wrap_tbl">
+	            <table class="tbl">
+	                <!-- ny : caption에 th명 모두 써주기 -->
+	                <caption class="blind">조회 자료 결과 - 지점, 지점명, 일시, 강수량(mm), 일최다강수량(mm), 일최다강수량일자, 1시간최다강수량(mm), 1시간최다강수량일자,</caption>
+	                <thead>
+	                    <tr>
+	                        <th scope="col">지점</th>
+							<th scope="col">지점명</th>
+							<th scope="col">일시</th>
+							<th scope="col">강수량(mm)</th>
+							<th scope="col" id="dt5">일최다강<br/>수량(mm)</th>
+							<th scope="col" id="dt6">일최다강<br/>수량일자</th>
+							<th scope="col">1시간최다<br/>강수량(mm)</th>
+							<th scope="col" id="dt7">1시간최다<br/>강수량일자</th>
+	                    </tr>
+	                </thead>
+	                <tbody id="rankStatRn">
+	                </tbody>
+	            </table>
+	        </div>
+	    </div>
+	</div>
+	<!-- //표 -->
+	<!-- 표 -->
+	<div class="wrap_itm area_data" id="div_02_area">
+	    <div id="chartDivRnArea" style="height:400px" oncontextmenu="return false" ondragstart="return false"></div>
+	    <div class="hd_itm">
+	        <div class="btns">
+	            <a href="javascript:;" class="btn_file DOWNLOAD_BTN" title="CSV 파일 다운로드">CSV</a>
+	            <a href="javascript:;" class="btn_file DOWNLOAD_BTN_XLS" title="Excel 파일 다운로드">Excel</a>
+	        </div>
+	        <p class="refer_tbl"><font color="blue">※조회 결과는 10건만 표출 됩니다. 상세결과는 파일 다운로드를 이용해주세요</font></p>
+	    </div>
+	    <div class="cont_itm">
+	        <div class="wrap_tbl">
+	            <table class="tbl">
+	                <!-- ny : caption에 th명 모두 써주기 -->
+	                <caption class="blind">조회 자료 결과 - 지역, 지점명, 일시, 평균월강수량(mm), 최다월강수량(mm), 최다강수량지점, 1시간최다강수량(mm), 1시간최다강수량지점</caption>
+	                <thead>
+	                    <tr>
+	                        <th scope="col">지역</th>
+							<th scope="col">지역명</th>
+							<th scope="col">일시</th>
+							<th scope="col" id="dt11">평균월강<br/>수량(mm)</th>
+							<th scope="col" id="dt8">최다월강<br/>수량<br/>(mm)</th>
+							<th scope="col">최다강수량지점</th>
+							<th scope="col">1시간최다<br/>강수량(mm)</th>
+							<th scope="col">1시간최다강수량지점</th>
+	                    </tr>
+	                </thead>
+	                <tbody id="rankStatRnArea">
+	                </tbody>
+	            </table>
+	        </div>
+	    </div>
+	</div>
+	<!-- //표 -->
+	<!-- 표 -->
+	<div class="wrap_itm area_data" id="div_03">
+	    <div class="hd_itm">
+	        <div class="btns">
+	            <a href="javascript:;" class="btn_file DOWNLOAD_BTN" title="CSV 파일 다운로드">CSV</a>
+	            <a href="javascript:;" class="btn_file DOWNLOAD_BTN_XLS" title="Excel 파일 다운로드">Excel</a>
+	        </div>
+	        <p class="refer_tbl"><font color="blue">※조회 결과는 10건만 표출 됩니다. 상세결과는 파일 다운로드를 이용해주세요</font></p>
+	    </div>
+	    <div class="cont_itm">
+	        <div class="wrap_tbl">
+	            <table class="tbl">
+	                <!-- ny : caption에 th명 모두 써주기 -->
+	                <caption class="blind">조회 자료 결과 - 지점, 지점명, 일시, 평균풍속(m/s), 최대풍속(m/s), 최대풍속풍향(deg), 최대풍속일자, 최대순간풍속(m/s), 최대순간풍속풍향(deg), 최대순간풍속일자</caption>
+	                <thead>
+	                    <tr>
+	                        <th scope="col">지점</th>
+							<th scope="col">지점명</th>
+							<th scope="col">일시</th>
+							<th scope="col">평균풍속<br/>(m/s)</th>
+							<th scope="col">최대풍속<br/>(m/s)</th>
+							<th scope="col">최대풍속<br/>풍향(deg)</th>
+							<th scope="col" id="dt9">최대<br/>풍속일자</th>
+							<th scope="col">최대순간<br/>풍속(m/s)</th>
+							<th scope="col">최대순간풍<br/>속풍향(deg)</th>
+							<th scope="col" id="dt10">최대순간<br/>풍속일자</th>
+	                    </tr>
+	                </thead>
+	                <tbody id="rankStatWind">
+	                </tbody>
+	            </table>
+	        </div>
+	    </div>
+	</div>
+	<!-- //표 -->
+	<!-- 표 -->
+	<div class="wrap_itm area_data" id="div_03_area" >
+	    <div class="hd_itm">
+	        <div class="btns">
+	            <a href="javascript:;" class="btn_file DOWNLOAD_BTN" title="CSV 파일 다운로드">CSV</a>
+	            <a href="javascript:;" class="btn_file DOWNLOAD_BTN_XLS" title="Excel 파일 다운로드">Excel</a>
+	        </div>
+	        <p class="refer_tbl"><font color="blue">※조회 결과는 10건만 표출 됩니다. 상세결과는 파일 다운로드를 이용해주세요</font></p>
+	    </div>
+	    <div class="cont_itm">
+	        <div class="wrap_tbl">
+	            <table class="tbl">
+	                <!-- ny : caption에 th명 모두 써주기 -->
+	                <caption class="blind">조회 자료 결과 - 지역, 지점명, 일시, 평균풍속(m/s), 최대풍속(m/s), 최대풍속지점, 최대순간풍속(m/s), 최대순간풍속지점</caption>
+	                <thead>
+	                    <tr>
+	                        <th scope="col">지역</th>
+							<th scope="col">지역명</th>
+							<th scope="col">일시</th>
+							<th scope="col">평균풍속(m/s)</th>
+							<th scope="col">최대풍속(m/s)</th>
+							<th scope="col">최대풍속지점</th>
+							<th scope="col">최대순간풍속(m/s)</th>
+							<th scope="col">최대순간풍속지점</th>
+	                    </tr>
+	                </thead>
+	                <tbody id="rankStatWindArea">
+	                </tbody>
+	            </table>
+	        </div>
+	    </div>
+	</div>
+	<!-- //표 -->
+	<!-- 표 -->
+	<div class="wrap_itm area_data" id="div_04">
+	    <div class="hd_itm">
+	        <div class="btns">
+	            <a href="javascript:;" class="btn_file DOWNLOAD_BTN" title="CSV 파일 다운로드">CSV</a>
+	            <a href="javascript:;" class="btn_file DOWNLOAD_BTN_XLS" title="Excel 파일 다운로드">Excel</a>
+	        </div>
+	        <p class="refer_tbl"><font color="blue">※조회 결과는 10건만 표출 됩니다. 상세결과는 파일 다운로드를 이용해주세요</font></p>
+	    </div>
+	    <div class="cont_itm">
+	        <div class="wrap_tbl">
+	            <table class="tbl">
+	                <!-- ny : caption에 th명 모두 써주기 -->
+	                <caption class="blind">조회 자료 결과 - 지점, 지점명, 일시, 평균습도(%rh),최저습도(%rh)</caption>
+	                <thead>
+	                    <tr>
+	                        <th scope="col">지점</th>
+							<th scope="col">지점명</th>
+							<th scope="col">일시</th>
+							<th scope="col">평균습도(%rh)</th>
+							<th scope="col">최저습도(%rh)</th>
+	                    </tr>
+	                </thead>
+	                <tbody id="rankStatRhm" >
+	                </tbody>
+	            </table>
+	        </div>
+	    </div>
+	</div>
+	<!-- //표 -->
+	<!-- 표 -->
+	<div class="wrap_itm area_data" id="div_04_area" >
+	    <div class="hd_itm">
+	        <div class="btns">
+	            <a href="javascript:;" class="btn_file DOWNLOAD_BTN" title="CSV 파일 다운로드">CSV</a>
+	            <a href="javascript:;" class="btn_file DOWNLOAD_BTN_XLS" title="Excel 파일 다운로드">Excel</a>
+	        </div>
+	        <p class="refer_tbl"><font color="blue">※조회 결과는 10건만 표출 됩니다. 상세결과는 파일 다운로드를 이용해주세요</font></p>
+	    </div>
+	    <div class="cont_itm">
+	        <div class="wrap_tbl">
+	            <table class="tbl">
+	                <!-- ny : caption에 th명 모두 써주기 -->
+	                <caption class="blind">조회 자료 결과 - 지역, 지점명, 일시, 평균습도(%rh), 최저습도(%rh), 최저습도지점</caption>
+	                <thead>
+	                    <tr>
+	                        <th scope="col">지역</th>
+							<th scope="col">지역명</th>
+							<th scope="col">일시</th>
+							<th scope="col">평균습도(%rh)</th>
+							<th scope="col">최저습도(%rh)</th>
+							<th scope="col">최저습도지점</th>
+	                    </tr>
+	                </thead>
+	                <tbody id="rankStatRhmArea">
+	                </tbody>
+	            </table>
+	        </div>
+	    </div>
+	</div>
+	<!-- //표 -->
+	<!-- 표 -->
+	<div class="wrap_itm area_data" id="div_05">
+	    <div class="hd_itm">
+	        <div class="btns">
+	            <a href="javascript:;" class="btn_file DOWNLOAD_BTN" title="CSV 파일 다운로드">CSV</a>
+	            <a href="javascript:;" class="btn_file DOWNLOAD_BTN_XLS" title="Excel 파일 다운로드">Excel</a>
+	        </div>
+	        <p class="refer_tbl"><font color="blue">※조회 결과는 10건만 표출 됩니다. 상세결과는 파일 다운로드를 이용해주세요</font></p>
+	    </div>
+	    <div class="cont_itm">
+	        <div class="wrap_tbl">
+	            <table class="tbl">
+	                <!-- ny : caption에 th명 모두 써주기 -->
+	                <caption class="blind">조회 자료 결과 - 지점, 지점명, 일시, 일조합, 일조율, 일사합</caption>
+	                <thead>
+	                    <tr>
+	                        <th scope="col">지점</th>
+							<th scope="col">지점명</th>
+							<th scope="col">일시</th>
+							<th scope="col">일조합(hr)</th>
+							<th scope="col">일조율(%)</th>
+							<th scope="col">일사합(MJ/m2)</th>
+	                    </tr>
+	                </thead>
+	                <tbody id="rankStatIcsrSs" >
+	                </tbody>
+	            </table>
+	        </div>
+	    </div>
+	</div>
+	<!-- //표 -->
+	<!-- 표 -->
+	<div class="wrap_itm area_data" id="div_05_area">
+	    <div class="hd_itm">
+	        <div class="btns">
+	            <a href="javascript:;" class="btn_file DOWNLOAD_BTN" title="CSV 파일 다운로드">CSV</a>
+	            <a href="javascript:;" class="btn_file DOWNLOAD_BTN_XLS" title="Excel 파일 다운로드">Excel</a>
+	        </div>
+	        <p class="refer_tbl"><font color="blue">※조회 결과는 10건만 표출 됩니다. 상세결과는 파일 다운로드를 이용해주세요</font></p>
+	    </div>
+	    <div class="cont_itm">
+	        <div class="wrap_tbl">
+	            <table class="tbl">
+	                <!-- ny : caption에 th명 모두 써주기 -->
+	                <caption class="blind">조회 자료 결과 - 지역, 지점명, 일시, 일조합, 일사합</caption>
+	                <thead>
+	                    <tr>
+	                        <th scope="col">지역</th>
+							<th scope="col">지역명</th>
+							<th scope="col">일시</th>
+							<th scope="col">일조합(hr)</th>
+							<th scope="col">일사합(MJ/m2)</th>
+	                    </tr>
+	                </thead>
+	                <tbody id="rankStatIcsrSsArea" >
+	                </tbody>
+	            </table>
+	        </div>
+	    </div>
+	</div>
+	<!-- //표 -->
+</div><!-- End:Body Area -->
+						
+						<!-- Start:srvEvlPage Area -->
+						<script>
+//로그인 체크
+function checkLogin() {
+	$.ajax({
+		type : 'post',
+		url : '/cmmn/loginSessionCheck.do',
+		dataType : 'json',
+		success : function(result) {
+			if(result.data == 2) {
+				$("#loginYn").val("Y");
+				return;
+			} else {
+				$.ajax({
+					url: "/cmmn/commonLoginLayer.do",
+					type:"post",
+				    dataType:"html",
+				    data: {dataType : 'etc'},
+					success: function(data) {
+						LayerUtil.show(data);
+					}
+				});
+			}
+		},
+		error : function() {
+			alert("실패 하였습니다..");
+			return false;
+		}
+	});
+}
+
+//사용자 평가 기록 횟수 조회
+function checkEvlTerm() {
+
+	/* if(!isMemberLogin()) {
+		checkLogin();
+	}else {
+		$.ajax({
+			type : 'post',
+			url : "/srvEvl/checkEvlTerm.do",
+			data: $("#srvEvlForm").serialize(),
+			dataType : "json",
+			success : function(data) {
+				if(data > 0) { //사용자 평가 일일 횟수 초과
+					alert('서비스별 1일 1회 평가할 수 있습니다.');
+					return;
+				}else {
+					addEvlResult();
+				}
+			}
+		});
+	} */
+	addEvlResult();
+}
+
+//사용자평가 등록
+function addEvlResult() {
+	$("#evlScor").val($("[name='evlScore']:checked").val());
+
+	$.ajax({
+		type : 'post',
+		url : "/srvEvl/insertEvlResult.do",
+		data: $("#srvEvlForm").serialize(),
+		dataType : "json",
+		success : function(data) {
+			alert('평가가 등록되었습니다.');
+			$('#evlConts').val('');
+		}
+	});
+}
+</script>
+	<!-- 평가하기 -->
+<div class="wrap_itm wrap_evaluation" id="content2">
+	<form id="srvEvlForm" name="srvEvlForm" method="post" action="/;jsessionid=DMMULX5OVI9j0z70nVrkwiUSRgQ9mc0BmBR5PL0sSa85vmBJTQbS11HkhTRwtVQC.was02_servlet_engine5">
+	<div class="hd_itm">
+		<h4 class="tit_itm">평가하기</h4>
+		<span class="blind">5점 만점</span>
+		
+		<input type="hidden" id="pgmNoSrv" name="pgmNo" value="179" />
+		<input type="hidden" id="evlScor" name="evlScor" />
+		<ul class="lst">
+			<li><input type="radio" name="evlScore" id="star1" value="1" class="chk star1"><label for="star1"><span class="blind">1점</span></label></li>
+			<li><input type="radio" name="evlScore" id="star2" value="2" class="chk star2"><label for="star2"><span class="blind">2점</span></label></li>
+			<li><input type="radio" name="evlScore" id="star3" value="3" class="chk star3"><label for="star3"><span class="blind">3점</span></label></li>
+			<li><input type="radio" name="evlScore" id="star4" value="4" class="chk star4"><label for="star4"><span class="blind">4점</span></label></li>
+			<li><input type="radio" name="evlScore" id="star5" value="5" class="chk star5" checked><label for="star5"><span class="blind">5점</span></label></li>
+		</ul>
+		
+	</div>
+	<div class="cont_itm">
+		<div class="inp_evaluation">
+			<label for="evlConts" class="blind">평가 작성</label>
+			<textarea id="evlConts" class="inp"></textarea>
+		</div>
+		
+		<button type="button" class="btn" onclick="checkEvlTerm();">등록</button>
+	</div>
+	</form>
+</div>
+<!-- //평가하기 -->
+
+<!-- End:srvEvlPage Area -->
+						
+					</div>
+				</div>
+			</div>
+			<!-- Start:Bottom Area -->
+			<div class="clear">
+</div>
+
+<!-- footer -->
+<footer id="footer">
+	<div class="wfix">
+		<div class="ft_logo"><span class="blind">기상청 국가기후데이터센터</span></div>
+		<div class="ft_info">
+			<ul class="ft_links">
+				<li><a href="#" onclick="goPrivacyLink();return false;">개인정보 처리방침</a></li>
+				<li><a href="/cmmn/static/staticPage.do?page=pageCr">저작권 보호 및 정책</a></li>
+				<li><a href="/cmmn/static/staticPage.do?page=pageWa">웹접근성정책</a></li>
+				<li><a href="/cmmn/static/staticPage.do?page=pageMap">찾아오시는 길</a></li>
+				<li><a href="/community/selectErrorDataList.do?pgmNo=141">데이터품질대화방</a></li>
+				<li><a href="/community/board/selectBoardList.do?bbrdTypeNo=222&pgmNo=139">홈페이지 불편 신고</a></li>
+			</ul>
+			<div class="ft_contact">
+				<span class="address">(35208)대전광역시 서구 청사로 189 정부대전청사 1동 14층</span>
+				<span class="call">기상자료상담문의 : 042-481-7503</span>
+			</div>
+			<p class="copyright">Copyright(c)2015 KMA. All Rights Reserved.</p>
+		</div>
+		<div class="ft_right">
+			<div class="wrap_site">
+				<label for="site" class="blind">사이트 바로가기</label>
+				<select name="site" id="site" class="slt" title="사이트 바로가기">
+					<option>사이트 바로가기</option>
+					<optgroup label="관련사이트">
+								<option value="http://www.kma.go.kr/home/index.jsp">기상청</option>
+									<option value="http://www.weather.go.kr">날씨누리</option>
+									<option value="https://www.data.go.kr/">공공데이터포털</option>
+									<option value="http://www.climate.go.kr">기후정보포털</option>
+									<option value="http://minwon.kma.go.kr">기상청 전자민원</option>
+									<option value="http://nmsc.kma.go.kr">국가기상위성센터</option>
+									</optgroup>					
+						</select>
+				<label for="wsite" class="blind">WMO 세계자료센터</label>
+				<select name="wsite" id="wsite" class="slt" title="사이트 바로가기">
+					<option>WMO 세계자료센터</option>
+					<optgroup label="관련사이트">
+								<option value="https://gaw.kishou.go.jp/">온실가스</option>
+									<option value="https://www.gaw-wdca.org/">반응가스/에어로졸</option>
+									<option value="http://wrdc.mgo.rssi.ru/">대기복사</option>
+									<option value="https://woudc.org/">오존·자외선</option>
+									<option value="http://wdcpc.org/">총대기침적</option>
+									<option value="https://wdc.dlr.de/data_products/VIEWER/">원격탐사</option>
+									</optgroup>					
+						</select>
+				<button type="button" class="goSite" onclick="javascript:goSite()">이동</button>
+			</div>
+			<div class="wrap_license">
+				<!-- a href="javascript:" class="wa" onclick="goPdfPopup()" title="새창"><img src="/resources/images/wa.png" alt="(사)한국장애인단체총연합회 한국웹접근성인증평가원 웹 접근성 우수사이트 인증마크(WA인증마크)"></a-->
+				<a href="http://data.kma.go.kr/community/board/detailBoard.do?bbrdTypeNo=2&pgmNo=40&bbrdNo=69882&fileGrupNo=12962" target="_blank"><img src="/resources/images/common/img_footer3.gif" alt=""></a>
+				<a href="http://www.kogl.or.kr/info/license.do" target="_blank"><img src="/resources/images/common/img_footer2.gif" alt="공공누리 공공저작물 자유이용허 - 출처표시"></a>
+			</div>
+			
+		</div>
+	</div>
+</footer>
+<!-- hidden frame -->
+<iframe width="0" height="0" id="hiddenFrame" name="hiddenFrame" style="display: none;" title="다운로드 사용 용도"></iframe>
+<!-- hidden frame -->
+<div id="loading-mask"><img id="mask_loding_image_bar" src="/resources/images/common/loader.gif" alt="loading..."/></div>
+<script >
+$(document).ready(function(){
+	$("#site").change(function(){
+		$("#wsite").find("option:eq(0)").prop("selected",true);
+	});
+	$("#wsite").change(function(){
+		$("#site").find("option:eq(0)").prop("selected",true);
+	});
+});
+function goSite() {
+	var url = "#";
+	var site = $('#site option:selected').val();
+	var wsite = $('#wsite option:selected').val();
+	
+	if(site != "국내 관련 사이트") url = site;
+	if(wsite != "WMO 세계자료센터") url = wsite;
+	if(url != "#") location.href=url;
+}
+function goPdfPopup() {
+	var url = '/resources/images/POTAL.png';
+	var w = 595;
+	var h = 864;
+	var top = ((screen.height - h) / 2) - 1;
+	var left = ((screen.width - w) / 2) - 1;
+
+	var menuWin = window.open(url, '_blank', "top="+top+", left="+left+", scrollbars=yes, toolbar=no,directories=no,menubar=no,");
+}
+
+function goPrivacyLink(){
+	window.open("http://www.kma.go.kr/kma/guide/privacy.jsp", '_blank');
+	//window.open("http://172.20.171.147/kma/guide/privacy.jsp", '_blank');
+}
+</script><!-- End:Bottom Area -->
+		</div>
+		<!-- Start:login Area -->
+		<script>
+	$(document).ready(function () {
+		if (getCookie("loginId")) {
+			var cookieId = getCookie("loginId");
+
+			if(cookieId.indexOf('jsessionid') != -1){
+				cookieId = "";
+			}
+			$("#loginId").val(cookieId);
+			$("#saveId").prop('checked', true);
+		}
+
+		// 닫기 버튼
+		$("#loginPopCloseBtn").on('click', function(){
+			$("#loginPop").hide();
+			if(beforeFocus != null){
+				beforeFocus.focus();
+			}
+			
+		});
+
+		// 아이디/비번 찾기
+		$("#findIdPw").on('click', function(){
+			$("#aform").attr("method", "post");
+			$("#aform").attr("action", "/cmmn/selectMemberForgotInfo.do").submit();
+		});
+
+		// 회원가입
+		$("#joinMember").on('click', function(){
+			// $("#aform").attr("method", "post");
+			// $("#aform").attr("action", "/cmmn/selectMemberType.do").submit();
+			location.href="/cmmn/selectMemberAgree.do";
+		});
+
+
+		$("input[name=loginId], input[name=passwordNo]").on("keypress", function(e){
+
+			var kcode= (e.keyCode ? e.keyCode : e.which);
+			if (kcode == 13){
+				var eventElementId = $(this).attr('id');
+				fnLogin();
+			}
+			//return false;
+		});
+	});
+
+	function setCookie(name, value, expiredays) //쿠키 저장함수
+	{
+		var todayDate = new Date();
+		todayDate.setDate(todayDate.getDate() + expiredays);
+		document.cookie = name + "=" + escape(value) + "; path=/; expires="
+				+ todayDate.toGMTString() + ";";
+	}
+
+	function getCookie(Name) { // 쿠키 불러오는 함수
+		var search = Name + "=";
+		if (document.cookie.length > 0) { // if there are any cookies
+			offset = document.cookie.indexOf(search);
+			if (offset != -1) { // if cookie exists
+				offset += search.length; // set index of beginning of value
+				end = document.cookie.indexOf(";", offset); // set index of end of cookie value
+				if (end == -1)
+					end = document.cookie.length;
+				return unescape(document.cookie.substring(offset, end));
+			}
+		}
+	}
+
+	function fnLoginInit() {
+		$('#loginId').val('');
+		$('#passwordNo').val('');
+	}
+
+	function fnLogin() {
+
+		if ($('#loginId').val() == null || $('#loginId').val() == '') {
+			Message.alert('아이디를 입력해 주세요.');
+			return false;
+		} else if ($('#passwordNo').val() == null
+				|| $('#passwordNo').val() == '') {
+			Message.alert('비밀번호를 입력해 주세요.');
+			return false;
+		}
+
+		if ($("#saveId").is(":checked")) { // 아이디 저장을 체크 하였을때
+			setCookie("loginId", $('#loginId').val(), 7); //쿠키이름을 id로 아이디입력필드값을 7일동안 저장
+		} else { // 아이디 저장을 체크 하지 않았을때
+			setCookie("loginId", $('#loginId').val(), 0); //날짜를 0으로 저장하여 쿠키삭제
+		}
+
+		$.ajax({
+			type : "post",
+			url : "/login/loginAjax.do",
+			data: $("#aform").serialize(),
+			//crossDomain : true,
+			dataType : "json",
+			error : function() {
+				Message.alert("로그인중 오류가 발생하였습니다.");
+			},
+			success : function(data) {
+
+				if (data.msg == 'stand') {
+					Message.alert('승인되지 않은 회원입니다. 관리자에게 문의하세요');
+					//fnLoginInit();
+				} else if (data.msg == 'failLogin') {
+					Message.alert('로그인 실패하였습니다. 아이디와 비밀번호를 확인하세요.');
+					$(".msg").height("40px");
+					fnLoginInit();
+				} else if (data.msg == 'warnLogin') {
+					Message.alert('로그인실패 2회 초과시 5분간 로그인이 중지됩니다.');
+					fnLoginInit();
+				} else if (data.msg == 'warnLogin1') {
+					Message.alert('로그인실패 1회 초과시 5분간 로그인이 중지됩니다.');
+					fnLoginInit();
+				} else if (data.msg == 'warnLogin2') {
+					Message.alert('다음번 로그인실패시 5분간 로그인이 중지됩니다.');
+					fnLoginInit();
+				} else if (data.msg == 'lockLogin') {
+					Message.alert('5회 이상 로그인 실패로 로그인이 일시 중지되었습니다. 5분 후에 다시 접속하세요.');
+					$(".msg").height("40px");
+					fnLoginInit();
+				} else {
+
+					if(data.data.qscncYn == "Y"){ // 휴면계정인 사용자가 로그인 한 경우....
+						location.href = "/cmmn/quiescence.do";
+					}else if(data.data.reAgreeYn == "Y"){ // 재동의가 필요한 사용자인 경우...(가입 후 23개월이 지난 사용자)
+						location.href = "/cmmn/reagree.do";
+					// 2024-02-05 주경돈 주무관 요청 : 비밀번호 변경주기 체크 로직을 추가했었으나 요청에 의해 다시 주석 처리
+					//}else if(data.data.pwChgTgtYn == "Y"){ // 비밀번호 변경 주기가 3개월 넘겼을 경우
+					//	//location.href = "/member/updateMyInfo.do";
+					//	location.href = "/mypage/member/updatePassword.do?pgmNo=77&pwChgTgtYn=Y";
+					}else{
+						changeLayOut("Y");
+						$("#loginPop").hide();
+						isLogin = true;
+						$("#headerLogin").hide();
+						$("#headerJoin").hide();
+						$("#headerLogout").show();
+						$("#headerMypage").show();
+						$(".header_login_Y").hide();
+						$(".header_login_N").show();
+// 						!!서버적용시 주석제거
+// 						loginSessionChk();
+					}
+				}
+			}
+		});
+	}
+
+</script>
+	<!-- 로그인 팝업 -->
+	<div id="loginPop" class="wrap_layer">
+		<div class="layer" tabindex="0">
+			<div class="inr_layer">
+				<div class="hd_layer">
+					<h3 class="tit">로그인</h3>
+					<button id="loginPopCloseBtn" type="button" class="closeLayer"><i>닫기</i></button>
+				</div>
+				<div class="cont_layer">
+					<form name="aform" id="aform" method="post" onsubmit="return false;" action="/">
+						<div class="inr_frm">
+							<p class="desc">서비스 이용을 위하여 로그인이 필요합니다.</p>
+							<div class="box_frm">
+								<div class="row">
+									<label for="loginId" class="blind">이메일</label>
+									<input type="email" id="loginId" name="loginId" class="inp" placeholder="이메일">
+								</div>
+								<div class="row">
+									<label for="passwordNo" class="blind">비밀번호</label>
+									<input type="password" id="passwordNo" name="passwordNo" class="inp" placeholder="비밀번호">
+								</div>
+								<div class="wrap_chk">
+									<input type="checkbox" name="saveId" id="saveId" class="chk">
+									<label for="saveId">아이디 저장</label>
+								</div>
+								<button type="submit" name="loginbtn" class="btn_login" onclick="javascript:fnLogin(); return false;" id="loginbtn">로그인</button>
+							</div>
+						</div>
+						<div class="wrap_btns">
+							<a href="#" id="joinMember" class="btn">회원가입</a>
+							<a href="#" id="findIdPw" class="btn">아이디/비밀번호 찾기</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- //로그인 팝업 -->
+<!-- End:login Area -->
+		
+	
+</body>
+</html>

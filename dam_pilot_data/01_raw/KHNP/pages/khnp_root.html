@@ -1,0 +1,17 @@
+
+<script type="text/javascript">
+var type = navigator.appName;
+if(type="Netscape"){
+	var lang = navigator.language;  
+}else{
+	var lang = navigator.userLanguage;
+}
+
+var lang = lang.substr(0,2);
+if(lang == 'ko'){
+	location.href = "/main/index.do";
+}else{
+	location.href = "/eng/index.do";
+}
+    
+</script>

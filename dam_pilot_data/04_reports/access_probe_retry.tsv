@@ -1,0 +1,75 @@
+time_utc	source	url	attempt	http_code	bytes	content_type	error
+2026-09-29T11:29:00.654431Z	WAMIS	http://www.wamis.go.kr/	1	503	114	text/plain	
+2026-09-29T11:29:15.912303Z	WAMIS	http://www.wamis.go.kr/	2	503	114	text/plain	
+2026-09-29T11:29:31.508918Z	WAMIS	http://www.wamis.go.kr/	3	503	114	text/plain	
+2026-09-29T11:29:47.143963Z	WAMIS	http://www.wamis.go.kr/	4	503	114	text/plain	
+2026-09-29T11:29:00.655429Z	WAMIS	http://www.wamis.go.kr:80/ssd_dam_lst.aspx	1	503	114	text/plain	
+2026-09-29T11:29:16.825903Z	WAMIS	http://www.wamis.go.kr:80/ssd_dam_lst.aspx	2	503	114	text/plain	
+2026-09-29T11:29:32.779139Z	WAMIS	http://www.wamis.go.kr:80/ssd_dam_lst.aspx	3	503	114	text/plain	
+2026-09-29T11:29:47.819983Z	WAMIS	http://www.wamis.go.kr:80/ssd_dam_lst.aspx	4	503	114	text/plain	
+2026-09-29T11:29:00.655986Z	WAMIS	https://wamis.go.kr/	1	000	0		curl: (56) CONNECT tunnel failed, response 403
+2026-09-29T11:29:00.962513Z	WAMIS	https://wamis.go.kr/	2	000	0		curl: (56) CONNECT tunnel failed, response 403
+2026-09-29T11:29:01.301190Z	WAMIS	https://wamis.go.kr/	3	000	0		curl: (56) CONNECT tunnel failed, response 403
+2026-09-29T11:29:01.607029Z	WAMIS	https://wamis.go.kr/	4	000	0		curl: (56) CONNECT tunnel failed, response 403
+2026-09-29T11:29:00.658371Z	HRFCO	https://www.hrfco.go.kr/	1	000	0		curl: (35) Recv failure: Connection reset by peer
+2026-09-29T11:29:13.272773Z	HRFCO	https://www.hrfco.go.kr/	2	000	0		curl: (35) Recv failure: Connection reset by peer
+2026-09-29T11:29:26.059763Z	HRFCO	https://www.hrfco.go.kr/	3	000	0		curl: (35) Recv failure: Connection reset by peer
+2026-09-29T11:29:38.699002Z	HRFCO	https://www.hrfco.go.kr/	4	000	0		curl: (35) Recv failure: Connection reset by peer
+2026-09-29T11:29:00.661027Z	HRFCO	http://www.hrfco.go.kr/	1	503	114	text/plain	
+2026-09-29T11:29:16.912960Z	HRFCO	http://www.hrfco.go.kr/	2	503	114	text/plain	
+2026-09-29T11:29:33.446981Z	HRFCO	http://www.hrfco.go.kr/	3	503	114	text/plain	
+2026-09-29T11:29:50.017843Z	HRFCO	http://www.hrfco.go.kr/	4	503	114	text/plain	
+2026-09-29T11:29:00.662492Z	HRFCO	https://api.hrfco.go.kr/	1	000	0		curl: (35) Recv failure: Connection reset by peer
+2026-09-29T11:29:13.012758Z	HRFCO	https://api.hrfco.go.kr/	2	000	0		curl: (35) Recv failure: Connection reset by peer
+2026-09-29T11:29:25.420009Z	HRFCO	https://api.hrfco.go.kr/	3	000	0		curl: (35) Recv failure: Connection reset by peer
+2026-09-29T11:29:37.689800Z	HRFCO	https://api.hrfco.go.kr/	4	000	0		curl: (35) Recv failure: Connection reset by peer
+2026-09-29T11:29:01.877410Z	HRFCO	http://api.hrfco.go.kr/	1	503	114	text/plain	
+2026-09-29T11:29:17.571296Z	HRFCO	http://api.hrfco.go.kr/	2	503	114	text/plain	
+2026-09-29T11:29:32.973910Z	HRFCO	http://api.hrfco.go.kr/	3	503	114	text/plain	
+2026-09-29T11:29:48.671944Z	HRFCO	http://api.hrfco.go.kr/	4	503	48	text/plain	
+2026-09-29T11:29:49.865067Z	HRFCO	https://hrfco.go.kr/	1	000	0		curl: (56) CONNECT tunnel failed, response 403
+2026-09-29T11:29:50.164030Z	HRFCO	https://hrfco.go.kr/	2	000	0		curl: (56) CONNECT tunnel failed, response 403
+2026-09-29T11:29:50.460361Z	HRFCO	https://hrfco.go.kr/	3	000	0		curl: (56) CONNECT tunnel failed, response 403
+2026-09-29T11:29:50.739475Z	HRFCO	https://hrfco.go.kr/	4	000	0		curl: (56) CONNECT tunnel failed, response 403
+2026-09-29T11:29:49.893522Z	DATAGO	https://www.data.go.kr/	1	000	0		curl: (35) Recv failure: Connection reset by peer
+2026-09-29T11:30:01.230914Z	DATAGO	https://www.data.go.kr/	2	000	0		curl: (35) Recv failure: Connection reset by peer
+2026-09-29T11:30:12.585098Z	DATAGO	https://www.data.go.kr/	3	200	166670	text/html;charset=UTF-8	
+2026-09-29T11:29:50.049660Z	DATAGO	https://apis.data.go.kr/	1	400	292	application/xml	
+2026-09-29T11:29:51.031259Z	DATAGO	https://www.data.go.kr/data/15000000/openapi.do	1	000	0		curl: (35) Recv failure: Connection reset by peer
+2026-09-29T11:30:02.617237Z	DATAGO	https://www.data.go.kr/data/15000000/openapi.do	2	000	0		curl: (35) Recv failure: Connection reset by peer
+2026-09-29T11:30:14.393384Z	DATAGO	https://www.data.go.kr/data/15000000/openapi.do	3	404	2682	text/html;charset=UTF-8	
+2026-09-29T11:29:51.103843Z	KHNP	https://www.khnp.co.kr/main/contents.do?key=1189	1	200	1738	text/html	
+2026-09-29T11:29:52.837070Z	KWATER	https://www.kwater.or.kr/main.do?s_mid=1	1	200	124318	text/html; charset=UTF-8	
+2026-09-29T11:29:55.523354Z	KWATER	https://www.water.or.kr/	1	200	237525	text/html; charset=UTF-8	
+2026-09-29T11:29:59.032347Z	KWATER	https://www.water.or.kr/realtime/sub01/damStatus.do	1	404	2260	text/html; charset=utf-8	
+2026-09-29T11:30:00.552102Z	KMA	https://data.kma.go.kr/	1	200	508	text/html;charset=UTF-8	
+2026-09-29T11:30:02.112089Z	KMA	https://apihub.kma.go.kr/	1	000	0		curl: (56) CONNECT tunnel failed, response 403
+2026-09-29T11:30:02.400345Z	KMA	https://apihub.kma.go.kr/	2	000	0		curl: (56) CONNECT tunnel failed, response 403
+2026-09-29T11:30:02.448098Z	KMA	https://apihub.kma.go.kr/	3	000	0		curl: (56) CONNECT tunnel failed, response 403
+2026-09-29T11:30:02.743261Z	KMA	https://apihub.kma.go.kr/	4	000	0		curl: (56) CONNECT tunnel failed, response 403
+2026-09-29T11:30:02.411546Z	KMA	https://www.kma.go.kr/	1	000	0		curl: (56) CONNECT tunnel failed, response 403
+2026-09-29T11:30:02.717873Z	KMA	https://www.kma.go.kr/	2	000	0		curl: (56) CONNECT tunnel failed, response 403
+2026-09-29T11:30:03.000543Z	KMA	https://www.kma.go.kr/	3	000	0		curl: (56) CONNECT tunnel failed, response 403
+2026-09-29T11:30:03.295797Z	KMA	https://www.kma.go.kr/	4	000	0		curl: (56) CONNECT tunnel failed, response 403
+2026-09-29T11:30:02.888601Z	KMA	https://api.data.go.kr/	1	000	0		curl: (56) CONNECT tunnel failed, response 403
+2026-09-29T11:30:03.166605Z	KMA	https://api.data.go.kr/	2	000	0		curl: (56) CONNECT tunnel failed, response 403
+2026-09-29T11:30:03.494515Z	KMA	https://api.data.go.kr/	3	000	0		curl: (56) CONNECT tunnel failed, response 403
+2026-09-29T11:30:03.794739Z	KMA	https://api.data.go.kr/	4	000	0		curl: (56) CONNECT tunnel failed, response 403
+2026-09-29T11:30:03.027846Z	LAW	https://www.law.go.kr/	1	000	0		curl: (35) Recv failure: Connection reset by peer
+2026-09-29T11:30:14.402611Z	LAW	https://www.law.go.kr/	2	000	0		curl: (35) Recv failure: Connection reset by peer
+2026-09-29T11:30:25.683106Z	LAW	https://www.law.go.kr/	3	000	0		curl: (35) Recv failure: Connection reset by peer
+2026-09-29T11:30:37.052546Z	LAW	https://www.law.go.kr/	4	200	261	text/html; charset=UTF-8	
+2026-09-29T11:30:03.577283Z	LAW	http://www.law.go.kr/	1	200	261	text/html; charset=UTF-8	
+2026-09-29T11:30:04.076443Z	LAW	https://open.law.go.kr/	1	000	0		curl: (56) CONNECT tunnel failed, response 403
+2026-09-29T11:30:04.354478Z	LAW	https://open.law.go.kr/	2	000	0		curl: (56) CONNECT tunnel failed, response 403
+2026-09-29T11:30:04.619116Z	LAW	https://open.law.go.kr/	3	000	0		curl: (56) CONNECT tunnel failed, response 403
+2026-09-29T11:30:04.906647Z	LAW	https://open.law.go.kr/	4	000	0		curl: (56) CONNECT tunnel failed, response 403
+2026-09-29T11:30:05.064655Z	LAW	http://www.law.go.kr/DRF/lawSearch.do?OC=test&target=law&type=XML&query=%EB%8C%90	1	200	9621	text/xml;charset=UTF-8	
+2026-09-29T11:30:05.277065Z	ME	https://www.me.go.kr/	1	000	0		curl: (56) CONNECT tunnel failed, response 403
+2026-09-29T11:30:05.585298Z	ME	https://www.me.go.kr/	2	000	0		curl: (56) CONNECT tunnel failed, response 403
+2026-09-29T11:30:05.851995Z	ME	https://www.me.go.kr/	3	000	0		curl: (56) CONNECT tunnel failed, response 403
+2026-09-29T11:30:06.153951Z	ME	https://www.me.go.kr/	4	000	0		curl: (56) CONNECT tunnel failed, response 403
+2026-09-29T11:30:05.484221Z	ME	https://www.mois.go.kr/	1	000	0		curl: (56) CONNECT tunnel failed, response 403
+2026-09-29T11:30:05.795940Z	ME	https://www.mois.go.kr/	2	000	0		curl: (56) CONNECT tunnel failed, response 403
+2026-09-29T11:30:06.071908Z	ME	https://www.mois.go.kr/	3	000	0		curl: (56) CONNECT tunnel failed, response 403
+2026-09-29T11:30:06.355466Z	ME	https://www.mois.go.kr/	4	000	0		curl: (56) CONNECT tunnel failed, response 403
