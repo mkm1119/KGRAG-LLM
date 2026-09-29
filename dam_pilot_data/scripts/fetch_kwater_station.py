@@ -50,3 +50,16 @@ def rain():
                 do({"mode":"getRain","damCd":d,"param1":kind,"rainJobGb":"H","rainStartDate":a,"rainEndDate":b},f"{R}/rain/{kind}/{d}/{a}_{b}.json")
 if __name__=="__main__":
     for step in sys.argv[1:]: globals()[step](); print("DONE",step,flush=True)
+
+# --- extra: remaining K-water 한강유역본부 facilities (per https://www.kwater.or.kr/busi/sub02/facilitiespresentPage.do?s_mid=1515)
+EXTRA={"1302210":"달방댐","1003801":"단양수중보"}
+def extra():
+    for d in EXTRA:
+        for gb in ("1","2","3"):
+            do({"mode":"getBasic","damCd":d,"damGb":gb},f"{R}/basic/{d}_damGb{gb}.json")
+        for res in ("D","H"):
+            for a,b in windows(START,END,SPAN[res]):
+                do({"mode":"getHydr","damCd":d,"param1":res,"startDate":a,"endDate":b,"page":""},f"{R}/hydr/{res}/{d}/{a}_{b}.json")
+        for kind in ("A","C"):
+            for a,b in windows(START,END,SPAN["H"]):
+                do({"mode":"getRain","damCd":d,"param1":kind,"rainJobGb":"H","rainStartDate":a,"rainEndDate":b},f"{R}/rain/{kind}/{d}/{a}_{b}.json")
