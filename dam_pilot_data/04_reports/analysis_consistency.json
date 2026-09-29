@@ -1,0 +1,117 @@
+{
+ "storage_rate_vs_storage_over_total_capacity": {
+  "1001210": {
+   "n": 2097,
+   "median_abs_diff_pct_points": 0.003,
+   "max_abs_diff": 3.615
+  },
+  "1003110": {
+   "n": 2097,
+   "median_abs_diff_pct_points": 0.003,
+   "max_abs_diff": 0.005
+  },
+  "1003611": {
+   "n": 2097,
+   "median_abs_diff_pct_points": 43.3,
+   "max_abs_diff": 48.397
+  },
+  "1006110": {
+   "n": 2097,
+   "median_abs_diff_pct_points": 0.003,
+   "max_abs_diff": 0.055
+  },
+  "1009710": {
+   "n": 2096,
+   "median_abs_diff_pct_points": 0.003,
+   "max_abs_diff": 0.055
+  },
+  "1012110": {
+   "n": 2097,
+   "median_abs_diff_pct_points": 0.003,
+   "max_abs_diff": 0.055
+  },
+  "1021701": {
+   "n": 2097,
+   "median_abs_diff_pct_points": 0.003,
+   "max_abs_diff": 0.054
+  },
+  "1022701": {
+   "n": 2097,
+   "median_abs_diff_pct_points": 0.003,
+   "max_abs_diff": 0.05
+  }
+ },
+ "period_vs_hydr_daily_equal": {
+  "DATA1:True": 4290,
+  "DATA4:False": 7521,
+  "DATA6:False": 7546,
+  "DATA1:False": 4098,
+  "DATA6:True": 842,
+  "DATA4:True": 867
+ },
+ "period_vs_hydr_daily_mismatch_examples": [
+  [
+   [
+    "1003110",
+    "20211231",
+    "DATA4"
+   ],
+   "17.19",
+   "17.185"
+  ],
+  [
+   [
+    "1003110",
+    "20211231",
+    "DATA6"
+   ],
+   "85.72",
+   "85.717"
+  ],
+  [
+   [
+    "1003110",
+    "20211230",
+    "DATA1"
+   ],
+   "131.63",
+   "131.625"
+  ],
+  [
+   [
+    "1003110",
+    "20211230",
+    "DATA4"
+   ],
+   "23.34",
+   "23.335"
+  ],
+  [
+   [
+    "1003110",
+    "20211230",
+    "DATA6"
+   ],
+   "85.47",
+   "85.466"
+  ]
+ ],
+ "hourly_alignment_충주댐총방류량_vs_충주조정지유입량": {
+  "n_a": 50328,
+  "n_b": 50328,
+  "timestamps_with_both_present": 50328
+ },
+ "hourly_range_충주댐": [
+  "2020-12-31 24",
+  "2026-09-28 23"
+ ],
+ "hourly_absent_key_by_facility": {
+  "소양강댐": "1/301968",
+  "충주조정지": "1/301968",
+  "횡성댐": "1/301968",
+  "광동댐": "1/284040",
+  "강천보": "1/2161",
+  "단양수중보": "1/2161",
+  "이포보": "1/2161"
+ }
+}

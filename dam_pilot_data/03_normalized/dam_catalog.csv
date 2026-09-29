@@ -1,0 +1,19 @@
+﻿dam_id_source,dam_name_source,operator_evidence,organization,id_system,river_label_in_source(하천 그룹 표기; 검증된 수계 아님),별표1_한강수계_목록_여부,latitude,longitude,note
+1001210,광동댐,K-water (MyWater/K-water 페이지 게재; 한강유역본부 12개 시설 목록 중 해당),한국수자원공사,MyWater ID(DAM_CD),한강,별표1 한강수계 목록에 있음,,,MyWater getBasic 원본: dam_basic_raw_all_damGb.csv / 필드: dam_catalog_kwater_basic.csv
+1003110,충주댐,K-water (MyWater/K-water 페이지 게재; 한강유역본부 12개 시설 목록 중 해당),한국수자원공사,MyWater ID(DAM_CD),한강,별표1 한강수계 목록에 있음,,,MyWater getBasic 원본: dam_basic_raw_all_damGb.csv / 필드: dam_catalog_kwater_basic.csv
+1003611,충주조정지,K-water (MyWater/K-water 페이지 게재; 한강유역본부 12개 시설 목록 중 해당),한국수자원공사,MyWater ID(DAM_CD),한강,별표1: '충주댐(조정지댐포함)'로 기재 — 충주조정지와의 동일시설 여부 REVIEW_REQUIRED,,,MyWater getBasic 원본: dam_basic_raw_all_damGb.csv / 필드: dam_catalog_kwater_basic.csv
+1006110,횡성댐,K-water (MyWater/K-water 페이지 게재; 한강유역본부 12개 시설 목록 중 해당),한국수자원공사,MyWater ID(DAM_CD),한강,별표1 한강수계 목록에 있음,,,MyWater getBasic 원본: dam_basic_raw_all_damGb.csv / 필드: dam_catalog_kwater_basic.csv
+1007601,강천보,K-water (MyWater/K-water 페이지 게재; 한강유역본부 12개 시설 목록 중 해당),한국수자원공사,MyWater ID(DAM_CD),한강,별표1 한강수계 목록에 있음,,,MyWater getBasic 원본: dam_basic_raw_all_damGb.csv / 필드: dam_catalog_kwater_basic.csv
+1007602,여주보,K-water (MyWater/K-water 페이지 게재; 한강유역본부 12개 시설 목록 중 해당),한국수자원공사,MyWater ID(DAM_CD),한강,별표1 한강수계 목록에 있음,,,MyWater getBasic 원본: dam_basic_raw_all_damGb.csv / 필드: dam_catalog_kwater_basic.csv
+1007603,이포보,K-water (MyWater/K-water 페이지 게재; 한강유역본부 12개 시설 목록 중 해당),한국수자원공사,MyWater ID(DAM_CD),한강,별표1 한강수계 목록에 있음,,,MyWater getBasic 원본: dam_basic_raw_all_damGb.csv / 필드: dam_catalog_kwater_basic.csv
+1009710,평화의댐,K-water (MyWater/K-water 페이지 게재; 한강유역본부 12개 시설 목록 중 해당),한국수자원공사,MyWater ID(DAM_CD),,별표1 한강수계 목록에 있음,,,MyWater getBasic 원본: dam_basic_raw_all_damGb.csv / 필드: dam_catalog_kwater_basic.csv
+1012110,소양강댐,K-water (MyWater/K-water 페이지 게재; 한강유역본부 12개 시설 목록 중 해당),한국수자원공사,MyWater ID(DAM_CD),한강,별표1 한강수계 목록에 있음,,,MyWater getBasic 원본: dam_basic_raw_all_damGb.csv / 필드: dam_catalog_kwater_basic.csv
+1021701,군남댐,K-water (MyWater/K-water 페이지 게재; 한강유역본부 12개 시설 목록 중 해당),한국수자원공사,MyWater ID(DAM_CD),,별표1 한강수계 목록에 있음,,,MyWater getBasic 원본: dam_basic_raw_all_damGb.csv / 필드: dam_catalog_kwater_basic.csv
+1022701,한탄강댐,K-water (MyWater/K-water 페이지 게재; 한강유역본부 12개 시설 목록 중 해당),한국수자원공사,MyWater ID(DAM_CD),,별표1 한강수계 목록에 있음,,,MyWater getBasic 원본: dam_basic_raw_all_damGb.csv / 필드: dam_catalog_kwater_basic.csv
+,화천댐,KHNP 수력 실시간정보 페이지에 발전소명으로 게재,한국수력원자력,(공식 ID 미확보),,별표1 한강수계 수력발전댐 목록에 있음,,,현재/전일 수문값만 스냅샷(01_raw/KHNP/pages/khnp_realtime_water.html); 과거 시계열·제원 미확보
+,춘천댐,KHNP 수력 실시간정보 페이지에 발전소명으로 게재,한국수력원자력,(공식 ID 미확보),,별표1 한강수계 수력발전댐 목록에 있음,,,현재/전일 수문값만 스냅샷(01_raw/KHNP/pages/khnp_realtime_water.html); 과거 시계열·제원 미확보
+,의암댐,KHNP 수력 실시간정보 페이지에 발전소명으로 게재,한국수력원자력,(공식 ID 미확보),,별표1 한강수계 수력발전댐 목록에 있음,,,현재/전일 수문값만 스냅샷(01_raw/KHNP/pages/khnp_realtime_water.html); 과거 시계열·제원 미확보
+,청평댐,KHNP 수력 실시간정보 페이지에 발전소명으로 게재,한국수력원자력,(공식 ID 미확보),,별표1 한강수계 수력발전댐 목록에 있음,,,현재/전일 수문값만 스냅샷(01_raw/KHNP/pages/khnp_realtime_water.html); 과거 시계열·제원 미확보
+,팔당댐,KHNP 수력 실시간정보 페이지에 발전소명으로 게재,한국수력원자력,(공식 ID 미확보),,별표1 한강수계 수력발전댐 목록에 있음,,,현재/전일 수문값만 스냅샷(01_raw/KHNP/pages/khnp_realtime_water.html); 과거 시계열·제원 미확보
+,괴산댐,KHNP 수력 실시간정보 페이지에 발전소명으로 게재,한국수력원자력,(공식 ID 미확보),,별표1 한강수계 수력발전댐 목록에 있음,,,현재/전일 수문값만 스냅샷(01_raw/KHNP/pages/khnp_realtime_water.html); 과거 시계열·제원 미확보
+,도암댐,KHNP 수력 실시간정보 페이지에 발전소명으로 게재,한국수력원자력,(공식 ID 미확보),,별표1 한강수계 수력발전댐 목록에 있음,,,현재/전일 수문값만 스냅샷(01_raw/KHNP/pages/khnp_realtime_water.html); 과거 시계열·제원 미확보

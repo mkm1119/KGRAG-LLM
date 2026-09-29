@@ -1,0 +1,72 @@
+﻿dataset_id(연구용 임시ID),source,temporal_resolution,group_or_kind,variable(s),facility,start_requested,end_requested,n_raw_files,raw_dirs,status_note
+DS-P001,K-water MyWater,daily,group1,DATA1=저수위,group내 전 시설 응답(damList) 원본 보존,2021-01-01,2026-09-28,6,01_raw/KWater/mywater_period/D1/group1/DATA1,
+DS-P002,K-water MyWater,daily,group1,DATA2=저수량,group내 전 시설 응답(damList) 원본 보존,2021-01-01,2026-09-28,6,01_raw/KWater/mywater_period/D1/group1/DATA2,
+DS-P003,K-water MyWater,daily,group1,DATA3=강우량,group내 전 시설 응답(damList) 원본 보존,2021-01-01,2026-09-28,6,01_raw/KWater/mywater_period/D1/group1/DATA3,
+DS-P004,K-water MyWater,daily,group1,DATA4=유입량,group내 전 시설 응답(damList) 원본 보존,2021-01-01,2026-09-28,6,01_raw/KWater/mywater_period/D1/group1/DATA4,
+DS-P005,K-water MyWater,daily,group1,DATA5=자체유입량,group내 전 시설 응답(damList) 원본 보존,2021-01-01,2026-09-28,6,01_raw/KWater/mywater_period/D1/group1/DATA5,
+DS-P006,K-water MyWater,daily,group1,DATA6=총방류량,group내 전 시설 응답(damList) 원본 보존,2021-01-01,2026-09-28,6,01_raw/KWater/mywater_period/D1/group1/DATA6,
+DS-P007,K-water MyWater,daily,group2,DATA1=저수위,group내 전 시설 응답(damList) 원본 보존,2021-01-01,2026-09-28,6,01_raw/KWater/mywater_period/D1/group2/DATA1,
+DS-P008,K-water MyWater,daily,group2,DATA2=저수량,group내 전 시설 응답(damList) 원본 보존,2021-01-01,2026-09-28,6,01_raw/KWater/mywater_period/D1/group2/DATA2,
+DS-P009,K-water MyWater,daily,group2,DATA3=강우량,group내 전 시설 응답(damList) 원본 보존,2021-01-01,2026-09-28,6,01_raw/KWater/mywater_period/D1/group2/DATA3,
+DS-P010,K-water MyWater,daily,group2,DATA4=유입량,group내 전 시설 응답(damList) 원본 보존,2021-01-01,2026-09-28,6,01_raw/KWater/mywater_period/D1/group2/DATA4,
+DS-P011,K-water MyWater,daily,group2,DATA5=자체유입량,group내 전 시설 응답(damList) 원본 보존,2021-01-01,2026-09-28,6,01_raw/KWater/mywater_period/D1/group2/DATA5,
+DS-P012,K-water MyWater,daily,group2,DATA6=총방류량,group내 전 시설 응답(damList) 원본 보존,2021-01-01,2026-09-28,6,01_raw/KWater/mywater_period/D1/group2/DATA6,
+DS-P013,K-water MyWater,daily,group3,DATA1=저수위,group내 전 시설 응답(damList) 원본 보존,2021-01-01,2026-09-28,6,01_raw/KWater/mywater_period/D1/group3/DATA1,
+DS-P014,K-water MyWater,daily,group3,DATA2=저수량,group내 전 시설 응답(damList) 원본 보존,2021-01-01,2026-09-28,6,01_raw/KWater/mywater_period/D1/group3/DATA2,
+DS-P015,K-water MyWater,daily,group3,DATA3=강우량,group내 전 시설 응답(damList) 원본 보존,2021-01-01,2026-09-28,6,01_raw/KWater/mywater_period/D1/group3/DATA3,
+DS-P016,K-water MyWater,daily,group3,DATA4=유입량,group내 전 시설 응답(damList) 원본 보존,2021-01-01,2026-09-28,6,01_raw/KWater/mywater_period/D1/group3/DATA4,
+DS-P017,K-water MyWater,daily,group3,DATA5=자체유입량,group내 전 시설 응답(damList) 원본 보존,2021-01-01,2026-09-28,6,01_raw/KWater/mywater_period/D1/group3/DATA5,
+DS-P018,K-water MyWater,daily,group3,DATA6=총방류량,group내 전 시설 응답(damList) 원본 보존,2021-01-01,2026-09-28,6,01_raw/KWater/mywater_period/D1/group3/DATA6,
+DS-P019,K-water MyWater,hourly,group1,DATA1=저수위,group내 전 시설 응답(damList) 원본 보존,2021-01-01,2026-09-28,70,01_raw/KWater/mywater_period/H1/group1/DATA1,
+DS-P020,K-water MyWater,hourly,group1,DATA2=저수량,group내 전 시설 응답(damList) 원본 보존,2021-01-01,2026-09-28,70,01_raw/KWater/mywater_period/H1/group1/DATA2,
+DS-P021,K-water MyWater,hourly,group1,DATA3=강우량,group내 전 시설 응답(damList) 원본 보존,2021-01-01,2026-09-28,70,01_raw/KWater/mywater_period/H1/group1/DATA3,
+DS-P022,K-water MyWater,hourly,group1,DATA4=유입량,group내 전 시설 응답(damList) 원본 보존,2021-01-01,2026-09-28,70,01_raw/KWater/mywater_period/H1/group1/DATA4,
+DS-P023,K-water MyWater,hourly,group1,DATA5=자체유입량,group내 전 시설 응답(damList) 원본 보존,2021-01-01,2026-09-28,70,01_raw/KWater/mywater_period/H1/group1/DATA5,
+DS-P024,K-water MyWater,hourly,group1,DATA6=총방류량,group내 전 시설 응답(damList) 원본 보존,2021-01-01,2026-09-28,70,01_raw/KWater/mywater_period/H1/group1/DATA6,
+DS-P025,K-water MyWater,hourly,group2,DATA1=저수위,group내 전 시설 응답(damList) 원본 보존,2021-01-01,2026-09-28,70,01_raw/KWater/mywater_period/H1/group2/DATA1,
+DS-P026,K-water MyWater,hourly,group2,DATA2=저수량,group내 전 시설 응답(damList) 원본 보존,2021-01-01,2026-09-28,70,01_raw/KWater/mywater_period/H1/group2/DATA2,
+DS-P027,K-water MyWater,hourly,group2,DATA3=강우량,group내 전 시설 응답(damList) 원본 보존,2021-01-01,2026-09-28,70,01_raw/KWater/mywater_period/H1/group2/DATA3,
+DS-P028,K-water MyWater,hourly,group2,DATA4=유입량,group내 전 시설 응답(damList) 원본 보존,2021-01-01,2026-09-28,70,01_raw/KWater/mywater_period/H1/group2/DATA4,
+DS-P029,K-water MyWater,hourly,group2,DATA5=자체유입량,group내 전 시설 응답(damList) 원본 보존,2021-01-01,2026-09-28,70,01_raw/KWater/mywater_period/H1/group2/DATA5,
+DS-P030,K-water MyWater,hourly,group2,DATA6=총방류량,group내 전 시설 응답(damList) 원본 보존,2021-01-01,2024-09-11,45,01_raw/KWater/mywater_period/H1/group2/DATA6,
+DS-P031,K-water MyWater,hourly,group3,DATA1=저수위,group내 전 시설 응답(damList) 원본 보존,2021-01-01,2021-03-31,3,01_raw/KWater/mywater_period/H1/group3/DATA1,INCOMPLETE: 사용자 지시로 수집 중단
+DS-P032,K-water MyWater,10min,group1,DATA1=저수위,group내 전 시설 응답(damList) 원본 보존,2021-06-21,2025-09-30,75,01_raw/KWater/mywater_period/M1/group1/DATA1,
+DS-P033,K-water MyWater,10min,group1,DATA2=저수량,group내 전 시설 응답(damList) 원본 보존,2021-06-21,2025-09-30,75,01_raw/KWater/mywater_period/M1/group1/DATA2,
+DS-P034,K-water MyWater,10min,group1,DATA3=강우량,group내 전 시설 응답(damList) 원본 보존,2021-06-21,2025-09-30,75,01_raw/KWater/mywater_period/M1/group1/DATA3,
+DS-P035,K-water MyWater,10min,group1,DATA4=유입량,group내 전 시설 응답(damList) 원본 보존,2021-06-21,2025-09-30,75,01_raw/KWater/mywater_period/M1/group1/DATA4,
+DS-P036,K-water MyWater,10min,group1,DATA5=자체유입량,group내 전 시설 응답(damList) 원본 보존,2021-06-21,2025-09-30,75,01_raw/KWater/mywater_period/M1/group1/DATA5,
+DS-P037,K-water MyWater,10min,group1,DATA6=총방류량,group내 전 시설 응답(damList) 원본 보존,2021-06-21,2025-09-30,75,01_raw/KWater/mywater_period/M1/group1/DATA6,
+DS-S038,K-water MyWater,daily,hydr-D,getHydr DATA1-7,1001210 광동댐,2021-01-01,2026-09-28,6,01_raw/KWater/mywater_station/hydr/D/1001210,
+DS-S039,K-water MyWater,daily,hydr-D,getHydr DATA1-7,1003110 충주댐,2021-01-01,2026-09-28,6,01_raw/KWater/mywater_station/hydr/D/1003110,
+DS-S040,K-water MyWater,daily,hydr-D,getHydr DATA1-7,1003611 충주조정지,2021-01-01,2026-09-28,6,01_raw/KWater/mywater_station/hydr/D/1003611,
+DS-S041,K-water MyWater,daily,hydr-D,getHydr DATA1-7,1006110 횡성댐,2021-01-01,2026-09-28,6,01_raw/KWater/mywater_station/hydr/D/1006110,
+DS-S042,K-water MyWater,daily,hydr-D,getHydr DATA1-7,1007601 강천보,2021-01-01,2026-09-28,6,01_raw/KWater/mywater_station/hydr/D/1007601,
+DS-S043,K-water MyWater,daily,hydr-D,getHydr DATA1-7,1007602 여주보,2021-01-01,2026-09-28,6,01_raw/KWater/mywater_station/hydr/D/1007602,
+DS-S044,K-water MyWater,daily,hydr-D,getHydr DATA1-7,1007603 이포보,2021-01-01,2026-09-28,6,01_raw/KWater/mywater_station/hydr/D/1007603,
+DS-S045,K-water MyWater,daily,hydr-D,getHydr DATA1-7,1009710 평화의댐,2021-01-01,2026-09-28,6,01_raw/KWater/mywater_station/hydr/D/1009710,
+DS-S046,K-water MyWater,daily,hydr-D,getHydr DATA1-7,1012110 소양강댐,2021-01-01,2026-09-28,6,01_raw/KWater/mywater_station/hydr/D/1012110,
+DS-S047,K-water MyWater,daily,hydr-D,getHydr DATA1-7,1021701 군남댐,2021-01-01,2026-09-28,6,01_raw/KWater/mywater_station/hydr/D/1021701,
+DS-S048,K-water MyWater,daily,hydr-D,getHydr DATA1-7,1022701 한탄강댐,2021-01-01,2026-09-28,6,01_raw/KWater/mywater_station/hydr/D/1022701,
+DS-S049,K-water MyWater,hourly,hydr-H,getHydr DATA1-7,1001210 광동댐,2021-01-01,2026-09-28,70,01_raw/KWater/mywater_station/hydr/H/1001210,
+DS-S050,K-water MyWater,hourly,hydr-H,getHydr DATA1-7,1003110 충주댐,2021-01-01,2026-09-28,70,01_raw/KWater/mywater_station/hydr/H/1003110,
+DS-S051,K-water MyWater,hourly,hydr-H,getHydr DATA1-7,1003611 충주조정지,2021-01-01,2026-09-28,70,01_raw/KWater/mywater_station/hydr/H/1003611,
+DS-S052,K-water MyWater,hourly,hydr-H,getHydr DATA1-7,1006110 횡성댐,2021-01-01,2026-09-28,70,01_raw/KWater/mywater_station/hydr/H/1006110,
+DS-S053,K-water MyWater,hourly,hydr-H,getHydr DATA1-7,1007601 강천보,2021-01-01,2026-09-28,70,01_raw/KWater/mywater_station/hydr/H/1007601,
+DS-S054,K-water MyWater,hourly,hydr-H,getHydr DATA1-7,1007602 여주보,2021-01-01,2026-09-28,70,01_raw/KWater/mywater_station/hydr/H/1007602,
+DS-S055,K-water MyWater,hourly,hydr-H,getHydr DATA1-7,1007603 이포보,2021-01-01,2026-09-28,70,01_raw/KWater/mywater_station/hydr/H/1007603,
+DS-S056,K-water MyWater,hourly,hydr-H,getHydr DATA1-7,1009710 평화의댐,2021-01-01,2026-09-28,70,01_raw/KWater/mywater_station/hydr/H/1009710,
+DS-S057,K-water MyWater,hourly,hydr-H,getHydr DATA1-7,1012110 소양강댐,2021-01-01,2026-09-28,70,01_raw/KWater/mywater_station/hydr/H/1012110,
+DS-S058,K-water MyWater,hourly,hydr-H,getHydr DATA1-7,1021701 군남댐,2021-01-01,2026-09-28,70,01_raw/KWater/mywater_station/hydr/H/1021701,
+DS-S059,K-water MyWater,hourly,hydr-H,getHydr DATA1-7,1022701 한탄강댐,2021-01-01,2026-09-28,70,01_raw/KWater/mywater_station/hydr/H/1022701,
+DS-S060,K-water MyWater,window-end snapshot (param rainJobGb=H),rain-A,getRain,1001210 광동댐,2021-01-01,2026-09-28,70,01_raw/KWater/mywater_station/rain/A/1001210,NOT A TIME SERIES: getRain returned one record per station per request window (SDATE=end date+'24'); per-station series needs getRainTrend (not collected)
+DS-S061,K-water MyWater,window-end snapshot (param rainJobGb=H),rain-A,getRain,1003110 충주댐,2021-01-01,2026-09-28,70,01_raw/KWater/mywater_station/rain/A/1003110,NOT A TIME SERIES: getRain returned one record per station per request window (SDATE=end date+'24'); per-station series needs getRainTrend (not collected)
+DS-S062,K-water MyWater,window-end snapshot (param rainJobGb=H),rain-A,getRain,1003611 충주조정지,2021-01-01,2026-09-28,70,01_raw/KWater/mywater_station/rain/A/1003611,NOT A TIME SERIES: getRain returned one record per station per request window (SDATE=end date+'24'); per-station series needs getRainTrend (not collected)
+DS-S063,K-water MyWater,window-end snapshot (param rainJobGb=H),rain-A,getRain,1006110 횡성댐,2021-01-01,2026-09-28,70,01_raw/KWater/mywater_station/rain/A/1006110,NOT A TIME SERIES: getRain returned one record per station per request window (SDATE=end date+'24'); per-station series needs getRainTrend (not collected)
+DS-S064,K-water MyWater,window-end snapshot (param rainJobGb=H),rain-A,getRain,1009710 평화의댐,2021-01-01,2026-09-28,70,01_raw/KWater/mywater_station/rain/A/1009710,NOT A TIME SERIES: getRain returned one record per station per request window (SDATE=end date+'24'); per-station series needs getRainTrend (not collected)
+DS-S065,K-water MyWater,window-end snapshot (param rainJobGb=H),rain-A,getRain,1012110 소양강댐,2021-01-01,2026-09-28,70,01_raw/KWater/mywater_station/rain/A/1012110,NOT A TIME SERIES: getRain returned one record per station per request window (SDATE=end date+'24'); per-station series needs getRainTrend (not collected)
+DS-S066,K-water MyWater,window-end snapshot (param rainJobGb=H),rain-A,getRain,1021701 군남댐,2021-01-01,2026-09-28,70,01_raw/KWater/mywater_station/rain/A/1021701,NOT A TIME SERIES: getRain returned one record per station per request window (SDATE=end date+'24'); per-station series needs getRainTrend (not collected)
+DS-S067,K-water MyWater,window-end snapshot (param rainJobGb=H),rain-A,getRain,1022701 한탄강댐,2021-01-01,2026-09-28,70,01_raw/KWater/mywater_station/rain/A/1022701,NOT A TIME SERIES: getRain returned one record per station per request window (SDATE=end date+'24'); per-station series needs getRainTrend (not collected)
+DS-S068,K-water MyWater,window-end snapshot (param rainJobGb=H),rain-C,getRain,1003110 충주댐,2021-01-01,2026-09-28,70,01_raw/KWater/mywater_station/rain/C/1003110,NOT A TIME SERIES: getRain returned one record per station per request window (SDATE=end date+'24'); per-station series needs getRainTrend (not collected)
+DS-S069,K-water MyWater,window-end snapshot (param rainJobGb=H),rain-C,getRain,1003611 충주조정지,2021-01-01,2026-09-28,70,01_raw/KWater/mywater_station/rain/C/1003611,NOT A TIME SERIES: getRain returned one record per station per request window (SDATE=end date+'24'); per-station series needs getRainTrend (not collected)
+DS-S070,K-water MyWater,window-end snapshot (param rainJobGb=H),rain-C,getRain,1006110 횡성댐,2021-01-01,2021-09-27,9,01_raw/KWater/mywater_station/rain/C/1006110,NOT A TIME SERIES: getRain returned one record per station per request window (SDATE=end date+'24'); per-station series needs getRainTrend (not collected) | INCOMPLETE(user-directed stop)
+DS-S071,K-water MyWater,window-end snapshot (param rainJobGb=H),rain-C,getRain,1012110 소양강댐,2021-01-01,2026-09-28,70,01_raw/KWater/mywater_station/rain/C/1012110,NOT A TIME SERIES: getRain returned one record per station per request window (SDATE=end date+'24'); per-station series needs getRainTrend (not collected)

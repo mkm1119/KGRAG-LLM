@@ -1,0 +1,126 @@
+{
+ "captured_utc": "2026-09-29T12:39:53Z",
+ "recentRelayFailures": [
+  {
+   "ts": "2026-09-29T11:36:39.481Z",
+   "kind": "ws_closed_mid_exchange",
+   "detail": "tunnel closed (code 1006, Connection ended) after 11s; 517 B sent, 39 B received, client reading, 0 B still queued in the relay",
+   "host": "www.law.go.kr:443"
+  },
+  {
+   "ts": "2026-09-29T11:36:50.883Z",
+   "kind": "ws_closed_mid_exchange",
+   "detail": "tunnel closed (code 1006, Connection ended) after 11s; 517 B sent, 39 B received, client reading, 0 B still queued in the relay",
+   "host": "www.law.go.kr:443"
+  },
+  {
+   "ts": "2026-09-29T11:37:02.872Z",
+   "kind": "ws_closed_mid_exchange",
+   "detail": "tunnel closed (code 1006, Connection ended) after 11s; 517 B sent, 39 B received, client reading, 0 B still queued in the relay",
+   "host": "www.law.go.kr:443"
+  },
+  {
+   "ts": "2026-09-29T11:37:14.075Z",
+   "kind": "ws_closed_mid_exchange",
+   "detail": "tunnel closed (code 1006, Connection ended) after 11s; 517 B sent, 39 B received, client reading, 0 B still queued in the relay",
+   "host": "www.law.go.kr:443"
+  },
+  {
+   "ts": "2026-09-29T11:37:38.994Z",
+   "kind": "ws_closed_mid_exchange",
+   "detail": "tunnel closed (code 1006, Connection ended) after 11s; 517 B sent, 39 B received, client reading, 0 B still queued in the relay",
+   "host": "www.law.go.kr:443"
+  },
+  {
+   "ts": "2026-09-29T11:37:53.558Z",
+   "kind": "ws_closed_mid_exchange",
+   "detail": "tunnel closed (code 1006, Connection ended) after 12s; 517 B sent, 39 B received, client reading, 0 B still queued in the relay",
+   "host": "www.law.go.kr:443"
+  },
+  {
+   "ts": "2026-09-29T11:38:13.595Z",
+   "kind": "ws_closed_mid_exchange",
+   "detail": "tunnel closed (code 1006, Connection ended) after 11s; 517 B sent, 39 B received, client reading, 0 B still queued in the relay",
+   "host": "www.law.go.kr:443"
+  },
+  {
+   "ts": "2026-09-29T11:38:27.941Z",
+   "kind": "ws_closed_mid_exchange",
+   "detail": "tunnel closed (code 1006, Connection ended) after 11s; 517 B sent, 39 B received, client reading, 0 B still queued in the relay",
+   "host": "www.law.go.kr:443"
+  },
+  {
+   "ts": "2026-09-29T11:38:45.244Z",
+   "kind": "ws_closed_mid_exchange",
+   "detail": "tunnel closed (code 1006, Connection ended) after 11s; 517 B sent, 39 B received, client reading, 0 B still queued in the relay",
+   "host": "www.law.go.kr:443"
+  },
+  {
+   "ts": "2026-09-29T11:43:31.508Z",
+   "kind": "ws_closed_mid_exchange",
+   "detail": "tunnel closed (code 1006, Connection ended) after 11s; 517 B sent, 39 B received, client reading, 0 B still queued in the relay",
+   "host": "www.data.go.kr:443"
+  },
+  {
+   "ts": "2026-09-29T11:43:45.857Z",
+   "kind": "ws_closed_mid_exchange",
+   "detail": "tunnel closed (code 1006, Connection ended) after 11s; 517 B sent, 39 B received, client reading, 0 B still queued in the relay",
+   "host": "www.data.go.kr:443"
+  },
+  {
+   "ts": "2026-09-29T11:44:08.626Z",
+   "kind": "ws_closed_mid_exchange",
+   "detail": "tunnel closed (code 1006, Connection ended) after 11s; 517 B sent, 39 B received, client reading, 0 B still queued in the relay",
+   "host": "www.data.go.kr:443"
+  },
+  {
+   "ts": "2026-09-29T11:44:59.824Z",
+   "kind": "ws_closed_mid_exchange",
+   "detail": "tunnel closed (code 1006, Connection ended) after 11s; 517 B sent, 39 B received, client reading, 0 B still queued in the relay",
+   "host": "www.data.go.kr:443"
+  },
+  {
+   "ts": "2026-09-29T11:45:51.059Z",
+   "kind": "ws_closed_mid_exchange",
+   "detail": "tunnel closed (code 1006, Connection ended) after 12s; 517 B sent, 39 B received, client reading, 0 B still queued in the relay",
+   "host": "data.kma.go.kr:443"
+  },
+  {
+   "ts": "2026-09-29T11:46:06.058Z",
+   "kind": "ws_closed_mid_exchange",
+   "detail": "tunnel closed (code 1006, Connection ended) after 12s; 517 B sent, 39 B received, client reading, 0 B still queued in the relay",
+   "host": "data.kma.go.kr:443"
+  },
+  {
+   "ts": "2026-09-29T11:47:32.067Z",
+   "kind": "ws_closed_mid_exchange",
+   "detail": "tunnel closed (code 1006, Connection ended) after 8s; 517 B sent, 39 B received, client reading, 0 B still queued in the relay",
+   "host": "www.kwater.or.kr:443"
+  },
+  {
+   "ts": "2026-09-29T11:49:59.580Z",
+   "kind": "ws_closed_mid_exchange",
+   "detail": "tunnel closed (code 1006, Connection ended) after 11s; 517 B sent, 39 B received, client reading, 0 B still queued in the relay",
+   "host": "apis.data.go.kr:443"
+  },
+  {
+   "ts": "2026-09-29T11:50:14.132Z",
+   "kind": "ws_closed_mid_exchange",
+   "detail": "tunnel closed (code 1006, Connection ended) after 11s; 517 B sent, 39 B received, client reading, 0 B still queued in the relay",
+   "host": "apis.data.go.kr:443"
+  },
+  {
+   "ts": "2026-09-29T11:50:27.481Z",
+   "kind": "ws_closed_mid_exchange",
+   "detail": "tunnel closed (code 1006, Connection ended) after 11s; 517 B sent, 39 B received, client reading, 0 B still queued in the relay",
+   "host": "apis.data.go.kr:443"
+  },
+  {
+   "ts": "2026-09-29T11:50:40.887Z",
+   "kind": "ws_closed_mid_exchange",
+   "detail": "tunnel closed (code 1006, Connection ended) after 11s; 517 B sent, 39 B received, client reading, 0 B still queued in the relay",
+   "host": "apis.data.go.kr:443"
+  }
+ ],
+ "note": "proxy-side relay failures (ring buffer; older entries may have rolled off)"
+}

@@ -1,0 +1,11 @@
+﻿source,resolution,timestamp_format_observed,interval/aggregation,note
+MyWater getPeriod,D1,'YYYY-MM-DD' (예 2025-07-10),일 단위; 집계 규칙 미명시,최신→과거 순서로 반환
+MyWater getPeriod,H1,'YYYY-MM-DD HH' — HH가 01..24 (예 '2020-12-31 24' 관찰),시간 단위; 24시 표기가 존재(해당 시각의 구간 종료 기준인지 미명시),창 시작일 00시에 해당하는 행이 전일 '24'로 표기됨 → 시각 규약 REVIEW_REQUIRED
+MyWater getPeriod,M1,'yy-MM-dd HH:mm' (예 '21-08-02 23:50'),10분 간격,동상
+MyWater getHydr,D,'YYYYMMDD',일,period와 표기만 다름
+MyWater getHydr,H,'YYYYMMDDHH' (예 2025063024),시간(01..24),hour=24 존재
+MyWater getRain,H(param rainJobGb),'YYYYMMDD24' (요청 종료일 + '24'),요청 창 끝 1건,시계열 아님
+전체,-,시간대(timezone),페이지에 명시 없음(미확인),KST 여부를 자료에서 확정하지 못함 → REVIEW_REQUIRED
+전체,-,결측 표기,응답 JSON에서 해당 COLn 키가 사라짐(null/'' 미관찰). 정규화 테이블 key_present_in_raw=N,한강 K-water 시설 시간자료: 1행(시각)만 결측 키 확인(quality_absent_keys.csv)
+MyWater,-,실시간/잠정/최종 여부,"MyWater 페이지: 분·시간 자료는 실시간자료(홍수시 활용), 일자료는 용수관리 활용",품질보정(최종) 여부는 미명시
+연계운영규정 제2조,-,홍수기 정의 6/21~9/20,규범 정의,10분 요청 구간은 6/21~9/30

@@ -1,0 +1,2 @@
+40e792b7831b9b621134612a704cd88eaf9df35dc55f04c24d6874f2f6246bae  mywater_period.tar.gz.part_00
+a105c4070f108c22d315bb62d515a3d20f7ceb121434547b9393a958e164edb7  mywater_station.tar.gz.part_00
