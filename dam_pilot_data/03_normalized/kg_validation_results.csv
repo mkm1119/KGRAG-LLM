@@ -1,0 +1,13 @@
+﻿check,result,detail
+V1 entity_id unique,PASS,"4181 entities"
+V2 relation endpoints exist,PASS,"4072 relations"
+V3 relation domain/range within candidate v1,PASS,"Counter({('Approval', 'concernsDam', 'Dam'): 3929, ('Dam', 'monitoredBy', 'ObservationStation'): 94, ('MeasurementDataset', 'concernsDam', 'Dam'): 34, ('Criterion', 'definedIn', 'Document'): 15})"
+V4 every entity/property/relation has provenance,PASS,"32721 provenance rows"
+V5 each Approval has exactly one concernsDam,PASS,"3929 approvals"
+V6 no Approval-Criterion / Operation / upstream relations,PASS,"none present"
+V7 no approvedReleaseAmount / approvalTime / operation* populated,PASS,"unmapped by design"
+V8 no cross-source Dam merge (distinct IDs per source),PASS,"27 Dam nodes = 11 MyWater + 16 approval-file"
+V9 Approval node count = source rows,PASS,"3929"
+V10 remarks count = 3,764 (STEP 0 count),PASS,"3764"
+V11 (finding) Approvals reachable to a MeasurementDataset through KG edges only,PASS,"0 of 3929 (0 expected: Approval Dam nodes and MyWater Dam nodes are separate by design)"
+V12 (finding) Criterion reachable to a Dam,PASS,"0: no Criterion-Dam relation exists in v0.1 or candidate v1 (Criterion.facilityNameInSource is a literal)"

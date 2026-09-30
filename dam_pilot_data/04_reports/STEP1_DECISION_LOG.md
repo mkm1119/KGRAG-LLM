@@ -64,3 +64,13 @@
 | S1L-01 | 전체 | `11_LSMKG.pdf` 부재 | STEP 3 근거 검증 불가 | - | LITERATURE_CHECK_REQUIRED | 파일 공유 |
 
 **변경 이력 추가:** S1A-01의 "Li 미대조"는 Li.pdf를 이후 원문 대조함(`STEP1_METHOD_EVIDENCE.md`). 상태 표기는 사용자 승인 전까지 그대로 두고, 대조 완료 사실만 여기에 기록.
+
+## 5. STEP 2 추가 항목 (2026-09-30)
+| ID | 쟁점 | 현재 판단 | 상태 |
+|---|---|---|---|
+| S2-01 | Approval-file Dam ↔ MyWater Dam 동일성 미해결 → KG 간선만으로 Approval→Measurement 도달 0/3,929 | 병합하지 않음(S0-D 유지); 통합 질의는 crosswalk 표를 검토 필요 플래그와 함께 외부 조회 | REVIEW_REQUIRED |
+| S2-02 | Criterion→Dam 관계 부재(v0.1·v1). facilityNameInSource 리터럴로만 보존 | RC-11 후보(적용 안 함) | REVIEW_REQUIRED |
+| S2-03 | MeasurementDataset 기간은 요청 기간(실제 커버리지 아님) | 실제 커버리지 산출은 개선 후보 | REVIEW_REQUIRED |
+| S2-04 | 그룹 dataset 37개의 Dam 연결 미구현 | 원본 damList로 도출 가능 | DEFERRED |
+| S2-05 | 측정값을 KG에 저장하지 않음 | handoff §6.3 미결정의 잠정 처리 | PROVISIONAL |
+| S2-06 | 접수방류량·승인년월일시분 매핑 미확정 → approvedReleaseAmount/approvalTime 미채움 | S0-B 유지 | REVIEW_REQUIRED |

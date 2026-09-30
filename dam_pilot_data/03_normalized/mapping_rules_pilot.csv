@@ -1,0 +1,16 @@
+﻿rule_id,mapping,source_table,status,method_evidence_level,note
+MR-01,MyWater dam_catalog row → Dam instance (source-scoped ID DAM|MYWATER|code) + damId/sourceSystem/sourceFacilityCode/Name/facilityTypeSource,"dam_catalog.csv, dam_catalog_kwater_basic.csv",SUPPORTED (instance); damId REVIEW_REQUIRED,OntoDSMS row→instance (p.6–7); DDKG Dam anchor (p.4) = A pattern; source-scoping = B,"11 Dam nodes; KHNP dams without official ID not instantiated (no ID, no data)"
+MR-02,Approval-file facility (관측소코드/명) → separate Dam instance DAM|HRFCO_APPROVAL|code,approval_facility_code_crosswalk.csv,SUPPORTED (instance),B,16 Dam nodes; NOT merged with MyWater (S0-D)
+MR-03,Approval CSV row → Approval instance; columns → source-faithful properties,approval_records_hrfco_raw_fields.csv,"SUPPORTED (instance, 6 props)",OntoDSMS table→class/column→property/row→instance = A; property names = B,승인년월일시분→approvalDateSource (NOT approvalTime); 접수방류량→receivedReleaseAmount (NOT approvedReleaseAmount)
+MR-03b,접수방류량 → approvedReleaseAmount; 승인년월일시분 → approvalTime,-,"NOT_SUPPORTED (REVIEW_REQUIRED, S0-B)",-,not populated
+MR-04,Approval 관측소코드 → Approval–concernsDam→Dam(approval-file scope),approval CSV,"SUPPORTED (source-scoped, candidate relation RC-01)",A(anchor pattern)+B,"3,929 relations, 1 per Approval"
+MR-05,document_list row → Document instance,document_list.csv,SUPPORTED,B,45 Document nodes
+MR-06,criterion_list row → Criterion instance; locator/value verbatim/unit/facilityNameInSource literal,criterion_list.csv,SUPPORTED (current 2026-07-08 version only; temporal applicability NOT asserted),B,"15 Criterion nodes; CR-09 value ""25.51)"" kept verbatim"
+MR-07,Criterion–definedIn→Document(regulation XML),criterion_list.csv defined_in_document,SUPPORTED,v0.1 relation,15 relations
+MR-08,station list row → ObservationStation instance,observation_station_list.csv,SUPPORTED (variableType REVIEW_REQUIRED),B,94 nodes
+MR-09,Dam–monitoredBy→Station where station is listed under the dam query,observation_station_list.csv,SUPPORTED as source-listed association (spatial/hydrologic relation not verified),B,94 relations
+MR-10,measurement_dataset_list row → MeasurementDataset instance (no time-series values stored in KG),measurement_dataset_list.csv,SUPPORTED; period = requested period only,"handoff §6.3 open; GraphAide external time-series function (listed, not demonstrated) = C",71 nodes
+MR-11,Dataset requested for a single facility → Dataset–concernsDam→Dam(MyWater scope),measurement_dataset_list.csv facility,"SUPPORTED for hydr-D/H, rain-A/C (34)",B,37 group datasets (multi-dam responses) not linked in pilot: derivable from raw damList but not built
+MR-12,ObservationStation–hasDataset→MeasurementDataset,-,NOT_SUPPORTED (no station-level dataset; getRain is a window snapshot),-,S0-C
+MR-13,Approval–documentedBy→Document,-,REVIEW_REQUIRED (file-level provenance only; not created),-,S1E-12
+MR-14,"Approval ↔ Criterion / Operation relations, Approval ↔ MyWater Dam identity, Criterion → Dam, upstream/downstream",-,"NOT_CREATED (no source assertion or unresolved; S1A-06/07/09, S0-D)",-,see STEP2_MAPPING_VALIDATION §4
