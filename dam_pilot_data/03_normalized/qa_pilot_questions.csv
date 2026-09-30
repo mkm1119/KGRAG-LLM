@@ -1,0 +1,12 @@
+﻿question_id,question_type,question,expected_evidence_kinds
+Q01,DIRECT,충주(승인파일 관측소코드 1003110)의 2020년 방류 승인 record는 몇 건이며 각각 접수일자·방류시작시간·접수방류량은?,KG: Dam→Approval
+Q02,DIRECT,소양강댐의 홍수기 제한수위 기준값과 그 값이 실린 문서는?,KG: Criterion→Document
+Q03,DIRECT,승인 순차번호 3519의 비고 원문은?,KG: Approval property
+Q04,DIRECT,MyWater 충주댐(1003110)에 조회 목록으로 연결된 관측소는 몇 개이며 유형별로는?,KG: Dam→monitoredBy→Station
+Q05,DIRECT,충주댐의 2020-08 방류 운영행위(수문조작) 기록은?,KG: Operation
+Q06,DIRECT,2020-08-02 충주댐 승인 당시 적용되던 홍수기 제한수위는?,Criterion at time T
+N01,NATURAL,충주댐에서 2020년 8월 초 방류 승인이 났을 때 그 무렵 저수위·유입량·방류량은 어땠나?,KG Approval + measurement window (crosswalk REVIEW_REQUIRED)
+N02,NATURAL,횡성댐의 2020년 방류 승인은 어떤 운영기준을 근거로 한 것인가?,Approval→Criterion (rationale)
+N03,NATURAL,광동댐 방류 승인 시 참고할 운영기준(시설별 값)이 있나?,Criterion by facility
+N04,NATURAL,충주댐 2020-08-02 승인의 접수방류량(3000)만큼 실제로 방류가 이루어졌나?,Approval amount vs measured discharge (no equating)
+N05,NATURAL,소양강댐 현재 상황과 유사한 과거 승인 사례는?,similarity (undefined)
