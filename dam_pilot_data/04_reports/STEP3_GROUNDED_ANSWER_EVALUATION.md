@@ -1,6 +1,6 @@
 # STEP 3 — Grounded Answer Evaluation
 
-입력: `qa_answer_claim_check.csv` (22 claim 중 3개는 제외 대조 사례). 스크립트 `scripts/step3_answers.py`.
+입력: `qa_answer_claim_check.csv` (25 claim 중 3개는 제외 대조 사례). 스크립트 `scripts/step3_answers.py`.
 
 ## 1. 결과
 | claim 클래스 | 수 | 자동 검사 |

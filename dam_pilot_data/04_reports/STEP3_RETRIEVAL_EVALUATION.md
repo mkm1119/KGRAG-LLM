@@ -1,6 +1,6 @@
 # STEP 3 — Retrieval Evaluation (구성요소별 · 임계값 없음)
 
-방법: 질문별로 "답하는 데 필요한 증거 종류"를 검색 전 `qa_pilot_questions.csv`에 기재하고, 검색 결과(`qa_retrieved_evidence.csv`, 총 90행)와 대조. 점수/임계값 없음.
+방법: 질문별로 "답하는 데 필요한 증거 종류"를 검색 전 `qa_pilot_questions.csv`에 기재하고, 검색 결과(`qa_retrieved_evidence.csv`, 총 63행)와 대조. 점수/임계값 없음.
 
 | Q | 유형 | 필요한 증거 | 회수 여부 | 경로 | 비고 |
 |---|---|---|---|---|---|
