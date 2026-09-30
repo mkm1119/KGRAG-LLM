@@ -62,6 +62,7 @@
 
 ## 5-1. 마지막 보완: Approval + Measurement + Criterion + Document 연결 파일럿 (수집 종료)
 승인 건수가 충분한 광동댐, 충주댐(+공식 하류 서술 시설 충주조정지), 같은 기간 승인이 있는 횡성·소양강의 대표 기간(2020-07-25~09-10, 2019-08-01~10-15)만 hourly 55회 호출로 추가 수집했다(8.4MB, 실패 0). 승인 24건 모두 측정 발췌와 연결되고 12건(충주·횡성·소양강)은 별표3 Criterion·Document와도 연결된다. 광동댐 12건은 별표3에 없어 기준 미연결. Operation·인과는 추론하지 않았다. 상세: `04_reports/K_Approval_Measurement_Linkage_Pilot.md`, `03_normalized/linkage_pilot_cases.csv`, `linkage_pilot_measurement_extract.csv`. **이 보완 후 STEP 0 데이터 수집을 종료하며, 다음은 STEP 1 Ontology Validation이다.**
+> **[STEP 1-A 정정]** 위 "별표3 Criterion·Document와도 연결"은 같은 시설의 **현행(2026-07-08 시행) 기준값과의 시설명 대조**이며, 2019~2020 승인에 당시 적용됐는지는 **미검증**이다(`04_reports/STEP1_DECISION_LOG.md` S1A-07/08).
 
 **데이터 검토용 요약(표본·그래프·원본-정규화 비교): `04_reports/L_DATA_REVIEW.md`, `04_reports/data_review/`**
 

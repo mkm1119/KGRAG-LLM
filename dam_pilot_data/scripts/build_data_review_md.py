@@ -75,6 +75,7 @@ md_out=f"""# L. 데이터 검토용 요약 (Data Review)
 → `case_AP-3412_measurement_minus6h_plus12h.csv`. 기간 전체 시계열은 4절 그래프.
 
 ### (4) Criterion
+> **주의(STEP 1-A 정정):** 아래 기준은 **현행(2026-07-08 시행) 버전**이며 2020년 승인 당시에 적용되었는지는 검증되지 않았다. 여기서의 "연결"은 같은 시설의 현행 기준값과의 시설명 기준 대조일 뿐이다.
 - **{cr02['criterion_id(연구용 임시ID)']}** {cr02['locator_in_document']} — {cr02['verbatim_text_or_value']} ({cr02['unit']})
 - 관련 조문 **제6조**(원문): {art6['verbatim_text_or_value']}
 
@@ -86,7 +87,7 @@ md_out=f"""# L. 데이터 검토용 요약 (Data Review)
 ![충주댐 2020-07-30~08-12](data_review/case_chungju_2020-08_timeseries.png)
 
 - 파일: `04_reports/data_review/case_chungju_2020-08_timeseries.png` (벡터: `.svg`)
-- 패널별 자기 축(이중축 없음). 세로 주황 점선 = 승인 파일의 `방류시작시간`(2020-08-02 18:00, 2020-08-06 06:00), 점선 회색 = [별표3] 홍수기 제한수위 138.0. 데이터는 `getHydr` hourly 원본 field(DATA1 수위, DATA4 유입량, DATA6 총방류량, DATA3 강우량) 313행.
+- 패널별 자기 축(이중축 없음). 세로 주황 점선 = 승인 파일의 `방류시작시간`(2020-08-02 18:00, 2020-08-06 06:00), 점선 회색 = 현행(2026-07-08 시행) [별표3] 홍수기 제한수위 138.0(2020년 당시 적용 여부 미검증). 데이터는 `getHydr` hourly 원본 field(DATA1 수위, DATA4 유입량, DATA6 총방류량, DATA3 강우량) 313행.
 - 이 그래프는 값을 나란히 보여줄 뿐이며 승인과 측정 변화의 관계를 해석하지 않는다. 시각 축은 라벨 기준 표시.
 
 ## 5. 원본(RAW)과 정규화본 비교

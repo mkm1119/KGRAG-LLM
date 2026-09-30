@@ -116,7 +116,8 @@ for i,(title,key) in enumerate(panels):
         a=math.floor(lo_/st)*st; b=math.ceil(hi_/st)*st; return a,b,st
     ymin,ymax,ystep=nice(lo,hi)
     def Y(v): return y0+T+PH*(1-(v-ymin)/(ymax-ymin))
-    svg.append(f'<text x="{L}" y="{y0+14}" font-size="13" fill="#0b0b0b" font-weight="600">{title}</text>')
+    extra=' <tspan font-weight="400" font-size="11" fill="#52514e"> — 회색 점선: 현행(2026-07-08 시행) 별표3 홍수기 제한수위 138.0 (2020년 당시 적용 여부 미검증)</tspan>' if key=="DATA1" else ''
+    svg.append(f'<text x="{L}" y="{y0+14}" font-size="13" fill="#0b0b0b" font-weight="600">{title}{extra}</text>')
     v=ymin
     while v<=ymax+1e-9:
         yy=Y(v); lab=(f"{v:.1f}" if ystep<1 or key=="DATA1" else f"{v:.0f}")
@@ -127,7 +128,7 @@ for i,(title,key) in enumerate(panels):
         svg.append(f'<line x1="{xx:.1f}" x2="{xx:.1f}" y1="{y0+T+PH}" y2="{y0+T+PH+4}" stroke="#52514e"/>')
         if i==3 and dday%1==0: svg.append(f'<text x="{xx:.1f}" y="{y0+T+PH+17}" font-size="10" fill="#52514e" text-anchor="middle">{td.strftime("%m-%d")}</text>')
     if key=="DATA1":
-        yy=Y(138.0); svg.append(f'<line x1="{L}" x2="{W-R}" y1="{yy:.1f}" y2="{yy:.1f}" stroke="#52514e" stroke-width="1.2" stroke-dasharray="6 4"/><text x="{W-R-4}" y="{yy-5:.1f}" font-size="11" fill="#52514e" text-anchor="end">별표3 홍수기 제한수위 138.0 (CR-02)</text>')
+        yy=Y(138.0); svg.append(f'<line x1="{L}" x2="{W-R}" y1="{yy:.1f}" y2="{yy:.1f}" stroke="#52514e" stroke-width="1.2" stroke-dasharray="6 4"/>')
     if key=="DATA3":
         for tt,_,r in ser:
             v=float(r[key]) if r.get(key) not in (None,"") else 0
