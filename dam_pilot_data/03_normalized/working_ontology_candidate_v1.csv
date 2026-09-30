@@ -1,0 +1,53 @@
+﻿element_type,name,domain,range_or_value_type,status,source_term_verbatim,evidence,method_evidence,open_issue,revision_candidate
+Class,Dam,,,UNCHANGED_FROM_V0.1,,Initial Ontology v0.1,—,,
+Class,Operation,,,UNCHANGED_FROM_V0.1,,Initial Ontology v0.1,—,,
+Class,Approval,,,UNCHANGED_FROM_V0.1,,Initial Ontology v0.1,—,,
+Class,Criterion,,,UNCHANGED_FROM_V0.1,,Initial Ontology v0.1,—,,
+Class,Document,,,UNCHANGED_FROM_V0.1,,Initial Ontology v0.1,—,,
+Class,ObservationStation,,,UNCHANGED_FROM_V0.1,,Initial Ontology v0.1,—,,
+Class,MeasurementDataset,,,UNCHANGED_FROM_V0.1,,Initial Ontology v0.1,—,,
+Relation,targetDam,Operation,Dam,UNCHANGED_FROM_V0.1,,Initial Ontology v0.1,—,,
+Relation,relatedApproval,Operation,Approval,UNCHANGED_FROM_V0.1,,Initial Ontology v0.1,—,,
+Relation,relatedCriterion,Operation,Criterion,UNCHANGED_FROM_V0.1,,Initial Ontology v0.1,—,,
+Relation,recordedIn,Operation,Document,UNCHANGED_FROM_V0.1,,Initial Ontology v0.1,—,,
+Relation,documentedBy,Approval,Document,UNCHANGED_FROM_V0.1,,Initial Ontology v0.1,—,,
+Relation,definedIn,Criterion,Document,UNCHANGED_FROM_V0.1,,Initial Ontology v0.1,—,,
+Relation,monitoredBy,Dam,ObservationStation,UNCHANGED_FROM_V0.1,,Initial Ontology v0.1,—,,
+Relation,hasDataset,ObservationStation,MeasurementDataset,UNCHANGED_FROM_V0.1,,Initial Ontology v0.1,—,,
+DataProperty,damId,Dam,String,UNCHANGED_FROM_V0.1,,Initial Ontology v0.1,—,값 의미 미확정 항목 포함(S0-B/S0-E),
+DataProperty,operationTime,Operation,(미정),UNCHANGED_FROM_V0.1,,Initial Ontology v0.1,—,값 의미 미확정 항목 포함(S0-B/S0-E),
+DataProperty,operationType,Operation,(미정),UNCHANGED_FROM_V0.1,,Initial Ontology v0.1,—,값 의미 미확정 항목 포함(S0-B/S0-E),
+DataProperty,approvalTime,Approval,(미정),UNCHANGED_FROM_V0.1,,Initial Ontology v0.1,—,값 의미 미확정 항목 포함(S0-B/S0-E),
+DataProperty,approvedReleaseAmount,Approval,Number,UNCHANGED_FROM_V0.1,,Initial Ontology v0.1,—,값 의미 미확정 항목 포함(S0-B/S0-E),
+DataProperty,stationId,ObservationStation,String,UNCHANGED_FROM_V0.1,,Initial Ontology v0.1,—,값 의미 미확정 항목 포함(S0-B/S0-E),
+DataProperty,variableType,ObservationStation,(미정),UNCHANGED_FROM_V0.1,,Initial Ontology v0.1,—,값 의미 미확정 항목 포함(S0-B/S0-E),
+DataProperty,datasetId,MeasurementDataset,String,UNCHANGED_FROM_V0.1,,Initial Ontology v0.1,—,값 의미 미확정 항목 포함(S0-B/S0-E),
+DataProperty,documentId,Document,String,UNCHANGED_FROM_V0.1,,Initial Ontology v0.1,—,값 의미 미확정 항목 포함(S0-B/S0-E),
+Relation,concernsDam,Approval,Dam,CANDIDATE_ADDITION,(승인 파일: 관측소코드/관측소명),"STEP 0: 승인 3,929건이 각 record에 시설을 가짐; DDKG p.4: 모든 최상위 클래스를 Dam에 연결",A(패턴: DDKG) + B(적용),Dam은 **출처별 identity**(병합 금지)이며 이 관계는 출처 내 시설을 가리킴,RC-01
+Relation,concernsDam,MeasurementDataset,Dam,CANDIDATE_ADDITION,(MyWater getHydr damCd),STEP 0: 장기 측정자료가 댐 단위로 제공,A(패턴) + B,관측소 경유가 아닌 dataset-댐 연결,RC-02
+DataProperty,Approval.releaseStartTime,Approval,String(YYYY-MM-DD HH:MM; 시간대 미명시),CANDIDATE_ADDITION,방류시작시간,Approval CSV 컬럼; Noy Step 5 p.8 (intrinsic/extrinsic properties),A(속성 개념) + B,approvalTime/approvedReleaseAmount와의 관계는 미결정(자동 매핑 금지),RC-03
+DataProperty,Approval.receivedDate,Approval,String(YYYY-MM-DD),CANDIDATE_ADDITION,접수일자,Approval CSV 컬럼; Noy Step 5 p.8 (intrinsic/extrinsic properties),A(속성 개념) + B,approvalTime/approvedReleaseAmount와의 관계는 미결정(자동 매핑 금지),RC-03
+DataProperty,Approval.receivedReleaseAmount,Approval,"Number(CMS, 데이터셋 설명 근거)",CANDIDATE_ADDITION,접수방류량,Approval CSV 컬럼; Noy Step 5 p.8 (intrinsic/extrinsic properties),A(속성 개념) + B,approvalTime/approvedReleaseAmount와의 관계는 미결정(자동 매핑 금지),RC-03
+DataProperty,Approval.approvalDateSource,Approval,String(YYYY-MM-DD; 값에 시각 없음),CANDIDATE_ADDITION,승인년월일시분,Approval CSV 컬럼; Noy Step 5 p.8 (intrinsic/extrinsic properties),A(속성 개념) + B,approvalTime/approvedReleaseAmount와의 관계는 미결정(자동 매핑 금지),RC-03
+DataProperty,Approval.remarks,Approval,String(원문 그대로),CANDIDATE_ADDITION,비고,Approval CSV 컬럼; Noy Step 5 p.8 (intrinsic/extrinsic properties),A(속성 개념) + B,approvalTime/approvedReleaseAmount와의 관계는 미결정(자동 매핑 금지),RC-03
+DataProperty,Approval.sourceSequenceNo,Approval,Integer,CANDIDATE_ADDITION,순차번호,Approval CSV 컬럼; Noy Step 5 p.8 (intrinsic/extrinsic properties),A(속성 개념) + B,approvalTime/approvedReleaseAmount와의 관계는 미결정(자동 매핑 금지),RC-03
+DataProperty,Dam.sourceSystem,Dam,String,CANDIDATE_ADDITION,(출처 시스템명),"STEP 0: 기관별 코드·이름 불일치(보 3곳 코드 상이, 명칭 표기 상이)",B,병합 근거 없음 → Dam instance를 출처별로 유지,RC-07
+DataProperty,Dam.sourceFacilityCode,Dam,String,CANDIDATE_ADDITION,DAM_CD / 관측소코드,"STEP 0: 기관별 코드·이름 불일치(보 3곳 코드 상이, 명칭 표기 상이)",B,병합 근거 없음 → Dam instance를 출처별로 유지,RC-07
+DataProperty,Dam.sourceFacilityName,Dam,String,CANDIDATE_ADDITION,DAM_NM / 관측소명,"STEP 0: 기관별 코드·이름 불일치(보 3곳 코드 상이, 명칭 표기 상이)",B,병합 근거 없음 → Dam instance를 출처별로 유지,RC-07
+DataProperty,Criterion.statementVerbatim,Criterion,String,CANDIDATE_ADDITION,조문/별표 셀 원문,criterion_list.csv; Noy Step 5,A(속성 개념) + B,"locator를 Criterion의 속성으로 둘지 definedIn 관계의 속성으로 둘지 미결정(근거 C, LITERATURE_CHECK_REQUIRED)",RC-04/RC-05
+DataProperty,Criterion.locator,Criterion,String,CANDIDATE_ADDITION,조·별표 위치,criterion_list.csv; Noy Step 5,A(속성 개념) + B,"locator를 Criterion의 속성으로 둘지 definedIn 관계의 속성으로 둘지 미결정(근거 C, LITERATURE_CHECK_REQUIRED)",RC-04/RC-05
+DataProperty,Criterion.valueVerbatim,Criterion,String,CANDIDATE_ADDITION,별표3 셀 원문,criterion_list.csv; Noy Step 5,A(속성 개념) + B,"locator를 Criterion의 속성으로 둘지 definedIn 관계의 속성으로 둘지 미결정(근거 C, LITERATURE_CHECK_REQUIRED)",RC-04/RC-05
+DataProperty,Criterion.unit,Criterion,String,CANDIDATE_ADDITION,EL.m 등,criterion_list.csv; Noy Step 5,A(속성 개념) + B,"locator를 Criterion의 속성으로 둘지 definedIn 관계의 속성으로 둘지 미결정(근거 C, LITERATURE_CHECK_REQUIRED)",RC-04/RC-05
+DataProperty,Document.title,Document,String,CANDIDATE_ADDITION,문서 제목,규정 XML 기본정보,B,효력 기간(종료일)은 자료 없음 → 시점 적용성은 표현만 가능,RC-05
+DataProperty,Document.effectiveDate,Document,String,CANDIDATE_ADDITION,시행일자,규정 XML 기본정보,B,효력 기간(종료일)은 자료 없음 → 시점 적용성은 표현만 가능,RC-05
+DataProperty,Document.versionNote,Document,String,CANDIDATE_ADDITION,훈령 번호·개정 구분,규정 XML 기본정보,B,효력 기간(종료일)은 자료 없음 → 시점 적용성은 표현만 가능,RC-05
+DataProperty,MeasurementDataset.sourceSystem,MeasurementDataset,String,CANDIDATE_ADDITION,출처,measurement_dataset_list.csv; variable_dictionary.csv,A(속성 개념) + B,변수 의미 통합 금지(원본 변수명 보존),RC-08
+DataProperty,MeasurementDataset.variableNamesSource,MeasurementDataset,String,CANDIDATE_ADDITION,원본 변수명(DATAn 및 페이지 라벨),measurement_dataset_list.csv; variable_dictionary.csv,A(속성 개념) + B,변수 의미 통합 금지(원본 변수명 보존),RC-08
+DataProperty,MeasurementDataset.resolution,MeasurementDataset,String,CANDIDATE_ADDITION,해상도,measurement_dataset_list.csv; variable_dictionary.csv,A(속성 개념) + B,변수 의미 통합 금지(원본 변수명 보존),RC-08
+DataProperty,MeasurementDataset.periodStart,MeasurementDataset,String,CANDIDATE_ADDITION,기간 시작,measurement_dataset_list.csv; variable_dictionary.csv,A(속성 개념) + B,변수 의미 통합 금지(원본 변수명 보존),RC-08
+DataProperty,MeasurementDataset.periodEnd,MeasurementDataset,String,CANDIDATE_ADDITION,기간 끝,measurement_dataset_list.csv; variable_dictionary.csv,A(속성 개념) + B,변수 의미 통합 금지(원본 변수명 보존),RC-08
+DataProperty,ObservationStation.stationName,ObservationStation,String,CANDIDATE_ADDITION,지점명 / 출처,observation_station_list.csv,B,,RC-08
+DataProperty,ObservationStation.sourceSystem,ObservationStation,String,CANDIDATE_ADDITION,지점명 / 출처,observation_station_list.csv,B,,RC-08
+DataProperty,Dam.facilityTypeSource,Dam,String(출처 표기 그대로),CANDIDATE_ADDITION,DAM_BO_NM 등,MyWater/K-water 시설 유형 표기,B,클래스로 나눌지는 미결정(Noy 4.5 p.17),RC-06
+Relation,upstreamOf/downstreamOf,Dam,Dam,HELD_NOT_ADOPTED,K-water 시설 소개 텍스트(단일 출처),dam_network_evidence.csv,C,CQ에 없음; handoff §12 절차 필요(반복 필요성→문헌 검토→결정),RC-09
+Class,Organization/Actor,,,HELD_NOT_ADOPTED,"홍수통제소, 시설관리자, K-water 등",규정 제2조,C,v0.1 CQ에 승인 주체 질문 없음,RC-10

@@ -1,0 +1,25 @@
+﻿element_type,element,v01_definition,independent_meaning_in_domain,needed_by_cq,appears_in_actual_data,supported_by_literature_or_regulation,modeling_adequacy_issue,noy_principle_referenced,verdict,constraint_candidate_1G,log_ids
+Class,Dam,Class,Y — 독립적 존재를 가진 시설(Noy Step 4 기준),CQ1–CQ6 (대상),"MyWater 시설 11개(DAM_CD), 승인 파일 시설 16개(관측소코드), KHNP 이름 7개",DDKG: 최상위 클래스 c1 Dam이며 다른 최상위 클래스를 모두 Dam에 연결(p.4); 규정 별표1 시설 목록,"시설 유형(다목적댐/용수댐/수력발전댐/홍수조절용댐/보/조정지)을 클래스로 나눌지 속성값으로 둘지 미결정(Noy 4.5 p.17: ""usually in the scope""); 기관별 시설 ID가 달라 하나의 Dam으로 병합할 수 없음","Noy Step 4 p.7–8, 4.5 p.17",KEEP,-,S1E-01
+Class,Operation,Class,Y(개념) — 시점·대상을 갖는 행위,CQ2–CQ6 (anchor),없음(독립 record 미확보),"규정 제6조②(수문조작), 제14조(방류량 조정·통보)는 행위를 서술; 문헌 온톨로지에서는 확인 안 됨",정의·유형·경계(수문조작 / 방류 / 방류량 조정)가 미정. Approval과 동일시 금지,Noy 4.5 p.17,NOT_TESTABLE,-,S1E-02
+Class,Approval,Class,Y — 홍수통제소장이 내리는 승인 기록(순차번호를 가진 record),CQ3,"3,929건(2010-07-16~2021-07-16)","규정 제6조② ""홍수통제소장의 사전 승인""",v0.1에서 Approval은 Operation을 거쳐서만 Dam에 도달(Approval→Dam 경로 없음). 실제 자료는 시설 정보를 record가 직접 가짐,Noy Step 5 p.8 (relationships to other individuals),KEEP,-,S1E-03
+Class,Criterion,Class,PARTIAL — 문서에 정의된 기준. 단위가 조문인지 (시설별) 값인지 미정,CQ4,15건(별표3 홍수기 제한수위 9개 댐 + 6개 조문),"규정 제6조②, 별표3","granularity(조문 vs 시설별 값), 값·단위·적용 시점을 담을 속성 부재",Noy 4.5 p.17,KEEP,-,S1E-04
+Class,Document,Class,Y — 독립된 문서/파일,CQ5,45건(법령 XML·원본 PDF/HWPX·웹 스냅샷),규정 자체,한 문서의 표현(XML/PDF/HWPX)이 여러 파일; 버전(시행일자)·문서 내 위치를 담을 곳 없음,Noy Step 5 p.8,KEEP,-,S1E-05
+Class,ObservationStation,Class,Y — 물리적 관측지점,"CQ1, CQ6",우량·수위관측소 94개(MyWater getRain),OntoDSMS: Sensor/Observation(SOSA)를 확장해 사용(p.4–5),실제 장기 측정자료는 댐 단위 → 관측소와 dataset의 연결이 직접 확인되지 않음,Noy 4.5 p.17,KEEP,-,S1E-06
+Class,MeasurementDataset,Class,PARTIAL — 측정값 집합(논리적 객체); dataset 단위(출처×시설×변수×해상도×기간)는 연구자 정의,"CQ1, CQ6",71개(연구용 임시 단위),"OntoDSMS는 모니터링 데이터를 DB 인스턴스로 다룸(p.6–7); ""dataset"" 클래스의 직접 선례는 확인되지 않음",dataset의 의미·단위 미정,Noy 4.5 p.17,REVIEW_REQUIRED,-,S1E-07
+Relation,targetDam,Operation→Dam,-,CQ2–CQ6,Operation instance 없음,-,-,Noy Step 6 p.10 (domain/range),NOT_TESTABLE,"domain=Operation, range=Dam; cardinality 미결정(연계운영으로 복수 댐일 가능성 — 자료 없음)",S1E-08
+Relation,relatedApproval,Operation→Approval,-,CQ3,없음,-,중립 의미 유지(basedOn 등으로 변경 금지). 실제 자료에서 한 방류에 복수 승인이 반복됨(예: AP-3412·AP-3519가 같은 방류시작시간) → 1:N 가능성,Noy Step 6 p.9 (cardinality),NOT_TESTABLE,"domain=Operation, range=Approval; N:M 후보",S1E-09
+Relation,relatedCriterion,Operation→Criterion,-,CQ4,없음,-,중립 의미 유지,Noy Step 6,NOT_TESTABLE,"domain=Operation, range=Criterion",S1E-10
+Relation,recordedIn,Operation→Document,-,CQ5,없음,-,-,Noy Step 6,NOT_TESTABLE,"domain=Operation, range=Document",S1E-11
+Relation,documentedBy,Approval→Document,-,CQ5,"승인 record의 출처는 파일 데이터셋(data.go.kr 15085926)뿐, record별 문서 식별자 없음",-,"파일 단위 출처를 ""문서화""로 볼지 판단 필요(provenance와 혼동 위험)",Noy Step 6,REVIEW_REQUIRED,"domain=Approval, range=Document",S1E-12
+Relation,definedIn,Criterion→Document,-,"CQ4, CQ5",15/15 Criterion이 원문 조문·별표 위치와 파일을 가짐,규정 자체,Document 식별: 같은 문서의 XML/PDF/HWPX,Noy Step 6,KEEP,"domain=Criterion, range=Document; Criterion당 문서 ≥1(문서 버전 미결정)",S1E-13
+Relation,monitoredBy,Dam→ObservationStation,-,"CQ1, CQ6",MyWater가 댐별로 우량/수위관측소를 나열(94개),"OntoDSMS: 센서 분포에 따라 댐 구조 계층을 구성(p.5) [성격 유사, 도메인 다름]","출처의 ""댐 아래 나열""이 monitoredBy의 의미와 같은지 판단 필요(수문학적 인접성 미검증)",Noy Step 5 p.8 (relationships),REVIEW_REQUIRED,"domain=Dam, range=ObservationStation",S1E-14
+Relation,hasDataset,ObservationStation→MeasurementDataset,-,"CQ1, CQ6",관측소 단위 시계열 없음(getRain은 종료 시점 1건); 시계열은 댐 단위,-,현 자료로는 직접 확인되지 않음,Noy Step 6,REVIEW_REQUIRED,"domain=ObservationStation, range=MeasurementDataset",S1E-15
+DataProperty,Dam.damId,Dam→value,-,CQ1–CQ6,"MyWater DAM_CD, 승인 파일 관측소코드(보 3곳은 코드 상이)",-,출처별 ID가 달라 하나의 ID로 정의 불가; 병합 근거 없음,Noy Step 6 (value type String),REVIEW_REQUIRED,value type String; 출처 범위(system) 필요,S1E-16
+DataProperty,Operation.operationTime,Operation→value,-,CQ2,없음,-,"instant/interval, 시간대 미정",Noy Step 6,NOT_TESTABLE,value type 미정,S1E-17
+DataProperty,Operation.operationType,Operation→value,-,CQ2,없음,-,허용값 미정; 승인 비고로부터 추론 금지,Noy Step 6 (enumerated),NOT_TESTABLE,allowed values 미정,S1E-18
+DataProperty,Approval.approvalTime,Approval→value,-,CQ3,"승인년월일시분(값은 날짜만), 접수일자(62건에서 상이)",-,시각 없음·시간대 미명시·접수일자와의 관계 미정,Noy Step 6,REVIEW_REQUIRED,value type 미정(date vs dateTime),S1E-19
+DataProperty,Approval.approvedReleaseAmount,Approval→value,-,CQ3,접수방류량(CMS; 공란 4건),-,"원본 명칭이 ""접수""; 승인량과 동일 여부 미검증",Noy Step 6,REVIEW_REQUIRED,"value type Number, unit CMS(설명 근거); 의미 확정 불가",S1E-20
+DataProperty,ObservationStation.stationId,ObservationStation→value,-,"CQ1, CQ6",OBS_CD 94개,-,출처 범위 필요,Noy Step 6,KEEP,value type String,S1E-21
+DataProperty,ObservationStation.variableType,ObservationStation→value,-,CQ6,관측소 유형: 우량(A)/수위(C),-,"""variableType""이 관측 변수를 뜻하는지 관측소 유형인지 불명; 출처마다 수위 단위·의미 다름",Noy Step 6 (enumerated),REVIEW_REQUIRED,"allowed values 후보 {우량, 수위}(자료 관찰)",S1E-22
+DataProperty,MeasurementDataset.datasetId,MeasurementDataset→value,-,"CQ1, CQ6",연구용 임시 ID,-,dataset 단위 정의 필요,Noy Step 6,KEEP,value type String,S1E-23
+DataProperty,Document.documentId,Document→value,-,CQ5,연구용 임시 ID + sha256,-,-,Noy Step 6,KEEP,value type String,S1E-24

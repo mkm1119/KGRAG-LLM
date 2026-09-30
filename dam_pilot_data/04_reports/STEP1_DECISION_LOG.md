@@ -40,3 +40,27 @@
 |---|---|---|---|
 | 2026-09-30 | S1A-01, S1A-04, S1A-12 | **개정(Noy 원문 대조 후)**: S1A-01은 "Noy·Li 모두 미대조"에서 "Noy 대조 완료, Li만 미대조"로 범위 축소; S1A-04는 v1의 "문헌이 사용자를 구분하지 않았다"를 "Noy는 사용자와 유지 주체를 구분하나, 최종 사용자/직접 소비 주체 구분은 본 연구 적용"으로 정정; S1A-12는 1-C의 문헌 근거(Noy Step 2) 확인 추가 | 사용자가 공유한 Noy.pdf 원문 대조 (M 문서 v2, §10) |
 | 2026-09-30 | S1A-08 | 신규 등록 | K/L 문서·linkage_pilot_cases.csv의 Criterion "연결" 표현이 §11-A와 어긋남을 STEP 1-A 점검에서 발견 |
+
+## 4. STEP 1-B ~ 1-J 추가 항목 (마스터 실행, 2026-09-30) — 기존 항목·상태는 변경하지 않음
+
+| ID | 단계 | 쟁점 | 현재 판단 | 근거 수준 | 상태 | 다음 행동 |
+|---|---|---|---|---|---|---|
+| S1B-01 | 1-B | CQ3 승인 접근 경로(Operation 경유뿐) | REVISION_CANDIDATE, 문구 미수정 | B | REVIEW_REQUIRED | 사용자 결정 |
+| S1B-02 | 1-B | CQ1↔CQ6 역할 중복 | 의도된 상위·하위로 보이나 확인 필요 | B | REVIEW_REQUIRED | 사용자 확인 |
+| S1B-03 | 1-B | CQ4 "당시의" 시점 조건 없음 | REVISION_CANDIDATE | B | REVIEW_REQUIRED | S1A-07과 함께 |
+| S1B-04 | 1-B | CQ5 세 대상 혼합 | KEEP_WITH_REVIEW | B | REVIEW_REQUIRED | 분리 여부 |
+| S1B-05 | 1-B | G-1 운영행위 없이 시설·시점 접근 | GAP 후보 | C | REVIEW_REQUIRED | CQ3과 통합 여부 |
+| S1B-06 | 1-B | G-2 시점 적용성 | GAP 후보 | C | DATA_REQUIRED | 연혁 |
+| S1B-07 | 1-B | G-3 상·하류 (필요성 미결) | GAP 후보, 추가 안 함 | C | DEFERRED | S1A-06 |
+| S1B-08 | 1-B | G-4 측정값 성격(잠정/최종) | 변수 사전·provenance 문제일 수 있음 | C | REVIEW_REQUIRED | - |
+| S1C-01 | 1-C | 재사용 후보(SOSA/SSN, PROV-O, HY_Features 등) 원문 미독 | 자동 import 금지 | C | LITERATURE_CHECK_REQUIRED | 원문 확보 |
+| S1C-02 | 1-C | OntoDSMS의 SSN/SOSA 재사용과 본 연구 Station/Dataset 관계 | 원문 확인 후 | C | LITERATURE_CHECK_REQUIRED | - |
+| S1D-01 | 1-D | 용어 163개 수집, 분류 미실시 | 완료 | A | CONFIRMED(절차 수행) | - |
+| S1E-01..24 | 1-E/F | 요소 검증(KEEP 9 / REVIEW 8 / NOT_TESTABLE 7) | `step1_ontology_element_validation.csv` | A/B | 요소별 상태는 CSV verdict | 전문가 검토 |
+| S1G-01 | 1-G | approvalTime 유형, 금액 단위, 시간대 미고정 | 후보만 | C | REVIEW_REQUIRED | S0-B/E |
+| S1H-01 | 1-H | 충주 승인 3412/3519 관계 추론 금지 | 원문 보존 | B | REVIEW_REQUIRED | - |
+| S1I-01..06 | 1-I | CQ별 문제 분류 | `step1_cq_validation.csv` | B | REVIEW_REQUIRED | - |
+| S1J-01 | 1-J | 전문가 검토 대상 7종 (프로토콜 미정의) | 대상 목록만 | C | EXPERT_REVIEW_REQUIRED | 전문가·절차 지정 |
+| S1L-01 | 전체 | `11_LSMKG.pdf` 부재 | STEP 3 근거 검증 불가 | - | LITERATURE_CHECK_REQUIRED | 파일 공유 |
+
+**변경 이력 추가:** S1A-01의 "Li 미대조"는 Li.pdf를 이후 원문 대조함(`STEP1_METHOD_EVIDENCE.md`). 상태 표기는 사용자 승인 전까지 그대로 두고, 대조 완료 사실만 여기에 기록.
