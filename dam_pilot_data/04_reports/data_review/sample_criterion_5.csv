@@ -1,0 +1,6 @@
+﻿criterion_id(연구용 임시ID),applies_to_facility_per_source,verbatim_text_or_value,unit,defined_in_document,source_url
+CR-01,소양강댐,홍수기 제한수위 셀 원문='190.3'; 시설별 최저 운영수위 셀 원문='-',EL.m,"댐과 보 등의 연계운영규정 [별표3] (기후에너지환경부 훈령 제42호, 시행 2026-07-08)",http://www.law.go.kr/DRF/lawService.do?OC=test&target=admrul&ID=2100000282102&type=XML
+CR-02,충주댐,홍수기 제한수위 셀 원문='138.0'; 시설별 최저 운영수위 셀 원문='-',EL.m,"댐과 보 등의 연계운영규정 [별표3] (기후에너지환경부 훈령 제42호, 시행 2026-07-08)",http://www.law.go.kr/DRF/lawService.do?OC=test&target=admrul&ID=2100000282102&type=XML
+CR-03,횡성댐,홍수기 제한수위 셀 원문='178.2'; 시설별 최저 운영수위 셀 원문='-',EL.m,"댐과 보 등의 연계운영규정 [별표3] (기후에너지환경부 훈령 제42호, 시행 2026-07-08)",http://www.law.go.kr/DRF/lawService.do?OC=test&target=admrul&ID=2100000282102&type=XML
+CR-04,화천댐,홍수기 제한수위 셀 원문='175.0'; 시설별 최저 운영수위 셀 원문='-',EL.m,"댐과 보 등의 연계운영규정 [별표3] (기후에너지환경부 훈령 제42호, 시행 2026-07-08)",http://www.law.go.kr/DRF/lawService.do?OC=test&target=admrul&ID=2100000282102&type=XML
+CR-09,팔당댐,홍수기 제한수위 셀 원문='25.51)'; 시설별 최저 운영수위 셀 원문='-',EL.m,"댐과 보 등의 연계운영규정 [별표3] (기후에너지환경부 훈령 제42호, 시행 2026-07-08)",http://www.law.go.kr/DRF/lawService.do?OC=test&target=admrul&ID=2100000282102&type=XML

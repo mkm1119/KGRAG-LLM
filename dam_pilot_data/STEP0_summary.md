@@ -63,6 +63,8 @@
 ## 5-1. 마지막 보완: Approval + Measurement + Criterion + Document 연결 파일럿 (수집 종료)
 승인 건수가 충분한 광동댐, 충주댐(+공식 하류 서술 시설 충주조정지), 같은 기간 승인이 있는 횡성·소양강의 대표 기간(2020-07-25~09-10, 2019-08-01~10-15)만 hourly 55회 호출로 추가 수집했다(8.4MB, 실패 0). 승인 24건 모두 측정 발췌와 연결되고 12건(충주·횡성·소양강)은 별표3 Criterion·Document와도 연결된다. 광동댐 12건은 별표3에 없어 기준 미연결. Operation·인과는 추론하지 않았다. 상세: `04_reports/K_Approval_Measurement_Linkage_Pilot.md`, `03_normalized/linkage_pilot_cases.csv`, `linkage_pilot_measurement_extract.csv`. **이 보완 후 STEP 0 데이터 수집을 종료하며, 다음은 STEP 1 Ontology Validation이다.**
 
+**데이터 검토용 요약(표본·그래프·원본-정규화 비교): `04_reports/L_DATA_REVIEW.md`, `04_reports/data_review/`**
+
 ## 6. 재현·보존
 - 코드 `scripts/`(수집: `fetch_kwater_mywater.py`, `fetch_kwater_station.py`, `mywater_client.py`, `fetch_law.py`, `probe_*`; 정규화/분석: `build_*.py`, `analyze_*.py`). 함수 분리는 `fetch_kwater()`/`fetch_law()` 등 source별 파일 단위.
 - endpoint/parameter/batch: MyWater `POST https://www.water.or.kr/kor/realtime/sumun/ajaxProc.do` (헤더 `AJAX: true`, form-encoded; mode=getPeriod|getHydr|getBasic|getRain). 배치 윈도: 일 364일, 시간 30일, 10분 7일(사이트 조회한도 365/30/7). 요청 간 1초 이상, 동시 최대 4스트림, 실패 시 최대 4회 재시도.
