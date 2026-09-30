@@ -1,4 +1,4 @@
-# literature/ — 근거 문헌 원본 PDF
+# references/evidence_literature/ — 근거 문헌 원본 PDF
 
 사용자가 공유한 원본 PDF를 **수정 없이** 보관한다. 연구 문서(`01_AI_RESEARCH_HANDOFF.md` §17)의 인용과의 대응은 아래와 같다.
 
