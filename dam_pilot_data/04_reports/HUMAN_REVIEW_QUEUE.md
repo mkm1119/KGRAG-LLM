@@ -1,0 +1,18 @@
+# HUMAN REVIEW QUEUE (STEP 2 mapping 전)
+
+지시서 §5의 8개 조건에 해당하는 항목만 올렸다. 각 항목에 근거 파일을 병기한다. **ontology 변경은 어느 항목에서도 직접 수행하지 않았고 "후보"로만 적었다.**
+
+| ID | 조건(§5) | 질문/결정 사항 | 근거 | 선택지(AI 제안 아님, 결정 대기) |
+|---|---|---|---|---|
+| H-01 | 1 동일 시설 불명확 | 승인 파일(HRFCO)과 K-water MyWater의 **같은 코드·같은 명칭** 7개 시설(충주 1003110, 횡성 1006110, 소양강 1012110, 광동 1001210, 충주조정지 1003611, 달방 1302210, 군남 1021701)을 동일 시설로 인정할 근거를 무엇으로 삼을 것인가 | `facility_identity_evidence.csv` (POSSIBLE_SAME); K-water 공식 코드 목록 `01_raw/DataGoKr/catalog_pages/15140222.html` | (a) 공식 HRFCO 댐 관측소 코드표(WAMIS/hrfco)를 사람이 접근 가능한 환경에서 받아 근거로 사용 (b) "공식 두 목록에서 코드·명칭 일치"를 규칙으로 승인(사람 결정) (c) 미확정 유지 |
+| H-02 | 1 | 강천·여주·이포: 이름 같고 코드 상이(1007801-3 vs 1007601-3) — 같은 시설인가 | `facility_identity_evidence.csv` (UNRESOLVED) | 공식 코드표 확인 / 별개 유지 |
+| H-03 | 1, 4 | KHNP 시설 6개(승인 코드 1010310 등 vs KHNP API 발전소 코드 3110 등): 코드 체계 상이, API 대상은 "수력발전소" — 댐과 발전소를 같은 Dam으로 볼 것인가 | `facility_identity_evidence.csv`; `01_raw/DataGoKr/catalog_pages/15157779.html` | 단위(plant vs dam) 정의 결정 |
+| H-04 | 4 한 필드↔여러 속성 | 지시서 ontology의 `Approval.approvalTime`, `approvalContent`에 승인 파일 필드(승인년월일시분[날짜만], 방류시작시간, 접수방류량, 접수일자, 비고)를 어떻게 대응시킬 것인가 — `approvalTime`은 승인일(날짜)과 방류시작시각 중 무엇인가, `approvalContent`는 어떤 필드의 조합인가 | `02_metadata/approval_field_dictionary.csv` | 매핑 규칙을 사람이 결정(원본 필드명은 별도 보존 열로 유지) |
+| H-05 | 2 정의 애매 | `접수방류량`이 승인량인지 요청량인지, `접수일자`가 무엇의 접수일인지 | 공식 설명은 "접수 방류량(단위 : CMS)"뿐(`approval_field_dictionary.csv`) | 한강홍수통제소 예보통제과(공식 페이지 `01_raw/FloodControl/pages/datagokr_15085926_fileData.json`의 관리부서; 연락처 02-590-6131) 문의 / 미확정 유지 |
+| H-06 | 6 Operation/Approval/계획 구분 불가 | K-water 수문 방류정보 서비스(15140222)의 방류시작·종료 시간 메시지를 "실제 수행된 Operation"의 근거로 볼 것인가, 방류 통보(계획/예고)인가 | `03_normalized/operation_source_search_log.csv` OP-02 | 서비스 제공기관(K-water 디지털전환추진단) 문의 / 사용하지 않음 |
+| H-07 | 7 접근 권한 | 인증키가 필요한 API(15140222 수문방류정보, 15099110 수문 운영 정보, 15157779 KHNP 수문자료)와 이 환경에서 접속이 안 된 사이트(hrfco.go.kr, api.hrfco.go.kr, wamis.go.kr, me.go.kr, opendata.kwater.or.kr)에 대해 사람이 키를 발급·접근할 수 있는가 | `02_metadata/gap_fetch_log.csv` (FAIL 6건), 각 카탈로그 페이지 | 키 발급 또는 접근 가능한 환경에서 수집 요청 |
+| H-08 | 5 규정 적용기간 근거 부족 | (a) 2012-01-01 이전 승인 1,146건(2010-07-16~2011-12-31)에 적용된 운영기준은? (b) 규정 개정 시행일 사이를 "효력 기간"으로 읽어도 되는가(법적 폐지일 별도 확인 안 함) (c) 충주조정지는 규정상 충주댐에 포함된 항목인데 승인·K-water는 별도 시설 — Criterion `appliesToDam` 단위를 무엇으로 할 것인가 | `criterion_version_history.csv`; 연계운영규정 별표1(2018-06-29판 이후 "충주댐(조정지댐포함)") | 구 규정/댐 관리규정 조사 요청; 단위 결정 |
+| H-09 | 2 정의 애매 | MyWater 시간 라벨(01..24)이 구간 시작/종료 중 무엇인지, timezone이 KST인지 공식 확인 | `time_conventions_verified.csv` (PARTIAL; 공식 기술문서 샘플 패턴 + 수신시각 정합 관찰) | K-water 문의 / 미확정 유지 |
+| H-10 | 8 ontology 수정 필요해 보임 | **수정 후보만 기록(적용하지 않음):** (1) HydrometeorologicalState의 조회키가 stationCode뿐 아니라 DAM_CODE(유입량·방류량·저수위 등)와 (damCd+OBS_CD) 조합이 존재 — 현재 속성 `stationCode`만으로 표현 불가한 변수가 있음 (2) Criterion에 효력 시작·판(version) 정보를 둘 위치가 없음(EvidenceSource에 둘지) (3) Criterion 값의 각주 표기(예 25.5 + "1) 상시만수위 대체")를 둘 위치 (4) 관측소–댐 연결이 "조회 파라미터 아래 나열"뿐이라는 의미 (5) 저장소의 Initial Ontology v0.1(ObservationStation, MeasurementDataset, Document)과 이번 core ontology 이름의 대응 | `measurement_lookup_key_evidence.csv`, `criterion_version_history.csv`, `observation_station_list.csv` | 사람이 ontology 소유자 판단 |
+| H-11 | 2/5 | 2013-01-01·2013-04-17·2016-04-29판 별표3은 첨부 HWP 텍스트에서 행 정렬을 복원했음 — 원본 HWP를 눈으로 대조해 확정 | `01_raw/Law_history/attachments/*.bin` (+ `.extracted.txt`), `criterion_version_history.csv` (`EXTRACTED_FROM_OFFICIAL_HWP_ATTACHMENT`) | 대조 후 `verification_status` 갱신 |
+| H-12 | 7 | 한강수계 Operation 자료가 비공개 업무 문서(운영일지 등)일 가능성 — 댐 운영기관(K-water/KHNP)·한강홍수통제소에 직접 자료 요청 여부 | `operation_source_search_log.csv` | 요청 여부 결정 |

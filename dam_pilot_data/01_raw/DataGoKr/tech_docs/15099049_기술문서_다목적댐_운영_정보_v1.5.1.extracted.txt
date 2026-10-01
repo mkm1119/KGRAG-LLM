@@ -1,0 +1,432 @@
+-158755-239400
+공공데이터 OpenAPI 활용가이드
+center-114304
+목 차
+목 차
+ TOC \o &quot;1 - 3&quot; \h \z \u&quot;HYPERLINK  \l  &quot;_Toc95150497&quot;1. 서비스 명세 PAGEREF  _Toc95150497  \* MERGEFORMAT3
+HYPERLINK  \l  &quot;_Toc95150498&quot;1.1. 다목적댐 관리현황 조회 서비스 PAGEREF  _Toc95150498  \* MERGEFORMAT3
+HYPERLINK  \l  &quot;_Toc95150499&quot;가. 서비스 개요 PAGEREF  _Toc95150499  \* MERGEFORMAT3
+HYPERLINK  \l  &quot;_Toc95150500&quot;나. 오퍼레이션 목록 PAGEREF  _Toc95150500  \* MERGEFORMAT4
+HYPERLINK  \l  &quot;_Toc95150501&quot;2. OpenAPI 에러 코드정리 PAGEREF  _Toc95150501  \* MERGEFORMAT6
+서비스 명세
+다목적댐 운영 정보 조회 서비스
+서비스 개요
+서비스 정보
+서비스 ID
+multipurPoseDam
+서비스명(국문)
+다목적댐 운영 정보
+서비스명(영문)
+dam/multipurPoseDam
+서비스 설명
+ㅁ 개     요 : K-water에서 관리중인 다목적댐 운영정보
+ㅁ 제공항목 : 강우량(mm), 유입량(㎥/sec), 방류량(㎥/sec), 저수위(EL.m), 저수량(백만㎥), 저수율(%), 발전량(천kWh) 등
+  * 강우량 : 일정한 기간 동안 내린 비의 양으로, 넓은 의미로 눈, 싸락눈, 우박, 이슬 및 서리의 양도 포함
+  * 유입량 : 단위 시간당 댐 수위 변화에 따른 저수량의 차이와 단위 시간의 평균방류량을 이용하여 계산
+  * 방류량 : 저수지 등 수체로부터 외부로 유출되는 양
+  * 저수위 : 저수지 수위를 의미
+  * 저수량 : 수위를 이용해 계산된 값
+  * 저수율 : 계획홍수위 기준 저수용량(총저수용량)에 대한 현재 저수량의 비율
+ㅁ 제공지점 : 다목적댐 21개소
+    - 한강 3개소(소양강, 충주, 횡성)
+    - 낙동강 10개소(안동, 임하, 성덕, 영주, 군위, 김천부항, 보현산, 합천, 남강, 밀양)
+    - 금강 2개소(용담, 대청)
+    - 섬진강 3개소(섬진강, 주암(본), 주암(조)
+    - 기타 3개소(부안, 보령, 장흥)
+ㅁ 보유기간 : 1997년 1월 ~ 현재    * 지점별로 보유기간 상이함
+서비스 보안
+서비스 인증/권한
+[O] 서비스 Key[ ] 인증서 (GPKI)
+[] Basic (ID/PW) [ ] 없음
+[ ]WS-Security
+메시지 레벨 암호화
+[  ] 전자서명[ ] 암호화[O] 없음
+전송 레벨 암호화
+[  ] SSL[ O] 없음
+적용 기술 수준
+인터페이스 표준
+[  ] SOAP 1.2
+(RPC-Encoded, Document Literal, Document Literal Wrapped)
+[ O ] REST (GET, POST, PUT, DELETE)
+[ ] RSS 1.0 [ ] RSS 2.0 [ ] Atom 1.0 [ ] 기타
+교환 데이터 표준
+[ O ] XML[ O ] JSON[ ] MIME[ ] MTOM
+서비스 URL
+개발환경
+http://apis.data.go.kr/B500001/dam/multipurPoseDam
+운영환경
+http://apis.data.go.kr/B500001/dam/multipurPoseDam
+서비스 WADL
+개발환경
+http://apis.data.go.kr/B500001/dam/multipurPoseDam?_wadl&amp;_type=xml
+운영환경
+http://apis.data.go.kr/B500001/dam/multipurPoseDam?_wadl&amp;_type=xml
+서비스 배포 정보
+서비스 버전
+1.0
+유효일자
+2014-12-22
+배포 일자
+2014-12-22
+서비스 이력
+N/A
+메시지 교환 유형
+[O] Request-Response[ ] Publish-Subscribe
+[ ] Fire-and-Forgot[ ] Notification
+메시지 로깅 수준
+성공
+[O] Header [ ] Body
+실패
+[O] Header [O} Body
+서비스 제공자
+박진기 / 디지털기획처 / 042-629-3826/ pjk2580@kwater.or.kr
+데이터 갱신주기
+기타(수시)
+사용 제약 사항 (비고)
+N/A
+오퍼레이션 목록
+일련번호
+서비스명(국문)
+오퍼레이션명(영문)
+오퍼레이션명(국문)
+메시지명(영문)
+1
+다목적댐 운영 정보
+multipurPoseDamlist
+다목적댐관리현황 조회
+N/A
+다목적댐관리현황 조회 오퍼레이션 명세
+오퍼레이션 정보
+오퍼레이션 번호
+1
+오퍼레이션명(국문)
+다목적댐관리현황 조회
+오퍼레이션 유형
+조회(목록)
+오퍼레이션명(영문)
+multipurPoseDamlist
+오퍼레이션 설명
+K-water에서 관리중인 다목적댐 운영정보
+Call Back URL
+http://apis.data.go.kr/B500001/dam/multipurPoseDam/multipurPoseDamlist
+최대 메시지 사이즈
+[ 1000K bytes]
+평균 응답 시간
+[ 500ms]
+초당 최대 트랜잭션
+[ 30tps]
+요청 메시지 명세
+항목명(영문)
+항목명(국문)
+항목크기
+항목구분
+샘플데이터
+항목설명
+serviceKey
+서비스키
+100
+1
+인증키
+(URL Encode)
+공공데이터포털에서 발급받은 인증키
+numOfRows
+한 페이지 결과 수
+10
+1
+10
+한 페이지 결과 수
+pageNo
+페이지 번호
+10
+1
+1
+페이지 번호
+_type
+출력형식
+4
+0
+xml
+출력형식(xml/json) 기본값 : xml
+tdate
+전일
+(선택날짜 기준)
+10
+1
+2018-08-19
+선택날짜 기준 전일날짜
+ldate
+전년도
+(선택날짜 기준)
+10
+1
+2017-08-20
+선택날짜 기준 전년날짜
+vdate
+선택날짜
+10
+1
+2018-08-20
+선택날짜
+vtime
+조회시간
+4
+1
+07
+조회시간
+※ 항목구분 : 필수(1), 옵션(0), 1건 이상 복수건(1..n), 0건 또는 복수건(0..n)
+응답 메시지 명세
+항목명(영문)
+항목명(국문)
+항목크기
+항목구분
+샘플데이터
+항목설명
+resultCode
+결과코드
+2
+1
+00
+결과코드
+resultMsg
+결과메세지
+50
+1
+NORMAL SERVICE
+결과메세지
+suge
+수계
+30
+1
+금강
+수계
+damnm
+댐이름
+30
+1
+대청
+댐이름
+zerosevenhourprcptqy
+강우량 금일
+8,2
+0
+0.0
+강우량 금일(㎜)
+prcptqy
+강우량 전일
+8,2
+0
+0.0
+강우량 전일(㎜)
+pyacurf
+금년 누계강우량 
+10.4
+0
+645.3
+금년 누계강우량(㎜) 
+vyacurf
+전년 누계강우량
+10.4
+0
+699.6
+전년 누계강우량(㎜)
+oyaacurf
+예년 누계강우량
+10.4
+0
+829.7
+예년 누계강우량(㎜)
+inflowqy
+전일 유입량
+10.4
+0
+6.5
+전일 유입량(㎥/sec)
+totdcwtrqy
+전일 방류량
+(본댐)
+15.3
+0
+54.3
+전일 방류량(㎥/sec)
+(본댐)
+totdcwtrqyjo
+전일 방류량
+(조정지)
+15.3
+0
+34.7
+전일 방류량(㎥/sec)
+(조정지)
+nowlowlevel
+저수위(현재)
+10.4
+0
+70.2
+저수위(현재) (EL.m)
+lastlowlevel
+저수위(전년)
+10.4
+0
+75.01
+저수위(전년) (EL.m)
+nyearlowlevel
+저수위(예년)
+10.4
+0
+70.92
+저수위(예년) (EL.m)
+nowrsvwtqy
+저수량(현재)
+10.4
+0
+806.0
+저수량(현재) (백만㎥)
+lastrsvwtqy
+저수량(전년)
+10.4
+0
+1,076.9
+저수량(전년) (백만㎥)
+nyearrsvwtqy
+저수량(예년)
+10.4
+0
+843.6
+저수량(예년) (백만㎥)
+rsvwtrt
+현재저수율
+18.4
+0
+54.1
+현재저수율 (%)
+dvlpqyacmtlacmslt
+발전량(실적)
+5.1
+0
+92,711
+발전량(실적) (MWh)
+dvlpqyacmtlplan
+발전량(계획)
+5.1
+0
+55,725
+발전량(계획) (MWh)
+dvlpqyacmtlversus
+발전량(계획대비)
+5.1
+0
+166.4
+발전량(계획대비) (%)
+dvlpqyfyerplan
+연간발전계획
+18.4
+0
+80,998
+연간발전계획 (MWh)
+dvlpqyfyerversus
+연간계획대비
+18.4
+0
+114.5
+연간계획대비 (%)
+numOfRows
+한 페이지 결과수
+10
+1
+10
+한 페이지당 표출 데이터 수
+pageNo
+페이지번호
+10
+1
+1
+페이지번호
+totalCount
+데이터 총수
+10
+1
+21
+데이터 총수
+※ 항목구분 : 필수(1), 옵션(0), 1건 이상 복수건(1..n), 0건 또는 복수건(0..n)
+요청 / 응답 메시지 예제
+REST(URI)
+http://apis.data.go.kr/B500001/dam/multipurPoseDam/multipurPoseDamlist?tdate=2018-08-19&amp;ldate=2017-08-20&amp;vdate=2018-08-20&amp;vtime=07&amp;pageNo=1&amp;numOfRows=10&amp;_type=xml&amp;serviceKey=서비스키
+응답 메시지
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;true&quot;?&gt;
+&lt;response&gt;
+&lt;header&gt;
+&lt;resultCode&gt;00&lt;/resultCode&gt;
+&lt;resultMsg&gt;NORMAL SERVICE.&lt;/resultMsg&gt;
+&lt;/header&gt;
+&lt;body&gt;
+&lt;items&gt;
+&lt;item&gt;
+  &lt;damnm&gt;대청&lt;/damnm&gt;
+&lt;dvlpqyacmtlacmslt&gt;92,711&lt;/dvlpqyacmtlacmslt&gt;
+&lt;dvlpqyacmtlplan&gt;55,725&lt;/dvlpqyacmtlplan&gt;
+&lt;dvlpqyacmtlversus&gt;166.4&lt;/dvlpqyacmtlversus&gt;
+&lt;dvlpqyfyerplan&gt;80,998&lt;/dvlpqyfyerplan&gt;
+&lt;dvlpqyfyerversus&gt;114.5&lt;/dvlpqyfyerversus&gt;
+&lt;inflowqy&gt;6.5&lt;/inflowqy&gt;
+&lt;lastlowlevel&gt;75.01&lt;/lastlowlevel&gt;
+&lt;lastrsvwtqy&gt;1,076.9&lt;/lastrsvwtqy&gt;
+&lt;nowlowlevel&gt;70.2&lt;/nowlowlevel&gt;
+&lt;nowrsvwtqy&gt;806.0&lt;/nowrsvwtqy&gt;
+&lt;nyearlowlevel&gt;70.92&lt;/nyearlowlevel&gt;
+&lt;nyearrsvwtqy&gt;843.6&lt;/nyearrsvwtqy&gt;
+&lt;oyaacurf&gt;829.7&lt;/oyaacurf&gt;
+&lt;prcptqy&gt;0.0&lt;/prcptqy&gt;
+&lt;pyacurf&gt;645.3&lt;/pyacurf&gt;
+&lt;rsvwtrt&gt;54.1&lt;/rsvwtrt&gt;
+&lt;suge&gt;금강&lt;/suge&gt;
+&lt;totdcwtrqy&gt;54.3&lt;/totdcwtrqy&gt;
+&lt;totdcwtrqyjo&gt;34.7&lt;/totdcwtrqyjo&gt;
+&lt;vyacurf&gt;699.6&lt;/vyacurf&gt;
+&lt;zerosevenhourprcptqy&gt;0.0&lt;/zerosevenhourprcptqy&gt;
+&lt;/item&gt;
+&lt;/items&gt;
+&lt;numOfRows&gt;10&lt;/numOfRows&gt;
+&lt;pageNo&gt;1&lt;/pageNo&gt;
+&lt;totalCount&gt;21&lt;/totalCount&gt;
+&lt;/body&gt;
+&lt;/response&gt;
+OpenAPI 에러 코드정리
+공공데이터 포털 에러코드
+에러코드
+에러메시지
+설명
+1
+APPLICATION_ERROR
+어플리케이션 에러
+4
+HTTP_ERROR
+HTTP 에러
+12
+NO_OPENAPI_SERVICE_ERROR
+해당 오픈API서비스가 없거나 폐기됨
+20
+SERVICE_ACCESS_DENIED_ERROR
+서비스 접근거부
+22
+LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR
+서비스 요청제한횟수 초과에러
+30
+SERVICE_KEY_IS_NOT_REGISTERED_ERROR
+등록되지 않은 서비스키
+31
+DEADLINE_HAS_EXPIRED_ERROR
+활용기간 만료
+32
+UNREGISTERED_IP_ERROR
+등록되지 않은 IP
+99
+UNKNOWN_ERROR
+기타에러
+공공데이터포털에서 출력되는 오류메세지는 XML로만 출력되며, 형태는 아래와 같습니다.
+&lt;OpenAPI_ServiceResponse&gt;
+&lt;cmmMsgHeader&gt;
+&lt;errMsg&gt;SERVICE ERROR&lt;/errMsg&gt;
+&lt;returnAuthMsg&gt;SERVICE_KEY_IS_NOT_REGISTERED_ERROR&lt;/returnAuthMsg&gt;
+&lt;returnReasonCode&gt;30&lt;/returnReasonCode&gt;
+&lt;/cmmMsgHeader&gt;
+&lt;/OpenAPI_ServiceResponse&gt;

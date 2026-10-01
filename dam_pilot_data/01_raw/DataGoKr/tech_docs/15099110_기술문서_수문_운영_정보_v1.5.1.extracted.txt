@@ -1,0 +1,825 @@
+공공데이터 OpenAPI 활용가이드
+목 차
+ TOC \o &quot;1 - 3&quot; \h \z \u&quot;HYPERLINK  \l  &quot;_Toc95152097&quot;1. 서비스 명세 PAGEREF  _Toc95152097  \* MERGEFORMAT3
+HYPERLINK  \l  &quot;_Toc95152098&quot;1.1. 수문현황정보 조회 서비스 PAGEREF  _Toc95152098  \* MERGEFORMAT3
+HYPERLINK  \l  &quot;_Toc95152099&quot;가. 서비스 개요 PAGEREF  _Toc95152099  \* MERGEFORMAT3
+HYPERLINK  \l  &quot;_Toc95152100&quot;나. 오퍼레이션 목록 PAGEREF  _Toc95152100  \* MERGEFORMAT4
+HYPERLINK  \l  &quot;_Toc95152101&quot;2. OpenAPI 에러 코드정리 PAGEREF  _Toc95152101  \* MERGEFORMAT14
+서비스 명세
+수문 운영 정보 조회 서비스
+서비스 개요
+서비스 정보
+서비스 ID
+sluicePresentCondition
+서비스명(국문)
+수문 운영 정보
+서비스명(영문)
+dam/sluicePresentCondition
+서비스 설명
+ㅁ 개     요 :  K-water에서 관리중인 댐 및 보의 수문정보
+ㅁ 제공항목 : 댐수위[EL.m], 강우량[mm], 유입량[㎥/sec], 총방류량[㎥/sec], 저수량[백만㎥/sec], 저수율[%]
+  * 댐수위[EL.m] : 저수지 수위를 의미
+  * 강우량[mm] : 일정한 기간 동안 내린 비의 양으로, 넓은 의미로 눈, 싸락눈, 우박, 이슬 및 서리의 양도 포함
+  * 유입량[㎥/sec] : 단위 시간당 댐 수위 변화에 따른 저수량의 차이와 단위 시간의 평균방류량을 이용하여 계산
+  * 방류량[㎥/sec] : 저수지 등 수체로부터 외부로 유출되는 양
+  * 저수량[㎥/sec] : 수위를 이용해 계산된 값
+  * 저수율[%] : 계획홍수위 기준(용수댐의 경우 상시만수위 기준) 저수용량(총저수용량)에 대한 현재 저수량의 비율
+ㅁ 제공지점 : 61개소(다목적댐 21, 용수전용댐 14, 낙동강하굿둑, 홍수조절용댐 3, 조정지 6, 보 16)
+서비스 보안
+서비스 인증/권한
+[O] 서비스 Key[ ] 인증서 (GPKI)
+[] Basic (ID/PW) [ ] 없음
+[ ]WS-Security
+메시지 레벨 암호화
+[  ] 전자서명[ ] 암호화[O] 없음
+전송 레벨 암호화
+[  ] SSL[ O] 없음
+적용 기술 수준
+인터페이스 표준
+[  ] SOAP 1.2
+(RPC-Encoded, Document Literal, Document Literal Wrapped)
+[ O ] REST (GET, POST, PUT, DELETE)
+[ ] RSS 1.0 [ ] RSS 2.0 [ ] Atom 1.0 [ ] 기타
+교환 데이터 표준
+[ O ] XML[ O ] JSON[ ] MIME[ ] MTOM
+서비스 URL
+개발환경
+http://apis.data.go.kr/B500001/dam/sluicePresentCondition
+운영환경
+http://apis.data.go.kr/B500001/dam/sluicePresentCondition
+서비스 WADL
+개발환경
+http://apis.data.go.kr/B500001/dam/sluicePresentCondition?_wadl&amp;_type=xml
+운영환경
+http://apis.data.go.kr/B500001/dam/sluicePresentCondition?_wadl&amp;_type=xml
+서비스 배포 정보
+서비스 버전
+1.0
+유효일자
+2015-01-06
+배포 일자
+2015-01-06
+서비스 이력
+N/A
+메시지 교환 유형
+[O] Request-Response[ ] Publish-Subscribe
+[ ] Fire-and-Forgot[ ] Notification
+메시지 로깅 수준
+성공
+[O] Header [ ] Body
+실패
+[O] Header [O} Body
+서비스 제공자
+박진기 / 디지털기획처 / 042-629-3826/ pjk2580@kwater.or.kr
+데이터 갱신주기
+기타(수시)
+사용 제약 사항 (비고)
+N/A
+오퍼레이션 목록
+일련번호
+서비스명(국문)
+오퍼레이션명(영문)
+오퍼레이션명(국문)
+메시지명(영문)
+1
+수문 운영 정보
+mntlist
+수문현황정보(10분)
+N/A
+2
+hourlist
+수문현황정보(시간)
+N/A
+3
+delist
+수문현황정보(일)
+N/A
+수문현황정보(10분) 조회 오퍼레이션 명세
+오퍼레이션 정보
+오퍼레이션 번호
+1
+오퍼레이션명(국문)
+수문현황정보(10분)
+오퍼레이션 유형
+조회(목록)
+오퍼레이션명(영문)
+mntlist
+오퍼레이션 설명
+K-water에서 관리중인 댐 및 보의 10분 주기 수문정보
+Call Back URL
+http://apis.data.go.kr/B500001/dam/sluicePresentCondition/mntlist
+최대 메시지 사이즈
+[ 1000K bytes]
+평균 응답 시간
+[ 500ms]
+초당 최대 트랜잭션
+[ 30tps]
+요청 메시지 명세
+항목명(영문)
+항목명(국문)
+항목크기
+항목구분
+샘플데이터
+항목설명
+serviceKey
+인증키
+100
+1
+발급받은 인증키
+numOfRows
+줄수
+10
+1
+10
+페이지당 줄수
+pageNo
+페이지번호
+10
+1
+1
+페이지 번호
+_type
+출력형식
+4
+0
+xml
+출력형식(xml/json) 기본값 : xml
+damcode
+댐코드
+7
+1
+2022510
+수문제원현황 서비스의 댐코드조회 기능 참조
+stdt
+조회시작일
+10
+1
+2018-10-01
+조회시작일
+eddt
+조회종료일
+10
+1
+2018-10-01
+조회종료일
+※ 항목구분 : 필수(1), 옵션(0), 1건 이상 복수건(1..n), 0건 또는 복수건(0..n)
+응답 메시지 명세
+항목명(영문)
+항목명(국문)
+항목크기
+항목구분
+샘플데이터
+항목설명
+resultCode
+결과코드
+2
+1
+00
+결과코드
+resultMsg
+결과메세지
+50
+1
+NORMAL SERVICE
+결과메세지
+obsrdtmnt
+일시
+13
+1
+10-01 00시 10분
+일시
+lowlevel
+댐수위
+10,4
+0
+0.75
+댐수위 (EL.m)
+rf
+강우량
+8,2
+0
+0.000
+강우량 (㎜)
+inflowqy
+유입량
+15,3
+0
+365.322
+유입량 (㎥/sec)
+totdcwtrqy
+총방류량
+15,3
+0
+108.717
+총방류량 (㎥/sec)
+rsvwtqy
+저수량
+18,4
+0
+296.836
+저수량 (백만㎥)
+rsvwtrt
+저수율
+5,1
+0
+96.6
+저수율 (%)
+numOfRows
+한 페이지 결과수
+10
+1
+10
+한 페이지당 표출 데이터 수
+pageNo
+페이지번호
+10
+1
+1
+페이지번호
+totalCount
+전체 결과 수
+10
+1
+144
+전체 결과 수
+※ 항목구분 : 필수(1), 옵션(0), 1건 이상 복수건(1..n), 0건 또는 복수건(0..n)
+요청 / 응답 메시지 예제
+REST(URI)
+http://apis.data.go.kr/B500001/dam/sluicePresentCondition/mntlist?damcode=2022510&amp;stdt=2018-10-01&amp;eddt=2018-10-01&amp;pageNo=1&amp;numOfRows=10&amp;_type=xml&amp;serviceKey=서비스키
+응답 메시지
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;
+&lt;response&gt;
+&lt;header&gt;
+&lt;resultCode&gt;00&lt;/resultCode&gt;
+&lt;resultMsg&gt;NORMAL SERVICE.&lt;/resultMsg&gt;
+&lt;/header&gt;
+&lt;body&gt;
+&lt;items&gt;
+&lt;item&gt;
+&lt;inflowqy&gt;365.322&lt;/inflowqy&gt;
+&lt;lowlevel&gt;0.75&lt;/lowlevel&gt;
+&lt;obsrdtmnt&gt;10-01 00시 10분&lt;/obsrdtmnt&gt;
+&lt;rf&gt;0.000&lt;/rf&gt;
+&lt;rsvwtqy&gt;296.836&lt;/rsvwtqy&gt;
+&lt;rsvwtrt&gt;96.6&lt;/rsvwtrt&gt;
+&lt;totdcwtrqy&gt;108.717&lt;/totdcwtrqy&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;inflowqy&gt;98.372&lt;/inflowqy&gt;
+&lt;lowlevel&gt;0.74&lt;/lowlevel&gt;
+&lt;obsrdtmnt&gt;10-01 00시 20분&lt;/obsrdtmnt&gt;
+&lt;rf&gt;0.000&lt;/rf&gt;
+&lt;rsvwtqy&gt;296.377&lt;/rsvwtqy&gt;
+&lt;rsvwtrt&gt;96.5&lt;/rsvwtrt&gt;
+&lt;totdcwtrqy&gt;107.903&lt;/totdcwtrqy&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;inflowqy&gt;363.366&lt;/inflowqy&gt;
+&lt;lowlevel&gt;0.74&lt;/lowlevel&gt;
+&lt;obsrdtmnt&gt;10-01 00시 30분&lt;/obsrdtmnt&gt;
+&lt;rf&gt;0.000&lt;/rf&gt;
+&lt;rsvwtqy&gt;296.377&lt;/rsvwtqy&gt;
+&lt;rsvwtrt&gt;96.5&lt;/rsvwtrt&gt;
+&lt;totdcwtrqy&gt;109.145&lt;/totdcwtrqy&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;inflowqy&gt;108.239&lt;/inflowqy&gt;
+&lt;lowlevel&gt;0.75&lt;/lowlevel&gt;
+&lt;obsrdtmnt&gt;10-01 00시 40분&lt;/obsrdtmnt&gt;
+&lt;rf&gt;0.000&lt;/rf&gt;
+&lt;rsvwtqy&gt;296.836&lt;/rsvwtqy&gt;
+&lt;rsvwtrt&gt;96.6&lt;/rsvwtrt&gt;
+&lt;totdcwtrqy&gt;107.671&lt;/totdcwtrqy&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;inflowqy&gt;108.726&lt;/inflowqy&gt;
+&lt;lowlevel&gt;0.74&lt;/lowlevel&gt;
+&lt;obsrdtmnt&gt;10-01 00시 50분&lt;/obsrdtmnt&gt;
+&lt;rf&gt;0.000&lt;/rf&gt;
+&lt;rsvwtqy&gt;296.377&lt;/rsvwtqy&gt;
+&lt;rsvwtrt&gt;96.5&lt;/rsvwtrt&gt;
+&lt;totdcwtrqy&gt;109.361&lt;/totdcwtrqy&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;inflowqy&gt;108.711&lt;/inflowqy&gt;
+&lt;lowlevel&gt;0.74&lt;/lowlevel&gt;
+&lt;obsrdtmnt&gt;10-01 01시 00분&lt;/obsrdtmnt&gt;
+&lt;rf&gt;0.000&lt;/rf&gt;
+&lt;rsvwtqy&gt;296.377&lt;/rsvwtqy&gt;
+&lt;rsvwtrt&gt;96.5&lt;/rsvwtrt&gt;
+&lt;totdcwtrqy&gt;109.100&lt;/totdcwtrqy&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;inflowqy&gt;109.313&lt;/inflowqy&gt;
+&lt;lowlevel&gt;0.75&lt;/lowlevel&gt;
+&lt;obsrdtmnt&gt;10-01 01시 10분&lt;/obsrdtmnt&gt;
+&lt;rf&gt;0.000&lt;/rf&gt;
+&lt;rsvwtqy&gt;296.836&lt;/rsvwtqy&gt;
+&lt;rsvwtrt&gt;96.6&lt;/rsvwtrt&gt;
+&lt;totdcwtrqy&gt;109.478&lt;/totdcwtrqy&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;inflowqy&gt;109.262&lt;/inflowqy&gt;
+&lt;lowlevel&gt;0.74&lt;/lowlevel&gt;
+&lt;obsrdtmnt&gt;10-01 01시 20분&lt;/obsrdtmnt&gt;
+&lt;rf&gt;0.000&lt;/rf&gt;
+&lt;rsvwtqy&gt;296.377&lt;/rsvwtqy&gt;
+&lt;rsvwtrt&gt;96.5&lt;/rsvwtrt&gt;
+&lt;totdcwtrqy&gt;109.210&lt;/totdcwtrqy&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;inflowqy&gt;364.667&lt;/inflowqy&gt;
+&lt;lowlevel&gt;0.75&lt;/lowlevel&gt;
+&lt;obsrdtmnt&gt;10-01 01시 30분&lt;/obsrdtmnt&gt;
+&lt;rf&gt;0.000&lt;/rf&gt;
+&lt;rsvwtqy&gt;296.836&lt;/rsvwtqy&gt;
+&lt;rsvwtrt&gt;96.6&lt;/rsvwtrt&gt;
+&lt;totdcwtrqy&gt;110.479&lt;/totdcwtrqy&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;inflowqy&gt;365.732&lt;/inflowqy&gt;
+&lt;lowlevel&gt;0.76&lt;/lowlevel&gt;
+&lt;obsrdtmnt&gt;10-01 01시 40분&lt;/obsrdtmnt&gt;
+&lt;rf&gt;0.000&lt;/rf&gt;
+&lt;rsvwtqy&gt;297.295&lt;/rsvwtqy&gt;
+&lt;rsvwtrt&gt;96.8&lt;/rsvwtrt&gt;
+&lt;totdcwtrqy&gt;112.006&lt;/totdcwtrqy&gt;
+&lt;/item&gt;
+&lt;/items&gt;
+&lt;numOfRows&gt;10&lt;/numOfRows&gt;
+&lt;pageNo&gt;1&lt;/pageNo&gt;
+&lt;totalCount&gt;144&lt;/totalCount&gt;
+&lt;/body&gt;
+&lt;/response&gt;
+수문현황정보(시간) 조회 오퍼레이션 명세
+오퍼레이션 정보
+오퍼레이션 번호
+2
+오퍼레이션명(국문)
+수문현황정보(시간)
+오퍼레이션 유형
+조회(목록)
+오퍼레이션명(영문)
+hourlist
+오퍼레이션 설명
+K-water에서 관리중인 댐 및 보의 시간당 수문정보
+Call Back URL
+http://apis.data.go.kr/B500001/dam/sluicePresentCondition/hourlist
+최대 메시지 사이즈
+[ 1000K bytes]
+평균 응답 시간
+[ 500ms]
+초당 최대 트랜잭션
+[ 30tps]
+요청 메시지 명세
+항목명(영문)
+항목명(국문)
+항목크기
+항목구분
+샘플데이터
+항목설명
+serviceKey
+인증키
+100
+1
+발급받은 인증키
+numOfRows
+줄수
+10
+1
+10
+페이지당 줄수
+pageNo
+페이지번호
+10
+1
+1
+페이지 번호
+_type
+출력형식
+4
+0
+xml
+출력형식(xml/json) 기본값 : xml
+damcode
+댐코드
+7
+1
+2022510
+수문제원현황 서비스의 댐코드조회 기능 참조
+stdt
+조회시작일
+10
+1
+2018-10-01
+조회시작일
+eddt
+조회종료일
+10
+1
+2018-10-01
+조회종료일
+※ 항목구분 : 필수(1), 옵션(0), 1건 이상 복수건(1..n), 0건 또는 복수건(0..n)
+응답 메시지 명세
+항목명(영문)
+항목명(국문)
+항목크기
+항목구분
+샘플데이터
+항목설명
+resultCode
+결과코드
+2
+1
+00
+결과코드
+resultMsg
+결과메세지
+50
+1
+NORMAL SERVICE
+결과메세지
+obsrdt
+일시
+9
+1
+10-01 01시
+일시
+lowlevel
+댐수위
+10,4
+0
+0.74
+댐수위 (EL.m)
+rf
+강우량
+8,2
+0
+0.000
+강우량 (㎜)
+inflowqy
+유입량
+15,3
+0
+236.038
+유입량 (㎥/sec)
+totdcwtrqy
+총방류량
+15,3
+0
+108.649
+총방류량 (㎥/sec)
+rsvwtqy
+저수량
+18,4
+0
+296.377
+저수량 (백만㎥)
+rsvwtrt
+저수율
+5,1
+0
+96.5
+저수율 (%)
+numOfRows
+한 페이지 결과수
+10
+1
+10
+한 페이지당 표출 데이터 수
+pageNo
+페이지번호
+10
+1
+1
+페이지번호
+totalCount
+전체 결과 수
+10
+1
+24
+전체 결과 수
+※ 항목구분 : 필수(1), 옵션(0), 1건 이상 복수건(1..n), 0건 또는 복수건(0..n)
+요청 / 응답 메시지 예제
+REST(URI)
+http://apis.data.go.kr/B500001/dam/sluicePresentCondition/hourlist?damcode=2022510&amp;stdt=2018-10-01&amp;eddt=2018-10-01&amp;pageNo=1&amp;numOfRows=10&amp;_type=xml&amp;serviceKey=서비스키
+응답 메시지
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;
+&lt;response&gt;
+&lt;header&gt;
+&lt;resultCode&gt;00&lt;/resultCode&gt;
+&lt;resultMsg&gt;NORMAL SERVICE.&lt;/resultMsg&gt;
+&lt;/header&gt;
+&lt;body&gt;
+&lt;items&gt;
+&lt;item&gt;
+&lt;inflowqy&gt;236.038&lt;/inflowqy&gt;
+&lt;lowlevel&gt;0.74&lt;/lowlevel&gt;
+&lt;obsrdt&gt;10-01 01시 &lt;/obsrdt&gt;
+&lt;rf&gt;0.000&lt;/rf&gt;
+&lt;rsvwtqy&gt;296.377&lt;/rsvwtqy&gt;
+&lt;rsvwtrt&gt;96.5&lt;/rsvwtrt&gt;
+&lt;totdcwtrqy&gt;108.649&lt;/totdcwtrqy&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;inflowqy&gt;366.390&lt;/inflowqy&gt;
+&lt;lowlevel&gt;0.76&lt;/lowlevel&gt;
+&lt;obsrdt&gt;10-01 02시 &lt;/obsrdt&gt;
+&lt;rf&gt;0.000&lt;/rf&gt;
+&lt;rsvwtqy&gt;297.295&lt;/rsvwtqy&gt;
+&lt;rsvwtrt&gt;96.8&lt;/rsvwtrt&gt;
+&lt;totdcwtrqy&gt;111.334&lt;/totdcwtrqy&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;inflowqy&gt;242.839&lt;/inflowqy&gt;
+&lt;lowlevel&gt;0.77&lt;/lowlevel&gt;
+&lt;obsrdt&gt;10-01 03시 &lt;/obsrdt&gt;
+&lt;rf&gt;0.000&lt;/rf&gt;
+&lt;rsvwtqy&gt;297.755&lt;/rsvwtqy&gt;
+&lt;rsvwtrt&gt;96.9&lt;/rsvwtrt&gt;
+&lt;totdcwtrqy&gt;115.172&lt;/totdcwtrqy&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;inflowqy&gt;115.553&lt;/inflowqy&gt;
+&lt;lowlevel&gt;0.77&lt;/lowlevel&gt;
+&lt;obsrdt&gt;10-01 04시 &lt;/obsrdt&gt;
+&lt;rf&gt;0.000&lt;/rf&gt;
+&lt;rsvwtqy&gt;297.755&lt;/rsvwtqy&gt;
+&lt;rsvwtrt&gt;96.9&lt;/rsvwtrt&gt;
+&lt;totdcwtrqy&gt;115.553&lt;/totdcwtrqy&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;inflowqy&gt;0.000&lt;/inflowqy&gt;
+&lt;lowlevel&gt;0.75&lt;/lowlevel&gt;
+&lt;obsrdt&gt;10-01 05시 &lt;/obsrdt&gt;
+&lt;rf&gt;0.000&lt;/rf&gt;
+&lt;rsvwtqy&gt;296.836&lt;/rsvwtqy&gt;
+&lt;rsvwtrt&gt;96.6&lt;/rsvwtrt&gt;
+&lt;totdcwtrqy&gt;113.470&lt;/totdcwtrqy&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;inflowqy&gt;239.381&lt;/inflowqy&gt;
+&lt;lowlevel&gt;0.76&lt;/lowlevel&gt;
+&lt;obsrdt&gt;10-01 06시 &lt;/obsrdt&gt;
+&lt;rf&gt;0.000&lt;/rf&gt;
+&lt;rsvwtqy&gt;297.295&lt;/rsvwtqy&gt;
+&lt;rsvwtrt&gt;96.8&lt;/rsvwtrt&gt;
+&lt;totdcwtrqy&gt;111.798&lt;/totdcwtrqy&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;inflowqy&gt;370.470&lt;/inflowqy&gt;
+&lt;lowlevel&gt;0.78&lt;/lowlevel&gt;
+&lt;obsrdt&gt;10-01 07시 &lt;/obsrdt&gt;
+&lt;rf&gt;0.000&lt;/rf&gt;
+&lt;rsvwtqy&gt;298.215&lt;/rsvwtqy&gt;
+&lt;rsvwtrt&gt;97.1&lt;/rsvwtrt&gt;
+&lt;totdcwtrqy&gt;115.026&lt;/totdcwtrqy&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;inflowqy&gt;246.921&lt;/inflowqy&gt;
+&lt;lowlevel&gt;0.79&lt;/lowlevel&gt;
+&lt;obsrdt&gt;10-01 08시 &lt;/obsrdt&gt;
+&lt;rf&gt;0.100&lt;/rf&gt;
+&lt;rsvwtqy&gt;298.675&lt;/rsvwtqy&gt;
+&lt;rsvwtrt&gt;97.2&lt;/rsvwtrt&gt;
+&lt;totdcwtrqy&gt;119.032&lt;/totdcwtrqy&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;inflowqy&gt;121.181&lt;/inflowqy&gt;
+&lt;lowlevel&gt;0.79&lt;/lowlevel&gt;
+&lt;obsrdt&gt;10-01 09시 &lt;/obsrdt&gt;
+&lt;rf&gt;0.100&lt;/rf&gt;
+&lt;rsvwtqy&gt;298.675&lt;/rsvwtqy&gt;
+&lt;rsvwtrt&gt;97.2&lt;/rsvwtrt&gt;
+&lt;totdcwtrqy&gt;121.181&lt;/totdcwtrqy&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;inflowqy&gt;120.160&lt;/inflowqy&gt;
+&lt;lowlevel&gt;0.79&lt;/lowlevel&gt;
+&lt;obsrdt&gt;10-01 10시 &lt;/obsrdt&gt;
+&lt;rf&gt;0.000&lt;/rf&gt;
+&lt;rsvwtqy&gt;298.675&lt;/rsvwtqy&gt;
+&lt;rsvwtrt&gt;97.2&lt;/rsvwtrt&gt;
+&lt;totdcwtrqy&gt;120.160&lt;/totdcwtrqy&gt;
+&lt;/item&gt;
+&lt;/items&gt;
+&lt;numOfRows&gt;10&lt;/numOfRows&gt;
+&lt;pageNo&gt;1&lt;/pageNo&gt;
+&lt;totalCount&gt;24&lt;/totalCount&gt;
+&lt;/body&gt;
+&lt;/response&gt;
+수문현황정보(일) 조회 오퍼레이션 명세
+오퍼레이션 정보
+오퍼레이션 번호
+3
+오퍼레이션명(국문)
+수문현황정보(일)
+오퍼레이션 유형
+조회(목록)
+오퍼레이션명(영문)
+delist
+오퍼레이션 설명
+K-water에서 관리중인 댐 및 보의 일별 수문정보
+Call Back URL
+http://apis.data.go.kr/B500001/dam/sluicePresentCondition/delist
+최대 메시지 사이즈
+[ 1000K bytes]
+평균 응답 시간
+[ 500ms]
+초당 최대 트랜잭션
+[ 30tps]
+요청 메시지 명세
+항목명(영문)
+항목명(국문)
+항목크기
+항목구분
+샘플데이터
+항목설명
+serviceKey
+인증키
+100
+1
+발급받은 인증키
+numOfRows
+줄수
+10
+1
+10
+페이지당 줄수
+pageNo
+페이지번호
+10
+1
+1
+페이지 번호
+_type
+출력형식
+4
+0
+출력형식(xml/json) 기본값 : xml
+damcode
+댐코드
+7
+1
+2022510
+수문제원현황 서비스의 댐코드조회 기능 참조
+stdt
+조회시작일
+10
+1
+2018-10-01
+조회시작일
+eddt
+조회종료일
+10
+1
+2018-10-01
+조회종료일
+※ 항목구분 : 필수(1), 옵션(0), 1건 이상 복수건(1..n), 0건 또는 복수건(0..n)
+응답 메시지 명세
+항목명(영문)
+항목명(국문)
+항목크기
+항목구분
+샘플데이터
+항목설명
+resultCode
+결과코드
+2
+1
+00
+결과코드
+resultMsg
+결과메세지
+50
+1
+NORMAL SERVICE
+결과메세지
+obsryymtde
+일자
+10
+1
+2018-10-01
+일자
+lowlevel
+댐수위
+10,4
+0
+0.85
+댐수위 (EL.m)
+prcptqy
+강우량
+8,2
+0
+0.609
+강우량 (㎜)
+inflowqy
+유입량
+15,3
+0
+156.350
+유입량 (㎥/sec)
+totdcwtrqy
+총방류량
+15,3
+0
+92.380
+총방류량 (㎥/sec)
+rsvwtqy
+저수량
+18,4
+0
+301.445
+저수량 (백만㎥)
+rsvwtrt
+저수율
+5,1
+0
+98.1
+저수율 (%)
+numOfRows
+한 페이지 결과수
+10
+1
+10
+한 페이지당 표출 데이터 수
+pageNo
+페이지번호
+10
+1
+1
+페이지번호
+totalCount
+전체 결과 수
+10
+1
+1
+전체 결과 수
+※ 항목구분 : 필수(1), 옵션(0), 1건 이상 복수건(1..n), 0건 또는 복수건(0..n)
+요청 / 응답 메시지 예제
+REST(URI)
+http://apis.data.go.kr/B500001/dam/sluicePresentCondition/delist?damcode=2022510&amp;stdt=2018-10-01&amp;eddt=2018-10-01&amp;pageNo=1&amp;numOfRows=10&amp;_type=xml&amp;serviceKey=서비스키
+응답 메시지
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;
+&lt;response&gt;
+&lt;header&gt;
+&lt;resultCode&gt;00&lt;/resultCode&gt;
+&lt;resultMsg&gt;NORMAL SERVICE.&lt;/resultMsg&gt;
+&lt;/header&gt;
+&lt;body&gt;
+&lt;items&gt;
+&lt;item&gt;
+&lt;inflowqy&gt;156.350&lt;/inflowqy&gt;
+&lt;lowlevel&gt;0.85&lt;/lowlevel&gt;
+&lt;obsryymtde&gt;2018-10-01&lt;/obsryymtde&gt;
+&lt;prcptqy&gt;0.609&lt;/prcptqy&gt;
+&lt;rsvwtqy&gt;301.445&lt;/rsvwtqy&gt;
+&lt;rsvwtrt&gt;98.1&lt;/rsvwtrt&gt;
+&lt;totdcwtrqy&gt;92.380&lt;/totdcwtrqy&gt;
+&lt;/item&gt;
+&lt;/items&gt;
+&lt;numOfRows&gt;10&lt;/numOfRows&gt;
+&lt;pageNo&gt;1&lt;/pageNo&gt;
+&lt;totalCount&gt;1&lt;/totalCount&gt;
+&lt;/body&gt;
+&lt;/response&gt;
+OpenAPI 에러 코드정리
+공공데이터 포털 에러코드
+에러코드
+에러메시지
+설명
+1
+APPLICATION_ERROR
+어플리케이션 에러
+4
+HTTP_ERROR
+HTTP 에러
+12
+NO_OPENAPI_SERVICE_ERROR
+해당 오픈API서비스가 없거나 폐기됨
+20
+SERVICE_ACCESS_DENIED_ERROR
+서비스 접근거부
+22
+LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR
+서비스 요청제한횟수 초과에러
+30
+SERVICE_KEY_IS_NOT_REGISTERED_ERROR
+등록되지 않은 서비스키
+31
+DEADLINE_HAS_EXPIRED_ERROR
+활용기간 만료
+32
+UNREGISTERED_IP_ERROR
+등록되지 않은 IP
+99
+UNKNOWN_ERROR
+기타에러
+공공데이터포털에서 출력되는 오류메세지는 XML로만 출력되며, 형태는 아래와 같습니다.
+&lt;OpenAPI_ServiceResponse&gt;
+&lt;cmmMsgHeader&gt;
+&lt;errMsg&gt;SERVICE ERROR&lt;/errMsg&gt;
+&lt;returnAuthMsg&gt;SERVICE_KEY_IS_NOT_REGISTERED_ERROR&lt;/returnAuthMsg&gt;
+&lt;returnReasonCode&gt;30&lt;/returnReasonCode&gt;
+&lt;/cmmMsgHeader&gt;
+&lt;/OpenAPI_ServiceResponse&gt;

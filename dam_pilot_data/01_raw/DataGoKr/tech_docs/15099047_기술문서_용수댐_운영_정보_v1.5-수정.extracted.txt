@@ -1,0 +1,435 @@
+-158750-23939500
+공공데이터 OpenAPI 활용가이드 
+center-114300목 차
+목 차
+ TOC \o "1-3" \h \z \u 1. 서비스 명세 PAGEREF _Toc95984251 \h 3
+1.1. 용수댐 운영 정보 조회 서비스 PAGEREF _Toc95984252 \h 3
+가. 서비스 개요 PAGEREF _Toc95984253 \h 3
+나. 오퍼레이션 목록 PAGEREF _Toc95984254 \h 4
+2. OpenAPI 에러 코드정리 PAGEREF _Toc95984255 \h 7
+서비스 명세
+용수댐 운영 정보 조회 서비스
+서비스 개요
+서비스 정보
+서비스 ID
+waterDam
+서비스명(국문)
+용수댐 운영 정보
+서비스명(영문)
+dam/waterDam
+서비스 설명
+ㅁ 개     요 : K-water에서 관리중인 용수전용댐 운영정보
+ㅁ 제공항목 : 강우량[mm], 유입량[㎥/sec], 방류량[㎥/sec], 저수위[EL.m], 저수량[백만㎥], 저수율[%] 등
+  * 강우량 : 일정한 기간 동안 내린 비의 양으로, 넓은 의미로 눈, 싸락눈, 우박, 이슬 및 서리의 양도 포함
+ * 유입량 : 단위 시간당 댐 수위 변화에 따른 저수량의 차이와 단위 시간의 평균방류량을 이용하여 계산
+  * 방류량 : 저수지 등 수체로부터 외부로 유출되는 양
+  * 저수위 : 저수지 수위를 의미
+  * 저수량 : 수위를 이용해 계산된 값
+  * 저수율 : 상시만수위 기준 저수용량(총저수용량)에 대한 현재 저수량의 비율
+ㅁ 제공지점 : 14개 
+ - 태백권 2개소(광동댐, 달방댐)
+ - 포항권 3개소(영천댐, 안계댐, 감포댐)
+ - 운문권 1개소(운문댐)
+ - 울산권 4개소(대곡댐, 사연댐, 대암댐, 선암댐)
+ - 거제권 2개소(연초댐, 구천댐)
+ - 여수권(수어댐), 전남북부권(평림댐) 
+ㅁ 보유기간 : 1997.6월 ~ 현재          * 지점별로 보유기간 상이함
+서비스 보안
+서비스 인증/권한
+[O] 서비스 Key[ ] 인증서 (GPKI)
+[] Basic (ID/PW) [ ] 없음
+[ ]WS-Security
+메시지 레벨 암호화
+[  ] 전자서명[ ] 암호화[O] 없음
+전송 레벨 암호화
+[  ] SSL[ O] 없음
+적용 기술 수준
+인터페이스 표준
+[  ] SOAP 1.2
+(RPC-Encoded, Document Literal, Document Literal Wrapped)
+[ O ] REST (GET, POST, PUT, DELETE)
+[ ] RSS 1.0 [ ] RSS 2.0 [ ] Atom 1.0 [ ] 기타
+교환 데이터 표준
+[ O ] XML[ O ] JSON[ ] MIME[ ] MTOM
+서비스 URL
+개발환경
+http://apis.data.go.kr/B500001/dam/waterDam
+운영환경
+http://apis.data.go.kr/B500001/dam/waterDam
+서비스 WADL
+개발환경
+http://apis.data.go.kr/B500001/dam/waterDam?_wadl&amp;_type=xml
+운영환경
+http://apis.data.go.kr/B500001/dam/waterDam?_wadl&amp;_type=xml
+서비스 배포 정보
+서비스 버전
+1.0
+유효일자
+2014-12-22
+배포 일자
+2014-12-22
+서비스 이력
+N/A
+메시지 교환 유형
+[O] Request-Response[ ] Publish-Subscribe
+[ ] Fire-and-Forgot[ ] Notification
+메시지 로깅 수준
+성공
+[O] Header [ ] Body
+실패
+[O] Header [O} Body
+서비스 제공자
+박진기 / 디지털기획처 / 042-629-3826/ pjk2580@kwater.or.kr
+데이터 갱신주기
+기타(수시)
+사용 제약 사항 (비고)
+N/A
+오퍼레이션 목록
+일련번호
+서비스명(국문)
+오퍼레이션명(영문)
+오퍼레이션명(국문)
+메시지명(영문)
+1
+용수댐 운영 정보
+waterDamlist
+용수댐 관리현황 조회
+N/A
+근접측정소 목록 조회 오퍼레이션 명세
+오퍼레이션 정보
+오퍼레이션 번호
+1
+오퍼레이션명(국문)
+용수댐 관리현황 조회
+오퍼레이션 유형
+조회(목록)
+오퍼레이션명(영문)
+waterDamlist
+오퍼레이션 설명
+K-water에서 관리중인 용수댐 운영정보
+Call Back URL
+http://apis.data.go.kr/B500001/dam/waterDam/waterDamlist
+최대 메시지 사이즈
+[ 1000K bytes]
+평균 응답 시간
+[ 500ms]
+초당 최대 트랜잭션
+[ 30tps]
+요청 메시지 명세
+항목명(영문)
+항목명(국문)
+항목크기
+항목구분
+샘플데이터
+항목설명
+serviceKey
+인증키
+100
+1
+인증키
+(URL Encode)
+공공데이터포털에서 발급받은 인증키
+numOfRows
+줄수
+10
+1
+1
+줄수
+pageNo
+페이지번호
+10
+1
+1
+페이지번호
+_type
+출력형식
+4
+0
+xml
+출력형식(xml/json) 기본값 : xml
+tdate
+전일
+(선택날짜 기준)
+10
+1
+2018-08-19
+선택날짜 기준 전일날짜
+ldate
+전년도
+(선택날짜 기준)
+10
+1
+2017-08-20
+선택날짜 기준 전년날짜
+vdate
+선택날짜
+10
+1
+2018-08-20
+선택날짜
+vtime
+조회시간
+4
+1
+07
+조회시간
+※ 항목구분 : 필수(1), 옵션(0), 1건 이상 복수건(1..n), 0건 또는 복수건(0..n)
+응답 메시지 명세
+항목명(영문)
+항목명(국문)
+항목크기
+항목구분
+샘플데이터
+항목설명
+resultCode
+결과코드
+2
+1
+00
+결과코드
+resultMsg
+결과메세지
+50
+1
+NORMAL SERVICE
+결과메세지
+damnm
+댐이름
+30
+1
+감포
+댐이름
+inflowqy
+전일 유입량
+10.4
+0
+0.025
+전일 유입량 (㎥/sec)
+lastlowlevel
+저수위(전년)
+10.4
+0
+29.13
+저수위(전년) (EL.m)
+lastrsvwtqy
+저수율(전년)
+5.1
+0
+30.0
+저수율(전년) (%)
+lvlhindstryuswtrplan
+용수공급계획
+3,3
+0
+0.052
+용수공급계획 (㎥/sec)
+nowlowlevel
+저수위(현재)
+10.4
+0
+33.71
+저수위(현재) (EL.m)
+nowrsvwtqy
+현저수량
+18.4
+0
+1.335
+현저수량 (백만㎥)
+nowrsvwtqy2
+저수율(현재)
+5.1
+0
+50.6
+저수율(현재) (%)
+nowthsyracmtlrf
+전일누계강우량
+(금년)
+10.4
+0
+783.0
+전일누계강우량 (㎜)
+(금년)
+nyearavrgacmtlrf
+전일누계강우량
+(예년)
+10.4
+0
+711.1
+전일누계강우량 (㎜)
+(예년)
+thsyracmtlrf
+전일누계강우량
+(전년)
+10.4
+0
+399.0
+전일누계강우량 (㎜)
+(전년)
+nyearlowlevel
+저수위(예년)
+10.4
+0
+35.95
+저수위(예년) (EL.m)
+nyearrsvwtqy
+저수율(예년)
+5.1
+0
+63.2
+저수율(예년) (%)
+prcptqy
+강우량(전일)
+8,2
+0
+0.0
+강우량(전일) (㎜)
+river
+전일 방류량
+(하천, 관개)
+15.3
+0
+0.000
+전일 방류량 (㎥/sec)
+(하천, 관개)
+sangwater
+전일 방류량
+(생공용수)
+15.3
+0
+0.025
+전일 방류량 (㎥/sec)
+(생공용수)
+spilldcwtrqy
+전일 방류량
+(여수로)
+15.3
+0
+0.000
+전일 방류량 (㎥/sec)
+(여수로)
+suge
+수계
+30
+1
+낙동강
+수계
+total
+전일 방류량
+(전체)
+15.3
+0
+0.025
+전일 방류량 (㎥/sec)
+(전체)
+totrf
+총저수량
+18.4
+0
+2.636
+총저수량 (백만㎥)
+zerosevenhourprcptqy
+강우량(금일)
+8,2
+0
+0.0
+강우량(금일) (㎜)
+numOfRows
+한 페이지 결과수
+10
+1
+1
+한 페이지당 표출 데이터 수
+pageNo
+페이지번호
+10
+1
+1
+페이지번호
+totalCount
+데이터 총수
+10
+1
+14
+데이터 총수
+※ 항목구분 : 필수(1), 옵션(0), 1건 이상 복수건(1..n), 0건 또는 복수건(0..n)
+요청 / 응답 메시지 예제
+REST(URI)
+http://apis.data.go.kr/B500001/dam/waterDam/waterDamlist?tdate=2018-08-19&amp;ldate=2017-08-20&amp;vdate=2018-08-20&amp;vtime=07&amp;pageNo=1&amp;numOfRows=1&amp;serviceKey=서비스키
+응답 메시지
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;response&gt;
+   &lt;header&gt;
+      &lt;resultCode&gt;00&lt;/resultCode&gt;
+      &lt;resultMsg&gt;NORMAL SERVICE.&lt;/resultMsg&gt;
+   &lt;/header&gt;
+   &lt;body&gt;
+      &lt;items&gt;
+         &lt;item&gt;
+            &lt;damnm&gt;감포&lt;/damnm&gt;
+            &lt;inflowqy&gt;0.025&lt;/inflowqy&gt;
+&lt;lastlowlevel&gt;29.13&lt;/lastlowlevel&gt;
+&lt;lastrsvwtqy&gt;30.0&lt;/lastrsvwtqy&gt;
+&lt;lvlhindstryuswtrplan&gt;0.052&lt;/lvlhindstryuswtrplan&gt;
+&lt;nowlowlevel&gt;33.71&lt;/nowlowlevel&gt;
+&lt;nowrsvwtqy&gt;1.335&lt;/nowrsvwtqy&gt;
+&lt;nowrsvwtqy2&gt;50.6&lt;/nowrsvwtqy2&gt;
+&lt;nowthsyracmtlrf&gt;783.0&lt;/nowthsyracmtlrf&gt;
+&lt;nyearavrgacmtlrf&gt;711.1&lt;/nyearavrgacmtlrf&gt;
+&lt;nyearlowlevel&gt;35.95&lt;/nyearlowlevel&gt;
+&lt;nyearrsvwtqy&gt;63.2&lt;/nyearrsvwtqy&gt;
+&lt;prcptqy&gt;0.0&lt;/prcptqy&gt;
+&lt;river&gt;0.000&lt;/river&gt;
+&lt;sangwater&gt;0.025&lt;/sangwater&gt;
+&lt;spilldcwtrqy&gt;0.000&lt;/spilldcwtrqy&gt;
+&lt;suge&gt;낙동강&lt;/suge&gt;
+&lt;thsyracmtlrf&gt;399.0&lt;/thsyracmtlrf&gt;
+&lt;total&gt;0.025&lt;/total&gt;
+&lt;totrf&gt;2.636&lt;/totrf&gt;
+&lt;zerosevenhourprcptqy&gt;0.0&lt;/zerosevenhourprcptqy&gt;
+&lt;/item&gt;
+   &lt;/items&gt;
+&lt;numOfRows&gt;1&lt;/numOfRows&gt;
+&lt;pageNo&gt;1&lt;/pageNo&gt;
+&lt;totalCount&gt;14&lt;/totalCount&gt;
+&lt;/body&gt;
+&lt;/response&gt;
+OpenAPI 에러 코드정리
+공공데이터 포털 에러코드
+에러코드
+에러메시지
+설명
+1
+APPLICATION_ERROR
+어플리케이션 에러
+4
+HTTP_ERROR
+HTTP 에러
+12
+NO_OPENAPI_SERVICE_ERROR
+해당 오픈API서비스가 없거나 폐기됨
+20
+SERVICE_ACCESS_DENIED_ERROR
+서비스 접근거부
+22
+LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR
+서비스 요청제한횟수 초과에러
+30
+SERVICE_KEY_IS_NOT_REGISTERED_ERROR
+등록되지 않은 서비스키
+31
+DEADLINE_HAS_EXPIRED_ERROR
+활용기간 만료
+32
+UNREGISTERED_IP_ERROR
+등록되지 않은 IP
+99
+UNKNOWN_ERROR
+기타에러
+공공데이터포털에서 출력되는 오류메세지는 XML로만 출력되며, 형태는 아래와 같습니다.
+&lt;OpenAPI_ServiceResponse&gt;
+&lt;cmmMsgHeader&gt;
+&lt;errMsg&gt;SERVICE ERROR&lt;/errMsg&gt;
+&lt;returnAuthMsg&gt;SERVICE_KEY_IS_NOT_REGISTERED_ERROR&lt;/returnAuthMsg&gt;
+&lt;returnReasonCode&gt;30&lt;/returnReasonCode&gt;
+&lt;/cmmMsgHeader&gt;
+&lt;/OpenAPI_ServiceResponse&gt;

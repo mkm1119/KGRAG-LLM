@@ -1,0 +1,349 @@
+-158750-23939500
+공공데이터 OpenAPI 활용가이드
+center-114300목 차
+목 차
+ TOC \o "1-3" \h \z \u 1. 서비스 명세 PAGEREF _Toc95983701 \h 3
+1.1. 수문 제원 현황 조회 서비스 PAGEREF _Toc95983702 \h 3
+가. 서비스 개요 PAGEREF _Toc95983703 \h 3
+나. 오퍼레이션 목록 PAGEREF _Toc95983704 \h 4
+2. OpenAPI 에러 코드정리 PAGEREF _Toc95983705 \h 7
+서비스 명세
+수문 제원 현황 조회 서비스
+서비스 개요
+서비스 정보
+서비스 ID
+dataPresent
+서비스명(국문)
+수문 제원 현황
+서비스명(영문)
+dam/dataPresent
+서비스 설명
+ㅁ 개     요 :  K-water에서 관리중인 댐(다목적댐, 용수댐) 및 보의 제원정보
+ㅁ 제공항목 : 형식, 높이[m], 길이[m], 저수면적[㎡], 계획홍수위[EL.m], 사업종료월(년월) 등
+  * 형식, 높이[m], 길이[m], 정상표고 [EL.m], 체적[㎥], 유역면적[㎢], 저수면적[㎡], 계획홍수위[EL.m], 상시만수위[EL.m], 홍수기제한수위[EL.m], 월류정표고[EL.m], 저수위[EL.m], 총저수용량[㎥], 유효저수용량[㎥], 홍수조절용량[㎥]
+ㅁ 제공지점 : 61개소(다목적댐 21, 용수전용댐 14, 낙동강하굿둑, 홍수조절용댐 3, 조정지 6, 보 16)
+서비스 보안
+서비스 인증/권한
+[O] 서비스 Key[ ] 인증서 (GPKI)
+[] Basic (ID/PW) [ ] 없음
+[ ]WS-Security
+메시지 레벨 암호화
+[  ] 전자서명[ ] 암호화[O] 없음
+전송 레벨 암호화
+[  ] SSL[ O] 없음
+적용 기술 수준
+인터페이스 표준
+[  ] SOAP 1.2
+(RPC-Encoded, Document Literal, Document Literal Wrapped)
+[ O ] REST (GET, POST, PUT, DELETE)
+[ ] RSS 1.0 [ ] RSS 2.0 [ ] Atom 1.0 [ ] 기타
+교환 데이터 표준
+[ O ] XML[ O ] JSON[ ] MIME[ ] MTOM
+서비스 URL
+개발환경
+http://apis.data.go.kr/B500001/dam/dataPresent
+운영환경
+http://apis.data.go.kr/B500001/dam/dataPresent
+서비스 WADL
+개발환경
+http://apis.data.go.kr/B500001/dam/dataPresent?_wadl&amp;_type=xml
+운영환경
+http://apis.data.go.kr/B500001/dam/dataPresent?_wadl&amp;_type=xml
+서비스 배포 정보
+서비스 버전
+1.0
+유효일자
+2014-12-22
+배포 일자
+2014-12-22
+서비스 이력
+N/A
+메시지 교환 유형
+[O] Request-Response[ ] Publish-Subscribe
+[ ] Fire-and-Forgot[ ] Notification
+메시지 로깅 수준
+성공
+[O] Header [ ] Body
+실패
+[O] Header [O} Body
+서비스 제공자
+박진기 / 디지털기획처 / 042-629-3826/ pjk2580@kwater.or.kr
+데이터 갱신주기
+기타(수시)
+사용 제약 사항 (비고)
+N/A
+오퍼레이션 목록
+일련번호
+서비스명(국문)
+오퍼레이션명(영문)
+오퍼레이션명(국문)
+메시지명(영문)
+1
+수문 제원 현황
+dataPresentlist
+수문제원현황목록
+N/A
+수문 제원 현황 목록 조회 오퍼레이션 명세
+오퍼레이션 정보
+오퍼레이션 번호
+1
+오퍼레이션명(국문)
+수문제원현황목록
+오퍼레이션 유형
+조회(목록)
+오퍼레이션명(영문)
+dataPresentlist
+오퍼레이션 설명
+K-water에서 관리중인 댐 및 보의 제원정보
+Call Back URL
+http://apis.data.go.kr/B500001/dam/dataPresent/dataPresentlist
+최대 메시지 사이즈
+[ 1000K bytes]
+평균 응답 시간
+[ 500ms]
+초당 최대 트랜잭션
+[ 30tps]
+요청 메시지 명세
+항목명(영문)
+항목명(국문)
+항목크기
+항목구분
+샘플데이터
+항목설명
+serviceKey
+인증키
+100
+1
+인증키
+(URL Encode)
+공공데이터포털에서 발급받은 인증키
+_type
+출력형식
+4
+0
+xml
+출력형식(xml/json) 기본값 : xml
+damcode
+댐코드
+7
+0
+1012110
+낙동강 하굿둑, 주암(조), 횡성, 주암(본), 부안, 군남, 군위, 대곡, 감포, 평림, 김천부항, 소양강 등
+※ 항목구분 : 필수(1), 옵션(0), 1건 이상 복수건(1..n), 0건 또는 복수건(0..n)
+응답 메시지 명세
+항목명(영문)
+항목명(국문)
+항목크기
+항목구분
+샘플데이터
+항목설명
+resultCode
+결과코드
+2
+1
+00
+결과코드
+resultMsg
+결과메세지
+50
+1
+NORMAL SERVICE
+결과메세지
+competDe
+완료일
+10
+0
+1973-12-31
+완료일
+damFom
+형식
+100
+0
+E.C.R.D
+형식
+damdgr
+하천
+30
+1
+소양강
+하천
+damnm
+댐이름
+30
+1
+소양강
+댐이름
+dgrar
+유역면적
+10,1
+0
+2,703
+유역면적(㎢)
+floodadjstCpcty
+홍수조절용량(106m3)
+13,3
+0
+500
+홍수조절용량(106m3)
+floodseLmttWal
+상시만수위
+10,4
+0
+190.3
+상시만수위(EL.m)
+fyerUswtrsuplyplanqy
+연간용수공급량(106m3)
+12,3
+0
+1,213
+연간용수공급량(106m3)
+hg
+높이(m)
+8,3
+0
+123
+높이(m)
+lowlevel
+저수위
+10,4
+0
+150
+저수위(EL.m)
+lt
+길이(m)
+8,3
+0
+530
+길이(m)
+nrmltAl
+정상표고(EL.m)
+10,1
+0
+203.
+정상표고(EL.m)
+ordtmFwal
+홍수기제한수위
+10,4
+0
+193.5
+홍수기제한수위(EL.m)
+planFwal
+계획홍수위
+10,4
+0
+198
+계획홍수위(EL.m)
+rsvwtAr
+저수면적
+8,1
+0
+70
+저수면적(㎢)
+strwrkDe
+사업기간
+10
+0
+1967-04-01
+사업기간
+totRsvwtcpcty
+총저수용량(106m3)
+13,3
+0
+2,900
+총저수용량(106m3)
+validRsvwtcpcty
+유효저수용량(106m3)
+13,3
+0
+1,900
+유효저수용량(106m3)
+vl
+체적(천m3)
+10,1
+0
+9,591
+체적(천m3)
+wollyupvlAl
+월류정표고
+8,3
+0
+185.5
+월류정표고
+※ 항목구분 : 필수(1), 옵션(0), 1건 이상 복수건(1..n), 0건 또는 복수건(0..n)
+요청 / 응답 메시지 예제
+REST(URI)
+http://apis.data.go.kr/B500001/dam/dataPresent/dataPresentlist?damcode=1012110&amp;serviceKey=인증키(URL Encode)
+응답 메시지
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;response&gt;
+&lt;header&gt;
+&lt;resultCode&gt;00&lt;/resultCode&gt;
+&lt;resultMsg&gt;NORMAL SERVICE.&lt;/resultMsg&gt;
+&lt;/header&gt;
+&lt;body&gt;
+&lt;items&gt;
+&lt;item&gt;
+&lt;competDe&gt;1973-12-31&lt;/competDe&gt;
+&lt;damFom&gt;E.C.R.D&lt;/damFom&gt;
+&lt;damdgr&gt; 소양강 &lt;/damdgr&gt;
+&lt;damnm&gt;소양강&lt;/damnm&gt;
+&lt;dgrar&gt;2,703&lt;/dgrar&gt;
+&lt;floodadjstCpcty&gt;500&lt;/floodadjstCpcty&gt;
+&lt;floodseLmttWal&gt;190.3&lt;/floodseLmttWal&gt;
+&lt;fyerUswtrsuplyplanqy&gt;1,213&lt;/fyerUswtrsuplyplanqy&gt;
+&lt;hg&gt;123&lt;/hg&gt;
+&lt;lowlevel&gt;150&lt;/lowlevel&gt;
+&lt;lt&gt;530&lt;/lt&gt;
+&lt;nrmltAl&gt;203&lt;/nrmltAl&gt;
+&lt;ordtmFwal&gt;193.5&lt;/ordtmFwal&gt;
+&lt;planFwal&gt;198&lt;/planFwal&gt;
+&lt;rsvwtAr&gt;70&lt;/rsvwtAr&gt;
+&lt;strwrkDe&gt;1967-04-01&lt;/strwrkDe&gt;
+&lt;totRsvwtcpcty&gt;2,900&lt;/totRsvwtcpcty&gt;
+&lt;validRsvwtcpcty&gt;1,900&lt;/validRsvwtcpcty&gt;
+&lt;vl&gt;9,591&lt;/vl&gt;
+&lt;wollyupvlAl&gt;185.5&lt;/wollyupvlAl&gt;
+&lt;/item&gt;
+&lt;/items&gt;
+&lt;/body&gt;
+&lt;/response&gt;
+OpenAPI 에러 코드정리
+공공데이터 포털 에러코드
+에러코드
+에러메시지
+설명
+1
+APPLICATION_ERROR
+어플리케이션 에러
+4
+HTTP_ERROR
+HTTP 에러
+12
+NO_OPENAPI_SERVICE_ERROR
+해당 오픈API서비스가 없거나 폐기됨
+20
+SERVICE_ACCESS_DENIED_ERROR
+서비스 접근거부
+22
+LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR
+서비스 요청제한횟수 초과에러
+30
+SERVICE_KEY_IS_NOT_REGISTERED_ERROR
+등록되지 않은 서비스키
+31
+DEADLINE_HAS_EXPIRED_ERROR
+활용기간 만료
+32
+UNREGISTERED_IP_ERROR
+등록되지 않은 IP
+99
+UNKNOWN_ERROR
+기타에러
+공공데이터포털에서 출력되는 오류메세지는 XML로만 출력되며, 형태는 아래와 같습니다.
+&lt;OpenAPI_ServiceResponse&gt;
+&lt;cmmMsgHeader&gt;
+&lt;errMsg&gt;SERVICE ERROR&lt;/errMsg&gt;
+&lt;returnAuthMsg&gt;SERVICE_KEY_IS_NOT_REGISTERED_ERROR&lt;/returnAuthMsg&gt;
+&lt;returnReasonCode&gt;30&lt;/returnReasonCode&gt;
+&lt;/cmmMsgHeader&gt;
+&lt;/OpenAPI_ServiceResponse&gt;

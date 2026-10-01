@@ -74,3 +74,14 @@
 | S2-04 | 그룹 dataset 37개의 Dam 연결 미구현 | 원본 damList로 도출 가능 | DEFERRED |
 | S2-05 | 측정값을 KG에 저장하지 않음 | handoff §6.3 미결정의 잠정 처리 | PROVISIONAL |
 | S2-06 | 접수방류량·승인년월일시분 매핑 미확정 → approvedReleaseAmount/approvalTime 미채움 | S0-B 유지 | REVIEW_REQUIRED |
+
+## 6. 데이터 공백 보완(2026-10-01) 후 갱신 제안 — 기존 상태는 변경하지 않음 (사용자 승인 전 RESOLVED 금지)
+| ID | 갱신 제안 | 근거 |
+|---|---|---|
+| S1A-07 / S0-A | 제안: DATA_REQUIRED → PARTIALLY_AVAILABLE. 2012-01-01 이후 연혁 9개판 확보, 한강수계 시설 별표3 값은 전 판 동일. 2012 이전 1,146건은 여전히 DATA_REQUIRED | `03_normalized/criterion_version_history.csv`; `DATA_COLLECTION_GAP_REPORT.md` §2-3 |
+| S0-B | 제안: REVIEW_REQUIRED 유지. 승인 필드의 공식 설명 확보(방류시작시간·비고 VERIFIED; 접수방류량 PARTIAL; 접수일자 UNRESOLVED) | `02_metadata/approval_field_dictionary.csv` |
+| S0-C | 제안: 부분 갱신. getRainTrend(damCd+obsCd)로 관측소 단위 시계열 조회 가능(충주 2개 관측소 검증) — STEP 2의 "관측소 단위 dataset 없음"(MR-12 NOT_SUPPORTED) 판단 재검토 필요 | `01_raw/KWater/lookup_probe/`; `measurement_lookup_key_evidence.csv` |
+| S0-D | 제안: 유지(OFFICIAL_CROSSWALK_REQUIRED). VERIFIED_SAME 0건 | `facility_identity_evidence.csv` |
+| S0-E | 제안: 부분 갱신. 시간 라벨 분포 확인, 공식 정의문은 없음 | `time_conventions_verified.csv` |
+| S0-G / S1A-09 | 제안: DATA_REQUIRED 유지. 후보와 한계를 기록 | `operation_source_search_log.csv` |
+| STEP 2 정정 | CR-09 값 "25.51)"는 25.5 + 각주 1) | `DATA_COLLECTION_GAP_REPORT.md` §2-3 |
