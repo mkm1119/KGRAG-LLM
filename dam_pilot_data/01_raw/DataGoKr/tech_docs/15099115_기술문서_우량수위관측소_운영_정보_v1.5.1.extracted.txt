@@ -1,0 +1,1483 @@
+
+
+
+
+
+
+
+-158755-239400
+공공데이터 OpenAPI 활용가이드
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+center-114304
+목 차
+
+목 차
+
+
+ TOC \o &quot;1 - 3&quot; \h \z \u&quot;HYPERLINK  \l  &quot;_Toc96445276&quot;1. 서비스 명세 PAGEREF  _Toc96445276  \* MERGEFORMAT3
+HYPERLINK  \l  &quot;_Toc96445277&quot;1.1. 우량수위관측소 운영 정보 조회 서비스 PAGEREF  _Toc96445277  \* MERGEFORMAT3
+HYPERLINK  \l  &quot;_Toc96445278&quot;가. 서비스 개요 PAGEREF  _Toc96445278  \* MERGEFORMAT3
+HYPERLINK  \l  &quot;_Toc96445279&quot;나. 오퍼레이션 목록 PAGEREF  _Toc96445279  \* MERGEFORMAT5
+HYPERLINK  \l  &quot;_Toc96445280&quot;가. 오퍼레이션 목록 PAGEREF  _Toc96445280  \* MERGEFORMAT15
+HYPERLINK  \l  &quot;_Toc96445281&quot;2. OpenAPI 에러 코드정리 PAGEREF  _Toc96445281  \* MERGEFORMAT25
+
+
+
+
+서비스 명세
+우량수위관측소 운영 정보 조회 서비스
+서비스 개요
+서비스 정보
+서비스명(국문)
+우량수위관측소 운영 정보
+
+서비스명(영문)
+dam/excllncobsrvt
+
+서비스 설명
+ㅁ 개     요 : K-water에서 관리중인 우량관측소 및 수위관측소의 관측정보
+
+ㅁ 제공항목 
+ ① 우량관측소 : 우량[mm], 누적우량[mm]
+   * 시간우량(hourly rainfall) : 단위 시간당 강우량
+   * 누적우량(cumulative rainfall) : 금년 누적 강우량
+ ② 수위관측소 : 수위[m], 유량[㎥/s]
+   * 수위(water level) : 어느 기준면으로부터 측정한 하천이나 호수, 지하수 등 수면의 높이. 기준면을 특별히 지정하지 않으면 통상 평균 해수면을 기준면으로 함
+   * 유량(Quantity, flow rate, discharge) : 단위 시간당 특정 단면을 통과하는 물의 양(부피)
+
+ㅁ 보유기간 : 1996년 1월 ~ 현재      * 지점별로 보유기간 상이함
+서비스 보안
+서비스 인증/권한
+[O] 서비스 Key[ ] 인증서 (GPKI)
+[] Basic (ID/PW) [ ] 없음
+[ ]WS-Security
+
+메시지 레벨 암호화
+[  ] 전자서명[ ] 암호화[O] 없음
+
+
+전송 레벨 암호화
+[  ] SSL[ O] 없음
+적용 기술 수준
+인터페이스 표준
+[  ] SOAP 1.2
+(RPC-Encoded, Document Literal, Document Literal Wrapped)
+[ O ] REST (GET, POST, PUT, DELETE)
+[ ] RSS 1.0 [ ] RSS 2.0 [ ] Atom 1.0 [ ] 기타
+
+교환 데이터 표준
+[ O ] XML[ O ] JSON[ ] MIME[ ] MTOM
+서비스 URL
+개발환경
+http://apis.data.go.kr/B500001/dam/excllncobsrvt
+
+운영환경
+HYPERLINK &quot;http://apis.data.go.kr/B500001/dam/excllncobsrvt&quot;http://apis.data.go.kr/B500001/dam/excllncobsrvt
+서비스 WADL
+개발환경
+http://apis.data.go.kr/B500001/dam/excllncobsrvt?_wadl&amp;_type=xml
+
+운영환경
+http://apis.data.go.kr/B500001/dam/excllncobsrvt?_wadl&amp;_type=xml
+서비스 배포 정보
+서비스 버전
+1.0
+
+유효일자
+2016-05-10
+배포 일자
+2016-05-10
+
+서비스 이력
+N/A
+메시지 교환 유형
+[O] Request-Response[ ] Publish-Subscribe
+[ ] Fire-and-Forgot[ ] Notification
+메시지 로깅 수준
+성공
+[O] Header [ ] Body
+실패
+[O] Header [O} Body
+서비스 제공자
+박진기 / 디지털기획처 / 042-629-3826/ pjk2580@kwater.or.kr
+데이터 갱신주기
+기타(수시)
+사용 제약 사항 (비고)
+N/A
+
+
+
+오퍼레이션 목록
+일련번호
+서비스명(국문)
+오퍼레이션명(영문)
+오퍼레이션명(국문)
+메시지명(영문)
+1
+우량관측소 운영 정보
+mntrf/mntrflist
+우량 분강우량 조회
+N/A
+2
+
+hourrf/hourrflist
+우량 시강우량 조회
+N/A
+3
+
+excll/exclllist
+우량 관측소 코드 조회
+N/A
+
+우량 분강우량 조회 오퍼레이션 명세
+오퍼레이션 정보
+오퍼레이션 번호
+1
+오퍼레이션명(국문)
+우량 분강우량 조회
+
+오퍼레이션 유형
+조회(목록)
+오퍼레이션명(영문)
+/mntrf/mntrflist
+
+오퍼레이션 설명
+K-water에서 관리중인 분단위의 우량국의 관측정보
+
+Call Back URL
+http://apis.data.go.kr/B500001/dam/excllncobsrvt/mntrf/mntrflist
+
+최대 메시지 사이즈
+[ 1000K bytes]
+
+평균 응답 시간
+[ 500ms]
+초당 최대 트랜잭션
+[ 30tps]
+
+요청 메시지 명세
+항목명(영문)
+항목명(국문)
+항목크기
+항목구분
+샘플데이터
+항목설명
+serviceKey
+인증키
+100
+1
+인증키
+(URL Encode)
+공공데이터포털에서 발급받은 인증키
+numOfRows
+줄수
+10
+1
+10
+페이지당 줄수
+pageNo
+페이지번호
+10
+1
+1
+페이지 번호
+_type
+출력형식
+4
+0
+xml
+출력형식(xml/json) 기본값 : xml
+sdate
+조회시작일
+10
+1
+2014-12-01
+조회시작일
+stime
+조회시작 시각
+4
+1
+08
+조회시작 시각(HH)
+edate
+조회종료일
+10
+1
+2014-12-01
+조회종료일
+etime
+조회종료 시각
+4
+1
+15
+조회종료 시각(HH)
+excll
+우량관측소 코드
+7
+1
+1012432
+우량관측소 코드
+tms
+조회시간단위
+7
+1
+10
+조회시간단위
+※ 항목구분 : 필수(1), 옵션(0), 1건 이상 복수건(1..n), 0건 또는 복수건(0..n)
+
+응답 메시지 명세
+항목명(영문)
+항목명(국문)
+항목크기
+항목구분
+샘플데이터
+항목설명
+resultCode
+결과코드
+2
+1
+00
+결과코드
+resultMsg
+결과메세지
+50
+1
+NORMAL SERVICE
+결과메세지
+acmtlprcptqy
+누적우량
+10.4
+0
+719
+누적우량(mm)
+no
+순번
+8
+1
+48
+순번
+obsrdtmnt
+시간
+17
+0
+2014-12-01 08:00
+시간
+prcptqy
+우량
+8.2
+0
+0
+우량(mm)
+numOfRows
+줄수
+10
+1
+10
+줄수
+pageNo
+페이지번호
+10
+1
+1
+페이지번호
+totalCount
+데이터 총수
+10
+1
+48
+데이터 총수
+※ 항목구분 : 필수(1), 옵션(0), 1건 이상 복수건(1..n), 0건 또는 복수건(0..n)
+
+요청 / 응답 메시지 예제
+REST(URI)
+HYPERLINK &quot;http://opendata.kwater.or.kr/openapi-data/service/pubd/dam/excllncobsrvt/mntrf/list?sdate=2014-12-01&amp;stime=01&amp;edate=2014-12-01&amp;etime=15&amp;excll=1012432&amp;tms=10&amp;numOfRows=10&amp;pageNo=1&amp;ServiceKey&quot;http://apis.data.go.kr/B500001/dam/excllncobsrvt/mntrf/mntrflist?sdate=2014-12-01&amp;stime=08&amp;edate=2014-12-01&amp;etime=15&amp;excll=1012432&amp;tms=10&amp;pageNo=1&amp;numOfRows=10&amp;_type=xml&amp;serviceKey=서비스키
+응답 메시지
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt; 
+&lt;response&gt;
+&lt;header&gt;
+&lt;resultCode&gt;00&lt;/resultCode&gt;
+&lt;resultMsg&gt;NORMAL SERVICE.&lt;/resultMsg&gt;
+&lt;/header&gt;
+&lt;body&gt;
+&lt;items&gt;
+&lt;item&gt;
+&lt;acmtlprcptqy&gt;719&lt;/acmtlprcptqy&gt;
+&lt;no&gt;48&lt;/no&gt;
+&lt;obsrdtmnt&gt;2014-12-01 08:00&lt;/obsrdtmnt&gt;
+&lt;prcptqy&gt;0&lt;/prcptqy&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;acmtlprcptqy&gt;719&lt;/acmtlprcptqy&gt;
+&lt;no&gt;47&lt;/no&gt;
+&lt;obsrdtmnt&gt;2014-12-01 08:10&lt;/obsrdtmnt&gt;
+&lt;prcptqy&gt;0&lt;/prcptqy&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;acmtlprcptqy&gt;719&lt;/acmtlprcptqy&gt;
+&lt;no&gt;46&lt;/no&gt;
+&lt;obsrdtmnt&gt;2014-12-01 08:20&lt;/obsrdtmnt&gt;
+&lt;prcptqy&gt;0&lt;/prcptqy&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;acmtlprcptqy&gt;719&lt;/acmtlprcptqy&gt;
+&lt;no&gt;45&lt;/no&gt;
+&lt;obsrdtmnt&gt;2014-12-01 08:30&lt;/obsrdtmnt&gt;
+&lt;prcptqy&gt;0&lt;/prcptqy&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;acmtlprcptqy&gt;719&lt;/acmtlprcptqy&gt;
+&lt;no&gt;44&lt;/no&gt;
+&lt;obsrdtmnt&gt;2014-12-01 08:40&lt;/obsrdtmnt&gt;
+&lt;prcptqy&gt;0&lt;/prcptqy&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;acmtlprcptqy&gt;719&lt;/acmtlprcptqy&gt;
+&lt;no&gt;43&lt;/no&gt;
+&lt;obsrdtmnt&gt;2014-12-01 08:50&lt;/obsrdtmnt&gt;
+&lt;prcptqy&gt;0&lt;/prcptqy&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;acmtlprcptqy&gt;719&lt;/acmtlprcptqy&gt;
+&lt;no&gt;42&lt;/no&gt;
+&lt;obsrdtmnt&gt;2014-12-01 09:00&lt;/obsrdtmnt&gt;
+&lt;prcptqy&gt;0&lt;/prcptqy&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;acmtlprcptqy&gt;719&lt;/acmtlprcptqy&gt;
+&lt;no&gt;41&lt;/no&gt;
+&lt;obsrdtmnt&gt;2014-12-01 09:10&lt;/obsrdtmnt&gt;
+&lt;prcptqy&gt;0&lt;/prcptqy&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;acmtlprcptqy&gt;719&lt;/acmtlprcptqy&gt;
+&lt;no&gt;40&lt;/no&gt;
+&lt;obsrdtmnt&gt;2014-12-01 09:20&lt;/obsrdtmnt&gt;
+&lt;prcptqy&gt;0&lt;/prcptqy&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;acmtlprcptqy&gt;719&lt;/acmtlprcptqy&gt;
+&lt;no&gt;39&lt;/no&gt;
+&lt;obsrdtmnt&gt;2014-12-01 09:30&lt;/obsrdtmnt&gt;
+&lt;prcptqy&gt;0&lt;/prcptqy&gt;
+&lt;/item&gt;
+&lt;/items&gt;
+&lt;numOfRows&gt;10&lt;/numOfRows&gt;
+&lt;pageNo&gt;1&lt;/pageNo&gt;
+&lt;totalCount&gt;48&lt;/totalCount&gt;
+&lt;/body&gt;
+&lt;/response&gt;
+
+
+
+우량 시간우량 조회 오퍼레이션 명세
+오퍼레이션 정보
+오퍼레이션 번호
+2
+오퍼레이션명(국문)
+우량 시강우량 조회
+
+오퍼레이션 유형
+조회(목록)
+오퍼레이션명(영문)
+hourrf/hourrflist
+
+오퍼레이션 설명
+K-water에서 관리중인 시간단위의 우량국의 관측정보
+
+Call Back URL
+http://apis.data.go.kr/B500001/dam/excllncobsrvt/hourrf/hourrflist
+
+최대 메시지 사이즈
+[ 1000K bytes]
+
+평균 응답 시간
+[ 500ms]
+초당 최대 트랜잭션
+[ 30tps]
+
+요청 메시지 명세
+항목명(영문)
+항목명(국문)
+항목크기
+항목구분
+샘플데이터
+항목설명
+serviceKey
+인증키
+100
+1
+인증키
+(URL Encode)
+공공데이터포털에서 발급받은 인증키
+numOfRows
+한 페이지 결과 수
+10
+1
+10
+한 페이지 결과 수
+pageNo
+페이지 번호
+10
+1
+1
+페이지 번호
+_type
+출력형식
+4
+0
+xml
+출력형식(xml/json) 기본값 : xml
+sdate
+조회시작일
+10
+1
+2014-12-01
+조회시작일
+stime
+조회시작 시각
+4
+1
+01
+조회시작 시각(HH)
+edate
+조회종료일
+10
+1
+2014-12-01
+조회종료일
+etime
+조회종료 시각
+4
+1
+15
+조회종료 시각(HH)
+damcode
+댐코드
+7
+1
+1012110
+수문제원현황 서비스의 댐코드조회 기능 참조
+excll
+우량관측소 코드
+7
+1
+1012432
+우량관측소 코드
+※ 항목구분 : 필수(1), 옵션(0), 1건 이상 복수건(1..n), 0건 또는 복수건(0..n)
+
+응답 메시지 명세
+항목명(영문)
+항목명(국문)
+항목크기
+항목구분
+샘플데이터
+항목설명
+resultCode
+결과코드
+2
+1
+00
+결과코드
+resultMsg
+결과메세지
+50
+1
+NORMAL SERVICE
+결과메세지
+no
+순번
+8
+1
+15
+순번
+obsrdt
+시간
+17
+0
+2014-12-01 01:00
+시간
+hourrf
+시강우량
+8.2
+0
+0
+시강우량(mm)
+acmtlrf
+누적우량
+10.4
+0
+719
+누적우량(mm)
+numOfRows
+줄수
+10
+1
+10
+페이지당 줄수
+pageNo
+페이지번호
+10
+1
+1
+페이지 번호
+totalCount
+데이터 총수
+10
+1
+15
+데이터 총수
+※ 항목구분 : 필수(1), 옵션(0), 1건 이상 복수건(1..n), 0건 또는 복수건(0..n)
+
+요청 / 응답 메시지 예제
+REST(URI)
+http://apis.data.go.kr/B500001/dam/excllncobsrvt/hourrf/hourrflist?sdate=2014-12-01&amp;stime=01&amp;edate=2014-12-01&amp;etime=15&amp;damcode=1012110&amp;excll=1012432&amp;pageNo=1&amp;numOfRows=10&amp;_type=xml&amp;serviceKey=서비스키
+응답 메시지
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;
+&lt;response&gt;
+&lt;header&gt;
+&lt;resultCode&gt;00&lt;/resultCode&gt;
+&lt;resultMsg&gt;NORMAL SERVICE.&lt;/resultMsg&gt;
+&lt;/header&gt;
+&lt;body&gt;
+&lt;items&gt;
+&lt;item&gt;
+&lt;acmtlrf&gt;719&lt;/acmtlrf&gt;
+&lt;hourrf&gt;0&lt;/hourrf&gt;
+&lt;no&gt;15&lt;/no&gt;
+&lt;obsrdt&gt;2014-12-01 01:00&lt;/obsrdt&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;acmtlrf&gt;719&lt;/acmtlrf&gt;
+&lt;hourrf&gt;0&lt;/hourrf&gt;
+&lt;no&gt;14&lt;/no&gt;
+&lt;obsrdt&gt;2014-12-01 02:00&lt;/obsrdt&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;acmtlrf&gt;719&lt;/acmtlrf&gt;
+&lt;hourrf&gt;0&lt;/hourrf&gt;
+&lt;no&gt;13&lt;/no&gt;
+&lt;obsrdt&gt;2014-12-01 03:00&lt;/obsrdt&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;acmtlrf&gt;719&lt;/acmtlrf&gt;
+&lt;hourrf&gt;0&lt;/hourrf&gt;
+&lt;no&gt;12&lt;/no&gt;
+&lt;obsrdt&gt;2014-12-01 04:00&lt;/obsrdt&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;acmtlrf&gt;719&lt;/acmtlrf&gt;
+&lt;hourrf&gt;0&lt;/hourrf&gt;
+&lt;no&gt;11&lt;/no&gt;
+&lt;obsrdt&gt;2014-12-01 05:00&lt;/obsrdt&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;acmtlrf&gt;719&lt;/acmtlrf&gt;
+&lt;hourrf&gt;0&lt;/hourrf&gt;
+&lt;no&gt;10&lt;/no&gt;
+&lt;obsrdt&gt;2014-12-01 06:00&lt;/obsrdt&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;acmtlrf&gt;719&lt;/acmtlrf&gt;
+&lt;hourrf&gt;0&lt;/hourrf&gt;
+&lt;no&gt;9&lt;/no&gt;
+&lt;obsrdt&gt;2014-12-01 07:00&lt;/obsrdt&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;acmtlrf&gt;719&lt;/acmtlrf&gt;
+&lt;hourrf&gt;0&lt;/hourrf&gt;
+&lt;no&gt;8&lt;/no&gt;
+&lt;obsrdt&gt;2014-12-01 08:00&lt;/obsrdt&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;acmtlrf&gt;719&lt;/acmtlrf&gt;
+&lt;hourrf&gt;0&lt;/hourrf&gt;
+&lt;no&gt;7&lt;/no&gt;
+&lt;obsrdt&gt;2014-12-01 09:00&lt;/obsrdt&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;acmtlrf&gt;719&lt;/acmtlrf&gt;
+&lt;hourrf&gt;0&lt;/hourrf&gt;
+&lt;no&gt;6&lt;/no&gt;
+&lt;obsrdt&gt;2014-12-01 10:00&lt;/obsrdt&gt;
+&lt;/item&gt;
+&lt;/items&gt;
+&lt;numOfRows&gt;10&lt;/numOfRows&gt;
+&lt;pageNo&gt;1&lt;/pageNo&gt;
+&lt;totalCount&gt;15&lt;/totalCount&gt;
+&lt;/body&gt;
+&lt;/response&gt;
+
+
+우량관측소 코드조회 명세
+오퍼레이션 정보
+오퍼레이션 번호
+3
+오퍼레이션명(국문)
+우량 관측소 코드 조회
+
+오퍼레이션 유형
+조회(목록)
+오퍼레이션명(영문)
+excll/exclllist
+
+오퍼레이션 설명
+우량 관측소 코드 조회 서비스
+
+Call Back URL
+http://apis.data.go.kr/B500001/dam/excllncobsrvt/excll/exclllist
+
+최대 메시지 사이즈
+[ 1000K bytes]
+
+평균 응답 시간
+[ 500ms]
+초당 최대 트랜잭션
+[ 30tps]
+
+요청 메시지 명세
+항목명(영문)
+항목명(국문)
+항목크기
+항목구분
+샘플데이터
+항목설명
+serviceKey
+인증키
+100
+1
+인증키
+(URL Encode)
+공공데이터포털에서 발급받은 인증키
+_type
+출력형식
+4
+0
+xml
+출력형식(xml/json) 기본값 : xml
+damcode
+댐코드
+7
+1
+1012110
+수문제원현황 서비스의 댐코드조회 기능 참조
+※ 항목구분 : 필수(1), 옵션(0), 1건 이상 복수건(1..n), 0건 또는 복수건(0..n)
+
+응답 메시지 명세
+항목명(영문)
+항목명(국문)
+항목크기
+항목구분
+샘플데이터
+항목설명
+resultCode
+결과코드
+2
+1
+00
+결과코드
+resultMsg
+결과메세지
+50
+1
+NORMAL SERVICE
+결과메세지
+excllncobsrvtcode
+우량 관측소코드
+10
+1
+1001460
+우량 관측소코드
+obsrvtNm
+관측소이름
+40
+1
+시험2
+관측소이름
+※ 항목구분 : 필수(1), 옵션(0), 1건 이상 복수건(1..n), 0건 또는 복수건(0..n)
+
+요청 / 응답 메시지 예제
+REST(URI)
+HYPERLINK &quot;http://apis.data.go.kr/B500001/dam/excllncobsrvt/excll/exclllist?damcode=1012110&amp;_type=xml&amp;serviceKey=&quot;http://apis.data.go.kr/B500001/dam/excllncobsrvt/excll/exclllist?damcode=1012110&amp;_type=xml&amp;serviceKey=서비스키
+응답메시지
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;response&gt;
+&lt;header&gt;
+&lt;resultCode&gt;00&lt;/resultCode&gt;
+&lt;resultMsg&gt;NORMAL SERVICE.&lt;/resultMsg&gt;
+&lt;/header&gt;
+&lt;body&gt;
+&lt;items&gt;
+&lt;item&gt;
+&lt;excllncobsrvtcode&gt;1001460&lt;/excllncobsrvtcode&gt;
+&lt;obsrvtNm&gt;시험2&lt;/obsrvtNm&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;excllncobsrvtcode&gt;1011432&lt;/excllncobsrvtcode&gt;
+&lt;obsrvtNm&gt;인제군(귀둔리)&lt;/obsrvtNm&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;excllncobsrvtcode&gt;1011418&lt;/excllncobsrvtcode&gt;
+&lt;obsrvtNm&gt;인제군(남전리)&lt;/obsrvtNm&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;excllncobsrvtcode&gt;1012432&lt;/excllncobsrvtcode&gt;
+&lt;obsrvtNm&gt;인제군(덕적리)&lt;/obsrvtNm&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;excllncobsrvtcode&gt;1011424&lt;/excllncobsrvtcode&gt;
+&lt;obsrvtNm&gt;인제군(상남초교)&lt;/obsrvtNm&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;excllncobsrvtcode&gt;1010430&lt;/excllncobsrvtcode&gt;
+&lt;obsrvtNm&gt;인제군(서성초교)&lt;/obsrvtNm&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;excllncobsrvtcode&gt;1011428&lt;/excllncobsrvtcode&gt;
+&lt;obsrvtNm&gt;인제군(신남리)&lt;/obsrvtNm&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;excllncobsrvtcode&gt;1010470&lt;/excllncobsrvtcode&gt;
+&lt;obsrvtNm&gt;인제군(용대초교)&lt;/obsrvtNm&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;excllncobsrvtcode&gt;1010440&lt;/excllncobsrvtcode&gt;
+&lt;obsrvtNm&gt;인제군(한계초교)&lt;/obsrvtNm&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;excllncobsrvtcode&gt;1011414&lt;/excllncobsrvtcode&gt;
+&lt;obsrvtNm&gt;인제군(현리)&lt;/obsrvtNm&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;excllncobsrvtcode&gt;9000143&lt;/excllncobsrvtcode&gt;
+&lt;obsrvtNm&gt;춘천시(소양강댐)&lt;/obsrvtNm&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;excllncobsrvtcode&gt;1011416&lt;/excllncobsrvtcode&gt;
+&lt;obsrvtNm&gt;춘천시(추곡초교)&lt;/obsrvtNm&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;excllncobsrvtcode&gt;1011430&lt;/excllncobsrvtcode&gt;
+&lt;obsrvtNm&gt;홍천군(명개리2)&lt;/obsrvtNm&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;excllncobsrvtcode&gt;9000139&lt;/excllncobsrvtcode&gt;
+&lt;obsrvtNm&gt;홍천군(창촌리)&lt;/obsrvtNm&gt;
+&lt;/item&gt;
+&lt;/items&gt;
+&lt;/body&gt;
+&lt;/response&gt;
+
+
+
+
+오퍼레이션 목록
+일련번호
+서비스명(국문)
+오퍼레이션명(영문)
+오퍼레이션명(국문)
+메시지명(영문)
+1
+수위관측소 운영 정보
+mntwal/mntwallist
+수위 분강우량 조회
+N/A
+2
+
+hourwal/hourwallist
+수위 시강우량 조회
+N/A
+3
+
+wal/wallist
+수위 관측소 코드 조회
+N/A
+
+수위 분강우량 조회 오퍼레이션 명세
+오퍼레이션 정보
+오퍼레이션 번호
+1
+오퍼레이션명(국문)
+수위 분강우량 조회
+
+오퍼레이션 유형
+조회(목록)
+오퍼레이션명(영문)
+mntwal/mntwallist
+
+오퍼레이션 설명
+K-water에서 관리중인 분단위의 수위국의 관측정보
+
+Call Back URL
+http://apis.data.go.kr/B500001/dam/excllncobsrvt/mntwal/mntwallist
+
+최대 메시지 사이즈
+[ 1000K bytes]
+
+평균 응답 시간
+[ 500ms]
+초당 최대 트랜잭션
+[ 30tps]
+
+요청 메시지 명세
+항목명(영문)
+항목명(국문)
+항목크기
+항목구분
+샘플데이터
+항목설명
+serviceKey
+인증키
+100
+1
+인증키
+(URL Encode)
+공공데이터포털에서 발급받은 인증키
+numOfRows
+줄수
+10
+1
+10
+페이지당 줄수
+pageNo
+페이지번호
+10
+1
+1
+페이지 번호
+_type
+출력형식
+4
+0
+xml
+출력형식(xml/json) 기본값 : xml
+sdate
+조회시작일
+10
+1
+2014-12-18
+조회시작일
+stime
+조회시작 시각
+4
+1
+08
+조회시작 시각(HH)
+edate
+조회종료일
+10
+1
+2014-12-18
+조회종료일
+etime
+조회종료 시각
+4
+1
+15
+조회종료 시각(HH)
+damcode
+댐코드
+7
+1
+1012110
+수문제원현황 서비스의 댐코드조회 기능 참조
+wal
+수위관측소 코드
+7
+1
+1010640
+수위관측소 코드
+tms
+조회시간단위
+7
+1
+10
+조회시간단위
+※ 항목구분 : 필수(1), 옵션(0), 1건 이상 복수건(1..n), 0건 또는 복수건(0..n)
+
+응답 메시지 명세
+항목명(영문)
+항목명(국문)
+항목크기
+항목구분
+샘플데이터
+항목설명
+resultCode
+결과코드
+2
+1
+00
+결과코드
+resultMsg
+결과메세지
+50
+1
+NORMAL SERVICE
+결과메세지
+no
+순번
+8
+1
+48
+순번
+obsrdtmnt
+시간
+17
+0
+2014-12-18 00:10
+시간
+flux
+수위
+10.1
+0
+11.69
+수위(EL.m)
+wal
+우량
+10.4
+0
+0.62
+우량(mm)
+numOfRows
+줄수
+10
+1
+10
+줄수
+pageNo
+페이지번호
+10
+1
+1
+페이지번호
+totalCount
+데이터 총수
+10
+1
+48
+데이터 총수
+※ 항목구분 : 필수(1), 옵션(0), 1건 이상 복수건(1..n), 0건 또는 복수건(0..n)
+
+요청 / 응답 메시지 예제
+REST(URI)
+http://apis.data.go.kr/B500001/dam/excllncobsrvt/mntwal/mntwallist?sdate=2014-12-18&amp;stime=08&amp;edate=2014-12-18&amp;etime=15&amp;damcode=1012110&amp;wal=1010640&amp;tms=10&amp;pageNo=1&amp;numOfRows=10&amp;_type=xml&amp;serviceKey= 서비스키
+응답 메시지
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt; 
+&lt;response&gt;
+&lt;header&gt;
+&lt;resultCode&gt;00&lt;/resultCode&gt;
+&lt;resultMsg&gt;NORMAL SERVICE.&lt;/resultMsg&gt;
+&lt;/header&gt;
+&lt;body&gt;
+&lt;items&gt;
+&lt;item&gt;
+&lt;flux&gt;11.69&lt;/flux&gt;
+&lt;no&gt;48&lt;/no&gt;
+&lt;obsrdtmnt&gt;2014-12-18 08:00&lt;/obsrdtmnt&gt;
+&lt;wal&gt;0.62&lt;/wal&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;flux&gt;11.69&lt;/flux&gt;
+&lt;no&gt;47&lt;/no&gt;
+&lt;obsrdtmnt&gt;2014-12-18 08:10&lt;/obsrdtmnt&gt;
+&lt;wal&gt;0.62&lt;/wal&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;flux&gt;11.69&lt;/flux&gt;
+&lt;no&gt;46&lt;/no&gt;
+&lt;obsrdtmnt&gt;2014-12-18 08:20&lt;/obsrdtmnt&gt;
+&lt;wal&gt;0.62&lt;/wal&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;flux&gt;11.69&lt;/flux&gt;
+&lt;no&gt;45&lt;/no&gt;
+&lt;obsrdtmnt&gt;2014-12-18 08:30&lt;/obsrdtmnt&gt;
+&lt;wal&gt;0.62&lt;/wal&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;flux&gt;11.69&lt;/flux&gt;
+&lt;no&gt;44&lt;/no&gt;
+&lt;obsrdtmnt&gt;2014-12-18 08:40&lt;/obsrdtmnt&gt;
+&lt;wal&gt;0.62&lt;/wal&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;flux&gt;11.69&lt;/flux&gt;
+&lt;no&gt;43&lt;/no&gt;
+&lt;obsrdtmnt&gt;2014-12-18 08:50&lt;/obsrdtmnt&gt;
+&lt;wal&gt;0.62&lt;/wal&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;flux&gt;11.69&lt;/flux&gt;
+&lt;no&gt;42&lt;/no&gt;
+&lt;obsrdtmnt&gt;2014-12-18 09:00&lt;/obsrdtmnt&gt;
+&lt;wal&gt;0.62&lt;/wal&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;flux&gt;11.69&lt;/flux&gt;
+&lt;no&gt;41&lt;/no&gt;
+&lt;obsrdtmnt&gt;2014-12-18 09:10&lt;/obsrdtmnt&gt;
+&lt;wal&gt;0.62&lt;/wal&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;flux&gt;11.69&lt;/flux&gt;
+&lt;no&gt;40&lt;/no&gt;
+&lt;obsrdtmnt&gt;2014-12-18 09:20&lt;/obsrdtmnt&gt;
+&lt;wal&gt;0.62&lt;/wal&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;flux&gt;11.69&lt;/flux&gt;
+&lt;no&gt;39&lt;/no&gt;
+&lt;obsrdtmnt&gt;2014-12-18 09:30&lt;/obsrdtmnt&gt;
+&lt;wal&gt;0.62&lt;/wal&gt;
+&lt;/item&gt;
+&lt;/items&gt;
+&lt;numOfRows&gt;10&lt;/numOfRows&gt;
+&lt;pageNo&gt;1&lt;/pageNo&gt;
+&lt;totalCount&gt;48&lt;/totalCount&gt;
+&lt;/body&gt;
+&lt;/response&gt;
+ 
+
+
+수위 시간우량 조회 오퍼레이션 명세
+오퍼레이션 정보
+오퍼레이션 번호
+2
+오퍼레이션명(국문)
+수위 시강우량 조회
+
+오퍼레이션 유형
+조회(목록)
+오퍼레이션명(영문)
+hourwal/hourwallist
+
+오퍼레이션 설명
+K-water에서 관리중인 시간단위의 수위국의 관측정보
+
+Call Back URL
+http://apis.data.go.kr/B500001/dam/excllncobsrvt/hourwal/hourwallist
+
+최대 메시지 사이즈
+[ 1000K bytes]
+
+평균 응답 시간
+[ 500ms]
+초당 최대 트랜잭션
+[ 30tps]
+
+요청 메시지 명세
+항목명(영문)
+항목명(국문)
+항목크기
+항목구분
+샘플데이터
+항목설명
+serviceKey
+인증키
+100
+1
+인증키
+(URL Encode)
+공공데이터포털에서 발급받은 인증키
+numOfRows
+줄수
+10
+1
+10
+페이지당 줄수
+pageNo
+페이지번호
+10
+1
+1
+페이지 번호
+_type
+출력형식
+4
+0
+xml
+출력형식(xml/json) 기본값 : xml
+sdate
+조회시작일
+10
+1
+2014-12-18
+조회시작일
+stime
+조회시작 시각
+4
+1
+00
+조회시작 시각(HH)
+edate
+조회종료일
+10
+1
+2014-12-18
+조회종료일
+etime
+조회종료 시각
+4
+1
+23
+조회종료 시각(HH)
+damcode
+댐코드
+7
+1
+1012110
+수문제원현황 서비스의 댐코드조회 기능 참조
+wal
+수위관측소 코드
+7
+1
+1010640
+수위관측소 코드
+※ 항목구분 : 필수(1), 옵션(0), 1건 이상 복수건(1..n), 0건 또는 복수건(0..n)
+
+응답 메시지 명세
+항목명(영문)
+항목명(국문)
+항목크기
+항목구분
+샘플데이터
+항목설명
+resultCode
+결과코드
+2
+1
+00
+결과코드
+resultMsg
+결과메세지
+50
+1
+NORMAL SERVICE
+결과메세지
+no
+순번
+8
+1
+23
+순번
+obsrdt
+시간
+17
+0
+2014-12-18 01:00
+시간
+flux
+수위
+10.1
+0
+11.69
+수위(EL.m)
+hourwal
+우량
+10.4
+0
+0.62
+우량(mm)
+numOfRows
+줄수
+10
+1
+10
+줄수
+pageNo
+페이지번호
+10
+1
+1
+페이지번호
+totalCount
+데이터 총수
+10
+1
+23
+데이터 총수
+※ 항목구분 : 필수(1), 옵션(0), 1건 이상 복수건(1..n), 0건 또는 복수건(0..n)
+
+요청 / 응답 메시지 예제
+REST(URI)
+http://apis.data.go.kr/B500001/dam/excllncobsrvt/hourwal/hourwallist?sdate=2014-12-18&amp;stime=00&amp;edate=2014-12-18&amp;etime=23&amp;damcode=1012110&amp;wal=1010640&amp;pageNo=1&amp;numOfRows=10&amp;_type=xml&amp;serviceKey=서비스키
+응답 메시지
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;
+&lt;response&gt;
+&lt;header&gt;
+&lt;resultCode&gt;00&lt;/resultCode&gt;
+&lt;resultMsg&gt;NORMAL SERVICE.&lt;/resultMsg&gt;
+&lt;/header&gt;
+&lt;body&gt;
+&lt;items&gt;
+&lt;item&gt;
+&lt;flux&gt;11.69&lt;/flux&gt;
+&lt;hourwal&gt;0.62&lt;/hourwal&gt;
+&lt;no&gt;23&lt;/no&gt;
+&lt;obsrdt&gt;2014-12-18 01:00&lt;/obsrdt&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;flux&gt;11.69&lt;/flux&gt;
+&lt;hourwal&gt;0.62&lt;/hourwal&gt;
+&lt;no&gt;22&lt;/no&gt;
+&lt;obsrdt&gt;2014-12-18 02:00&lt;/obsrdt&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;flux&gt;11.69&lt;/flux&gt;
+&lt;hourwal&gt;0.62&lt;/hourwal&gt;
+&lt;no&gt;21&lt;/no&gt;
+&lt;obsrdt&gt;2014-12-18 03:00&lt;/obsrdt&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;flux&gt;11.69&lt;/flux&gt;
+&lt;hourwal&gt;0.62&lt;/hourwal&gt;
+&lt;no&gt;20&lt;/no&gt;
+&lt;obsrdt&gt;2014-12-18 04:00&lt;/obsrdt&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;flux&gt;11.69&lt;/flux&gt;
+&lt;hourwal&gt;0.62&lt;/hourwal&gt;
+&lt;no&gt;19&lt;/no&gt;
+&lt;obsrdt&gt;2014-12-18 05:00&lt;/obsrdt&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;flux&gt;11.69&lt;/flux&gt;
+&lt;hourwal&gt;0.62&lt;/hourwal&gt;
+&lt;no&gt;18&lt;/no&gt;
+&lt;obsrdt&gt;2014-12-18 06:00&lt;/obsrdt&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;flux&gt;11.69&lt;/flux&gt;
+&lt;hourwal&gt;0.62&lt;/hourwal&gt;
+&lt;no&gt;17&lt;/no&gt;
+&lt;obsrdt&gt;2014-12-18 07:00&lt;/obsrdt&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;flux&gt;11.69&lt;/flux&gt;
+&lt;hourwal&gt;0.62&lt;/hourwal&gt;
+&lt;no&gt;16&lt;/no&gt;
+&lt;obsrdt&gt;2014-12-18 08:00&lt;/obsrdt&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;flux&gt;11.69&lt;/flux&gt;
+&lt;hourwal&gt;0.62&lt;/hourwal&gt;
+&lt;no&gt;15&lt;/no&gt;
+&lt;obsrdt&gt;2014-12-18 09:00&lt;/obsrdt&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;flux&gt;11.69&lt;/flux&gt;
+&lt;hourwal&gt;0.62&lt;/hourwal&gt;
+&lt;no&gt;14&lt;/no&gt;
+&lt;obsrdt&gt;2014-12-18 10:00&lt;/obsrdt&gt;
+&lt;/item&gt;
+&lt;/items&gt;
+&lt;numOfRows&gt;10&lt;/numOfRows&gt;
+&lt;pageNo&gt;1&lt;/pageNo&gt;
+&lt;totalCount&gt;23&lt;/totalCount&gt;
+&lt;/body&gt;
+&lt;/response&gt;
+
+
+수위관측소 코드 조회 명세
+오퍼레이션 정보
+오퍼레이션 번호
+3
+오퍼레이션명(국문)
+수위 관측소 코드 조회
+
+오퍼레이션 유형
+조회(목록)
+오퍼레이션명(영문)
+wal/wallist
+
+오퍼레이션 설명
+수위 조회 서비스
+
+Call Back URL
+http://apis.data.go.kr/B500001/dam/excllncobsrvt/wal/wallist
+
+최대 메시지 사이즈
+[ 1000K bytes]
+
+평균 응답 시간
+[ 500ms]
+초당 최대 트랜잭션
+[ 30tps]
+
+요청 메시지 명세
+항목명(영문)
+항목명(국문)
+항목크기
+항목구분
+샘플데이터
+항목설명
+serviceKey
+인증키
+100
+1
+인증키
+(URL Encode)
+공공데이터포털에서 발급받은 인증키
+_type
+출력형식
+4
+0
+xml
+출력형식(xml/json) 기본값 : xml
+damcode
+댐코드
+7
+1
+1012110
+수문제원현황 서비스의 댐코드조회 기능 참조
+※ 항목구분 : 필수(1), 옵션(0), 1건 이상 복수건(1..n), 0건 또는 복수건(0..n)
+
+응답 메시지 명세
+항목명(영문)
+항목명(국문)
+항목크기
+항목구분
+샘플데이터
+항목설명
+resultCode
+결과코드
+2
+1
+00
+결과코드
+resultMsg
+결과메세지
+50
+1
+NORMAL SERVICE
+결과메세지
+walobsrvtcode
+수위 관측소코드
+10
+1
+1010640
+수위 관측소코드
+obsrvtNm
+관측소이름
+40
+1
+양구군(각시교)
+관측소이름
+※ 항목구분 : 필수(1), 옵션(0), 1건 이상 복수건(1..n), 0건 또는 복수건(0..n)
+
+요청 / 응답 메시지 예제
+REST(URI)
+http://apis.data.go.kr/B500001/dam/excllncobsrvt/wal/wallist?damcode=1012110&amp;_type=xml&amp;serviceKey=서비스키
+응답 메시지
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt; 
+&lt;response&gt;
+&lt;header&gt;
+&lt;resultCode&gt;00&lt;/resultCode&gt;
+&lt;resultMsg&gt;NORMAL SERVICE.&lt;/resultMsg&gt;
+&lt;/header&gt;
+&lt;body&gt;
+&lt;items&gt;
+&lt;item&gt;
+&lt;obsrvtNm&gt;양구군(각시교)&lt;/obsrvtNm&gt;
+&lt;walobsrvtcode&gt;1010640&lt;/walobsrvtcode&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;obsrvtNm&gt;인제군(도리촌교)&lt;/obsrvtNm&gt;
+&lt;walobsrvtcode&gt;9000272&lt;/walobsrvtcode&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;obsrvtNm&gt;인제군(양구대교)&lt;/obsrvtNm&gt;
+&lt;walobsrvtcode&gt;1012670&lt;/walobsrvtcode&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;obsrvtNm&gt;인제군(어두원교)&lt;/obsrvtNm&gt;
+&lt;walobsrvtcode&gt;1011650&lt;/walobsrvtcode&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;obsrvtNm&gt;인제군(원대교)&lt;/obsrvtNm&gt;
+&lt;walobsrvtcode&gt;1012650&lt;/walobsrvtcode&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;obsrvtNm&gt;인제군(월학리)&lt;/obsrvtNm&gt;
+&lt;walobsrvtcode&gt;1011690&lt;/walobsrvtcode&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;obsrvtNm&gt;춘천시(소양6교)&lt;/obsrvtNm&gt;
+&lt;walobsrvtcode&gt;1012702&lt;/walobsrvtcode&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;obsrvtNm&gt;춘천시(소양강댐)&lt;/obsrvtNm&gt;
+&lt;walobsrvtcode&gt;1012110&lt;/walobsrvtcode&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;obsrvtNm&gt;춘천시(소양강댐방수로)&lt;/obsrvtNm&gt;
+&lt;walobsrvtcode&gt;1011692&lt;/walobsrvtcode&gt;
+&lt;/item&gt;
+&lt;/items&gt;
+&lt;/body&gt;
+&lt;/response&gt;
+ 
+
+
+
+
+OpenAPI 에러 코드정리
+공공데이터 포털 에러코드
+에러코드
+에러메시지
+설명
+1
+APPLICATION_ERROR
+어플리케이션 에러
+4
+HTTP_ERROR
+HTTP 에러
+12
+NO_OPENAPI_SERVICE_ERROR
+해당 오픈API서비스가 없거나 폐기됨
+20
+SERVICE_ACCESS_DENIED_ERROR
+서비스 접근거부
+22
+LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR
+서비스 요청제한횟수 초과에러
+30
+SERVICE_KEY_IS_NOT_REGISTERED_ERROR
+등록되지 않은 서비스키
+31
+DEADLINE_HAS_EXPIRED_ERROR
+활용기간 만료
+32
+UNREGISTERED_IP_ERROR
+등록되지 않은 IP
+99
+UNKNOWN_ERROR
+기타에러
+공공데이터포털에서 출력되는 오류메세지는 XML로만 출력되며, 형태는 아래와 같습니다.
+&lt;OpenAPI_ServiceResponse&gt;
+&lt;cmmMsgHeader&gt;
+&lt;errMsg&gt;SERVICE ERROR&lt;/errMsg&gt;
+&lt;returnAuthMsg&gt;SERVICE_KEY_IS_NOT_REGISTERED_ERROR&lt;/returnAuthMsg&gt;
+&lt;returnReasonCode&gt;30&lt;/returnReasonCode&gt;
+&lt;/cmmMsgHeader&gt;
+&lt;/OpenAPI_ServiceResponse&gt;
+
+
