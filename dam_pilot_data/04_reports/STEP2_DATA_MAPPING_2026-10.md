@@ -39,7 +39,7 @@ K-water MyWater 시각 표기는 `HH=01~24` 형식이고 시각 의미(구간 �
 
 | Relation | 연결 근거 | 상태 |
 |---|---|---|
-| Dam –hasHydrometeorologicalState→ HMS | 댐 코드, 댐별 관측소 코드 | 가능 (조회 파라미터 기준 연관) |
+| Dam –hasHydrometeorologicalState→ HydrometeorologicalState | 댐 코드, 댐별 관측소 코드 | 가능 (조회 파라미터 기준 연관) |
 | Operation –performedOnDam→ Dam | Operation 도출 후 | Operation 결정 후 |
 | Approval –authorizes→ Operation | 승인 파일에 운영행위 식별자 없음 (G03 `NOT_FOUND`) | **연구용으로 구성** (실제 연결 근거 없음) |
 | Criterion –appliesToDam→ Dam | 별표3 시설명 기준 | 가능 (이름 기준 대응) |
