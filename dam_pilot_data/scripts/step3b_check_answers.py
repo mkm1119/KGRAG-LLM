@@ -14,7 +14,7 @@ bad = 0
 for q, ans in a.items():
     src = b.get(q, '') + common
     nums = [n for n in re.findall(r'\d+(?:\.\d+)?', ans) if '.' in n or len(n) >= 2]
-    ids = re.findall(r'(?:APR|OPR|EVI|CRI|HMS|DAM):[\w:가-힣\.]+', ans)
+    ids = [i.rstrip('.') for i in re.findall(r'EVI:LAW:별표\d|(?:APR|OPR|EVI|CRI|HMS|DAM):[0-9A-Za-z:\.\-]+', ans)]
     miss = [n for n in nums if n not in src]
     missid = [i for i in ids if i not in src]
     print(q, '숫자', len(nums), '근거 없음', miss, '| ID', len(ids), '근거 없음', missid)
