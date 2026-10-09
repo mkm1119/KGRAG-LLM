@@ -107,16 +107,17 @@ BORD = ''.join('<w:%s w:val="single" w:sz="5" w:space="0" w:color="A6A6A6"/>' % 
 MAR = '<w:tcMar><w:top w:w="80" w:type="dxa"/><w:left w:w="110" w:type="dxa"/><w:bottom w:w="80" w:type="dxa"/><w:right w:w="110" w:type="dxa"/></w:tcMar><w:vAlign w:val="center"/>'
 
 
-BODY = 20  # 본문·글머리·표(머리글 포함) 글자 크기(10pt)
+BODY = 20  # 본문·글머리 글자 크기(10pt)
+TBL = 18   # 표 안 글자 크기(9pt, 머리글·강조 상자 포함)
 
 
-def cell(text, w, fill=None, b=False, color=None, center=False, sz=BODY):
+def cell(text, w, fill=None, b=False, color=None, center=False, sz=TBL):
     lines = [l for l in str(text).split('\n')] or ['']
     ps = ''.join('<w:p><w:pPr><w:spacing w:after="20" w:line="252" w:lineRule="auto"/>%s</w:pPr>%s</w:p>' % ('<w:jc w:val="center"/>' if center else '', run(l, sz=sz, b=b, color=color)) for l in lines)
     return '<w:tc><w:tcPr><w:tcW w:w="%d" w:type="dxa"/>%s%s</w:tcPr>%s</w:tc>' % (w, '<w:shd w:val="clear" w:color="auto" w:fill="%s"/>' % fill if fill else '', MAR, ps)
 
 
-def table(rows, widths, header=True, firstcol=True, sz=BODY):
+def table(rows, widths, header=True, firstcol=True, sz=TBL):
     assert sum(widths) == 9972, (sum(widths), rows[0])
     out = ['<w:tbl><w:tblPr><w:tblW w:w="9972" w:type="dxa"/><w:jc w:val="center"/><w:tblBorders>%s</w:tblBorders><w:tblLayout w:type="fixed"/>'
            '<w:tblLook w:val="04A0" w:firstRow="1" w:lastRow="0" w:firstColumn="1" w:lastColumn="0" w:noHBand="0" w:noVBand="1"/></w:tblPr><w:tblGrid>%s</w:tblGrid>'
@@ -138,7 +139,7 @@ def table(rows, widths, header=True, firstcol=True, sz=BODY):
 
 
 def box(lab, text, w1=1944):
-    return table([[lab, text]], [w1, 9972 - w1], header=False, sz=20)
+    return table([[lab, text]], [w1, 9972 - w1], header=False, sz=TBL)
 
 
 # ------------------------------------------------------------------ 본문
@@ -157,7 +158,7 @@ add(table([
      '• CQ 답변 가능성 점검 중 Approval–Dam 연결 부재를 발견하여 Relation 1개 추가(8개 → 9개)\n'
      '• 질문 → 의도 분류(LLM) → Neo4j·측정자료·문서 조회 → 근거 묶음 → 답변 생성 흐름을 구현하고 Qwen3-8B로 질문 10개를 예비 테스트' % (len(APPS), MEAS / 10000, NE, NR)],
     ['다음주\n개선 및 확장', '• 예비 테스트에서 발견한 오류의 수정 반영 후 재실행, 더 큰 모델(32B)과 비교\n• 같은 LLM에 표 데이터를 그대로 주는 방식과 KG 방식 비교\n• 사람 검토: 비고 분류 정확도, 연구자 지정 임시 기준(행위 시각, 유사 사례)\n• 실제 운영기록 확보 방안 정리(한수원 현장 방문 등)'],
-], [1701, 8271], sz=20))
+], [1701, 8271]))
 
 # ---- 1장
 add(h1('1. Ontology 구조와 개념 정리'))
