@@ -21,7 +21,7 @@ for o in r3b.rd('operation_from_remarks_5dams.csv'):
     k[o['순차번호']] += 1
     oid = 'OPR:%s:%d' % (o['순차번호'], k[o['순차번호']])
     typ = o['operationType']
-    if o['time_source'] == '측정 방류량 변화 시각':
+    if o['time_source'].startswith('측정 방류량 변화 시각'):
         # 행위 시각이 측정된 변화 시각이므로, 그 변화의 부호가 비고 행위의 방향과 같은지 본다.
         d = float(o['change_amount']); b = mx = mn = ''
         if typ in UP:

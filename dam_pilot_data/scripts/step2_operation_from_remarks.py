@@ -49,7 +49,8 @@ BEFORE, AFTER, ABS_THR, REL_THR = 3, 6, 1.0, 0.10
 
 
 def observed_change(dam, start):
-    """결정(2026-10): 행위 시각 = 방류 시작 시각 앞 BEFORE시간~뒤 AFTER시간에서 총방류량이 직전 시각보다 max(ABS_THR CMS, REL_THR) 이상 바뀐 시각 중 시작에 가장 가까운 것(같으면 나중).
+    """[연구자 지정 임시 기준: 규정·문헌에 근거한 기준이 아님. 값은 BEFORE/AFTER/ABS_THR/REL_THR 상수이며 문서에 그대로 명시한다]
+    결정(2026-10): 행위 시각 = 방류 시작 시각 앞 BEFORE시간~뒤 AFTER시간에서 총방류량이 직전 시각보다 max(ABS_THR CMS, REL_THR) 이상 바뀐 시각 중 시작에 가장 가까운 것(같으면 나중).
     측정 라벨 시각(01~24시, 의미 미확정, ±1시간)을 그대로 쓴다. 없으면 None."""
     t0 = datetime.strptime(start, '%Y-%m-%d %H:%M')
     if t0.minute:
@@ -125,7 +126,7 @@ def main():
                 if o['time_source'] == '방류시작시간':
                     oc = observed_change(r['관측소명'], r['방류시작시간'].strip())
                     if oc:
-                        o['operationTime'], o['time_source'], o['change_amount'] = oc[0], '측정 방류량 변화 시각', round(oc[1], 3)
+                        o['operationTime'], o['time_source'], o['change_amount'] = oc[0], '측정 방류량 변화 시각(연구자 지정 임시 기준: 시작 -%dh~+%dh, 변화 %.1f CMS 또는 %d%%)' % (BEFORE, AFTER, ABS_THR, int(REL_THR * 100)), round(oc[1], 3)
                     else:
                         o['time_source'], o['change_amount'] = '승인 시작시각(변화 미검출)', ''
                 else:
