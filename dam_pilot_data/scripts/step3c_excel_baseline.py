@@ -69,7 +69,7 @@ def num(x):
 
 
 def main():
-    names = {'충주', '충주조정지', '소양강', '횡성', '광동'}
+    names = {'충주', '소양강', '횡성', '광동'}
     ap = [r for r in r3b.rd('approval_records_hrfco_raw_fields.csv') if r['관측소명'] in names]
     ap_rows = [[r['순차번호'], r['관측소코드'], r['관측소명'], r['승인년월일시분'], r['방류시작시간'], num(r['접수방류량']), r['접수일자'], r['비고']] for r in ap]
     # 별표3 (원문 표에서 한강수계 행)

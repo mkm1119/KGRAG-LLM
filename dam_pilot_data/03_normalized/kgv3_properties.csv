@@ -1,8 +1,6 @@
 ﻿entity_id,property,value,datatype
 DAM:1003110,damName,충주댐,string
 DAM:1003110,damType,다목적댐,string
-DAM:1003611,damName,충주조정지,string
-DAM:1003611,damType,다목적댐,string
 DAM:1012110,damName,소양강댐,string
 DAM:1012110,damType,다목적댐,string
 DAM:1006110,damName,횡성댐,string
@@ -12,9 +10,6 @@ DAM:1001210,damType,용수댐,string
 EVI:KW:1003110,sourceTitle,K-water MyWater 수문 시간자료,string
 EVI:KW:1003110,sourceType,측정자료,string
 EVI:KW:1003110,sourceLocator,DAM_CD=1003110 충주댐 시간별 자료,string
-EVI:KW:1003611,sourceTitle,K-water MyWater 수문 시간자료,string
-EVI:KW:1003611,sourceType,측정자료,string
-EVI:KW:1003611,sourceLocator,DAM_CD=1003611 충주조정지 시간별 자료,string
 EVI:KW:1012110,sourceTitle,K-water MyWater 수문 시간자료,string
 EVI:KW:1012110,sourceType,측정자료,string
 EVI:KW:1012110,sourceLocator,DAM_CD=1012110 소양강댐 시간별 자료,string
@@ -39,18 +34,6 @@ HMS:1003110:총방류량,variableType,총방류량,string
 HMS:1003110:총방류량,stationCode,1003110,string
 HMS:1003110:저수율,variableType,저수율,string
 HMS:1003110:저수율,stationCode,1003110,string
-HMS:1003611:수위,variableType,수위,string
-HMS:1003611:수위,stationCode,1003611,string
-HMS:1003611:저수량,variableType,저수량,string
-HMS:1003611:저수량,stationCode,1003611,string
-HMS:1003611:강우량,variableType,강우량,string
-HMS:1003611:강우량,stationCode,1003611,string
-HMS:1003611:유입량,variableType,유입량,string
-HMS:1003611:유입량,stationCode,1003611,string
-HMS:1003611:총방류량,variableType,총방류량,string
-HMS:1003611:총방류량,stationCode,1003611,string
-HMS:1003611:저수율,variableType,저수율,string
-HMS:1003611:저수율,stationCode,1003611,string
 HMS:1012110:수위,variableType,수위,string
 HMS:1012110:수위,stationCode,1012110,string
 HMS:1012110:저수량,variableType,저수량,string
@@ -102,41 +85,11 @@ APR:418,approvalContent,방류시작 2010-09-22 15:00; 접수방류량 2000㎥/s
 EVI:AP:418,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
 EVI:AP:418,sourceType,승인자료,string
 EVI:AP:418,sourceLocator,순차번호 418,string
-APR:434,approvalTime,2011-05-01,date
-APR:434,approvalContent,방류시작 2011-05-01 05:20; 접수방류량 500㎥/s,string
-EVI:AP:434,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
-EVI:AP:434,sourceType,승인자료,string
-EVI:AP:434,sourceLocator,순차번호 434,string
-APR:444,approvalTime,2011-05-08,date
-APR:444,approvalContent,방류시작 2011-05-09 18:00; 접수방류량 1100㎥/s; 비고: (5.9일 200 ㎥/s 수문방류 시작하여 5.11일 최대 1 100 ㎥/s까지 증가예정),string
-EVI:AP:444,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
-EVI:AP:444,sourceType,승인자료,string
-EVI:AP:444,sourceLocator,순차번호 444,string
-APR:448,approvalTime,2011-05-11,date
-APR:448,approvalContent,방류시작 2011-05-11 08:00; 접수방류량 1600㎥/s; 비고: (500 ㎥/s 증가 방류),string
-EVI:AP:448,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
-EVI:AP:448,sourceType,승인자료,string
-EVI:AP:448,sourceLocator,순차번호 448,string
-APR:464,approvalTime,2011-05-24,date
-APR:464,approvalContent,방류시작 2011-05-24 15:00; 접수방류량 700㎥/s; 비고: 700㎥/s이내 점진방류,string
-EVI:AP:464,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
-EVI:AP:464,sourceType,승인자료,string
-EVI:AP:464,sourceLocator,순차번호 464,string
-APR:466,approvalTime,2011-05-27,date
-APR:466,approvalContent,방류시작 2011-05-28 06:00; 접수방류량 800㎥/s; 비고: (800 ㎥/s 이내 방류),string
-EVI:AP:466,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
-EVI:AP:466,sourceType,승인자료,string
-EVI:AP:466,sourceLocator,순차번호 466,string
 APR:473,approvalTime,2011-06-24,date
 APR:473,approvalContent,방류시작 2011-06-24 18:00; 접수방류량 100㎥/s; 비고: 수문방류 승인,string
 EVI:AP:473,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
 EVI:AP:473,sourceType,승인자료,string
 EVI:AP:473,sourceLocator,순차번호 473,string
-APR:480,approvalTime,2011-06-24,date
-APR:480,approvalContent,방류시작 2011-06-24 22:00; 접수방류량 3000㎥/s; 비고: (1 300㎥/s 증가방류),string
-EVI:AP:480,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
-EVI:AP:480,sourceType,승인자료,string
-EVI:AP:480,sourceLocator,순차번호 480,string
 APR:504,approvalTime,2011-06-27,date
 APR:504,approvalContent,방류시작 2011-06-27 18:00; 접수방류량 2000㎥/s; 비고: (실제방류는 20시부터),string
 EVI:AP:504,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
@@ -152,11 +105,6 @@ APR:597,approvalContent,방류시작 2011-07-04 06:00; 접수방류량 3000㎥/s
 EVI:AP:597,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
 EVI:AP:597,sourceType,승인자료,string
 EVI:AP:597,sourceLocator,순차번호 597,string
-APR:598,approvalTime,2011-07-03,date
-APR:598,approvalContent,방류시작 2011-07-04 06:00; 접수방류량 3500㎥/s; 비고: 이내 증가방류,string
-EVI:AP:598,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
-EVI:AP:598,sourceType,승인자료,string
-EVI:AP:598,sourceLocator,순차번호 598,string
 APR:612,approvalTime,2011-07-04,date
 APR:612,approvalContent,방류시작 2011-07-04 10:00; 접수방류량 100㎥/s; 비고: 수문조작에 의한 방류,string
 EVI:AP:612,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
@@ -167,11 +115,6 @@ APR:626,approvalContent,방류시작 2011-07-05 17:00; 접수방류량 4000㎥/s
 EVI:AP:626,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
 EVI:AP:626,sourceType,승인자료,string
 EVI:AP:626,sourceLocator,순차번호 626,string
-APR:627,approvalTime,2011-07-05,date
-APR:627,approvalContent,방류시작 2011-07-05 17:00; 접수방류량 4200㎥/s,string
-EVI:AP:627,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
-EVI:AP:627,sourceType,승인자료,string
-EVI:AP:627,sourceLocator,순차번호 627,string
 APR:813,approvalTime,2011-07-27,date
 APR:813,approvalContent,방류시작 2011-07-27 10:00; 접수방류량 1500㎥/s,string
 EVI:AP:813,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
@@ -182,11 +125,6 @@ APR:814,approvalContent,방류시작 2011-07-27 14:00; 접수방류량 100㎥/s,
 EVI:AP:814,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
 EVI:AP:814,sourceType,승인자료,string
 EVI:AP:814,sourceLocator,순차번호 814,string
-APR:826,approvalTime,2011-07-27,date
-APR:826,approvalContent,방류시작 2011-07-27 17:00; 접수방류량 2200㎥/s; 비고: (승인량내 탄력적 조정),string
-EVI:AP:826,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
-EVI:AP:826,sourceType,승인자료,string
-EVI:AP:826,sourceLocator,순차번호 826,string
 APR:842,approvalTime,2011-07-27,date
 APR:842,approvalContent,방류시작 2011-07-28 00:00; 접수방류량 200㎥/s; 비고: (승인량내에서 탄력적 증가방류),string
 EVI:AP:842,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
@@ -202,66 +140,11 @@ APR:1103,approvalContent,방류시작 2011-08-17 18:00; 접수방류량 1300㎥/
 EVI:AP:1103,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
 EVI:AP:1103,sourceType,승인자료,string
 EVI:AP:1103,sourceLocator,순차번호 1103,string
-APR:1104,approvalTime,2011-08-17,date
-APR:1104,approvalContent,방류시작 2011-08-17 18:00; 접수방류량 2000㎥/s; 비고: 이내 점증방류(본댐 상황 고려),string
-EVI:AP:1104,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
-EVI:AP:1104,sourceType,승인자료,string
-EVI:AP:1104,sourceLocator,순차번호 1104,string
 APR:1114,approvalTime,2011-08-18,date
 APR:1114,approvalContent,방류시작 2011-08-18 17:00; 접수방류량 1500㎥/s; 비고: (증가방류 200 ㎥/s),string
 EVI:AP:1114,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
 EVI:AP:1114,sourceType,승인자료,string
 EVI:AP:1114,sourceLocator,순차번호 1114,string
-APR:1115,approvalTime,2011-08-18,date
-APR:1115,approvalContent,방류시작 2011-08-18 17:00; 접수방류량 2200㎥/s; 비고: (증가방류 200 ㎥/s),string
-EVI:AP:1115,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
-EVI:AP:1115,sourceType,승인자료,string
-EVI:AP:1115,sourceLocator,순차번호 1115,string
-APR:1152,approvalTime,2012-04-02,date
-APR:1152,approvalContent,방류시작 2012-04-02 20:00; 접수방류량 400㎥/s; 비고: (강천보 여주보 이포보 수문조작),string
-EVI:AP:1152,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
-EVI:AP:1152,sourceType,승인자료,string
-EVI:AP:1152,sourceLocator,순차번호 1152,string
-APR:1163,approvalTime,2012-04-06,date
-APR:1163,approvalContent,방류시작 2012-04-06 10:50; 접수방류량 500㎥/s; 비고: 이내 변경승인,string
-EVI:AP:1163,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
-EVI:AP:1163,sourceType,승인자료,string
-EVI:AP:1163,sourceLocator,순차번호 1163,string
-APR:1167,approvalTime,2012-04-10,date
-APR:1167,approvalContent,방류시작 2012-04-10 16:00; 접수방류량 650㎥/s; 비고: 이내 변경승인,string
-EVI:AP:1167,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
-EVI:AP:1167,sourceType,승인자료,string
-EVI:AP:1167,sourceLocator,순차번호 1167,string
-APR:1173,approvalTime,2012-06-29,date
-APR:1173,approvalContent,방류시작 2012-06-30 10:00; 접수방류량 300㎥/s; 비고: (강수 및 수문 상황에 따라 변동 가능),string
-EVI:AP:1173,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
-EVI:AP:1173,sourceType,승인자료,string
-EVI:AP:1173,sourceLocator,순차번호 1173,string
-APR:1178,approvalTime,2012-07-05,date
-APR:1178,approvalContent,방류시작 2012-07-05 18:00; 접수방류량 600㎥/s,string
-EVI:AP:1178,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
-EVI:AP:1178,sourceType,승인자료,string
-EVI:AP:1178,sourceLocator,순차번호 1178,string
-APR:1192,approvalTime,2012-07-06,date
-APR:1192,approvalContent,방류시작 2012-07-06 13:00; 접수방류량 1100㎥/s; 비고: 7.5 승인사항에 대한 변경승인,string
-EVI:AP:1192,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
-EVI:AP:1192,sourceType,승인자료,string
-EVI:AP:1192,sourceLocator,순차번호 1192,string
-APR:1209,approvalTime,2012-07-10,date
-APR:1209,approvalContent,방류시작 2012-07-11 08:00; 접수방류량 1500㎥/s; 비고: (7.14 최대 1800 ㎥/s),string
-EVI:AP:1209,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
-EVI:AP:1209,sourceType,승인자료,string
-EVI:AP:1209,sourceLocator,순차번호 1209,string
-APR:1264,approvalTime,2012-08-12,date
-APR:1264,approvalContent,방류시작 2012-08-12 19:00; 접수방류량 1000㎥/s; 비고: 이내 탄력적 방류,string
-EVI:AP:1264,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
-EVI:AP:1264,sourceType,승인자료,string
-EVI:AP:1264,sourceLocator,순차번호 1264,string
-APR:1275,approvalTime,2012-08-14,date
-APR:1275,approvalContent,방류시작 2012-08-15 00:00; 접수방류량 3000㎥/s; 비고: 이내(8.12 변경승인),string
-EVI:AP:1275,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
-EVI:AP:1275,sourceType,승인자료,string
-EVI:AP:1275,sourceLocator,순차번호 1275,string
 APR:1368,approvalTime,2012-08-24,date
 APR:1368,approvalContent,방류시작 2012-08-24 15:00; 접수방류량 2000㎥/s; 비고: 이내 탄력적 조정,string
 EVI:AP:1368,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
@@ -272,11 +155,6 @@ APR:1369,approvalContent,방류시작 2012-08-24 15:00; 접수방류량 100㎥/s
 EVI:AP:1369,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
 EVI:AP:1369,sourceType,승인자료,string
 EVI:AP:1369,sourceLocator,순차번호 1369,string
-APR:1391,approvalTime,2012-08-30,date
-APR:1391,approvalContent,방류시작 2012-08-30 19:30; 접수방류량 4000㎥/s; 비고: 이내(8.14 변경승인),string
-EVI:AP:1391,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
-EVI:AP:1391,sourceType,승인자료,string
-EVI:AP:1391,sourceLocator,순차번호 1391,string
 APR:1445,approvalTime,2012-09-14,date
 APR:1445,approvalContent,방류시작 2012-09-14 17:00; 접수방류량 2000㎥/s; 비고: 이내 탄력적 방류,string
 EVI:AP:1445,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
@@ -601,32 +479,18 @@ OPR:279:1,operationType,방류종료,string
 OPR:279:1,operationTime,2010-09-11T16:00,datetime
 OPR:394:1,operationType,증가방류,string
 OPR:394:1,operationTime,2010-09-20T17:50,datetime
-OPR:444:1,operationType,증가방류,string
-OPR:444:1,operationTime,2011-05-09T18:00,datetime
-OPR:448:1,operationType,증가방류,string
-OPR:448:1,operationTime,2011-05-11T08:00,datetime
-OPR:464:1,operationType,점진·점증방류,string
-OPR:464:1,operationTime,2011-05-24T15:00,datetime
-OPR:466:1,operationType,방류,string
-OPR:466:1,operationTime,2011-05-28T06:00,datetime
 OPR:473:1,operationType,방류,string
 OPR:473:1,operationTime,2011-06-24T18:00,datetime
-OPR:480:1,operationType,증가방류,string
-OPR:480:1,operationTime,2011-06-24T22:00,datetime
 OPR:504:1,operationType,방류,string
 OPR:504:1,operationTime,2011-06-27T20:00,datetime
 OPR:574:1,operationType,방류,string
 OPR:574:1,operationTime,2011-07-01T19:00,datetime
 OPR:597:1,operationType,증가방류,string
 OPR:597:1,operationTime,2011-07-04T06:00,datetime
-OPR:598:1,operationType,증가방류,string
-OPR:598:1,operationTime,2011-07-04T06:00,datetime
 OPR:612:1,operationType,방류,string
 OPR:612:1,operationTime,2011-07-04T10:00,datetime
 OPR:626:1,operationType,증가방류,string
 OPR:626:1,operationTime,2011-07-05T17:00,datetime
-OPR:826:1,operationType,탄력적 방류,string
-OPR:826:1,operationTime,2011-07-27T17:00,datetime
 OPR:842:1,operationType,증가방류,string
 OPR:842:1,operationTime,2011-07-28T00:00,datetime
 OPR:842:2,operationType,탄력적 방류,string
@@ -635,16 +499,8 @@ OPR:1102:1,operationType,방류,string
 OPR:1102:1,operationTime,2011-08-17T17:00,datetime
 OPR:1103:1,operationType,점진·점증방류,string
 OPR:1103:1,operationTime,2011-08-17T18:00,datetime
-OPR:1104:1,operationType,점진·점증방류,string
-OPR:1104:1,operationTime,2011-08-17T18:00,datetime
 OPR:1114:1,operationType,증가방류,string
 OPR:1114:1,operationTime,2011-08-18T17:00,datetime
-OPR:1115:1,operationType,증가방류,string
-OPR:1115:1,operationTime,2011-08-18T17:00,datetime
-OPR:1152:1,operationType,수문조작(연계 시설),string
-OPR:1152:1,operationTime,2012-04-02T20:00,datetime
-OPR:1264:1,operationType,탄력적 방류,string
-OPR:1264:1,operationTime,2012-08-12T19:00,datetime
 OPR:1368:1,operationType,탄력적 방류,string
 OPR:1368:1,operationTime,2012-08-24T15:00,datetime
 OPR:1445:1,operationType,탄력적 방류,string
@@ -955,7 +811,6 @@ CRI:R18,x_condition,비상방류 요청을 받고 물수급 상황을 고려해 
 CRI:R18,x_requirement,"시설관리자에게 비상방류를 지시할 수 있고, 시설관리자는 시설사용에 지장이 없는 한 따라야 함",variant
 CRI:R18,x_use,방류 이유(지시),variant
 DAM:1003110,x_byeolpyo1_category,다목적댐 및 용수댐,variant
-DAM:1003611,x_byeolpyo1_category,다목적댐 및 용수댐 (별표1에 충주댐(조정지댐포함)으로 표기),variant
 DAM:1012110,x_byeolpyo1_category,다목적댐 및 용수댐,variant
 DAM:1006110,x_byeolpyo1_category,다목적댐 및 용수댐,variant
 DAM:1001210,x_byeolpyo1_category,다목적댐 및 용수댐,variant
@@ -967,30 +822,10 @@ OPR:394:1,x_measured_check,일치,variant
 OPR:394:1,x_measured_before,36.166,variant
 OPR:394:1,x_measured_after_max,40.188,variant
 OPR:394:1,x_measured_after_min,40.105,variant
-OPR:444:1,x_measured_check,일치,variant
-OPR:444:1,x_measured_before,98.83,variant
-OPR:444:1,x_measured_after_max,134.962,variant
-OPR:444:1,x_measured_after_min,98.882,variant
-OPR:448:1,x_measured_check,일치,variant
-OPR:448:1,x_measured_before,952.422,variant
-OPR:448:1,x_measured_after_max,972.017,variant
-OPR:448:1,x_measured_after_min,953.948,variant
-OPR:464:1,x_measured_check,일치,variant
-OPR:464:1,x_measured_before,599.539,variant
-OPR:464:1,x_measured_after_max,600.882,variant
-OPR:464:1,x_measured_after_min,599.327,variant
-OPR:466:1,x_measured_check,판정불가(방향 없음),variant
-OPR:466:1,x_measured_before,697.194,variant
-OPR:466:1,x_measured_after_max,698.44,variant
-OPR:466:1,x_measured_after_min,697.175,variant
 OPR:473:1,x_measured_check,판정불가(방향 없음),variant
 OPR:473:1,x_measured_before,9.436,variant
 OPR:473:1,x_measured_after_max,33.632,variant
 OPR:473:1,x_measured_after_min,27.049,variant
-OPR:480:1,x_measured_check,일치,variant
-OPR:480:1,x_measured_before,1576.11,variant
-OPR:480:1,x_measured_after_max,1998.3,variant
-OPR:480:1,x_measured_after_min,1700.148,variant
 OPR:504:1,x_measured_check,판정불가(방향 없음),variant
 OPR:504:1,x_measured_before,757.898,variant
 OPR:504:1,x_measured_after_max,1497.708,variant
@@ -1003,10 +838,6 @@ OPR:597:1,x_measured_check,일치,variant
 OPR:597:1,x_measured_before,711.046,variant
 OPR:597:1,x_measured_after_max,3041.06,variant
 OPR:597:1,x_measured_after_min,1771.133,variant
-OPR:598:1,x_measured_check,일치,variant
-OPR:598:1,x_measured_before,1569.35,variant
-OPR:598:1,x_measured_after_max,3322.827,variant
-OPR:598:1,x_measured_after_min,1666.379,variant
 OPR:612:1,x_measured_check,판정불가(방향 없음),variant
 OPR:612:1,x_measured_before,60.491,variant
 OPR:612:1,x_measured_after_max,98.16,variant
@@ -1015,10 +846,6 @@ OPR:626:1,x_measured_check,일치,variant
 OPR:626:1,x_measured_before,2950.103,variant
 OPR:626:1,x_measured_after_max,3790.481,variant
 OPR:626:1,x_measured_after_min,2946.106,variant
-OPR:826:1,x_measured_check,판정불가(방향 없음),variant
-OPR:826:1,x_measured_before,695.236,variant
-OPR:826:1,x_measured_after_max,1190.982,variant
-OPR:826:1,x_measured_after_min,792.471,variant
 OPR:842:1,x_measured_check,일치,variant
 OPR:842:1,x_measured_before,98.9,variant
 OPR:842:1,x_measured_after_max,100.217,variant
@@ -1035,26 +862,10 @@ OPR:1103:1,x_measured_check,일치,variant
 OPR:1103:1,x_measured_before,716.411,variant
 OPR:1103:1,x_measured_after_max,1001.696,variant
 OPR:1103:1,x_measured_after_min,962.79,variant
-OPR:1104:1,x_measured_check,일치,variant
-OPR:1104:1,x_measured_before,1302.301,variant
-OPR:1104:1,x_measured_after_max,1396.532,variant
-OPR:1104:1,x_measured_after_min,1317.749,variant
 OPR:1114:1,x_measured_check,일치,variant
 OPR:1114:1,x_measured_before,1290.402,variant
 OPR:1114:1,x_measured_after_max,1498.457,variant
 OPR:1114:1,x_measured_after_min,1479.47,variant
-OPR:1115:1,x_measured_check,일치,variant
-OPR:1115:1,x_measured_before,1886.331,variant
-OPR:1115:1,x_measured_after_max,1956.284,variant
-OPR:1115:1,x_measured_after_min,1877.467,variant
-OPR:1152:1,x_measured_check,판정불가(방향 없음),variant
-OPR:1152:1,x_measured_before,134.454,variant
-OPR:1152:1,x_measured_after_max,197.987,variant
-OPR:1152:1,x_measured_after_min,179.693,variant
-OPR:1264:1,x_measured_check,판정불가(방향 없음),variant
-OPR:1264:1,x_measured_before,550.146,variant
-OPR:1264:1,x_measured_after_max,800.157,variant
-OPR:1264:1,x_measured_after_min,646.63,variant
 OPR:1368:1,x_measured_check,판정불가(방향 없음),variant
 OPR:1368:1,x_measured_before,692.183,variant
 OPR:1368:1,x_measured_after_max,1009.756,variant

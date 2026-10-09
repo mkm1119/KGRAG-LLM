@@ -11,18 +11,6 @@ DAM:1003110,hasHydrometeorologicalState,HMS:1003110:총방류량,MR-HMS,real,
 HMS:1003110:총방류량,supportedBy,EVI:KW:1003110,MR-SUP-HMS,real,
 DAM:1003110,hasHydrometeorologicalState,HMS:1003110:저수율,MR-HMS,real,
 HMS:1003110:저수율,supportedBy,EVI:KW:1003110,MR-SUP-HMS,real,
-DAM:1003611,hasHydrometeorologicalState,HMS:1003611:수위,MR-HMS,real,
-HMS:1003611:수위,supportedBy,EVI:KW:1003611,MR-SUP-HMS,real,
-DAM:1003611,hasHydrometeorologicalState,HMS:1003611:저수량,MR-HMS,real,
-HMS:1003611:저수량,supportedBy,EVI:KW:1003611,MR-SUP-HMS,real,
-DAM:1003611,hasHydrometeorologicalState,HMS:1003611:강우량,MR-HMS,real,
-HMS:1003611:강우량,supportedBy,EVI:KW:1003611,MR-SUP-HMS,real,
-DAM:1003611,hasHydrometeorologicalState,HMS:1003611:유입량,MR-HMS,real,
-HMS:1003611:유입량,supportedBy,EVI:KW:1003611,MR-SUP-HMS,real,
-DAM:1003611,hasHydrometeorologicalState,HMS:1003611:총방류량,MR-HMS,real,
-HMS:1003611:총방류량,supportedBy,EVI:KW:1003611,MR-SUP-HMS,real,
-DAM:1003611,hasHydrometeorologicalState,HMS:1003611:저수율,MR-HMS,real,
-HMS:1003611:저수율,supportedBy,EVI:KW:1003611,MR-SUP-HMS,real,
 DAM:1012110,hasHydrometeorologicalState,HMS:1012110:수위,MR-HMS,real,
 HMS:1012110:수위,supportedBy,EVI:KW:1012110,MR-SUP-HMS,real,
 DAM:1012110,hasHydrometeorologicalState,HMS:1012110:저수량,MR-HMS,real,
@@ -62,41 +50,20 @@ HMS:1001210:저수율,supportedBy,EVI:KW:1001210,MR-SUP-HMS,real,
 APR:279,supportedBy,EVI:AP:279,MR-SUP-APR,real,
 APR:394,supportedBy,EVI:AP:394,MR-SUP-APR,real,
 APR:418,supportedBy,EVI:AP:418,MR-SUP-APR,real,
-APR:434,supportedBy,EVI:AP:434,MR-SUP-APR,real,
-APR:444,supportedBy,EVI:AP:444,MR-SUP-APR,real,
-APR:448,supportedBy,EVI:AP:448,MR-SUP-APR,real,
-APR:464,supportedBy,EVI:AP:464,MR-SUP-APR,real,
-APR:466,supportedBy,EVI:AP:466,MR-SUP-APR,real,
 APR:473,supportedBy,EVI:AP:473,MR-SUP-APR,real,
-APR:480,supportedBy,EVI:AP:480,MR-SUP-APR,real,
 APR:504,supportedBy,EVI:AP:504,MR-SUP-APR,real,
 APR:574,supportedBy,EVI:AP:574,MR-SUP-APR,real,
 APR:597,supportedBy,EVI:AP:597,MR-SUP-APR,real,
-APR:598,supportedBy,EVI:AP:598,MR-SUP-APR,real,
 APR:612,supportedBy,EVI:AP:612,MR-SUP-APR,real,
 APR:626,supportedBy,EVI:AP:626,MR-SUP-APR,real,
-APR:627,supportedBy,EVI:AP:627,MR-SUP-APR,real,
 APR:813,supportedBy,EVI:AP:813,MR-SUP-APR,real,
 APR:814,supportedBy,EVI:AP:814,MR-SUP-APR,real,
-APR:826,supportedBy,EVI:AP:826,MR-SUP-APR,real,
 APR:842,supportedBy,EVI:AP:842,MR-SUP-APR,real,
 APR:1102,supportedBy,EVI:AP:1102,MR-SUP-APR,real,
 APR:1103,supportedBy,EVI:AP:1103,MR-SUP-APR,real,
-APR:1104,supportedBy,EVI:AP:1104,MR-SUP-APR,real,
 APR:1114,supportedBy,EVI:AP:1114,MR-SUP-APR,real,
-APR:1115,supportedBy,EVI:AP:1115,MR-SUP-APR,real,
-APR:1152,supportedBy,EVI:AP:1152,MR-SUP-APR,real,
-APR:1163,supportedBy,EVI:AP:1163,MR-SUP-APR,real,
-APR:1167,supportedBy,EVI:AP:1167,MR-SUP-APR,real,
-APR:1173,supportedBy,EVI:AP:1173,MR-SUP-APR,real,
-APR:1178,supportedBy,EVI:AP:1178,MR-SUP-APR,real,
-APR:1192,supportedBy,EVI:AP:1192,MR-SUP-APR,real,
-APR:1209,supportedBy,EVI:AP:1209,MR-SUP-APR,real,
-APR:1264,supportedBy,EVI:AP:1264,MR-SUP-APR,real,
-APR:1275,supportedBy,EVI:AP:1275,MR-SUP-APR,real,
 APR:1368,supportedBy,EVI:AP:1368,MR-SUP-APR,real,
 APR:1369,supportedBy,EVI:AP:1369,MR-SUP-APR,real,
-APR:1391,supportedBy,EVI:AP:1391,MR-SUP-APR,real,
 APR:1445,supportedBy,EVI:AP:1445,MR-SUP-APR,real,
 APR:1446,supportedBy,EVI:AP:1446,MR-SUP-APR,real,
 APR:1580,supportedBy,EVI:AP:1580,MR-SUP-APR,real,
@@ -167,24 +134,9 @@ OPR:279:1,supportedBy,EVI:AP:279,MR-SUP-OPR,derived,
 OPR:394:1,performedOnDam,DAM:1006110,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:394,authorizes,OPR:394:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:394:1,supportedBy,EVI:AP:394,MR-SUP-OPR,derived,
-OPR:444:1,performedOnDam,DAM:1003611,MR-OPR-DAM,derived,승인 행의 시설 코드
-APR:444,authorizes,OPR:444:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
-OPR:444:1,supportedBy,EVI:AP:444,MR-SUP-OPR,derived,
-OPR:448:1,performedOnDam,DAM:1003611,MR-OPR-DAM,derived,승인 행의 시설 코드
-APR:448,authorizes,OPR:448:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
-OPR:448:1,supportedBy,EVI:AP:448,MR-SUP-OPR,derived,
-OPR:464:1,performedOnDam,DAM:1003611,MR-OPR-DAM,derived,승인 행의 시설 코드
-APR:464,authorizes,OPR:464:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
-OPR:464:1,supportedBy,EVI:AP:464,MR-SUP-OPR,derived,
-OPR:466:1,performedOnDam,DAM:1003611,MR-OPR-DAM,derived,승인 행의 시설 코드
-APR:466,authorizes,OPR:466:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
-OPR:466:1,supportedBy,EVI:AP:466,MR-SUP-OPR,derived,
 OPR:473:1,performedOnDam,DAM:1006110,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:473,authorizes,OPR:473:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:473:1,supportedBy,EVI:AP:473,MR-SUP-OPR,derived,
-OPR:480:1,performedOnDam,DAM:1003611,MR-OPR-DAM,derived,승인 행의 시설 코드
-APR:480,authorizes,OPR:480:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
-OPR:480:1,supportedBy,EVI:AP:480,MR-SUP-OPR,derived,
 OPR:504:1,performedOnDam,DAM:1003110,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:504,authorizes,OPR:504:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:504:1,supportedBy,EVI:AP:504,MR-SUP-OPR,derived,
@@ -194,18 +146,12 @@ OPR:574:1,supportedBy,EVI:AP:574,MR-SUP-OPR,derived,
 OPR:597:1,performedOnDam,DAM:1003110,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:597,authorizes,OPR:597:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:597:1,supportedBy,EVI:AP:597,MR-SUP-OPR,derived,
-OPR:598:1,performedOnDam,DAM:1003611,MR-OPR-DAM,derived,승인 행의 시설 코드
-APR:598,authorizes,OPR:598:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
-OPR:598:1,supportedBy,EVI:AP:598,MR-SUP-OPR,derived,
 OPR:612:1,performedOnDam,DAM:1006110,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:612,authorizes,OPR:612:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:612:1,supportedBy,EVI:AP:612,MR-SUP-OPR,derived,
 OPR:626:1,performedOnDam,DAM:1003110,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:626,authorizes,OPR:626:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:626:1,supportedBy,EVI:AP:626,MR-SUP-OPR,derived,
-OPR:826:1,performedOnDam,DAM:1003611,MR-OPR-DAM,derived,승인 행의 시설 코드
-APR:826,authorizes,OPR:826:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
-OPR:826:1,supportedBy,EVI:AP:826,MR-SUP-OPR,derived,
 OPR:842:1,performedOnDam,DAM:1006110,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:842,authorizes,OPR:842:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:842:1,supportedBy,EVI:AP:842,MR-SUP-OPR,derived,
@@ -218,21 +164,9 @@ OPR:1102:1,supportedBy,EVI:AP:1102,MR-SUP-OPR,derived,
 OPR:1103:1,performedOnDam,DAM:1003110,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:1103,authorizes,OPR:1103:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:1103:1,supportedBy,EVI:AP:1103,MR-SUP-OPR,derived,
-OPR:1104:1,performedOnDam,DAM:1003611,MR-OPR-DAM,derived,승인 행의 시설 코드
-APR:1104,authorizes,OPR:1104:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
-OPR:1104:1,supportedBy,EVI:AP:1104,MR-SUP-OPR,derived,
 OPR:1114:1,performedOnDam,DAM:1003110,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:1114,authorizes,OPR:1114:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:1114:1,supportedBy,EVI:AP:1114,MR-SUP-OPR,derived,
-OPR:1115:1,performedOnDam,DAM:1003611,MR-OPR-DAM,derived,승인 행의 시설 코드
-APR:1115,authorizes,OPR:1115:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
-OPR:1115:1,supportedBy,EVI:AP:1115,MR-SUP-OPR,derived,
-OPR:1152:1,performedOnDam,DAM:1003611,MR-OPR-DAM,derived,승인 행의 시설 코드
-APR:1152,authorizes,OPR:1152:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
-OPR:1152:1,supportedBy,EVI:AP:1152,MR-SUP-OPR,derived,
-OPR:1264:1,performedOnDam,DAM:1003611,MR-OPR-DAM,derived,승인 행의 시설 코드
-APR:1264,authorizes,OPR:1264:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
-OPR:1264:1,supportedBy,EVI:AP:1264,MR-SUP-OPR,derived,
 OPR:1368:1,performedOnDam,DAM:1003110,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:1368,authorizes,OPR:1368:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:1368:1,supportedBy,EVI:AP:1368,MR-SUP-OPR,derived,
@@ -377,41 +311,20 @@ CRI:CR-03,supportedBy,EVI:LAW:별표3,MR-SUP-CRI,real,
 APR:279,concernsDam,DAM:1006110,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
 APR:394,concernsDam,DAM:1006110,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
 APR:418,concernsDam,DAM:1003110,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
-APR:434,concernsDam,DAM:1003611,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
-APR:444,concernsDam,DAM:1003611,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
-APR:448,concernsDam,DAM:1003611,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
-APR:464,concernsDam,DAM:1003611,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
-APR:466,concernsDam,DAM:1003611,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
 APR:473,concernsDam,DAM:1006110,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
-APR:480,concernsDam,DAM:1003611,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
 APR:504,concernsDam,DAM:1003110,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
 APR:574,concernsDam,DAM:1003110,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
 APR:597,concernsDam,DAM:1003110,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
-APR:598,concernsDam,DAM:1003611,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
 APR:612,concernsDam,DAM:1006110,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
 APR:626,concernsDam,DAM:1003110,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
-APR:627,concernsDam,DAM:1003611,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
 APR:813,concernsDam,DAM:1012110,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
 APR:814,concernsDam,DAM:1006110,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
-APR:826,concernsDam,DAM:1003611,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
 APR:842,concernsDam,DAM:1006110,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
 APR:1102,concernsDam,DAM:1006110,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
 APR:1103,concernsDam,DAM:1003110,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
-APR:1104,concernsDam,DAM:1003611,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
 APR:1114,concernsDam,DAM:1003110,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
-APR:1115,concernsDam,DAM:1003611,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
-APR:1152,concernsDam,DAM:1003611,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
-APR:1163,concernsDam,DAM:1003611,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
-APR:1167,concernsDam,DAM:1003611,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
-APR:1173,concernsDam,DAM:1003611,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
-APR:1178,concernsDam,DAM:1003611,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
-APR:1192,concernsDam,DAM:1003611,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
-APR:1209,concernsDam,DAM:1003611,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
-APR:1264,concernsDam,DAM:1003611,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
-APR:1275,concernsDam,DAM:1003611,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
 APR:1368,concernsDam,DAM:1003110,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
 APR:1369,concernsDam,DAM:1006110,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
-APR:1391,concernsDam,DAM:1003611,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
 APR:1445,concernsDam,DAM:1003110,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
 APR:1446,concernsDam,DAM:1006110,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
 APR:1580,concernsDam,DAM:1006110,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
@@ -505,109 +418,91 @@ CRI:CR-02,supportedBy,EVI:LAW:별표3@20260708,MR-SUP-CRI-HIST,real,해당 판�
 CRI:CR-03,supportedBy,EVI:LAW:별표3@20260708,MR-SUP-CRI-HIST,real,해당 판의 별표3 값이 현행과 같음
 CRI:R01,supportedBy,EVI:LAW:하천법:제41조,MR-SUP-RULE,real,
 CRI:R01,appliesToDam,DAM:1003110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
-CRI:R01,appliesToDam,DAM:1003611,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R01,appliesToDam,DAM:1012110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R01,appliesToDam,DAM:1006110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R01,appliesToDam,DAM:1001210,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R02,supportedBy,EVI:LAW:하천법시행령:제48조,MR-SUP-RULE,real,
 CRI:R02,appliesToDam,DAM:1003110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
-CRI:R02,appliesToDam,DAM:1003611,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R02,appliesToDam,DAM:1012110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R02,appliesToDam,DAM:1006110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R02,appliesToDam,DAM:1001210,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R03,supportedBy,EVI:LAW:하천법:제41조,MR-SUP-RULE,real,
 CRI:R03,appliesToDam,DAM:1003110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
-CRI:R03,appliesToDam,DAM:1003611,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R03,appliesToDam,DAM:1012110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R03,appliesToDam,DAM:1006110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R03,appliesToDam,DAM:1001210,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R04,supportedBy,EVI:LAW:하천법:제41조,MR-SUP-RULE,real,
 CRI:R04,appliesToDam,DAM:1003110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
-CRI:R04,appliesToDam,DAM:1003611,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R04,appliesToDam,DAM:1012110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R04,appliesToDam,DAM:1006110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R04,appliesToDam,DAM:1001210,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R05,supportedBy,EVI:LAW:하천법:제39조,MR-SUP-RULE,real,
 CRI:R05,appliesToDam,DAM:1003110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
-CRI:R05,appliesToDam,DAM:1003611,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R05,appliesToDam,DAM:1012110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R05,appliesToDam,DAM:1006110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R05,appliesToDam,DAM:1001210,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R06,supportedBy,EVI:LAW:댐건설관리법:제7조,MR-SUP-RULE,real,
 CRI:R06,appliesToDam,DAM:1003110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
-CRI:R06,appliesToDam,DAM:1003611,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R06,appliesToDam,DAM:1012110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R06,appliesToDam,DAM:1006110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R06,appliesToDam,DAM:1001210,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R07,supportedBy,EVI:LAW:댐건설관리법:제7조,MR-SUP-RULE,real,
 CRI:R07,appliesToDam,DAM:1003110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
-CRI:R07,appliesToDam,DAM:1003611,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R07,appliesToDam,DAM:1012110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R07,appliesToDam,DAM:1006110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R07,appliesToDam,DAM:1001210,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R08,supportedBy,EVI:LAW:연계운영규정:제2조,MR-SUP-RULE,real,
 CRI:R08,appliesToDam,DAM:1003110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
-CRI:R08,appliesToDam,DAM:1003611,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R08,appliesToDam,DAM:1012110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R08,appliesToDam,DAM:1006110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R08,appliesToDam,DAM:1001210,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R09,supportedBy,EVI:LAW:연계운영규정:제4조,MR-SUP-RULE,real,
 CRI:R09,appliesToDam,DAM:1003110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
-CRI:R09,appliesToDam,DAM:1003611,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R09,appliesToDam,DAM:1012110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R09,appliesToDam,DAM:1006110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R09,appliesToDam,DAM:1001210,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R10,supportedBy,EVI:LAW:연계운영규정:제6조,MR-SUP-RULE,real,
 CRI:R10,appliesToDam,DAM:1003110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
-CRI:R10,appliesToDam,DAM:1003611,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R10,appliesToDam,DAM:1012110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R10,appliesToDam,DAM:1006110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R10,appliesToDam,DAM:1001210,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R11,supportedBy,EVI:LAW:연계운영규정:제6조,MR-SUP-RULE,real,
 CRI:R11,appliesToDam,DAM:1003110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
-CRI:R11,appliesToDam,DAM:1003611,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R11,appliesToDam,DAM:1012110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R11,appliesToDam,DAM:1006110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R11,appliesToDam,DAM:1001210,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R12,supportedBy,EVI:LAW:연계운영규정:제7조,MR-SUP-RULE,real,
 CRI:R12,appliesToDam,DAM:1003110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
-CRI:R12,appliesToDam,DAM:1003611,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R12,appliesToDam,DAM:1012110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R12,appliesToDam,DAM:1006110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R12,appliesToDam,DAM:1001210,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R13,supportedBy,EVI:LAW:연계운영규정:제8조,MR-SUP-RULE,real,
 CRI:R13,appliesToDam,DAM:1003110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
-CRI:R13,appliesToDam,DAM:1003611,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R13,appliesToDam,DAM:1012110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R13,appliesToDam,DAM:1006110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R13,appliesToDam,DAM:1001210,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R14,supportedBy,EVI:LAW:연계운영규정:제11조,MR-SUP-RULE,real,
 CRI:R14,appliesToDam,DAM:1003110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
-CRI:R14,appliesToDam,DAM:1003611,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R14,appliesToDam,DAM:1012110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R14,appliesToDam,DAM:1006110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R14,appliesToDam,DAM:1001210,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R15,supportedBy,EVI:LAW:연계운영규정:제13조,MR-SUP-RULE,real,
 CRI:R15,appliesToDam,DAM:1003110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
-CRI:R15,appliesToDam,DAM:1003611,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R15,appliesToDam,DAM:1012110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R15,appliesToDam,DAM:1006110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R15,appliesToDam,DAM:1001210,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R16,supportedBy,EVI:LAW:연계운영규정:제14조,MR-SUP-RULE,real,
 CRI:R16,appliesToDam,DAM:1003110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
-CRI:R16,appliesToDam,DAM:1003611,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R16,appliesToDam,DAM:1012110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R16,appliesToDam,DAM:1006110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R16,appliesToDam,DAM:1001210,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R17,supportedBy,EVI:LAW:연계운영규정:제14조,MR-SUP-RULE,real,
 CRI:R17,appliesToDam,DAM:1003110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
-CRI:R17,appliesToDam,DAM:1003611,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R17,appliesToDam,DAM:1012110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R17,appliesToDam,DAM:1006110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R17,appliesToDam,DAM:1001210,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R18,supportedBy,EVI:LAW:연계운영규정:제14조,MR-SUP-RULE,real,
 CRI:R18,appliesToDam,DAM:1003110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
-CRI:R18,appliesToDam,DAM:1003611,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R18,appliesToDam,DAM:1012110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R18,appliesToDam,DAM:1006110,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)
 CRI:R18,appliesToDam,DAM:1001210,MR-RULE-DAM,general-rule,댐 일반에 적용되는 규칙(원문에 댐 이름 없음)

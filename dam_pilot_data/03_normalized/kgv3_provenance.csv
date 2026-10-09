@@ -1,11 +1,9 @@
 ﻿item,kind,source_file,source_locator,rule,data_origin,note
 DAM:1003110,entity,03_normalized/kwater_mywater_period_daily_long.csv.gz,DAM_CD=1003110,MR-DAM,real,댐 유형은 K-water 원문(DAM_BO_NM_source) 그대로; 승인 파일과 코드 일치(동일시설 REVIEW_REQUIRED)
-DAM:1003611,entity,03_normalized/kwater_mywater_period_daily_long.csv.gz,DAM_CD=1003611,MR-DAM,real,댐 유형은 K-water 원문(DAM_BO_NM_source) 그대로; 승인 파일과 코드 일치(동일시설 REVIEW_REQUIRED)
 DAM:1012110,entity,03_normalized/kwater_mywater_period_daily_long.csv.gz,DAM_CD=1012110,MR-DAM,real,댐 유형은 K-water 원문(DAM_BO_NM_source) 그대로; 승인 파일과 코드 일치(동일시설 REVIEW_REQUIRED)
 DAM:1006110,entity,03_normalized/kwater_mywater_period_daily_long.csv.gz,DAM_CD=1006110,MR-DAM,real,댐 유형은 K-water 원문(DAM_BO_NM_source) 그대로; 승인 파일과 코드 일치(동일시설 REVIEW_REQUIRED)
 DAM:1001210,entity,03_normalized/kwater_mywater_period_daily_long.csv.gz,DAM_CD=1001210,MR-DAM,real,댐 유형은 K-water 원문(DAM_BO_NM_source) 그대로; 승인 파일과 코드 일치(동일시설 REVIEW_REQUIRED)
 EVI:KW:1003110,entity,03_normalized/kwater_mywater_hydr_H_wide.csv.gz,DAM_CD=1003110,MR-EVI-KW,real,
-EVI:KW:1003611,entity,03_normalized/kwater_mywater_hydr_H_wide.csv.gz,DAM_CD=1003611,MR-EVI-KW,real,
 EVI:KW:1012110,entity,03_normalized/kwater_mywater_hydr_H_wide.csv.gz,DAM_CD=1012110,MR-EVI-KW,real,
 EVI:KW:1006110,entity,03_normalized/kwater_mywater_hydr_H_wide.csv.gz,DAM_CD=1006110,MR-EVI-KW,real,
 EVI:KW:1001210,entity,03_normalized/kwater_mywater_hydr_H_wide.csv.gz,DAM_CD=1001210,MR-EVI-KW,real,
@@ -16,12 +14,6 @@ HMS:1003110:강우량,entity,03_normalized/kwater_mywater_hydr_H_wide.csv.gz,DAT
 HMS:1003110:유입량,entity,03_normalized/kwater_mywater_hydr_H_wide.csv.gz,DATA4_유입량(CMS),MR-HMS,real,stationCode는 댐 단위 시설 코드(관측소 코드 아님)
 HMS:1003110:총방류량,entity,03_normalized/kwater_mywater_hydr_H_wide.csv.gz,DATA6_총방류량(CMS),MR-HMS,real,stationCode는 댐 단위 시설 코드(관측소 코드 아님)
 HMS:1003110:저수율,entity,03_normalized/kwater_mywater_hydr_H_wide.csv.gz,DATA7_저수율(%),MR-HMS,real,stationCode는 댐 단위 시설 코드(관측소 코드 아님)
-HMS:1003611:수위,entity,03_normalized/kwater_mywater_hydr_H_wide.csv.gz,DATA1_수위(EL.m),MR-HMS,real,stationCode는 댐 단위 시설 코드(관측소 코드 아님)
-HMS:1003611:저수량,entity,03_normalized/kwater_mywater_hydr_H_wide.csv.gz,DATA2_저수량(MCM),MR-HMS,real,stationCode는 댐 단위 시설 코드(관측소 코드 아님)
-HMS:1003611:강우량,entity,03_normalized/kwater_mywater_hydr_H_wide.csv.gz,DATA3_강우량(mm),MR-HMS,real,stationCode는 댐 단위 시설 코드(관측소 코드 아님)
-HMS:1003611:유입량,entity,03_normalized/kwater_mywater_hydr_H_wide.csv.gz,DATA4_유입량(CMS),MR-HMS,real,stationCode는 댐 단위 시설 코드(관측소 코드 아님)
-HMS:1003611:총방류량,entity,03_normalized/kwater_mywater_hydr_H_wide.csv.gz,DATA6_총방류량(CMS),MR-HMS,real,stationCode는 댐 단위 시설 코드(관측소 코드 아님)
-HMS:1003611:저수율,entity,03_normalized/kwater_mywater_hydr_H_wide.csv.gz,DATA7_저수율(%),MR-HMS,real,stationCode는 댐 단위 시설 코드(관측소 코드 아님)
 HMS:1012110:수위,entity,03_normalized/kwater_mywater_hydr_H_wide.csv.gz,DATA1_수위(EL.m),MR-HMS,real,stationCode는 댐 단위 시설 코드(관측소 코드 아님)
 HMS:1012110:저수량,entity,03_normalized/kwater_mywater_hydr_H_wide.csv.gz,DATA2_저수량(MCM),MR-HMS,real,stationCode는 댐 단위 시설 코드(관측소 코드 아님)
 HMS:1012110:강우량,entity,03_normalized/kwater_mywater_hydr_H_wide.csv.gz,DATA3_강우량(mm),MR-HMS,real,stationCode는 댐 단위 시설 코드(관측소 코드 아님)
@@ -46,76 +38,34 @@ APR:394,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in
 EVI:AP:394,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=394,MR-EVI-AP,real,
 APR:418,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=418,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
 EVI:AP:418,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=418,MR-EVI-AP,real,
-APR:434,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=434,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
-EVI:AP:434,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=434,MR-EVI-AP,real,
-APR:444,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=444,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
-EVI:AP:444,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=444,MR-EVI-AP,real,
-APR:448,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=448,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
-EVI:AP:448,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=448,MR-EVI-AP,real,
-APR:464,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=464,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
-EVI:AP:464,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=464,MR-EVI-AP,real,
-APR:466,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=466,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
-EVI:AP:466,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=466,MR-EVI-AP,real,
 APR:473,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=473,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
 EVI:AP:473,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=473,MR-EVI-AP,real,
-APR:480,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=480,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
-EVI:AP:480,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=480,MR-EVI-AP,real,
 APR:504,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=504,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
 EVI:AP:504,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=504,MR-EVI-AP,real,
 APR:574,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=574,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
 EVI:AP:574,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=574,MR-EVI-AP,real,
 APR:597,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=597,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
 EVI:AP:597,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=597,MR-EVI-AP,real,
-APR:598,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=598,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
-EVI:AP:598,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=598,MR-EVI-AP,real,
 APR:612,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=612,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
 EVI:AP:612,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=612,MR-EVI-AP,real,
 APR:626,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=626,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
 EVI:AP:626,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=626,MR-EVI-AP,real,
-APR:627,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=627,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
-EVI:AP:627,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=627,MR-EVI-AP,real,
 APR:813,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=813,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
 EVI:AP:813,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=813,MR-EVI-AP,real,
 APR:814,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=814,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
 EVI:AP:814,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=814,MR-EVI-AP,real,
-APR:826,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=826,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
-EVI:AP:826,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=826,MR-EVI-AP,real,
 APR:842,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=842,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
 EVI:AP:842,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=842,MR-EVI-AP,real,
 APR:1102,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=1102,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
 EVI:AP:1102,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=1102,MR-EVI-AP,real,
 APR:1103,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=1103,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
 EVI:AP:1103,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=1103,MR-EVI-AP,real,
-APR:1104,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=1104,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
-EVI:AP:1104,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=1104,MR-EVI-AP,real,
 APR:1114,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=1114,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
 EVI:AP:1114,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=1114,MR-EVI-AP,real,
-APR:1115,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=1115,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
-EVI:AP:1115,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=1115,MR-EVI-AP,real,
-APR:1152,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=1152,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
-EVI:AP:1152,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=1152,MR-EVI-AP,real,
-APR:1163,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=1163,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
-EVI:AP:1163,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=1163,MR-EVI-AP,real,
-APR:1167,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=1167,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
-EVI:AP:1167,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=1167,MR-EVI-AP,real,
-APR:1173,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=1173,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
-EVI:AP:1173,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=1173,MR-EVI-AP,real,
-APR:1178,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=1178,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
-EVI:AP:1178,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=1178,MR-EVI-AP,real,
-APR:1192,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=1192,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
-EVI:AP:1192,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=1192,MR-EVI-AP,real,
-APR:1209,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=1209,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
-EVI:AP:1209,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=1209,MR-EVI-AP,real,
-APR:1264,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=1264,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
-EVI:AP:1264,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=1264,MR-EVI-AP,real,
-APR:1275,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=1275,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
-EVI:AP:1275,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=1275,MR-EVI-AP,real,
 APR:1368,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=1368,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
 EVI:AP:1368,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=1368,MR-EVI-AP,real,
 APR:1369,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=1369,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
 EVI:AP:1369,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=1369,MR-EVI-AP,real,
-APR:1391,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=1391,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
-EVI:AP:1391,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=1391,MR-EVI-AP,real,
 APR:1445,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=1445,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
 EVI:AP:1445,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=1445,MR-EVI-AP,real,
 APR:1446,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_in_file=1446,MR-APR,real,승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨
@@ -246,28 +196,17 @@ APR:3919,entity,03_normalized/approval_records_hrfco_raw_fields.csv,row_number_i
 EVI:AP:3919,entity,03_normalized/approval_records_hrfco_raw_fields.csv,순차번호=3919,MR-EVI-AP,real,
 OPR:279:1,entity,03_normalized/operation_from_remarks_5dams.csv,순차번호=279,종료 문구,derived(비고 분류),시각 출처: 비고 명시 시각
 OPR:394:1,entity,03_normalized/operation_from_remarks_5dams.csv,순차번호=394,증가 문구,derived(비고 분류),시각 출처: 방류시작시간
-OPR:444:1,entity,03_normalized/operation_from_remarks_5dams.csv,순차번호=444,증가 문구,derived(비고 분류),시각 출처: 방류시작시간
-OPR:448:1,entity,03_normalized/operation_from_remarks_5dams.csv,순차번호=448,증가 문구,derived(비고 분류),시각 출처: 방류시작시간
-OPR:464:1,entity,03_normalized/operation_from_remarks_5dams.csv,순차번호=464,점진/점증 문구,derived(비고 분류),시각 출처: 방류시작시간
-OPR:466:1,entity,03_normalized/operation_from_remarks_5dams.csv,순차번호=466,방류 문구,derived(비고 분류),시각 출처: 방류시작시간
 OPR:473:1,entity,03_normalized/operation_from_remarks_5dams.csv,순차번호=473,방류 문구,derived(비고 분류),시각 출처: 방류시작시간
-OPR:480:1,entity,03_normalized/operation_from_remarks_5dams.csv,순차번호=480,증가 문구,derived(비고 분류),시각 출처: 방류시작시간
 OPR:504:1,entity,03_normalized/operation_from_remarks_5dams.csv,순차번호=504,실제 방류 시각 문구,derived(비고 분류),시각 출처: 비고 명시 시각(실제 방류)
 OPR:574:1,entity,03_normalized/operation_from_remarks_5dams.csv,순차번호=574,실제 방류 시각 문구,derived(비고 분류),시각 출처: 비고 명시 시각(실제 방류)
 OPR:597:1,entity,03_normalized/operation_from_remarks_5dams.csv,순차번호=597,증가 문구,derived(비고 분류),시각 출처: 방류시작시간
-OPR:598:1,entity,03_normalized/operation_from_remarks_5dams.csv,순차번호=598,증가 문구,derived(비고 분류),시각 출처: 방류시작시간
 OPR:612:1,entity,03_normalized/operation_from_remarks_5dams.csv,순차번호=612,방류 문구,derived(비고 분류),시각 출처: 방류시작시간
 OPR:626:1,entity,03_normalized/operation_from_remarks_5dams.csv,순차번호=626,증가 문구,derived(비고 분류),시각 출처: 방류시작시간
-OPR:826:1,entity,03_normalized/operation_from_remarks_5dams.csv,순차번호=826,탄력 문구,derived(비고 분류),시각 출처: 방류시작시간
 OPR:842:1,entity,03_normalized/operation_from_remarks_5dams.csv,순차번호=842,증가 문구,derived(비고 분류),시각 출처: 방류시작시간
 OPR:842:2,entity,03_normalized/operation_from_remarks_5dams.csv,순차번호=842,탄력 문구,derived(비고 분류),시각 출처: 방류시작시간
 OPR:1102:1,entity,03_normalized/operation_from_remarks_5dams.csv,순차번호=1102,방류 문구,derived(비고 분류),시각 출처: 방류시작시간
 OPR:1103:1,entity,03_normalized/operation_from_remarks_5dams.csv,순차번호=1103,점진/점증 문구,derived(비고 분류),시각 출처: 방류시작시간
-OPR:1104:1,entity,03_normalized/operation_from_remarks_5dams.csv,순차번호=1104,점진/점증 문구,derived(비고 분류),시각 출처: 방류시작시간
 OPR:1114:1,entity,03_normalized/operation_from_remarks_5dams.csv,순차번호=1114,증가 문구,derived(비고 분류),시각 출처: 방류시작시간
-OPR:1115:1,entity,03_normalized/operation_from_remarks_5dams.csv,순차번호=1115,증가 문구,derived(비고 분류),시각 출처: 방류시작시간
-OPR:1152:1,entity,03_normalized/operation_from_remarks_5dams.csv,순차번호=1152,타 시설 수문조작 문구,derived(비고 분류),시각 출처: 방류시작시간
-OPR:1264:1,entity,03_normalized/operation_from_remarks_5dams.csv,순차번호=1264,탄력 문구,derived(비고 분류),시각 출처: 방류시작시간
 OPR:1368:1,entity,03_normalized/operation_from_remarks_5dams.csv,순차번호=1368,탄력 문구,derived(비고 분류),시각 출처: 방류시작시간
 OPR:1445:1,entity,03_normalized/operation_from_remarks_5dams.csv,순차번호=1445,탄력 문구,derived(비고 분류),시각 출처: 방류시작시간
 OPR:1446:1,entity,03_normalized/operation_from_remarks_5dams.csv,순차번호=1446,탄력 문구,derived(비고 분류),시각 출처: 방류시작시간

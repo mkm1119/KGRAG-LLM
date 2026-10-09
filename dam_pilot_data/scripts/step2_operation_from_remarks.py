@@ -11,7 +11,7 @@ import csv, re, collections, sys, os
 BASE = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '03_normalized')
 SRC = os.path.join(BASE, 'approval_records_hrfco_raw_fields.csv')
 OUT = os.path.join(BASE, 'operation_from_remarks_5dams.csv')
-DAMS = ('충주', '충주조정지', '소양강', '횡성', '광동')
+DAMS = ('충주', '소양강', '횡성', '광동')  # 충주조정지는 테스트 대상에서 제외(2026-10 결정)
 
 QUALIFIERS = [r'\(?\s*발전방류\s*포함\s*\)?', r'발전방류포함', r'여수로\s*자연월류량\s*제외', r'자연월류\s*미포함', r'\(?\s*자연월류[^)]*\)?']
 

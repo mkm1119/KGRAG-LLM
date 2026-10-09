@@ -1,11 +1,9 @@
 ﻿entity_id,class,label
 DAM:1003110,Dam,충주댐
-DAM:1003611,Dam,충주조정지
 DAM:1012110,Dam,소양강댐
 DAM:1006110,Dam,횡성댐
 DAM:1001210,Dam,광동댐
 EVI:KW:1003110,EvidenceSource,K-water MyWater 수문자료 충주댐
-EVI:KW:1003611,EvidenceSource,K-water MyWater 수문자료 충주조정지
 EVI:KW:1012110,EvidenceSource,K-water MyWater 수문자료 소양강댐
 EVI:KW:1006110,EvidenceSource,K-water MyWater 수문자료 횡성댐
 EVI:KW:1001210,EvidenceSource,K-water MyWater 수문자료 광동댐
@@ -16,12 +14,6 @@ HMS:1003110:강우량,HydrometeorologicalState,충주댐_강우량
 HMS:1003110:유입량,HydrometeorologicalState,충주댐_유입량
 HMS:1003110:총방류량,HydrometeorologicalState,충주댐_총방류량
 HMS:1003110:저수율,HydrometeorologicalState,충주댐_저수율
-HMS:1003611:수위,HydrometeorologicalState,충주조정지_수위
-HMS:1003611:저수량,HydrometeorologicalState,충주조정지_저수량
-HMS:1003611:강우량,HydrometeorologicalState,충주조정지_강우량
-HMS:1003611:유입량,HydrometeorologicalState,충주조정지_유입량
-HMS:1003611:총방류량,HydrometeorologicalState,충주조정지_총방류량
-HMS:1003611:저수율,HydrometeorologicalState,충주조정지_저수율
 HMS:1012110:수위,HydrometeorologicalState,소양강댐_수위
 HMS:1012110:저수량,HydrometeorologicalState,소양강댐_저수량
 HMS:1012110:강우량,HydrometeorologicalState,소양강댐_강우량
@@ -46,76 +38,34 @@ APR:394,Approval,승인 394 (횡성댐)
 EVI:AP:394,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 394
 APR:418,Approval,승인 418 (충주댐)
 EVI:AP:418,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 418
-APR:434,Approval,승인 434 (충주조정지)
-EVI:AP:434,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 434
-APR:444,Approval,승인 444 (충주조정지)
-EVI:AP:444,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 444
-APR:448,Approval,승인 448 (충주조정지)
-EVI:AP:448,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 448
-APR:464,Approval,승인 464 (충주조정지)
-EVI:AP:464,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 464
-APR:466,Approval,승인 466 (충주조정지)
-EVI:AP:466,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 466
 APR:473,Approval,승인 473 (횡성댐)
 EVI:AP:473,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 473
-APR:480,Approval,승인 480 (충주조정지)
-EVI:AP:480,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 480
 APR:504,Approval,승인 504 (충주댐)
 EVI:AP:504,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 504
 APR:574,Approval,승인 574 (충주댐)
 EVI:AP:574,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 574
 APR:597,Approval,승인 597 (충주댐)
 EVI:AP:597,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 597
-APR:598,Approval,승인 598 (충주조정지)
-EVI:AP:598,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 598
 APR:612,Approval,승인 612 (횡성댐)
 EVI:AP:612,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 612
 APR:626,Approval,승인 626 (충주댐)
 EVI:AP:626,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 626
-APR:627,Approval,승인 627 (충주조정지)
-EVI:AP:627,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 627
 APR:813,Approval,승인 813 (소양강댐)
 EVI:AP:813,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 813
 APR:814,Approval,승인 814 (횡성댐)
 EVI:AP:814,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 814
-APR:826,Approval,승인 826 (충주조정지)
-EVI:AP:826,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 826
 APR:842,Approval,승인 842 (횡성댐)
 EVI:AP:842,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 842
 APR:1102,Approval,승인 1102 (횡성댐)
 EVI:AP:1102,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 1102
 APR:1103,Approval,승인 1103 (충주댐)
 EVI:AP:1103,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 1103
-APR:1104,Approval,승인 1104 (충주조정지)
-EVI:AP:1104,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 1104
 APR:1114,Approval,승인 1114 (충주댐)
 EVI:AP:1114,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 1114
-APR:1115,Approval,승인 1115 (충주조정지)
-EVI:AP:1115,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 1115
-APR:1152,Approval,승인 1152 (충주조정지)
-EVI:AP:1152,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 1152
-APR:1163,Approval,승인 1163 (충주조정지)
-EVI:AP:1163,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 1163
-APR:1167,Approval,승인 1167 (충주조정지)
-EVI:AP:1167,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 1167
-APR:1173,Approval,승인 1173 (충주조정지)
-EVI:AP:1173,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 1173
-APR:1178,Approval,승인 1178 (충주조정지)
-EVI:AP:1178,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 1178
-APR:1192,Approval,승인 1192 (충주조정지)
-EVI:AP:1192,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 1192
-APR:1209,Approval,승인 1209 (충주조정지)
-EVI:AP:1209,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 1209
-APR:1264,Approval,승인 1264 (충주조정지)
-EVI:AP:1264,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 1264
-APR:1275,Approval,승인 1275 (충주조정지)
-EVI:AP:1275,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 1275
 APR:1368,Approval,승인 1368 (충주댐)
 EVI:AP:1368,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 1368
 APR:1369,Approval,승인 1369 (횡성댐)
 EVI:AP:1369,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 1369
-APR:1391,Approval,승인 1391 (충주조정지)
-EVI:AP:1391,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 1391
 APR:1445,Approval,승인 1445 (충주댐)
 EVI:AP:1445,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 1445
 APR:1446,Approval,승인 1446 (횡성댐)
@@ -246,28 +196,17 @@ APR:3919,Approval,승인 3919 (광동댐)
 EVI:AP:3919,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 3919
 OPR:279:1,Operation,횡성댐 방류종료 (2010-09-11 16:00)
 OPR:394:1,Operation,횡성댐 증가방류 (2010-09-20 17:50)
-OPR:444:1,Operation,충주조정지 증가방류 (2011-05-09 18:00)
-OPR:448:1,Operation,충주조정지 증가방류 (2011-05-11 08:00)
-OPR:464:1,Operation,충주조정지 점진·점증방류 (2011-05-24 15:00)
-OPR:466:1,Operation,충주조정지 방류 (2011-05-28 06:00)
 OPR:473:1,Operation,횡성댐 방류 (2011-06-24 18:00)
-OPR:480:1,Operation,충주조정지 증가방류 (2011-06-24 22:00)
 OPR:504:1,Operation,충주댐 방류 (2011-06-27 20:00)
 OPR:574:1,Operation,충주댐 방류 (2011-07-01 19:00)
 OPR:597:1,Operation,충주댐 증가방류 (2011-07-04 06:00)
-OPR:598:1,Operation,충주조정지 증가방류 (2011-07-04 06:00)
 OPR:612:1,Operation,횡성댐 방류 (2011-07-04 10:00)
 OPR:626:1,Operation,충주댐 증가방류 (2011-07-05 17:00)
-OPR:826:1,Operation,충주조정지 탄력적 방류 (2011-07-27 17:00)
 OPR:842:1,Operation,횡성댐 증가방류 (2011-07-28 00:00)
 OPR:842:2,Operation,횡성댐 탄력적 방류 (2011-07-28 00:00)
 OPR:1102:1,Operation,횡성댐 방류 (2011-08-17 17:00)
 OPR:1103:1,Operation,충주댐 점진·점증방류 (2011-08-17 18:00)
-OPR:1104:1,Operation,충주조정지 점진·점증방류 (2011-08-17 18:00)
 OPR:1114:1,Operation,충주댐 증가방류 (2011-08-18 17:00)
-OPR:1115:1,Operation,충주조정지 증가방류 (2011-08-18 17:00)
-OPR:1152:1,Operation,충주조정지 수문조작(연계 시설) (2012-04-02 20:00)
-OPR:1264:1,Operation,충주조정지 탄력적 방류 (2012-08-12 19:00)
 OPR:1368:1,Operation,충주댐 탄력적 방류 (2012-08-24 15:00)
 OPR:1445:1,Operation,충주댐 탄력적 방류 (2012-09-14 17:00)
 OPR:1446:1,Operation,횡성댐 탄력적 방류 (2012-09-14 17:00)

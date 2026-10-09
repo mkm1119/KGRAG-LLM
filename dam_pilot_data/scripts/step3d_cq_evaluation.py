@@ -69,8 +69,8 @@ def win_n(code, tstr):
     return len(ms.window(code, r3b.to_dt(tstr)))
 
 
-apv = {r['순차번호']: r for r in rd('approval_records_hrfco_raw_fields.csv') if r['관측소명'] in ('충주', '충주조정지', '소양강', '횡성', '광동')}
-codes_by_name = {'충주': '1003110', '충주조정지': '1003611', '소양강': '1012110', '횡성': '1006110', '광동': '1001210'}
+apv = {r['순차번호']: r for r in rd('approval_records_hrfco_raw_fields.csv') if r['관측소명'] in ('충주', '소양강', '횡성', '광동')}
+codes_by_name = {'충주': '1003110', '소양강': '1012110', '횡성': '1006110', '광동': '1001210'}
 by_dam = collections.defaultdict(lambda: [0, 0, 0, 0])
 for seq, r in apv.items():
     c = codes_by_name[r['관측소명']]
@@ -78,15 +78,15 @@ for seq, r in apv.items():
     by_dam[CODES[c]][0] += 1
     by_dam[CODES[c]][1] += 1 if n > 0 else 0
 tot = sum(v[0] for v in by_dam.values()); got = sum(v[1] for v in by_dam.values())
-M('CQ2', '승인 102건의 방류시작 전후 상태 창', '%d/%d건에서 조회 가능' % (got, tot), '동일', '; '.join('%s %d/%d' % (k, v[1], v[0]) for k, v in sorted(by_dam.items())))
+M('CQ2', '승인 %d건의 방류시작 전후 상태 창' % tot, '%d/%d건에서 조회 가능' % (got, tot), '동일', '; '.join('%s %d/%d' % (k, v[1], v[0]) for k, v in sorted(by_dam.items())))
 opw = collections.defaultdict(lambda: [0, 0])
 for o in ops:
     d = G[True][0][o]['performedOnDam'][0]
     n = win_n(code_of(d), P[o]['operationTime'].replace('T', ' '))
     opw[label[d]][0] += 1
     opw[label[d]][1] += 1 if n > 0 else 0
-M('CQ2', '운영행위 69건의 상태 창', '%d/%d건에서 조회 가능' % (sum(v[1] for v in opw.values()), len(ops)), '동일', '; '.join('%s %d/%d' % (k, v[1], v[0]) for k, v in sorted(opw.items())))
-M('CQ2', '임의 과거 시점(연속 구간)', '5개 댐 모두 시간 단위 조회 가능', '동일', '; '.join('%s %s~%s' % (CODES[c], v[0].date(), v[1].date()) for c, v in sorted(ms.cover.items())))
+M('CQ2', '운영행위 %d건의 상태 창' % len(ops), '%d/%d건에서 조회 가능' % (sum(v[1] for v in opw.values()), len(ops)), '동일', '; '.join('%s %d/%d' % (k, v[1], v[0]) for k, v in sorted(opw.items())))
+M('CQ2', '임의 과거 시점(연속 구간)', '%d개 댐 모두 시간 단위 조회 가능' % len(dams), '동일', '; '.join('%s %s~%s' % (CODES[c], v[0].date(), v[1].date()) for c, v in sorted(ms.cover.items())))
 
 # ---------- CQ3 과거 운영행위
 sel = collections.Counter(P[o]['operationType'] for o in ops)
@@ -173,7 +173,7 @@ for o in ops:
                       'measured_check': P[o].get('x_measured_check', ''), 'complete_v1': 'Y' if comp_s else 'N', 'complete_v1.1': 'Y' if comp_v else 'N'})
 with open(os.path.join(N, 'step3d_case_assembly.csv'), 'w', newline='', encoding='utf-8-sig') as f:
     w = csv.DictWriter(f, fieldnames=list(case_rows[0].keys())); w.writeheader(); w.writerows(case_rows)
-M('통합', '운영행위 69건 중 상태 창이 있는 사례', '%d건' % cnt['windows'], '동일', '상태 + 운영행위 + 승인 + 근거를 함께 조립할 수 있는 사례')
+M('통합', '운영행위 %d건 중 상태 창이 있는 사례' % len(ops), '%d건' % cnt['windows'], '동일', '상태 + 운영행위 + 승인 + 근거를 함께 조립할 수 있는 사례')
 M('통합', '제한수위까지 함께 조립되는 사례', '%d건 (충주·소양강·횡성 사례)' % cnt['comp_strict'], '%d건 (규칙 18개 포함)' % cnt['comp_variant'], '')
 M('통합', '홍수기에 해당하는 운영행위', '판정 불가(규칙 없음)', '%d/%d건' % (cnt['flood'], len(ops)), '연계운영규정 제2조 3호 적용')
 

@@ -8,7 +8,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 N = os.path.join(HERE, '..', '03_normalized')
 spec = importlib.util.spec_from_file_location('r3b', os.path.join(HERE, 'step3b_retrieval.py'))
 r3b = importlib.util.module_from_spec(spec); spec.loader.exec_module(r3b)
-DAMS = {'충주': '1003110', '충주조정지': '1003611', '소양강': '1012110', '횡성': '1006110', '광동': '1001210'}
+DAMS = {'충주': '1003110', '소양강': '1012110', '횡성': '1006110', '광동': '1001210'}
 rows = []
 
 

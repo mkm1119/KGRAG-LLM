@@ -28,7 +28,7 @@ rels = [(r['subject'], r['relation'], r['object'], r['rule'], r['origin'], r['no
 prov = [(r['item'], r['kind'], r['source_file'], r['source_locator'], r['rule'], r['data_origin'], r['note']) for r in rd('kgv2_provenance.csv')]
 chunks = [(r['chunk_id'], r['doc_title'], r['locator'], r['text']) for r in rd('kgv2_chunks.csv')]
 have = {e[0] for e in ents}
-DAMCODES = {'충주': '1003110', '충주조정지': '1003611', '소양강': '1012110', '횡성': '1006110', '광동': '1001210'}
+DAMCODES = {'충주': '1003110', '소양강': '1012110', '횡성': '1006110', '광동': '1001210'}
 ALLDAMS = ['DAM:' + c for c in DAMCODES.values()]
 
 # (A) Approval–Dam 직접 관계 (온톨로지 수정: 관계 추가, C12)
@@ -100,9 +100,9 @@ for r in b1:
         cat[re.sub(r'\s|\(.*?\)', '', nm)] = r['facility_category_in_source']
 dam_label = {e[0]: e[2] for e in ents if e[1] == 'Dam'}
 for did, nm in dam_label.items():
-    key = '충주댐' if nm == '충주조정지' else nm
+    key = nm
     if key in cat:
-        props.append((did, 'x_byeolpyo1_category', cat[key] + (' (별표1에 충주댐(조정지댐포함)으로 표기)' if nm == '충주조정지' else ''), 'variant'))
+        props.append((did, 'x_byeolpyo1_category', cat[key], 'variant'))
 
 wr('kgv3_entities.csv', ['entity_id', 'class', 'label'], ents)
 wr('kgv3_properties.csv', ['entity_id', 'property', 'value', 'datatype'], props)

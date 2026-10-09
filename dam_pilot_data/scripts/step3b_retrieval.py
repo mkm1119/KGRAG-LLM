@@ -11,7 +11,7 @@ from datetime import datetime, timedelta
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 N = os.path.join(ROOT, '03_normalized')
-CODES = {'1003110': '충주댐', '1003611': '충주조정지', '1012110': '소양강댐', '1006110': '횡성댐', '1001210': '광동댐'}
+CODES = {'1003110': '충주댐', '1012110': '소양강댐', '1006110': '횡성댐', '1001210': '광동댐'}
 VARS = {'수위': 'DATA1_수위(EL.m)', '저수량': 'DATA2_저수량(MCM)', '강우량': 'DATA3_강우량(mm)',
         '유입량': 'DATA4_유입량(CMS)', '총방류량': 'DATA6_총방류량(CMS)', '저수율': 'DATA7_저수율(%)'}
 UNITS = {'수위': 'EL.m', '저수량': 'MCM', '강우량': 'mm', '유입량': 'CMS', '총방류량': 'CMS', '저수율': '%'}
