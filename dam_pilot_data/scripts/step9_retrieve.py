@@ -161,8 +161,8 @@ def similar(dam, k=3):
     cases = []
     for b in best:
         t0 = datetime.strptime(b['time'][:16], '%Y-%m-%dT%H:%M')
-        rows = cypher("MATCH (a:Approval)-[:authorizes]->(o:Operation) WHERE o.id IN $ids RETURN o.id AS op, o.operationType AS type, a.id AS approval, toString(a.approvalTime) AS approval_date, a.approvalContent AS approval_content ORDER BY op, approval", ids=b['operations'])
-        cases.append(dict(b, rows=rows, state_window=measure(dam, t0 - timedelta(hours=6), t0 + timedelta(hours=13)), approval_evidence=[e for r in rows[:1] for e in evidence(r['approval'])]))
+        rows = cypher("MATCH (a:Approval)-[:authorizes]->(o:Operation) WHERE o.id IN $ids RETURN o.id AS op, o.operationType AS type, a.id AS approval, toString(a.approvalTime) AS approval_date, a.approvalContent AS approval_content ORDER BY approval_date, op, approval", ids=b['operations'])
+        cases.append(dict(b, rows=rows, state_window=measure(dam, t0 - timedelta(hours=6), t0 + timedelta(hours=13)), approval_evidence=[e for a in dict.fromkeys(r['approval'] for r in rows) for e in evidence(a)]))
     return {'as_of': str(t_now), 'current': cur, 'normalization': {'수위(min,range)': [lo[0], rg[0]], '유입량(min,range)': [lo[1], rg[1]]},
             'n_candidates': len(cand), 'rank_by': 'euclidean', 'cases': cases}
 
@@ -181,7 +181,7 @@ def run(req):
         R['state'] = measure(dam, q['start'], q['end'])
     elif it == 'CQ3' or it == 'INTEGRATED':
         ops = cypher("MATCH (o:Operation)-[:performedOnDam]->(d:Dam {damName:$dam}) WHERE o.operationTime >= datetime($s) AND o.operationTime < datetime($e) "
-                     "OPTIONAL MATCH (a:Approval)-[:authorizes]->(o) RETURN o.id AS op, o.operationType AS type, toString(o.operationTime) AS time, a.id AS approval, a.approvalTime AS approval_date, a.approvalContent AS approval_content ORDER BY time, op",
+                     "OPTIONAL MATCH (a:Approval)-[:authorizes]->(o) RETURN o.id AS op, o.operationType AS type, toString(o.operationTime) AS time, a.id AS approval, a.approvalTime AS approval_date, a.approvalContent AS approval_content ORDER BY time, op, approval_date, approval",
                      dam=dam, s=q['start'].strftime('%Y-%m-%dT%H:%M:00'), e=q['end'].strftime('%Y-%m-%dT%H:%M:00'))
         R['operations'] = ops
         if it == 'INTEGRATED':
@@ -191,8 +191,9 @@ def run(req):
                     continue
                 seen_ops.add(o['op'])
                 t0 = datetime.strptime(o['time'][:16], '%Y-%m-%dT%H:%M')
+                aps_ = sorted({(x['approval_date'], x['approval']) for x in ops if x['op'] == o['op'] and x.get('approval')})
                 R['cases'].append({'operation': o['op'], 'state_window': measure(dam, t0 - timedelta(hours=6), t0 + timedelta(hours=13)),
-                                   'operation_evidence': evidence(o['op']), 'approval_evidence': evidence(o['approval'])})
+                                   'operation_evidence': evidence(o['op']), 'approval_evidence': [e for _, a in aps_ for e in evidence(a)]})
             R['criterion'] = criterion(dam)
     elif it == 'CQ4':
         R['approvals'] = cypher("MATCH (a:Approval)-[:concernsDam]->(d:Dam {damName:$dam}) WHERE a.approvalTime >= date($s) AND a.approvalTime < date($e) "

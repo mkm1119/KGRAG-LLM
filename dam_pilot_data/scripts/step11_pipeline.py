@@ -37,22 +37,35 @@ def chat(messages, temperature=0.0, max_tokens=1500):
 
 
 def parse_json(txt):
+    """JSON 객체 하나를 읽는다. 같은 키가 두 번 나오면(예: 댐이 둘) 마지막 값만 취하지 않고 그 사실을 알린다. 반환: (객체 또는 None, 중복된 키 목록)"""
     m = re.search(r'\{.*\}', txt, flags=re.S)
     if not m:
-        return None
+        return None, []
+    dups = []
+
+    def hook(pairs):
+        seen = {}
+        for k, v in pairs:
+            if k in seen and k not in dups:
+                dups.append(k)
+            seen[k] = v
+        return seen
+
     try:
-        return json.loads(m.group(0))
+        return json.loads(m.group(0), object_pairs_hook=hook), dups
     except Exception:
-        return None
+        return None, []
 
 
 def intent_llm(question):
     raw = chat([{'role': 'system', 'content': INTENT_PROMPT}, {'role': 'user', 'content': question}])
-    j = parse_json(raw)
+    j, dups = parse_json(raw)
     if j is None:
         raw2 = chat([{'role': 'system', 'content': INTENT_PROMPT}, {'role': 'user', 'content': question},
                      {'role': 'assistant', 'content': raw}, {'role': 'user', 'content': 'JSON 하나만 다시 출력하세요.'}])
-        raw, j = raw + '\n--- 재시도 ---\n' + raw2, parse_json(raw2)
+        raw, (j, dups) = raw + '\n--- 재시도 ---\n' + raw2, parse_json(raw2)
+    if dups:
+        j = {'intent': 'OUT_OF_SCOPE', 'slots': {'reason': '질문에 같은 종류의 값(%s)이 둘 이상 있어 한 번에 처리하지 않음' % ', '.join(dups)}}
     return raw, j
 
 

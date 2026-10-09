@@ -8,6 +8,15 @@ UNITS = {'수위': 'EL.m', '저수량': 'MCM', '강우량': 'mm', '유입량': '
 ORDER = ['수위', '저수량', '강우량', '유입량', '총방류량', '저수율']
 
 
+def fmt(x):
+    """측정값 표시: 소수 3자리까지(부동소수 잡음 제거)."""
+    try:
+        v = float(x)
+    except (TypeError, ValueError):
+        return str(x)
+    return ('%.3f' % v).rstrip('0').rstrip('.')
+
+
 def tm(s):
     return re.sub(r':00Z?$', '', str(s).replace('T', ' ').replace('Z', ''))[:16]
 
@@ -21,7 +30,7 @@ def table(state):
         out.append('| 시각 | ' + ' | '.join('%s(%s)' % (v, UNITS[v]) for v in names) + ' |')
         out.append('|' + '---|' * (len(names) + 1))
         for t, v in state['rows']:
-            out.append('| %s | ' % t + ' | '.join(str(v[n]) if v[n] != '' else '없음' for n in names) + ' |')
+            out.append('| %s | ' % t + ' | '.join(fmt(v[n]) if v[n] != '' else '없음' for n in names) + ' |')
     else:
         out.append('(%d개 시각을 요약함) | 변수 | 최소 | 최대 | 처음 | 마지막 |' % state['n_rows'])
         for n in names:
@@ -55,7 +64,7 @@ def crit_block(crits, dam):
             lines.append('근거 원문 발췌(별표3):\n' + '\n'.join(keep))
         if hist:
             lines.append('같은 값이 적용된 별표3 연혁 판: %d개 (%s ~ %s)' % (len(hist), hist[0]['locator'].split('시행 ')[-1], hist[-1]['locator'].split('시행 ')[-1]))
-        lines += ev_lines(c['evidence'][:1])
+        lines += ['제한수위의 근거: ' + l for l in ev_lines(c['evidence'][:1])]
         out.append('\n'.join(lines) + '\n</운영기준>')
     return '\n'.join(out)
 
@@ -111,15 +120,21 @@ def derived(window, limit, rows, label):
     dq = [(t, fl(v.get('총방류량'))) for t, v in rs if fl(v.get('총방류량')) is not None]
     if lv:
         t, m = max(lv, key=lambda x: x[1])
-        L.append('창 내 최고 수위 %s EL.m (%s)' % (m, t) + (', 제한수위 %s EL.m 대비 %+.2f m' % (limit, m - limit) if limit is not None else ', 제한수위 자료 없음'))
+        L.append('창 내 최고 수위 %s EL.m (%s)' % (fmt(m), t) + (', 제한수위 %s EL.m 대비 %+.2f m' % (limit, m - limit) if limit is not None else ', 제한수위 자료 없음'))
     if dq:
         t, m = max(dq, key=lambda x: x[1])
-        L.append('창 내 최대 총방류량 %s CMS (%s)' % (m, t))
+        L.append('창 내 최대 총방류량 %s CMS (%s)' % (fmt(m), t))
+        late = []
         for ap, a, ad in amounts(rows):
             av = fl(a.replace(',', ''))
-            if av:
-                late = ' ※이 승인의 승인일(%s)이 창(%s까지)보다 늦음: 창 시점에는 이 상한이 아직 승인되기 전이었다' % (ad, w1[:10]) if ad and ad > w1[:10] else ''
-                L.append('승인 [%s] (승인일 %s) 접수방류량 %s ㎥/s 대비 창 내 최대 총방류량 %.1f%%%s' % (ap, ad, a, 100 * m / av, late))
+            if not av:
+                continue
+            if ad and ad > w1[:10]:
+                late.append('[%s](승인일 %s, 접수방류량 %s ㎥/s)' % (ap, ad, a))
+            else:
+                L.append('승인 [%s] (승인일 %s) 접수방류량 %s ㎥/s 대비 창 내 최대 총방류량 %.1f%%' % (ap, ad, a, 100 * m / av))
+        if late:
+            L.append('다음 승인은 승인일이 창(%s까지)보다 늦어 창 시점의 상한이 아니므로 비율을 계산하지 않았다: %s' % (w1[:10], ', '.join(late)))
     return '<계산값 대상="%s" 창="%s ~ %s (행위 시각 앞 6시간~뒤 12시간)" 출처="프로그램 계산, 측정 시각 라벨 기준">\n%s\n</계산값>' % (label, w0, w1, '\n'.join(L)) if L else ''
 
 
@@ -159,19 +174,19 @@ def tagged(R):
             d_ = derived(c['state_window'], limit_of(R['criterion']), rows_, c['operation'])
             if d_:
                 o.append(d_)
-            o += ['<근거 운영행위="%s">%s</근거>' % (c['operation'], l) for l in ev_lines(c['approval_evidence'])]
+            o += ['<방류의 근거 운영행위="%s" 비고="승인 기록(이 방류를 허가한 승인)">%s</방류의 근거>' % (c['operation'], l) for l in ev_lines(c['approval_evidence'])]
         o.append(crit_block(R['criterion'], dam))
     elif it == 'SIMILAR':
         s = R['similar']
         cur = s['current']
-        o.append('<현재상태 기준시각="%s" 비고="저장된 가장 최근 시각이며 실시간이 아님">수위 %s EL.m, 유입량 %s CMS, 총방류량 %s CMS, 강우량 %s mm</현재상태>' % (tm(s['as_of']), cur.get('수위'), cur.get('유입량'), cur.get('총방류량'), cur.get('강우량')))
+        o.append('<현재상태 기준시각="%s" 비고="저장된 가장 최근 시각이며 실시간이 아님">수위 %s EL.m, 유입량 %s CMS, 총방류량 %s CMS, 강우량 %s mm</현재상태>' % (tm(s['as_of']), fmt(cur.get('수위')), fmt(cur.get('유입량')), fmt(cur.get('총방류량')), fmt(cur.get('강우량'))))
         lim = limit_of(R['criterion'])
         if lim is not None and fl(cur.get('수위')) is not None:
             o.append('<계산값 대상="현재" 출처="프로그램 계산">현재 수위 %s EL.m, 제한수위 %s EL.m 대비 %+.2f m</계산값>' % (cur['수위'], lim, fl(cur['수위']) - lim))
         o.append('<유사도 방식="수위·유입량을 그 댐 전체 기록의 최솟값~최댓값으로 0~1 정규화한 벡터의 유클리드 거리(작을수록 비슷함, 연구자 지정 임시 기준)" 후보사례수="%d">거리 0은 완전히 같음이고 값이 클수록 현재와 상태가 다르다. 사례끼리의 거리 차이와 현재 상태와의 차이를 함께 보고 판단한다.</유사도>' % s['n_candidates'])
         for i, c in enumerate(s['cases'], 1):
             st = c['state_at_op']
-            o.append('<유사사례 순위="%d" 시각="%s" 거리="%s" 당시 수위="%s EL.m" 유입량="%s CMS" 총방류량="%s CMS">' % (i, tm(c['time']), c['euclidean'], st['수위'], st['유입량'], st['총방류량']))
+            o.append('<유사사례 순위="%d" 시각="%s" 거리="%s" 당시 수위="%s EL.m" 유입량="%s CMS" 총방류량="%s CMS">' % (i, tm(c['time']), c['euclidean'], fmt(st['수위']), fmt(st['유입량']), fmt(st['총방류량'])))
             for r in c['rows']:
                 o.append('운영행위 [%s] %s / 허가한 승인 [%s] 승인일 %s: %s' % (r['op'], r['type'], r['approval'], r['approval_date'], r['approval_content']))
             o.append('당시상태(앞 6시간~뒤 12시간):\n' + table(c['state_window']))
