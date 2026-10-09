@@ -26,7 +26,7 @@ def add(i, item, result, n, note=''):
 # (1) 관계 양 끝 클래스
 bad = [(r['subject'], r['relation'], r['object']) for r in rels if (ent.get(r['subject']), ent.get(r['object'])) not in PAIRS.get(r['relation'], [])]
 add('V1', '모든 관계의 양 끝이 허용된 클래스 쌍', '통과' if not bad else '실패', len(bad), str(bad[:3]))
-# (2) 필수 속성 (규칙 Criterion의 unit은 빈 값 허용)
+# (2) 필수 속성
 miss = []
 for e, c in ent.items():
     for p in ONTO_PROPS[c]:
@@ -40,7 +40,7 @@ for e, c in ent.items():
         if not re.fullmatch(r'\d{4}-\d{2}-\d{2}', v): fmt.append((e, v))
     for v, _ in props[e].get('operationTime', []):
         if not re.fullmatch(r'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}', v): fmt.append((e, v))
-    if c == 'Criterion' and not e.startswith('CRI:R'):
+    if c == 'Criterion':
         for v, _ in props[e].get('criterionValue', []):
             try: float(v)
             except ValueError: fmt.append((e, v))
@@ -65,8 +65,6 @@ add('V6', '온톨로지에 없는 데이터 속성(x_ 접두)', '정보', sum(xp
 orig = {k for k in PAIRS if k != 'concernsDam'}
 orels = collections.Counter(r['relation'] for r in rels if r['relation'] not in orig)
 add('V7', '문서 8개 관계 밖의 관계', '정보', sum(orels.values()), str(dict(orels)))
-rcri = sum(1 for e in ent if e.startswith('CRI:R'))
-add('V8', '규정 규칙을 Criterion으로 둔 변형(v1.1)', '정보', rcri, 'criterionValue에 조문 원문(text), x_subject/x_condition/x_requirement/x_use')
 # (7) 수정 전후 CQ4
 apps = [e for e, c in ent.items() if c == 'Approval']
 reach_old = {a for a, ops in au.items() if ops}

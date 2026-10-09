@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """STEP 3D: KG v3 전체를 대상으로 온톨로지 CQ1~CQ6과 통합 질문에 답할 수 있는지 점검한다. stdlib만 사용.
-엄격: 수정한 온톨로지(Class 6개, 관계 9개 = 기존 8개 + Approval–Dam concernsDam)만 사용. 변형(v1.1): 규정 규칙 18개(Criterion)를 추가로 사용.
+엄격: 수정한 온톨로지(Class 6개, 관계 9개 = 기존 8개 + Approval–Dam concernsDam)만 사용. (규정 규칙은 KG에서 제외됨.)
 출력: 03_normalized/step3d_cq_matrix.csv, step3d_case_assembly.csv, step3d_similar_cases.csv
 """
 import collections, csv, importlib.util, os, re, statistics
@@ -31,8 +31,6 @@ def build(strict):
             if strict:
                 continue
         if strict and r['origin'] in ('variant', 'general-rule'):
-            continue
-        if strict and (r['subject'].startswith('CRI:R') or r['object'].startswith('CRI:R')):
             continue
         out[r['subject']][r['relation']].append(r['object'])
         inv[r['object']][r['relation']].append(r['subject'])
@@ -120,7 +118,7 @@ for d in dams:
     lim = [c for c in s if P[c].get('criterionType') == '홍수기 제한수위']
     hist = len(G[True][0][lim[0]]['supportedBy']) - 1 if lim else 0
     M('CQ5', label[d], '제한수위 %s' % ('; '.join('%s EL.m (연혁 %d개 판 동일)' % (P[c]['criterionValue'], hist) for c in lim) if lim else '없음 (별표3에 미수록)'),
-      '제한수위 %d + 규칙 %d개' % (len(lim), len(v) - len(s)), '')
+      '동일', '')
 
 # ---------- CQ6 공식 근거
 def resolvable(ev):
@@ -134,8 +132,7 @@ def resolvable(ev):
 
 
 for name, ids in [('Approval', apps), ('Operation', ops), ('HydrometeorologicalState', [e for e, c in cls.items() if c == 'HydrometeorologicalState']),
-                  ('Criterion(제한수위)', [e for e, c in cls.items() if c == 'Criterion' and not e.startswith('CRI:R')]),
-                  ('Criterion(규칙, v1.1)', [e for e, c in cls.items() if c == 'Criterion' and e.startswith('CRI:R')])]:
+                  ('Criterion(제한수위)', [e for e, c in cls.items() if c == 'Criterion'])]:
     g = G[False][0]
     have = [i for i in ids if g[i]['supportedBy']]
     res = [i for i in have if all(resolvable(e) for e in g[i]['supportedBy'])]
@@ -175,8 +172,7 @@ for o in ops:
 with open(os.path.join(N, 'step3d_case_assembly.csv'), 'w', newline='', encoding='utf-8-sig') as f:
     w = csv.DictWriter(f, fieldnames=list(case_rows[0].keys())); w.writeheader(); w.writerows(case_rows)
 M('통합', '운영행위 %d건 중 상태 창이 있는 사례' % len(ops), '%d건' % cnt['windows'], '동일', '상태 + 운영행위 + 승인 + 근거를 함께 조립할 수 있는 사례')
-M('통합', '제한수위까지 함께 조립되는 사례', '%d건 (충주·소양강·횡성 사례)' % cnt['comp_strict'], '%d건 (규칙 18개 포함)' % cnt['comp_variant'], '')
-M('통합', '홍수기에 해당하는 운영행위', '판정 불가(규칙 없음)', '%d/%d건' % (cnt['flood'], len(ops)), '연계운영규정 제2조 3호 적용')
+M('통합', '제한수위까지 함께 조립되는 사례', '%d건 (충주·소양강·횡성 사례)' % cnt['comp_strict'], '제한수위 없는 댐 포함 %d건' % cnt['comp_variant'], '')
 
 # ---------- 비슷한 과거 사례 (현재 상태 -> 사례)
 def stats(c):

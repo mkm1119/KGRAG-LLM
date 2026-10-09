@@ -281,33 +281,3 @@ EVI:LAW:별표3@20220706,entity,03_normalized/criterion_version_history.csv,effe
 EVI:LAW:별표3@20240229,entity,03_normalized/criterion_version_history.csv,effective_from=20240229,MR-EVI-HIST,real,판별 값은 연혁 표에서 읽음(원문 XML 대조 필요)
 EVI:LAW:별표3@20251111,entity,03_normalized/criterion_version_history.csv,effective_from=20251111,MR-EVI-HIST,real,판별 값은 연혁 표에서 읽음(원문 XML 대조 필요)
 EVI:LAW:별표3@20260708,entity,03_normalized/criterion_version_history.csv,effective_from=20260708,MR-EVI-HIST,real,판별 값은 연혁 표에서 읽음(원문 XML 대조 필요)
-CRI:R01,entity,03_normalized/regulation_rules_v1.csv,R01,MR-RULE,real(원문)+Claude 주석,"구조화 칸은 Claude 주석, 사람 검토 필요"
-EVI:LAW:하천법:제41조,entity,01_raw/Law/,하천법 제41조,MR-EVI-RULE,real
-CRI:R02,entity,03_normalized/regulation_rules_v1.csv,R02,MR-RULE,real(원문)+Claude 주석,"구조화 칸은 Claude 주석, 사람 검토 필요"
-EVI:LAW:하천법시행령:제48조,entity,01_raw/Law/,하천법 시행령 제48조,MR-EVI-RULE,real
-CRI:R03,entity,03_normalized/regulation_rules_v1.csv,R03,MR-RULE,real(원문)+Claude 주석,"구조화 칸은 Claude 주석, 사람 검토 필요"
-CRI:R04,entity,03_normalized/regulation_rules_v1.csv,R04,MR-RULE,real(원문)+Claude 주석,"구조화 칸은 Claude 주석, 사람 검토 필요"
-CRI:R05,entity,03_normalized/regulation_rules_v1.csv,R05,MR-RULE,real(원문)+Claude 주석,"구조화 칸은 Claude 주석, 사람 검토 필요"
-EVI:LAW:하천법:제39조,entity,01_raw/Law/,하천법 제39조,MR-EVI-RULE,real
-CRI:R06,entity,03_normalized/regulation_rules_v1.csv,R06,MR-RULE,real(원문)+Claude 주석,"구조화 칸은 Claude 주석, 사람 검토 필요"
-EVI:LAW:댐건설관리법:제7조,entity,01_raw/Law/,댐건설관리법 제7조,MR-EVI-RULE,real
-CRI:R07,entity,03_normalized/regulation_rules_v1.csv,R07,MR-RULE,real(원문)+Claude 주석,"구조화 칸은 Claude 주석, 사람 검토 필요"
-CRI:R08,entity,03_normalized/regulation_rules_v1.csv,R08,MR-RULE,real(원문)+Claude 주석,"구조화 칸은 Claude 주석, 사람 검토 필요"
-EVI:LAW:연계운영규정:제2조,entity,01_raw/Law/,연계운영규정 제2조,MR-EVI-RULE,real
-CRI:R09,entity,03_normalized/regulation_rules_v1.csv,R09,MR-RULE,real(원문)+Claude 주석,"구조화 칸은 Claude 주석, 사람 검토 필요"
-EVI:LAW:연계운영규정:제4조,entity,01_raw/Law/,연계운영규정 제4조,MR-EVI-RULE,real
-CRI:R10,entity,03_normalized/regulation_rules_v1.csv,R10,MR-RULE,real(원문)+Claude 주석,"구조화 칸은 Claude 주석, 사람 검토 필요"
-EVI:LAW:연계운영규정:제6조,entity,01_raw/Law/,연계운영규정 제6조,MR-EVI-RULE,real
-CRI:R11,entity,03_normalized/regulation_rules_v1.csv,R11,MR-RULE,real(원문)+Claude 주석,"구조화 칸은 Claude 주석, 사람 검토 필요"
-CRI:R12,entity,03_normalized/regulation_rules_v1.csv,R12,MR-RULE,real(원문)+Claude 주석,"구조화 칸은 Claude 주석, 사람 검토 필요"
-EVI:LAW:연계운영규정:제7조,entity,01_raw/Law/,연계운영규정 제7조,MR-EVI-RULE,real
-CRI:R13,entity,03_normalized/regulation_rules_v1.csv,R13,MR-RULE,real(원문)+Claude 주석,"구조화 칸은 Claude 주석, 사람 검토 필요"
-EVI:LAW:연계운영규정:제8조,entity,01_raw/Law/,연계운영규정 제8조,MR-EVI-RULE,real
-CRI:R14,entity,03_normalized/regulation_rules_v1.csv,R14,MR-RULE,real(원문)+Claude 주석,"구조화 칸은 Claude 주석, 사람 검토 필요"
-EVI:LAW:연계운영규정:제11조,entity,01_raw/Law/,연계운영규정 제11조,MR-EVI-RULE,real
-CRI:R15,entity,03_normalized/regulation_rules_v1.csv,R15,MR-RULE,real(원문)+Claude 주석,"구조화 칸은 Claude 주석, 사람 검토 필요"
-EVI:LAW:연계운영규정:제13조,entity,01_raw/Law/,연계운영규정 제13조,MR-EVI-RULE,real
-CRI:R16,entity,03_normalized/regulation_rules_v1.csv,R16,MR-RULE,real(원문)+Claude 주석,"구조화 칸은 Claude 주석, 사람 검토 필요"
-EVI:LAW:연계운영규정:제14조,entity,01_raw/Law/,연계운영규정 제14조,MR-EVI-RULE,real
-CRI:R17,entity,03_normalized/regulation_rules_v1.csv,R17,MR-RULE,real(원문)+Claude 주석,"구조화 칸은 Claude 주석, 사람 검토 필요"
-CRI:R18,entity,03_normalized/regulation_rules_v1.csv,R18,MR-RULE,real(원문)+Claude 주석,"구조화 칸은 Claude 주석, 사람 검토 필요"
