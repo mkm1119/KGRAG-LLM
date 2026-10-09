@@ -959,3 +959,279 @@ DAM:1003611,x_byeolpyo1_category,다목적댐 및 용수댐 (별표1에 충주�
 DAM:1012110,x_byeolpyo1_category,다목적댐 및 용수댐,variant
 DAM:1006110,x_byeolpyo1_category,다목적댐 및 용수댐,variant
 DAM:1001210,x_byeolpyo1_category,다목적댐 및 용수댐,variant
+OPR:279:1,x_measured_check,일치,variant
+OPR:279:1,x_measured_before,21.053,variant
+OPR:279:1,x_measured_after_max,10.64,variant
+OPR:279:1,x_measured_after_min,10.543,variant
+OPR:394:1,x_measured_check,일치,variant
+OPR:394:1,x_measured_before,36.166,variant
+OPR:394:1,x_measured_after_max,40.188,variant
+OPR:394:1,x_measured_after_min,40.105,variant
+OPR:444:1,x_measured_check,일치,variant
+OPR:444:1,x_measured_before,98.83,variant
+OPR:444:1,x_measured_after_max,134.962,variant
+OPR:444:1,x_measured_after_min,98.882,variant
+OPR:448:1,x_measured_check,일치,variant
+OPR:448:1,x_measured_before,952.422,variant
+OPR:448:1,x_measured_after_max,972.017,variant
+OPR:448:1,x_measured_after_min,953.948,variant
+OPR:464:1,x_measured_check,일치,variant
+OPR:464:1,x_measured_before,599.539,variant
+OPR:464:1,x_measured_after_max,600.882,variant
+OPR:464:1,x_measured_after_min,599.327,variant
+OPR:466:1,x_measured_check,판정불가(방향 없음),variant
+OPR:466:1,x_measured_before,697.194,variant
+OPR:466:1,x_measured_after_max,698.44,variant
+OPR:466:1,x_measured_after_min,697.175,variant
+OPR:473:1,x_measured_check,판정불가(방향 없음),variant
+OPR:473:1,x_measured_before,9.436,variant
+OPR:473:1,x_measured_after_max,33.632,variant
+OPR:473:1,x_measured_after_min,27.049,variant
+OPR:480:1,x_measured_check,일치,variant
+OPR:480:1,x_measured_before,1576.11,variant
+OPR:480:1,x_measured_after_max,1998.3,variant
+OPR:480:1,x_measured_after_min,1700.148,variant
+OPR:504:1,x_measured_check,판정불가(방향 없음),variant
+OPR:504:1,x_measured_before,757.898,variant
+OPR:504:1,x_measured_after_max,1497.708,variant
+OPR:504:1,x_measured_after_min,982.772,variant
+OPR:574:1,x_measured_check,판정불가(방향 없음),variant
+OPR:574:1,x_measured_before,728.535,variant
+OPR:574:1,x_measured_after_max,1497.849,variant
+OPR:574:1,x_measured_after_min,1043.748,variant
+OPR:597:1,x_measured_check,일치,variant
+OPR:597:1,x_measured_before,711.046,variant
+OPR:597:1,x_measured_after_max,3041.06,variant
+OPR:597:1,x_measured_after_min,1771.133,variant
+OPR:598:1,x_measured_check,일치,variant
+OPR:598:1,x_measured_before,1569.35,variant
+OPR:598:1,x_measured_after_max,3322.827,variant
+OPR:598:1,x_measured_after_min,1666.379,variant
+OPR:612:1,x_measured_check,판정불가(방향 없음),variant
+OPR:612:1,x_measured_before,60.491,variant
+OPR:612:1,x_measured_after_max,98.16,variant
+OPR:612:1,x_measured_after_min,95.683,variant
+OPR:626:1,x_measured_check,일치,variant
+OPR:626:1,x_measured_before,2950.103,variant
+OPR:626:1,x_measured_after_max,3790.481,variant
+OPR:626:1,x_measured_after_min,2946.106,variant
+OPR:826:1,x_measured_check,판정불가(방향 없음),variant
+OPR:826:1,x_measured_before,695.236,variant
+OPR:826:1,x_measured_after_max,1190.982,variant
+OPR:826:1,x_measured_after_min,792.471,variant
+OPR:842:1,x_measured_check,일치,variant
+OPR:842:1,x_measured_before,98.9,variant
+OPR:842:1,x_measured_after_max,100.217,variant
+OPR:842:1,x_measured_after_min,99.231,variant
+OPR:842:2,x_measured_check,판정불가(방향 없음),variant
+OPR:842:2,x_measured_before,98.9,variant
+OPR:842:2,x_measured_after_max,100.217,variant
+OPR:842:2,x_measured_after_min,99.231,variant
+OPR:1102:1,x_measured_check,판정불가(방향 없음),variant
+OPR:1102:1,x_measured_before,9.382,variant
+OPR:1102:1,x_measured_after_max,10.502,variant
+OPR:1102:1,x_measured_after_min,9.764,variant
+OPR:1103:1,x_measured_check,일치,variant
+OPR:1103:1,x_measured_before,716.411,variant
+OPR:1103:1,x_measured_after_max,1001.696,variant
+OPR:1103:1,x_measured_after_min,962.79,variant
+OPR:1104:1,x_measured_check,일치,variant
+OPR:1104:1,x_measured_before,1302.301,variant
+OPR:1104:1,x_measured_after_max,1396.532,variant
+OPR:1104:1,x_measured_after_min,1317.749,variant
+OPR:1114:1,x_measured_check,일치,variant
+OPR:1114:1,x_measured_before,1290.402,variant
+OPR:1114:1,x_measured_after_max,1498.457,variant
+OPR:1114:1,x_measured_after_min,1479.47,variant
+OPR:1115:1,x_measured_check,일치,variant
+OPR:1115:1,x_measured_before,1886.331,variant
+OPR:1115:1,x_measured_after_max,1956.284,variant
+OPR:1115:1,x_measured_after_min,1877.467,variant
+OPR:1152:1,x_measured_check,판정불가(방향 없음),variant
+OPR:1152:1,x_measured_before,134.454,variant
+OPR:1152:1,x_measured_after_max,197.987,variant
+OPR:1152:1,x_measured_after_min,179.693,variant
+OPR:1264:1,x_measured_check,판정불가(방향 없음),variant
+OPR:1264:1,x_measured_before,550.146,variant
+OPR:1264:1,x_measured_after_max,800.157,variant
+OPR:1264:1,x_measured_after_min,646.63,variant
+OPR:1368:1,x_measured_check,판정불가(방향 없음),variant
+OPR:1368:1,x_measured_before,692.183,variant
+OPR:1368:1,x_measured_after_max,1009.756,variant
+OPR:1368:1,x_measured_after_min,944.784,variant
+OPR:1445:1,x_measured_check,판정불가(방향 없음),variant
+OPR:1445:1,x_measured_before,669.155,variant
+OPR:1445:1,x_measured_after_max,1004.18,variant
+OPR:1445:1,x_measured_after_min,987.132,variant
+OPR:1446:1,x_measured_check,판정불가(방향 없음),variant
+OPR:1446:1,x_measured_before,3.905,variant
+OPR:1446:1,x_measured_after_max,19.974,variant
+OPR:1446:1,x_measured_after_min,19.812,variant
+OPR:1580:1,x_measured_check,판정불가(방향 없음),variant
+OPR:1580:1,x_measured_before,4.825,variant
+OPR:1580:1,x_measured_after_max,55.214,variant
+OPR:1580:1,x_measured_after_min,4.826,variant
+OPR:2327:1,x_measured_check,일치,variant
+OPR:2327:1,x_measured_before,2.741,variant
+OPR:2327:1,x_measured_after_max,41.67,variant
+OPR:2327:1,x_measured_after_min,3.796,variant
+OPR:2344:1,x_measured_check,일치,variant
+OPR:2344:1,x_measured_before,16.088,variant
+OPR:2344:1,x_measured_after_max,26.5,variant
+OPR:2344:1,x_measured_after_min,18.017,variant
+OPR:2350:1,x_measured_check,판정불가(방향 없음),variant
+OPR:2350:1,x_measured_before,0.897,variant
+OPR:2350:1,x_measured_after_max,1.096,variant
+OPR:2350:1,x_measured_after_min,0.881,variant
+OPR:2368:1,x_measured_check,일치,variant
+OPR:2368:1,x_measured_before,0.451,variant
+OPR:2368:1,x_measured_after_max,10.619,variant
+OPR:2368:1,x_measured_after_min,2.137,variant
+OPR:2428:1,x_measured_check,일치,variant
+OPR:2428:1,x_measured_before,4.314,variant
+OPR:2428:1,x_measured_after_max,55.324,variant
+OPR:2428:1,x_measured_after_min,49.39,variant
+OPR:2516:1,x_measured_check,일치,variant
+OPR:2516:1,x_measured_before,4.863,variant
+OPR:2516:1,x_measured_after_max,26.99,variant
+OPR:2516:1,x_measured_after_min,21.731,variant
+OPR:2657:1,x_measured_check,일치,variant
+OPR:2657:1,x_measured_before,45.085,variant
+OPR:2657:1,x_measured_after_max,59.53,variant
+OPR:2657:1,x_measured_after_min,44.223,variant
+OPR:2713:1,x_measured_check,판정불가(방향 없음),variant
+OPR:2713:1,x_measured_before,4.394,variant
+OPR:2713:1,x_measured_after_max,29.651,variant
+OPR:2713:1,x_measured_after_min,19.182,variant
+OPR:2714:1,x_measured_check,판정불가(방향 없음),variant
+OPR:2714:1,x_measured_before,8.73,variant
+OPR:2714:1,x_measured_after_max,19.159,variant
+OPR:2714:1,x_measured_after_min,14.613,variant
+OPR:2754:1,x_measured_check,일치,variant
+OPR:2754:1,x_measured_before,97.134,variant
+OPR:2754:1,x_measured_after_max,1011.2,variant
+OPR:2754:1,x_measured_after_min,523.33,variant
+OPR:2754:2,x_measured_check,판정불가(방향 없음),variant
+OPR:2754:2,x_measured_before,97.134,variant
+OPR:2754:2,x_measured_after_max,1011.2,variant
+OPR:2754:2,x_measured_after_min,523.33,variant
+OPR:2755:1,x_measured_check,일치,variant
+OPR:2755:1,x_measured_before,741.467,variant
+OPR:2755:1,x_measured_after_max,1507.762,variant
+OPR:2755:1,x_measured_after_min,1178.71,variant
+OPR:2755:2,x_measured_check,판정불가(방향 없음),variant
+OPR:2755:2,x_measured_before,741.467,variant
+OPR:2755:2,x_measured_after_max,1507.762,variant
+OPR:2755:2,x_measured_after_min,1178.71,variant
+OPR:2804:1,x_measured_check,판정불가(방향 없음),variant
+OPR:2804:1,x_measured_before,97.134,variant
+OPR:2804:1,x_measured_after_max,1011.2,variant
+OPR:2804:1,x_measured_after_min,523.33,variant
+OPR:2866:1,x_measured_check,일치,variant
+OPR:2866:1,x_measured_before,4.394,variant
+OPR:2866:1,x_measured_after_max,29.651,variant
+OPR:2866:1,x_measured_after_min,19.182,variant
+OPR:2866:2,x_measured_check,판정불가(방향 없음),variant
+OPR:2866:2,x_measured_before,4.394,variant
+OPR:2866:2,x_measured_after_max,29.651,variant
+OPR:2866:2,x_measured_after_min,19.182,variant
+OPR:2990:1,x_measured_check,판정불가(방향 없음),variant
+OPR:2990:1,x_measured_before,31.647,variant
+OPR:2990:1,x_measured_after_max,96.449,variant
+OPR:2990:1,x_measured_after_min,78.649,variant
+OPR:2994:1,x_measured_check,판정불가(방향 없음),variant
+OPR:2994:1,x_measured_before,0.343,variant
+OPR:2994:1,x_measured_after_max,5.302,variant
+OPR:2994:1,x_measured_after_min,4.585,variant
+OPR:3034:1,x_measured_check,판정불가(방향 없음),variant
+OPR:3034:1,x_measured_before,45.266,variant
+OPR:3034:1,x_measured_after_max,45.25,variant
+OPR:3034:1,x_measured_after_min,23.753,variant
+OPR:3052:1,x_measured_check,판정불가(방향 없음),variant
+OPR:3052:1,x_measured_before,0.817,variant
+OPR:3052:1,x_measured_after_max,17.137,variant
+OPR:3052:1,x_measured_after_min,15.483,variant
+OPR:3142:1,x_measured_check,판정불가(방향 없음),variant
+OPR:3142:1,x_measured_before,18.917,variant
+OPR:3142:1,x_measured_after_max,19.574,variant
+OPR:3142:1,x_measured_after_min,19.238,variant
+OPR:3178:1,x_measured_check,판정불가(방향 없음),variant
+OPR:3178:1,x_measured_before,715.11,variant
+OPR:3178:1,x_measured_after_max,1500.725,variant
+OPR:3178:1,x_measured_after_min,1175.893,variant
+OPR:3196:1,x_measured_check,판정불가(방향 없음),variant
+OPR:3196:1,x_measured_before,0.826,variant
+OPR:3196:1,x_measured_after_max,20.267,variant
+OPR:3196:1,x_measured_after_min,19.759,variant
+OPR:3227:1,x_measured_check,불일치,variant
+OPR:3227:1,x_measured_before,0.899,variant
+OPR:3227:1,x_measured_after_max,0.887,variant
+OPR:3227:1,x_measured_after_min,0.719,variant
+OPR:3227:2,x_measured_check,판정불가(방향 없음),variant
+OPR:3227:2,x_measured_before,0.899,variant
+OPR:3227:2,x_measured_after_max,0.887,variant
+OPR:3227:2,x_measured_after_min,0.719,variant
+OPR:3271:1,x_measured_check,판정불가(방향 없음),variant
+OPR:3271:1,x_measured_before,0.332,variant
+OPR:3271:1,x_measured_after_max,0.331,variant
+OPR:3271:1,x_measured_after_min,0.253,variant
+OPR:3293:1,x_measured_check,판정불가(방향 없음),variant
+OPR:3293:1,x_measured_before,0.731,variant
+OPR:3293:1,x_measured_after_max,16.952,variant
+OPR:3293:1,x_measured_after_min,0.585,variant
+OPR:3299:1,x_measured_check,판정불가(방향 없음),variant
+OPR:3299:1,x_measured_before,1.225,variant
+OPR:3299:1,x_measured_after_max,32.661,variant
+OPR:3299:1,x_measured_after_min,1.076,variant
+OPR:3349:1,x_measured_check,판정불가(방향 없음),variant
+OPR:3349:1,x_measured_before,0.339,variant
+OPR:3349:1,x_measured_after_max,29.7465,variant
+OPR:3349:1,x_measured_after_min,0.336,variant
+OPR:3365:1,x_measured_check,판정불가(방향 없음),variant
+OPR:3365:1,x_measured_before,0.6428333333333334,variant
+OPR:3365:1,x_measured_after_max,27.723833333333335,variant
+OPR:3365:1,x_measured_after_min,21.188666666666666,variant
+OPR:3451:1,x_measured_check,일치,variant
+OPR:3451:1,x_measured_before,16.861,variant
+OPR:3451:1,x_measured_after_max,40.458666666666666,variant
+OPR:3451:1,x_measured_after_min,26.963166666666666,variant
+OPR:3475:1,x_measured_check,판정불가(방향 없음),variant
+OPR:3475:1,x_measured_before,6.135,variant
+OPR:3475:1,x_measured_after_max,42.853,variant
+OPR:3475:1,x_measured_after_min,41.414,variant
+OPR:3646:1,x_measured_check,판정불가(방향 없음),variant
+OPR:3646:1,x_measured_before,197.016,variant
+OPR:3646:1,x_measured_after_max,2116.317,variant
+OPR:3646:1,x_measured_after_min,784.146,variant
+OPR:3647:1,x_measured_check,판정불가(방향 없음),variant
+OPR:3647:1,x_measured_before,2980.347,variant
+OPR:3647:1,x_measured_after_max,3820.775,variant
+OPR:3647:1,x_measured_after_min,2930.911,variant
+OPR:3648:1,x_measured_check,판정불가(방향 없음),variant
+OPR:3648:1,x_measured_before,6.135,variant
+OPR:3648:1,x_measured_after_max,42.853,variant
+OPR:3648:1,x_measured_after_min,41.414,variant
+OPR:3733:1,x_measured_check,판정불가(방향 없음),variant
+OPR:3733:1,x_measured_before,1.286,variant
+OPR:3733:1,x_measured_after_max,1.227,variant
+OPR:3733:1,x_measured_after_min,1.206,variant
+OPR:3742:1,x_measured_check,판정불가(방향 없음),variant
+OPR:3742:1,x_measured_before,4.605,variant
+OPR:3742:1,x_measured_after_max,29.076,variant
+OPR:3742:1,x_measured_after_min,28.931,variant
+OPR:3758:1,x_measured_check,판정불가(방향 없음),variant
+OPR:3758:1,x_measured_before,0.9961666666666666,variant
+OPR:3758:1,x_measured_after_max,15.762833333333333,variant
+OPR:3758:1,x_measured_after_min,14.819166666666666,variant
+OPR:3770:1,x_measured_check,판정불가(방향 없음),variant
+OPR:3770:1,x_measured_before,202.616,variant
+OPR:3770:1,x_measured_after_max,201.941,variant
+OPR:3770:1,x_measured_after_min,100.142,variant
+OPR:3771:1,x_measured_check,판정불가(방향 없음),variant
+OPR:3771:1,x_measured_before,754.28,variant
+OPR:3771:1,x_measured_after_max,761.213,variant
+OPR:3771:1,x_measured_after_min,755.098,variant
+OPR:3862:1,x_measured_check,판정불가(방향 없음),variant
+OPR:3862:1,x_measured_before,35.74,variant
+OPR:3862:1,x_measured_after_max,36.655,variant
+OPR:3862:1,x_measured_after_min,36.047,variant

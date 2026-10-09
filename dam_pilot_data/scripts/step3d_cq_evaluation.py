@@ -61,8 +61,8 @@ for d in dams:
     vals = ms.d[(c, latest[c])]
     nonnull = sum(1 for v in vals.values() if r3b.fnum(v) is not None)
     hms = G[True][0][d]['hasHydrometeorologicalState']
-    M('CQ1', label[d], '수문 %d/6 변수, 기상은 강우량만' % nonnull if len(hms) == 6 else '상태 항목 부족',
-      '동일', '기준시점 %s; 수위 %s EL.m, 유입량 %s CMS, 총방류량 %s CMS; 기온·풍속 등 기상 변수 없음(ASOS 미수집)' % (latest[c], vals['수위'], vals['유입량'], vals['총방류량']))
+    M('CQ1', label[d], '상태 %d/6 변수 (기상 = 댐 강우량으로 정의)' % nonnull if len(hms) == 6 and nonnull == 6 else '상태 항목 부족',
+      '동일', '기준시점 %s; 수위 %s EL.m, 강우량 %s mm, 유입량 %s CMS, 총방류량 %s CMS; 기온·풍속 등은 범위 밖(ASOS 미수집)' % (latest[c], vals['수위'], vals['강우량'], vals['유입량'], vals['총방류량']))
 
 # ---------- CQ2 과거 상태 (운영행위/승인 시점 기준 창)
 def win_n(code, tstr):
@@ -91,7 +91,8 @@ M('CQ2', '임의 과거 시점(연속 구간)', '5개 댐 모두 시간 단위 �
 # ---------- CQ3 과거 운영행위
 sel = collections.Counter(P[o]['operationType'] for o in ops)
 M('CQ3', '운영행위 개체', '%d개 (승인 %d/%d건에서 생성)' % (len(ops), len({G[True][1][o]['authorizes'][0] for o in ops}), len(apps)), '동일', '유형: ' + ', '.join('%s %d' % kv for kv in sel.most_common()))
-M('CQ3', '실제 수행 확인', '확인 불가 (승인 비고에서 분류한 행위)', '동일', '실제 운영 기록 없음(하천법 제39조③에 따라 댐 관리자가 작성·비치하는 기록이며, 이 5개 댐은 K-water 관리라 K-water에 요청해야 함)')
+cc = collections.Counter(P[o].get('x_measured_check', '속성없음') for o in ops)
+M('CQ3', '측정 대조(행위 방향 vs 총방류량 변화)', '속성 없음(변형 속성)', '; '.join('%s %d' % kv for kv in cc.most_common()), '시작 전후 총방류량, 임계 0.5 CMS; 일치는 방향 확인이며 수행의 직접 증명 아님')
 
 # ---------- CQ4 과거 방류 승인
 def reach(strict):
@@ -169,7 +170,7 @@ for o in ops:
     cnt['windows'] += bool(w); cnt['comp_strict'] += comp_s; cnt['comp_variant'] += comp_v; cnt['flood'] += flood(t)
     case_rows.append({'operation': o, 'dam': label[d], 'time': P[o]['operationTime'], 'type': P[o]['operationType'], 'window_rows': len(w), 'approvals': ' '.join(aps),
                       'flood_season': 'Y' if flood(t) else 'N', 'level_max_minus_limit_m': over, 'approval_order': order,
-                      'complete_v1': 'Y' if comp_s else 'N', 'complete_v1.1': 'Y' if comp_v else 'N'})
+                      'measured_check': P[o].get('x_measured_check', ''), 'complete_v1': 'Y' if comp_s else 'N', 'complete_v1.1': 'Y' if comp_v else 'N'})
 with open(os.path.join(N, 'step3d_case_assembly.csv'), 'w', newline='', encoding='utf-8-sig') as f:
     w = csv.DictWriter(f, fieldnames=list(case_rows[0].keys())); w.writeheader(); w.writerows(case_rows)
 M('통합', '운영행위 69건 중 상태 창이 있는 사례', '%d건' % cnt['windows'], '동일', '상태 + 운영행위 + 승인 + 근거를 함께 조립할 수 있는 사례')
