@@ -47,3 +47,6 @@ python3 dam_pilot_data/scripts/step11_pipeline.py --questions-file dam_pilot_dat
 - vLLM은 `--host 127.0.0.1 --api-key <비밀값>`으로 띄워 로컬에서만 받게 하고, 파이프라인에는 `LLM_API_KEY`로 같은 값을 준다. Ollama는 기본이 로컬 전용이다.
 - 7687, 7474, 8000 같은 포트를 서버 방화벽에서 외부에 열지 않는다.
 - 이 묶음에는 비밀 값(인증키, 토큰)이 들어 있지 않다.
+
+## 7. 여러 관계를 따라가며 비교하는 질문 세트
+`05_retrieval/questions_multi.json`(10개): 현재 상태와 제한수위 비교(CURRENT), 비슷한 과거 사례와 승인·방류·근거 비교(SIMILAR), 기간 안의 승인된 방류량 대비 실제 방류량과 제한수위 비교(INTEGRATED), 자료가 없는 경우(광동댐 제한수위), 지원하지 않는 질문(여러 댐 비교). 차이와 비율은 프로그램이 `<계산값>`으로 계산해 근거 묶음에 넣고, LLM은 그 값을 인용만 한다.

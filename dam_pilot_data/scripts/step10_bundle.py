@@ -76,12 +76,60 @@ def ops_block(ops):
     return '\n'.join(out)
 
 
+def fl(x):
+    try:
+        return float(x)
+    except (TypeError, ValueError):
+        return None
+
+
+def limit_of(crits):
+    for c in crits or []:
+        if c.get('type') == '홍수기 제한수위' and fl(c.get('value')) is not None:
+            return fl(c['value'])
+    return None
+
+
+def amounts(rows):
+    out = []
+    for r in rows:
+        m = re.search(r'접수방류량\s*([\d,\.]+)', r.get('approval_content', '') or '')
+        if m and (r.get('approval'), m.group(1)) not in out:
+            out.append((r.get('approval'), m.group(1)))
+    return out
+
+
+def derived(window, limit, rows, label):
+    """프로그램이 계산한 비교 값(LLM은 계산하지 않는다)."""
+    L = []
+    rs = (window or {}).get('rows') or []
+    lv = [(t, fl(v.get('수위'))) for t, v in rs if fl(v.get('수위')) is not None]
+    dq = [(t, fl(v.get('총방류량'))) for t, v in rs if fl(v.get('총방류량')) is not None]
+    if lv:
+        t, m = max(lv, key=lambda x: x[1])
+        L.append('창 내 최고 수위 %s EL.m (%s)' % (m, t) + (', 제한수위 %s EL.m 대비 %+.2f m' % (limit, m - limit) if limit is not None else ', 제한수위 자료 없음'))
+    if dq:
+        t, m = max(dq, key=lambda x: x[1])
+        L.append('창 내 최대 총방류량 %s CMS (%s)' % (m, t))
+        for ap, a in amounts(rows):
+            av = fl(a.replace(',', ''))
+            if av:
+                L.append('승인 [%s] 접수방류량 %s ㎥/s 대비 창 내 최대 총방류량 %.1f%%' % (ap, a, 100 * m / av))
+    return '<계산값 대상="%s" 출처="프로그램 계산, 측정 시각 라벨 기준">\n%s\n</계산값>' % (label, '\n'.join(L)) if L else ''
+
+
 def tagged(R):
     it, dam = R['intent'], R.get('dam')
     o = ['<근거묶음 질문유형="%s"%s>' % (it, ' 댐="%s"' % dam if dam else '')]
     o.append('<안내>이 묶음의 자료만으로 답한다. 운영행위의 시각은 승인된 방류 시작 시각 또는 측정 방류량 변화에서 정한 연구자 지정 임시 기준이며 실제 수행의 확정이 아니다. 측정 시각은 1시간 단위 라벨이다.</안내>')
     if it == 'CQ1':
         o.append('<현재상태 기준시각="%s" 비고="저장된 가장 최근 시각이며 실시간이 아님">\n%s\n</현재상태>' % (tm(R['as_of']), table(R['state'])))
+    elif it == 'CURRENT':
+        o.append('<현재상태 기준시각="%s" 비고="저장된 가장 최근 시각이며 실시간이 아님">\n%s\n</현재상태>' % (tm(R['as_of']), table(R['state'])))
+        lim = limit_of(R['criterion']); r0 = R['state']['rows'][0][1] if R['state'].get('rows') else {}
+        if lim is not None and fl(r0.get('수위')) is not None:
+            o.append('<계산값 대상="현재" 출처="프로그램 계산">현재 수위 %s EL.m, 제한수위 %s EL.m 대비 %+.2f m</계산값>' % (r0['수위'], lim, fl(r0['수위']) - lim))
+        o.append(crit_block(R['criterion'], dam))
     elif it == 'CQ2':
         o.append('<과거상태>\n%s\n</과거상태>' % table(R['state']))
     elif it == 'CQ3':
@@ -102,12 +150,19 @@ def tagged(R):
         o.append(ops_block(R['operations']))
         for c in R['cases']:
             o.append('<당시상태 운영행위="%s" 범위="행위 시각 앞 6시간~뒤 12시간">\n%s\n</당시상태>' % (c['operation'], table(c['state_window'])))
+            rows_ = [x for x in R['operations'] if x['op'] == c['operation']]
+            d_ = derived(c['state_window'], limit_of(R['criterion']), rows_, c['operation'])
+            if d_:
+                o.append(d_)
             o += ['<근거 운영행위="%s">%s</근거>' % (c['operation'], l) for l in ev_lines(c['approval_evidence'])]
         o.append(crit_block(R['criterion'], dam))
     elif it == 'SIMILAR':
         s = R['similar']
         cur = s['current']
         o.append('<현재상태 기준시각="%s" 비고="저장된 가장 최근 시각이며 실시간이 아님">수위 %s EL.m, 유입량 %s CMS, 총방류량 %s CMS, 강우량 %s mm</현재상태>' % (tm(s['as_of']), cur.get('수위'), cur.get('유입량'), cur.get('총방류량'), cur.get('강우량')))
+        lim = limit_of(R['criterion'])
+        if lim is not None and fl(cur.get('수위')) is not None:
+            o.append('<계산값 대상="현재" 출처="프로그램 계산">현재 수위 %s EL.m, 제한수위 %s EL.m 대비 %+.2f m</계산값>' % (cur['수위'], lim, fl(cur['수위']) - lim))
         o.append('<유사도 방식="수위·유입량을 그 댐 전체 기록의 최솟값~최댓값으로 0~1 정규화한 벡터의 유클리드 거리(작을수록 비슷함, 연구자 지정 임시 기준)" 후보사례수="%d">거리 0은 완전히 같음이고 값이 클수록 현재와 상태가 다르다. 사례끼리의 거리 차이와 현재 상태와의 차이를 함께 보고 판단한다.</유사도>' % s['n_candidates'])
         for i, c in enumerate(s['cases'], 1):
             st = c['state_at_op']
@@ -115,6 +170,9 @@ def tagged(R):
             for r in c['rows']:
                 o.append('운영행위 [%s] %s / 허가한 승인 [%s] 승인일 %s: %s' % (r['op'], r['type'], r['approval'], r['approval_date'], r['approval_content']))
             o.append('당시상태(앞 6시간~뒤 12시간):\n' + table(c['state_window']))
+            d_ = derived(c['state_window'], lim, c['rows'], c['operations'][0] if c.get('operations') else '')
+            if d_:
+                o.append(d_)
             o += ev_lines(c['approval_evidence'])
             o.append('</유사사례>')
         o.append(crit_block(R['criterion'], dam))

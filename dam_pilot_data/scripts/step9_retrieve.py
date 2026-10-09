@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 HERE = os.path.dirname(os.path.abspath(__file__)); N = os.path.join(HERE, '..', '03_normalized')
 CS = os.path.join(os.environ.get('NEO4J_HOME', ''), 'bin', 'cypher-shell')
 DAMS = {'충주': '충주댐', '충주댐': '충주댐', '소양강': '소양강댐', '소양강댐': '소양강댐', '횡성': '횡성댐', '횡성댐': '횡성댐', '광동': '광동댐', '광동댐': '광동댐'}
-INTENTS = {'CQ1', 'CQ2', 'CQ3', 'CQ4', 'CQ5', 'CQ6', 'INTEGRATED', 'SIMILAR', 'OUT_OF_SCOPE'}
+INTENTS = {'CQ1', 'CQ2', 'CQ3', 'CQ4', 'CQ5', 'CQ6', 'INTEGRATED', 'SIMILAR', 'CURRENT', 'OUT_OF_SCOPE'}
 _spec = importlib.util.spec_from_file_location('r3b', os.path.join(HERE, 'step3b_retrieval.py'))
 r3b = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(r3b)
 _ms = None
@@ -175,6 +175,8 @@ def run(req):
     R = {'status': 'ok', 'intent': it, 'dam': dam}
     if it == 'CQ1':
         t, m = latest(dam); R['as_of'] = str(t); R['state'] = m
+    elif it == 'CURRENT':
+        t, m = latest(dam); R['as_of'] = str(t); R['state'] = m; R['criterion'] = criterion(dam)
     elif it == 'CQ2':
         R['state'] = measure(dam, q['start'], q['end'])
     elif it == 'CQ3' or it == 'INTEGRATED':
@@ -183,8 +185,11 @@ def run(req):
                      dam=dam, s=q['start'].strftime('%Y-%m-%dT%H:%M:00'), e=q['end'].strftime('%Y-%m-%dT%H:%M:00'))
         R['operations'] = ops
         if it == 'INTEGRATED':
-            R['cases'] = []
+            R['cases'] = []; seen_ops = set()
             for o in ops:
+                if o['op'] in seen_ops:
+                    continue
+                seen_ops.add(o['op'])
                 t0 = datetime.strptime(o['time'][:16], '%Y-%m-%dT%H:%M')
                 R['cases'].append({'operation': o['op'], 'state_window': measure(dam, t0 - timedelta(hours=6), t0 + timedelta(hours=13)),
                                    'operation_evidence': evidence(o['op']), 'approval_evidence': evidence(o['approval'])})

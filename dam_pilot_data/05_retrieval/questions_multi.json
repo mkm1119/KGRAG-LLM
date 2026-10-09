@@ -1,0 +1,62 @@
+[
+ {
+  "id": "m01",
+  "question": "지금 소양강댐 수위가 제한수위보다 얼마나 낮아? 현재 상태를 기준이랑 같이 알려줘",
+  "expected_intent": "CURRENT",
+  "expected_dam": "소양강댐"
+ },
+ {
+  "id": "m02",
+  "question": "충주댐 현재 상태를 제한수위와 비교해줘",
+  "expected_intent": "CURRENT",
+  "expected_dam": "충주댐"
+ },
+ {
+  "id": "m03",
+  "question": "지금 충주댐 상황이랑 비슷했던 과거 사례를 찾아서, 그때 어떤 승인이 있었고 어떤 방류를 했는지, 제한수위에 비해 수위는 어땠는지 비교해줘",
+  "expected_intent": "SIMILAR",
+  "expected_dam": "충주댐"
+ },
+ {
+  "id": "m04",
+  "question": "소양강댐 지금 상태를 제한수위와 비교하고, 비슷했던 과거 사례에서 승인된 방류량 대비 실제 방류량이 어땠는지 알려줘",
+  "expected_intent": "SIMILAR",
+  "expected_dam": "소양강댐"
+ },
+ {
+  "id": "m05",
+  "question": "2020년 8월 2일부터 10일 사이 충주댐에서 승인된 방류량과 실제 측정된 방류량이 얼마나 차이 났는지, 그때 수위가 제한수위를 넘었는지 알려줘",
+  "expected_intent": "INTEGRATED",
+  "expected_dam": "충주댐"
+ },
+ {
+  "id": "m06",
+  "question": "횡성댐 2020년 8월 방류 운영을 승인 내용과 당시 수위, 제한수위, 근거까지 한 번에 정리해줘",
+  "expected_intent": "INTEGRATED",
+  "expected_dam": "횡성댐"
+ },
+ {
+  "id": "m07",
+  "question": "광동댐 현재 상태와 비슷한 과거 사례에서의 승인과 방류 내용을 알려줘. 제한수위는 얼마나 되는지도",
+  "expected_intent": "SIMILAR",
+  "expected_dam": "광동댐"
+ },
+ {
+  "id": "m08",
+  "question": "광동댐 현재 수위가 제한수위에 비해 어때?",
+  "expected_intent": "CURRENT",
+  "expected_dam": "광동댐"
+ },
+ {
+  "id": "m09",
+  "question": "충주댐이 2020년 8월에 방류하기 전에 어떤 승인을 받았고 그 방류의 공식 근거는 뭐야?",
+  "expected_intent": "INTEGRATED",
+  "expected_dam": "충주댐"
+ },
+ {
+  "id": "m10",
+  "question": "소양강댐이랑 충주댐 중 지금 어느 쪽이 제한수위에 더 가까워?",
+  "expected_intent": "OUT_OF_SCOPE",
+  "expected_dam": null
+ }
+]
