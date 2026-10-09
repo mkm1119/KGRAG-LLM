@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """STEP 3D: KG v3 전체를 대상으로 온톨로지 CQ1~CQ6과 통합 질문에 답할 수 있는지 점검한다. stdlib만 사용.
-엄격(v1): 온톨로지의 Class 6개와 관계 8개만 사용. 변형(v1.1): Approval–Dam 직접 관계와 규정 규칙(Criterion)을 추가로 사용.
+엄격: 수정한 온톨로지(Class 6개, 관계 9개 = 기존 8개 + Approval–Dam concernsDam)만 사용. 변형(v1.1): 규정 규칙 18개(Criterion)를 추가로 사용.
 출력: 03_normalized/step3d_cq_matrix.csv, step3d_case_assembly.csv, step3d_similar_cases.csv
 """
 import collections, csv, importlib.util, os, re, statistics
@@ -21,7 +21,7 @@ REL = rd('kgv3_relations.csv')
 chunks = {r['chunk_id']: r for r in rd('kgv3_chunks.csv')}
 ms = r3b.Measurement()
 CODES = r3b.CODES
-ONTO_REL = {'hasHydrometeorologicalState', 'performedOnDam', 'authorizes', 'appliesToDam', 'supportedBy'}
+ONTO_REL = {'hasHydrometeorologicalState', 'performedOnDam', 'authorizes', 'appliesToDam', 'supportedBy', 'concernsDam'}
 
 
 def build(strict):
@@ -108,7 +108,7 @@ def reach(strict):
 
 
 ra, rb = reach(True), reach(False)
-M('CQ4', '댐에서 도달 가능한 승인', '%d/%d건' % (len(ra), len(apps)), '%d/%d건' % (len(rb), len(apps)), 'v1.1은 Approval–Dam 직접 관계(concernsDam) 사용')
+M('CQ4', '댐에서 도달 가능한 승인', '%d/%d건' % (len(ra), len(apps)), '%d/%d건' % (len(rb), len(apps)), 'Approval–Dam 관계(concernsDam)는 온톨로지 수정으로 반영됨')
 period = sum(1 for a in apps if re.search(r'방류기간|\d+/\d+\s*\d+:\d+\s*~|종료|~', P[a]['approvalContent']))
 M('CQ4', '승인 사항 충족(시행령 제48조: 방류량·시작 시각·방류기간)', '방류량 %d/%d, 시작 시각 %d/%d, 방류기간 %d/%d (비고에서)' % (len(apps), len(apps), len(apps), len(apps), period, len(apps)), '동일', '승인일은 날짜만 있음; 방류기간은 비고에 일부만 기재')
 

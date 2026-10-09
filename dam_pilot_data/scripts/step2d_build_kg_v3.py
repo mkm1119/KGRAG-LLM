@@ -31,10 +31,10 @@ have = {e[0] for e in ents}
 DAMCODES = {'충주': '1003110', '충주조정지': '1003611', '소양강': '1012110', '횡성': '1006110', '광동': '1001210'}
 ALLDAMS = ['DAM:' + c for c in DAMCODES.values()]
 
-# (A) Approval–Dam 직접 관계 (온톨로지 변형, C12)
+# (A) Approval–Dam 직접 관계 (온톨로지 수정: 관계 추가, C12)
 for r in rd('approval_records_hrfco_raw_fields.csv'):
     if r['관측소명'] in DAMCODES:
-        rels.append(('APR:' + r['순차번호'], 'concernsDam', 'DAM:' + DAMCODES[r['관측소명']], 'MR-VAR-APR-DAM', 'variant', '온톨로지 변형(C12): 승인 행의 시설 코드'))
+        rels.append(('APR:' + r['순차번호'], 'concernsDam', 'DAM:' + DAMCODES[r['관측소명']], 'MR-APR-DAM', 'ontology-fix', '온톨로지 수정(C12): 승인 행의 시설 코드'))
 
 # (B) 별표3 연혁 9개 판: 판마다 근거자료 1개, 제한수위 Criterion을 해당 판에 연결(값이 같은 경우만)
 hist = rd('criterion_version_history.csv')
