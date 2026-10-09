@@ -461,13 +461,14 @@ add(lead('우리가 수행한 내용', '자동화가 다음을 확인하고, 하
 add(h2('3.5 단계 3. KG 조회'))
 add(lead('필요한 이유', '의도에 해당하는 운영행위, 승인, 기준, 근거는 KG에 관계로 연결되어 있으므로, 관계를 따라가 찾아야 한다.'))
 add(lead('문헌의 방법', 'DDKG, Zhang(2025), GraphAide는 모두 Neo4j에 KG를 저장하고 Cypher(Neo4j의 질의 언어)로 조회한다. Zhang은 의도마다 정해 둔 Cypher 규칙을 쓰고, GraphAide는 LLM이 질문에서 Cypher를 자동으로 만들어 실행한다.'))
-add(lead('우리가 수행한 내용', '의도마다 Cypher 질의 틀을 미리 만들어 두고, 단계 2를 통과한 댐과 값만 채워 실행한다. LLM이 질의를 직접 만들면 잘못된 질의가 나올 수 있고 어떤 질의가 실행되었는지 확인하기 어려워, GraphAide와 달리 정해진 틀을 사용하였다. 예시 질문(SIMILAR)은 아래 두 질의를 쓴다.'))
+add(lead('우리가 수행한 내용', '의도마다 Cypher 질의 틀을 미리 만들어 두고, 단계 2를 통과한 댐과 값만 채워 실행한다. LLM이 질의를 직접 만들면 잘못된 질의가 나올 수 있고 어떤 질의가 실행되었는지 확인하기 어려워, GraphAide와 달리 정해진 틀을 사용하였다. 예시 질문(SIMILAR)은 아래 세 질의를 쓴다.'))
 add(table([
     ['질의 (Cypher)', '뜻'],
     ['MATCH (o:Operation)-[:performedOnDam]->(d:Dam {damName: $dam}) RETURN o.id, o.operationTime', '댐 이름이 $dam인 Dam에서 수행된 모든 Operation의 ID와 운영행위 시각을 가져온다. 이 시점들이 비교할 과거 사례의 후보가 된다 (소양강댐은 측정값이 있는 4개 시점)'],
+    ['MATCH (c:Criterion)-[:appliesToDam]->(d:Dam {damName: $dam}) RETURN c.id, c.criterionType, c.criterionValue, c.unit', '댐 이름이 $dam인 Dam에 적용되는 Criterion의 ID, 종류, 값, 단위를 가져온다. 현재 상태와 비교할 제한수위가 여기서 나온다'],
     ['MATCH (x:Entity {id: $id})-[:supportedBy]->(e:EvidenceSource) RETURN e.id, e.sourceTitle, e.sourceType, e.sourceLocator, e.chunkId', '선택된 사례의 운영행위, 승인, 제한수위처럼 $id로 지정한 개체의 근거자료를 가져온다'],
 ], [5600, 4372]))
-add(para('선택된 과거 사례(유사도 순위 1)에 대해 KG에서 가져온 내용은 다음과 같다.'))
+add(para('KG에서 가져온 내용은 다음과 같다. 제한수위는 Criterion CRI:CR-01(소양강댐 홍수기 제한수위 190.3 EL.m)이고, 선택된 과거 사례(유사도 순위 1)의 운영행위와 승인은 아래 표와 같다.'))
 add(table([
     ['운영행위', '종류', '운영행위 시각', '허가한 승인 (승인일)'],
     ['OPR:2754:1', '초기방류', '2017-08-25 15:00', 'APR:2754 (08-24), APR:2804 (08-27)'],
