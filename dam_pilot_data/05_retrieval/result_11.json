@@ -24,15 +24,10 @@
   },
   "n_candidates": 25,
   "rank_by": "euclidean",
-  "top_by_cosine_for_comparison": [
-   "2016-07-04T18:00",
-   "2016-07-04T19:00"
-  ],
   "cases": [
    {
     "time": "2021-07-03T15:00:00Z",
     "euclidean": 0.0272,
-    "cosine": 1.0,
     "state_at_op": {
      "수위": "671.95",
      "유입량": "0.65",
@@ -302,7 +297,6 @@
    {
     "time": "2019-08-06T16:00:00Z",
     "euclidean": 0.0321,
-    "cosine": 1.0,
     "state_at_op": {
      "수위": "671.99",
      "유입량": "2.704",

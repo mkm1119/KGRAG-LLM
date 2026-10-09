@@ -135,8 +135,8 @@ def evidence(node_id):
 
 def similar(dam, k=3):
     """현재(저장된 가장 최근 시각)와 그 댐의 각 운영행위 시각 당시의 상태를 (수위, 유입량) 벡터로 비교한다.
-    벡터는 그 댐 전체 기록의 최솟값~최댓값으로 0~1 정규화한다(연구자 지정). 순위는 유클리드 거리(작을수록 비슷함)로 정하고,
-    코사인 유사도(클수록 비슷함)를 함께 계산해 보여 준다. 문헌의 유사도(GraphAide, FloodOntology)는 텍스트 임베딩의 코사인 유사도이며 수치 상태 벡터에 직접 쓴 것은 아니다.
+    벡터는 그 댐 전체 기록의 최솟값~최댓값으로 0~1 정규화한다(연구자 지정). 순위는 유클리드 거리(작을수록 비슷함)로 정한다.
+    코사인 유사도는 크기를 보지 않아 이 데이터에서 변별력이 없어 쓰지 않았다(04_reports/RETRIEVAL_LIMITATIONS_2026-10.md).
     같은 행위 시각의 행위는 한 사례로 묶는다."""
     import math
     code = state_vars(dam)[0]['code']
@@ -153,9 +153,8 @@ def similar(dam, k=3):
         if not v or r3b.fnum(v['수위']) is None or r3b.fnum(v['유입량']) is None:
             continue
         vp = nz(r3b.fnum(v['수위']), r3b.fnum(v['유입량']))
-        eu = math.dist(vc, vp); nn = math.hypot(*vc) * math.hypot(*vp)
-        cos = (vc[0] * vp[0] + vc[1] * vp[1]) / nn if nn else None
-        c = cand.setdefault(o['time'], {'time': o['time'], 'euclidean': round(eu, 4), 'cosine': None if cos is None else round(cos, 4),
+        eu = math.dist(vc, vp)
+        c = cand.setdefault(o['time'], {'time': o['time'], 'euclidean': round(eu, 4),
                                         'state_at_op': {x: v[x] for x in ('수위', '유입량', '총방류량', '강우량')}, 'operations': []})
         c['operations'].append(o['op'])
     best = sorted(cand.values(), key=lambda x: x['euclidean'])[:k]
@@ -164,9 +163,8 @@ def similar(dam, k=3):
         t0 = datetime.strptime(b['time'][:16], '%Y-%m-%dT%H:%M')
         rows = cypher("MATCH (a:Approval)-[:authorizes]->(o:Operation) WHERE o.id IN $ids RETURN o.id AS op, o.operationType AS type, a.id AS approval, toString(a.approvalTime) AS approval_date, a.approvalContent AS approval_content ORDER BY op, approval", ids=b['operations'])
         cases.append(dict(b, rows=rows, state_window=measure(dam, t0 - timedelta(hours=6), t0 + timedelta(hours=13)), approval_evidence=[e for r in rows[:1] for e in evidence(r['approval'])]))
-    by_cos = [c['time'][:16] for c in sorted(cand.values(), key=lambda x: -(x['cosine'] or -2))[:k]]
     return {'as_of': str(t_now), 'current': cur, 'normalization': {'수위(min,range)': [lo[0], rg[0]], '유입량(min,range)': [lo[1], rg[1]]},
-            'n_candidates': len(cand), 'rank_by': 'euclidean', 'top_by_cosine_for_comparison': by_cos, 'cases': cases}
+            'n_candidates': len(cand), 'rank_by': 'euclidean', 'cases': cases}
 
 
 def run(req):
