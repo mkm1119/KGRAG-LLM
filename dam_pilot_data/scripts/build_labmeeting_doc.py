@@ -174,7 +174,7 @@ B = []
 add = B.append
 add(title('댐 운영 판단 지원을 위한', 'Ontology–KG–Hybrid Retrieval–LLM 연구 진행'))
 add(subtitle('Ontology 설계 → KG 구축 → 검색·LLM 답변'))
-add(dateline('2026.10 랩미팅'))
+add(dateline('2026.10.09 랩미팅'))
 add(label('주차별 연구 진행 정리'))
 add(table([
     ['구분', '주요 내용'],
