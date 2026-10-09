@@ -8,7 +8,7 @@ MERGE (n:Entity:EvidenceSource {id: 'EVI:KW:1003110'}) SET n.label = 'K-water My
 MERGE (n:Entity:EvidenceSource {id: 'EVI:KW:1012110'}) SET n.label = 'K-water MyWater 수문자료 소양강댐', n.sourceTitle = 'K-water MyWater 수문 시간자료', n.sourceType = '측정자료', n.sourceLocator = 'DAM_CD=1012110 소양강댐 시간별 자료';
 MERGE (n:Entity:EvidenceSource {id: 'EVI:KW:1006110'}) SET n.label = 'K-water MyWater 수문자료 횡성댐', n.sourceTitle = 'K-water MyWater 수문 시간자료', n.sourceType = '측정자료', n.sourceLocator = 'DAM_CD=1006110 횡성댐 시간별 자료';
 MERGE (n:Entity:EvidenceSource {id: 'EVI:KW:1001210'}) SET n.label = 'K-water MyWater 수문자료 광동댐', n.sourceTitle = 'K-water MyWater 수문 시간자료', n.sourceType = '측정자료', n.sourceLocator = 'DAM_CD=1001210 광동댐 시간별 자료';
-MERGE (n:Entity:EvidenceSource {id: 'EVI:LAW:별표3'}) SET n.label = '댐과 보 등의 연계운영규정 별표3', n.sourceTitle = '댐과 보 등의 연계운영규정 (기후에너지환경부 훈령 제42호, 시행 2026-07-08)', n.sourceType = '규정', n.sourceLocator = '별표 3';
+MERGE (n:Entity:EvidenceSource {id: 'EVI:LAW:별표3'}) SET n.label = '댐과 보 등의 연계운영규정 별표3', n.sourceTitle = '댐과 보 등의 연계운영규정 (기후에너지환경부 훈령 제42호, 시행 2026-07-08)', n.sourceType = '규정', n.sourceLocator = '별표 3', n.chunkId = 'LAW:별표3';
 MERGE (n:Entity:HydrometeorologicalState {id: 'HMS:1003110:수위'}) SET n.label = '충주댐_수위', n.variableType = '수위', n.stationCode = '1003110';
 MERGE (n:Entity:HydrometeorologicalState {id: 'HMS:1003110:저수량'}) SET n.label = '충주댐_저수량', n.variableType = '저수량', n.stationCode = '1003110';
 MERGE (n:Entity:HydrometeorologicalState {id: 'HMS:1003110:강우량'}) SET n.label = '충주댐_강우량', n.variableType = '강우량', n.stationCode = '1003110';

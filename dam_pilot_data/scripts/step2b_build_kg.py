@@ -70,6 +70,7 @@ def main():
     P(law_id, 'sourceTitle', '댐과 보 등의 연계운영규정 (기후에너지환경부 훈령 제42호, 시행 2026-07-08)')
     P(law_id, 'sourceType', '규정')
     P(law_id, 'sourceLocator', '별표 3')
+    P(law_id, 'chunkId', 'LAW:별표3')
     V(law_id, 'entity', '01_raw/Law/admrul_2100000282102_댐과보등의연계운영규정_현행20260708.xml', '별표3', 'MR-EVI-LAW', 'real')
 
     # ---- HydrometeorologicalState: 댐 x 변수 (stationCode는 K-water 시설 코드; 강우량도 댐 단위 값)

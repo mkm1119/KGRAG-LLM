@@ -22,6 +22,7 @@ EVI:KW:1001210,sourceLocator,DAM_CD=1001210 광동댐 시간별 자료,string
 EVI:LAW:별표3,sourceTitle,"댐과 보 등의 연계운영규정 (기후에너지환경부 훈령 제42호, 시행 2026-07-08)",string
 EVI:LAW:별표3,sourceType,규정,string
 EVI:LAW:별표3,sourceLocator,별표 3,string
+EVI:LAW:별표3,chunkId,LAW:별표3,string
 HMS:1003110:수위,variableType,수위,string
 HMS:1003110:수위,stationCode,1003110,string
 HMS:1003110:저수량,variableType,저수량,string
