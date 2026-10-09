@@ -134,30 +134,39 @@ def evidence(node_id):
 
 
 def similar(dam, k=3):
-    """[연구자 지정 임시 기준] 현재(저장된 가장 최근 시각)의 수위·유입량과, 그 댐의 각 운영행위 시각 당시의 수위·유입량을 비교한다.
-    거리 = |수위 차| / (그 댐 전체 기록의 수위 범위) + |유입량 차| / (유입량 범위). 같은 행위 시각의 행위는 한 사례로 묶고 거리가 가장 작은 k개를 낸다."""
+    """현재(저장된 가장 최근 시각)와 그 댐의 각 운영행위 시각 당시의 상태를 (수위, 유입량) 벡터로 비교한다.
+    벡터는 그 댐 전체 기록의 최솟값~최댓값으로 0~1 정규화한다(연구자 지정). 순위는 유클리드 거리(작을수록 비슷함)로 정하고,
+    코사인 유사도(클수록 비슷함)를 함께 계산해 보여 준다. 문헌의 유사도(GraphAide, FloodOntology)는 텍스트 임베딩의 코사인 유사도이며 수치 상태 벡터에 직접 쓴 것은 아니다.
+    같은 행위 시각의 행위는 한 사례로 묶는다."""
+    import math
     code = state_vars(dam)[0]['code']
     t_now, now = latest(dam); cur = {k_: r3b.fnum(v) for k_, v in now['rows'][0][1].items()}
     lv = [r3b.fnum(v['수위']) for (c, t), v in ms().d.items() if c == code and r3b.fnum(v['수위']) is not None]
     iv = [r3b.fnum(v['유입량']) for (c, t), v in ms().d.items() if c == code and r3b.fnum(v['유입량']) is not None]
-    rl, ri = (max(lv) - min(lv)) or 1, (max(iv) - min(iv)) or 1
-    ops = cypher("MATCH (o:Operation)-[:performedOnDam]->(d:Dam {damName:$dam}) RETURN toString(o.operationTime) AS time, collect(o.id) AS ops", dam=dam)
+    lo = (min(lv), min(iv)); rg = ((max(lv) - min(lv)) or 1, (max(iv) - min(iv)) or 1)
+    nz = lambda x, y: ((x - lo[0]) / rg[0], (y - lo[1]) / rg[1])
+    vc = nz(cur['수위'], cur['유입량'])
     cand = {}
     for o in cypher("MATCH (o:Operation)-[:performedOnDam]->(d:Dam {damName:$dam}) RETURN o.id AS op, toString(o.operationTime) AS time", dam=dam):
         t0 = datetime.strptime(o['time'][:16], '%Y-%m-%dT%H:%M'); th = t0 if t0.minute == 0 else t0.replace(minute=0) + timedelta(hours=1)
         v = ms().d.get((code, th))
         if not v or r3b.fnum(v['수위']) is None or r3b.fnum(v['유입량']) is None:
             continue
-        dist = abs(cur['수위'] - r3b.fnum(v['수위'])) / rl + abs(cur['유입량'] - r3b.fnum(v['유입량'])) / ri
-        c = cand.setdefault(o['time'], {'time': o['time'], 'distance': round(dist, 4), 'state_at_op': {x: v[x] for x in ('수위', '유입량', '총방류량', '강우량')}, 'operations': []})
+        vp = nz(r3b.fnum(v['수위']), r3b.fnum(v['유입량']))
+        eu = math.dist(vc, vp); nn = math.hypot(*vc) * math.hypot(*vp)
+        cos = (vc[0] * vp[0] + vc[1] * vp[1]) / nn if nn else None
+        c = cand.setdefault(o['time'], {'time': o['time'], 'euclidean': round(eu, 4), 'cosine': None if cos is None else round(cos, 4),
+                                        'state_at_op': {x: v[x] for x in ('수위', '유입량', '총방류량', '강우량')}, 'operations': []})
         c['operations'].append(o['op'])
-    best = sorted(cand.values(), key=lambda x: x['distance'])[:k]
+    best = sorted(cand.values(), key=lambda x: x['euclidean'])[:k]
     cases = []
     for b in best:
         t0 = datetime.strptime(b['time'][:16], '%Y-%m-%dT%H:%M')
         rows = cypher("MATCH (a:Approval)-[:authorizes]->(o:Operation) WHERE o.id IN $ids RETURN o.id AS op, o.operationType AS type, a.id AS approval, toString(a.approvalTime) AS approval_date, a.approvalContent AS approval_content ORDER BY op, approval", ids=b['operations'])
         cases.append(dict(b, rows=rows, state_window=measure(dam, t0 - timedelta(hours=6), t0 + timedelta(hours=13)), approval_evidence=[e for r in rows[:1] for e in evidence(r['approval'])]))
-    return {'as_of': str(t_now), 'current': cur, 'ranges_used': {'수위': round(rl, 3), '유입량': round(ri, 3)}, 'n_candidates': len(cand), 'cases': cases}
+    by_cos = [c['time'][:16] for c in sorted(cand.values(), key=lambda x: -(x['cosine'] or -2))[:k]]
+    return {'as_of': str(t_now), 'current': cur, 'normalization': {'수위(min,range)': [lo[0], rg[0]], '유입량(min,range)': [lo[1], rg[1]]},
+            'n_candidates': len(cand), 'rank_by': 'euclidean', 'top_by_cosine_for_comparison': by_cos, 'cases': cases}
 
 
 def run(req):
