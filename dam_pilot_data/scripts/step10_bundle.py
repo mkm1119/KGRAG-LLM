@@ -94,15 +94,19 @@ def amounts(rows):
     out = []
     for r in rows:
         m = re.search(r'접수방류량\s*([\d,\.]+)', r.get('approval_content', '') or '')
-        if m and (r.get('approval'), m.group(1)) not in out:
-            out.append((r.get('approval'), m.group(1)))
+        key = (r.get('approval'), m.group(1) if m else None, r.get('approval_date', ''))
+        if m and key not in out:
+            out.append(key)
     return out
 
 
 def derived(window, limit, rows, label):
-    """프로그램이 계산한 비교 값(LLM은 계산하지 않는다)."""
+    """프로그램이 계산한 비교 값(LLM은 계산하지 않는다). 창 범위와 승인일을 함께 적어 오해를 막는다."""
     L = []
     rs = (window or {}).get('rows') or []
+    if not rs:
+        return ''
+    w0, w1 = rs[0][0], rs[-1][0]
     lv = [(t, fl(v.get('수위'))) for t, v in rs if fl(v.get('수위')) is not None]
     dq = [(t, fl(v.get('총방류량'))) for t, v in rs if fl(v.get('총방류량')) is not None]
     if lv:
@@ -111,11 +115,12 @@ def derived(window, limit, rows, label):
     if dq:
         t, m = max(dq, key=lambda x: x[1])
         L.append('창 내 최대 총방류량 %s CMS (%s)' % (m, t))
-        for ap, a in amounts(rows):
+        for ap, a, ad in amounts(rows):
             av = fl(a.replace(',', ''))
             if av:
-                L.append('승인 [%s] 접수방류량 %s ㎥/s 대비 창 내 최대 총방류량 %.1f%%' % (ap, a, 100 * m / av))
-    return '<계산값 대상="%s" 출처="프로그램 계산, 측정 시각 라벨 기준">\n%s\n</계산값>' % (label, '\n'.join(L)) if L else ''
+                late = ' ※이 승인의 승인일(%s)이 창(%s까지)보다 늦음: 창 시점에는 이 상한이 아직 승인되기 전이었다' % (ad, w1[:10]) if ad and ad > w1[:10] else ''
+                L.append('승인 [%s] (승인일 %s) 접수방류량 %s ㎥/s 대비 창 내 최대 총방류량 %.1f%%%s' % (ap, ad, a, 100 * m / av, late))
+    return '<계산값 대상="%s" 창="%s ~ %s (행위 시각 앞 6시간~뒤 12시간)" 출처="프로그램 계산, 측정 시각 라벨 기준">\n%s\n</계산값>' % (label, w0, w1, '\n'.join(L)) if L else ''
 
 
 def tagged(R):
