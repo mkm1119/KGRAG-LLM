@@ -92,11 +92,11 @@ def h2(text):
 
 
 def para(text):
-    return '<w:p><w:pPr><w:spacing w:before="60" w:after="120"/><w:rPr>%s</w:rPr></w:pPr>%s</w:p>' % (LANG, run(text))
+    return '<w:p><w:pPr><w:spacing w:before="60" w:after="120"/><w:rPr>%s</w:rPr></w:pPr>%s</w:p>' % (LANG, run(text, sz=BODY))
 
 
 def li(text):
-    return '<w:p><w:pPr><w:pStyle w:val="a0"/><w:spacing w:after="60"/><w:rPr>%s</w:rPr></w:pPr>%s</w:p>' % (LANG, run(text, sz=20))
+    return '<w:p><w:pPr><w:pStyle w:val="a0"/><w:spacing w:after="60"/><w:rPr>%s</w:rPr></w:pPr>%s</w:p>' % (LANG, run(text, sz=BODY))
 
 
 def spacer():
@@ -107,13 +107,16 @@ BORD = ''.join('<w:%s w:val="single" w:sz="5" w:space="0" w:color="A6A6A6"/>' % 
 MAR = '<w:tcMar><w:top w:w="80" w:type="dxa"/><w:left w:w="110" w:type="dxa"/><w:bottom w:w="80" w:type="dxa"/><w:right w:w="110" w:type="dxa"/></w:tcMar><w:vAlign w:val="center"/>'
 
 
-def cell(text, w, fill=None, b=False, color=None, center=False, sz=18):
+BODY = 20  # 본문·글머리·표(머리글 포함) 글자 크기(10pt)
+
+
+def cell(text, w, fill=None, b=False, color=None, center=False, sz=BODY):
     lines = [l for l in str(text).split('\n')] or ['']
     ps = ''.join('<w:p><w:pPr><w:spacing w:after="20" w:line="252" w:lineRule="auto"/>%s</w:pPr>%s</w:p>' % ('<w:jc w:val="center"/>' if center else '', run(l, sz=sz, b=b, color=color)) for l in lines)
     return '<w:tc><w:tcPr><w:tcW w:w="%d" w:type="dxa"/>%s%s</w:tcPr>%s</w:tc>' % (w, '<w:shd w:val="clear" w:color="auto" w:fill="%s"/>' % fill if fill else '', MAR, ps)
 
 
-def table(rows, widths, header=True, firstcol=True, sz=18):
+def table(rows, widths, header=True, firstcol=True, sz=BODY):
     assert sum(widths) == 9972, (sum(widths), rows[0])
     out = ['<w:tbl><w:tblPr><w:tblW w:w="9972" w:type="dxa"/><w:jc w:val="center"/><w:tblBorders>%s</w:tblBorders><w:tblLayout w:type="fixed"/>'
            '<w:tblLook w:val="04A0" w:firstRow="1" w:lastRow="0" w:firstColumn="1" w:lastColumn="0" w:noHBand="0" w:noVBand="1"/></w:tblPr><w:tblGrid>%s</w:tblGrid>'
@@ -124,7 +127,7 @@ def table(rows, widths, header=True, firstcol=True, sz=18):
         out.append('<w:tr><w:trPr><w:cantSplit/>%s<w:jc w:val="center"/></w:trPr>' % ('<w:tblHeader/>' if hd else ''))
         for j, (c, w) in enumerate(zip(r, widths)):
             if hd:
-                out.append(cell(c, w, fill='D9EAF7', b=True, center=True, sz=sz + 1))
+                out.append(cell(c, w, fill='D9EAF7', b=True, center=True, sz=sz))
             elif j == 0 and firstcol:
                 out.append(cell(c, w, fill='EEF5FA', b=True, color='1F4E79', center=True, sz=sz))
             else:
@@ -163,24 +166,24 @@ add(h2('1.1 용어 정리'))
 terms = tmpl_table('용어')
 terms += [['Intent (의도)', '사용자 질문이 CQ 중 어느 질문에 해당하는지 나타내는 분류. 의도마다 가져올 근거의 구성이 정해져 있다.'],
           ['근거 묶음 (Evidence Bundle)', '의도에 따라 KG, 측정자료, 문서에서 가져온 근거를 LLM이 읽을 수 있게 정리한 입력. 비교에 필요한 값은 프로그램이 계산하여 포함한다.']]
-add(table(terms, [2300, 7672], sz=18))
+add(table(terms, [2300, 7672]))
 add(h2('1.2 연구 목적과 Ontology가 답해야 할 질문'))
 add(box('연구 목적', tmpl_table('Purpose(연구 목적)')[0][1]))
 add(box('전체 질문', tmpl_table('전체 질문')[0][1]))
-add(table(tmpl_table('번호'), [800, 2200, 6972], sz=18))
+add(table(tmpl_table('번호'), [800, 2200, 6972]))
 add(h2('1.3 Class (6개)'))
-add(table(tmpl_table('Class'), [2200, 3200, 1700, 2872], sz=18))
+add(table(tmpl_table('Class'), [2200, 3200, 1700, 2872]))
 add(h2('1.4 Relation (8개)'))
-add(table(tmpl_table('Subject'), [2000, 2500, 2200, 3272], sz=18))
+add(table(tmpl_table('Subject'), [2000, 2500, 2200, 3272]))
 add(h2('1.5 Data Property'))
-add(table(tmpl_table('Class', 1), [2300, 3100, 4572], sz=18))
+add(table(tmpl_table('Class', 1), [2300, 3100, 4572]))
 add(h2('1.6 KG와 외부 저장소의 역할'))
 add(table([
     ['구분', '저장하는 것', '예'],
     ['KG', '의미와 관계, 근거 위치, 외부 자료를 찾아가는 정보', '승인·운영행위 Entity, 변수 종류와 측정소 코드, 근거자료의 위치'],
     ['측정자료 저장소', '시간별 실제 측정 시계열 값 전체', '수위, 유입량, 방류량 등'],
     ['문서 저장소', '규정·법령 문서 원문(조문 단위)', '연계운영규정 별표3, 하천법 조문'],
-], [2300, 4000, 3672], sz=18))
+], [2300, 4000, 3672]))
 add(box('KG의 역할', tmpl_table('KG의 역할')[0][1]))
 
 # ---- 2장 KG 구축
@@ -193,7 +196,7 @@ add(table([
     ['수문기상 시간자료', 'K-water MyWater', '4개 댐 × 6개 변수(수위, 저수량, 강우량, 유입량, 총방류량, 저수율), 시간별 %s행 (충주·횡성 2010-08~, 소양강 2011-06~, 광동 2016-06~ 2026-09)' % format(MEAS, ','), '측정자료 저장소, 상태 Entity'],
     ['홍수기 제한수위', '연계운영규정 별표3(법제처) 및 연혁 9개 판', '충주 138.0, 소양강 190.3, 횡성 178.2 EL.m (광동댐은 별표3에 수록되지 않음)', 'Criterion'],
     ['법령·규정 조문', '법제처 국가법령정보(XML)', '연계운영규정 조문·별표, 하천법·시행령·댐건설관리법 관련 조문 %d개 청크' % CHUNKS, '문서 저장소, 근거 위치'],
-], [1700, 2500, 4272, 1500], sz=18))
+], [1700, 2500, 4272, 1500]))
 add(box('범위', '테스트 대상은 K-water 관리 4개 댐으로 하고, 수문기상 자료는 K-water 시간별 6개 변수를 사용하였다. 충주조정지는 테스트 범위에서 제외하였다.'))
 add(h2('2.2 구축 절차와 근거'))
 add(table([
@@ -205,7 +208,7 @@ add(table([
     ['5 개체 해소·연결', '승인 파일의 시설 코드와 K-water 댐 코드가 같으면 같은 Dam으로 연결, 별표3은 공백을 제거한 이름으로 연결', 'GraphAide(Purohit 2024): 개체 중의성 해소', '코드가 일치하는 자료는 추측 없이 연결'],
     ['6 정규화·Ontology 검증', '관계 양 끝의 Class, 필수 속성, 값 형식, 근거 연결, 경로 일치를 검사하고 CQ 답변 가능성을 점검(2.5)', 'GraphAide: 스키마 검증, DDKG: 일관성 검사, Noy(2001): 속성 제약', 'KG가 정의한 Ontology를 지키고 CQ에 필요한 근거가 모두 연결되는지 확인하기 위해'],
     ['7 저장', 'KG를 CSV(개체·속성·관계)로 두고 Neo4j에 Cypher로 적재, 측정값과 문서 원문은 외부 저장소', 'DDKG, Zhang, GraphAide: Neo4j와 Cypher', '다단계 관계 탐색과 질의 언어 기반 검색을 위해'],
-], [1500, 3400, 2600, 2472], sz=17))
+], [1500, 3400, 2600, 2472]))
 add(h2('2.3 구조화 자료 매핑 규칙'))
 add(table([
     ['Class', '원천', 'ID', '속성 · 관계'],
@@ -214,7 +217,7 @@ add(table([
     ['Approval', '승인 CSV 한 행', 'APR:순차번호', 'approvalTime(승인일), approvalContent(방류 시작, 접수방류량, 비고를 한 문장으로) / concernsDam'],
     ['Criterion', '별표3', 'CRI:번호', 'criterionType, criterionValue, unit / appliesToDam'],
     ['EvidenceSource', '승인 레코드, 측정 소스, 별표3와 연혁', 'EVI:출처', 'sourceTitle, sourceType, sourceLocator, chunkId(규정 근거) / 다른 Class에서 supportedBy'],
-], [2300, 2400, 2372, 2900], sz=17))
+], [2300, 2400, 2372, 2900]))
 add(box('원칙', '값은 원자료 그대로 옮기고, KG에는 의미·관계·조회 키만 둔다. 측정값 전체와 문서 원문은 KG에 저장하지 않는다.'))
 add(h2('2.4 운영행위(Operation) 추출 규칙'))
 add(table([
@@ -224,14 +227,14 @@ add(table([
     ['변경 승인', '같은 방류의 기간·양 변경이므로 새 Operation을 만들지 않고, 같은 댐·같은 방류 시작 시각의 원 승인 Operation에 연결한다(추정 표시, 변경 승인 17건 중 11건 연결).'],
     ['행위 시각', '방류 시작 시각 앞 3시간~뒤 6시간에서 총방류량이 직전보다 1 CMS 또는 10%% 이상 변한 시각 중 시작에 가장 가까운 것. 변화가 없으면 승인의 방류 시작 시각. 연구자 지정 임시 기준이며 규정·문헌에 근거가 없다.'],
     ['결과', '승인 %d건에서 Operation %d개: %s. 시각 출처는 측정 변화 %d, 승인 시작 %d, 비고 명시 %d.' % (len(APPS), len(OPS), ', '.join('%s %d' % kv for kv in OPC.most_common()), TSRC['측정'], TSRC['승인'], TSRC['비고'])],
-], [2000, 7972], sz=18))
+], [2000, 7972]))
 add(h2('2.5 구축 결과와 Ontology 검증'))
 add(table([
     ['구분', '결과'],
     ['개체 %d개' % NE, ', '.join('%s %d' % (k, EC[k]) for k in ('Dam', 'HydrometeorologicalState', 'Approval', 'Operation', 'Criterion', 'EvidenceSource'))],
     ['관계 %d개' % NR, ', '.join('%s %d' % kv for kv in RC.most_common())],
     ['외부 저장소', '측정자료 %s행, 문서 청크 %d개 (KG 밖)' % (format(MEAS, ','), CHUNKS)],
-], [2300, 7672], sz=18))
+], [2300, 7672]))
 add(label('Ontology 적합성 검사'))
 add(table([
     ['검사', '결과'],
@@ -240,7 +243,7 @@ add(table([
     ['날짜·시각·수치 값 형식', '통과'],
     ['상태·운영행위·승인·기준이 모두 근거자료에 연결됨', '통과'],
     ['승인의 댐과 그 승인이 허가한 운영행위의 댐이 같음', '통과'],
-], [6000, 3972], sz=18))
+], [6000, 3972]))
 add(label('CQ 답변 가능성 점검'))
 add(table([
     ['CQ', '점검 결과', '판정'],
@@ -251,7 +254,7 @@ add(table([
     ['CQ5 현재 운영기준', '충주 138.0, 소양강 190.3, 횡성 178.2 EL.m. 광동댐은 별표3에 없어 기준 없음', '가능 (3개 댐)'],
     ['CQ6 공식 근거', '승인, 운영행위, 상태, 제한수위 모두 근거자료와 위치 연결 (운영행위의 근거는 승인 레코드와 동일)', '가능'],
     ['통합 질문', '운영행위 %d개 모두 상태·승인·근거 조립, 제한수위까지 이어지는 사례 41건' % len(OPS), '가능'],
-], [2200, 5772, 2000], sz=18))
+], [2200, 5772, 2000]))
 add(box('발견한 문제', '운영행위가 없는 승인(변경 승인 등)은 Dam에서 찾아갈 경로가 없어, 댐에서 도달 가능한 승인이 %s건에 그쳤다(Approval → Operation → Dam 경로만 존재).' % BEFORE))
 add(box('수정', 'Relation concernsDam(Approval → Dam)을 추가하여 %s건 모두 도달 가능하게 하였다. 승인 레코드의 시설 코드로 연결하므로 추정이 없다.' % AFTER))
 add(label('수정된 Ontology'))
@@ -260,7 +263,7 @@ add(table([
     ['Class', '6개 (변경 없음)'],
     ['Relation', '8개 → 9개: Approval –concernsDam→ Dam 추가'],
     ['Data Property', 'EvidenceSource에 chunkId 추가 (문서 저장소의 조문 청크를 찾아가는 키로, HydrometeorologicalState의 stationCode와 같은 역할)'],
-], [2300, 7672], sz=18))
+], [2300, 7672]))
 
 # ---- 3장 검색과 LLM 답변
 add(h1('3. 검색과 LLM 답변'))
@@ -274,7 +277,7 @@ add(table([
     ['4 외부 저장소 조회', 'KG의 stationCode와 chunkId로 측정자료 저장소에서 시간별 값, 문서 저장소에서 조문 원문을 조회', '프로그램'],
     ['5 비교 값 계산', '제한수위 대비 차이, 승인량 대비 비율, 현재와 사례의 차이, 유사 사례(유클리드 거리)', '프로그램'],
     ['6 근거 묶음 → 답변', '태그와 표로 구성한 근거 묶음을 LLM에 주고, 규칙에 따라 근거 번호를 인용하여 답변', 'LLM'],
-], [2200, 6272, 1500], sz=18))
+], [2200, 6272, 1500]))
 add(h2('3.2 의도별 근거 구성'))
 add(table([
     ['의도', '가져오는 근거', '출처'],
@@ -288,7 +291,7 @@ add(table([
     ['INTEGRATED', '운영행위 + 승인 + 당시 상태 + 제한수위 + 근거 + 비교 값', 'KG, 측정자료, 문서'],
     ['SIMILAR', '현재 상태와 가까운 과거 사례 상위 3개와 각 사례의 승인·상태·기준·근거', '측정자료, KG, 문서'],
     ['OUT_OF_SCOPE', '위 어디에도 해당하지 않거나 허용 범위 밖(여러 댐 비교, 사유 질문)', '거절'],
-], [2200, 5372, 2400], sz=18))
+], [2200, 5372, 2400]))
 add(h2('3.3 설계 근거'))
 add(table([
     ['설계', '근거 문헌', '이유'],
@@ -300,7 +303,7 @@ add(table([
     ['문서는 조문 단위 청크로 두고 청크 번호로 조회한다', '연구자 판단 (문헌은 임베딩 벡터에 저장)', '개체에서 출발하는 질문과 정확한 조문 인용을 위해. 벡터 검색과의 비교는 이후 실험으로'],
     ['비교 값을 프로그램이 계산한다', '연구자 판단', 'LLM의 계산 오류를 막기 위해'],
     ['유사 사례는 수위·유입량의 유클리드 거리로 찾는다', '연구자 판단 (문헌의 유사도는 텍스트 임베딩의 코사인 유사도이며 수치 상태 기준은 없음)', '값의 크기를 반영하는 거리를 사용. 코사인 유사도는 이 데이터에서 변별력이 없어 제외'],
-], [3100, 3600, 3272], sz=17))
+], [3100, 3600, 3272]))
 add(h2('3.4 근거 묶음과 답변 규칙'))
 add(li('근거 묶음은 태그로 섹션을 구분하고 수치는 표로 쓰며, 항목마다 근거 번호(승인, 운영행위, 근거자료)를 붙인다.'))
 add(li('답변은 묶음 안의 자료만 사용하고, 사실마다 근거 번호를 인용한다. 자료가 없으면 “자료에 없음”이라고 답한다.'))
@@ -316,7 +319,7 @@ add(table([
     ['저장소', 'Neo4j 5.26(KG 개체 %d개, 관계 %d개), 측정자료 저장소, 문서 청크 %d개' % (NE, NR, CHUNKS)],
     ['질문', '10개: CQ에 맞는 핵심 질문 5개(m01, m02, m06, m08, m09)와 비교·계산·범위 밖을 포함한 확장 질문 5개(m03, m04, m05, m07, m10)'],
     ['판정 기준', '의도·댐 분류, 답변의 수치가 근거 묶음과 일치, 근거 번호 인용, 근거 없는 주장 여부'],
-], [2000, 7972], sz=18))
+], [2000, 7972]))
 add(h2('4.2 결과'))
 add(table([
     ['질문', '구분', '의도', '판정', '비고'],
@@ -330,7 +333,7 @@ add(table([
     ['m03 충주 유사 사례와 제한수위 비교', '확장', 'SIMILAR 일치', '오류', '현재 값을 사례 값으로 섞고 증가율을 직접 계산하여 틀림'],
     ['m05 충주 승인량과 실제 방류량의 차이', '확장', 'INTEGRATED 일치', '오류', '비율을 “차이”로 서술하고, 창 이후에 승인된 상한을 사용'],
     ['m10 소양강·충주 중 제한수위에 더 가까운 댐', '확장', 'CURRENT 불일치', '실패', '두 댐 비교(기대: 범위 밖)를 한 댐으로 처리'],
-], [2700, 700, 1500, 1100, 3972], sz=16))
+], [2700, 700, 1500, 1100, 3972]))
 add(box('요약', '의도 분류는 10개 중 9개가 일치하였다. 핵심 질문 5개 중 맞음 3개, 대체로 맞음 1개, 오류 1개이고, 확장 질문 5개 중 대체로 맞음 2개, 오류 2개, 실패 1개이다.'))
 add(h2('4.3 오류 원인과 수정'))
 add(table([
@@ -341,7 +344,7 @@ add(table([
     ['현재와 사례의 차이를 LLM이 직접 계산', 'm03, m04', '수위 차, 제한수위 대비, 유입량 배수를 프로그램이 계산해 제공', '수정'],
     ['요청하지 않은 사례 수, 긴 소수 표기', 'm03, m04, m07', '프롬프트 보강, 측정값 반올림', '수정'],
     ['개념 혼동, 경고 무시(모델)', 'm05, m09', '프롬프트에 규칙 추가, 더 큰 모델에서 재확인', '재실행 필요'],
-], [3600, 1500, 3500, 1372], sz=17))
+], [3600, 1500, 3500, 1372]))
 add(box('해석', '질문에서 답변 생성까지 전 과정이 동작하고, 근거 묶음의 수치와 근거 번호를 인용한 답변이 생성됨을 확인하였다. 오류의 상당수는 근거 묶음의 구성에서 비롯되어 수정하였다. 본 결과는 소형 모델로 한 번 실행한 예비 결과이며 정확도나 효과를 입증하는 것은 아니다.'))
 
 # ---- 5장 한계와 다음 계획
@@ -355,7 +358,7 @@ add(table([
     ['추출 정확도', '비고 분류 정확도를 사람이 만든 정답으로 측정하지 않았다.'],
     ['LLM 평가', '소형 모델(8B), 질문 10개, 1회 실행이다. 의도 분류 정확도와 답변의 안정성은 확인되지 않았고, 표 데이터를 그대로 주는 방식과의 비교 기준선이 없다.'],
     ['자료 범위', '기상 변수는 댐 강우량만 사용하였고, 광동댐은 별표3에 없어 제한수위 기준이 없다.'],
-], [2300, 7672], sz=18))
+], [2300, 7672]))
 add(h2('5.2 다음 계획'))
 add(li('수정 반영 후 같은 질문으로 재실행하여 수정 전후를 비교하고, GPU가 확보되면 32B 모델로 확인'))
 add(li('같은 LLM에 표 데이터를 그대로 주는 방식(기준선)과 KG 방식 비교'))
