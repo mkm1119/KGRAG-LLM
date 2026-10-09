@@ -479,6 +479,8 @@ OPR:279:1,operationType,방류종료,string
 OPR:279:1,operationTime,2010-09-11T16:00,datetime
 OPR:394:1,operationType,증가방류,string
 OPR:394:1,operationTime,2010-09-20T17:50,datetime
+OPR:418:1,operationType,방류,string
+OPR:418:1,operationTime,2010-09-22T15:00,datetime
 OPR:473:1,operationType,방류,string
 OPR:473:1,operationTime,2011-06-24T18:00,datetime
 OPR:504:1,operationType,방류,string
@@ -491,6 +493,10 @@ OPR:612:1,operationType,방류,string
 OPR:612:1,operationTime,2011-07-04T10:00,datetime
 OPR:626:1,operationType,증가방류,string
 OPR:626:1,operationTime,2011-07-05T17:00,datetime
+OPR:813:1,operationType,방류,string
+OPR:813:1,operationTime,2011-07-27T10:00,datetime
+OPR:814:1,operationType,방류,string
+OPR:814:1,operationTime,2011-07-27T14:00,datetime
 OPR:842:1,operationType,증가방류,string
 OPR:842:1,operationTime,2011-07-28T00:00,datetime
 OPR:842:2,operationType,탄력적 방류,string
@@ -509,6 +515,18 @@ OPR:1446:1,operationType,탄력적 방류,string
 OPR:1446:1,operationTime,2012-09-14T17:00,datetime
 OPR:1580:1,operationType,탄력적 방류,string
 OPR:1580:1,operationTime,2013-07-13T13:00,datetime
+OPR:1669:1,operationType,방류,string
+OPR:1669:1,operationTime,2013-07-15T08:00,datetime
+OPR:1670:1,operationType,방류,string
+OPR:1670:1,operationTime,2013-07-15T13:00,datetime
+OPR:1992:1,operationType,방류,string
+OPR:1992:1,operationTime,2013-07-22T16:00,datetime
+OPR:2218:1,operationType,방류,string
+OPR:2218:1,operationTime,2016-07-04T18:00,datetime
+OPR:2219:1,operationType,방류,string
+OPR:2219:1,operationTime,2016-07-04T18:40,datetime
+OPR:2220:1,operationType,방류,string
+OPR:2220:1,operationTime,2016-07-04T18:00,datetime
 OPR:2327:1,operationType,초기방류,string
 OPR:2327:1,operationTime,2016-07-16T12:00,datetime
 OPR:2344:1,operationType,초기방류,string
@@ -549,6 +567,8 @@ OPR:3034:1,operationType,탄력적 방류,string
 OPR:3034:1,operationTime,2018-07-06T12:00,datetime
 OPR:3052:1,operationType,탄력적 방류,string
 OPR:3052:1,operationTime,2018-08-23T22:00,datetime
+OPR:3091:1,operationType,방류,string
+OPR:3091:1,operationTime,2018-08-23T22:00,datetime
 OPR:3142:1,operationType,탄력적 방류,string
 OPR:3142:1,operationTime,2018-08-31T18:00,datetime
 OPR:3178:1,operationType,탄력적 방류,string
@@ -559,6 +579,12 @@ OPR:3227:1,operationType,초기방류,string
 OPR:3227:1,operationTime,2019-06-20T18:00,datetime
 OPR:3227:2,operationType,탄력적 방류,string
 OPR:3227:2,operationTime,2019-06-20T18:00,datetime
+OPR:3228:1,operationType,방류,string
+OPR:3228:1,operationTime,2019-07-19T13:00,datetime
+OPR:3262:1,operationType,방류,string
+OPR:3262:1,operationTime,2019-08-06T14:00,datetime
+OPR:3270:1,operationType,방류,string
+OPR:3270:1,operationTime,2019-08-14T17:00,datetime
 OPR:3271:1,operationType,탄력적 방류,string
 OPR:3271:1,operationTime,2019-09-03T21:00,datetime
 OPR:3293:1,operationType,탄력적 방류,string
@@ -569,16 +595,22 @@ OPR:3349:1,operationType,탄력적 방류,string
 OPR:3349:1,operationTime,2020-06-29T18:00,datetime
 OPR:3365:1,operationType,탄력적 방류,string
 OPR:3365:1,operationTime,2020-07-23T16:30,datetime
+OPR:3412:1,operationType,방류,string
+OPR:3412:1,operationTime,2020-08-02T18:00,datetime
 OPR:3451:1,operationType,증가방류,string
 OPR:3451:1,operationTime,2020-08-03T16:00,datetime
 OPR:3475:1,operationType,탄력적 방류,string
 OPR:3475:1,operationTime,2020-08-04T15:00,datetime
+OPR:3503:1,operationType,방류,string
+OPR:3503:1,operationTime,2020-08-05T15:00,datetime
 OPR:3646:1,operationType,탄력적 방류,string
 OPR:3646:1,operationTime,2020-08-05T15:00,datetime
 OPR:3647:1,operationType,탄력적 방류,string
 OPR:3647:1,operationTime,2020-08-06T06:00,datetime
 OPR:3648:1,operationType,탄력적 방류,string
 OPR:3648:1,operationTime,2020-08-04T15:00,datetime
+OPR:3732:1,operationType,방류,string
+OPR:3732:1,operationTime,2020-08-26T16:00,datetime
 OPR:3733:1,operationType,방류,string
 OPR:3733:1,operationTime,2020-08-26T19:00,datetime
 OPR:3742:1,operationType,탄력적 방류,string
@@ -591,6 +623,8 @@ OPR:3771:1,operationType,방류,string
 OPR:3771:1,operationTime,2020-09-03T12:00,datetime
 OPR:3862:1,operationType,방류,string
 OPR:3862:1,operationTime,2020-07-14T13:30,datetime
+OPR:3899:1,operationType,방류,string
+OPR:3899:1,operationTime,2021-07-03T14:00,datetime
 CRI:CR-01,criterionType,홍수기 제한수위,string
 CRI:CR-01,criterionValue,190.3,decimal
 CRI:CR-01,unit,EL.m,string

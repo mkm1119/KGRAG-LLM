@@ -3,7 +3,7 @@
 
 입력: 03_normalized/approval_records_hrfco_raw_fields.csv (한강홍수통제소 댐방류승인 원자료)
 출력: 03_normalized/operation_from_remarks_5dams.csv
-원칙: 비고에 행위가 적힌 승인만 Operation으로 만든다. 비고가 없거나 한정어/승인변경뿐이면 만들지 않고 사유를 남긴다.
+원칙: 비고에 행위가 적힌 승인은 그 행위로, 비고가 없거나 한정어/수치뿐인 승인은 일반 '방류'로 Operation을 만든다(결정 2026-10). 승인 변경 문구뿐인 승인은 같은 방류의 변경이므로 만들지 않고 사유를 남긴다.
 비고는 승인 문구이므로 '실행 확인'이 아니다.
 """
 import csv, re, collections, sys, os
@@ -72,11 +72,11 @@ def classify(rec):
                     'amount_raw': amt.group(0).strip() if amt else '', 'has_change_text': 'Y' if has_change else 'N'})
     if ops:
         return ops, ''
-    if not raw:
-        return [], '비고 없음'
     if has_change:
         return [], '승인 변경 문구만 있음(행위 아님)'
-    return [], '한정어/수치만 있고 행위 문구 없음'
+    # 결정(2026-10): 비고가 없거나 한정어/수치만 있는 승인도 해당 시각의 방류 승인이므로 일반 '방류'로 둔다(종류 미상, 승인 자체에서 도출).
+    why = '비고 없음→승인 자체(일반 방류)' if not raw else '한정어/수치만→승인 자체(일반 방류)'
+    return [{'operationType': '방류', 'rule': why, 'operationTime': start, 'time_source': '방류시작시간', 'amount_raw': '', 'has_change_text': 'N'}], ''
 
 
 def main():

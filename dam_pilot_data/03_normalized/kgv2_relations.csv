@@ -134,6 +134,9 @@ OPR:279:1,supportedBy,EVI:AP:279,MR-SUP-OPR,derived,
 OPR:394:1,performedOnDam,DAM:1006110,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:394,authorizes,OPR:394:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:394:1,supportedBy,EVI:AP:394,MR-SUP-OPR,derived,
+OPR:418:1,performedOnDam,DAM:1003110,MR-OPR-DAM,derived,승인 행의 시설 코드
+APR:418,authorizes,OPR:418:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
+OPR:418:1,supportedBy,EVI:AP:418,MR-SUP-OPR,derived,
 OPR:473:1,performedOnDam,DAM:1006110,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:473,authorizes,OPR:473:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:473:1,supportedBy,EVI:AP:473,MR-SUP-OPR,derived,
@@ -152,6 +155,12 @@ OPR:612:1,supportedBy,EVI:AP:612,MR-SUP-OPR,derived,
 OPR:626:1,performedOnDam,DAM:1003110,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:626,authorizes,OPR:626:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:626:1,supportedBy,EVI:AP:626,MR-SUP-OPR,derived,
+OPR:813:1,performedOnDam,DAM:1012110,MR-OPR-DAM,derived,승인 행의 시설 코드
+APR:813,authorizes,OPR:813:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
+OPR:813:1,supportedBy,EVI:AP:813,MR-SUP-OPR,derived,
+OPR:814:1,performedOnDam,DAM:1006110,MR-OPR-DAM,derived,승인 행의 시설 코드
+APR:814,authorizes,OPR:814:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
+OPR:814:1,supportedBy,EVI:AP:814,MR-SUP-OPR,derived,
 OPR:842:1,performedOnDam,DAM:1006110,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:842,authorizes,OPR:842:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:842:1,supportedBy,EVI:AP:842,MR-SUP-OPR,derived,
@@ -179,6 +188,24 @@ OPR:1446:1,supportedBy,EVI:AP:1446,MR-SUP-OPR,derived,
 OPR:1580:1,performedOnDam,DAM:1006110,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:1580,authorizes,OPR:1580:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:1580:1,supportedBy,EVI:AP:1580,MR-SUP-OPR,derived,
+OPR:1669:1,performedOnDam,DAM:1006110,MR-OPR-DAM,derived,승인 행의 시설 코드
+APR:1669,authorizes,OPR:1669:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
+OPR:1669:1,supportedBy,EVI:AP:1669,MR-SUP-OPR,derived,
+OPR:1670:1,performedOnDam,DAM:1006110,MR-OPR-DAM,derived,승인 행의 시설 코드
+APR:1670,authorizes,OPR:1670:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
+OPR:1670:1,supportedBy,EVI:AP:1670,MR-SUP-OPR,derived,
+OPR:1992:1,performedOnDam,DAM:1006110,MR-OPR-DAM,derived,승인 행의 시설 코드
+APR:1992,authorizes,OPR:1992:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
+OPR:1992:1,supportedBy,EVI:AP:1992,MR-SUP-OPR,derived,
+OPR:2218:1,performedOnDam,DAM:1001210,MR-OPR-DAM,derived,승인 행의 시설 코드
+APR:2218,authorizes,OPR:2218:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
+OPR:2218:1,supportedBy,EVI:AP:2218,MR-SUP-OPR,derived,
+OPR:2219:1,performedOnDam,DAM:1001210,MR-OPR-DAM,derived,승인 행의 시설 코드
+APR:2219,authorizes,OPR:2219:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
+OPR:2219:1,supportedBy,EVI:AP:2219,MR-SUP-OPR,derived,
+OPR:2220:1,performedOnDam,DAM:1001210,MR-OPR-DAM,derived,승인 행의 시설 코드
+APR:2220,authorizes,OPR:2220:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
+OPR:2220:1,supportedBy,EVI:AP:2220,MR-SUP-OPR,derived,
 OPR:2327:1,performedOnDam,DAM:1001210,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:2327,authorizes,OPR:2327:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:2327:1,supportedBy,EVI:AP:2327,MR-SUP-OPR,derived,
@@ -239,6 +266,9 @@ OPR:3034:1,supportedBy,EVI:AP:3034,MR-SUP-OPR,derived,
 OPR:3052:1,performedOnDam,DAM:1001210,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:3052,authorizes,OPR:3052:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:3052:1,supportedBy,EVI:AP:3052,MR-SUP-OPR,derived,
+OPR:3091:1,performedOnDam,DAM:1001210,MR-OPR-DAM,derived,승인 행의 시설 코드
+APR:3091,authorizes,OPR:3091:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
+OPR:3091:1,supportedBy,EVI:AP:3091,MR-SUP-OPR,derived,
 OPR:3142:1,performedOnDam,DAM:1001210,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:3142,authorizes,OPR:3142:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:3142:1,supportedBy,EVI:AP:3142,MR-SUP-OPR,derived,
@@ -254,6 +284,15 @@ OPR:3227:1,supportedBy,EVI:AP:3227,MR-SUP-OPR,derived,
 OPR:3227:2,performedOnDam,DAM:1001210,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:3227,authorizes,OPR:3227:2,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:3227:2,supportedBy,EVI:AP:3227,MR-SUP-OPR,derived,
+OPR:3228:1,performedOnDam,DAM:1001210,MR-OPR-DAM,derived,승인 행의 시설 코드
+APR:3228,authorizes,OPR:3228:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
+OPR:3228:1,supportedBy,EVI:AP:3228,MR-SUP-OPR,derived,
+OPR:3262:1,performedOnDam,DAM:1001210,MR-OPR-DAM,derived,승인 행의 시설 코드
+APR:3262,authorizes,OPR:3262:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
+OPR:3262:1,supportedBy,EVI:AP:3262,MR-SUP-OPR,derived,
+OPR:3270:1,performedOnDam,DAM:1001210,MR-OPR-DAM,derived,승인 행의 시설 코드
+APR:3270,authorizes,OPR:3270:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
+OPR:3270:1,supportedBy,EVI:AP:3270,MR-SUP-OPR,derived,
 OPR:3271:1,performedOnDam,DAM:1001210,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:3271,authorizes,OPR:3271:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:3271:1,supportedBy,EVI:AP:3271,MR-SUP-OPR,derived,
@@ -269,12 +308,18 @@ OPR:3349:1,supportedBy,EVI:AP:3349,MR-SUP-OPR,derived,
 OPR:3365:1,performedOnDam,DAM:1001210,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:3365,authorizes,OPR:3365:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:3365:1,supportedBy,EVI:AP:3365,MR-SUP-OPR,derived,
+OPR:3412:1,performedOnDam,DAM:1003110,MR-OPR-DAM,derived,승인 행의 시설 코드
+APR:3412,authorizes,OPR:3412:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
+OPR:3412:1,supportedBy,EVI:AP:3412,MR-SUP-OPR,derived,
 OPR:3451:1,performedOnDam,DAM:1001210,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:3451,authorizes,OPR:3451:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:3451:1,supportedBy,EVI:AP:3451,MR-SUP-OPR,derived,
 OPR:3475:1,performedOnDam,DAM:1006110,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:3475,authorizes,OPR:3475:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:3475:1,supportedBy,EVI:AP:3475,MR-SUP-OPR,derived,
+OPR:3503:1,performedOnDam,DAM:1012110,MR-OPR-DAM,derived,승인 행의 시설 코드
+APR:3503,authorizes,OPR:3503:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
+OPR:3503:1,supportedBy,EVI:AP:3503,MR-SUP-OPR,derived,
 OPR:3646:1,performedOnDam,DAM:1012110,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:3646,authorizes,OPR:3646:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:3646:1,supportedBy,EVI:AP:3646,MR-SUP-OPR,derived,
@@ -284,6 +329,9 @@ OPR:3647:1,supportedBy,EVI:AP:3647,MR-SUP-OPR,derived,
 OPR:3648:1,performedOnDam,DAM:1006110,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:3648,authorizes,OPR:3648:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:3648:1,supportedBy,EVI:AP:3648,MR-SUP-OPR,derived,
+OPR:3732:1,performedOnDam,DAM:1006110,MR-OPR-DAM,derived,승인 행의 시설 코드
+APR:3732,authorizes,OPR:3732:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
+OPR:3732:1,supportedBy,EVI:AP:3732,MR-SUP-OPR,derived,
 OPR:3733:1,performedOnDam,DAM:1001210,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:3733,authorizes,OPR:3733:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:3733:1,supportedBy,EVI:AP:3733,MR-SUP-OPR,derived,
@@ -302,6 +350,9 @@ OPR:3771:1,supportedBy,EVI:AP:3771,MR-SUP-OPR,derived,
 OPR:3862:1,performedOnDam,DAM:1001210,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:3862,authorizes,OPR:3862:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:3862:1,supportedBy,EVI:AP:3862,MR-SUP-OPR,derived,
+OPR:3899:1,performedOnDam,DAM:1001210,MR-OPR-DAM,derived,승인 행의 시설 코드
+APR:3899,authorizes,OPR:3899:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
+OPR:3899:1,supportedBy,EVI:AP:3899,MR-SUP-OPR,derived,
 CRI:CR-01,appliesToDam,DAM:1012110,MR-CRI-DAM,name-match,별표3 시설명 일치(코드 없음)
 CRI:CR-01,supportedBy,EVI:LAW:별표3,MR-SUP-CRI,real,
 CRI:CR-02,appliesToDam,DAM:1003110,MR-CRI-DAM,name-match,별표3 시설명 일치(코드 없음)
