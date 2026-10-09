@@ -1,13 +1,115 @@
 [
- {"question": "소양강댐 지금 수위랑 방류량이 어때?", "intent": "CQ1", "slots": {"dam": "소양강댐"}},
- {"question": "2020년 8월 2일 18시 충주댐 상태는?", "intent": "CQ2", "slots": {"dam": "충주", "time": {"at": "2020-08-02T18:00"}}},
- {"question": "2020년 8월에 충주댐에서 어떤 방류 조작이 있었어?", "intent": "CQ3", "slots": {"dam": "충주댐", "time": {"start": "2020-08-01", "end": "2020-08-31"}}},
- {"question": "2020년 8월 광동댐 방류 승인 내역 알려줘", "intent": "CQ4", "slots": {"dam": "광동댐", "time": {"start": "2020-08-01", "end": "2020-08-31"}}},
- {"question": "횡성댐 홍수기 제한수위는?", "intent": "CQ5", "slots": {"dam": "횡성댐"}},
- {"question": "광동댐 홍수기 제한수위는?", "intent": "CQ5", "slots": {"dam": "광동댐"}},
- {"question": "승인 3412의 공식 근거는 뭐야?", "intent": "CQ6", "slots": {"target": {"type": "approval", "id": "3412"}}},
- {"question": "충주댐 수위 자료는 어디서 온 거야?", "intent": "CQ6", "slots": {"target": {"type": "state", "dam": "충주댐"}}},
- {"question": "2017년 8월 24일부터 31일까지 소양강댐 운영 상황을 승인, 당시 상태, 기준까지 알려줘", "intent": "INTEGRATED", "slots": {"dam": "소양강댐", "time": {"start": "2017-08-24", "end": "2017-08-31"}}},
- {"question": "팔당댐 현재 수위는?", "intent": "CQ1", "slots": {"dam": "팔당댐"}},
- {"question": "충주댐은 왜 2020년 8월에 방류했어?", "intent": "OUT_OF_SCOPE", "slots": {"reason": "방류 사유는 자료에 없음"}}
+ {
+  "question": "소양강댐 지금 수위랑 방류량이 어때?",
+  "intent": "CQ1",
+  "slots": {
+   "dam": "소양강댐"
+  }
+ },
+ {
+  "question": "2020년 8월 2일 18시 충주댐 상태는?",
+  "intent": "CQ2",
+  "slots": {
+   "dam": "충주",
+   "time": {
+    "at": "2020-08-02T18:00"
+   }
+  }
+ },
+ {
+  "question": "2020년 8월에 충주댐에서 어떤 방류 조작이 있었어?",
+  "intent": "CQ3",
+  "slots": {
+   "dam": "충주댐",
+   "time": {
+    "start": "2020-08-01",
+    "end": "2020-08-31"
+   }
+  }
+ },
+ {
+  "question": "2020년 8월 광동댐 방류 승인 내역 알려줘",
+  "intent": "CQ4",
+  "slots": {
+   "dam": "광동댐",
+   "time": {
+    "start": "2020-08-01",
+    "end": "2020-08-31"
+   }
+  }
+ },
+ {
+  "question": "횡성댐 홍수기 제한수위는?",
+  "intent": "CQ5",
+  "slots": {
+   "dam": "횡성댐"
+  }
+ },
+ {
+  "question": "광동댐 홍수기 제한수위는?",
+  "intent": "CQ5",
+  "slots": {
+   "dam": "광동댐"
+  }
+ },
+ {
+  "question": "승인 3412의 공식 근거는 뭐야?",
+  "intent": "CQ6",
+  "slots": {
+   "target": {
+    "type": "approval",
+    "id": "3412"
+   }
+  }
+ },
+ {
+  "question": "충주댐 수위 자료는 어디서 온 거야?",
+  "intent": "CQ6",
+  "slots": {
+   "target": {
+    "type": "state",
+    "dam": "충주댐"
+   }
+  }
+ },
+ {
+  "question": "2017년 8월 24일부터 31일까지 소양강댐 운영 상황을 승인, 당시 상태, 기준까지 알려줘",
+  "intent": "INTEGRATED",
+  "slots": {
+   "dam": "소양강댐",
+   "time": {
+    "start": "2017-08-24",
+    "end": "2017-08-31"
+   }
+  }
+ },
+ {
+  "question": "지금 소양강댐 상황이랑 비슷했던 과거에는 어떻게 했어?",
+  "intent": "SIMILAR",
+  "slots": {
+   "dam": "소양강댐"
+  }
+ },
+ {
+  "question": "광동댐 현재 상태와 비슷한 과거 사례 두 개만 보여줘",
+  "intent": "SIMILAR",
+  "slots": {
+   "dam": "광동",
+   "k": 2
+  }
+ },
+ {
+  "question": "팔당댐 현재 수위는?",
+  "intent": "CQ1",
+  "slots": {
+   "dam": "팔당댐"
+  }
+ },
+ {
+  "question": "충주댐은 왜 2020년 8월에 방류했어?",
+  "intent": "OUT_OF_SCOPE",
+  "slots": {
+   "reason": "방류 사유는 자료에 없음"
+  }
+ }
 ]

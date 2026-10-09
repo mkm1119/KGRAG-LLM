@@ -1,14 +1,84 @@
 {
-  "dams": ["충주댐", "소양강댐", "횡성댐", "광동댐"],
-  "intents": [
-    {"id": "CQ1", "name": "현재 수문기상 상태", "slots": {"dam": "필수"}, "note": "저장된 가장 최근 시각의 값"},
-    {"id": "CQ2", "name": "과거 수문기상 상태", "slots": {"dam": "필수", "time": "필수(at 또는 start/end)"}},
-    {"id": "CQ3", "name": "과거 운영행위", "slots": {"dam": "필수", "time": "필수(start/end 또는 at)"}},
-    {"id": "CQ4", "name": "과거 방류 승인", "slots": {"dam": "필수", "time": "필수(start/end 또는 at)"}},
-    {"id": "CQ5", "name": "현재 운영기준(제한수위)", "slots": {"dam": "필수"}},
-    {"id": "CQ6", "name": "공식 근거", "slots": {"target": "필수: {type: approval|operation|criterion|state, id 또는 dam}"}},
-    {"id": "INTEGRATED", "name": "통합(운영행위·승인·당시 상태·기준·근거)", "slots": {"dam": "필수", "time": "필수(start/end 또는 at)"}},
-    {"id": "OUT_OF_SCOPE", "name": "범위 밖", "slots": {"reason": "필수"}}
+  "dams": [
+    "충주댐",
+    "소양강댐",
+    "횡성댐",
+    "광동댐"
   ],
-  "time_format": {"at": "YYYY-MM-DD 또는 YYYY-MM-DDTHH:MM", "start": "같은 형식", "end": "같은 형식(날짜만 쓰면 그 날 전체 포함)"}
+  "intents": [
+    {
+      "id": "CQ1",
+      "name": "현재 수문기상 상태",
+      "slots": {
+        "dam": "필수"
+      },
+      "note": "저장된 가장 최근 시각의 값"
+    },
+    {
+      "id": "CQ2",
+      "name": "과거 수문기상 상태",
+      "slots": {
+        "dam": "필수",
+        "time": "필수(at 또는 start/end)"
+      }
+    },
+    {
+      "id": "CQ3",
+      "name": "과거 운영행위",
+      "slots": {
+        "dam": "필수",
+        "time": "필수(start/end 또는 at)"
+      }
+    },
+    {
+      "id": "CQ4",
+      "name": "과거 방류 승인",
+      "slots": {
+        "dam": "필수",
+        "time": "필수(start/end 또는 at)"
+      }
+    },
+    {
+      "id": "CQ5",
+      "name": "현재 운영기준(제한수위)",
+      "slots": {
+        "dam": "필수"
+      }
+    },
+    {
+      "id": "CQ6",
+      "name": "공식 근거",
+      "slots": {
+        "target": "필수: {type: approval|operation|criterion|state, id 또는 dam}"
+      }
+    },
+    {
+      "id": "INTEGRATED",
+      "name": "통합(운영행위·승인·당시 상태·기준·근거)",
+      "slots": {
+        "dam": "필수",
+        "time": "필수(start/end 또는 at)"
+      }
+    },
+    {
+      "id": "SIMILAR",
+      "name": "현재 상태와 비슷한 과거 사례(연구자 지정 임시 기준: 수위·유입량 거리)",
+      "slots": {
+        "dam": "필수",
+        "k": "선택(기본 3)"
+      }
+    },
+    {
+      "id": "OUT_OF_SCOPE",
+      "name": "범위 밖",
+      "slots": {
+        "reason": "필수"
+      }
+    }
+  ],
+  "time_format": {
+    "at": "YYYY-MM-DD 또는 YYYY-MM-DDTHH:MM",
+    "start": "같은 형식",
+    "end": "같은 형식(날짜만 쓰면 그 날 전체 포함)"
+  }
 }

@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 HERE = os.path.dirname(os.path.abspath(__file__)); N = os.path.join(HERE, '..', '03_normalized')
 CS = os.path.join(os.environ.get('NEO4J_HOME', ''), 'bin', 'cypher-shell')
 DAMS = {'충주': '충주댐', '충주댐': '충주댐', '소양강': '소양강댐', '소양강댐': '소양강댐', '횡성': '횡성댐', '횡성댐': '횡성댐', '광동': '광동댐', '광동댐': '광동댐'}
-INTENTS = {'CQ1', 'CQ2', 'CQ3', 'CQ4', 'CQ5', 'CQ6', 'INTEGRATED', 'OUT_OF_SCOPE'}
+INTENTS = {'CQ1', 'CQ2', 'CQ3', 'CQ4', 'CQ5', 'CQ6', 'INTEGRATED', 'SIMILAR', 'OUT_OF_SCOPE'}
 _spec = importlib.util.spec_from_file_location('r3b', os.path.join(HERE, 'step3b_retrieval.py'))
 r3b = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(r3b)
 _ms = None
@@ -69,6 +69,8 @@ def validate(req):
     if dam is None:
         return None, '허용되지 않은 댐: %s' % sl.get('dam')
     out = {'intent': it, 'dam': dam}
+    if it == 'SIMILAR':
+        out['k'] = int(sl.get('k', 3))
     if it in ('CQ2', 'CQ3', 'CQ4', 'INTEGRATED'):
         try:
             out['start'], out['end'] = span(sl['time'])
@@ -131,6 +133,33 @@ def evidence(node_id):
     return out
 
 
+def similar(dam, k=3):
+    """[연구자 지정 임시 기준] 현재(저장된 가장 최근 시각)의 수위·유입량과, 그 댐의 각 운영행위 시각 당시의 수위·유입량을 비교한다.
+    거리 = |수위 차| / (그 댐 전체 기록의 수위 범위) + |유입량 차| / (유입량 범위). 같은 행위 시각의 행위는 한 사례로 묶고 거리가 가장 작은 k개를 낸다."""
+    code = state_vars(dam)[0]['code']
+    t_now, now = latest(dam); cur = {k_: r3b.fnum(v) for k_, v in now['rows'][0][1].items()}
+    lv = [r3b.fnum(v['수위']) for (c, t), v in ms().d.items() if c == code and r3b.fnum(v['수위']) is not None]
+    iv = [r3b.fnum(v['유입량']) for (c, t), v in ms().d.items() if c == code and r3b.fnum(v['유입량']) is not None]
+    rl, ri = (max(lv) - min(lv)) or 1, (max(iv) - min(iv)) or 1
+    ops = cypher("MATCH (o:Operation)-[:performedOnDam]->(d:Dam {damName:$dam}) RETURN toString(o.operationTime) AS time, collect(o.id) AS ops", dam=dam)
+    cand = {}
+    for o in cypher("MATCH (o:Operation)-[:performedOnDam]->(d:Dam {damName:$dam}) RETURN o.id AS op, toString(o.operationTime) AS time", dam=dam):
+        t0 = datetime.strptime(o['time'][:16], '%Y-%m-%dT%H:%M'); th = t0 if t0.minute == 0 else t0.replace(minute=0) + timedelta(hours=1)
+        v = ms().d.get((code, th))
+        if not v or r3b.fnum(v['수위']) is None or r3b.fnum(v['유입량']) is None:
+            continue
+        dist = abs(cur['수위'] - r3b.fnum(v['수위'])) / rl + abs(cur['유입량'] - r3b.fnum(v['유입량'])) / ri
+        c = cand.setdefault(o['time'], {'time': o['time'], 'distance': round(dist, 4), 'state_at_op': {x: v[x] for x in ('수위', '유입량', '총방류량', '강우량')}, 'operations': []})
+        c['operations'].append(o['op'])
+    best = sorted(cand.values(), key=lambda x: x['distance'])[:k]
+    cases = []
+    for b in best:
+        t0 = datetime.strptime(b['time'][:16], '%Y-%m-%dT%H:%M')
+        rows = cypher("MATCH (a:Approval)-[:authorizes]->(o:Operation) WHERE o.id IN $ids RETURN o.id AS op, o.operationType AS type, a.id AS approval, toString(a.approvalTime) AS approval_date, a.approvalContent AS approval_content ORDER BY op, approval", ids=b['operations'])
+        cases.append(dict(b, rows=rows, state_window=measure(dam, t0 - timedelta(hours=6), t0 + timedelta(hours=13)), approval_evidence=[e for r in rows[:1] for e in evidence(r['approval'])]))
+    return {'as_of': str(t_now), 'current': cur, 'ranges_used': {'수위': round(rl, 3), '유입량': round(ri, 3)}, 'n_candidates': len(cand), 'cases': cases}
+
+
 def run(req):
     q, err = validate(req)
     if err:
@@ -159,6 +188,8 @@ def run(req):
                                 dam=dam, s=q['start'].strftime('%Y-%m-%d'), e=q['end'].strftime('%Y-%m-%d'))
     elif it == 'CQ5':
         R['criterion'] = criterion(dam)
+    elif it == 'SIMILAR':
+        R['similar'] = similar(dam, q['k']); R['criterion'] = criterion(dam)
     elif it == 'CQ6':
         t = q['target']
         if t['type'] == 'approval': R['evidence'] = evidence('APR:' + str(t['id']).replace('APR:', ''))

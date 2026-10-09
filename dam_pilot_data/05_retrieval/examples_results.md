@@ -45,12 +45,22 @@
 - 요청: `{"intent": "INTEGRATED", "slots": {"dam": "소양강댐", "time": {"start": "2017-08-24", "end": "2017-08-31"}}}`
 - 결과 요약: `{"status": "ok", "operations": 4, "cases": 4, "criterion": 1}`
 
-## 10. CQ1
+## 10. SIMILAR
+- 질문: 지금 소양강댐 상황이랑 비슷했던 과거에는 어떻게 했어?
+- 요청: `{"intent": "SIMILAR", "slots": {"dam": "소양강댐"}}`
+- 결과 요약: `{"status": "ok", "criterion": 1}`
+
+## 11. SIMILAR
+- 질문: 광동댐 현재 상태와 비슷한 과거 사례 두 개만 보여줘
+- 요청: `{"intent": "SIMILAR", "slots": {"dam": "광동", "k": 2}}`
+- 결과 요약: `{"status": "ok", "criterion": 0}`
+
+## 12. CQ1
 - 질문: 팔당댐 현재 수위는?
 - 요청: `{"intent": "CQ1", "slots": {"dam": "팔당댐"}}`
 - 결과 요약: `{"status": "refused", "reason": "허용되지 않은 댐: 팔당댐"}`
 
-## 11. OUT_OF_SCOPE
+## 13. OUT_OF_SCOPE
 - 질문: 충주댐은 왜 2020년 8월에 방류했어?
 - 요청: `{"intent": "OUT_OF_SCOPE", "slots": {"reason": "방류 사유는 자료에 없음"}}`
 - 결과 요약: `{"status": "refused", "reason": "범위 밖: 방류 사유는 자료에 없음"}`
