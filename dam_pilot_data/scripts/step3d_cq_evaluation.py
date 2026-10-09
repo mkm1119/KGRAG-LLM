@@ -86,7 +86,7 @@ for o in ops:
     opw[label[d]][0] += 1
     opw[label[d]][1] += 1 if n > 0 else 0
 M('CQ2', '운영행위 69건의 상태 창', '%d/%d건에서 조회 가능' % (sum(v[1] for v in opw.values()), len(ops)), '동일', '; '.join('%s %d/%d' % (k, v[1], v[0]) for k, v in sorted(opw.items())))
-M('CQ2', '임의 과거 시점(2021-01 이후)', '5개 댐 모두 시간 단위 조회 가능', '동일', '; '.join('%s %s~%s' % (CODES[c], v[0].date(), v[1].date()) for c, v in sorted(ms.cover.items())))
+M('CQ2', '임의 과거 시점(연속 구간)', '5개 댐 모두 시간 단위 조회 가능', '동일', '; '.join('%s %s~%s' % (CODES[c], v[0].date(), v[1].date()) for c, v in sorted(ms.cover.items())))
 
 # ---------- CQ3 과거 운영행위
 sel = collections.Counter(P[o]['operationType'] for o in ops)

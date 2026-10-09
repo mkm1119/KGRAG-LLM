@@ -99,6 +99,12 @@ class Measurement:
         for r in csv.DictReader(gzip.open(os.path.join(N, 'kwater_mywater_hydr_H_wide.csv.gz'), 'rt', encoding='utf-8-sig')):
             if r['DAM_CD'] in CODES:
                 self.d[(r['DAM_CD'], label_time(r['SDATE_raw']))] = {v: r[c] for v, c in VARS.items()}
+        # 승인 기간에 맞춰 새로 받은 시간자료(2010~2020). 파일이 없으면 건너뜀. 같은 (댐, 시각)이 있으면 기존 값을 유지한다.
+        ap = os.path.join(N, 'kwater_mywater_hydr_H_aligned_wide.csv.gz')
+        if os.path.exists(ap):
+            for r in csv.DictReader(gzip.open(ap, 'rt', encoding='utf-8-sig')):
+                if r['DAM_CD'] in CODES:
+                    self.d.setdefault((r['DAM_CD'], label_time(r['SDATE_raw'])), {v: r[c] for v, c in VARS.items()})
         cases = {r['case_id']: r for r in rd('linkage_pilot_cases.csv')}
         off = [c for c in rd('linkage_pilot_measurement_extract.csv')[0].keys() if c.startswith('offset')][0]
         for r in rd('linkage_pilot_measurement_extract.csv'):
@@ -112,6 +118,9 @@ class Measurement:
             c[1] = t if c[1] is None or t > c[1] else c[1]
 
     def window(self, code, t, before=6, after=12):
+        # 시간 단위 라벨(01~24시, 시각 의미 미확정)에 맞추기 위해 정시가 아닌 시각은 다음 정시로 올린다(예: 17:50 -> 18:00).
+        if t.minute or t.second:
+            t = t.replace(minute=0, second=0, microsecond=0) + timedelta(hours=1)
         rows = []
         for h in range(-before, after + 1):
             tt = t + timedelta(hours=h)
