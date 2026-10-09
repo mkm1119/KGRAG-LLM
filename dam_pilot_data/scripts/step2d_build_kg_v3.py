@@ -64,15 +64,9 @@ for eff, d in sorted(vers.items()):
     chunks.append(('LAWHIST:별표3@' + eff, '댐과 보 등의 연계운영규정(연혁)', '별표 3 / 시행 ' + eff, '\n'.join(lines)))
     prov.append((ev, 'entity', '03_normalized/criterion_version_history.csv', 'effective_from=' + eff, 'MR-EVI-HIST', 'real', '판별 값은 연혁 표에서 읽음(원문 XML 대조 필요)'))
 
-# (C) 법령 조문 청크는 문서 저장소에만 둔다(결정 2026-10: 규정 규칙 18개는 KG에서 제외. CQ1~CQ6에 필요하지 않음).
-seen = set()
-for r in rd('regulation_rules_v1.csv'):
-    if r['source_doc'] == '연계운영규정':
-        continue
-    art = re.match(r'(제\d+조(?:의\d+)?)', r['article']).group(1)
-    if (r['source_doc'], art) not in seen:
-        seen.add((r['source_doc'], art))
-        chunks.append(('LAW:%s:%s' % (r['source_doc'].replace(' ', ''), art), r['source_doc'], art, DOCS[r['source_doc']][art]))
+# (C) 문서 저장소에는 KG의 chunkId가 가리키는 청크(별표3 현행·연혁)만 둔다. 어떤 개체도 참조하지 않는 조문 청크는 두지 않는다(결정 2026-10).
+used = {x[2] for x in props if x[1] == 'chunkId'}
+chunks = [c for c in chunks if c[0] in used]
 
 wr('kgv3_entities.csv', ['entity_id', 'class', 'label'], ents)
 wr('kgv3_properties.csv', ['entity_id', 'property', 'value', 'datatype'], props)
