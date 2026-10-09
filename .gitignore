@@ -4,3 +4,6 @@ dam_pilot_data/01_raw/KWater/mywater_station/
 
 __pycache__/
 *.pyc
+
+# 수집 진행 중인 원응답(완료 후 압축본으로 커밋)
+dam_pilot_data/01_raw/KWater/mywater_aligned/
