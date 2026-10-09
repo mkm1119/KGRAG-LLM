@@ -92,7 +92,7 @@ M('CQ2', '임의 과거 시점(연속 구간)', '%d개 댐 모두 시간 단위 
 sel = collections.Counter(P[o]['operationType'] for o in ops)
 M('CQ3', '운영행위 개체', '%d개 (승인 %d/%d건에서 생성)' % (len(ops), len({G[True][1][o]['authorizes'][0] for o in ops}), len(apps)), '동일', '유형: ' + ', '.join('%s %d' % kv for kv in sel.most_common()))
 cc = collections.Counter(P[o].get('x_measured_check', '속성없음') for o in ops)
-M('CQ3', '측정 대조(행위 방향 vs 총방류량 변화)', '속성 없음(변형 속성)', '; '.join('%s %d' % kv for kv in cc.most_common()), '시작 전후 총방류량, 임계 0.5 CMS; 일치는 방향 확인이며 수행의 직접 증명 아님')
+M('CQ3', '측정 대조(행위 방향 vs 총방류량 변화)', '속성 없음(변형 속성)', '; '.join('%s %d' % kv for kv in cc.most_common()), '행위 시각=측정 변화 시각이면 변화의 부호를 행위 방향과 대조; 일치는 방향 확인이며 수행의 직접 증명 아님')
 
 # ---------- CQ4 과거 방류 승인
 def reach(strict):

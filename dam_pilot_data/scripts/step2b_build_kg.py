@@ -116,6 +116,10 @@ def main():
         E(oid, 'Operation', '%s %s (%s)' % (DAMS[r['댐']][0], r['operationType'], r['operationTime']))
         P(oid, 'operationType', r['operationType'])
         P(oid, 'operationTime', iso(r['operationTime']), 'datetime')
+        P(oid, 'x_approvedStartTime', iso(r['approved_start']), 'datetime')
+        P(oid, 'x_timeSource', r['time_source'])
+        if r['change_amount']:
+            P(oid, 'x_changeAmountCMS', r['change_amount'], 'decimal')
         R(oid, 'performedOnDam', 'DAM:' + code, 'MR-OPR-DAM', 'derived', '승인 행의 시설 코드')
         R('APR:' + seq, 'authorizes', oid, 'MR-AUTH', 'constructed', '같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)')
         R(oid, 'supportedBy', 'EVI:AP:' + seq, 'MR-SUP-OPR', 'derived')

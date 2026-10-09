@@ -39,6 +39,38 @@ def clean(b):
     return re.sub(r'\s+', ' ', b).strip()
 
 
+import importlib.util
+from datetime import datetime, timedelta
+_spec = importlib.util.spec_from_file_location('r3b', os.path.join(os.path.dirname(os.path.abspath(__file__)), 'step3b_retrieval.py'))
+r3b = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(r3b)
+MS = r3b.Measurement()
+NAME2CODE = {v.replace('댐', ''): k for k, v in r3b.CODES.items()}
+BEFORE, AFTER, ABS_THR, REL_THR = 3, 6, 1.0, 0.10
+
+
+def observed_change(dam, start):
+    """결정(2026-10): 행위 시각 = 방류 시작 시각 앞 BEFORE시간~뒤 AFTER시간에서 총방류량이 직전 시각보다 max(ABS_THR CMS, REL_THR) 이상 바뀐 시각 중 시작에 가장 가까운 것(같으면 나중).
+    측정 라벨 시각(01~24시, 의미 미확정, ±1시간)을 그대로 쓴다. 없으면 None."""
+    t0 = datetime.strptime(start, '%Y-%m-%d %H:%M')
+    if t0.minute:
+        t0 = t0.replace(minute=0) + timedelta(hours=1)
+    code, ser = NAME2CODE[dam], {}
+    for h in range(-BEFORE - 1, AFTER + 1):
+        v = MS.d.get((code, t0 + timedelta(hours=h)))
+        if v and r3b.fnum(v['총방류량']) is not None:
+            ser[h] = r3b.fnum(v['총방류량'])
+    cand = []
+    for h in range(-BEFORE, AFTER + 1):
+        if h in ser and h - 1 in ser:
+            d = ser[h] - ser[h - 1]
+            if abs(d) >= max(ABS_THR, REL_THR * max(ser[h - 1], 0.1)):
+                cand.append((h, d))
+    if not cand:
+        return None
+    h, d = min(cand, key=lambda x: (abs(x[0]), -x[0]))
+    return (t0 + timedelta(hours=h)).strftime('%Y-%m-%d %H:%M'), d
+
+
 def classify(rec):
     raw = rec['비고'].strip()
     start = rec['방류시작시간'].strip()
@@ -88,15 +120,24 @@ def main():
                 '방류시작시간': r['방류시작시간'], '접수방류량': r['접수방류량'], '비고_원문': r['비고'].replace('\n', ' ').strip()}
         if ops:
             for o in ops:
+                o['approved_start'] = r['방류시작시간'].strip()
+                if o['time_source'] == '방류시작시간':
+                    oc = observed_change(r['관측소명'], r['방류시작시간'].strip())
+                    if oc:
+                        o['operationTime'], o['time_source'], o['change_amount'] = oc[0], '측정 방류량 변화 시각', round(oc[1], 3)
+                    else:
+                        o['time_source'], o['change_amount'] = '승인 시작시각(변화 미검출)', ''
+                else:
+                    o['change_amount'] = ''
                 review = 'Y' if (o['operationType'] == '수문조작(연계 시설)' or o['rule'] in ('타 시설 수문조작 문구',)) else 'N'
                 out.append({**base, 'operation_created': 'Y', **o, 'not_created_reason': '', 'review_needed': review})
         else:
             noop[why_not] += 1
             review = 'Y' if why_not.startswith('한정어') else 'N'
             out.append({**base, 'operation_created': 'N', 'operationType': '', 'rule': '', 'operationTime': '', 'time_source': '',
-                        'amount_raw': '', 'has_change_text': '', 'not_created_reason': why_not, 'review_needed': review})
+                        'amount_raw': '', 'has_change_text': '', 'approved_start': '', 'change_amount': '', 'not_created_reason': why_not, 'review_needed': review})
     cols = ['순차번호', '댐', '승인일', '방류시작시간', '접수방류량', '비고_원문', 'operation_created', 'operationType', 'rule',
-            'operationTime', 'time_source', 'amount_raw', 'has_change_text', 'not_created_reason', 'review_needed']
+            'operationTime', 'time_source', 'approved_start', 'change_amount', 'amount_raw', 'has_change_text', 'not_created_reason', 'review_needed']
     with open(OUT, 'w', newline='', encoding='utf-8-sig') as f:
         w = csv.DictWriter(f, fieldnames=cols); w.writeheader(); w.writerows(out)
     made = [o for o in out if o['operation_created'] == 'Y']
