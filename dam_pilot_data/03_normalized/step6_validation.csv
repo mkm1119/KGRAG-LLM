@@ -5,6 +5,6 @@ V3,날짜·시각·수치 값 형식,통과,0,[]
 V4,HMS·Operation·Approval·Criterion 모두 근거자료에 연결됨,통과,0,[]
 V5,승인의 댐(concernsDam)과 그 승인이 허가한 행위의 댐(performedOnDam)이 같음,통과,0,[]
 V6,온톨로지에 없는 데이터 속성(x_ 접두),정보,0,
-V7,문서 8개 관계 밖의 관계,정보,81,{'concernsDam': 81}
-V9,CQ4 댐에서 도달 가능한 승인: 수정 전(관계 8개),정보,75/81,Dam←performedOnDam←Operation←authorizes←Approval 경로만 사용
-V10,CQ4 댐에서 도달 가능한 승인: 수정 후(concernsDam 추가),정보,81/81,
+V7,문서 8개 관계 밖의 관계,정보,80,{'concernsDam': 80}
+V9,CQ4 댐에서 도달 가능한 승인: 수정 전(관계 8개),정보,74/80,Dam←performedOnDam←Operation←authorizes←Approval 경로만 사용
+V10,CQ4 댐에서 도달 가능한 승인: 수정 후(concernsDam 추가),정보,80/80,

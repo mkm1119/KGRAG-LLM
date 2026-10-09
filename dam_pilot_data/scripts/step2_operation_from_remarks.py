@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """승인 비고(자유 문장)를 Operation(방류·조작 행위)으로 분류한다. 규칙 기반, stdlib만 사용.
 
-입력: 03_normalized/approval_records_hrfco_raw_fields.csv (한강홍수통제소 댐방류승인 원자료)
+입력: 03_normalized/approval_records_clean.csv (한강홍수통제소 댐방류승인, step2f 전처리 후)
 출력: 03_normalized/operation_from_remarks_5dams.csv
 원칙: 비고에 행위가 적힌 승인은 그 행위로, 비고가 없거나 한정어/수치뿐인 승인은 일반 '방류'로 Operation을 만든다(결정 2026-10). 승인 변경 문구뿐인 승인은 같은 방류의 변경이므로 만들지 않고 사유를 남긴다.
 비고는 승인 문구이므로 '실행 확인'이 아니다.
@@ -9,7 +9,7 @@
 import csv, re, collections, sys, os
 
 BASE = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '03_normalized')
-SRC = os.path.join(BASE, 'approval_records_hrfco_raw_fields.csv')
+SRC = os.path.join(BASE, 'approval_records_clean.csv')
 OUT = os.path.join(BASE, 'operation_from_remarks_5dams.csv')
 DAMS = ('충주', '소양강', '횡성', '광동')  # 충주조정지는 테스트 대상에서 제외(2026-10 결정)
 

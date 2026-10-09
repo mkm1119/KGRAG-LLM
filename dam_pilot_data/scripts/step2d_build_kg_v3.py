@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """STEP 2D: KG v3 구축. KG v2에 (1) Approval–Dam 직접 관계, (2) 기준 연혁 9개 판의 근거, (3) 관련 조문 청크(문서 저장소)를 더한다.
 온톨로지에 없는 요소는 origin='variant' 또는 속성 이름 'x_'로 표시해, 평가에서 v1(엄격)과 v1.1(변형)을 가를 수 있게 한다. stdlib만 사용.
-입력: kgv2_*.csv, approval_records_hrfco_raw_fields.csv, criterion_version_history.csv, regulation_rules_v1.csv, han_system_membership_byeolpyo1.csv
+입력: kgv2_*.csv, approval_records_clean.csv, criterion_version_history.csv, regulation_rules_v1.csv, han_system_membership_byeolpyo1.csv
 출력: kgv3_entities / kgv3_properties / kgv3_relations / kgv3_provenance / kgv3_chunks (03_normalized)
 """
 import csv, importlib.util, os, re
@@ -31,7 +31,7 @@ have = {e[0] for e in ents}
 DAMCODES = {'충주': '1003110', '소양강': '1012110', '횡성': '1006110', '광동': '1001210'}
 
 # (A) Approval–Dam 직접 관계 (온톨로지 수정: 관계 추가, C12)
-for r in rd('approval_records_hrfco_raw_fields.csv'):
+for r in rd('approval_records_clean.csv'):
     if r['관측소명'] in DAMCODES:
         rels.append(('APR:' + r['순차번호'], 'concernsDam', 'DAM:' + DAMCODES[r['관측소명']], 'MR-APR-DAM', 'ontology-fix', '온톨로지 수정(C12): 승인 행의 시설 코드'))
 

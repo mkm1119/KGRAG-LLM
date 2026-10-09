@@ -73,7 +73,6 @@ APR:1687,supportedBy,EVI:AP:1687,MR-SUP-APR,real,
 APR:1992,supportedBy,EVI:AP:1992,MR-SUP-APR,real,
 APR:2218,supportedBy,EVI:AP:2218,MR-SUP-APR,real,
 APR:2219,supportedBy,EVI:AP:2219,MR-SUP-APR,real,
-APR:2220,supportedBy,EVI:AP:2220,MR-SUP-APR,real,
 APR:2327,supportedBy,EVI:AP:2327,MR-SUP-APR,real,
 APR:2344,supportedBy,EVI:AP:2344,MR-SUP-APR,real,
 APR:2350,supportedBy,EVI:AP:2350,MR-SUP-APR,real,
@@ -203,9 +202,6 @@ OPR:2218:1,supportedBy,EVI:AP:2218,MR-SUP-OPR,derived,
 OPR:2219:1,performedOnDam,DAM:1001210,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:2219,authorizes,OPR:2219:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:2219:1,supportedBy,EVI:AP:2219,MR-SUP-OPR,derived,
-OPR:2220:1,performedOnDam,DAM:1001210,MR-OPR-DAM,derived,승인 행의 시설 코드
-APR:2220,authorizes,OPR:2220:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
-OPR:2220:1,supportedBy,EVI:AP:2220,MR-SUP-OPR,derived,
 OPR:2327:1,performedOnDam,DAM:1001210,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:2327,authorizes,OPR:2327:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:2327:1,supportedBy,EVI:AP:2327,MR-SUP-OPR,derived,
@@ -379,7 +375,6 @@ APR:1687,concernsDam,DAM:1006110,MR-APR-DAM,ontology-fix,온톨로지 수정(C12
 APR:1992,concernsDam,DAM:1006110,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
 APR:2218,concernsDam,DAM:1001210,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
 APR:2219,concernsDam,DAM:1001210,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
-APR:2220,concernsDam,DAM:1001210,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
 APR:2327,concernsDam,DAM:1001210,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
 APR:2344,concernsDam,DAM:1001210,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드
 APR:2350,concernsDam,DAM:1001210,MR-APR-DAM,ontology-fix,온톨로지 수정(C12): 승인 행의 시설 코드

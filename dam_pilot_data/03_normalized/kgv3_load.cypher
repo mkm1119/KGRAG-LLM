@@ -85,8 +85,6 @@ MERGE (n:Entity:Approval {id: 'APR:2218'}) SET n.label = '승인 2218 (광동댐
 MERGE (n:Entity:EvidenceSource {id: 'EVI:AP:2218'}) SET n.label = '한강홍수통제소 댐방류승인 순차번호 2218', n.sourceTitle = '환경부 한강홍수통제소 홍수예보 댐방류승인', n.sourceType = '승인자료', n.sourceLocator = '순차번호 2218';
 MERGE (n:Entity:Approval {id: 'APR:2219'}) SET n.label = '승인 2219 (광동댐)', n.approvalTime = date('2016-07-04'), n.approvalContent = '방류시작 2016-07-04 18:40; 접수방류량 200㎥/s';
 MERGE (n:Entity:EvidenceSource {id: 'EVI:AP:2219'}) SET n.label = '한강홍수통제소 댐방류승인 순차번호 2219', n.sourceTitle = '환경부 한강홍수통제소 홍수예보 댐방류승인', n.sourceType = '승인자료', n.sourceLocator = '순차번호 2219';
-MERGE (n:Entity:Approval {id: 'APR:2220'}) SET n.label = '승인 2220 (광동댐)', n.approvalTime = date('2016-07-04'), n.approvalContent = '방류시작 2016-07-04 18:00; 접수방류량 200㎥/s';
-MERGE (n:Entity:EvidenceSource {id: 'EVI:AP:2220'}) SET n.label = '한강홍수통제소 댐방류승인 순차번호 2220', n.sourceTitle = '환경부 한강홍수통제소 홍수예보 댐방류승인', n.sourceType = '승인자료', n.sourceLocator = '순차번호 2220';
 MERGE (n:Entity:Approval {id: 'APR:2327'}) SET n.label = '승인 2327 (광동댐)', n.approvalTime = date('2016-07-15'), n.approvalContent = '방류시작 2016-07-16 12:00; 접수방류량 100㎥/s; 비고: (초기수문방류 100㎥/s)';
 MERGE (n:Entity:EvidenceSource {id: 'EVI:AP:2327'}) SET n.label = '한강홍수통제소 댐방류승인 순차번호 2327', n.sourceTitle = '환경부 한강홍수통제소 홍수예보 댐방류승인', n.sourceType = '승인자료', n.sourceLocator = '순차번호 2327';
 MERGE (n:Entity:Approval {id: 'APR:2344'}) SET n.label = '승인 2344 (광동댐)', n.approvalTime = date('2016-08-28'), n.approvalContent = '방류시작 2016-08-29 00:00; 접수방류량 100㎥/s; 비고: (초기수문방류 100㎥/s)';
@@ -220,7 +218,6 @@ MERGE (n:Entity:Operation {id: 'OPR:1670:1'}) SET n.label = '횡성댐 방류 (2
 MERGE (n:Entity:Operation {id: 'OPR:1992:1'}) SET n.label = '횡성댐 방류 (2013-07-22 17:00)', n.operationType = '방류', n.operationTime = datetime('2013-07-22T17:00:00');
 MERGE (n:Entity:Operation {id: 'OPR:2218:1'}) SET n.label = '광동댐 방류 (2016-07-04 18:00)', n.operationType = '방류', n.operationTime = datetime('2016-07-04T18:00:00');
 MERGE (n:Entity:Operation {id: 'OPR:2219:1'}) SET n.label = '광동댐 방류 (2016-07-04 19:00)', n.operationType = '방류', n.operationTime = datetime('2016-07-04T19:00:00');
-MERGE (n:Entity:Operation {id: 'OPR:2220:1'}) SET n.label = '광동댐 방류 (2016-07-04 18:00)', n.operationType = '방류', n.operationTime = datetime('2016-07-04T18:00:00');
 MERGE (n:Entity:Operation {id: 'OPR:2327:1'}) SET n.label = '광동댐 초기방류 (2016-07-16 13:00)', n.operationType = '초기방류', n.operationTime = datetime('2016-07-16T13:00:00');
 MERGE (n:Entity:Operation {id: 'OPR:2344:1'}) SET n.label = '광동댐 초기방류 (2016-08-29 00:00)', n.operationType = '초기방류', n.operationTime = datetime('2016-08-29T00:00:00');
 MERGE (n:Entity:Operation {id: 'OPR:2350:1'}) SET n.label = '광동댐 탄력적 방류 (2016-10-02 17:00)', n.operationType = '탄력적 방류', n.operationTime = datetime('2016-10-02T17:00:00');
@@ -350,7 +347,6 @@ MATCH (a:Entity {id: 'APR:1687'}), (b:Entity {id: 'EVI:AP:1687'}) MERGE (a)-[r:s
 MATCH (a:Entity {id: 'APR:1992'}), (b:Entity {id: 'EVI:AP:1992'}) MERGE (a)-[r:supportedBy]->(b) SET r.rule = 'MR-SUP-APR', r.origin = 'real', r.note = '';
 MATCH (a:Entity {id: 'APR:2218'}), (b:Entity {id: 'EVI:AP:2218'}) MERGE (a)-[r:supportedBy]->(b) SET r.rule = 'MR-SUP-APR', r.origin = 'real', r.note = '';
 MATCH (a:Entity {id: 'APR:2219'}), (b:Entity {id: 'EVI:AP:2219'}) MERGE (a)-[r:supportedBy]->(b) SET r.rule = 'MR-SUP-APR', r.origin = 'real', r.note = '';
-MATCH (a:Entity {id: 'APR:2220'}), (b:Entity {id: 'EVI:AP:2220'}) MERGE (a)-[r:supportedBy]->(b) SET r.rule = 'MR-SUP-APR', r.origin = 'real', r.note = '';
 MATCH (a:Entity {id: 'APR:2327'}), (b:Entity {id: 'EVI:AP:2327'}) MERGE (a)-[r:supportedBy]->(b) SET r.rule = 'MR-SUP-APR', r.origin = 'real', r.note = '';
 MATCH (a:Entity {id: 'APR:2344'}), (b:Entity {id: 'EVI:AP:2344'}) MERGE (a)-[r:supportedBy]->(b) SET r.rule = 'MR-SUP-APR', r.origin = 'real', r.note = '';
 MATCH (a:Entity {id: 'APR:2350'}), (b:Entity {id: 'EVI:AP:2350'}) MERGE (a)-[r:supportedBy]->(b) SET r.rule = 'MR-SUP-APR', r.origin = 'real', r.note = '';
@@ -480,9 +476,6 @@ MATCH (a:Entity {id: 'OPR:2218:1'}), (b:Entity {id: 'EVI:AP:2218'}) MERGE (a)-[r
 MATCH (a:Entity {id: 'OPR:2219:1'}), (b:Entity {id: 'DAM:1001210'}) MERGE (a)-[r:performedOnDam]->(b) SET r.rule = 'MR-OPR-DAM', r.origin = 'derived', r.note = '승인 행의 시설 코드';
 MATCH (a:Entity {id: 'APR:2219'}), (b:Entity {id: 'OPR:2219:1'}) MERGE (a)-[r:authorizes]->(b) SET r.rule = 'MR-AUTH', r.origin = 'constructed', r.note = '같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)';
 MATCH (a:Entity {id: 'OPR:2219:1'}), (b:Entity {id: 'EVI:AP:2219'}) MERGE (a)-[r:supportedBy]->(b) SET r.rule = 'MR-SUP-OPR', r.origin = 'derived', r.note = '';
-MATCH (a:Entity {id: 'OPR:2220:1'}), (b:Entity {id: 'DAM:1001210'}) MERGE (a)-[r:performedOnDam]->(b) SET r.rule = 'MR-OPR-DAM', r.origin = 'derived', r.note = '승인 행의 시설 코드';
-MATCH (a:Entity {id: 'APR:2220'}), (b:Entity {id: 'OPR:2220:1'}) MERGE (a)-[r:authorizes]->(b) SET r.rule = 'MR-AUTH', r.origin = 'constructed', r.note = '같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)';
-MATCH (a:Entity {id: 'OPR:2220:1'}), (b:Entity {id: 'EVI:AP:2220'}) MERGE (a)-[r:supportedBy]->(b) SET r.rule = 'MR-SUP-OPR', r.origin = 'derived', r.note = '';
 MATCH (a:Entity {id: 'OPR:2327:1'}), (b:Entity {id: 'DAM:1001210'}) MERGE (a)-[r:performedOnDam]->(b) SET r.rule = 'MR-OPR-DAM', r.origin = 'derived', r.note = '승인 행의 시설 코드';
 MATCH (a:Entity {id: 'APR:2327'}), (b:Entity {id: 'OPR:2327:1'}) MERGE (a)-[r:authorizes]->(b) SET r.rule = 'MR-AUTH', r.origin = 'constructed', r.note = '같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)';
 MATCH (a:Entity {id: 'OPR:2327:1'}), (b:Entity {id: 'EVI:AP:2327'}) MERGE (a)-[r:supportedBy]->(b) SET r.rule = 'MR-SUP-OPR', r.origin = 'derived', r.note = '';
@@ -656,7 +649,6 @@ MATCH (a:Entity {id: 'APR:1687'}), (b:Entity {id: 'DAM:1006110'}) MERGE (a)-[r:c
 MATCH (a:Entity {id: 'APR:1992'}), (b:Entity {id: 'DAM:1006110'}) MERGE (a)-[r:concernsDam]->(b) SET r.rule = 'MR-APR-DAM', r.origin = 'ontology-fix', r.note = '온톨로지 수정(C12): 승인 행의 시설 코드';
 MATCH (a:Entity {id: 'APR:2218'}), (b:Entity {id: 'DAM:1001210'}) MERGE (a)-[r:concernsDam]->(b) SET r.rule = 'MR-APR-DAM', r.origin = 'ontology-fix', r.note = '온톨로지 수정(C12): 승인 행의 시설 코드';
 MATCH (a:Entity {id: 'APR:2219'}), (b:Entity {id: 'DAM:1001210'}) MERGE (a)-[r:concernsDam]->(b) SET r.rule = 'MR-APR-DAM', r.origin = 'ontology-fix', r.note = '온톨로지 수정(C12): 승인 행의 시설 코드';
-MATCH (a:Entity {id: 'APR:2220'}), (b:Entity {id: 'DAM:1001210'}) MERGE (a)-[r:concernsDam]->(b) SET r.rule = 'MR-APR-DAM', r.origin = 'ontology-fix', r.note = '온톨로지 수정(C12): 승인 행의 시설 코드';
 MATCH (a:Entity {id: 'APR:2327'}), (b:Entity {id: 'DAM:1001210'}) MERGE (a)-[r:concernsDam]->(b) SET r.rule = 'MR-APR-DAM', r.origin = 'ontology-fix', r.note = '온톨로지 수정(C12): 승인 행의 시설 코드';
 MATCH (a:Entity {id: 'APR:2344'}), (b:Entity {id: 'DAM:1001210'}) MERGE (a)-[r:concernsDam]->(b) SET r.rule = 'MR-APR-DAM', r.origin = 'ontology-fix', r.note = '온톨로지 수정(C12): 승인 행의 시설 코드';
 MATCH (a:Entity {id: 'APR:2350'}), (b:Entity {id: 'DAM:1001210'}) MERGE (a)-[r:concernsDam]->(b) SET r.rule = 'MR-APR-DAM', r.origin = 'ontology-fix', r.note = '온톨로지 수정(C12): 승인 행의 시설 코드';

@@ -215,7 +215,7 @@ def fmt_bundle(q, bs, extra=''):
 # ---------------- 표 기반 대조(KG 미사용) ----------------
 def tb_approvals(code, start, end):
     res = []
-    for r in rd('approval_records_hrfco_raw_fields.csv'):
+    for r in rd('approval_records_clean.csv'):
         if r['관측소코드'] == code:
             d = datetime.strptime(r['승인년월일시분'][:10], '%Y-%m-%d')
             if start <= d < end:

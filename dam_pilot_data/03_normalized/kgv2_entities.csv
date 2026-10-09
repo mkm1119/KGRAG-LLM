@@ -84,8 +84,6 @@ APR:2218,Approval,승인 2218 (광동댐)
 EVI:AP:2218,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 2218
 APR:2219,Approval,승인 2219 (광동댐)
 EVI:AP:2219,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 2219
-APR:2220,Approval,승인 2220 (광동댐)
-EVI:AP:2220,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 2220
 APR:2327,Approval,승인 2327 (광동댐)
 EVI:AP:2327,EvidenceSource,한강홍수통제소 댐방류승인 순차번호 2327
 APR:2344,Approval,승인 2344 (광동댐)
@@ -219,7 +217,6 @@ OPR:1670:1,Operation,횡성댐 방류 (2013-07-15 12:00)
 OPR:1992:1,Operation,횡성댐 방류 (2013-07-22 17:00)
 OPR:2218:1,Operation,광동댐 방류 (2016-07-04 18:00)
 OPR:2219:1,Operation,광동댐 방류 (2016-07-04 19:00)
-OPR:2220:1,Operation,광동댐 방류 (2016-07-04 18:00)
 OPR:2327:1,Operation,광동댐 초기방류 (2016-07-16 13:00)
 OPR:2344:1,Operation,광동댐 초기방류 (2016-08-29 00:00)
 OPR:2350:1,Operation,광동댐 탄력적 방류 (2016-10-02 17:00)

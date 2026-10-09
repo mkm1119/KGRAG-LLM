@@ -85,7 +85,7 @@ def main():
               'stationCode는 댐 단위 시설 코드(관측소 코드 아님)')
 
     # ---- Approval + Evidence(승인자료, 순차번호별)
-    aps = [r for r in rd('approval_records_hrfco_raw_fields.csv') if r['관측소명'] in DAMS]
+    aps = [r for r in rd('approval_records_clean.csv') if r['관측소명'] in DAMS]
     for r in aps:
         seq, nm = r['순차번호'], r['관측소명']
         aid, evid = 'APR:' + seq, 'EVI:AP:' + seq
@@ -100,9 +100,9 @@ def main():
         P(evid, 'sourceType', '승인자료')
         P(evid, 'sourceLocator', '순차번호 ' + seq)
         R(aid, 'supportedBy', evid, 'MR-SUP-APR', 'real')
-        V(aid, 'entity', '03_normalized/approval_records_hrfco_raw_fields.csv', 'row_number_in_file=' + r['row_number_in_file'],
+        V(aid, 'entity', '03_normalized/approval_records_clean.csv', 'row_number_in_file=' + r['row_number_in_file'],
           'MR-APR', 'real', '승인일은 날짜만 있음; 시설은 Operation을 거쳐 Dam에 연결됨')
-        V(evid, 'entity', '03_normalized/approval_records_hrfco_raw_fields.csv', '순차번호=' + seq, 'MR-EVI-AP', 'real')
+        V(evid, 'entity', '03_normalized/approval_records_clean.csv', '순차번호=' + seq, 'MR-EVI-AP', 'real')
 
     # ---- Operation: 승인 비고에서 분류한 행위 (연구용 구성, 실행 확인 아님)
     k = collections.Counter()

@@ -67,7 +67,7 @@ def win_n(code, tstr):
     return len(ms.window(code, r3b.to_dt(tstr)))
 
 
-apv = {r['순차번호']: r for r in rd('approval_records_hrfco_raw_fields.csv') if r['관측소명'] in ('충주', '소양강', '횡성', '광동')}
+apv = {r['순차번호']: r for r in rd('approval_records_clean.csv') if r['관측소명'] in ('충주', '소양강', '횡성', '광동')}
 codes_by_name = {'충주': '1003110', '소양강': '1012110', '횡성': '1006110', '광동': '1001210'}
 by_dam = collections.defaultdict(lambda: [0, 0, 0, 0])
 for seq, r in apv.items():

@@ -200,11 +200,6 @@ APR:2219,approvalContent,방류시작 2016-07-04 18:40; 접수방류량 200㎥/s
 EVI:AP:2219,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
 EVI:AP:2219,sourceType,승인자료,string
 EVI:AP:2219,sourceLocator,순차번호 2219,string
-APR:2220,approvalTime,2016-07-04,date
-APR:2220,approvalContent,방류시작 2016-07-04 18:00; 접수방류량 200㎥/s,string
-EVI:AP:2220,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
-EVI:AP:2220,sourceType,승인자료,string
-EVI:AP:2220,sourceLocator,순차번호 2220,string
 APR:2327,approvalTime,2016-07-15,date
 APR:2327,approvalContent,방류시작 2016-07-16 12:00; 접수방류량 100㎥/s; 비고: (초기수문방류 100㎥/s),string
 EVI:AP:2327,sourceTitle,환경부 한강홍수통제소 홍수예보 댐방류승인,string
@@ -525,8 +520,6 @@ OPR:2218:1,operationType,방류,string
 OPR:2218:1,operationTime,2016-07-04T18:00,datetime
 OPR:2219:1,operationType,방류,string
 OPR:2219:1,operationTime,2016-07-04T19:00,datetime
-OPR:2220:1,operationType,방류,string
-OPR:2220:1,operationTime,2016-07-04T18:00,datetime
 OPR:2327:1,operationType,초기방류,string
 OPR:2327:1,operationTime,2016-07-16T13:00,datetime
 OPR:2344:1,operationType,초기방류,string
