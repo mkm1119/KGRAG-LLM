@@ -245,9 +245,6 @@ OPR:2755:1,supportedBy,EVI:AP:2755,MR-SUP-OPR,derived,
 OPR:2755:2,performedOnDam,DAM:1003110,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:2755,authorizes,OPR:2755:2,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:2755:2,supportedBy,EVI:AP:2755,MR-SUP-OPR,derived,
-OPR:2804:1,performedOnDam,DAM:1012110,MR-OPR-DAM,derived,승인 행의 시설 코드
-APR:2804,authorizes,OPR:2804:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
-OPR:2804:1,supportedBy,EVI:AP:2804,MR-SUP-OPR,derived,
 OPR:2866:1,performedOnDam,DAM:1006110,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:2866,authorizes,OPR:2866:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:2866:1,supportedBy,EVI:AP:2866,MR-SUP-OPR,derived,
@@ -260,18 +257,12 @@ OPR:2990:1,supportedBy,EVI:AP:2990,MR-SUP-OPR,derived,
 OPR:2994:1,performedOnDam,DAM:1001210,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:2994,authorizes,OPR:2994:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:2994:1,supportedBy,EVI:AP:2994,MR-SUP-OPR,derived,
-OPR:3034:1,performedOnDam,DAM:1001210,MR-OPR-DAM,derived,승인 행의 시설 코드
-APR:3034,authorizes,OPR:3034:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
-OPR:3034:1,supportedBy,EVI:AP:3034,MR-SUP-OPR,derived,
 OPR:3052:1,performedOnDam,DAM:1001210,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:3052,authorizes,OPR:3052:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:3052:1,supportedBy,EVI:AP:3052,MR-SUP-OPR,derived,
 OPR:3091:1,performedOnDam,DAM:1001210,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:3091,authorizes,OPR:3091:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:3091:1,supportedBy,EVI:AP:3091,MR-SUP-OPR,derived,
-OPR:3142:1,performedOnDam,DAM:1001210,MR-OPR-DAM,derived,승인 행의 시설 코드
-APR:3142,authorizes,OPR:3142:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
-OPR:3142:1,supportedBy,EVI:AP:3142,MR-SUP-OPR,derived,
 OPR:3178:1,performedOnDam,DAM:1003110,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:3178,authorizes,OPR:3178:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:3178:1,supportedBy,EVI:AP:3178,MR-SUP-OPR,derived,
@@ -320,15 +311,6 @@ OPR:3475:1,supportedBy,EVI:AP:3475,MR-SUP-OPR,derived,
 OPR:3503:1,performedOnDam,DAM:1012110,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:3503,authorizes,OPR:3503:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:3503:1,supportedBy,EVI:AP:3503,MR-SUP-OPR,derived,
-OPR:3646:1,performedOnDam,DAM:1012110,MR-OPR-DAM,derived,승인 행의 시설 코드
-APR:3646,authorizes,OPR:3646:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
-OPR:3646:1,supportedBy,EVI:AP:3646,MR-SUP-OPR,derived,
-OPR:3647:1,performedOnDam,DAM:1003110,MR-OPR-DAM,derived,승인 행의 시설 코드
-APR:3647,authorizes,OPR:3647:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
-OPR:3647:1,supportedBy,EVI:AP:3647,MR-SUP-OPR,derived,
-OPR:3648:1,performedOnDam,DAM:1006110,MR-OPR-DAM,derived,승인 행의 시설 코드
-APR:3648,authorizes,OPR:3648:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
-OPR:3648:1,supportedBy,EVI:AP:3648,MR-SUP-OPR,derived,
 OPR:3732:1,performedOnDam,DAM:1006110,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:3732,authorizes,OPR:3732:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:3732:1,supportedBy,EVI:AP:3732,MR-SUP-OPR,derived,
@@ -353,6 +335,18 @@ OPR:3862:1,supportedBy,EVI:AP:3862,MR-SUP-OPR,derived,
 OPR:3899:1,performedOnDam,DAM:1001210,MR-OPR-DAM,derived,승인 행의 시설 코드
 APR:3899,authorizes,OPR:3899:1,MR-AUTH,constructed,"같은 승인 행의 비고에서 분류한 행위(연구용 구성, 실행 확인 아님)"
 OPR:3899:1,supportedBy,EVI:AP:3899,MR-SUP-OPR,derived,
+APR:2804,authorizes,OPR:2754:1,MR-AUTH-CHG,inferred,변경 승인: 같은 댐·같은 방류 시작 시각의 원 승인 2754의 행위로 연결(추정)
+APR:2804,authorizes,OPR:2754:2,MR-AUTH-CHG,inferred,변경 승인: 같은 댐·같은 방류 시작 시각의 원 승인 2754의 행위로 연결(추정)
+APR:3297,authorizes,OPR:3293:1,MR-AUTH-CHG,inferred,변경 승인: 같은 댐·같은 방류 시작 시각의 원 승인 3293의 행위로 연결(추정)
+APR:3377,authorizes,OPR:3365:1,MR-AUTH-CHG,inferred,변경 승인: 같은 댐·같은 방류 시작 시각의 원 승인 3365의 행위로 연결(추정)
+APR:3519,authorizes,OPR:3412:1,MR-AUTH-CHG,inferred,변경 승인: 같은 댐·같은 방류 시작 시각의 원 승인 3412의 행위로 연결(추정)
+APR:3646,authorizes,OPR:3503:1,MR-AUTH-CHG,inferred,변경 승인: 같은 댐·같은 방류 시작 시각의 원 승인 3503의 행위로 연결(추정)
+APR:3648,authorizes,OPR:3475:1,MR-AUTH-CHG,inferred,변경 승인: 같은 댐·같은 방류 시작 시각의 원 승인 3475의 행위로 연결(추정)
+APR:3663,authorizes,OPR:3451:1,MR-AUTH-CHG,inferred,변경 승인: 같은 댐·같은 방류 시작 시각의 원 승인 3451의 행위로 연결(추정)
+APR:3767,authorizes,OPR:3742:1,MR-AUTH-CHG,inferred,변경 승인: 같은 댐·같은 방류 시작 시각의 원 승인 3742의 행위로 연결(추정)
+APR:3863,authorizes,OPR:3451:1,MR-AUTH-CHG,inferred,변경 승인: 같은 댐·같은 방류 시작 시각의 원 승인 3451의 행위로 연결(추정)
+APR:3918,authorizes,OPR:3899:1,MR-AUTH-CHG,inferred,변경 승인: 같은 댐·같은 방류 시작 시각의 원 승인 3899의 행위로 연결(추정)
+APR:3919,authorizes,OPR:3899:1,MR-AUTH-CHG,inferred,변경 승인: 같은 댐·같은 방류 시작 시각의 원 승인 3899의 행위로 연결(추정)
 CRI:CR-01,appliesToDam,DAM:1012110,MR-CRI-DAM,name-match,별표3 시설명 일치(코드 없음)
 CRI:CR-01,supportedBy,EVI:LAW:별표3,MR-SUP-CRI,real,
 CRI:CR-02,appliesToDam,DAM:1003110,MR-CRI-DAM,name-match,별표3 시설명 일치(코드 없음)

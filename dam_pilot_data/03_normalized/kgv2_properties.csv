@@ -553,8 +553,6 @@ OPR:2755:1,operationType,초기방류,string
 OPR:2755:1,operationTime,2017-08-25T15:00,datetime
 OPR:2755:2,operationType,탄력적 방류,string
 OPR:2755:2,operationTime,2017-08-25T15:00,datetime
-OPR:2804:1,operationType,탄력적 방류,string
-OPR:2804:1,operationTime,2017-08-25T15:00,datetime
 OPR:2866:1,operationType,증가방류,string
 OPR:2866:1,operationTime,2017-08-23T18:00,datetime
 OPR:2866:2,operationType,탄력적 방류,string
@@ -563,14 +561,10 @@ OPR:2990:1,operationType,탄력적 방류,string
 OPR:2990:1,operationTime,2018-06-29T17:00,datetime
 OPR:2994:1,operationType,탄력적 방류,string
 OPR:2994:1,operationTime,2018-06-30T13:00,datetime
-OPR:3034:1,operationType,탄력적 방류,string
-OPR:3034:1,operationTime,2018-07-06T18:00,datetime
 OPR:3052:1,operationType,탄력적 방류,string
 OPR:3052:1,operationTime,2018-08-23T23:00,datetime
 OPR:3091:1,operationType,방류,string
 OPR:3091:1,operationTime,2018-08-23T23:00,datetime
-OPR:3142:1,operationType,탄력적 방류,string
-OPR:3142:1,operationTime,2018-08-31T18:00,datetime
 OPR:3178:1,operationType,탄력적 방류,string
 OPR:3178:1,operationTime,2018-09-05T15:00,datetime
 OPR:3196:1,operationType,탄력적 방류,string
@@ -603,12 +597,6 @@ OPR:3475:1,operationType,탄력적 방류,string
 OPR:3475:1,operationTime,2020-08-04T15:00,datetime
 OPR:3503:1,operationType,방류,string
 OPR:3503:1,operationTime,2020-08-05T16:00,datetime
-OPR:3646:1,operationType,탄력적 방류,string
-OPR:3646:1,operationTime,2020-08-05T16:00,datetime
-OPR:3647:1,operationType,탄력적 방류,string
-OPR:3647:1,operationTime,2020-08-06T12:00,datetime
-OPR:3648:1,operationType,탄력적 방류,string
-OPR:3648:1,operationTime,2020-08-04T15:00,datetime
 OPR:3732:1,operationType,방류,string
 OPR:3732:1,operationTime,2020-08-26T17:00,datetime
 OPR:3733:1,operationType,방류,string

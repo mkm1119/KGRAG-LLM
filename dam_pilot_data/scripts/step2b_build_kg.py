@@ -106,12 +106,15 @@ def main():
 
     # ---- Operation: 승인 비고에서 분류한 행위 (연구용 구성, 실행 확인 아님)
     k = collections.Counter()
-    for r in rd('operation_from_remarks_5dams.csv'):
+    opsrows = rd('operation_from_remarks_5dams.csv')
+    ops_of = collections.defaultdict(list)
+    for r in opsrows:
         if r['operation_created'] != 'Y':
             continue
         seq = r['순차번호']
         k[seq] += 1
         oid = 'OPR:%s:%d' % (seq, k[seq])
+        ops_of[seq].append(oid)
         code = DAMS[r['댐']][1]
         E(oid, 'Operation', '%s %s (%s)' % (DAMS[r['댐']][0], r['operationType'], r['operationTime']))
         P(oid, 'operationType', r['operationType'])
@@ -121,6 +124,18 @@ def main():
         R(oid, 'supportedBy', 'EVI:AP:' + seq, 'MR-SUP-OPR', 'derived')
         V(oid, 'entity', '03_normalized/operation_from_remarks_5dams.csv', '순차번호=' + seq, r['rule'], 'derived(비고 분류)',
           '시각 출처: ' + r['time_source'])
+
+    # ---- 변경 승인 -> 원 승인의 Operation (같은 댐, 같은 방류 시작 시각이면 같은 방류 사건으로 추정)
+    first = {}
+    for r in opsrows:
+        first.setdefault(r['순차번호'], r)
+    for seq, r in first.items():
+        if not r['not_created_reason'].startswith('승인 변경'):
+            continue
+        for oseq, o in first.items():
+            if oseq != seq and o['댐'] == r['댐'] and o['방류시작시간'] == r['방류시작시간'] and not o['not_created_reason'].startswith('승인 변경'):
+                for oid in ops_of.get(oseq, []):
+                    R('APR:' + seq, 'authorizes', oid, 'MR-AUTH-CHG', 'inferred', '변경 승인: 같은 댐·같은 방류 시작 시각의 원 승인 %s의 행위로 연결(추정)' % oseq)
 
     # ---- Criterion: 별표3 홍수기 제한수위 (테스트 댐에 해당하는 것)
     name2code = {v[0]: v[1] for v in DAMS.values()}

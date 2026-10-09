@@ -102,10 +102,11 @@ def classify(rec):
         amt = AMOUNT_RE.search(raw)
         ops.append({'operationType': t, 'rule': why, 'operationTime': op_time, 'time_source': tsrc,
                     'amount_raw': amt.group(0).strip() if amt else '', 'has_change_text': 'Y' if has_change else 'N'})
+    # 결정(2026-10): 변경 문구가 있는 승인은 같은 방류 사건의 변경이므로 새 Operation을 만들지 않는다(행위 문구가 함께 있어도). 원 승인의 Operation에 잇는 일은 step2b에서 한다.
+    if has_change:
+        return [], '승인 변경(같은 방류의 변경, 원 승인의 행위 참조)'
     if ops:
         return ops, ''
-    if has_change:
-        return [], '승인 변경 문구만 있음(행위 아님)'
     # 결정(2026-10): 비고가 없거나 한정어/수치만 있는 승인도 해당 시각의 방류 승인이므로 일반 '방류'로 둔다(종류 미상, 승인 자체에서 도출).
     why = '비고 없음→승인 자체(일반 방류)' if not raw else '한정어/수치만→승인 자체(일반 방류)'
     return [{'operationType': '방류', 'rule': why, 'operationTime': start, 'time_source': '방류시작시간', 'amount_raw': '', 'has_change_text': 'N'}], ''
