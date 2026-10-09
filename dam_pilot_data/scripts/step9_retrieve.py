@@ -84,7 +84,7 @@ def state_vars(dam):
     return cypher("MATCH (d:Dam {damName:$dam})-[:hasHydrometeorologicalState]->(h) RETURN h.variableType AS var, h.stationCode AS code ORDER BY var", dam=dam)
 
 
-def measure(dam, start, end, max_rows=48):
+def measure(dam, start, end, max_rows=24):
     vars_ = state_vars(dam); code = vars_[0]['code']; names = [v['var'] for v in vars_]
     t = start.replace(minute=0, second=0, microsecond=0) + (timedelta(hours=1) if start.minute else timedelta(0))
     rows = []
