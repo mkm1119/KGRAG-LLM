@@ -91,7 +91,7 @@ M('CQ2', '임의 과거 시점(연속 구간)', '5개 댐 모두 시간 단위 �
 # ---------- CQ3 과거 운영행위
 sel = collections.Counter(P[o]['operationType'] for o in ops)
 M('CQ3', '운영행위 개체', '%d개 (승인 %d/%d건에서 생성)' % (len(ops), len({G[True][1][o]['authorizes'][0] for o in ops}), len(apps)), '동일', '유형: ' + ', '.join('%s %d' % kv for kv in sel.most_common()))
-M('CQ3', '실제 수행 확인', '확인 불가 (승인 비고에서 분류한 행위)', '동일', '실제 운영 기록 없음(하천법 제39조③에 따른 기록은 11월 한수원 방문 요청 대상)')
+M('CQ3', '실제 수행 확인', '확인 불가 (승인 비고에서 분류한 행위)', '동일', '실제 운영 기록 없음(하천법 제39조③에 따라 댐 관리자가 작성·비치하는 기록이며, 이 5개 댐은 K-water 관리라 K-water에 요청해야 함)')
 
 # ---------- CQ4 과거 방류 승인
 def reach(strict):
