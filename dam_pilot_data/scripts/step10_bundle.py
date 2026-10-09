@@ -187,6 +187,16 @@ def tagged(R):
         for i, c in enumerate(s['cases'], 1):
             st = c['state_at_op']
             o.append('<유사사례 순위="%d" 시각="%s" 거리="%s" 당시 수위="%s EL.m" 유입량="%s CMS" 총방류량="%s CMS">' % (i, tm(c['time']), c['euclidean'], fmt(st['수위']), fmt(st['유입량']), fmt(st['총방류량'])))
+            cur_l, cur_i, cs_l, cs_i = fl(cur.get('수위')), fl(cur.get('유입량')), fl(st.get('수위')), fl(st.get('유입량'))
+            parts = []
+            if None not in (cur_l, cs_l):
+                parts.append('당시(행위 시각) 수위 %s EL.m는 현재 수위보다 %+.2f m' % (fmt(cs_l), cs_l - cur_l))
+                if lim is not None:
+                    parts.append('당시 수위의 제한수위 대비 %+.2f m' % (cs_l - lim))
+            if None not in (cur_i, cs_i) and cur_i > 0:
+                parts.append('당시 유입량 %s CMS는 현재 유입량의 %.1f배' % (fmt(cs_i), cs_i / cur_i))
+            if parts:
+                o.append('<계산값 대상="현재 대비 사례 %d" 출처="프로그램 계산">%s</계산값>' % (i, '; '.join(parts)))
             for r in c['rows']:
                 o.append('운영행위 [%s] %s / 허가한 승인 [%s] 승인일 %s: %s' % (r['op'], r['type'], r['approval'], r['approval_date'], r['approval_content']))
             o.append('당시상태(앞 6시간~뒤 12시간):\n' + table(c['state_window']))
