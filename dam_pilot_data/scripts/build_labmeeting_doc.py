@@ -468,7 +468,12 @@ add(table([
     ['MATCH (c:Criterion)-[:appliesToDam]->(d:Dam {damName: $dam}) RETURN c.id, c.criterionType, c.criterionValue, c.unit', '댐 이름이 $dam인 Dam에 적용되는 Criterion의 ID, 종류, 값, 단위를 가져온다. 현재 상태와 비교할 제한수위가 여기서 나온다'],
     ['MATCH (x:Entity {id: $id})-[:supportedBy]->(e:EvidenceSource) RETURN e.id, e.sourceTitle, e.sourceType, e.sourceLocator, e.chunkId', '선택된 사례의 운영행위, 승인, 제한수위처럼 $id로 지정한 개체의 근거자료를 가져온다'],
 ], [5600, 4372]))
-add(para('KG에서 가져온 내용은 다음과 같다. 제한수위는 Criterion CRI:CR-01(소양강댐 홍수기 제한수위 190.3 EL.m)이고, 선택된 과거 사례(유사도 순위 1)의 운영행위와 승인은 아래 표와 같다.'))
+add(para('KG에서 가져온 내용은 다음과 같다. 먼저 현재 상태와 비교할 제한수위이다.'))
+add(table([
+    ['Criterion', '종류 (criterionType)', '값 (criterionValue)', '단위 (unit)', '적용 댐'],
+    ['CRI:CR-01', '홍수기 제한수위', '190.3', 'EL.m', '소양강댐'],
+], [1700, 2500, 2200, 1500, 2072]))
+add(para('다음은 선택된 과거 사례(유사도 순위 1)의 운영행위와 그것을 허가한 승인이다.'))
 add(table([
     ['운영행위', '종류', '운영행위 시각', '허가한 승인 (승인일)'],
     ['OPR:2754:1', '초기방류', '2017-08-25 15:00', 'APR:2754 (08-24), APR:2804 (08-27)'],
