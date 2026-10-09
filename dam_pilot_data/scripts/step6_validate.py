@@ -18,6 +18,7 @@ PAIRS = {'hasHydrometeorologicalState': [('Dam', 'HydrometeorologicalState')], '
          'concernsDam': [('Approval', 'Dam')]}  # concernsDam은 CQ4 검증에서 발견해 추가한 관계(수정)
 ONTO_PROPS = {'Dam': ['damName', 'damType'], 'HydrometeorologicalState': ['variableType', 'stationCode'], 'Operation': ['operationType', 'operationTime'],
               'Approval': ['approvalTime', 'approvalContent'], 'Criterion': ['criterionType', 'criterionValue', 'unit'], 'EvidenceSource': ['sourceTitle', 'sourceType', 'sourceLocator']}
+ALLOWED_EXTRA = {'EvidenceSource': ['chunkId']}  # 확장: 외부 문서 저장소 조회 키(stationCode와 같은 역할), 규정 근거에만 있음
 rows = []
 def add(i, item, result, n, note=''):
     rows.append({'id': i, 'check': item, 'result': result, 'count': n, 'note': note})
@@ -37,7 +38,7 @@ fmt = []
 for e, c in ent.items():
     for v, _ in props[e].get('approvalTime', []):
         if not re.fullmatch(r'\d{4}-\d{2}-\d{2}', v): fmt.append((e, v))
-    for v, _ in props[e].get('operationTime', []) + props[e].get('x_approvedStartTime', []):
+    for v, _ in props[e].get('operationTime', []):
         if not re.fullmatch(r'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}', v): fmt.append((e, v))
     if c == 'Criterion' and not e.startswith('CRI:R'):
         for v, _ in props[e].get('criterionValue', []):
@@ -59,7 +60,7 @@ for r in rels:
 mism = [(a, o) for a, ops in au.items() for o in ops if cd.get(a) != pd.get(o)]
 add('V5', '승인의 댐(concernsDam)과 그 승인이 허가한 행위의 댐(performedOnDam)이 같음', '통과' if not mism else '실패', len(mism), str(mism[:3]))
 # (6) 온톨로지 밖 요소
-xprops = collections.Counter(p for e in props for p in props[e] if p not in ONTO_PROPS[ent[e]] if e in ent)
+xprops = collections.Counter(p for e in props for p in props[e] if p not in ONTO_PROPS[ent[e]] + ALLOWED_EXTRA.get(ent[e], []) if e in ent)
 add('V6', '온톨로지에 없는 데이터 속성(x_ 접두)', '정보', sum(xprops.values()), '; '.join('%s %d' % kv for kv in sorted(xprops.items())))
 orig = {k for k in PAIRS if k != 'concernsDam'}
 orels = collections.Counter(r['relation'] for r in rels if r['relation'] not in orig)

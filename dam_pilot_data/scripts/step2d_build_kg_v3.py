@@ -55,7 +55,7 @@ for eff, d in sorted(vers.items()):
     ev = 'EVI:LAW:별표3@' + eff
     ents.append((ev, 'EvidenceSource', '연계운영규정 별표3 (시행 %s-%s-%s)' % (eff[:4], eff[4:6], eff[6:])))
     props += [(ev, 'sourceTitle', '댐과 보 등의 연계운영규정 (훈령 제%s호, %s)' % (list(d.values())[0][3], list(d.values())[0][4])), (ev, 'sourceType', '규정(연혁)'),
-              (ev, 'sourceLocator', '별표 3 / 시행 %s-%s-%s' % (eff[:4], eff[4:6], eff[6:])), (ev, 'x_chunk_id', 'LAWHIST:별표3@' + eff)]
+              (ev, 'sourceLocator', '별표 3 / 시행 %s-%s-%s' % (eff[:4], eff[4:6], eff[6:])), (ev, 'chunkId', 'LAWHIST:별표3@' + eff)]
     lines = []
     for nm, (val, eto, vd, no, rt) in sorted(d.items()):
         lines.append('%s 홍수기 제한수위 %s EL.m (적용 %s~%s)' % (nm, val, eff, eto or '현재'))
@@ -86,23 +86,11 @@ for r in rd('regulation_rules_v1.csv'):
             chunks.append((cid, r['source_doc'], art, DOCS[r['source_doc']][art]))
         ents.append((evid, 'EvidenceSource', '%s %s' % (r['source_doc'], art)))
         props += [(evid, 'sourceTitle', r['source_doc']), (evid, 'sourceType', '법령' if r['source_doc'] != '연계운영규정' else '규정'),
-                  (evid, 'sourceLocator', art), (evid, 'x_chunk_id', cid)]
+                  (evid, 'sourceLocator', art), (evid, 'chunkId', cid)]
         prov.append((evid, 'entity', '01_raw/Law/', '%s %s' % (r['source_doc'], art), 'MR-EVI-RULE', 'real'))
     rels.append((rid, 'supportedBy', ev_by_art[key], 'MR-SUP-RULE', 'real', ''))
     for d in ALLDAMS:
         rels.append((rid, 'appliesToDam', d, 'MR-RULE-DAM', 'general-rule', '댐 일반에 적용되는 규칙(원문에 댐 이름 없음)' if r['applies_to'] in ('댐', '시설') else ''))
-
-# (D) 별표1 시설 분류를 Dam의 변형 속성으로
-b1 = rd('han_system_membership_byeolpyo1.csv')
-cat = {}
-for r in b1:
-    for nm in r['facilities_verbatim'].split(','):
-        cat[re.sub(r'\s|\(.*?\)', '', nm)] = r['facility_category_in_source']
-dam_label = {e[0]: e[2] for e in ents if e[1] == 'Dam'}
-for did, nm in dam_label.items():
-    key = nm
-    if key in cat:
-        props.append((did, 'x_byeolpyo1_category', cat[key], 'variant'))
 
 wr('kgv3_entities.csv', ['entity_id', 'class', 'label'], ents)
 wr('kgv3_properties.csv', ['entity_id', 'property', 'value', 'datatype'], props)

@@ -2,7 +2,7 @@
 """STEP 2E: Operation(승인 비고에서 분류한 행위)을 측정 총방류량과 대조해 Operation 속성으로 덧붙인다. stdlib만 사용.
 규칙: 행위 시각이 측정 변화 시각이면 그 변화량의 부호가 행위 방향(증가·초기·점진=+, 감소·종료=-)과 같을 때 '일치'. 비고에 시각이 명시된 행위는 시작 후 6시간 내 최대/최소가 직전보다 0.5 CMS 넘게 오르내리면 '일치'. 변화 미검출은 '변화미검출'.
 방향이 없는 행위(방류, 탄력적 방류, 수문조작)는 '판정불가(방향 없음)', 측정 창이 없으면 '측정없음'. 일치는 방향 확인이며 행위 수행의 직접 증명은 아니다(유입량 변화로도 움직일 수 있음).
-입력: operation_from_remarks_5dams.csv, kgv3_properties.csv (step2d 이후 실행) / 출력: operation_measured_check.csv, kgv3_properties.csv에 x_ 속성 추가(재실행해도 중복 없음)
+입력: operation_from_remarks_5dams.csv, kgv3_properties.csv (step2d 이후 실행) / 출력: operation_measured_check.csv (KG에는 넣지 않는 검증 결과, 8단계 평가에 사용)
 """
 import collections, csv, importlib.util, os
 
@@ -51,12 +51,4 @@ for o in r3b.rd('operation_from_remarks_5dams.csv'):
 with open(os.path.join(N, 'operation_measured_check.csv'), 'w', newline='', encoding='utf-8-sig') as f:
     w = csv.DictWriter(f, fieldnames=list(out[0].keys())); w.writeheader(); w.writerows(out)
 
-pp = os.path.join(N, 'kgv3_properties.csv')
-rows = list(csv.reader(open(pp, encoding='utf-8-sig')))
-rows = [r for r in rows if r[1] not in ('x_measured_check', 'x_measured_before', 'x_measured_after_max', 'x_measured_after_min')]
-for r in out:
-    rows += [[r['operation'], 'x_measured_check', r['result'], 'variant'], [r['operation'], 'x_measured_before', r['before'], 'variant'],
-             [r['operation'], 'x_measured_after_max', r['after_max'], 'variant'], [r['operation'], 'x_measured_after_min', r['after_min'], 'variant']]
-with open(pp, 'w', newline='', encoding='utf-8-sig') as f:
-    csv.writer(f).writerows(rows)
 print(collections.Counter(r['result'] for r in out))

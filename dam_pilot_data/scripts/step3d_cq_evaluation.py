@@ -91,8 +91,9 @@ M('CQ2', '임의 과거 시점(연속 구간)', '%d개 댐 모두 시간 단위 
 # ---------- CQ3 과거 운영행위
 sel = collections.Counter(P[o]['operationType'] for o in ops)
 M('CQ3', '운영행위 개체', '%d개 (승인 %d/%d건에서 생성)' % (len(ops), len({G[True][1][o]['authorizes'][0] for o in ops}), len(apps)), '동일', '유형: ' + ', '.join('%s %d' % kv for kv in sel.most_common()))
-cc = collections.Counter(P[o].get('x_measured_check', '속성없음') for o in ops)
-M('CQ3', '측정 대조(행위 방향 vs 총방류량 변화)', '속성 없음(변형 속성)', '; '.join('%s %d' % kv for kv in cc.most_common()), '행위 시각=측정 변화 시각이면 변화의 부호를 행위 방향과 대조; 일치는 방향 확인이며 수행의 직접 증명 아님')
+mchk = {r['operation']: r['result'] for r in rd('operation_measured_check.csv')}
+cc = collections.Counter(mchk.get(o, '없음') for o in ops)
+M('CQ3', '측정 대조(행위 방향 vs 총방류량 변화)', 'KG 밖의 검증 결과', '; '.join('%s %d' % kv for kv in cc.most_common()), '행위 시각=측정 변화 시각이면 변화의 부호를 행위 방향과 대조; 일치는 방향 확인이며 수행의 직접 증명 아님')
 
 # ---------- CQ4 과거 방류 승인
 def reach(strict):
@@ -128,7 +129,7 @@ def resolvable(ev):
         return re.sub(r'\D', '', P[ev]['sourceLocator']) in apv
     if t == '측정자료':
         return re.search(r'DAM_CD=(\d+)', P[ev]['sourceLocator']).group(1) in {c for c, _ in ms.d}
-    cid = P[ev].get('x_chunk_id') or ('LAW:별표3' if P[ev]['sourceLocator'] == '별표 3' else '')
+    cid = P[ev].get('chunkId') or ('LAW:별표3' if P[ev]['sourceLocator'] == '별표 3' else '')
     return cid in chunks
 
 
@@ -170,7 +171,7 @@ for o in ops:
     cnt['windows'] += bool(w); cnt['comp_strict'] += comp_s; cnt['comp_variant'] += comp_v; cnt['flood'] += flood(t)
     case_rows.append({'operation': o, 'dam': label[d], 'time': P[o]['operationTime'], 'type': P[o]['operationType'], 'window_rows': len(w), 'approvals': ' '.join(aps),
                       'flood_season': 'Y' if flood(t) else 'N', 'level_max_minus_limit_m': over, 'approval_order': order,
-                      'measured_check': P[o].get('x_measured_check', ''), 'complete_v1': 'Y' if comp_s else 'N', 'complete_v1.1': 'Y' if comp_v else 'N'})
+                      'measured_check': mchk.get(o, ''), 'complete_v1': 'Y' if comp_s else 'N', 'complete_v1.1': 'Y' if comp_v else 'N'})
 with open(os.path.join(N, 'step3d_case_assembly.csv'), 'w', newline='', encoding='utf-8-sig') as f:
     w = csv.DictWriter(f, fieldnames=list(case_rows[0].keys())); w.writeheader(); w.writerows(case_rows)
 M('통합', '운영행위 %d건 중 상태 창이 있는 사례' % len(ops), '%d건' % cnt['windows'], '동일', '상태 + 운영행위 + 승인 + 근거를 함께 조립할 수 있는 사례')
