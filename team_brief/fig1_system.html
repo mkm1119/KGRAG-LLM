@@ -1,0 +1,147 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+body{margin:0;background:#fff;font-family:'WenQuanYi Zen Hei','Noto Sans CJK KR',sans-serif}
+svg text{font-family:'WenQuanYi Zen Hei','Noto Sans CJK KR',sans-serif}
+</style></head><body>
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1130" viewBox="0 0 1500 1130">
+<defs>
+<marker id="ar" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#44546a"/></marker>
+<marker id="ar2" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#2e7d32"/></marker>
+</defs>
+<rect width="1500" height="1130" fill="#fff"/>
+
+<!-- Panel A -->
+<rect x="15" y="15" width="1470" height="470" rx="16" fill="#f7f9fc" stroke="#9fb3c8" stroke-width="2"/>
+<text x="40" y="55" font-size="28" font-weight="bold" fill="#1f4e79">A. 사전 구축: 흩어진 자료를 구조화해 세 저장소에 나누어 담는다</text>
+<text x="40" y="88" font-size="21" fill="#44546a">한 번 수행하고, 자료가 바뀌면 갱신한다. 이 단계에서는 LLM을 쓰지 않고 정해진 규칙(코드)으로 처리한다.</text>
+
+<!-- sources -->
+<g font-size="22">
+<rect x="40" y="120" width="360" height="100" rx="12" fill="#eceff1" stroke="#78909c" stroke-width="2"/>
+<text x="220" y="158" text-anchor="middle" font-weight="bold" fill="#263238">방류 승인 기록 (표 파일)</text>
+<text x="220" y="192" text-anchor="middle" font-size="19" fill="#37474f">한강홍수통제소 · 4개 댐 80건</text>
+<rect x="40" y="250" width="360" height="100" rx="12" fill="#eceff1" stroke="#78909c" stroke-width="2"/>
+<text x="220" y="288" text-anchor="middle" font-weight="bold" fill="#263238">수문기상 시간 자료 (표 파일)</text>
+<text x="220" y="322" text-anchor="middle" font-size="19" fill="#37474f">K-water · 시간별 약 50.8만 행</text>
+<rect x="40" y="380" width="360" height="90" rx="12" fill="#eceff1" stroke="#78909c" stroke-width="2"/>
+<text x="220" y="416" text-anchor="middle" font-weight="bold" fill="#263238">규정 별표3 (글자로 된 표)</text>
+<text x="220" y="448" text-anchor="middle" font-size="19" fill="#37474f">연계운영규정 · 홍수기 제한수위</text>
+</g>
+<!-- arrows sources -> build -->
+<line x1="402" y1="170" x2="478" y2="270" stroke="#44546a" stroke-width="3" marker-end="url(#ar)"/>
+<line x1="402" y1="300" x2="478" y2="300" stroke="#44546a" stroke-width="3" marker-end="url(#ar)"/>
+<line x1="402" y1="425" x2="478" y2="330" stroke="#44546a" stroke-width="3" marker-end="url(#ar)"/>
+
+<!-- build -->
+<rect x="480" y="120" width="440" height="350" rx="14" fill="#e3f2fd" stroke="#1976d2" stroke-width="3"/>
+<text x="700" y="160" text-anchor="middle" font-size="25" font-weight="bold" fill="#0d47a1">KG 구축 7단계 (코드)</text>
+<g font-size="21" fill="#0d47a1">
+<text x="510" y="203">1 자료 유형 구분 (표 / 글)</text>
+<text x="510" y="237">2 전처리 (중복 제거, 시각 정리)</text>
+<text x="510" y="271">3 표의 열을 속성으로 매핑</text>
+<text x="510" y="305">4 글에서 값 추출 (규칙)</text>
+<text x="510" y="339">5 같은 댐끼리 개체 연결</text>
+<text x="510" y="373">6 구조 규칙 검증</text>
+<text x="510" y="407">7 저장 (Neo4j에 적재)</text>
+</g>
+<text x="700" y="447" text-anchor="middle" font-size="18" fill="#37474f">근거 문헌의 방법을 참고, 없는 부분은 연구자 판단</text>
+
+<!-- arrows build -> stores -->
+<line x1="922" y1="215" x2="986" y2="175" stroke="#44546a" stroke-width="3" marker-end="url(#ar)"/>
+<line x1="922" y1="295" x2="986" y2="310" stroke="#44546a" stroke-width="3" marker-end="url(#ar)"/>
+<line x1="922" y1="385" x2="986" y2="425" stroke="#44546a" stroke-width="3" marker-end="url(#ar)"/>
+
+<!-- stores -->
+<g>
+<rect x="990" y="105" width="480" height="140" rx="12" fill="#e8f5e9" stroke="#2e7d32" stroke-width="3"/>
+<text x="1230" y="142" text-anchor="middle" font-size="24" font-weight="bold" fill="#1b5e20">지식그래프 (Neo4j)</text>
+<text x="1230" y="173" text-anchor="middle" font-size="18" fill="#33691e">댐·승인·운영행위·기준·근거를 점으로,</text>
+<text x="1230" y="198" text-anchor="middle" font-size="18" fill="#33691e">그 사이의 의미 관계를 선으로 저장</text>
+<text x="1230" y="224" text-anchor="middle" font-size="18" fill="#33691e">(개체 273개, 관계 457개)</text>
+<rect x="990" y="260" width="480" height="100" rx="12" fill="#e8f5e9" stroke="#2e7d32" stroke-width="3"/>
+<text x="1230" y="296" text-anchor="middle" font-size="24" font-weight="bold" fill="#1b5e20">측정자료 저장소</text>
+<text x="1230" y="326" text-anchor="middle" font-size="18" fill="#33691e">시간별 수위·유입량·방류량 등 값 전체</text>
+<text x="1230" y="349" text-anchor="middle" font-size="18" fill="#33691e">(KG에는 찾아갈 키만 둔다)</text>
+<rect x="990" y="375" width="480" height="100" rx="12" fill="#e8f5e9" stroke="#2e7d32" stroke-width="3"/>
+<text x="1230" y="411" text-anchor="middle" font-size="24" font-weight="bold" fill="#1b5e20">문서 저장소</text>
+<text x="1230" y="441" text-anchor="middle" font-size="18" fill="#33691e">별표3 원문 10개 조각</text>
+<text x="1230" y="464" text-anchor="middle" font-size="18" fill="#33691e">(KG에는 조각 번호만 둔다)</text>
+</g>
+
+<!-- Panel B -->
+<rect x="15" y="520" width="1470" height="595" rx="16" fill="#fffaf2" stroke="#d9b36c" stroke-width="2"/>
+<text x="40" y="560" font-size="28" font-weight="bold" fill="#7a4b00">B. 질문 처리: 질문이 들어올 때마다 수행한다</text>
+<text x="40" y="592" font-size="21" fill="#44546a">LLM은 처음(질문 해석)과 끝(답변 작성) 두 곳에만 쓰고, 가운데의 조회와 계산은 코드가 한다.</text>
+
+<!-- row 1 -->
+<g font-size="22">
+<rect x="40" y="625" width="250" height="110" rx="12" fill="#f5f5f5" stroke="#757575" stroke-width="2"/>
+<text x="165" y="665" text-anchor="middle" font-weight="bold" fill="#212121">사용자 질문</text>
+<text x="165" y="698" text-anchor="middle" font-size="17" fill="#424242">"소양강댐 지금 상태와</text>
+<text x="165" y="720" text-anchor="middle" font-size="17" fill="#424242">비슷했던 과거 사례는?"</text>
+
+<rect x="350" y="625" width="330" height="110" rx="12" fill="#fff3e0" stroke="#ef6c00" stroke-width="3"/>
+<text x="515" y="662" text-anchor="middle" font-weight="bold" fill="#e65100">① 질문 해석  [LLM]</text>
+<text x="515" y="694" text-anchor="middle" font-size="18" fill="#5d4037">질문 유형(의도)과 댐·기간 같은</text>
+<text x="515" y="718" text-anchor="middle" font-size="18" fill="#5d4037">값을 JSON으로 출력</text>
+
+<rect x="740" y="625" width="330" height="110" rx="12" fill="#e3f2fd" stroke="#1976d2" stroke-width="3"/>
+<text x="905" y="662" text-anchor="middle" font-weight="bold" fill="#0d47a1">② 값 검증  [코드]</text>
+<text x="905" y="694" text-anchor="middle" font-size="18" fill="#37474f">의도 목록, 4개 댐, 날짜 형식을</text>
+<text x="905" y="718" text-anchor="middle" font-size="18" fill="#37474f">확인, 어긋나면 "범위 밖"</text>
+
+<rect x="1130" y="625" width="335" height="110" rx="12" fill="#e3f2fd" stroke="#1976d2" stroke-width="3"/>
+<text x="1297" y="662" text-anchor="middle" font-weight="bold" fill="#0d47a1">③ KG 조회  [코드]</text>
+<text x="1297" y="694" text-anchor="middle" font-size="18" fill="#37474f">의도별로 미리 만든 질의 틀에</text>
+<text x="1297" y="718" text-anchor="middle" font-size="18" fill="#37474f">값을 채워 Neo4j에서 조회</text>
+</g>
+<line x1="292" y1="680" x2="348" y2="680" stroke="#44546a" stroke-width="3" marker-end="url(#ar)"/>
+<line x1="682" y1="680" x2="738" y2="680" stroke="#44546a" stroke-width="3" marker-end="url(#ar)"/>
+<line x1="1072" y1="680" x2="1128" y2="680" stroke="#44546a" stroke-width="3" marker-end="url(#ar)"/>
+
+<!-- turn -->
+<path d="M1297,737 L1297,775 L165,775 L165,815" fill="none" stroke="#44546a" stroke-width="3" marker-end="url(#ar)"/>
+
+<!-- row 2 -->
+<g font-size="22">
+<rect x="40" y="817" width="320" height="110" rx="12" fill="#e3f2fd" stroke="#1976d2" stroke-width="3"/>
+<text x="200" y="854" text-anchor="middle" font-weight="bold" fill="#0d47a1">④ 외부 저장소 조회  [코드]</text>
+<text x="200" y="886" text-anchor="middle" font-size="18" fill="#37474f">KG가 알려 주는 키로 측정값과</text>
+<text x="200" y="910" text-anchor="middle" font-size="18" fill="#37474f">규정 원문을 읽어 옴</text>
+
+<rect x="420" y="817" width="320" height="110" rx="12" fill="#e3f2fd" stroke="#1976d2" stroke-width="3"/>
+<text x="580" y="854" text-anchor="middle" font-weight="bold" fill="#0d47a1">⑤ 비교 값 계산  [코드]</text>
+<text x="580" y="886" text-anchor="middle" font-size="18" fill="#37474f">제한수위 대비 차이, 승인량 대비</text>
+<text x="580" y="910" text-anchor="middle" font-size="18" fill="#37474f">비율, 비슷한 과거 사례 선택</text>
+
+<rect x="800" y="817" width="320" height="110" rx="12" fill="#fff3e0" stroke="#ef6c00" stroke-width="3"/>
+<text x="960" y="854" text-anchor="middle" font-weight="bold" fill="#e65100">⑥ 답변 작성  [LLM]</text>
+<text x="960" y="886" text-anchor="middle" font-size="18" fill="#5d4037">근거 묶음만 보고 근거 번호를</text>
+<text x="960" y="910" text-anchor="middle" font-size="18" fill="#5d4037">붙여 한국어로 답변</text>
+
+<rect x="1180" y="817" width="170" height="110" rx="12" fill="#f5f5f5" stroke="#757575" stroke-width="2"/>
+<text x="1265" y="860" text-anchor="middle" font-weight="bold" fill="#212121">답변</text>
+<text x="1265" y="893" text-anchor="middle" font-size="16" fill="#424242">+ 근거 번호</text>
+</g>
+<line x1="362" y1="872" x2="418" y2="872" stroke="#44546a" stroke-width="3" marker-end="url(#ar)"/>
+<line x1="742" y1="872" x2="798" y2="872" stroke="#44546a" stroke-width="3" marker-end="url(#ar)"/>
+<line x1="1122" y1="872" x2="1178" y2="872" stroke="#44546a" stroke-width="3" marker-end="url(#ar)"/>
+<text x="760" y="962" text-anchor="middle" font-size="19" fill="#44546a">③·④·⑤의 결과를 모아 "근거 묶음"으로 정리하여 ⑥에 전달한다</text>
+
+<!-- store chips (B) -->
+<g font-size="19">
+<rect x="1130" y="985" width="335" height="56" rx="10" fill="#e8f5e9" stroke="#2e7d32" stroke-width="3"/>
+<text x="1297" y="1020" text-anchor="middle" font-weight="bold" fill="#1b5e20">지식그래프 (A에서 구축)</text>
+<rect x="40" y="985" width="320" height="56" rx="10" fill="#e8f5e9" stroke="#2e7d32" stroke-width="3"/>
+<text x="200" y="1020" text-anchor="middle" font-weight="bold" fill="#1b5e20">측정자료·문서 저장소 (A)</text>
+</g>
+<line x1="1400" y1="983" x2="1400" y2="740" stroke="#2e7d32" stroke-width="3" stroke-dasharray="9,7" marker-end="url(#ar2)"/>
+<line x1="200" y1="983" x2="200" y2="931" stroke="#2e7d32" stroke-width="3" stroke-dasharray="9,7" marker-end="url(#ar2)"/>
+
+<!-- legend -->
+<g font-size="19">
+<rect x="430" y="1068" width="28" height="28" rx="5" fill="#fff3e0" stroke="#ef6c00" stroke-width="3"/><text x="468" y="1090" fill="#37474f">LLM이 하는 일</text>
+<rect x="640" y="1068" width="28" height="28" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="3"/><text x="678" y="1090" fill="#37474f">코드가 하는 일</text>
+<rect x="860" y="1068" width="28" height="28" rx="5" fill="#e8f5e9" stroke="#2e7d32" stroke-width="3"/><text x="898" y="1090" fill="#37474f">저장소</text>
+<rect x="1000" y="1068" width="28" height="28" rx="5" fill="#eceff1" stroke="#78909c" stroke-width="2"/><text x="1038" y="1090" fill="#37474f">원자료·입출력</text>
+</g>
+</svg></body></html>

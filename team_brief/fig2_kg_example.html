@@ -1,0 +1,99 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+body{margin:0;background:#fff}
+svg text{font-family:'WenQuanYi Zen Hei','Noto Sans CJK KR',sans-serif}
+</style></head><body>
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="950" viewBox="0 0 1500 950">
+<defs>
+<marker id="a" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#37474f"/></marker>
+<marker id="g" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#90a4ae"/></marker>
+<marker id="d" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#2e7d32"/></marker>
+</defs>
+<rect width="1500" height="950" fill="#fff"/>
+
+<!-- edges: main relations -->
+<g stroke="#37474f" stroke-width="3" fill="none" marker-end="url(#a)">
+<line x1="190" y1="203" x2="190" y2="326"/>
+<line x1="340" y1="180" x2="560" y2="328"/>
+<line x1="342" y1="395" x2="518" y2="395"/>
+<line x1="822" y1="395" x2="1148" y2="395"/>
+<line x1="860" y1="203" x2="770" y2="328"/>
+</g>
+<!-- edge labels -->
+<g font-size="18" fill="#263238" text-anchor="middle">
+<rect x="104" y="248" width="172" height="28" fill="#fff"/><text x="190" y="270">authorizes</text>
+<rect x="394" y="228" width="158" height="28" fill="#fff"/><text x="473" y="250">concernsDam</text>
+<rect x="352" y="366" width="156" height="26" fill="#fff"/><text x="430" y="386">performedOnDam</text>
+<rect x="878" y="352" width="240" height="28" fill="#fff"/><text x="998" y="372">hasHydrometeorologicalState</text>
+<rect x="640" y="248" width="156" height="28" fill="#fff"/><text x="718" y="270">appliesToDam</text>
+</g>
+
+<!-- supportedBy (gray) -->
+<g stroke="#90a4ae" stroke-width="2.5" fill="none" marker-end="url(#g)">
+<line x1="190" y1="436" x2="190" y2="598"/>
+<path d="M40,150 L16,150 L16,650 L38,650"/>
+<line x1="930" y1="203" x2="770" y2="598"/>
+<line x1="1300" y1="436" x2="1300" y2="598"/>
+</g>
+<text x="205" y="525" font-size="17" fill="#607d8b">supportedBy</text>
+<text x="1315" y="525" font-size="17" fill="#607d8b">supportedBy</text>
+<text x="842" y="470" font-size="17" fill="#607d8b">supportedBy</text>
+
+<!-- dashed to external stores -->
+<g stroke="#2e7d32" stroke-width="3" stroke-dasharray="9,7" fill="none" marker-end="url(#d)">
+<path d="M1452,400 L1488,400 L1488,860 L1452,860"/>
+<line x1="740" y1="706" x2="740" y2="826"/>
+</g>
+<text x="1470" y="640" font-size="17" fill="#2e7d32" transform="rotate(90 1470 640)" text-anchor="middle">stationCode로 찾아감</text>
+<text x="755" y="775" font-size="17" fill="#2e7d32">chunkId로 찾아감</text>
+
+<!-- nodes -->
+<g font-size="22" text-anchor="middle">
+<!-- Approval -->
+<rect x="40" y="100" width="300" height="100" rx="14" fill="#ffe0b2" stroke="#ef6c00" stroke-width="3"/>
+<text x="190" y="137" font-size="17" fill="#bf360c">Approval (방류 승인)</text>
+<text x="190" y="167" font-weight="bold">승인 1368</text>
+<text x="190" y="191" font-size="17" fill="#37474f">승인일 2012-08-24</text>
+<!-- Operation -->
+<rect x="40" y="330" width="300" height="106" rx="14" fill="#ffccbc" stroke="#d84315" stroke-width="3"/>
+<text x="190" y="366" font-size="17" fill="#bf360c">Operation (운영행위)</text>
+<text x="190" y="396" font-weight="bold">탄력적 방류</text>
+<text x="190" y="422" font-size="17" fill="#37474f">시각 2012-08-24 16:00</text>
+<!-- Dam -->
+<rect x="520" y="330" width="300" height="106" rx="14" fill="#bbdefb" stroke="#1565c0" stroke-width="3"/>
+<text x="670" y="366" font-size="17" fill="#0d47a1">Dam (댐)</text>
+<text x="670" y="398" font-weight="bold" font-size="26">충주댐</text>
+<text x="670" y="424" font-size="17" fill="#37474f">다목적댐</text>
+<!-- Criterion -->
+<rect x="780" y="100" width="300" height="103" rx="14" fill="#e1bee7" stroke="#8e24aa" stroke-width="3"/>
+<text x="930" y="136" font-size="17" fill="#6a1b9a">Criterion (운영기준)</text>
+<text x="930" y="166" font-weight="bold">홍수기 제한수위</text>
+<text x="930" y="191" font-size="17" fill="#37474f">138.0 EL.m</text>
+<!-- State -->
+<rect x="1150" y="330" width="300" height="106" rx="14" fill="#b2dfdb" stroke="#00796b" stroke-width="3"/>
+<text x="1300" y="366" font-size="17" fill="#004d40">HydrometeorologicalState (상태)</text>
+<text x="1300" y="396" font-weight="bold">충주댐_수위</text>
+<text x="1300" y="422" font-size="17" fill="#37474f">stationCode 1003110 (값은 없음)</text>
+<!-- Evidence -->
+<rect x="40" y="600" width="400" height="106" rx="14" fill="#fff9c4" stroke="#f9a825" stroke-width="3"/>
+<text x="240" y="636" font-size="17" fill="#7a5a00">EvidenceSource (근거자료)</text>
+<text x="240" y="666" font-weight="bold">방류 승인 기록</text>
+<text x="240" y="692" font-size="17" fill="#37474f">한강홍수통제소, 순차번호 1368</text>
+<rect x="540" y="600" width="400" height="106" rx="14" fill="#fff9c4" stroke="#f9a825" stroke-width="3"/>
+<text x="740" y="636" font-size="17" fill="#7a5a00">EvidenceSource (근거자료)</text>
+<text x="740" y="666" font-weight="bold">연계운영규정 별표3</text>
+<text x="740" y="692" font-size="17" fill="#37474f">위치 별표 3, chunkId LAW:별표3</text>
+<rect x="1020" y="600" width="430" height="106" rx="14" fill="#fff9c4" stroke="#f9a825" stroke-width="3"/>
+<text x="1235" y="636" font-size="17" fill="#7a5a00">EvidenceSource (근거자료)</text>
+<text x="1235" y="666" font-weight="bold">K-water 수문 시간자료</text>
+<text x="1235" y="692" font-size="17" fill="#37474f">댐코드 1003110, 시간별 자료</text>
+<!-- external stores -->
+<rect x="540" y="830" width="400" height="90" rx="14" fill="#e8f5e9" stroke="#2e7d32" stroke-width="3" stroke-dasharray="9,7"/>
+<text x="740" y="868" font-weight="bold" fill="#1b5e20">문서 저장소 (KG 밖)</text>
+<text x="740" y="900" font-size="17" fill="#33691e">별표3 원문 전체 (표와 각주)</text>
+<rect x="1020" y="814" width="430" height="92" rx="14" fill="#e8f5e9" stroke="#2e7d32" stroke-width="3" stroke-dasharray="9,7"/>
+<text x="1235" y="852" font-weight="bold" fill="#1b5e20">측정자료 저장소 (KG 밖)</text>
+<text x="1235" y="884" font-size="17" fill="#33691e">시간별 수위·유입량·방류량 등 값 전체</text>
+</g>
+<text x="40" y="60" font-size="24" font-weight="bold" fill="#1f4e79">지식그래프의 일부: 충주댐 승인 1368번 한 건</text>
+<text x="40" y="88" font-size="18" fill="#546e7a">점(노드)은 개체, 실선 화살표는 의미 관계, 회색 화살표는 근거자료로 향하는 supportedBy, 파선은 KG 밖 저장소를 찾아가는 키이다.</text>
+</svg></body></html>
