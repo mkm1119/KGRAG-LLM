@@ -20,11 +20,11 @@ svg text{font-family:'WenQuanYi Zen Hei','Noto Sans CJK KR',sans-serif}
 </g>
 <!-- edge labels -->
 <g font-size="18" fill="#263238" text-anchor="middle">
-<rect x="104" y="248" width="172" height="28" fill="#fff"/><text x="190" y="270">authorizes</text>
-<rect x="394" y="228" width="158" height="28" fill="#fff"/><text x="473" y="250">concernsDam</text>
-<rect x="352" y="366" width="156" height="26" fill="#fff"/><text x="430" y="386">performedOnDam</text>
-<rect x="878" y="352" width="240" height="28" fill="#fff"/><text x="998" y="372">hasHydrometeorologicalState</text>
-<rect x="640" y="248" width="156" height="28" fill="#fff"/><text x="718" y="270">appliesToDam</text>
+<rect x="104" y="248" width="172" height="28" fill="#fff"/><text x="190" y="270">authorizes</text><text x="212" y="294" text-anchor="start" font-size="15" fill="#546e7a" stroke="#fff" stroke-width="5" paint-order="stroke">승인이 운영행위를 허가</text>
+<rect x="394" y="228" width="158" height="28" fill="#fff"/><text x="473" y="250">concernsDam</text><text x="490" y="228" text-anchor="start" font-size="15" fill="#546e7a" stroke="#fff" stroke-width="5" paint-order="stroke">승인 대상 댐</text>
+<rect x="352" y="366" width="156" height="26" fill="#fff"/><text x="430" y="386">performedOnDam</text><text x="430" y="416" font-size="15" fill="#546e7a" stroke="#fff" stroke-width="5" paint-order="stroke">수행된 댐</text>
+<rect x="878" y="352" width="240" height="28" fill="#fff"/><text x="998" y="372">hasHydrometeorologicalState</text><text x="998" y="420" font-size="15" fill="#546e7a" stroke="#fff" stroke-width="5" paint-order="stroke">댐의 수문기상 상태</text>
+<rect x="640" y="248" width="156" height="28" fill="#fff"/><text x="718" y="270">appliesToDam</text><text x="765" y="292" text-anchor="end" font-size="15" fill="#546e7a" stroke="#fff" stroke-width="5" paint-order="stroke">기준이 적용되는 댐</text>
 </g>
 
 <!-- supportedBy (gray) -->
@@ -34,17 +34,17 @@ svg text{font-family:'WenQuanYi Zen Hei','Noto Sans CJK KR',sans-serif}
 <line x1="930" y1="203" x2="770" y2="598"/>
 <line x1="1300" y1="436" x2="1300" y2="598"/>
 </g>
-<text x="205" y="525" font-size="17" fill="#607d8b">supportedBy</text>
-<text x="1315" y="525" font-size="17" fill="#607d8b">supportedBy</text>
-<text x="842" y="470" font-size="17" fill="#607d8b">supportedBy</text>
+<text x="205" y="525" font-size="17" fill="#607d8b">supportedBy (근거)</text>
+<text x="1315" y="525" font-size="17" fill="#607d8b">supportedBy (근거)</text>
+<text x="842" y="470" font-size="17" fill="#607d8b">supportedBy (근거)</text>
 
 <!-- dashed to external stores -->
 <g stroke="#2e7d32" stroke-width="3" stroke-dasharray="9,7" fill="none" marker-end="url(#d)">
 <path d="M1452,400 L1488,400 L1488,860 L1452,860"/>
 <line x1="740" y1="706" x2="740" y2="826"/>
 </g>
-<text x="1470" y="640" font-size="17" fill="#2e7d32" transform="rotate(90 1470 640)" text-anchor="middle">stationCode로 찾아감</text>
-<text x="755" y="775" font-size="17" fill="#2e7d32">chunkId로 찾아감</text>
+<text x="1470" y="640" font-size="17" fill="#2e7d32" transform="rotate(90 1470 640)" text-anchor="middle">측정소 번호(stationCode)로 찾아감</text>
+<text x="755" y="775" font-size="17" fill="#2e7d32">조각 번호(chunkId)로 찾아감</text>
 
 <!-- nodes -->
 <g font-size="22" text-anchor="middle">
@@ -95,5 +95,5 @@ svg text{font-family:'WenQuanYi Zen Hei','Noto Sans CJK KR',sans-serif}
 <text x="1235" y="884" font-size="17" fill="#33691e">시간별 수위·유입량·방류량 등 값 전체</text>
 </g>
 <text x="40" y="60" font-size="24" font-weight="bold" fill="#1f4e79">지식그래프의 일부: 충주댐 승인 1368번 한 건</text>
-<text x="40" y="88" font-size="18" fill="#546e7a">점(노드)은 개체, 실선 화살표는 의미 관계, 회색 화살표는 근거자료로 향하는 supportedBy, 파선은 KG 밖 저장소를 찾아가는 키이다.</text>
+<text x="40" y="88" font-size="18" fill="#546e7a">점(노드)은 개체, 실선 화살표는 의미 관계, 회색 화살표는 근거자료를 가리키는 관계(supportedBy), 파선은 KG 밖 저장소를 찾아가는 키이다.</text>
 </svg></body></html>
