@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""STEP 6: KG v3가 온톨로지(최종본8)에 맞는지 확인한다. stdlib만 사용.
+"""STEP 6: KG v4가 온톨로지(최종본8)에 맞는지 확인한다. stdlib만 사용.
 기준: Class 6, 관계 8(+ 수정으로 추가한 Approval–Dam concernsDam), 클래스별 데이터 속성(문서 3.7절).
 확인 항목: (1) 관계 양 끝의 클래스 (2) 필수 속성 (3) 값 형식 (4) 근거 연결 (5) 두 경로의 댐 일치 (6) 온톨로지 밖 요소 목록, (7) 수정 전후 CQ4 도달 가능 승인 수.
 출력: 03_normalized/step6_validation.csv
@@ -7,18 +7,18 @@
 import collections, csv, os, re
 HERE = os.path.dirname(os.path.abspath(__file__)); N = os.path.join(HERE, '..', '03_normalized')
 rd = lambda p: list(csv.DictReader(open(os.path.join(N, p), encoding='utf-8-sig')))
-ent = {r['entity_id']: r['class'] for r in rd('kgv3_entities.csv')}
+ent = {r['entity_id']: r['class'] for r in rd('kgv4_entities.csv')}
 props = collections.defaultdict(lambda: collections.defaultdict(list))
-for r in rd('kgv3_properties.csv'):
+for r in rd('kgv4_properties.csv'):
     props[r['entity_id']][r['property']].append((r['value'], r['datatype']))
-rels = rd('kgv3_relations.csv')
+rels = rd('kgv4_relations.csv')
 PAIRS = {'hasHydrometeorologicalState': [('Dam', 'HydrometeorologicalState')], 'performedOnDam': [('Operation', 'Dam')],
          'authorizes': [('Approval', 'Operation')], 'appliesToDam': [('Criterion', 'Dam')],
          'supportedBy': [(c, 'EvidenceSource') for c in ('HydrometeorologicalState', 'Operation', 'Approval', 'Criterion')],
          'concernsDam': [('Approval', 'Dam')]}  # concernsDam은 CQ4 검증에서 발견해 추가한 관계(수정)
 ONTO_PROPS = {'Dam': ['damName', 'damType'], 'HydrometeorologicalState': ['variableType', 'stationCode'], 'Operation': ['operationType', 'operationTime'],
               'Approval': ['approvalTime', 'approvalContent'], 'Criterion': ['criterionType', 'criterionValue', 'unit'], 'EvidenceSource': ['sourceTitle', 'sourceType', 'sourceLocator']}
-ALLOWED_EXTRA = {'EvidenceSource': ['chunkId']}  # 확장: 외부 문서 저장소 조회 키(stationCode와 같은 역할), 규정 근거에만 있음
+ALLOWED_EXTRA = {}
 rows = []
 def add(i, item, result, n, note=''):
     rows.append({'id': i, 'check': item, 'result': result, 'count': n, 'note': note})

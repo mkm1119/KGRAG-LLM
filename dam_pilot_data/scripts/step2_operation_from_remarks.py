@@ -3,6 +3,7 @@
 
 입력: 03_normalized/approval_records_clean.csv (한강홍수통제소 댐방류승인, step2f 전처리 후)
 출력: 03_normalized/operation_from_remarks_5dams.csv
+시각(operationTime) 규칙: 비고에 시각이 적혀 있으면 그 시각, 없으면 승인의 방류시작시간(측정값으로 보정하지 않는다; 2026-10 결정, 연구자 지정 기준 제거).
 원칙: 비고에 행위가 적힌 승인은 그 행위로, 비고가 없거나 한정어/수치뿐인 승인은 일반 '방류'로 Operation을 만든다(결정 2026-10). 승인 변경 문구뿐인 승인은 같은 방류의 변경이므로 만들지 않고 사유를 남긴다.
 비고는 승인 문구이므로 '실행 확인'이 아니다.
 """
@@ -37,39 +38,6 @@ def clean(b):
     for q in QUALIFIERS:
         b = re.sub(q, ' ', b)
     return re.sub(r'\s+', ' ', b).strip()
-
-
-import importlib.util
-from datetime import datetime, timedelta
-_spec = importlib.util.spec_from_file_location('r3b', os.path.join(os.path.dirname(os.path.abspath(__file__)), 'step3b_retrieval.py'))
-r3b = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(r3b)
-MS = r3b.Measurement()
-NAME2CODE = {v.replace('댐', ''): k for k, v in r3b.CODES.items()}
-BEFORE, AFTER, ABS_THR, REL_THR = 3, 6, 1.0, 0.10
-
-
-def observed_change(dam, start):
-    """[연구자 지정 임시 기준: 규정·문헌에 근거한 기준이 아님. 값은 BEFORE/AFTER/ABS_THR/REL_THR 상수이며 문서에 그대로 명시한다]
-    결정(2026-10): 행위 시각 = 방류 시작 시각 앞 BEFORE시간~뒤 AFTER시간에서 총방류량이 직전 시각보다 max(ABS_THR CMS, REL_THR) 이상 바뀐 시각 중 시작에 가장 가까운 것(같으면 나중).
-    측정 라벨 시각(01~24시, 의미 미확정, ±1시간)을 그대로 쓴다. 없으면 None."""
-    t0 = datetime.strptime(start, '%Y-%m-%d %H:%M')
-    if t0.minute:
-        t0 = t0.replace(minute=0) + timedelta(hours=1)
-    code, ser = NAME2CODE[dam], {}
-    for h in range(-BEFORE - 1, AFTER + 1):
-        v = MS.d.get((code, t0 + timedelta(hours=h)))
-        if v and r3b.fnum(v['총방류량']) is not None:
-            ser[h] = r3b.fnum(v['총방류량'])
-    cand = []
-    for h in range(-BEFORE, AFTER + 1):
-        if h in ser and h - 1 in ser:
-            d = ser[h] - ser[h - 1]
-            if abs(d) >= max(ABS_THR, REL_THR * max(ser[h - 1], 0.1)):
-                cand.append((h, d))
-    if not cand:
-        return None
-    h, d = min(cand, key=lambda x: (abs(x[0]), -x[0]))
-    return (t0 + timedelta(hours=h)).strftime('%Y-%m-%d %H:%M'), d
 
 
 def classify(rec):
@@ -123,14 +91,7 @@ def main():
         if ops:
             for o in ops:
                 o['approved_start'] = r['방류시작시간'].strip()
-                if o['time_source'] == '방류시작시간':
-                    oc = observed_change(r['관측소명'], r['방류시작시간'].strip())
-                    if oc:
-                        o['operationTime'], o['time_source'], o['change_amount'] = oc[0], '측정 방류량 변화 시각(연구자 지정 임시 기준: 시작 -%dh~+%dh, 변화 %.1f CMS 또는 %d%%)' % (BEFORE, AFTER, ABS_THR, int(REL_THR * 100)), round(oc[1], 3)
-                    else:
-                        o['time_source'], o['change_amount'] = '승인 시작시각(변화 미검출)', ''
-                else:
-                    o['change_amount'] = ''
+                o['change_amount'] = ''
                 review = 'Y' if (o['operationType'] == '수문조작(연계 시설)' or o['rule'] in ('타 시설 수문조작 문구',)) else 'N'
                 out.append({**base, 'operation_created': 'Y', **o, 'not_created_reason': '', 'review_needed': review})
         else:

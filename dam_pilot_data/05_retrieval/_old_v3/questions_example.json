@@ -1,0 +1,116 @@
+[
+ {
+  "id": "q01",
+  "question": "소양강댐 지금 수위랑 방류량이 어때?",
+  "expected_intent": "CQ1",
+  "expected_dam": "소양강댐"
+ },
+ {
+  "id": "q02",
+  "question": "충주 댐 현재 저수율 알려줘",
+  "expected_intent": "CQ1",
+  "expected_dam": "충주댐"
+ },
+ {
+  "id": "q03",
+  "question": "2020년 8월 2일 18시 충주댐 상태는?",
+  "expected_intent": "CQ2",
+  "expected_dam": "충주댐"
+ },
+ {
+  "id": "q04",
+  "question": "횡성댐에서 2020년 8월 4일 오후 3시 전후로 수위가 어땠는지 보고 싶어",
+  "expected_intent": "CQ2",
+  "expected_dam": "횡성댐"
+ },
+ {
+  "id": "q05",
+  "question": "2020년 8월에 충주댐에서 어떤 방류 조작이 있었어?",
+  "expected_intent": "CQ3",
+  "expected_dam": "충주댐"
+ },
+ {
+  "id": "q06",
+  "question": "광동댐은 2019년 9월에 어떤 식으로 방류를 운영했나요?",
+  "expected_intent": "CQ3",
+  "expected_dam": "광동댐"
+ },
+ {
+  "id": "q07",
+  "question": "2020년 8월 광동댐 방류 승인 내역 알려줘",
+  "expected_intent": "CQ4",
+  "expected_dam": "광동댐"
+ },
+ {
+  "id": "q08",
+  "question": "소양강댐 2017년 8월에 나온 방류 승인들 정리해줘",
+  "expected_intent": "CQ4",
+  "expected_dam": "소양강댐"
+ },
+ {
+  "id": "q09",
+  "question": "횡성댐 홍수기 제한수위는?",
+  "expected_intent": "CQ5",
+  "expected_dam": "횡성댐"
+ },
+ {
+  "id": "q10",
+  "question": "광동댐은 지켜야 하는 제한수위가 얼마야?",
+  "expected_intent": "CQ5",
+  "expected_dam": "광동댐"
+ },
+ {
+  "id": "q11",
+  "question": "승인 3412번은 무슨 자료에 근거한 거야?",
+  "expected_intent": "CQ6",
+  "expected_dam": "충주댐"
+ },
+ {
+  "id": "q12",
+  "question": "충주댐 수위 데이터 출처가 뭐야?",
+  "expected_intent": "CQ6",
+  "expected_dam": "충주댐"
+ },
+ {
+  "id": "q13",
+  "question": "2017년 8월 24일부터 31일까지 소양강댐 운영 상황을 승인, 당시 상태, 기준까지 알려줘",
+  "expected_intent": "INTEGRATED",
+  "expected_dam": "소양강댐"
+ },
+ {
+  "id": "q14",
+  "question": "지금 소양강댐 상황이랑 비슷했던 과거에는 어떻게 했어?",
+  "expected_intent": "SIMILAR",
+  "expected_dam": "소양강댐"
+ },
+ {
+  "id": "q15",
+  "question": "광동댐 지금 상태랑 비슷한 과거 사례 두 개만 보여줘",
+  "expected_intent": "SIMILAR",
+  "expected_dam": "광동댐"
+ },
+ {
+  "id": "q16",
+  "question": "팔당댐 현재 수위는?",
+  "expected_intent": "OUT_OF_SCOPE",
+  "expected_dam": null
+ },
+ {
+  "id": "q17",
+  "question": "충주댐은 왜 2020년 8월에 방류했어?",
+  "expected_intent": "OUT_OF_SCOPE",
+  "expected_dam": null
+ },
+ {
+  "id": "q18",
+  "question": "소양강댐 방류 승인 내역 알려줘",
+  "expected_intent": "OUT_OF_SCOPE",
+  "expected_dam": null
+ },
+ {
+  "id": "q19",
+  "question": "내일 충주댐 날씨 어때?",
+  "expected_intent": "OUT_OF_SCOPE",
+  "expected_dam": null
+ }
+]

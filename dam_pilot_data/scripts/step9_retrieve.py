@@ -1,25 +1,24 @@
 #!/usr/bin/env python3
-"""STEP 9 (R1~R2): 의도(JSON) -> Cypher 템플릿 -> Neo4j 질의 -> 측정 저장소 / 문서 저장소 조회 -> 근거 묶음(dict).
-LLM 의도 분류는 이 파일 밖(05_retrieval/intent_prompt.md)에서 한다. 여기서는 정해진 의도와 값만 받는다.
-환경변수 NEO4J_HOME(cypher-shell 위치), stdlib만 사용.
+"""STEP 9: 입력 확인 → KG 조회(Cypher 템플릿, Neo4j) → 외부 저장소 조회(측정자료·문서) → 근거(dict).  (자동화 코드 부분. 질문 해석과 답변은 LLM)
+입력(LLM이 질문에서 뽑은 것): {"intent": ["CQ1",...,"CQ6"], "dam": "충주댐", "period": "전체" | {"at": ...} | {"start": ..., "end": ...}, "target": {"type": "approval|operation|criterion", "id": ...}(CQ6만 단독일 때)}
+환경변수 NEO4J_HOME(cypher-shell 위치). stdlib만 사용.
 """
-import csv, importlib.util, json, os, re, subprocess, sys
+import csv, importlib.util, json, os, subprocess, sys
 from datetime import datetime, timedelta
 
 HERE = os.path.dirname(os.path.abspath(__file__)); N = os.path.join(HERE, '..', '03_normalized')
 CS = os.path.join(os.environ.get('NEO4J_HOME', ''), 'bin', 'cypher-shell')
 DAMS = {'충주': '충주댐', '충주댐': '충주댐', '소양강': '소양강댐', '소양강댐': '소양강댐', '횡성': '횡성댐', '횡성댐': '횡성댐', '광동': '광동댐', '광동댐': '광동댐'}
-INTENTS = {'CQ1', 'CQ2', 'CQ3', 'CQ4', 'CQ5', 'CQ6', 'INTEGRATED', 'SIMILAR', 'CURRENT', 'OUT_OF_SCOPE'}
-_spec = importlib.util.spec_from_file_location('r3b', os.path.join(HERE, 'step3b_retrieval.py'))
-r3b = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(r3b)
-_ms = None
+INTENTS = ('CQ1', 'CQ2', 'CQ3', 'CQ4', 'CQ5', 'CQ6')
+_s = importlib.util.spec_from_file_location('ms', os.path.join(HERE, 'measurement_store.py')); M = importlib.util.module_from_spec(_s); _s.loader.exec_module(M)
+_store = None
 
 
-def ms():
-    global _ms
-    if _ms is None:
-        _ms = r3b.Measurement()
-    return _ms
+def store():
+    global _store
+    if _store is None:
+        _store = M.Store()
+    return _store
 
 
 def cypher(query, **params):
@@ -35,6 +34,7 @@ def cypher(query, **params):
     return [dict(zip(head, r)) for r in rd[1:]]
 
 
+# ---- 단계 1. 입력 확인 (정규화 포함)
 def parse_t(s, end=False):
     s = s.replace(' ', 'T')
     if len(s) == 10:
@@ -43,183 +43,125 @@ def parse_t(s, end=False):
     return datetime.strptime(s, '%Y-%m-%dT%H:%M')
 
 
-def span(time):
-    if 'at' in time:
-        a = time['at']
-        return (parse_t(a), parse_t(a, True)) if len(a) == 10 else (parse_t(a), parse_t(a) + timedelta(hours=1))
-    return parse_t(time['start']), parse_t(time['end'], True)
-
-
-def validate(req):
-    it = req.get('intent'); sl = req.get('slots', {})
-    if it not in INTENTS:
-        return None, '정해진 의도 목록에 없는 의도: %s' % it
-    if it == 'OUT_OF_SCOPE':
-        return None, '범위 밖: %s' % sl.get('reason', '')
-    if it == 'CQ6':
-        t = sl.get('target', {})
-        if t.get('type') not in ('approval', 'operation', 'criterion', 'state'):
-            return None, 'target.type 오류'
-        if t['type'] in ('criterion', 'state') and DAMS.get(t.get('dam')) is None:
-            return None, '허용되지 않은 댐: %s' % t.get('dam')
-        if t['type'] in ('approval', 'operation') and not t.get('id'):
-            return None, 'target.id 없음'
-        return {'intent': it, 'target': dict(t, dam=DAMS.get(t.get('dam')))}, None
-    dam = DAMS.get(sl.get('dam'))
+def check(req):
+    its = req.get('intent')
+    its = [its] if isinstance(its, str) else its
+    if not its or any(i not in INTENTS for i in its):
+        return None, '정해진 의도(CQ1~CQ6) 밖: %s' % its
+    its = [i for i in INTENTS if i in its]
+    out = {'intent': its}
+    t = req.get('target')
+    if its == ['CQ6'] and t:
+        if t.get('type') not in ('approval', 'operation', 'criterion') or not t.get('id'):
+            return None, 'CQ6 대상 오류'
+        out['target'] = t
+        return out, None
+    dam = DAMS.get(req.get('dam'))
     if dam is None:
-        return None, '허용되지 않은 댐: %s' % sl.get('dam')
-    out = {'intent': it, 'dam': dam}
-    if it == 'SIMILAR':
-        out['k'] = int(sl.get('k', 3))
-    if it in ('CQ2', 'CQ3', 'CQ4', 'INTEGRATED'):
+        return None, '범위 밖의 댐: %s' % req.get('dam')
+    out['dam'] = dam
+    p = req.get('period', '전체')
+    if p == '전체':
+        out['start'], out['end'] = datetime(1900, 1, 1), datetime(2999, 1, 1)
+    else:
         try:
-            out['start'], out['end'] = span(sl['time'])
+            if 'at' in p:
+                out['start'] = parse_t(p['at']); out['end'] = parse_t(p['at'], True) if len(p['at']) == 10 else out['start'] + timedelta(hours=1)
+            else:
+                out['start'], out['end'] = parse_t(p['start']), parse_t(p['end'], True)
         except Exception as e:
             return None, '시점 형식 오류: %s' % e
+    out['period'] = p
     return out, None
 
 
-# ---- 측정 저장소 (KG의 HMS.stationCode가 조회 키)
-def state_vars(dam):
-    return cypher("MATCH (d:Dam {damName:$dam})-[:hasHydrometeorologicalState]->(h) RETURN h.variableType AS var, h.stationCode AS code ORDER BY var", dam=dam)
+# ---- 단계 2. KG 조회 (의도별 Cypher 템플릿)
+Q_STATE = "MATCH (d:Dam {damName:$dam})-[:hasHydrometeorologicalState]->(h) RETURN h.id AS id, h.variableType AS var, h.stationCode AS code ORDER BY var"
+Q_OPS = ("MATCH (o:Operation)-[:performedOnDam]->(d:Dam {damName:$dam}) WHERE o.operationTime >= datetime($s) AND o.operationTime < datetime($e) "
+         "OPTIONAL MATCH (a:Approval)-[:authorizes]->(o) RETURN o.id AS op, o.operationType AS type, toString(o.operationTime) AS time, a.id AS approval ORDER BY time, op, approval")
+Q_APPS = ("MATCH (a:Approval)-[:concernsDam]->(d:Dam {damName:$dam}) WHERE a.approvalTime >= date($s) AND a.approvalTime < date($e) "
+          "RETURN a.id AS approval, toString(a.approvalTime) AS date, a.approvalContent AS content ORDER BY date, approval")
+Q_CRI = "MATCH (c:Criterion)-[:appliesToDam]->(d:Dam {damName:$dam}) RETURN c.id AS id, c.criterionType AS type, c.criterionValue AS value, c.unit AS unit"
+Q_EVI = "MATCH (x:Entity {id:$id})-[:supportedBy]->(e:EvidenceSource) RETURN e.id AS ev, e.sourceTitle AS title, e.sourceType AS type, e.sourceLocator AS locator ORDER BY ev"
+Q_ONE = "MATCH (x:Entity {id:$id}) RETURN x.id AS id, labels(x) AS labels"
 
 
-def measure(dam, start, end, max_rows=24):
-    vars_ = state_vars(dam); code = vars_[0]['code']; names = [v['var'] for v in vars_]
-    t = start.replace(minute=0, second=0, microsecond=0) + (timedelta(hours=1) if start.minute else timedelta(0))
-    rows = []
-    while t < end:
-        v = ms().d.get((code, t))
-        if v is not None:
-            rows.append((t.strftime('%Y-%m-%d %H:%M'), {k: v[k] for k in names}))
-        t += timedelta(hours=1)
-    res = {'station_code': code, 'variables': names, 'rows': rows if len(rows) <= max_rows else None, 'n_rows': len(rows)}
-    if len(rows) > max_rows:
-        res['summary'] = {}
-        for k in names:
-            xs = [(r3b.fnum(v[k]), tt) for tt, v in rows if r3b.fnum(v[k]) is not None]
-            if xs:
-                res['summary'][k] = {'min': min(xs)[0], 'max': max(xs)[0], 'first': xs[0][0], 'last': xs[-1][0], 'n': len(xs)}
-    return res
+def evidence_of(node_id):
+    return cypher(Q_EVI, id=node_id)
 
 
-def latest(dam):
-    code = state_vars(dam)[0]['code']
-    t = max(t for (c, t) in ms().d if c == code)
-    return t, measure(dam, t, t + timedelta(hours=1))
+# ---- 단계 3. 외부 저장소 조회
+_docs = None
 
 
-# ---- 문서 저장소 / 승인 원자료
-_chunks = None
+def document(locator):
+    """문서 저장소: 조회 키 = EvidenceSource.sourceLocator."""
+    global _docs
+    if _docs is None:
+        _docs = {r['sourceLocator']: r for r in csv.DictReader(open(os.path.join(N, 'kgv4_documents.csv'), encoding='utf-8-sig'))}
+    return _docs.get(locator)
 
 
-def chunk(cid):
-    global _chunks
-    if _chunks is None:
-        _chunks = {r['chunk_id']: r for r in csv.DictReader(open(os.path.join(N, 'kgv3_chunks.csv'), encoding='utf-8-sig'))}
-    return _chunks.get(cid)
-
-
-EV_Q = "MATCH (x:Entity {id:$id})-[:supportedBy]->(e:EvidenceSource) RETURN e.id AS ev, e.sourceTitle AS title, e.sourceType AS type, e.sourceLocator AS locator, e.chunkId AS chunkId ORDER BY ev"
-
-
-def evidence(node_id):
-    out = []
-    for e in cypher(EV_Q, id=node_id):
-        d = dict(e)
-        if e['chunkId'] and e['chunkId'] != 'null':
-            c = chunk(e['chunkId']); d['text'] = c['text'] if c else None
-        out.append(d)
-    return out
-
-
-def similar(dam, k=3):
-    """현재(저장된 가장 최근 시각)와 그 댐의 각 운영행위 시각 당시의 상태를 (수위, 유입량) 벡터로 비교한다.
-    벡터는 그 댐 전체 기록의 최솟값~최댓값으로 0~1 정규화한다(연구자 지정). 순위는 유클리드 거리(작을수록 비슷함)로 정한다.
-    코사인 유사도는 크기를 보지 않아 이 데이터에서 변별력이 없어 쓰지 않았다(04_reports/RETRIEVAL_LIMITATIONS_2026-10.md).
-    같은 행위 시각의 행위는 한 사례로 묶는다."""
-    import math
-    code = state_vars(dam)[0]['code']
-    t_now, now = latest(dam); cur = {k_: r3b.fnum(v) for k_, v in now['rows'][0][1].items()}
-    lv = [r3b.fnum(v['수위']) for (c, t), v in ms().d.items() if c == code and r3b.fnum(v['수위']) is not None]
-    iv = [r3b.fnum(v['유입량']) for (c, t), v in ms().d.items() if c == code and r3b.fnum(v['유입량']) is not None]
-    lo = (min(lv), min(iv)); rg = ((max(lv) - min(lv)) or 1, (max(iv) - min(iv)) or 1)
-    nz = lambda x, y: ((x - lo[0]) / rg[0], (y - lo[1]) / rg[1])
-    vc = nz(cur['수위'], cur['유입량'])
-    cand = {}
-    for o in cypher("MATCH (o:Operation)-[:performedOnDam]->(d:Dam {damName:$dam}) RETURN o.id AS op, toString(o.operationTime) AS time", dam=dam):
-        t0 = datetime.strptime(o['time'][:16], '%Y-%m-%dT%H:%M'); th = t0 if t0.minute == 0 else t0.replace(minute=0) + timedelta(hours=1)
-        v = ms().d.get((code, th))
-        if not v or r3b.fnum(v['수위']) is None or r3b.fnum(v['유입량']) is None:
-            continue
-        vp = nz(r3b.fnum(v['수위']), r3b.fnum(v['유입량']))
-        eu = math.dist(vc, vp)
-        c = cand.setdefault(o['time'], {'time': o['time'], 'euclidean': round(eu, 4),
-                                        'state_at_op': {x: v[x] for x in ('수위', '유입량', '총방류량', '강우량')}, 'operations': []})
-        c['operations'].append(o['op'])
-    best = sorted(cand.values(), key=lambda x: x['euclidean'])[:k]
-    cases = []
-    for b in best:
-        t0 = datetime.strptime(b['time'][:16], '%Y-%m-%dT%H:%M')
-        rows = cypher("MATCH (a:Approval)-[:authorizes]->(o:Operation) WHERE o.id IN $ids RETURN o.id AS op, o.operationType AS type, a.id AS approval, toString(a.approvalTime) AS approval_date, a.approvalContent AS approval_content ORDER BY approval_date, op, approval", ids=b['operations'])
-        cases.append(dict(b, rows=rows, state_window=measure(dam, t0 - timedelta(hours=6), t0 + timedelta(hours=13)), approval_evidence=[e for a in dict.fromkeys(r['approval'] for r in rows) for e in evidence(a)]))
-    return {'as_of': str(t_now), 'current': cur, 'normalization': {'수위(min,range)': [lo[0], rg[0]], '유입량(min,range)': [lo[1], rg[1]]},
-            'n_candidates': len(cand), 'rank_by': 'euclidean', 'cases': cases}
+def rows_out(pairs):
+    return [(t.strftime('%Y-%m-%d %H:%M'), v) for t, v in pairs]
 
 
 def run(req):
-    q, err = validate(req)
+    q, err = check(req)
     if err:
         return {'status': 'refused', 'reason': err}
-    it, dam = q['intent'], q.get('dam')
-    R = {'status': 'ok', 'intent': it, 'dam': dam}
-    if it == 'CQ1':
-        t, m = latest(dam); R['as_of'] = str(t); R['state'] = m
-    elif it == 'CURRENT':
-        t, m = latest(dam); R['as_of'] = str(t); R['state'] = m; R['criterion'] = criterion(dam)
-    elif it == 'CQ2':
-        R['state'] = measure(dam, q['start'], q['end'])
-    elif it == 'CQ3' or it == 'INTEGRATED':
-        ops = cypher("MATCH (o:Operation)-[:performedOnDam]->(d:Dam {damName:$dam}) WHERE o.operationTime >= datetime($s) AND o.operationTime < datetime($e) "
-                     "OPTIONAL MATCH (a:Approval)-[:authorizes]->(o) RETURN o.id AS op, o.operationType AS type, toString(o.operationTime) AS time, a.id AS approval, a.approvalTime AS approval_date, a.approvalContent AS approval_content ORDER BY time, op, approval_date, approval",
-                     dam=dam, s=q['start'].strftime('%Y-%m-%dT%H:%M:00'), e=q['end'].strftime('%Y-%m-%dT%H:%M:00'))
+    its = q['intent']
+    R = {'status': 'ok', 'intent': its, 'dam': q.get('dam'), 'period': q.get('period')}
+    if 'target' in q:
+        t = q['target']; nid = ('APR:' if t['type'] == 'approval' else '') + str(t['id']).replace('APR:', '')
+        R['evidence'] = {nid: evidence_of(nid)}
+        return R
+    dam = q['dam']; hs = cypher(Q_STATE, dam=dam); code = hs[0]['code']; R['station_code'] = code
+    R['hms'] = hs
+    ev = {}
+    # CQ1: 현재 상태 = 저장된 가장 최근 시각
+    if 'CQ1' in its:
+        t = store().latest(code)
+        R['state_now'] = {'time': t.strftime('%Y-%m-%d %H:%M'), 'rows': rows_out(store().at(code, t))}
+        for h in hs:
+            ev[h['id']] = evidence_of(h['id'])
+    # CQ5: 운영기준 (+ 별표3 원문)
+    if 'CQ5' in its:
+        R['criteria'] = cypher(Q_CRI, dam=dam)
+        for c in R['criteria']:
+            ev[c['id']] = evidence_of(c['id'])
+            c['document'] = [dict(document(e['locator']) or {}, ev=e['ev']) for e in ev[c['id']] if document(e['locator'])]
+    # CQ3: 운영행위와 허가한 승인
+    ops = []
+    if 'CQ3' in its or 'CQ2' in its:
+        ops = cypher(Q_OPS, dam=dam, s=q['start'].strftime('%Y-%m-%dT%H:%M:00'), e=q['end'].strftime('%Y-%m-%dT%H:%M:00'))
+    if 'CQ3' in its:
         R['operations'] = ops
-        if it == 'INTEGRATED':
-            R['cases'] = []; seen_ops = set()
+        for o in ops:
+            ev[o['op']] = evidence_of(o['op'])
+            if o.get('approval'):
+                ev[o['approval']] = evidence_of(o['approval'])
+    # CQ2: 상태. 운영행위가 함께 있으면 각 운영 시각의 상태, 없으면 기간의 정시 행
+    if 'CQ2' in its:
+        if 'CQ3' in its:
+            seen, R['state_at_operations'] = set(), []
             for o in ops:
-                if o['op'] in seen_ops:
+                if o['op'] in seen:
                     continue
-                seen_ops.add(o['op'])
-                t0 = datetime.strptime(o['time'][:16], '%Y-%m-%dT%H:%M')
-                aps_ = sorted({(x['approval_date'], x['approval']) for x in ops if x['op'] == o['op'] and x.get('approval')})
-                R['cases'].append({'operation': o['op'], 'state_window': measure(dam, t0 - timedelta(hours=6), t0 + timedelta(hours=13)),
-                                   'operation_evidence': evidence(o['op']), 'approval_evidence': [e for _, a in aps_ for e in evidence(a)]})
-            R['criterion'] = criterion(dam)
-    elif it == 'CQ4':
-        R['approvals'] = cypher("MATCH (a:Approval)-[:concernsDam]->(d:Dam {damName:$dam}) WHERE a.approvalTime >= date($s) AND a.approvalTime < date($e) "
-                                "RETURN a.id AS approval, toString(a.approvalTime) AS date, a.approvalContent AS content ORDER BY date, approval",
-                                dam=dam, s=q['start'].strftime('%Y-%m-%d'), e=q['end'].strftime('%Y-%m-%d'))
-    elif it == 'CQ5':
-        R['criterion'] = criterion(dam)
-    elif it == 'SIMILAR':
-        R['similar'] = similar(dam, q['k']); R['criterion'] = criterion(dam)
-    elif it == 'CQ6':
-        t = q['target']
-        if t['type'] == 'approval': R['evidence'] = evidence('APR:' + str(t['id']).replace('APR:', ''))
-        elif t['type'] == 'operation': R['evidence'] = evidence(t['id'])
-        elif t['type'] == 'criterion': R['criterion'] = criterion(t['dam'])
+                seen.add(o['op'])
+                t = datetime.strptime(o['time'][:16], '%Y-%m-%dT%H:%M')
+                R['state_at_operations'].append({'op': o['op'], 'time': o['time'][:16].replace('T', ' '), 'rows': rows_out(store().at(code, t))})
         else:
-            R['evidence'] = []
-            for h in cypher("MATCH (d:Dam {damName:$dam})-[:hasHydrometeorologicalState]->(h) RETURN h.id AS id", dam=t['dam']):
-                R['evidence'] += evidence(h['id'])
+            R['state_period'] = rows_out(store().span(code, q['start'], q['end']))
+    # CQ4: 승인
+    if 'CQ4' in its:
+        R['approvals'] = cypher(Q_APPS, dam=dam, s=q['start'].strftime('%Y-%m-%d'), e=q['end'].strftime('%Y-%m-%d'))
+        for a in R['approvals']:
+            ev[a['approval']] = evidence_of(a['approval'])
+    # CQ6: 근거 (위에서 조회한 항목 전부의 supportedBy)
+    if 'CQ6' in its:
+        R['evidence'] = ev
     return R
-
-
-def criterion(dam):
-    cs = cypher("MATCH (c:Criterion)-[:appliesToDam]->(d:Dam {damName:$dam}) RETURN c.id AS id, c.criterionType AS type, c.criterionValue AS value, c.unit AS unit", dam=dam)
-    for c in cs:
-        c['evidence'] = evidence(c['id'])
-    return cs or []
 
 
 if __name__ == '__main__':
