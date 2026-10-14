@@ -59,9 +59,12 @@ def build(R, question=None):
     if 'state_at_operations' in R:
         n += 1
         o.append('\n[근거 %d. 운영 시각의 상태]  (CQ2) 정각이 아닌 시각은 앞뒤 정시 행을 모두 준다.' % n)
-        for s in R['state_at_operations']:
-            o.append('[%s] %s' % (s['op'], s['time']))
-            o += ['  ' + l for l in mea_rows(code, s['rows'])]
+        g = {}
+        for s_ in R['state_at_operations']:   # 같은 시각의 운영행위는 측정 행을 한 번만 보인다
+            g.setdefault(s_['time'], {'ops': [], 'rows': s_['rows']})['ops'].append(s_['op'])
+        for t, v in g.items():
+            o.append('%s %s' % (', '.join('[%s]' % x for x in v['ops']), t))
+            o += ['  ' + l for l in mea_rows(code, v['rows'])]
     if 'state_period' in R:
         n += 1
         o.append('\n[근거 %d. 기간의 상태]  (CQ2)' % n)
