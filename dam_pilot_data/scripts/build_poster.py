@@ -10,7 +10,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, '..', '..'))
 ASSET = os.path.join(ROOT, 'lab_meeting', 'poster_assets')
 EMU_PT = 12700
-BODY = 2600   # 본문 글자 크기(1/100 pt)
+BODY = 2400   # 본문 글자 크기(1/100 pt)
 TBL = 2200    # 표 글자 크기
 
 # ---------------------------------------------------------------- 글자 폭으로 높이 추정
@@ -170,10 +170,20 @@ INTRO = [
     '대규모 언어모델(LLM) 단독 활용은 답변의 **근거를 확인하기 어려워**, 외부 자료를 검색해 답변에 활용하는 **검색증강생성(Retrieval-Augmented Generation, RAG)** 이 쓰이나, 자료 간 관계와 출처를 함께 다루려면 구조화된 지식이 필요함',
     '본 연구는 **온톨로지 기반 지식그래프(KG)** 를 **RAG** 기반 검색 및 LLM 답변 생성과 연계하여, 운영자의 **근거 기반 의사결정을 지원하는 프레임워크**를 구축함',
 ]
+CONCEPT_ROWS = [
+    ['용어', '설명', '본 연구에서'],
+    ['온톨로지 (Ontology)', '대상(Class)과 대상 사이의 관계를 미리 정해 둔 개념 설계도', '개체 6종류, 관계 9종류'],
+    ['CQ (Competency Question)', '온톨로지가 답할 수 있어야 하는 질문. 질문에서 필요한 Class와 관계를 도출함', '운영자 질문 7개'],
+    ['지식그래프 (KG)', '개체(점)와 관계(선)로 지식을 나타낸 그래프. 점과 선에 속성을 붙일 수 있음', '개체 273, 관계 457'],
+    ['Neo4j · Cypher', 'Neo4j는 그래프를 저장하는 데이터베이스, Cypher는 점과 선의 연결 패턴으로 찾는 질의 언어', 'KG 저장과 조회'],
+    ['RAG (검색증강생성)', '질문과 관련된 근거를 먼저 검색해 LLM에 함께 주고, 그 근거로 답하게 하는 방식', 'KG·측정자료·문서에서 검색'],
+]
+CYPHER = ["MATCH (a:Approval)-[:authorizes]->(o:Operation)", "      -[:performedOnDam]->(d:Dam {damName: '충주댐'})", "RETURN a, o"]
+CYPHER_NOTE = '예) CQ3 “충주댐의 과거 운영행위는?”을 찾는 Cypher: 승인(Approval)이 허가한(authorizes) 운영행위(Operation) 중 충주댐(Dam)에서 수행된(performedOnDam) 것을 찾는다'
 METHOD = [
-    '**STEP 1 Ontology 설계**: 운영자에게 필요한 질문(Competency Question, CQ) 7개를 먼저 정하고, 이에 답하도록 **개체 6종류**(댐, 수문기상 상태, 방류 승인, 운영행위, 운영기준, 근거자료)와 **관계 9종류**를 설계함',
-    '**STEP 2 KG 구축**: 자료를 표 경로(열 이름으로 매핑)와 글 경로(규칙으로 추출)로 나누어 7단계로 구축함. 수치 전체와 규정 원문은 KG 밖 저장소에 두고, KG에는 관계와 근거의 위치(번호)만 저장함',
-    '**STEP 3 질문 처리**: LLM이 질문을 유형과 값(댐, 시점)으로 변환 → Cypher로 KG 탐색 → 번호로 측정자료·문서 저장소 조회 → 계산은 코드가 수행 → 모은 **근거 안에서만** LLM이 답변하고 출처 번호를 붙임',
+    '**STEP 1 Ontology 설계**: Noy & McGuinness(2001)의 절차에 따라 **CQ로 범위를 정하고** 필요한 Class와 관계를 정의함. CQ는 현재 상태(CQ1), 과거 상태(CQ2), 과거 운영행위(CQ3), 과거 방류 승인(CQ4), 현재 운영기준(CQ5), 공식 근거(CQ6)와 비슷한 과거 사례(SIMILAR)임',
+    '**STEP 2 KG 구축**: 열·행의 의미가 정해진 표는 **열 이름을 속성에 그대로 대응**(표 경로)하고, 문장·규정 별표는 **키워드와 패턴 규칙**으로 값을 추출(글 경로)함. 수치 전체와 원문은 KG 밖 저장소에 두고 KG에는 관계와 **출처 번호**만 저장함',
+    '**STEP 3 질문 응답(RAG)**: ① LLM이 질문을 유형·댐·시점으로 변환 → ② 유형별 **Cypher** 양식에 값을 채워 KG 탐색 → ③ 출처 번호로 측정자료·문서 저장소 조회 → ④ 계산은 코드가 수행 → ⑤ 모은 근거 안에서 LLM이 답변하고 출처 번호를 붙임 (Lewis et al., 2020)',
 ]
 DATA_ROWS = [
     ['자료', '규모', 'KG 반영 방식'],
@@ -219,7 +229,7 @@ QA_BUL = [
 ]
 CONCL = [
     '댐 운영 자료(방류 승인 기록, 수문기상 시간 자료, 규정 별표3)를 **Ontology(개체 6종류, 관계 9종류)** 에 맞춰 **KG(개체 273, 관계 457)** 로 구축하고, 수치·원문은 외부 저장소에 두어 KG는 연결과 근거 위치만 담도록 함',
-    'KG와 측정자료·문서 저장소를 함께 찾는 **하이브리드 검색**과, 출처 번호가 붙은 근거 안에서 답하는 **LLM**을 연계한 **질문 응답 프레임워크**를 구축함',
+    'KG와 측정자료·문서 저장소에서 근거를 찾는 **RAG**와, 출처 번호가 붙은 근거 안에서 답하는 **LLM**을 연계한 **질문 응답 프레임워크**를 구축함',
     '운영자가 현재 상태, 제한수위, 과거 승인·운영행위, 비슷한 과거 사례를 **근거와 함께** 확인할 수 있어 **댐 운영 의사결정을 지원**함',
 ]
 ACK = '본 결과물은 기후에너지환경부의 재원으로 한국환경산업기술원의 기후변화 적응 수재해 관리 기술개발사업(R&D)의 지원을 받아 연구되었습니다(RS-2026-25502939). 본 연구는 기후에너지환경부「기후변화특성화대학원사업」의 지원으로 수행되었습니다.'
@@ -227,6 +237,8 @@ REFS = [
     'Purohit, S., Chin, G., Mackey, P. S. and Cottam, J. A. (2024). “GraphAide: Advanced graph-assisted query and reasoning system.” Proc. IEEE Int. Conf. on Big Data (BigData), pp. 3485-3493.',
     'Papadakis, E., McCluskey, T. L., Louadah, H. and Tucker, G. (2023). “Ontology-guided knowledge graph construction to support scheduling in a train maintenance depot.” CEUR Workshop Proceedings, Vol. 3493.',
     'Li, S., Erickson, C., Zajac, M., Guo, X., Duan, Q. and Gong, J. (2025). “A semi-automated framework for flood ontology construction with an application in risk communication.” Water, Vol. 17, No. 19, 2801.',
+    'Lewis, P. et al. (2020). “Retrieval-augmented generation for knowledge-intensive NLP tasks.” Advances in Neural Information Processing Systems, Vol. 33, pp. 9459-9474.',
+    'Angles, R. and Gutierrez, C. (2008). “Survey of graph database models.” ACM Computing Surveys, Vol. 40, No. 1, Article 1.',
     'Noy, N. F. and McGuinness, D. L. (2001). “Ontology development 101: A guide to creating your first ontology.” Stanford Knowledge Systems Laboratory Technical Report KSL-01-05.',
 ]
 
@@ -320,11 +332,15 @@ def build(tpl_path, out_path, scale=1):
     y = 6350000
     y = section('L', y, '서론', INTRO) + GAP
     y = section('L', y, '연구방법', None)
-    y = figure('L', y, 'rId11', imgs['rId11'], 11000000, '그림 1. 연구의 구성: Ontology 설계 → KG 구축 → 질문 처리(하이브리드 검색 + LLM)')
+    y = tbl('L', y, 'Table 1. 핵심 용어', [2800000, 6900000, 3800000], CONCEPT_ROWS)
+    cy_h = 2 * 33079 + int(len(CYPHER) * 19 * 1.25 * EMU_PT) + int(lines_needed(CYPHER_NOTE, 2000, CW - 400000) * 20 * 1.25 * EMU_PT) + 250000
+    code = ''.join('<a:p><a:pPr marL="0" indent="0"><a:lnSpc><a:spcPct val="110000"/></a:lnSpc><a:buNone/></a:pPr><a:r><a:rPr lang="en-US" altLang="ko-KR" sz="1900" b="0" dirty="0">%s<a:latin typeface="Consolas"/><a:ea typeface="나눔고딕" pitchFamily="50" charset="-127"/></a:rPr><a:t>%s</a:t></a:r></a:p>' % (INK, escape(t)) for t in CYPHER)
+    note = '<a:p><a:pPr marL="0" indent="0"><a:lnSpc><a:spcPct val="110000"/></a:lnSpc><a:spcBef><a:spcPts val="600"/></a:spcBef><a:buNone/></a:pPr>%s</a:p>' % runs(CYPHER_NOTE, 2000, '<a:solidFill><a:srgbClr val="444444"/></a:solidFill>')
+    shapes.append(textbox(LX + 100000, y, CW - 200000, [code, note], cy_h, name='Cypher 예시', fill='F2F2F2', line='888888', pad=150000)); y += cy_h + GAP - 120000
+    y = figure('L', y, 'rId11', imgs['rId11'], 12900000, '그림 1. 연구의 구성: Ontology 설계 → KG 구축 → 질문 응답(RAG)')
     items = METHOD
     h = est_h(items, BODY, CW)
-    shapes.append(textbox(LX, y, CW, [para(t, BODY) for t in items], h)); y += h + 60000
-    y = tbl('L', y, 'Table 1. 질문 유형(CQ1~CQ6 + SIMILAR)', [1900000, 4200000, 7500000], QT_ROWS) + GAP - 120000
+    shapes.append(textbox(LX, y, CW, [para(t, BODY) for t in items], h)); y += h + GAP - 120000
     y = section('L', y, '대상 자료 및 KG 구축 규칙', None)
     y = tbl('L', y, 'Table 2. 사용한 자료와 KG 반영 방식', [3000000, 4200000, 6400000], DATA_ROWS)
     h = est_h(DATA_BUL, BODY, CW)
@@ -334,8 +350,8 @@ def build(tpl_path, out_path, scale=1):
     # 오른쪽 열
     y = 6350000
     y = section('R', y, 'KG 구축 결과', None)
-    y = tbl('R', y, 'Table 3. 구축한 지식그래프의 규모', [1600000, 10400000, 1600000], KG_ROWS)
-    y = figure('R', y, 'rId12', imgs['rId12'], 10500000, '그림 2. 지식그래프의 일부: 충주댐 승인 1368번')
+    y = tbl('R', y, 'Table 3. 구축한 지식그래프의 규모', [1500000, 10400000, 1600000], KG_ROWS)
+    y = figure('R', y, 'rId12', imgs['rId12'], 10600000, '그림 2. 지식그래프의 일부: 충주댐 승인 1368번')
     h = est_h(KG_BUL, BODY, CW)
     shapes.append(textbox(RX, y, CW, [para(t, BODY) for t in KG_BUL], h)); y += h + GAP
     y = section('R', y, '질문 처리 과정과 예시', None)

@@ -20,58 +20,98 @@ tf.COL['cri'] = ('#e1bee7', '#8e24aa', '#6a1b9a')
 Svg = tf.Svg
 
 
+INK = '#222'
+NAVY = '#1f3a5f'
+
+
+def box(g, x, y, w, h, title, lines=(), ts=28, bs=24, fill='#fff', dash=None, rx=6, sw=2.5, bold=True):
+    g.rect(x, y, w, h, fill, INK, sw, dash, rx)
+    n = 1 + len(lines)
+    gap = bs + 8
+    top = y + h / 2 - (ts + (n - 1) * gap) / 2 + ts * 0.8
+    g.text(x + w / 2, top, title, ts, bold, INK)
+    for i, ln in enumerate(lines):
+        g.text(x + w / 2, top + ts * 0.2 + (i + 1) * gap, ln, bs, False, '#444')
+
+
+def cyl(g, x, y, w, h, title, sub=None, ts=26, bs=22):
+    e = 16
+    g.add('<path d="M%d,%d a%d,%d 0 0 1 %d,0 v%d a%d,%d 0 0 1 -%d,0 z" fill="#f2f2f2" stroke="%s" stroke-width="2.5"/>' % (x, y + e, w / 2, e, w, h - 2 * e, w / 2, e, w, INK))
+    g.add('<path d="M%d,%d a%d,%d 0 0 0 %d,0" fill="none" stroke="%s" stroke-width="2.5"/>' % (x, y + e, w / 2, e, w, INK))
+    g.text(x + w / 2, y + h / 2 + 18, title, ts, True, INK)
+
+
+def panel(g, x, y, w, h, tag):
+    g.rect(x, y, w, h, '#fff', '#888', 2, '9 6', 4)
+    g.text(x + 12, y + 32, tag, 26, True, NAVY, 'start')
+
+
 def poster_framework():
-    g = Svg(1000)
-    g.node(10, 10, 980, 112, 'onto', 'STEP 1  Ontology 설계', ['개체 6종류 · 관계 9종류'], 34, 28)
-    g.line(500, 124, 500, 176, '#7e57c2', 'arp')
-    g.text(530, 160, '설계에 맞춰 구축', 26, False, '#5e35b1', 'start')
-    g.node(10, 178, 980, 112, 'auto', 'STEP 2  지식그래프(KG) 구축', ['원자료 3종을 정리해 세 저장소에 담는다'], 34, 28)
-    xs = [10, 355, 700]
-    names = [('문서 저장소', '규정 원문'), ('지식그래프 (KG)', '관계 · 근거 번호'), ('측정자료 저장소', '시간별 측정값')]
-    for x, (t, d) in zip(xs, names):
-        g.line(x + 145, 292, x + 145, 336, '#44546a', 'ar')
-        g.node(x, 338, 290, 124, 'store', t, [d], 28, 26)
-    g.rect(0, 496, 1000, 500, '#fffaf0', '#d9b36a', 3, None, 18)
-    g.text(190, 545, 'STEP 3  질문 응답', 30, True, '#7a4a00', 'start')
-    g.rect(14, 574, 972, 210, '#f1f8f2', '#2e7d32', 3, '10 8', 14)
-    for x, (t, d) in zip(xs, [('문서 검색', '번호로 원문 읽기'), ('KG 검색', '연결 따라 찾기'), ('측정자료 검색', '번호로 값 읽기')]):
-        g.line(x + 145, 464, x + 145, 594, '#2e7d32', 'arg')
-        g.node(x, 596, 290, 124, 'store', t, [d], 28, 26)
-    g.text(500, 762, '하이브리드 검색', 28, True, '#1b5e20')
-    g.node(10, 826, 290, 160, 'gray', '사용자 질문', ['“소양강댐 지금과 비슷한', '과거 사례는?”'], 30, 24)
-    g.node(355, 826, 290, 160, 'llm', '질문 해석 (LLM)', ['댐 · 시점 · 유형을', '정리한다'], 30, 26)
-    g.node(700, 826, 290, 160, 'llm', 'LLM 답변', ['모은 근거 안에서만', '설명, 출처 표시'], 30, 26)
-    g.line(302, 906, 353, 906, '#44546a', 'ar')
-    g.line(500, 824, 500, 788, '#44546a', 'ar')
-    g.text(516, 812, '찾을 내용', 24, False, '#44546a', 'start', True)
-    g.line(845, 788, 845, 824, '#44546a', 'ar')
-    g.text(830, 812, '근거', 24, False, '#44546a', 'end', True)
+    g = Svg(704)
+    # (a) Ontology 설계
+    panel(g, 0, 0, 265, 330, '(a) Ontology 설계')
+    box(g, 20, 60, 225, 100, 'CQ 설정', ['운영자 질문 7개'])
+    g.line(132, 162, 132, 198, INK, 'ar')
+    box(g, 20, 200, 225, 110, 'Class · 관계', ['개체 6종류', '관계 9종류'])
+    # (b) KG 구축
+    panel(g, 285, 0, 715, 330, '(b) 지식그래프(KG) 구축')
+    box(g, 300, 60, 160, 250, '원자료', ['방류 승인', '시간 자료', '규정 별표3'])
+    g.line(462, 185, 498, 185, INK, 'ar')
+    box(g, 500, 60, 170, 250, '정리 · 매핑', ['표 경로', '글 경로', '(규칙 기반)'])
+    g.line(672, 185, 708, 185, INK, 'ar')
+    cyl(g, 710, 52, 275, 84, 'KG (Neo4j)', None)
+    cyl(g, 710, 144, 275, 84, '측정자료 저장소', None)
+    cyl(g, 710, 236, 275, 84, '문서 저장소', None)
+    # (c) 질문 응답
+    panel(g, 0, 380, 1000, 320, '(c) 질문 응답 (RAG)')
+    xs = [14, 214, 414, 614, 814]
+    ws = 172
+    box(g, xs[0], 450, ws, 200, '사용자', ['질문'], 28, 28)
+    box(g, xs[1], 450, ws, 200, '질문 해석', ['(LLM)', '유형·댐·시점'], 28, 22)
+    box(g, xs[2], 450, ws, 200, '근거 검색', ['KG: Cypher', '측정자료 조회', '문서 조회'], 28, 22)
+    box(g, xs[3], 450, ws, 200, '근거 모음', ['번호 붙은', '근거, 계산값'], 28, 22)
+    box(g, xs[4], 450, ws, 200, '답변 (LLM)', ['근거 안에서만', '출처 표시'], 28, 22)
+    for i in range(4):
+        g.line(xs[i] + ws + 2, 550, xs[i + 1] - 2, 550, INK, 'ar')
+    # 저장소 → 근거 검색 (점선)
+    g.path('M848,324 L848,360 L500,360 L500,448', '#555', 'ar', '8 6', 3)
+    g.text(520, 350, '저장소에서 읽어 옴', 24, False, '#444', 'start')
     g.save('poster_fig1_framework')
 
 
 def poster_kg():
-    g = Svg(780)
-    w, h = 265, 165
-    cx = [2, 367, 732]
-    cy = [15, 305, 595]
-    def nd(c, r, kind, label, title, detail):
-        g.node(cx[c], cy[r], w, h, kind, title, [detail], 30, 24, None, label)
-    nd(0, 0, 'apr', '방류 승인', '승인 1368', '2012-08-24')
-    nd(1, 0, 'cri', '운영기준', '제한수위', '138.0 EL.m')
-    nd(2, 0, 'yel', '근거자료', '규정 별표3', 'LAW:별표3')
-    nd(0, 1, 'opr', '운영행위', '탄력적 방류', '16:00 시작')
-    nd(1, 1, 'dam', '댐', '충주댐', '다목적댐')
-    nd(2, 1, 'hms', '수문기상 상태', '충주댐_수위', '측정소 1003110')
-    nd(0, 2, 'yel', '근거자료', '승인 기록', '1368번')
-    nd(2, 2, 'yel', '근거자료', 'K-water 자료', '댐코드 1003110')
-    g.line(135, 182, 135, 303, '#37474f', 'ar'); g.text(152, 250, '허가한다', 24, False, '#37474f', 'start', True)
-    g.line(262, 160, 420, 303, '#37474f', 'ar'); g.text(300, 212, '대상 댐', 24, False, '#37474f', 'start', True)
-    g.line(500, 182, 500, 303, '#37474f', 'ar'); g.text(516, 250, '적용되는 댐', 24, False, '#37474f', 'start', True)
-    g.line(634, 97, 730, 97, '#78909c', 'arh'); g.text(682, 81, '근거', 24, False, '#546e7a', 'middle', True)
-    g.line(269, 387, 365, 387, '#37474f', 'ar'); g.text(317, 371, '수행 댐', 24, False, '#37474f', 'middle', True)
-    g.line(634, 387, 730, 387, '#37474f', 'ar'); g.text(682, 371, '보유', 24, False, '#37474f', 'middle', True)
-    g.line(135, 472, 135, 593, '#78909c', 'arh'); g.text(152, 540, '근거', 24, False, '#546e7a', 'start', True)
-    g.line(865, 472, 865, 593, '#78909c', 'arh'); g.text(882, 540, '근거', 24, False, '#546e7a', 'start', True)
+    g = Svg(690)
+    w, h = 270, 130
+    cx = [0, 365, 730]
+    cy = [10, 270, 530]
+    def ell(c, r, cls, name):
+        x, y = cx[c], cy[r]
+        g.add('<ellipse cx="%d" cy="%d" rx="%d" ry="%d" fill="#fff" stroke="%s" stroke-width="2.5"/>' % (x + w / 2, y + h / 2, w / 2, h / 2, NAVY))
+        g.text(x + w / 2, y + h / 2 - 8, cls, 24, False, NAVY)
+        g.text(x + w / 2, y + h / 2 + 30, name, 28, True, INK)
+    def rec(c, r, cls, name):
+        x, y = cx[c], cy[r]
+        g.rect(x, y + 10, w, h - 20, '#f2f2f2', INK, 2.5, None, 4)
+        g.text(x + w / 2, y + h / 2 - 8, cls, 24, False, '#444')
+        g.text(x + w / 2, y + h / 2 + 30, name, 28, True, INK)
+    ell(0, 0, 'Approval', '승인 1368')
+    ell(1, 0, 'Criterion', '제한수위 138.0')
+    rec(2, 0, 'EvidenceSource', '규정 별표3')
+    ell(0, 1, 'Operation', '탄력적 방류')
+    ell(1, 1, 'Dam', '충주댐')
+    ell(2, 1, 'HMS', '충주댐_수위')
+    rec(0, 2, 'EvidenceSource', '승인 기록')
+    rec(2, 2, 'EvidenceSource', 'K-water 자료')
+    L = lambda *a, **k: g.line(*a, INK, 'ar', None, 3)
+    L(135, 142, 135, 268); g.text(150, 214, '허가한다', 24, False, INK, 'start', True)
+    L(235, 125, 420, 272); g.text(318, 190, '대상 댐', 24, False, INK, 'start', True)
+    L(500, 142, 500, 268); g.text(515, 214, '적용되는 댐', 24, False, INK, 'start', True)
+    L(635, 75, 728, 75); g.text(682, 59, '근거', 24, False, INK, 'middle', True)
+    L(270, 335, 363, 335); g.text(317, 319, '수행 댐', 24, False, INK, 'middle', True)
+    L(635, 335, 728, 335); g.text(682, 319, '보유', 24, False, INK, 'middle', True)
+    L(135, 402, 135, 528); g.text(150, 474, '근거', 24, False, INK, 'start', True)
+    L(865, 402, 865, 528); g.text(880, 474, '근거', 24, False, INK, 'start', True)
+    g.text(500, 640, '타원: 개체,  사각형: 근거자료', 24, False, '#444', 'middle')
     g.save('poster_fig2_kg')
 
 
