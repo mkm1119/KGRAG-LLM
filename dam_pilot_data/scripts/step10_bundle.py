@@ -76,8 +76,12 @@ def build(R, question=None):
     if 'evidence' in R:
         n += 1
         o.append('\n[근거 %d. 출처]  (CQ6)' % n)
+        g = {}
         for k, evs in R['evidence'].items():
             for e in evs:
-                o.append('[%s] ← [%s] %s, 위치: %s' % (k, e['ev'], e['title'], e['locator']))
+                g.setdefault(e['ev'], {'e': e, 'items': []})['items'].append(k)
+        for ev_id, v in g.items():
+            e = v['e']
+            o.append('[%s] %s, 위치: %s  ← 근거가 되는 항목: %s' % (ev_id, e['title'], e['locator'], ', '.join('[%s]' % i for i in v['items'])))
     o.append('\n[근거 사용 원칙]\n' + PRINCIPLES)
     return '\n'.join(o)
