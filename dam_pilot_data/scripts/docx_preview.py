@@ -23,7 +23,17 @@ def main(docx, outdir):
             if '<w:br/>' in r: t = t.replace('', '')
             out.append('<span style="%s">%s</span>' % (st, t.replace('\n', '<br>')))
         return ''.join(out)
+    import base64
+    zf = zipfile.ZipFile(docx)
+    relx = zf.read('word/_rels/document.xml.rels').decode('utf8')
     def para(p, in_tbl=False):
+        if '<w:drawing>' in p:
+            rid = re.search(r'r:embed="(\w+)"', p).group(1)
+            tgt = re.search(r'Id="%s"[^>]*Target="([^"]+)"|Target="([^"]+)"[^>]*Id="%s"' % (rid, rid), relx)
+            tgt = tgt.group(1) or tgt.group(2)
+            ext = re.search(r'<wp:extent cx="(\d+)" cy="(\d+)"', p)
+            wpx = int(ext.group(1)) / 635 * PX
+            return '<div style="text-align:center"><img style="width:%.0fpx" src="data:image/png;base64,%s"></div>' % (wpx, base64.b64encode(zf.read('word/' + tgt)).decode())
         sty = re.search(r'<w:pStyle w:val="(\w+)"', p)
         center = '<w:jc w:val="center"/>' in p
         pb = '<w:pageBreakBefore/>' in p
