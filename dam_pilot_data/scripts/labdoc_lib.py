@@ -1,0 +1,151 @@
+#!/usr/bin/env python3
+"""랩미팅·회의 자료(docx) 공통 부품. 10/09 자료(docx)를 서식 템플릿으로 읽어 같은 서식의 문단·표를 만든다. stdlib만 사용."""
+import html, re, zipfile
+
+ROOT_TMPL = None
+LANG = '<w:lang w:eastAsia="ko-KR"/>'
+esc = lambda s: html.escape(s, quote=False)
+BODY, TBL = 20, 18
+W = 9972
+
+
+class Template:
+    def __init__(self, path):
+        self.z = zipfile.ZipFile(path)
+        x = self.z.read('word/document.xml').decode('utf8')
+        b = x[x.index('<w:body>') + 8:x.index('</w:body>')]
+        self.top = re.findall(r'<w:p[ >].*?</w:p>|<w:tbl>.*?</w:tbl>', b, flags=re.S)
+        self.sect = re.findall(r'<w:sectPr.*?</w:sectPr>', b, flags=re.S)[-1]
+        self.open = x[:x.index('<w:body>') + 8]
+
+    @staticmethod
+    def text(p):
+        return html.unescape(''.join(re.findall(r'<w:t(?:\s[^>]*)?>(.*?)</w:t>', p, flags=re.S)))
+
+    def rows(self, i):
+        out = []
+        for tr in re.findall(r'<w:tr[ >].*?</w:tr>', self.top[i], flags=re.S):
+            out.append(['\n'.join(t for t in (self.text(p) for p in re.findall(r'<w:p[ >].*?</w:p>', tc, flags=re.S)) if t) for tc in re.findall(r'<w:tc>.*?</w:tc>', tr, flags=re.S)])
+        return out
+
+    def widths(self, i):
+        return [int(v) for v in re.findall(r'<w:gridCol w:w="(\d+)"', self.top[i])]
+
+    def save(self, out, body_xml):
+        import xml.dom.minidom
+        doc = self.open + body_xml + self.sect + '</w:body></w:document>'
+        xml.dom.minidom.parseString(doc.encode('utf8'))
+        with zipfile.ZipFile(out, 'w', zipfile.ZIP_DEFLATED) as zo:
+            for item in self.z.infolist():
+                data = self.z.read(item.filename)
+                if item.filename == 'word/document.xml':
+                    data = doc.encode('utf8')
+                zo.writestr(item, data)
+
+
+def run(text, sz=None, b=False, color=None, mono=False):
+    pr = ('<w:rFonts w:ascii="Consolas" w:hAnsi="Consolas" w:cs="Consolas" w:eastAsia="맑은 고딕"/>' if mono else '') + ('<w:b/>' if b else '') + ('<w:color w:val="%s"/>' % color if color else '') + ('<w:sz w:val="%d"/><w:szCs w:val="%d"/>' % (sz, sz) if sz else '') + LANG
+    return '<w:r><w:rPr>%s</w:rPr><w:t xml:space="preserve">%s</w:t></w:r>' % (pr, esc(text))
+
+
+def title(t1, t2):
+    return ('<w:p><w:pPr><w:spacing w:before="1000"/><w:jc w:val="center"/><w:rPr>%s</w:rPr></w:pPr><w:r><w:rPr><w:b/><w:color w:val="1F4E79"/><w:sz w:val="44"/>%s</w:rPr>'
+            '<w:t xml:space="preserve">%s</w:t><w:br/><w:t xml:space="preserve">%s</w:t></w:r></w:p>' % (LANG, LANG, esc(t1), esc(t2)))
+
+
+def subtitle(t):
+    return '<w:p><w:pPr><w:jc w:val="center"/><w:rPr>%s</w:rPr></w:pPr>%s</w:p>' % (LANG, run(t, sz=23, b=True, color='505050'))
+
+
+def dateline(t, before=400):
+    return '<w:p><w:pPr><w:spacing w:before="%d"/><w:jc w:val="center"/><w:rPr>%s</w:rPr></w:pPr>%s</w:p>' % (before, LANG, run(t, color='646464'))
+
+
+def label(t):
+    return '<w:p><w:pPr><w:keepNext/><w:spacing w:before="240"/><w:rPr>%s</w:rPr></w:pPr>%s</w:p>' % (LANG, run(t, sz=25, b=True, color='1F4E79'))
+
+
+def h1(t, pagebreak=True):
+    return '<w:p><w:pPr><w:pStyle w:val="1"/>%s<w:rPr>%s</w:rPr></w:pPr>%s</w:p>' % ('<w:pageBreakBefore/>' if pagebreak else '', LANG, run(t))
+
+
+def h2(t):
+    return '<w:p><w:pPr><w:pStyle w:val="21"/><w:rPr>%s</w:rPr></w:pPr>%s</w:p>' % (LANG, run(t))
+
+
+def para(t, sz=BODY):
+    return '<w:p><w:pPr><w:spacing w:before="60" w:after="120"/><w:rPr>%s</w:rPr></w:pPr>%s</w:p>' % (LANG, run(t, sz=sz))
+
+
+def li(t, sz=BODY):
+    return '<w:p><w:pPr><w:pStyle w:val="a0"/><w:spacing w:after="60"/><w:rPr>%s</w:rPr></w:pPr>%s</w:p>' % (LANG, run(t, sz=sz))
+
+
+def lead(head, text):
+    return '<w:p><w:pPr><w:spacing w:before="60" w:after="100"/><w:rPr>%s</w:rPr></w:pPr>%s%s</w:p>' % (LANG, run(head + '  ', sz=BODY, b=True, color='1F4E79'), run(text, sz=BODY))
+
+
+def spacer():
+    return '<w:p><w:pPr><w:spacing w:after="60"/><w:rPr>%s</w:rPr></w:pPr></w:p>' % LANG
+
+
+BORD = ''.join('<w:%s w:val="single" w:sz="5" w:space="0" w:color="A6A6A6"/>' % s for s in ('top', 'left', 'bottom', 'right', 'insideH', 'insideV'))
+MAR = '<w:tcMar><w:top w:w="80" w:type="dxa"/><w:left w:w="110" w:type="dxa"/><w:bottom w:w="80" w:type="dxa"/><w:right w:w="110" w:type="dxa"/></w:tcMar><w:vAlign w:val="center"/>'
+
+
+def cell(text, w, fill=None, b=False, color=None, center=False, sz=TBL, mono=False, left=False):
+    lines = str(text).split('\n') or ['']
+    ps = ''.join('<w:p><w:pPr><w:spacing w:after="20" w:line="252" w:lineRule="auto"/>%s</w:pPr>%s</w:p>' % ('<w:jc w:val="center"/>' if center else '', run(l, sz=sz, b=b, color=color, mono=mono)) for l in lines)
+    return '<w:tc><w:tcPr><w:tcW w:w="%d" w:type="dxa"/>%s%s</w:tcPr>%s</w:tc>' % (w, '<w:shd w:val="clear" w:color="auto" w:fill="%s"/>' % fill if fill else '', MAR, ps)
+
+
+def table(rows, widths, header=True, firstcol=True, sz=TBL, left_cols=()):
+    assert sum(widths) == W, (sum(widths), rows[0])
+    out = ['<w:tbl><w:tblPr><w:tblW w:w="%d" w:type="dxa"/><w:jc w:val="center"/><w:tblBorders>%s</w:tblBorders><w:tblLayout w:type="fixed"/>'
+           '<w:tblLook w:val="04A0" w:firstRow="1" w:lastRow="0" w:firstColumn="1" w:lastColumn="0" w:noHBand="0" w:noVBand="1"/></w:tblPr><w:tblGrid>%s</w:tblGrid>'
+           % (W, BORD, ''.join('<w:gridCol w:w="%d"/>' % w for w in widths))]
+    for i, r in enumerate(rows):
+        assert len(r) == len(widths), r
+        hd = header and i == 0
+        out.append('<w:tr><w:trPr><w:cantSplit/>%s<w:jc w:val="center"/></w:trPr>' % ('<w:tblHeader/>' if hd else ''))
+        for j, (c, w) in enumerate(zip(r, widths)):
+            if hd:
+                out.append(cell(c, w, fill='D9EAF7', b=True, center=True, sz=sz))
+            elif j == 0 and firstcol:
+                out.append(cell(c, w, fill='EEF5FA', b=True, color='1F4E79', center=True, sz=sz))
+            else:
+                out.append(cell(c, w, sz=sz))
+        out.append('</w:tr>')
+    out.append('</w:tbl>')
+    return ''.join(out) + spacer()
+
+
+def box(lab, text, w1=1944, sz=TBL):
+    return table([[lab, text]], [w1, W - w1], header=False, sz=sz)
+
+
+def code(text, sz=17):
+    """고정폭 글자 상자(질의문, 근거 묶음 등)."""
+    out = ['<w:tbl><w:tblPr><w:tblW w:w="%d" w:type="dxa"/><w:jc w:val="center"/><w:tblBorders>%s</w:tblBorders><w:tblLayout w:type="fixed"/></w:tblPr><w:tblGrid><w:gridCol w:w="%d"/></w:tblGrid><w:tr><w:trPr><w:jc w:val="center"/></w:trPr>' % (W, BORD, W)]
+    out.append(cell(text, W, fill='F7F7F7', sz=sz, mono=True))
+    out.append('</w:tr></w:tbl>')
+    return ''.join(out) + spacer()
+
+
+def flow(items, sz=TBL):
+    n = len(items); aw = 300
+    bw = (W - aw * (n - 1)) // n
+    ws = []
+    for i in range(n):
+        ws.append(bw)
+        if i < n - 1:
+            ws.append(aw)
+    ws[-1] += W - sum(ws)
+    out = ['<w:tbl><w:tblPr><w:tblW w:w="%d" w:type="dxa"/><w:jc w:val="center"/><w:tblLayout w:type="fixed"/></w:tblPr><w:tblGrid>%s</w:tblGrid><w:tr><w:trPr><w:cantSplit/></w:trPr>' % (W, ''.join('<w:gridCol w:w="%d"/>' % w for w in ws))]
+    k = 0
+    for i, t in enumerate(items):
+        out.append(cell(t, ws[k], fill='EEF5FA', center=True, sz=sz)); k += 1
+        if i < n - 1:
+            out.append(cell('→', ws[k], center=True, sz=sz)); k += 1
+    out.append('</w:tr></w:tbl>')
+    return ''.join(out) + spacer()
