@@ -178,8 +178,6 @@ CONCEPT_ROWS = [
     ['Neo4j · Cypher', 'Neo4j는 그래프를 저장하는 데이터베이스, Cypher는 점과 선의 연결 패턴으로 찾는 질의 언어', 'KG 저장과 조회'],
     ['RAG (검색증강생성)', '질문과 관련된 근거를 먼저 검색해 LLM에 함께 주고, 그 근거로 답하게 하는 방식', 'KG·측정자료·문서에서 검색'],
 ]
-CYPHER = ["MATCH (a:Approval)-[:authorizes]->(o:Operation)", "      -[:performedOnDam]->(d:Dam {damName: '충주댐'})", "RETURN a, o"]
-CYPHER_NOTE = '예) CQ3 “충주댐의 과거 운영행위는?”을 찾는 Cypher: 승인(Approval)이 허가한(authorizes) 운영행위(Operation) 중 충주댐(Dam)에서 수행된(performedOnDam) 것을 찾는다'
 METHOD = [
     '**STEP 1 Ontology 설계**: Noy & McGuinness(2001)의 절차에 따라 **CQ로 범위를 정하고** 필요한 Class와 관계를 정의함. CQ는 현재 상태(CQ1), 과거 상태(CQ2), 과거 운영행위(CQ3), 과거 방류 승인(CQ4), 현재 운영기준(CQ5), 공식 근거(CQ6)와 비슷한 과거 사례(SIMILAR)임',
     '**STEP 2 KG 구축**: 열·행의 의미가 정해진 표는 **열 이름을 속성에 그대로 대응**(표 경로)하고, 문장·규정 별표는 **키워드와 패턴 규칙**으로 값을 추출(글 경로)함. 수치 전체와 원문은 KG 밖 저장소에 두고 KG에는 관계와 **출처 번호**만 저장함',
@@ -333,10 +331,7 @@ def build(tpl_path, out_path, scale=1):
     y = section('L', y, '서론', INTRO) + GAP
     y = section('L', y, '연구방법', None)
     y = tbl('L', y, 'Table 1. 핵심 용어', [2800000, 6900000, 3800000], CONCEPT_ROWS)
-    cy_h = 2 * 33079 + int(len(CYPHER) * 19 * 1.25 * EMU_PT) + int(lines_needed(CYPHER_NOTE, 2000, CW - 400000) * 20 * 1.25 * EMU_PT) + 250000
-    code = ''.join('<a:p><a:pPr marL="0" indent="0"><a:lnSpc><a:spcPct val="110000"/></a:lnSpc><a:buNone/></a:pPr><a:r><a:rPr lang="en-US" altLang="ko-KR" sz="1900" b="0" dirty="0">%s<a:latin typeface="Consolas"/><a:ea typeface="나눔고딕" pitchFamily="50" charset="-127"/></a:rPr><a:t>%s</a:t></a:r></a:p>' % (INK, escape(t)) for t in CYPHER)
-    note = '<a:p><a:pPr marL="0" indent="0"><a:lnSpc><a:spcPct val="110000"/></a:lnSpc><a:spcBef><a:spcPts val="600"/></a:spcBef><a:buNone/></a:pPr>%s</a:p>' % runs(CYPHER_NOTE, 2000, '<a:solidFill><a:srgbClr val="444444"/></a:solidFill>')
-    shapes.append(textbox(LX + 100000, y, CW - 200000, [code, note], cy_h, name='Cypher 예시', fill='F2F2F2', line='888888', pad=150000)); y += cy_h + GAP - 120000
+    y += GAP - 120000
     y = figure('L', y, 'rId11', imgs['rId11'], 12900000, '그림 1. 연구의 구성: Ontology 설계 → KG 구축 → 질문 응답(RAG)')
     items = METHOD
     h = est_h(items, BODY, CW)
