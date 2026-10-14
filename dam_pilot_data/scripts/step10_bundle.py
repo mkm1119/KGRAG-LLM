@@ -12,9 +12,18 @@ PRINCIPLES = ('1. 위 근거에 있는 내용만 사실로 쓰고, 문장마다 
               '3. 근거에 없는 내용은 "자료에 없음"이라고 답한다.')
 
 
+def fmt(x):
+    """값 표시: 저장소 원값 그대로 쓰되, 부동소수 표기 잡음(0.5736666666666667)만 소수 4자리로 정리한다. 값을 바꾸거나 계산하지 않는다."""
+    try:
+        f = float(x)
+    except (TypeError, ValueError):
+        return str(x)
+    return str(x) if len(str(x)) <= 9 else ('%.4f' % f).rstrip('0').rstrip('.')
+
+
 def mea(code, t, v):
     tag = '[MEA:%s:%s]' % (code, t.replace('-', '').replace(' ', '').replace(':', '')[:10])
-    vals = ', '.join('%s %s %s' % (n, v[n] if v[n] != '' else '없음', UNITS[n]) for n in ORDER)
+    vals = ', '.join('%s %s %s' % (n, fmt(v[n]) if v[n] != '' else '없음', UNITS[n]) for n in ORDER)
     return '%s %s  %s' % (tag, t, vals)
 
 

@@ -31,16 +31,29 @@ class Template:
     def widths(self, i):
         return [int(v) for v in re.findall(r'<w:gridCol w:w="(\d+)"', self.top[i])]
 
-    def save(self, out, body_xml):
+    def save(self, out, body_xml, images=None):
         import xml.dom.minidom
         doc = self.open + body_xml + self.sect + '</w:body></w:document>'
         xml.dom.minidom.parseString(doc.encode('utf8'))
+        images = images or {}
+        rels = self.z.read('word/_rels/document.xml.rels').decode('utf8')
+        ct = self.z.read('[Content_Types].xml').decode('utf8')
+        for key, (rid, path) in images.items():
+            rels = rels.replace('</Relationships>', '<Relationship Id="%s" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/%s.png"/></Relationships>' % (rid, key))
+        if images and 'Extension="png"' not in ct:
+            ct = ct.replace('<Default Extension="xml"', '<Default Extension="png" ContentType="image/png"/><Default Extension="xml"')
         with zipfile.ZipFile(out, 'w', zipfile.ZIP_DEFLATED) as zo:
             for item in self.z.infolist():
                 data = self.z.read(item.filename)
                 if item.filename == 'word/document.xml':
                     data = doc.encode('utf8')
+                elif item.filename == 'word/_rels/document.xml.rels':
+                    data = rels.encode('utf8')
+                elif item.filename == '[Content_Types].xml':
+                    data = ct.encode('utf8')
                 zo.writestr(item, data)
+            for key, (rid, path) in images.items():
+                zo.write(path, 'word/media/%s.png' % key)
 
 
 def run(text, sz=None, b=False, color=None, mono=False):
@@ -149,3 +162,26 @@ def flow(items, sz=TBL):
             out.append(cell('→', ws[k], center=True, sz=sz)); k += 1
     out.append('</w:tr></w:tbl>')
     return ''.join(out) + spacer()
+
+
+IMGS = {}
+
+
+def image(key, path, px_w, px_h, name, width=W):
+    rid = 'rIdImg%d' % (len(IMGS) + 1)
+    IMGS[key] = (rid, path)
+    cx = width * 635
+    cy = int(cx * px_h / px_w)
+    n = len(IMGS)
+    return ('<w:p><w:pPr><w:keepNext/><w:spacing w:before="60" w:after="40"/><w:jc w:val="center"/></w:pPr><w:r><w:drawing>'
+            '<wp:inline distT="0" distB="0" distL="0" distR="0"><wp:extent cx="%d" cy="%d"/><wp:docPr id="%d" name="%s" descr="%s"/>'
+            '<wp:cNvGraphicFramePr><a:graphicFrameLocks xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" noChangeAspect="1"/></wp:cNvGraphicFramePr>'
+            '<a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture">'
+            '<pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:nvPicPr><pic:cNvPr id="%d" name="%s"/><pic:cNvPicPr/></pic:nvPicPr>'
+            '<pic:blipFill><a:blip r:embed="%s"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill>'
+            '<pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="%d" cy="%d"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic>'
+            '</a:graphicData></a:graphic></wp:inline></w:drawing></w:r></w:p>') % (cx, cy, n, name, esc(name), n, name, rid, cx, cy)
+
+
+def caption(t):
+    return '<w:p><w:pPr><w:spacing w:before="0" w:after="120"/><w:jc w:val="center"/><w:rPr>%s</w:rPr></w:pPr>%s</w:p>' % (LANG, run(t, sz=18, color='505050'))
