@@ -47,37 +47,55 @@ def card(g, x, y, w, cls, ent, lines):
     g.rect(x, y, w, h, '#fff', INK, 2.5, None, 6)
     g.rect(x, y, w, 44, '#e9eef5', INK, 2.5, None, 6)
     g.text(x + 14, y + 31, cls, 23, True, NAVY, 'start')
-    g.text(x + 14, y + 74, ent, 17, True, '#222', 'start')
+    g.text(x + 14, y + 74, ent, 16, True, '#222', 'start')
     for i, ln in enumerate(lines):
-        g.text(x + 14, y + 74 + (i + 1) * 26, ln, 17, False, '#222', 'start')
+        g.text(x + 14, y + 74 + (i + 1) * 26, ln, 16, False, '#222', 'start')
     return h
 
 
+def vtext(g, x, y, t, size=18):
+    g.add('<text transform="translate(%d,%d) rotate(-90)" font-size="%d" fill="#222" text-anchor="middle" stroke="#fff" stroke-width="6" paint-order="stroke">%s</text>' % (x, y, size, t))
+
+
 def fig_kg():
-    g = Svg(700)
-    X0, X1, W_ = 0, 570, 430
+    """Ontology의 Class 6개, Relation 9개를 모두 그린 KG 예시(충주댐 승인 1368)."""
+    pf.tf.W = 1050
+    g = Svg(720)
+    X0, X1, W_ = 45, 575, 400
     hA = card(g, X0, 0, W_, 'Approval', 'APR:1368', ['approvalTime = 2012-08-24', 'approvalContent = “방류시작 2012-08-24 15:00;', '  접수방류량 2000㎥/s; 비고: 이내 탄력적 조정”'])
-    card(g, X1, 0, W_, 'Criterion', 'CRI:CR-02', ['criterionType = 홍수기 제한수위', 'criterionValue = 138.0', 'unit = EL.m'])
+    hK = card(g, X1, 0, W_, 'Criterion', 'CRI:CR-02', ['criterionType = 홍수기 제한수위', 'criterionValue = 138.0', 'unit = EL.m'])
     yB = hA + 60
     hB = card(g, X0, yB, W_, 'Operation', 'OPR:1368:1', ['operationType = 탄력적 방류', 'operationTime = 2012-08-24T15:00'])
     hD = card(g, X1, yB, W_, 'Dam', 'DAM:1003110', ['damName = 충주댐', 'damType = 다목적댐'])
     yC = yB + hB + 55
     hC = card(g, X0, yC, W_, 'EvidenceSource', 'EVI:AP:1368', ['sourceTitle = 한강홍수통제소 홍수예보 댐방류승인', 'sourceType = 승인자료', 'sourceLocator = 순차번호 1368'])
-    card(g, X1, yC, W_, 'HydrometeorologicalState', 'HMS:1003110:수위', ['variableType = 수위', 'stationCode = 1003110'])
+    hH = card(g, X1, yC, W_, 'HydrometeorologicalState', 'HMS:1003110:수위', ['variableType = 수위', 'stationCode = 1003110'])
     L = lambda *a: g.line(*a, INK, 'ar', None, 3)
-    mx0, mx1 = 215, 785
+    mx0, mx1 = X0 + 215, X1 + 215
+    # Approval --authorizes--> Operation
     L(mx0, hA + 2, mx0, yB - 2); g.text(mx0 + 15, hA + 36, 'authorizes', 20, False, INK, 'start', True)
-    L(W_ + 2, 110, X1 - 2, yB + 30); g.text(500, 160, 'concernsDam', 20, False, INK, 'middle', True)
-    L(W_ + 2, yB + 74, X1 - 2, yB + 74); g.text(500, yB + 62, 'performedOnDam', 18, False, INK, 'middle', True)
-    L(mx1, hA + 2, mx1, yB - 2); g.text(mx1 + 15, hA + 36, 'appliesToDam', 20, False, INK, 'start', True)
+    # Approval --concernsDam--> Dam
+    L(X0 + W_ + 2, 110, X1 - 2, yB + 30); g.text(510, 165, 'concernsDam', 20, False, INK, 'middle', True)
+    # Operation --performedOnDam--> Dam
+    L(X0 + W_ + 2, yB + 74, X1 - 2, yB + 74); g.text(510, yB + 62, 'performedOnDam', 18, False, INK, 'middle', True)
+    # Criterion --appliesToDam--> Dam
+    L(mx1, hK + 2, mx1, yB - 2); g.text(mx1 + 15, hK + 36, 'appliesToDam', 20, False, INK, 'start', True)
+    # Dam --hasHydrometeorologicalState--> HMS
     L(mx1, yB + hD + 2, mx1, yC - 2); g.text(mx1, yB + hD + 34, 'hasHydrometeorologicalState', 17, False, INK, 'middle', True)
+    # supportedBy: Operation, HMS (direct), Approval (left margin), Criterion (right margin, bottom)
     L(mx0, yB + hB + 2, mx0, yC - 2); g.text(mx0 + 15, yB + hB + 36, 'supportedBy', 20, False, INK, 'start', True)
-    L(X1 - 2, yC + 70, W_ + 2, yC + 70); g.text(500, yC + 58, 'supportedBy', 20, False, INK, 'middle', True)
-    yT = yC + hC + 35
-    g.text(500, yT, '위쪽: Class,  첫 줄: 개체(Entity) ID,  아래: Data Property = 값', 21, False, '#444', 'middle')
-    g.text(500, yT + 30, '승인 · 운영행위 · 상태 · 운영기준 개체는 모두 supportedBy 관계로 근거자료에 연결된다', 21, False, '#444', 'middle')
-    g.text(500, yT + 60, '값 자체(측정값, 규정 원문)는 KG 밖 저장소에 두고, KG에는 찾아가는 키만 둔다', 21, False, '#444', 'middle')
+    L(X1 - 2, yC + 70, X0 + W_ + 2, yC + 70); g.text(510, yC + 58, 'supportedBy', 20, False, INK, 'middle', True)
+    g.path('M%d,60 L16,60 L16,%d L%d,%d' % (X0, yC + 100, X0 - 2, yC + 100), INK, 'ar', None, 3)
+    vtext(g, 34, yB + 40, 'supportedBy')
+    yBot = yC + max(hC, hH) + 28
+    g.path('M%d,60 L1030,60 L1030,%d L300,%d L300,%d' % (X1 + W_, yBot, yBot, yC + hC + 2), INK, 'ar', None, 3)
+    vtext(g, 1014, yB + 40, 'supportedBy')
+    yT = yBot + 40
+    g.text(525, yT, '카드: 위쪽 Class, 첫 줄 개체(Entity) ID, 아래 Data Property = 값.  화살표: 관계(Relation)', 20, False, '#444', 'middle')
+    g.text(525, yT + 28, '값 자체(측정값, 규정 원문)는 KG 밖 저장소에 두고, KG에는 찾아가는 키(stationCode, sourceLocator)만 둔다', 20, False, '#444', 'middle')
+    g.h = yT + 50
     g.save('meeting_fig2_kg')
+    pf.tf.W = 1000
 
 
 if __name__ == '__main__':
