@@ -57,7 +57,7 @@ def poster_framework():
     panel(g, 285, 0, 715, 330, '(b) 지식그래프(KG) 구축')
     box(g, 300, 60, 160, 250, '원자료', ['방류 승인', '시간 자료', '규정 별표3'])
     g.line(462, 185, 498, 185, INK, 'ar')
-    box(g, 500, 60, 170, 250, '정리 · 매핑', ['표 경로', '글 경로', '(규칙 기반)'])
+    box(g, 500, 60, 170, 250, 'KG 구축', ['전처리', '매핑 · 추출', '관계 연결', '검증 · 저장'], 26, 22)
     g.line(672, 185, 708, 185, INK, 'ar')
     cyl(g, 710, 52, 275, 84, 'KG (Neo4j)', None)
     cyl(g, 710, 144, 275, 84, '측정자료 저장소', None)
@@ -69,8 +69,8 @@ def poster_framework():
     box(g, xs[0], 450, ws, 200, '사용자', ['질문'], 28, 28)
     box(g, xs[1], 450, ws, 200, '질문 해석', ['(LLM)', '의도·댐·시점'], 28, 22)
     box(g, xs[2], 450, ws, 200, '근거 검색', ['KG: Cypher', '측정자료 조회', '문서 조회'], 28, 22)
-    box(g, xs[3], 450, ws, 200, '근거 모음', ['번호 붙은', '근거, 계산값'], 28, 22)
-    box(g, xs[4], 450, ws, 200, '답변 (LLM)', ['근거 안에서만', '출처 표시'], 28, 22)
+    box(g, xs[3], 450, ws, 200, '근거 묶음', ['출처 번호가', '붙은 원값 근거'], 28, 22)
+    box(g, xs[4], 450, ws, 200, '답변 (LLM)', ['근거 / 판단을', '나누어 작성'], 28, 22)
     for i in range(4):
         g.line(xs[i] + ws + 2, 550, xs[i + 1] - 2, 550, INK, 'ar')
     # 저장소 → 근거 검색 (점선)
@@ -80,9 +80,11 @@ def poster_framework():
 
 
 def poster_kg():
+    """Class 6개, Relation 9개를 모두 적용한 충주댐 승인 1368 예시(왼쪽 여백에 Approval의 supportedBy 경로)."""
+    tf.W = 1040
     g = Svg(690)
     w, h = 270, 130
-    cx = [0, 365, 730]
+    cx = [40, 395, 750]
     cy = [10, 270, 530]
     def ell(c, r, cls, name):
         x, y = cx[c], cy[r]
@@ -102,17 +104,19 @@ def poster_kg():
     ell(2, 1, 'HMS', '충주댐_수위')
     rec(0, 2, 'EvidenceSource', '승인 기록')
     rec(2, 2, 'EvidenceSource', 'K-water 자료')
-    L = lambda *a, **k: g.line(*a, INK, 'ar', None, 3)
-    L(135, 142, 135, 268); g.text(150, 214, '허가한다', 24, False, INK, 'start', True)
-    L(235, 125, 420, 272); g.text(318, 190, '대상 댐', 24, False, INK, 'start', True)
-    L(500, 142, 500, 268); g.text(515, 214, '적용되는 댐', 24, False, INK, 'start', True)
-    L(635, 75, 728, 75); g.text(682, 59, '근거', 24, False, INK, 'middle', True)
-    L(270, 335, 363, 335); g.text(317, 319, '수행 댐', 24, False, INK, 'middle', True)
-    L(635, 335, 728, 335); g.text(682, 319, '보유', 24, False, INK, 'middle', True)
-    L(135, 402, 135, 528); g.text(150, 474, '근거', 24, False, INK, 'start', True)
-    L(865, 402, 865, 528); g.text(880, 474, '근거', 24, False, INK, 'start', True)
-    g.text(500, 640, '타원: 개체,  사각형: 근거자료', 24, False, '#444', 'middle')
+    L = lambda *a: g.line(*a, INK, 'ar', None, 3)
+    L(175, 142, 175, 268); g.text(190, 214, 'authorizes', 22, False, INK, 'start', True)
+    L(275, 125, 460, 272); g.text(350, 190, 'concernsDam', 22, False, INK, 'start', True)
+    L(540, 142, 540, 268); g.text(555, 214, 'appliesToDam', 22, False, INK, 'start', True)
+    L(675, 75, 748, 75); g.text(712, 59, 'supportedBy', 18, False, INK, 'middle', True)
+    L(312, 335, 393, 335); g.text(352, 319, 'performedOnDam', 15, False, INK, 'middle', True)
+    L(675, 335, 748, 335); g.text(712, 319, 'hasHMS', 20, False, INK, 'middle', True)
+    L(175, 402, 175, 528); g.text(190, 474, 'supportedBy', 22, False, INK, 'start', True)
+    L(885, 402, 885, 528); g.text(900, 474, 'supportedBy', 22, False, INK, 'start', True)
+    g.path('M40,75 L12,75 L12,595 L38,595', INK, 'ar', None, 3)
+    g.add('<text transform="translate(30,330) rotate(-90)" font-size="22" fill="#222" text-anchor="middle" stroke="#fff" stroke-width="6" paint-order="stroke">supportedBy</text>')
     g.save('poster_fig2_kg')
+    tf.W = 1000
 
 
 if __name__ == '__main__':

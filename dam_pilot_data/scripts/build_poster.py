@@ -177,54 +177,56 @@ CONCEPT_ROWS = [
     ['관계 / 속성', '관계는 개체 사이의 연결(예: 승인이 운영행위를 허가함), 속성은 개체가 가진 값(예: 승인일)'],
     ['CQ (Competency Question)', '온톨로지가 답할 수 있어야 하는 질문. 연구 범위와 필요한 Class·관계를 정하는 기준'],
     ['지식그래프 (KG)', '온톨로지에 실제 개체·관계·값을 채워 만든 그래프. Neo4j(그래프 데이터베이스)에 저장하고 Cypher(점과 선의 연결 패턴으로 찾는 질의 언어)로 조회함'],
-    ['표 경로 / 글 경로', '열 이름이 의미를 정하는 표는 값을 그대로 옮기고(표 경로), 문장·규정 별표는 규칙으로 값을 추출함(글 경로)'],
+    ['구조화 자료 / 문서 자료', '열의 의미가 정해진 표(구조화 자료)는 규칙에 따라 개체·속성으로 옮기고, 글 속에 값이 있는 자료(승인 비고, 규정 별표)는 규칙(정규식)으로 값을 추출함'],
+    ['외부 저장소', 'KG에 넣지 않은 측정값 전체(측정자료 저장소)와 규정 원문(문서 저장소). KG에는 이를 찾아가는 키만 둠'],
     ['RAG (검색증강생성)', '질문과 관련된 근거를 검색해 LLM(대규모 언어모델)에 함께 주고, 그 근거로 답하게 하는 방식'],
-    ['의도 (Intent)', '사용자 질문이 CQ 중 어느 질문에 해당하는지의 분류. 의도에 따라 찾을 근거가 정해짐'],
-    ['근거 모음', '검색한 근거와 계산값에 출처 번호를 붙여 LLM이 읽을 수 있게 정리한 입력'],
-    ['유클리드 거리', '두 지점의 직선거리. 현재와 과거 사례의 수위·유입량이 얼마나 다른지 나타내며 작을수록 비슷함'],
+    ['의도 (Intent)', '사용자 질문이 CQ1~CQ6 중 무엇을 묻는지의 분류(복수 가능). 의도에 따라 찾을 근거가 정해짐'],
+    ['근거 묶음', '검색한 근거에 출처 번호를 붙여 LLM이 읽을 수 있게 정리한 입력. 값은 저장소의 원값이며 비교·해석은 LLM이 수행함'],
 ]
 METHOD = [
-    '**STEP 1 Ontology 설계**: 운영자에게 필요한 질문을 **전체 질문 1개와 세부 질문 6개(CQ1~CQ6)** 로 먼저 정하고, 이에 답하는 데 필요한 **Class 6개와 관계 9개**를 정의함. 세부 질문은 현재 상태, 과거 상태, 과거 운영행위, 과거 방류 승인, 현재 운영기준, 공식 근거이며, 전체 질문은 이들을 이어 **현재 상태와 기준을 확인하고 비슷한 과거 사례의 운영행위·승인·근거를 추적**함',
-    '**STEP 2 KG 구축**: 원자료를 **표 경로**와 **글 경로**로 나누어 Class·관계·속성에 대응시켜 KG(개체 273, 관계 457)로 구축함. 수치 전체와 원문은 외부 저장소에 두고, KG에는 관계와 **출처 번호**만 저장함',
-    '**STEP 3 질문 응답(RAG)**: ① LLM이 질문의 **의도**와 댐·시점을 정리 → ② 의도별 **Cypher**로 KG를 탐색해 관련 승인·운영행위·기준과 출처 번호를 찾음 → ③ 그 번호로 측정자료·문서 저장소에서 값과 원문을 읽음 → ④ 전체 질문은 수위·유입량의 **유클리드 거리**로 비슷한 과거 사례를 고르고, 수치 계산은 코드가 수행 → ⑤ **근거 모음** 안에서 LLM이 답변하고 출처 번호를 붙임',
+    '**STEP 1 Ontology 설계**: 운영자에게 필요한 질문을 **전체 질문 1개와 세부 질문 6개(CQ1~CQ6)** 로 먼저 정하고, 이에 답하는 데 필요한 **Class 6개와 관계 9개**를 정의함. 세부 질문은 현재 상태, 과거 상태, 과거 운영행위, 과거 방류 승인, 현재 운영기준, 공식 근거이며, 전체 질문은 이들을 이어 **현재 상태와 기준을 확인하고 과거 사례의 상태·운영행위·승인·근거를 추적**함',
+    '**STEP 2 KG 구축**: 원자료를 **전처리 → 구조화 자료 매핑 → 문서 자료 추출 → 관계 연결 → 검증 → 저장**의 6단계로 처리하여 KG(개체 264, 관계 418)를 구축함. 관계는 자료의 코드·이름이 일치하는 개체 쌍에만 연결하고, 측정값 전체와 원문은 외부 저장소에 두어 KG에는 **찾아가는 키**만 저장함',
+    '**STEP 3 질문 응답(RAG)**: ① LLM이 질문의 **의도(CQ, 복수 가능)** 와 댐·시점을 추출 → ② 코드가 입력을 확인하고 의도별 **Cypher**로 KG를 조회 → ③ 키로 측정자료·문서 저장소에서 값과 원문을 읽음 → ④ 출처 번호를 붙인 **근거 묶음** 구성 → ⑤ LLM이 근거 묶음으로 **근거와 판단을 나누어** 답변',
 ]
 DATA_BUL = [
     '**방류 승인 기록**: 한강홍수통제소 공공데이터, 충주·소양강·횡성·광동 4개 댐의 승인 80건 (2010-09 ~ 2021-07)',
     '**수문기상 시간 자료**: K-water 시간자료 508,246행 (수위, 저수량, 강우량, 유입량, 총방류량, 저수율)',
-    '**규정 별표3**: 연계운영규정의 홍수기 제한수위 (현행 1건, 연혁 9건)',
+    '**규정 별표3**: 연계운영규정의 홍수기 제한수위 (현행)',
 ]
 KG_ROWS = [
     ['구분', '종류', '개수'],
-    ['개체', 'Dam 4, HMS 24, Approval 80, Operation 68, Criterion 3, EvidenceSource 94', '273'],
-    ['관계', '허가한다, 대상 댐, 수행된 댐, 상태 보유, 적용되는 댐, 근거 등 9종류', '457'],
-    ['속성', '승인일, 방류 시작 시각, 승인 방류량, 제한수위 등', '653행'],
+    ['개체', 'Dam 4, HMS 24, Approval 80, Operation 68, Criterion 3, EvidenceSource 85', '264'],
+    ['관계', '승인–댐, 허가, 수행된 댐, 상태 보유, 적용되는 댐, 근거 등 9종류', '418'],
+    ['속성', '승인일, 승인 내용, 운영행위 종류·시각, 제한수위 등', '616행'],
 ]
 KG_BUL = [
-    '구조 검증 **5개 항목**에서 어긋남은 0건이었고, 승인 80건 모두 **승인–운영행위–댐–상태–근거자료**로 이어져 질문 경로를 따라 근거를 찾을 수 있음',
+    '구조 검사 **5개 항목**에서 어긋남은 0건이었고, 검증 중 **승인과 댐을 잇는 관계**가 없음을 발견해 Ontology에 추가함으로써 승인 80건 모두 댐에서 찾을 수 있고 근거자료와 연결됨',
 ]
 QA_ROWS = [
     ['단계', '내용'],
-    ['질문', '“소양강댐의 현재 수위를 제한수위와 비교하고, 비슷했던 과거 사례의 운영행위와 승인, 근거를 알려줘”'],
-    ['의도·값', '전체 질문 (CQ1~CQ6를 이어서 조회), 댐 = 소양강댐'],
-    ['근거 모음', '현재 수위 185.2644 EL.m, 제한수위 190.3 EL.m [CRI:CR-01]\n비슷한 과거 사례 2017-08-25 15:00 (수위·유입량 거리 0.223)\n운영행위 탄력적 방류 [OPR:2754:2], 승인 [APR:2754] 승인 방류량 1500 ㎥/s, 사례 전후 최대 총방류량 1011.2 CMS (승인량의 67.4%)'],
-    ['답변 (LLM)', '“소양강댐 현재 수위는 185.2644 EL.m로, 제한수위 190.3 EL.m 대비 −5.04 m입니다 [CRI:CR-01]. 유사한 과거 사례는 2017-08-25 15:00 …” (출처 번호 포함)'],
+    ['질문', '“충주댐 현재 수문, 기상 데이터를 가져오고 제한수위와 비교한 후에, 이와 비슷한 수문상태일 때의 승인 및 운영 행위가 있었으면 알려줘”'],
+    ['의도·값', 'CQ1~CQ6 (복수), 댐 = 충주댐, 시점 = 전체'],
+    ['근거 묶음', '현재 상태 2026-09-28 23:00, 수위 131.6689 EL.m [MEA:1003110:2026092823]\n제한수위 138.0 EL.m [CRI:CR-02]\n운영행위 14개와 허가한 승인, 각 운영 시각의 수문기상 상태\n예) 2012-08-24 15:00 탄력적 방류 [OPR:1368:1] ← 승인 [APR:1368]'],
+    ['답변 (LLM)', '근거(출처 번호 포함)와 판단(LLM)으로 나누어 작성하고, 판단에는 근거로 삼은 출처 번호를 함께 적음'],
 ]
 QA_BUL = [
-    'LLM은 질문 해석과 답변 작성을 맡고, **수치 계산과 비슷한 사례 선택은 코드**가 수행하여 답변의 숫자를 근거에서 확인할 수 있음',
+    '자료 연결과 근거 검색은 코드로 자동화하고 **LLM은 질문 해석과 답변 작성**을 맡아, 답변의 사실은 출처 번호로 원 자료까지 추적할 수 있고 LLM의 판단은 근거와 구분되어 표시됨',
 ]
 CONCL = [
-    '댐 운영 자료(방류 승인 기록, 수문기상 시간 자료, 규정 별표3)를 **Ontology(개체 6종류, 관계 9종류)** 에 맞춰 **KG(개체 273, 관계 457)** 로 구축하고, 수치·원문은 외부 저장소에 두어 KG는 연결과 근거 위치만 담도록 함',
-    '전체 질문과 세부 질문 6개(CQ)에 대해 KG와 측정자료·문서 저장소에서 근거를 찾는 **RAG**와, 출처 번호가 붙은 근거 안에서 답하는 **LLM**을 연계한 **질문 응답 프레임워크**를 구축함',
-    '운영자가 현재 상태, 제한수위, 과거 승인·운영행위, 비슷한 과거 사례를 **근거와 함께** 확인할 수 있어 **댐 운영 의사결정을 지원**함',
+    '댐 운영 자료(방류 승인 기록, 수문기상 시간 자료, 규정 별표3)를 **Ontology(Class 6, 관계 9)** 에 맞춰 6단계로 **KG(개체 264, 관계 418)** 로 구축하고, 수치·원문은 외부 저장소에 두어 KG는 연결과 근거 위치만 담도록 함',
+    '전체 질문과 세부 질문 6개(CQ)에 대해 KG와 측정자료·문서 저장소에서 근거를 찾아 **출처 번호가 붙은 근거 묶음**으로 정리하고, **LLM**이 근거와 판단을 나누어 답하는 **질문 응답 프레임워크**를 구축함',
+    '운영자가 현재 상태, 제한수위, 과거 승인·운영행위를 **근거와 함께** 확인할 수 있어 **댐 운영 의사결정을 지원**함',
 ]
 ACK = '본 결과물은 기후에너지환경부의 재원으로 한국환경산업기술원의 기후변화 적응 수재해 관리 기술개발사업(R&D)의 지원을 받아 연구되었습니다(RS-2026-25502939). 본 연구는 기후에너지환경부「기후변화특성화대학원사업」의 지원으로 수행되었습니다.'
 REFS = [
-    'Purohit, S., Chin, G., Mackey, P. S. and Cottam, J. A. (2024). “GraphAide: Advanced graph-assisted query and reasoning system.” Proc. IEEE Int. Conf. on Big Data (BigData), pp. 3485-3493.',
-    'Papadakis, E., McCluskey, T. L., Louadah, H. and Tucker, G. (2023). “Ontology-guided knowledge graph construction to support scheduling in a train maintenance depot.” CEUR Workshop Proceedings, Vol. 3493.',
+    'Noy, N. F. and McGuinness, D. L. (2001). “Ontology development 101: A guide to creating your first ontology.” Stanford Knowledge Systems Laboratory Technical Report KSL-01-05.',
+    'Huang, J., Hou, W., Zhang, S., Du, Z. and Yin, J. (2026). “Dam defects ontology and knowledge graph construction from multi-source hazard data using large language models.” Advanced Engineering Informatics, Vol. 76, 104987.',
+    'Zhou, Y., Bao, T., Shu, X., Li, Y. and Li, Y. (2023). “BIM and ontology-based knowledge management for dam safety monitoring.” Automation in Construction, Vol. 145, 104649.',
     'Li, S., Erickson, C., Zajac, M., Guo, X., Duan, Q. and Gong, J. (2025). “A semi-automated framework for flood ontology construction with an application in risk communication.” Water, Vol. 17, No. 19, 2801.',
+    'Zhang, D., Ma, G., Qu, T., Wang, X., Zhou, W. and Wang, X. (2025). “A knowledge graph-enhanced large language model for question answering of hydraulic structure safety management.” Advanced Engineering Informatics, Vol. 66, 103468.',
+    'Purohit, S., Chin, G., Mackey, P. S. and Cottam, J. A. (2024). “GraphAide: Advanced graph-assisted query and reasoning system.” Proc. IEEE Int. Conf. on Big Data (BigData), pp. 3485-3493.',
     'Lewis, P. et al. (2020). “Retrieval-augmented generation for knowledge-intensive NLP tasks.” Advances in Neural Information Processing Systems, Vol. 33, pp. 9459-9474.',
     'Angles, R. and Gutierrez, C. (2008). “Survey of graph database models.” ACM Computing Surveys, Vol. 40, No. 1, Article 1.',
-    'Noy, N. F. and McGuinness, D. L. (2001). “Ontology development 101: A guide to creating your first ontology.” Stanford Knowledge Systems Laboratory Technical Report KSL-01-05.',
 ]
 
 # ---------------------------------------------------------------- 조립
@@ -330,11 +332,11 @@ def build(tpl_path, out_path, scale=1):
     y = 6350000
     y = section('R', y, 'KG 구축 결과', None)
     y = tbl('R', y, 'Table 2. 구축한 지식그래프의 규모', [1500000, 10400000, 1600000], KG_ROWS)
-    y = figure('R', y, 'rId12', imgs['rId12'], 10600000, '그림 2. 지식그래프의 일부: 충주댐 승인 1368번')
+    y = figure('R', y, 'rId12', imgs['rId12'], 10000000, '그림 2. 지식그래프의 일부: 충주댐 승인 1368번 (Class 6, 관계 9)')
     h = est_h(KG_BUL, BODY, CW)
     shapes.append(textbox(RX, y, CW, [para(t, BODY) for t in KG_BUL], h)); y += h + GAP
     y = section('R', y, '질문 응답 예시', None)
-    y = tbl('R', y, 'Table 3. 전체 질문에 대한 응답 과정', [2600000, 10900000], QA_ROWS)
+    y = tbl('R', y, 'Table 3. 전체 질문에 대한 근거 검색과 답변 구성', [2600000, 10900000], QA_ROWS)
     h = est_h(QA_BUL, BODY, CW)
     shapes.append(textbox(RX, y, CW, [para(t, BODY) for t in QA_BUL], h)); y += h + GAP
     y = section('R', y, '결론', CONCL) + GAP
