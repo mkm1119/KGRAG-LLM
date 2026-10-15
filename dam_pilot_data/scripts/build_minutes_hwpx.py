@@ -65,6 +65,27 @@ def tbl(rows, widths, header=True):
     return '<hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="38">%s<hp:t/></hp:run></hp:p>' % body
 
 
+FIGS = os.path.join(HERE, '..', '..', 'lab_meeting', 'minutes_figs')
+media = []
+
+
+def pic(fname, pw, ph, ratio):
+    iid = os.path.splitext(fname)[0]
+    media.append((iid, fname))
+    w = int(W * ratio); h = int(w * ph / pw)
+    return ('<hp:p id="2147483648" paraPrIDRef="20" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="38">'
+            '<hp:pic id="%d" zOrder="1" numberingType="NONE" textWrap="TOP_AND_BOTTOM" textFlow="BOTH_SIDES" lock="0" dropcapstyle="None" href="" groupLevel="0" instid="%d" reverse="0">'
+            '<hp:offset x="0" y="0"/><hp:orgSz width="%d" height="%d"/><hp:curSz width="%d" height="%d"/><hp:flip horizontal="0" vertical="0"/>'
+            '<hp:rotationInfo angle="0" centerX="%d" centerY="%d" rotateimage="1"/><hp:renderingInfo><hc:transMatrix e1="1" e2="0" e3="0" e4="0" e5="1" e6="0"/><hc:scaMatrix e1="1" e2="0" e3="0" e4="0" e5="1" e6="0"/><hc:rotMatrix e1="1" e2="0" e3="0" e4="0" e5="1" e6="0"/></hp:renderingInfo>'
+            '<hp:imgRect><hc:pt0 x="0" y="0"/><hc:pt1 x="%d" y="0"/><hc:pt2 x="%d" y="%d"/><hc:pt3 x="0" y="%d"/></hp:imgRect>'
+            '<hp:imgClip left="0" right="%d" top="0" bottom="%d"/><hp:inMargin left="0" right="0" top="0" bottom="0"/><hp:imgDim dimwidth="%d" dimheight="%d"/>'
+            '<hc:img binaryItemIDRef="%s" bright="0" contrast="0" effect="REAL_PIC" alpha="0"/><hp:effects/>'
+            '<hp:sz width="%d" widthRelTo="ABSOLUTE" height="%d" heightRelTo="ABSOLUTE" protect="0"/>'
+            '<hp:pos treatAsChar="1" affectLSpacing="0" flowWithText="1" allowOverlap="0" holdAnchorAndSO="0" vertRelTo="PARA" horzRelTo="PARA" vertAlign="TOP" horzAlign="LEFT" vertOffset="0" horzOffset="0"/>'
+            '<hp:outMargin left="0" right="0" top="0" bottom="0"/><hp:shapeComment>그림입니다.\n원본 그림의 이름: %s</hp:shapeComment></hp:pic><hp:t/></hp:run></hp:p>'
+            % (nid(), nid(), w, h, w, h, w // 2, h // 2, w, w, h, h, pw * 75, ph * 75, pw * 75, ph * 75, iid, w, h, escape(fname)))
+
+
 out = [first]
 for blk in blocks:
     k = blk[0]
@@ -76,14 +97,20 @@ for blk in blocks:
         out.append(p(' □ ' + blk[1], 28, 42, 3))
     elif k == 'b':
         out.append(p('  ◦ ' + blk[1], 29, 42))
+    elif k == 'img':
+        out.append(pic(blk[1], blk[2], blk[3], blk[5])); out.append(p(blk[4], 20, 38)); out.append(empty())
+    elif k == 'cap':
+        out.append(p(blk[1], 20, 38))
     elif k == 'tbl':
         out.append(tbl(blk[1], blk[2], blk[3])); out.append(empty())
 body = head + ''.join(out) + '</hs:sec>'
 import xml.dom.minidom
 xml.dom.minidom.parseString(body.encode('utf8'))
-text = '\n'.join(b[1] if b[0] != 'tbl' else '\n'.join(' | '.join(r) for r in b[1]) for b in blocks)
+text = '\n'.join(b[1] if b[0] in ('title', 'h', 'sub', 'b', 'cap') else ('\n'.join(' | '.join(r) for r in b[1]) if b[0] == 'tbl' else b[4]) for b in blocks)
 cpf = z.read('Contents/content.hpf').decode('utf8')
 cpf = re.sub(r'<opf:title>.*?</opf:title>', '<opf:title>%s</opf:title>' % escape(blocks[0][1]), cpf, count=1)
+for iid, fn in media:
+    cpf = cpf.replace('<opf:item id="header"', '<opf:item id="%s" href="BinData/%s" media-type="image/png" isEmbeded="1"/><opf:item id="header"' % (iid, fn), 1)
 with zipfile.ZipFile(OUT, 'w') as zo:
     zo.writestr(zipfile.ZipInfo('mimetype'), z.read('mimetype'), compress_type=zipfile.ZIP_STORED)
     for it in z.infolist():
@@ -101,4 +128,6 @@ with zipfile.ZipFile(OUT, 'w') as zo:
         else:
             data = z.read(n)
         zo.writestr(n, data, compress_type=zipfile.ZIP_DEFLATED)
+    for iid, fn in media:
+        zo.writestr('BinData/' + fn, open(os.path.join(FIGS, fn), 'rb').read(), compress_type=zipfile.ZIP_DEFLATED)
 print('저장', OUT, len(blocks))
