@@ -9,21 +9,31 @@ T = L.Template(os.path.join(HERE, '..', '..', 'lab_meeting', '랩미팅 자료_K
 run, table, li, para, spacer, LANG = L.run, L.table, L.li, L.para, L.spacer, L.LANG
 SZ = 21
 B = []; add = B.append
+BLOCKS = []
+
+
+def tbl(rows, widths, header=True, sz=18):
+    BLOCKS.append(('tbl', rows, widths, header))
+    return table(rows, widths, header=header, sz=sz)
 
 
 def title(t):
+    BLOCKS.append(('title', t))
     return '<w:p><w:pPr><w:spacing w:before="200" w:after="240"/><w:jc w:val="center"/><w:rPr>%s</w:rPr></w:pPr>%s</w:p>' % (LANG, run(t, sz=30, b=True))
 
 
 def h(t):
+    BLOCKS.append(('h', t))
     return '<w:p><w:pPr><w:keepNext/><w:spacing w:before="280" w:after="100"/><w:rPr>%s</w:rPr></w:pPr>%s</w:p>' % (LANG, run(t, sz=24, b=True))
 
 
 def sub(t):
+    BLOCKS.append(('sub', t))
     return '<w:p><w:pPr><w:keepNext/><w:spacing w:before="140" w:after="60"/><w:rPr>%s</w:rPr></w:pPr>%s</w:p>' % (LANG, run(t, sz=SZ, b=True, color='1F4E79'))
 
 
 def b(t):
+    BLOCKS.append(('b', t))
     return li(t, sz=SZ)
 
 
@@ -32,7 +42,7 @@ def b2(t):
 
 
 add(title('「댐 운영 의사결정 지원 LLM 연구 기획」 회의 내용 정리'))
-add(table([['회의 일시', '2026.10.15.목  [시작·종료 시각 확인 필요]'],
+add(tbl([['회의 일시', '2026.10.15.목  [시작·종료 시각 확인 필요]'],
            ['참석자', '국민대학교 [교수]\n[소속] [AI 전공 교수]\n[소속] [연구 담당]\n국민대학교 [학생] (문경민 석사과정으로 추정)\n※ 성명·소속은 녹취에 없어 확인 후 기재']], [1900, 8072], header=False, sz=20))
 
 add(h('1. 회의 목적 및 논의 방향'))
@@ -62,7 +72,7 @@ add(sub('다. 에이전트(도구 호출) 구성'))
 add(b('운영자 질문에 대해 LLM이 도구 호출 요청을 JSON으로 생성하고, 실행 프로그램이 JSON 파싱과 인자·권한 검증을 거쳐 지정된 함수를 실행한 뒤, 조회·검색·계산 결과를 LLM에 다시 전달하여 최종 답변과 근거를 제시하는 구조임. 추가 작업이 필요한 동안 이 과정을 반복함.'))
 add(b('도구의 이름, 설명, 입력값을 미리 정의하여 LLM에 제공하며, 도구 안에서는 DB 조회, API 요청, 문서 검색, KG 조회, 파이썬 계산을 수행함. 필요 시 RAG 검색도 도구로 호출할 수 있음.'))
 add(b('외부망이 차단된 환경에서는 웹 검색을 사용하지 않고 지정된 폴더·저장소 내 자료만 검색하도록 구성하며, 외부망이 허용되면 외부 검색 도구를 추가할 수 있음.'))
-add(table([['도구 이름(예시)', 'LLM에게 알려주는 설명', '필요한 입력값', '함수 내부에서 하는 일'],
+add(tbl([['도구 이름(예시)', 'LLM에게 알려주는 설명', '필요한 입력값', '함수 내부에서 하는 일'],
            ['get_water_levels', '지정한 댐과 기간의 관측 수위를 조회한다', '댐 ID, 시작시각, 종료시각', '내부 DB에 SQL 조회 또는 API 요청'],
            ['calculate_level_change', '조회한 시계열의 수위 변화량을 계산한다', '시계열 데이터 ID', '파이썬으로 시작·종료 값과 시간 차 계산'],
            ['search_operating_rules', '질문에 관련된 운영기준을 찾는다', '검색어, 댐 ID, 적용시점', '문서 검색 또는 KG 조회'],
@@ -90,7 +100,7 @@ add(h('7. 단계별 로드맵 방향'))
 add(b('모델 학습만을 목표로 하지 않고 사용하면서 데이터를 축적하고 성능을 개선하는 “특화 가능한 지속 가능 LLM”을 기본 방향으로 설정함.'))
 add(b('초기에는 RAG·검색과 에이전트를 적용하고, 데이터 수집 모듈과 사용자 피드백(좋음/나쁨) 수집 기능을 처음부터 포함함. DPO는 초기 학습 단계에 포함하기보다 사용 중 수집한 선호 데이터를 3~6개월 주기로 재학습에 활용하는 환류 방식으로 적용함.'))
 add(b('초기 학습 데이터로 SFT가 가능한 수준이 확보되면 적용하고, 부족하면 자료 수집 모듈을 통해 데이터를 쌓은 뒤 SFT와 DPO를 차례로 고도화함.'))
-add(table([['구분', '내용', '비고'],
+add(tbl([['구분', '내용', '비고'],
            ['초기', 'RAG·검색, 에이전트(도구 호출), 기본 LLM 적용\n데이터 수집·피드백 수집 모듈 구축', '데이터 기반 방법은 확보량에 따라 선택'],
            ['중기', '축적 데이터로 근거 보존 증강, SFT, 전문가 선호 DPO 반복 적용\n태스크 추가·정제 및 유지보수', '3~6개월 주기 재학습'],
            ['후기', '축적된 상태·행동 자료로 월드 모델 구축 검토\n댐 운영 무인화 목표', '6차년도 전후, 자료 확보 전제']], [1500, 5772, 2700], sz=19))
@@ -102,7 +112,7 @@ add(b('다만 학습에 충분한 데이터가 필요하고 현재는 이를 확
 add(b('댐은 고려 요소가 물리 현상에 비해 제한적이고 제약조건을 많이 반영할수록 정확도가 향상될 수 있어, 필요한 태스크가 명확해지면 도입 가능성이 있다는 의견이 있었음.'))
 
 add(h('9. 향후 일정 및 역할'))
-add(table([['구분', '내용', '담당', '기한'],
+add(tbl([['구분', '내용', '담당', '기한'],
            ['태스크 후보 작성', '현장(관제시스템) 확인 후 LLM으로 태스크 후보 60~100개 작성, 실무자 체크 요청', '[학생]', '11.26 현장 방문 이후'],
            ['월간 보고', '10월분 보고서 작성 및 제출(참고: 월 30~40쪽 분량)', '[전원] → [연구 담당] 취합', '11월 초'],
            ['최종보고 준비', '보고서 초안 및 최종 발표자료 작성', '[전원]', '11월 말'],
@@ -118,4 +128,6 @@ add(b('연락·공문: 외부 기관 관계자에게 발송한 공문의 검토 
 add(b('포스터: 담당 학생들이 당일까지 마무리하도록 전달함.'))
 
 T.save(OUT, ''.join(B))
+import json
+json.dump(BLOCKS, open(os.path.join(HERE, '..', '..', 'lab_meeting', 'minutes_blocks.json'), 'w', encoding='utf-8'), ensure_ascii=False)
 print('저장', OUT)
