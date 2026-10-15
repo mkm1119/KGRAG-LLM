@@ -7,11 +7,13 @@ import os, re, shutil, sys, zipfile, struct
 from xml.sax.saxutils import escape
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+import importlib.util as _iu
+_sp = _iu.spec_from_file_location('pptx_shapes', os.path.join(HERE, 'pptx_shapes.py')); SH = _iu.module_from_spec(_sp); _sp.loader.exec_module(SH)
 ROOT = os.path.abspath(os.path.join(HERE, '..', '..'))
 ASSET = os.path.join(ROOT, 'lab_meeting', 'poster_assets')
 EMU_PT = 12700
 BODY = 2400   # 본문 글자 크기(1/100 pt)
-TBL = 2200    # 표 글자 크기
+TBL = 1900    # 표 글자 크기
 
 # ---------------------------------------------------------------- 글자 폭으로 높이 추정
 def tw(text, sz):
@@ -25,7 +27,7 @@ def tw(text, sz):
     return w * sz / 100
 
 def lines_needed(text, sz, width_emu):
-    avail = width_emu / EMU_PT
+    avail = width_emu / EMU_PT * 0.92   # 굵은 글씨·단어 단위 줄바꿈 여유
     n, cur = 1, 0.0
     for word in re.split(r'(?<=\s)', text):
         ww = tw(word, sz)
@@ -167,21 +169,19 @@ AFFIL = [('*', '국민대학교 건설시스템공학과 석사과정'), ('**', 
 
 INTRO = [
     '댐 운영 판단에는 **방류 승인 기록**, **수문기상 시간 자료**, **규정의 홍수기 제한수위**를 함께 확인해야 하나, 자료마다 형식과 이름이 달라 사람이 일일이 연결해야 함',
-    '대규모 언어모델(LLM) 단독 활용은 답변의 **근거를 확인하기 어려워**, 외부 자료를 검색해 답변에 활용하는 **검색증강생성(Retrieval-Augmented Generation, RAG)** 이 쓰이나, 자료 간 관계와 출처를 함께 다루려면 구조화된 지식이 필요함',
+    '대규모 언어모델(LLM) 단독 활용은 답변의 **근거를 확인하기 어려워**, 외부 자료를 검색해 답변에 활용하는 **검색증강생성(RAG)** 이 쓰이나, 자료 간 관계와 출처를 함께 다루려면 구조화된 지식이 필요함',
     '본 연구는 **온톨로지 기반 지식그래프(KG)** 를 **RAG** 기반 검색 및 LLM 답변 생성과 연계하여, 운영자의 **근거 기반 의사결정을 지원하는 프레임워크**를 구축함',
 ]
 CONCEPT_ROWS = [
     ['용어', '설명'],
-    ['온톨로지 (Ontology)', '댐 운영 분야의 대상 종류와 관계·속성을 정리한 의미 구조. 실제 운영 자료는 포함하지 않음'],
-    ['Class / Entity', 'Class는 대상의 종류(예: 댐, 방류 승인), Entity는 그 실제 개체(예: 충주댐)'],
-    ['관계 / 속성', '관계는 개체 사이의 연결(예: 승인이 운영행위를 허가함), 속성은 개체가 가진 값(예: 승인일)'],
-    ['CQ (Competency Question)', '온톨로지가 답할 수 있어야 하는 질문. 연구 범위와 필요한 Class·관계를 정하는 기준'],
-    ['지식그래프 (KG)', '온톨로지에 실제 개체·관계·값을 채워 만든 그래프. Neo4j(그래프 데이터베이스)에 저장하고 Cypher(점과 선의 연결 패턴으로 찾는 질의 언어)로 조회함'],
-    ['구조화 자료 / 문서 자료', '열의 의미가 정해진 표(구조화 자료)는 규칙에 따라 개체·속성으로 옮기고, 글 속에 값이 있는 자료(승인 비고, 규정 별표)는 규칙(정규식)으로 값을 추출함'],
-    ['외부 저장소', 'KG에 넣지 않은 측정값 전체(측정자료 저장소)와 규정 원문(문서 저장소). KG에는 이를 찾아가는 키만 둠'],
-    ['RAG (검색증강생성)', '질문과 관련된 근거를 검색해 LLM(대규모 언어모델)에 함께 주고, 그 근거로 답하게 하는 방식'],
-    ['의도 (Intent)', '사용자 질문이 CQ1~CQ6 중 무엇을 묻는지의 분류(복수 가능). 의도에 따라 찾을 근거가 정해짐'],
-    ['근거 묶음', '검색한 근거에 출처 번호를 붙여 LLM이 읽을 수 있게 정리한 입력. 값은 저장소의 원값이며 비교·해석은 LLM이 수행함'],
+    ['온톨로지 / Class / Entity', '댐 운영 분야의 대상 종류(Class, 예: 댐)와 관계·속성을 정리한 의미 구조. Entity는 Class에 속한 실제 개체(예: 충주댐)'],
+    ['관계 / Data Property', '관계는 개체 사이의 연결(예: 승인이 운영행위를 허가함), Data Property는 개체가 가진 값(예: 승인일)'],
+    ['CQ', 'Competency Question. 온톨로지가 답할 수 있어야 하는 질문으로, 필요한 Class·관계를 정하는 기준'],
+    ['지식그래프 (KG)', '온톨로지에 실제 개체·관계·값을 채운 그래프. Neo4j(그래프 DB)에 저장하고 Cypher(연결 패턴으로 찾는 질의 언어)로 조회'],
+    ['구조화 자료 / 문서 자료', '표(구조화 자료)는 규칙으로 개체·속성에 옮기고, 글 속의 값(승인 비고, 규정 별표)은 규칙으로 추출'],
+    ['외부 저장소', 'KG 밖에 둔 측정값 전체(측정자료 저장소)와 규정 원문(문서 저장소). KG에는 찾아가는 키만 둠'],
+    ['RAG', '질문과 관련된 근거를 검색해 LLM에 함께 주고, 그 근거로 답하게 하는 방식'],
+    ['의도 / 근거 묶음', '의도는 질문이 CQ1~CQ6 중 무엇을 묻는지의 분류(복수 가능), 근거 묶음은 검색한 근거에 출처 번호를 붙여 LLM에 주는 입력'],
 ]
 METHOD = [
     '**STEP 1 Ontology 설계**: 운영자에게 필요한 질문을 **전체 질문 1개와 세부 질문 6개(CQ1~CQ6)** 로 먼저 정하고, 이에 답하는 데 필요한 **Class 6개와 관계 9개**를 정의함. 세부 질문은 현재 상태, 과거 상태, 과거 운영행위, 과거 방류 승인, 현재 운영기준, 공식 근거이며, 전체 질문은 이들을 이어 **현재 상태와 기준을 확인하고 과거 사례의 상태·운영행위·승인·근거를 추적**함',
@@ -189,33 +189,70 @@ METHOD = [
     '**STEP 3 질문 응답(RAG)**: ① LLM이 질문의 **의도(CQ, 복수 가능)** 와 댐·시점을 추출 → ② 코드가 입력을 확인하고 의도별 **Cypher**로 KG를 조회 → ③ 키로 측정자료·문서 저장소에서 값과 원문을 읽음 → ④ 출처 번호를 붙인 **근거 묶음** 구성 → ⑤ LLM이 근거 묶음으로 **근거와 판단을 나누어** 답변',
 ]
 DATA_BUL = [
-    '**방류 승인 기록**: 한강홍수통제소 공공데이터, 충주·소양강·횡성·광동 4개 댐의 승인 80건 (2010-09 ~ 2021-07)',
-    '**수문기상 시간 자료**: K-water 시간자료 508,246행 (수위, 저수량, 강우량, 유입량, 총방류량, 저수율)',
+    '**방류 승인 기록**: 한강홍수통제소, 충주·소양강·횡성·광동 4개 댐 승인 80건 (2010-09 ~ 2021-07)',
+    '**수문기상 시간 자료**: K-water, 508,246행 (수위, 저수량, 강우량, 유입량, 총방류량, 저수율)',
     '**규정 별표3**: 연계운영규정의 홍수기 제한수위 (현행)',
+    '**댐 기본 정보**: K-water, 4개 댐의 댐 코드·이름·유형',
 ]
-KG_ROWS = [
-    ['구분', '종류', '개수'],
-    ['개체', 'Dam 4, HMS 24, Approval 80, Operation 68, Criterion 3, EvidenceSource 85', '264'],
-    ['관계', '승인–댐, 허가, 수행된 댐, 상태 보유, 적용되는 댐, 근거 등 9종류', '418'],
-    ['속성', '승인일, 승인 내용, 운영행위 종류·시각, 제한수위 등', '616행'],
+CQ_ROWS = [
+    ['번호', '질문 (Competency Question)'],
+    ['전체 질문', '특정 댐의 현재 수문·기상 상태와 운영기준을 확인하고, 선택된 과거 사례의 상태·운영행위·승인·근거를 함께 추적하여 운영 판단을 지원할 수 있는가?'],
+    ['CQ1', '대상 댐의 현재 수문·기상 상태는 무엇인가?'],
+    ['CQ2', '선택된 과거 시점 또는 사례의 수문·기상 상태는 어떠했는가?'],
+    ['CQ3', '해당 과거 시점 또는 사례에서 수행된 운영행위는 무엇이었는가?'],
+    ['CQ4', '해당 과거 시점 또는 사례의 방류 승인과 승인 내용은 무엇인가?'],
+    ['CQ5', '현재 대상 댐에 적용되는 운영기준과 기준값은 무엇인가?'],
+    ['CQ6', '위 정보를 확인할 수 있는 공식 자료 또는 근거문서는 무엇인가?'],
+]
+ONTO_BUL = [
+    '**Ontology**: 위 질문에 필요한 **Class 6개**와 **관계 9개**, Class별 **Data Property**를 정의함 (그림 2)',
+]
+OVERVIEW_BUL = [
+    '**KG 구축**: 원자료 4종을 6단계로 처리하고, 측정값과 원문은 KG 밖 저장소에 둠',
+    '**근거 검색**: 의도로 KG·저장소에서 근거를 모아 출처 번호가 붙은 **근거 묶음**을 만드는 일은 **코드로 자동화**함',
+    '**LLM**은 질문 해석과 답변 생성만 맡고, 비교·판단은 LLM이 하되 **근거와 판단을 나누어** 표시함',
 ]
 KG_BUL = [
-    '구조 검사 **5개 항목**에서 어긋남은 0건이었고, 검증 중 **승인과 댐을 잇는 관계**가 없음을 발견해 Ontology에 추가함으로써 승인 80건 모두 댐에서 찾을 수 있고 근거자료와 연결됨',
+    '**6단계**: 전처리 → 구조화 자료 매핑 → 문서 자료 추출 → 관계 연결 → 검증 → 저장',
+    '승인 기록 한 행은 **Approval**과 근거자료로, 비고에서 규칙으로 읽은 운영행위는 **Operation**으로, 별표3의 제한수위는 **Criterion**으로 만듦. 측정값은 KG에 넣지 않고 찾아가는 키(**stationCode**)만 둠',
 ]
-QA_ROWS = [
-    ['단계', '내용'],
-    ['질문', '“충주댐 현재 수문, 기상 데이터를 가져오고 제한수위와 비교한 후에, 이와 비슷한 수문상태일 때의 승인 및 운영 행위가 있었으면 알려줘”'],
-    ['의도·값', 'CQ1~CQ6 (복수), 댐 = 충주댐, 시점 = 전체'],
-    ['근거 묶음', '현재 상태 2026-09-28 23:00, 수위 131.6689 EL.m [MEA:1003110:2026092823]\n제한수위 138.0 EL.m [CRI:CR-02]\n운영행위 14개와 허가한 승인, 각 운영 시각의 수문기상 상태\n예) 2012-08-24 15:00 탄력적 방류 [OPR:1368:1] ← 승인 [APR:1368]'],
-    ['답변 (LLM)', '근거(출처 번호 포함)와 판단(LLM)으로 나누어 작성하고, 판단에는 근거로 삼은 출처 번호를 함께 적음'],
+KG_RES_BUL = [
+    '**개체 264, 관계 418**. 검증에서 **승인–댐 관계**의 부재를 발견해 추가하여 승인 80건 모두 댐에서 도달 가능함',
 ]
-QA_BUL = [
-    '자료 연결과 근거 검색은 코드로 자동화하고 **LLM은 질문 해석과 답변 작성**을 맡아, 답변의 사실은 출처 번호로 원 자료까지 추적할 수 있고 LLM의 판단은 근거와 구분되어 표시됨',
+RET_BUL = [
+    'LLM이 **의도(복수 가능)·댐·시점**을 뽑아 넘기면 코드가 **① 입력 확인 → ② KG 조회(의도별 Cypher) → ③ 측정값·원문 조회 → ④ 근거 묶음 구성** 순으로 근거를 모음',
+]
+RET_ROWS = [
+    ['단계', '하는 일'],
+    ['① 입력 확인', '의도·댐·시점이 허용 범위인지 확인하고 표기를 맞춤 (충주 → 충주댐)'],
+    ['② KG 조회', '의도별 Cypher 질의로 관계를 따라가 개체와 찾아가는 키를 가져옴'],
+    ['③ 저장소 조회', '키로 측정값과 규정 원문을 읽음 (정각이 아닌 시각은 앞뒤 정시 2행)'],
+    ['④ 묶음 구성', '의도별 구역으로 모으고 출처 번호를 붙임. 값은 원값, 계산값은 없음'],
+]
+BUNDLE_ROWS = [
+    ['근거 구역', '출처 번호', '충주댐의 경우'],
+    ['1 현재 상태 (CQ1)', '[MEA:코드:시각]', '2026-09-28 23:00, 수위 131.6689 EL.m'],
+    ['2 운영기준 (CQ5)', '[CRI:번호]', '제한수위 138.0 EL.m, 별표3 원문'],
+    ['3 운영행위·승인 (CQ3)', '[OPR] ← [APR]', '운영행위 14개 (예: 2012-08-24 탄력적 방류 ← 승인 1368)'],
+    ['4 운영 시각 상태 (CQ2)', '[MEA:코드:시각]', '각 운영행위 시각의 6개 변수'],
+    ['5 방류 승인 (CQ4)', '[APR:번호]', '승인 15건 (예: 승인 1368, 접수방류량 2000㎥/s)'],
+    ['6 출처 (CQ6)', '[EVI:…]', '한강홍수통제소 승인 기록, 순차번호 1368'],
+]
+ANS_BUL = [
+    'LLM에는 근거 묶음과 **근거 사용 원칙**(① 근거만 사실로 쓰고 출처 번호를 붙임 ② 비교·해석은 LLM의 판단임을 밝히고 근거를 적음 ③ 근거에 없으면 “자료에 없음”)을 전달함',
+]
+ANS_ROWS = [
+    ['답변의 문장 (예시)', '구분', '출처 번호'],
+    ['현재(2026-09-28 23:00) 수위는 131.6689 EL.m이다', '근거', '[MEA:1003110:2026092823]'],
+    ['홍수기 제한수위는 138.0 EL.m이다', '근거', '[CRI:CR-02]'],
+    ['현재 수위는 제한수위보다 6.3311 m 낮다', '판단 (LLM)', '위 두 근거'],
+    ['2020-09-03 12:00 방류 때 수위는 129.69 EL.m였다', '근거', '[OPR:3771:1]'],
+    ['당시 유입량·총방류량이 현재보다 훨씬 커 비슷한 상태로 보기 어렵다', '판단 (LLM)', '위 근거와 현재 상태'],
 ]
 CONCL = [
-    '댐 운영 자료(방류 승인 기록, 수문기상 시간 자료, 규정 별표3)를 **Ontology(Class 6, 관계 9)** 에 맞춰 6단계로 **KG(개체 264, 관계 418)** 로 구축하고, 수치·원문은 외부 저장소에 두어 KG는 연결과 근거 위치만 담도록 함',
-    '전체 질문과 세부 질문 6개(CQ)에 대해 KG와 측정자료·문서 저장소에서 근거를 찾아 **출처 번호가 붙은 근거 묶음**으로 정리하고, **LLM**이 근거와 판단을 나누어 답하는 **질문 응답 프레임워크**를 구축함',
-    '운영자가 현재 상태, 제한수위, 과거 승인·운영행위를 **근거와 함께** 확인할 수 있어 **댐 운영 의사결정을 지원**함',
+    '운영 자료를 **Ontology**에 맞춰 6단계로 **KG(개체 264, 관계 418)** 로 구축하고 수치·원문은 외부 저장소에 둠',
+    '의도에 따라 근거를 찾아 **출처 번호가 붙은 근거 묶음**으로 정리하고 **LLM**이 근거와 판단을 나누어 답하는 **프레임워크**를 구축함',
+    '운영자가 현재 상태, 제한수위, 과거 승인·운영행위를 **근거와 함께** 확인하여 **운영 의사결정을 지원**함',
 ]
 ACK = '본 결과물은 기후에너지환경부의 재원으로 한국환경산업기술원의 기후변화 적응 수재해 관리 기술개발사업(R&D)의 지원을 받아 연구되었습니다(RS-2026-25502939). 본 연구는 기후에너지환경부「기후변화특성화대학원사업」의 지원으로 수행되었습니다.'
 REFS = [
@@ -246,9 +283,7 @@ def build(tpl_path, out_path, scale=1):
 
     # 그림 파일 복사 및 관계
     media = os.path.join(work, 'ppt', 'media')
-    imgs = {'rId11': os.path.join(ASSET, 'poster_fig1_framework.png'),
-            'rId12': os.path.join(ASSET, 'poster_fig2_kg.png'),
-            'rId13': os.path.join(ASSET, 'kmu_logo.png')}
+    imgs = {'rId13': os.path.join(ASSET, 'kmu_logo.png')}
     rels_p = os.path.join(work, 'ppt', 'slides', '_rels', 'slide1.xml.rels')
     rels = open(rels_p, encoding='utf8').read()
     add = ''
@@ -283,7 +318,7 @@ def build(tpl_path, out_path, scale=1):
 
     LX, RX, CW = 597946, 15570184, 14113138
     HX_L, HX_R, HW = 674157, 15691431, 13943667
-    GAP = 380000
+    GAP = 200000
     log = {}
 
     def section(col, y, title, body_items=None, sz=None):
@@ -315,37 +350,55 @@ def build(tpl_path, out_path, scale=1):
         shapes.append(xml)
         return y + h + 120000
 
-    # 왼쪽 열
+    def native(col, y, canvas_fn, width):
+        x = LX if col == 'L' else RX
+        c = canvas_fn(x + (CW - width) // 2, y, width)
+        shapes.append(c.xml())
+        return y + c.height_emu() + 60000
+
+    def caption(col, y, text):
+        x = LX if col == 'L' else RX
+        shapes.append(textbox(x, y, CW, [para(text, 2200, bullet=False, algn='ctr')], 600000))
+        return y + 600000
+
+    def bullets(col, y, items, sz=BODY):
+        x = LX if col == 'L' else RX
+        h = est_h(items, sz, CW)
+        shapes.append(textbox(x, y, CW, [para(t, sz) for t in items], h))
+        return y + h
+
+    # 왼쪽 열: 서론 / 핵심 용어 / 사용 데이터 / 연구 질문과 Ontology / 방법론 개요
     y = 6350000
     y = section('L', y, '서론', INTRO) + GAP
     y = section('L', y, '핵심 용어', None)
     y = tbl('L', y, 'Table 1. 핵심 용어', [2900000, 10600000], CONCEPT_ROWS) + GAP - 120000
-    y = section('L', y, '사용 데이터 및 방법론', None)
-    h = est_h(DATA_BUL, BODY, CW)
-    shapes.append(textbox(LX, y, CW, [para(t, BODY) for t in DATA_BUL], h)); y += h + 60000
-    y = figure('L', y, 'rId11', imgs['rId11'], 12900000, '그림 1. 연구의 구성: Ontology 설계 → KG 구축 → 질문 응답(RAG)')
-    h = est_h(METHOD, BODY, CW)
-    shapes.append(textbox(LX, y, CW, [para(t, BODY) for t in METHOD], h)); y += h
+    y = section('L', y, '사용 데이터', DATA_BUL) + GAP
+    y = section('L', y, '연구 질문과 Ontology', None)
+    y = tbl('L', y, 'Table 2. 전체 질문과 세부 질문(CQ)', [2000000, 11500000], CQ_ROWS)
+    y = bullets('L', y, ONTO_BUL) + GAP
+    y = section('L', y, '방법론 개요', None)
+    y = native('L', y, SH.fig_framework, 10600000)
+    y = caption('L', y, '그림 1. 연구의 구성')
+    y = bullets('L', y, OVERVIEW_BUL)
     log['L_end'] = y
 
-    # 오른쪽 열
+    # 오른쪽 열: KG 구축 / 근거 검색과 근거 묶음 / 답변 생성 / 결론 / 감사 / 참고문헌
     y = 6350000
-    y = section('R', y, 'KG 구축 결과', None)
-    y = tbl('R', y, 'Table 2. 구축한 지식그래프의 규모', [1500000, 10400000, 1600000], KG_ROWS)
-    y = figure('R', y, 'rId12', imgs['rId12'], 10000000, '그림 2. 지식그래프의 일부: 충주댐 승인 1368번 (Class 6, 관계 9)')
-    h = est_h(KG_BUL, BODY, CW)
-    shapes.append(textbox(RX, y, CW, [para(t, BODY) for t in KG_BUL], h)); y += h + GAP
-    y = section('R', y, '질문 응답 예시', None)
-    y = tbl('R', y, 'Table 3. 전체 질문에 대한 근거 검색과 답변 구성', [2600000, 10900000], QA_ROWS)
-    h = est_h(QA_BUL, BODY, CW)
-    shapes.append(textbox(RX, y, CW, [para(t, BODY) for t in QA_BUL], h)); y += h + GAP
+    y = section('R', y, 'KG 구축', KG_BUL)
+    y = native('R', y, SH.fig_kg, 11200000)
+    y = caption('R', y, '그림 2. 지식그래프의 일부: 충주댐 승인 1368번')
+    y = bullets('R', y, KG_RES_BUL) + GAP
+    y = section('R', y, '근거 검색과 근거 묶음', RET_BUL) + 60000
+    y = tbl('R', y, 'Table 3. 근거 묶음의 구성 (충주댐 전체 질문)', [3700000, 3300000, 6500000], BUNDLE_ROWS) + GAP - 120000
+    y = section('R', y, '답변 생성', ANS_BUL)
+    y = tbl('R', y, 'Table 4. 답변의 구성: 근거와 판단의 구분', [7400000, 1900000, 4200000], ANS_ROWS) + GAP - 120000
     y = section('R', y, '결론', CONCL) + GAP
     y = section('R', y, '감사의 글', None)
-    h = est_h([ACK], 2000, CW, bullet=False)
-    shapes.append(textbox(RX, y, CW, [para(ACK, 2000, bullet=False)], h)); y += h + 150000
+    h = est_h([ACK], 1600, CW, bullet=False)
+    shapes.append(textbox(RX, y, CW, [para(ACK, 1600, bullet=False)], h)); y += h + 100000
     y = section('R', y, '참고문헌', None)
-    h = est_h(REFS, 1800, CW, bullet=False, spc_aft=300)
-    shapes.append(textbox(RX, y, CW, [para('%d. %s' % (i + 1, r), 1800, bullet=False, spc_aft=300) for i, r in enumerate(REFS)], h)); y += h
+    h = est_h(REFS, 1400, CW, bullet=False, spc_aft=150)
+    shapes.append(textbox(RX, y, CW, [para('%d. %s' % (i + 1, r), 1400, bullet=False, spc_aft=150) for i, r in enumerate(REFS)], h)); y += h
     log['R_end'] = y
 
     body = ''.join(shapes)

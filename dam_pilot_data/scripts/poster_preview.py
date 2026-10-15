@@ -87,9 +87,31 @@ def main(pptx, out, k=8000, zoom=1.0):
             ins = re.search(r'lIns="(\d+)" tIns="(\d+)" rIns="(\d+)" bIns="(\d+)"', b)
             pad = 'padding:%.1fpx %.1fpx;' % (px(int(ins.group(2))), px(int(ins.group(1)))) if ins else ''
             anc = 'display:flex;flex-direction:column;justify-content:center;' if 'anchor="ctr"' in b else ''
-            rad = 'border-radius:999px;' if 'roundRect' in b else ''
-            els.append('<div style="%s%s%s%s%s">%s</div>' % (st, fill, pad, anc, rad, paras_html(tb.group(1)) if tb else ''))
+            rad = 'border-radius:999px;' if ('roundRect' in b and 'name="로고' in b) else ''
+            prst = re.search(r'prst="(\w+)"', b)
+            prst = prst.group(1) if prst else 'rect'
+            if prst == 'roundRect' and not rad: rad = 'border-radius:%.1fpx;' % (px(min(w, h)) * 0.06)
+            if prst == 'can': rad = 'border-radius:50%% / %.1fpx;' % (px(h) * 0.22)
+            bd = ''
+            lnm = re.search(r'<a:ln w="(\d+)">(.*?)</a:ln>', b, flags=re.S)
+            if lnm and 'srgbClr' in lnm.group(2):
+                bd = 'border:%.1fpx %s #%s;' % (max(1.0, int(lnm.group(1)) / k), 'dashed' if 'prstDash' in lnm.group(2) else 'solid', re.search(r'srgbClr val="(\w+)"', lnm.group(2)).group(1))
+            els.append('<div style="%s%s%s%s%s%s">%s</div>' % (st, fill, pad, anc, rad, bd, paras_html(tb.group(1)) if tb else ''))
 
+    lines = []
+    for m in re.finditer(r'<p:cxnSp>(.*?)</p:cxnSp>', body, flags=re.S):
+        b = m.group(1)
+        xf = re.search(r'<a:xfrm([^>]*)><a:off x="(-?\d+)" y="(-?\d+)"/><a:ext cx="(\d+)" cy="(\d+)"/>', b)
+        fl, x, y, w, h = xf.group(1), int(xf.group(2)), int(xf.group(3)), int(xf.group(4)), int(xf.group(5))
+        x1, x2 = (x + w, x) if 'flipH="1"' in fl else (x, x + w)
+        y1, y2 = (y + h, y) if 'flipV="1"' in fl else (y, y + h)
+        col = re.search(r'<a:ln w="(\d+)">.*?srgbClr val="(\w+)"', b, flags=re.S)
+        lw = max(1.0, int(col.group(1)) / k)
+        dash = ' stroke-dasharray="%d,%d"' % (lw * 3, lw * 2) if 'prstDash' in b else ''
+        mk = ' marker-end="url(#ah)"' if 'tailEnd' in b else ''
+        lines.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="#%s" stroke-width="%.1f"%s%s/>' % (px(x1), px(y1), px(x2), px(y2), col.group(2), lw, dash, mk))
+    svg = ('<svg style="position:absolute;left:0;top:0" width="%.0f" height="%.0f"><defs><marker id="ah" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L5,2.5 L0,5 z" fill="#3B4A63"/></marker></defs>%s</svg>' % (px(W), px(H), ''.join(lines)))
+    els.append(svg)
     page = ('<!doctype html><meta charset="utf-8"><style>body{margin:0;background:#fff;font-family:"WenQuanYi Zen Hei","Noto Sans CJK KR","Nanum Gothic",sans-serif}'
             '.p{position:relative;width:%.0fpx;height:%.0fpx;overflow:hidden}</style><div class="p">%s</div>' % (px(W), px(H), ''.join(els)))
     hp = out.replace('.png', '.html')
