@@ -186,33 +186,39 @@ def card_2_1():
     y = 0
     specs = [
         ('① 방류 승인 기록', '한강홍수통제소 홍수예보 댐방류승인 (공공데이터포털, CSV)', '충주·소양강·횡성·광동 4개 댐 승인 80건 (2010-09 ~ 2021-07)',
-         '한 행 = 승인 한 건', ['순차번호 1368 | 관측소 충주 | 승인 2012-08-24', '방류시작 2012-08-24 15:00 | 접수방류량 2000', '비고: 이내 탄력적 조정']),
+         '한 행 = 승인 한 건', (['순차번호', '관측소코드', '관측소명', '승인년월일시분', '방류시작시간', '접수방류량', '비고'], [200, 90, 105, 135, 130, 160, 100, 170] and [90, 110, 90, 140, 170, 100, 200], ['1368', '1003110', '충주', '2012-08-24', '2012-08-24 15:00', '2000', '이내 탄력적 조정'])),
         ('② 수문기상 시간 자료', 'K-water MyWater', '4개 댐 × 6개 변수(수위, 저수량, 강우량, 유입량, 총방류량, 저수율) 시간별 {0:,}행 (충주·횡성 2010-08~, 소양강 2011-06~, 광동 2016-06~ 2026-09)'.format(MEAS),
-         '한 행 = 한 댐의 한 시각', ['댐 코드 1003110 | 시각 라벨 2012082416', '수위 134.18 | 저수량 1697.5206 | 강우량 0', '유입량 1152.728 | 총방류량 944.784 | 저수율 61.7']),
+         '한 행 = 한 댐의 한 시각', (['댐 코드', '시각 라벨', '수위', '저수량', '강우량', '유입량', '총방류량', '저수율'], [100, 140, 100, 120, 100, 120, 120, 100], ['1003110', '2012082416', '134.18', '1697.5206', '0', '1152.728', '944.784', '61.7'])),
         ('③ 연계운영규정 별표3', '법제처 국가법령정보 (XML)', '댐의 홍수기 제한수위 (현행 판, 시행 2026-07-08)',
          '선 문자로 그린 표가 글자로 들어 있음', ['│한 강 │다목적댐 │소양강댐 │190.3 │-│', '│수 계 │ │충 주 댐 │138.0 │-│', '│ │ │횡 성 댐 │178.2 │-│']),
         ('④ 댐 기본 정보', 'K-water MyWater', '4개 댐의 댐 코드, 이름, 유형',
-         '한 행 = 댐 한 곳', ['댐 코드 1003110 | 댐 이름 충주댐', '수계 한강 | 댐 유형 다목적댐'])]
-    cw_ = 488
-    for i in range(0, 4, 2):
-        hh = 0
-        for j in (0, 1):
-            t, src, rng, st, ex = specs[i + j]
-            n1 = len(wrap('출처: ' + src, 16, cw_ - 24)); n2 = len(wrap('범위: ' + rng, 16, cw_ - 24)); n3 = len(wrap(st, 16, cw_ - 24))
-            hh = max(hh, 46 + (n1 + n2) * 22 + 12 + n3 * 22 + 12 + len(ex) * 22 + 20)
-        for j in (0, 1):
-            t, src, rng, st, ex = specs[i + j]
-            x = j * (cw_ + 24)
-            g.rect(x, y, cw_, hh, '#fff', INK, 2, None, 6); g.rect(x, y, cw_, 36, '#e6edf6', INK, 2, None, 6)
-            g.text(x + 12, y + 26, t, 20, True, NAVY, 'start')
-            yy = y + 60
-            ls = wrap('출처: ' + src, 16, cw_ - 24) + wrap('범위: ' + rng, 16, cw_ - 24)
-            lines(g, x + 12, yy, ls, 16, 22); yy += len(ls) * 22 + 8
-            g.text(x + 12, yy, st, 16, True, '#1f4e79', 'start') if len(wrap(st, 16, cw_ - 24)) == 1 else lines(g, x + 12, yy, wrap(st, 16, cw_ - 24), 16, 22, True, '#1f4e79')
-            yy += len(wrap(st, 16, cw_ - 24)) * 22 + 6
-            g.rect(x + 10, yy - 14, cw_ - 20, len(ex) * 22 + 14, '#f6f6f6', '#bbb', 1, None, 4)
-            lines(g, x + 18, yy + 4, ex, 15, 22, False, '#333')
-        y += hh + 16
+         '한 행 = 댐 한 곳', (['댐 코드', '댐 이름', '수계 이름', '댐 유형'], [200, 250, 250, 250], ['1003110', '충주댐', '한강', '다목적댐']))]
+    W = 1000
+    for t, src, rng, st, ex in specs:
+        ls = wrap('출처: ' + src, 16, W - 28) + wrap('범위: ' + rng, 16, W - 28)
+        if isinstance(ex, tuple):
+            body = 68 - 24
+        else:
+            body = len(ex) * 22 + 14
+        hh = 46 + len(ls) * 22 + 8 + 24 + 10 + body + 12
+        g.rect(0, y, W, hh, '#fff', INK, 2, None, 6); g.rect(0, y, W, 36, '#e6edf6', INK, 2, None, 6)
+        g.text(12, y + 26, t, 20, True, NAVY, 'start')
+        yy = y + 60
+        lines(g, 14, yy, ls, 16, 22); yy += len(ls) * 22 - 2
+        g.text(14, yy + 8, st, 16, True, '#1f4e79', 'start'); yy += 24
+        if isinstance(ex, tuple):
+            hd, ws, vals = ex
+            x = 14
+            tot = sum(ws); sc = (W - 28) / float(tot); ws = [w * sc for w in ws]
+            for k, (h_, v_) in enumerate(zip(hd, vals)):
+                w = ws[k]
+                g.rect(x, yy, w, 34, '#dcdcdc', '#888', 1, None, 0); g.text(x + w / 2, yy + 23, h_, 14, True, '#222', 'middle')
+                g.rect(x, yy + 34, w, 34, '#f4f4f4', '#888', 1, None, 0); g.text(x + w / 2, yy + 57, v_, 15, False, '#222', 'middle')
+                x += w
+        else:
+            g.rect(14, yy, W - 28, len(ex) * 22 + 14, '#f4f4f4', '#999', 1, None, 4)
+            lines(g, 24, yy + 20, ex, 15, 22, False, '#333')
+        y += hh + 14
     finish(g, y, 'card_2_1')
 
 
@@ -499,7 +505,7 @@ def card_3_2():
         ('제한수위', 'CQ5', '홍수기 제한수위 138.0 EL.m와 별표3 원문'),
         ('비슷한 수문상태일 때의 운영 행위', 'CQ3', '충주댐의 운영행위 {0}개 (종류, 시각)와 그것을 허가한 승인'.format(NOPS)),
         ('비슷한 수문상태일 때의 승인', 'CQ4', '충주댐의 방류 승인 {0}건 (승인일, 방류시작, 접수방류량, 비고)'.format(NAPR)),
-        ('그때의 수문상태', '뽑히지 않음', '운영행위 시각의 상태(CQ2)는 이번 실행에서 뽑히지 않아 가져오지 못했다 (5번 실행 중 1번만 포함, 3.8절 한계 2)')],
+        ('그때의 수문상태', '뽑히지 않음', '운영행위 시각의 상태(CQ2)는 이번 실행에서 뽑히지 않아 가져오지 못했다 (5번 실행 중 1번만 포함, 3.9절 한계 2)')],
         14, [GRAY, WHITE, GREEN], 8, 4, head_size=15)
     finish(g, y, 'card_3_2')
 
@@ -539,29 +545,28 @@ def card_3_4():
         ('CQ6', 'MATCH (x:Entity {id: $id})-[:supportedBy]->(e:EvidenceSource)\nRETURN e.id, e.sourceTitle, e.sourceType, e.sourceLocator', '대상 개체의 근거자료를 가져온다')], 12, [GRAY, BLUE, GREEN], 8, 4, head_size=15)
     tbox(g, 0, y + 4, 1000, 'CQ2~CQ4에 시점이 지정되면 WHERE 조건으로 기간을 건다. 전체이면 조건 없이 전부 가져온다. LLM이 질의를 쓰지 않으므로 어떤 질의가 실행되었는지 확인할 수 있고, 같은 입력이면 같은 결과가 나온다.', 14, YEL, 10)
     y += 74
-    y = sect(g, y, '예시 질문의 KG 조회 결과: 충주댐에서 따라간 경로')
-    # nodes
-    cx, cy = 440, y + 150
-    tbox(g, cx, cy - 22, 150, 'Dam\n충주댐', 16, GREEN, 8, h=60)
-    tbox(g, 40, y + 4, 230, 'APR:1368\n승인일 2012-08-24, 2000㎥/s', 14, BLUE, 8, h=56)
-    tbox(g, 40, y + 120, 230, 'OPR:1368:1\n탄력적 방류, 2012-08-24 15:00', 14, BLUE, 8, h=56)
-    tbox(g, 40, y + 236, 230, '(변경 승인 {0}건)\nOperation이 없는 승인'.format(NAPR - NAPR_LINKED), 14, GRAY, 8, h=56)
-    tbox(g, 730, y + 4, 250, 'Criterion CRI:CR-02\n홍수기 제한수위 138.0 EL.m', 14, YEL, 8, h=56)
-    tbox(g, 730, y + 120, 250, '상태 6개 (HMS:1003110:*)\n수위, 저수량, 강우량, 유입량, 총방류량, 저수율\nstationCode 1003110', 13, ORG, 8, h=92)
-    g.line(155, y + 60, 155, y + 118, INK, 'ar', None, 2)
-    g.text(165, y + 94, 'authorizes', 13, False, INK, 'start')
-    g.line(272, y + 148, 438, cy + 8, INK, 'ar', None, 2)
-    g.text(300, y + 168, 'performedOnDam', 13, False, INK, 'start')
-    g.line(272, y + 38, 438, cy - 10, '#b35c00', 'ar', '7 5', 2)
-    g.text(330, y + 62, 'concernsDam', 13, False, '#b35c00', 'start')
-    g.line(272, y + 264, 438, cy + 24, '#b35c00', 'ar', '7 5', 2)
-    g.line(730, y + 40, 592, cy - 6, INK, 'ar', None, 2)
-    g.text(745, y + 100, 'appliesToDam', 13, False, INK, 'start')
-    g.line(592, cy + 16, 728, y + 150, INK, 'ar', None, 2)
-    g.text(470, y + 214, 'hasHydrometeorologicalState', 13, False, INK, 'start')
-    y += 312
-    tbox(g, 0, y, 1000, 'CQ4: 충주댐에 관한 승인 {0}건 = 운영행위에 연결된 {1}건 + 변경 승인 {2}건.   CQ3: 운영행위 {3}개와 허가한 승인.   CQ5: 제한수위 138.0.   CQ1: 값이 아니라 측정값을 찾아가는 키만 돌려준다.'.format(NAPR, NAPR_LINKED, NAPR - NAPR_LINKED, NOPS), 14, GREEN, 10)
-    finish(g, y + 62, 'card_3_4')
+    y = sect(g, y, '예시 질문에서 따라간 경로: 의도 4개 모두 “충주댐” 노드에서 출발해 화살표 순서대로 관계를 따라간다')
+    DAM = (BLUE, '#222')
+    def row(y, cq, color, steps, result):
+        # steps: [(node_text, edge_label_before)] 첫 노드는 Dam
+        g.rect(0, y, 78, 74, color[0], color[1], 2, None, 8); g.text(39, y + 44, cq, 20, True, NAVY, 'middle')
+        x = 96; nw = [150] + [200] * (len(steps) - 1)
+        for i, (nt, el) in enumerate(steps):
+            w = nw[i]
+            if i:
+                g.line(x, y + 37, x + 112, y + 37, color[1], 'ar', None, 3)
+                g.text(x + 56, y + 28, '%d' % (i), 15, True, color[1], 'middle')
+                lines(g, x + 56, y + 58, el.split('|'), 11, 13, False, '#444', 'middle')
+                x += 118
+            tbox(g, x, y + 4, w, nt, 14, GREEN if i == 0 else color, 8, h=66)
+            x += w + (0 if i == len(steps) - 1 else 6)
+        tbox(g, 96, y + 80, 904, result, 14, WHITE, 8)
+        return y + 80 + 40 + 10
+    y = row(y, 'CQ5', YEL, [('Dam\n충주댐', ''), ('Criterion CRI:CR-02\n홍수기 제한수위 138.0 EL.m', 'appliesToDam을|거꾸로')], '→ 가져온 것: 제한수위 138.0 EL.m, 별표3을 찾아가는 키(sourceLocator)')
+    y = row(y, 'CQ3', BLUE, [('Dam\n충주댐', ''), ('Operation OPR:1368:1 외\n탄력적 방류 2012-08-24 15:00', 'performedOnDam을|거꾸로'), ('Approval APR:1368 외\n승인일 2012-08-24, 2000㎥/s', 'authorizes를|거꾸로')], '→ 가져온 것: 운영행위 {0}개와 각각을 허가한 승인'.format(NOPS))
+    y = row(y, 'CQ4', BLUE, [('Dam\n충주댐', ''), ('Approval APR:1368 외\n승인 {0}건'.format(NAPR), 'concernsDam을|거꾸로')], '→ 가져온 것: 방류 승인 {0}건 = 운영행위에 연결된 {1}건 + Operation이 없는 변경 승인 {2}건'.format(NAPR, NAPR_LINKED, NAPR - NAPR_LINKED))
+    y = row(y, 'CQ1', ORG, [('Dam\n충주댐', ''), ('HMS:1003110:수위 외\n상태 6개 (변수 종류)', 'hasHydrometeo|rologicalState')], '→ 가져온 것: 변수 6개와 측정값을 찾아가는 키 stationCode 1003110 (값 자체는 다음 단계에서 저장소에서 읽음)')
+    finish(g, y, 'card_3_4')
 
 
 # ---------------------------------------------------------------- 3.5 외부 저장소 조회
@@ -596,6 +601,107 @@ def card_3_5():
         13, [GRAY, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE], 8, 4, head_size=13)
     tbox(g, 0, y + 4, 1000, '부동소수 표기 잡음(예: 0.5736666666666667)만 소수 4자리로 정리해서 보여 준다.   별표3 원문은 sourceLocator(별표 3)로 가져오며, 충주댐 제한수위 행(138.0 EL.m)이 포함된 현행 표 전체를 근거로 준다.', 13, WHITE, 8)
     finish(g, y + 66, 'card_3_5')
+
+
+
+def _trace():
+    import json
+    return json.load(open(os.path.join(HERE, '..', '05_retrieval', 'server_runs_20261016', '091208_answer_q1', 'q1_trace.json'), encoding='utf-8'))
+
+
+# ---------------------------------------------------------------- 3.6 근거 묶음
+def card_3_6():
+    g = Svg(1000)
+    tr = _trace()
+    y = 0
+    h = tbox(g, 0, y, 1000, '[질문] 충주댐 현재 수문, 기상 데이터를 가져오고 제한수위와 비교한 후에, 이와 비슷한 수문상태일 때의 승인 및 운영 행위가 있었으면 알려줘.\n[대상] 충주댐, 기간 전체', 14, GRAY, 10)
+    y += h + 10
+    TAGW = 250
+    def zone(y, title, src, rows, color, note=None):
+        g.text(0, y + 18, title, 17, True, NAVY, 'start'); g.text(1000, y + 18, src, 14, False, '#555', 'end')
+        y += 26
+        for tag, txt in rows:
+            if tag is None:
+                g.text(TAGW + 20, y + 14, txt, 15, False, '#777', 'start'); y += 22; continue
+            n = len(wrap(txt, 14, 1000 - TAGW - 20 - 20))
+            hh = 18 + n * 20
+            hh = max(hh, 36)
+            g.rect(0, y, TAGW, hh, color[0], color[1], 2, None, 6); g.text(10, y + hh / 2 + 5, tag, 13, True, '#222', 'start')
+            tbox(g, TAGW + 20, y, 1000 - TAGW - 20, txt, 14, WHITE, 8, h=hh)
+            g.line(TAGW + 1, y + hh / 2, TAGW + 19, y + hh / 2, INK, 'ar', None, 2)
+            y += hh + 6
+        return y + 6
+    y = zone(y, '근거 1. 현재 상태 (CQ1)', '측정자료 저장소', [('[MEA:1003110:2026092823]', '2026-09-28 23:00  수위 131.6689 EL.m, 저수량 1491.3423 MCM, 강우량 0 mm, 유입량 14.402 CMS, 총방류량 0.43 CMS, 저수율 54.2 %  (저장된 가장 최근 시각이며 실시간이 아님)')], ORG)
+    y = zone(y, '근거 2. 운영기준 (CQ5)', 'KG + 문서 저장소', [('[CRI:CR-02]', '충주댐 홍수기 제한수위: 138.0 EL.m'), ('[EVI:LAW:별표3]', '댐과 보 등의 연계운영규정 (기후에너지환경부 훈령 제42호, 시행 2026-07-08) 원문 (별표3 원문 전체)')], GREEN)
+    y = zone(y, '근거 3. 운영행위와 허가한 승인 (CQ3)', 'KG', [('[OPR:418:1]', '방류, 시각 2010-09-22 15:00 ← 승인 [APR:418]'), ('[OPR:504:1]', '방류, 시각 2011-06-27 20:00 ← 승인 [APR:504]'), ('[OPR:574:1]', '방류, 시각 2011-07-01 19:00 ← 승인 [APR:574]'), (None, '… (운영행위 14개 중 3개만 표시)')], BLUE)
+    y = zone(y, '근거 4. 방류 승인 (CQ4)', 'KG', [('[APR:418]', '승인일 2010-09-22: 방류시작 2010-09-22 15:00; 접수방류량 2000㎥/s'), ('[APR:504]', '승인일 2011-06-27: 방류시작 2011-06-27 18:00; 접수방류량 2000㎥/s; 비고: (실제방류는 20시부터)'), ('[APR:574]', '승인일 2011-07-01: 방류시작 2011-07-01 18:00; 접수방류량 2000㎥/s; 비고: (실제 방류는 19시부터)'), (None, '… (승인 15건 중 3건만 표시)')], BLUE)
+    h = tbox(g, 0, y, 1000, '근거 사용 원칙\n1. 위 근거에 있는 내용만 사실로 쓰고, 문장마다 출처 번호를 붙인다.\n2. 비교나 해석은 LLM의 판단임을 밝히고, 어느 근거에서 나온 판단인지 적는다.\n3. 근거에 없는 내용은 “자료에 없음”이라고 답한다.', 14, YEL, 10)
+    finish(g, y + h, 'card_3_6')
+
+
+# ---------------------------------------------------------------- 3.7 답변
+def card_3_7():
+    g = Svg(1000)
+    ans = _trace()['answer']
+    import re
+    part = re.split(r'\*\*판단\*\*:?', ans)
+    ev = [re.sub(r'^\d+\.\s*', '', l.strip()) for l in part[0].split('\n') if re.match(r'\s*\d+\.', l)]
+    jd = [re.sub(r'^\d+\.\s*', '', l.strip()) for l in part[1].split('\n') if re.match(r'\s*\d+\.', l)]
+    y = 0
+    g.text(0, y + 18, '입력: 근거 묶음(3.6) + 질문 + 근거 사용 원칙   →   출력: 근거와 판단으로 나뉜 답변', 16, True, NAVY, 'start')
+    y += 34
+    flags = {('e', 3): '출처 번호 불일치: [OPR:2755:1]은 초기방류이고 탄력적 방류는 [OPR:2755:2]', ('j', 0): '“안정된 상태”는 근거에 없는 해석', ('j', 1): '“유연하게 조정하는 운영 방식을 의미”는 근거에 없는 해석. 과거 수위·유입량(CQ2)이 묶음에 없는데도 “유사”로 판단', ('j', 2): '“승인될 가능성”은 근거에 없는 추측'}
+    def part_(y, label, items, color, kind):
+        g.rect(0, y, 120, 30, color[1], color[1], 1, None, 6); g.text(60, y + 21, label, 16, True, '#fff', 'middle')
+        y += 38
+        for i, t in enumerate(items):
+            fl = flags.get((kind, i))
+            if fl:
+                import io
+                n1 = len(wrap('%d. %s' % (i + 1, t), 14, 760 - 18)); n2 = len(wrap('※ ' + fl, 12, 220 - 14))
+                hh = max(18 + n1 * 20, 14 + n2 * 17 + 4)
+                tbox(g, 0, y, 760, '%d. %s' % (i + 1, t), 14, color, 9, h=hh)
+                tbox(g, 780, y, 220, '※ ' + fl, 12, RED, 7, h=hh)
+            else:
+                hh = tbox(g, 0, y, 1000, '%d. %s' % (i + 1, t), 14, color, 9)
+            y += hh + 6
+        return y + 6
+    y = part_(y, '근거', ev, BLUE, 'e')
+    y = part_(y, '판단', jd, YEL, 'j')
+    h = tbox(g, 0, y, 1000, '모든 사실은 출처 번호를 통해 원 자료(승인 기록, 측정자료 저장소, 별표3)까지 추적된다. 빨간 표시는 실제 출력에서 확인한 문제이다(아래 표).', 14, GREEN, 10)
+    finish(g, y + h, 'card_3_7')
+
+
+
+# ---------------------------------------------------------------- 요약: 연구 수행 과정
+def card_sum():
+    g = Svg(1000)
+    bw, gap = 172, 35
+    boxes = [('Ontology', '', 'Class 6개\nRelation 9개', BLUE, '검증에서 Relation 1개 추가 (8개 → 9개)'),
+             ('KG 구축', '6단계', '전처리 → 구조화 자료 매핑 → 문서 자료 추출 → 관계 연결 → 검증 → 저장\n개체 {0}, 관계 {1}'.format(NE, NR), BLUE, '단계마다 근거 문헌 1개로 재정리하고 재구축 (도달 가능 승인 63 → 80건)'),
+             ('질문 해석', 'LLM', '질문 → 의도(CQ1~CQ6)와 값(댐, 시점)', GREEN, '의도를 CQ1~CQ6(여러 개 가능)으로 통일'),
+             ('근거 조회', '자동화', '입력 확인 → KG 조회 → 저장소 조회 → 근거 묶음 구성', GRAY, '연구자가 정한 기준(시각 보정, 유사 사례 선별 등)을 빼고 저장소 원값만 전달'),
+             ('답변 생성', 'LLM', '근거 묶음 → 근거와 판단으로 나눈 답변', GREEN, '비교·유사 판단은 LLM이 하고, 근거와 구분해 표시')]
+    g.text(0, 18, '연구 수행 과정과 이번주에 수정한 부분', 17, True, NAVY, 'start')
+    y0 = 34
+    hmax = 0
+    for k, (t, tag, body, c, note) in enumerate(boxes):
+        hmax = max(hmax, len(wrap(body, 14, bw - 20)) * 20 + 80)
+    nmax = max(len(wrap(b[4], 13, bw - 18)) for b in boxes) * 18 + 20
+    for k, (t, tag, body, c, note) in enumerate(boxes):
+        x = k * (bw + gap)
+        g.rect(x, y0, bw, hmax, c[0], c[1], 2, None, 8)
+        g.text(x + bw / 2, y0 + 28, t, 19, True, NAVY, 'middle')
+        if tag:
+            g.text(x + bw / 2, y0 + 50, '(' + tag + ')', 14, False, '#555', 'middle')
+        lines(g, x + bw / 2, y0 + 78, wrap(body, 14, bw - 20), 14, 20, False, '#222', 'middle')
+        if k:
+            g.line(x - gap + 2, y0 + hmax / 2, x - 2, y0 + hmax / 2, INK, 'ar', None, 3)
+        g.line(x + bw / 2, y0 + hmax + 2, x + bw / 2, y0 + hmax + 22, '#b8860b', 'ar', None, 2)
+        tbox(g, x, y0 + hmax + 24, bw, note, 13, YEL, 9, h=nmax)
+    y = y0 + hmax + 24 + nmax + 14
+    h = tbox(g, 0, y, 1000, '서버에서 Qwen3-32B-AWQ(4비트 양자화)로 예시 질문과 확인 질문 4개를 실행해 의도 추출, 근거 묶음, 답변을 점검하고 한계를 정리함 (3.9절)', 15, GREEN, 10)
+    finish(g, y + h, 'card_sum')
 
 
 CARDS = {k[5:]: v for k, v in list(globals().items()) if k.startswith('card_')}
