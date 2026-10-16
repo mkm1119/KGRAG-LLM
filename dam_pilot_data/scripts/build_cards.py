@@ -208,16 +208,16 @@ def card_2_1():
         g.text(14, yy + 8, st, 16, True, '#1f4e79', 'start'); yy += 24
         if isinstance(ex, tuple):
             hd, ws, vals = ex
-            x = 14
-            tot = sum(ws); sc = (W - 28) / float(tot); ws = [w * sc for w in ws]
+            x = 30
+            tot = sum(ws); sc = (W - 60) / float(tot); ws = [w * sc for w in ws]
             for k, (h_, v_) in enumerate(zip(hd, vals)):
                 w = ws[k]
                 g.rect(x, yy, w, 34, '#dcdcdc', '#888', 1, None, 0); g.text(x + w / 2, yy + 23, h_, 14, True, '#222', 'middle')
                 g.rect(x, yy + 34, w, 34, '#f4f4f4', '#888', 1, None, 0); g.text(x + w / 2, yy + 57, v_, 15, False, '#222', 'middle')
                 x += w
         else:
-            g.rect(14, yy, W - 28, len(ex) * 22 + 14, '#f4f4f4', '#999', 1, None, 4)
-            lines(g, 24, yy + 20, ex, 15, 22, False, '#333')
+            g.rect(30, yy, W - 60, len(ex) * 22 + 14, '#f4f4f4', '#999', 1, None, 4)
+            lines(g, 40, yy + 20, ex, 15, 22, False, '#333')
         y += hh + 14
     finish(g, y, 'card_2_1')
 
