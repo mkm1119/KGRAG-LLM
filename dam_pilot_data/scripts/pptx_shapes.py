@@ -97,11 +97,11 @@ class Canvas:
 def fig_framework(ox, oy, width_emu):
     """그림 1: Ontology 설계 → KG 구축 → 질문 응답(자동화와 LLM)"""
     c = Canvas(ox, oy, width_emu, 1000, 650, '그림1 전체 구조')
-    c.panel(0, 0, 265, 290, '(a) Ontology 설계')
+    c.panel(0, 0, 265, 290, '1 Ontology 설계', 22)
     c.box(20, 48, 225, 100, 'CQ', ['전체 질문 1개', '세부 질문 6개'])
     c.line(132, 150, 132, 172)
     c.box(20, 174, 225, 100, 'Class · 관계', ['Class 6, 관계 9', 'Data Property'])
-    c.panel(285, 0, 715, 290, '(b) 지식그래프(KG) 구축')
+    c.panel(285, 0, 715, 290, '2 KG 구축', 22)
     c.box(300, 50, 160, 225, '원자료 4종', ['승인 기록', '시간 자료', '규정 별표3', '댐 정보'])
     c.line(462, 162, 498, 162)
     c.box(500, 50, 170, 225, '6단계', ['전처리', '매핑 · 추출', '관계 연결', '검증 · 저장'])
@@ -109,7 +109,7 @@ def fig_framework(ox, oy, width_emu):
     c.cyl(710, 46, 275, 70, 'KG (Neo4j)')
     c.cyl(710, 126, 275, 70, '측정자료 저장소')
     c.cyl(710, 206, 275, 70, '문서 저장소')
-    c.panel(0, 330, 1000, 300, '(c) 질문 응답 (RAG)')
+    c.panel(0, 330, 1000, 300, '3 근거 기반 질의응답 (RAG)', 22)
     xs, w = [14, 214, 414, 614, 814], 172
     c.box(xs[0], 392, w, 140, '사용자', ['질문'], 28, 24)
     c.box(xs[1], 392, w, 140, '질문 해석', ['의도 CQ1~6', '댐 · 시점'], 26, 19, thick=True)
@@ -165,3 +165,65 @@ def fig_kg(ox, oy, width_emu):
     yT = yC + max(hC, hH) + 40
     c.text(0, yT, 1090, 28, '카드: Class 이름, 개체(Entity) ID, Data Property = 값.   화살표: 관계(Relation) 9종류', 20, False, '444444')
     return c
+
+
+def nlines(text, px, w):
+    """글상자 안에서 줄바꿈된 줄 수(추정)"""
+    n = 0
+    for para in text.split('\n'):
+        cur, k = 0.0, 1
+        for ch in para:
+            cw_ = tw(ch, px)
+            if cur + cw_ > w and cur > 0:
+                k += 1; cur = cw_
+            else:
+                cur += cw_
+        n += k
+    return n
+
+
+def rows_fig(ox, oy, width_emu, rows, name='그림', lw_=300, px=21, tpx=24, rpx=18, gap=12, thick_rows=()):
+    """왼쪽: 단계 이름(굵게)·근거 문헌(작게), 오른쪽: 적용 예시 글. rows: [(제목, 문헌, [예시 줄...])]"""
+    W = 1000
+    rx = lw_ + 44
+    rw = W - rx
+    ins = 14
+    hs = []
+    for t, ref, ex in rows:
+        hl = nlines(t, tpx, lw_ - 2 * ins) * tpx * 1.25 + (nlines(ref, rpx, lw_ - 2 * ins) * rpx * 1.25 if ref else 0) + 2 * ins + 6
+        hr = sum(nlines(e, px, rw - 2 * ins) for e in ex) * px * 1.28 + 2 * ins + 4
+        hs.append(max(hl, hr))
+    total = sum(hs) + gap * (len(rows) - 1)
+    c = Canvas(ox, oy, width_emu, W, int(total) + 4, name)
+    y = 0.0
+    for i, ((t, ref, ex), h) in enumerate(zip(rows, hs)):
+        lines = [(t, tpx, True, '1F3A5F')] + ([(ref, rpx, False, '555555')] if ref else [])
+        c.shape('roundRect', 0, y, lw_, h, lines, fill='E9EEF5', lw=3.5 if i in thick_rows else 1.75, algn='l', ins=ins, adj=6000)
+        c.line(lw_ + 4, y + h / 2, rx - 4, y + h / 2)
+        c.shape('rect', rx, y, rw, h, [(e, px, False, '222222') for e in ex], fill='FFFFFF', lw=1.75, algn='l', ins=ins)
+        y += h + gap
+    return c
+
+
+def fig_build(ox, oy, width_emu):
+    rows = [
+        ('1 전처리', 'DDKG 3.2.1', ['중복 행 제거, 시각 표기 통일, 4개 댐 선택', '예) 승인 기록 한 행: 순차번호 1368, 충주, 방류시작 2012-08-24 15:00, 접수방류량 2000, 비고 “이내 탄력적 조정”']),
+        ('2 구조화 자료 매핑', 'OntoDSMS', ['열 → Data Property, 행 → 개체', '예) Approval APR:1368, EvidenceSource EVI:AP:1368']),
+        ('3 문서 자료 추출', 'DDKG 3.2.2', ['글 속의 값을 규칙(키워드, 정규식)으로 추출', '예) 비고 “탄력” → Operation OPR:1368:1 (탄력적 방류), 별표3 → Criterion CRI:CR-02 (제한수위 138.0 EL.m)']),
+        ('4 관계 연결', 'Noy & McGuinness Step 7, DDKG ⑦, Li 2025', ['값이 일치하는 개체 쌍에만 관계 생성', '예) 관측소코드 1003110 = 댐 코드 1003110 → APR:1368 ─concernsDam→ DAM:1003110']),
+        ('5 검증', 'DDKG 3.2.3, Noy & McGuinness Step 6', ['Ontology의 허용 규칙으로 점검하고, 문제는 Ontology 보완', '예) 승인–댐 연결 부재를 발견해 관계 추가 (8개 → 9개), 도달 가능한 승인 80/80건']),
+        ('6 저장', 'DDKG 3.3', ['KG는 Neo4j, 수치·원문은 외부 저장소', '개체 264, 관계 418 / 측정자료 508,246행 / 규정 별표3 원문']),
+    ]
+    return rows_fig(ox, oy, width_emu, rows, '그림 KG 구축 6단계')
+
+
+def fig_qa(ox, oy, width_emu):
+    rows = [
+        ('질문 해석 (LLM)', 'Zhang 3.3', ['질문에서 의도(CQ, 복수 가능)와 댐·시점을 뽑음', '예) “충주댐의 과거 방류 승인은?” → 의도 CQ4, 댐 충주댐, 기간 전체']),
+        ('1 입력 확인', 'Zhang 3.3', ['의도·댐·시점이 허용 범위인지 확인하고 표기를 맞춤 (범위 밖이면 조회하지 않음)']),
+        ('2 KG 조회', 'Zhang 3.4, DDKG 4.3.2', ['의도별 Cypher 질의 틀로 관계를 따라 개체와 찾아가는 키를 가져옴', '예) CQ4: Dam ← concernsDam ← Approval']),
+        ('3 저장소 조회', 'GraphAide', ['키로 측정값·규정 원문을 읽음 (값은 원값 그대로)']),
+        ('4 근거 묶음 구성', 'Zhang 3.4, GraphAide', ['의도별 구역으로 모으고 출처 번호를 붙임', '예) [APR:1368] 승인일 2012-08-24: 방류시작 2012-08-24 15:00; 접수방류량 2000㎥/s; 비고: 이내 탄력적 조정']),
+        ('답변 생성 (LLM)', 'Zhang 3.4, GraphAide', ['근거 묶음과 근거 사용 원칙(근거만 사실로, 출처 번호 표기)을 받아 답변', '근거: 사실과 출처 번호  /  판단: LLM의 판단임을 밝히고 근거 표시  /  없는 내용: “자료에 없음”']),
+    ]
+    return rows_fig(ox, oy, width_emu, rows, '그림 질의응답 흐름', thick_rows=(0, 5))
