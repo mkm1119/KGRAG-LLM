@@ -121,9 +121,9 @@ def fig_framework(ox, oy, width_emu):
     c.poly([(848, 278), (848, 312), (500, 312), (500, 390)], color='555555', lw=2.0, dash=True)
     c.text(520, 318, 300, 28, '저장소에서 읽어 옴', 20, False, '444444', algn='l')
     c.shape('roundRect', 214, 548, 172, 40, [('LLM', 24, True, '222222')], fill='FFFFFF', lw=3.5, adj=8000)
-    c.shape('roundRect', 414, 548, 372, 40, [('자동화 (코드)', 24, True, '222222')], fill='FFFFFF', lw=1.75, adj=8000)
+    c.shape('roundRect', 414, 548, 372, 40, [('자동 처리 (규칙)', 24, True, '222222')], fill='FFFFFF', lw=1.75, adj=8000)
     c.shape('roundRect', 814, 548, 172, 40, [('LLM', 24, True, '222222')], fill='FFFFFF', lw=3.5, adj=8000)
-    c.text(0, 596, 1000, 30, '굵은 테두리: LLM,  가는 테두리: 정해진 규칙으로 동작하는 코드', 21, False, '444444')
+    c.text(0, 596, 1000, 30, '굵은 테두리: LLM,  가는 테두리: 정해진 규칙으로 처리', 21, False, '444444')
     return c
 
 

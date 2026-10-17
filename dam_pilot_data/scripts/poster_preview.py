@@ -36,7 +36,7 @@ def main(pptx, out, k=8000, zoom=1.0):
                 b = 'font-weight:700;' if 'b="1"' in r else ''
                 sup = 'vertical-align:super;font-size:%.1fpx;' % (sz * 12700 / k * 0.65) if 'baseline="30000"' in r else ''
                 c = clr(re.search(r'<a:rPr.*?</a:rPr>', r, flags=re.S).group(0))
-                t = html.escape(re.search(r'<a:t>(.*?)</a:t>', r, flags=re.S).group(1))
+                t = html.escape(html.unescape(re.search(r'<a:t>(.*?)</a:t>', r, flags=re.S).group(1)))
                 spans.append('<span style="font-size:%.1fpx;%s%scolor:%s">%s</span>' % (sz * 12700 / k, b, sup, c, t))
             st = 'margin:0 0 %.1fpx 0;line-height:%.2f;' % ((int(aft.group(1)) / 100 * 12700 / k) if aft else 0, (int(lns.group(1)) / 100000 * 1.2) if lns else 1.2)
             if algn: st += 'text-align:%s;' % {'ctr': 'center', 'l': 'left', 'r': 'right'}.get(algn.group(1), 'left')
