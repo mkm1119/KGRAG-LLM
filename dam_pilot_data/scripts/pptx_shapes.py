@@ -96,7 +96,7 @@ class Canvas:
 
 def fig_framework(ox, oy, width_emu):
     """그림 1: Ontology 설계 → KG 구축 → 질문 응답(자동화와 LLM)"""
-    c = Canvas(ox, oy, width_emu, 1000, 650, '그림1 전체 구조')
+    c = Canvas(ox, oy, width_emu, 1000, 560, '그림1 전체 구조')
     c.panel(0, 0, 265, 290, '1 Ontology 설계', 22)
     c.box(20, 48, 225, 100, 'CQ', ['전체 질문 1개', '세부 질문 6개'])
     c.line(132, 150, 132, 172)
@@ -109,21 +109,17 @@ def fig_framework(ox, oy, width_emu):
     c.cyl(710, 46, 275, 70, 'KG (Neo4j)')
     c.cyl(710, 126, 275, 70, '측정자료 저장소')
     c.cyl(710, 206, 275, 70, '문서 저장소')
-    c.panel(0, 330, 1000, 300, '3 근거 기반 질의응답 (RAG)', 22)
+    c.panel(0, 330, 1000, 215, '3 근거 기반 질의응답', 22)
     xs, w = [14, 214, 414, 614, 814], 172
     c.box(xs[0], 392, w, 140, '사용자', ['질문'], 28, 24)
-    c.box(xs[1], 392, w, 140, '질문 해석', ['의도 CQ1~6', '댐 · 시점'], 26, 19, thick=True)
+    c.box(xs[1], 392, w, 140, '질문 해석', ['의도 CQ1~6', '댐 · 시점'], 26, 19)
     c.box(xs[2], 392, w, 140, '근거 검색', ['입력 확인', 'KG · 저장소', '조회'], 26, 19)
     c.box(xs[3], 392, w, 140, '근거 묶음', ['출처 번호 부착', '원값 근거'], 26, 19)
-    c.box(xs[4], 392, w, 140, '답변 생성', ['근거 / 판단', '분리 작성'], 26, 19, thick=True)
+    c.box(xs[4], 392, w, 140, '답변 생성', ['근거 / 판단', '분리 작성'], 26, 19)
     for i in range(4):
         c.line(xs[i] + w + 2, 462, xs[i + 1] - 2, 462)
     c.poly([(848, 278), (848, 312), (500, 312), (500, 390)], color='555555', lw=2.0, dash=True)
     c.text(520, 318, 300, 28, '저장소에서 읽어 옴', 20, False, '444444', algn='l')
-    c.shape('roundRect', 214, 548, 172, 40, [('LLM', 24, True, '222222')], fill='FFFFFF', lw=3.5, adj=8000)
-    c.shape('roundRect', 414, 548, 372, 40, [('자동 처리 (규칙)', 24, True, '222222')], fill='FFFFFF', lw=1.75, adj=8000)
-    c.shape('roundRect', 814, 548, 172, 40, [('LLM', 24, True, '222222')], fill='FFFFFF', lw=3.5, adj=8000)
-    c.text(0, 596, 1000, 30, '굵은 테두리: LLM,  가는 테두리: 정해진 규칙으로 처리', 21, False, '444444')
     return c
 
 
@@ -190,14 +186,14 @@ def rows_fig(ox, oy, width_emu, rows, name='그림', lw_=300, px=21, tpx=24, rpx
     ins = 14
     hs = []
     for t, ref, ex in rows:
-        hl = nlines(t, tpx, lw_ - 2 * ins) * tpx * 1.25 + (nlines(ref, rpx, lw_ - 2 * ins) * rpx * 1.25 if ref else 0) + 2 * ins + 6
+        hl = nlines(t, tpx, lw_ - 2 * ins) * tpx * 1.25 + 2 * ins + 6
         hr = sum(nlines(e, px, rw - 2 * ins) for e in ex) * px * 1.28 + 2 * ins + 4
         hs.append(max(hl, hr))
     total = sum(hs) + gap * (len(rows) - 1)
     c = Canvas(ox, oy, width_emu, W, int(total) + 4, name)
     y = 0.0
     for i, ((t, ref, ex), h) in enumerate(zip(rows, hs)):
-        lines = [(t, tpx, True, '1F3A5F')] + ([(ref, rpx, False, '555555')] if ref else [])
+        lines = [(t, tpx, True, '1F3A5F')]
         c.shape('roundRect', 0, y, lw_, h, lines, fill='E9EEF5', lw=3.5 if i in thick_rows else 1.75, algn='l', ins=ins, adj=6000)
         c.line(lw_ + 4, y + h / 2, rx - 4, y + h / 2)
         c.shape('rect', rx, y, rw, h, [(e, px, False, '222222') for e in ex], fill='FFFFFF', lw=1.75, algn='l', ins=ins)
@@ -219,11 +215,11 @@ def fig_build(ox, oy, width_emu):
 
 def fig_qa(ox, oy, width_emu):
     rows = [
-        ('질문 해석 (LLM)', 'Zhang 3.3', ['질문에서 의도(CQ, 복수 가능)와 댐·시점을 뽑음', '예) “충주댐의 과거 방류 승인은?” → 의도 CQ4, 댐 충주댐, 기간 전체']),
-        ('1 입력 확인', 'Zhang 3.3', ['의도·댐·시점이 허용 범위인지 확인하고 표기를 맞춤 (범위 밖이면 조회하지 않음)']),
-        ('2 KG 조회', 'Zhang 3.4, DDKG 4.3.2', ['의도별 Cypher 질의 틀로 관계를 따라 개체와 찾아가는 키를 가져옴', '예) CQ4: Dam ← concernsDam ← Approval']),
-        ('3 저장소 조회', 'GraphAide', ['키로 측정값·규정 원문을 읽음 (값은 원값 그대로)']),
-        ('4 근거 묶음 구성', 'Zhang 3.4, GraphAide', ['의도별 구역으로 모으고 출처 번호를 붙임', '예) [APR:1368] 승인일 2012-08-24: 방류시작 2012-08-24 15:00; 접수방류량 2000㎥/s; 비고: 이내 탄력적 조정']),
-        ('답변 생성 (LLM)', 'Zhang 3.4, GraphAide', ['근거 묶음과 근거 사용 원칙(근거만 사실로, 출처 번호 표기)을 받아 답변', '근거: 사실과 출처 번호  /  판단: LLM의 판단임을 밝히고 근거 표시  /  없는 내용: “자료에 없음”']),
+        ('질문 해석', '', ['질문에서 의도(CQ, 복수 가능)와 대상(댐·시점)을 뽑음']),
+        ('1 입력 확인', '', ['의도·대상이 허용 범위인지 확인하고 표기를 맞춤 (범위 밖이면 조회하지 않음)']),
+        ('2 KG 조회', '', ['의도별 Cypher 질의 틀로 관계를 따라 개체와 찾아가는 키를 가져옴']),
+        ('3 저장소 조회', '', ['키로 측정값·규정 원문을 읽음 (값은 원값 그대로)']),
+        ('4 근거 묶음 구성', '', ['의도별 구역으로 모으고 항목마다 출처 번호를 붙임']),
+        ('답변 생성', '', ['근거 묶음과 근거 사용 원칙(근거만 사실로, 출처 번호 표기)을 받아 답변', '근거: 사실과 출처 번호  /  판단: 판단임을 밝히고 근거 표시  /  없는 내용: “자료에 없음”']),
     ]
-    return rows_fig(ox, oy, width_emu, rows, '그림 질의응답 흐름', thick_rows=(0, 5))
+    return rows_fig(ox, oy, width_emu, rows, '그림 질의응답 흐름')
