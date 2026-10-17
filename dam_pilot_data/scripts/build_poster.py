@@ -13,7 +13,7 @@ ROOT = os.path.abspath(os.path.join(HERE, '..', '..'))
 ASSET = os.path.join(ROOT, 'lab_meeting', 'poster_assets')
 EMU_PT = 12700
 BODY = 2300   # 본문 글자 크기(1/100 pt)
-TBL = 2100    # 표 글자 크기
+TBL = 1700    # 표 글자 크기
 
 # ---------------------------------------------------------------- 글자 폭으로 높이 추정
 def tw(text, sz):
@@ -180,14 +180,11 @@ CONCEPT_ROWS = [
     ['CQ', 'Competency Question. 온톨로지가 답할 수 있어야 하는 질문으로, 필요한 Class·관계를 정하는 기준'],
     ['지식그래프 (KG)', '온톨로지에 실제 개체·관계·값을 채운 그래프(개체는 점, 관계는 선)'],
     ['Neo4j / Cypher', 'Neo4j는 KG를 저장하는 그래프 데이터베이스, Cypher는 연결 패턴으로 찾는 질의 언어'],
-    ['승인 / 운영행위', '승인은 방류를 허가한 기록, 운영행위는 실제로 수행된 방류 등의 운영(승인 비고에서 규칙으로 읽음)'],
-    ['수문·기상 상태', '댐의 수위, 유입량, 방류량, 강우량 등 시간별로 측정되는 변수'],
     ['운영기준 / 근거자료', '운영기준은 댐에 적용되는 기준(예: 규정 별표3의 홍수기 제한수위), 근거자료는 개체를 확인할 수 있는 출처(승인 기록, 규정 원문 등)'],
     ['구조화 자료 / 문서 자료', '구조화 자료는 열·행이 정해진 표, 문서 자료는 글 속에 값이 들어 있는 자료(승인 비고, 규정 별표). 문서 자료의 값은 규칙(키워드, 정규식)으로 추출'],
     ['외부 저장소 / 키', 'KG 밖에 둔 측정값(측정자료 저장소)과 규정 원문(문서 저장소). KG에는 이를 찾아가는 키만 저장'],
     ['RAG', '질문과 관련된 근거를 검색해 LLM에 함께 주고, 그 근거로 답하게 하는 방식'],
     ['의도 / 근거 묶음', '의도는 질문이 CQ1~CQ6 중 무엇을 묻는지의 분류(복수 가능), 근거 묶음은 검색한 근거를 의도별로 모아 LLM에 주는 입력'],
-    ['출처 번호', '근거 묶음의 항목마다 붙이는 번호(예: APR:1368)로, 답변이 어느 자료에서 나왔는지 확인할 수 있게 함'],
 ]
 OVERVIEW_BUL = [
     '프레임워크는 **세 단계**로 구성됨: **① Ontology 설계 → ② KG 구축 → ③ 근거 기반 질의응답**',
@@ -332,7 +329,7 @@ def build(tpl_path, out_path, scale=1):
 
     def native(col, y, canvas_fn, width):
         x = LX if col == 'L' else RX
-        c = canvas_fn(x + (CW - width) // 2, y, width)
+        c = canvas_fn(x, y, width)
         shapes.append(c.xml())
         return y + c.height_emu() + 60000
 
@@ -351,12 +348,12 @@ def build(tpl_path, out_path, scale=1):
     y = 6350000
     y = section('L', y, '서론', INTRO) + GAP
     y = section('L', y, '핵심 용어', None)
-    y = tbl('L', y, 'Table 1. 핵심 용어', [2900000, 10600000], CONCEPT_ROWS, sz=1750) + GAP - 120000
+    y = tbl('L', y, 'Table 1. 핵심 용어', [2900000, 10600000], CONCEPT_ROWS) + GAP - 120000
     y = section('L', y, '프레임워크 개요', OVERVIEW_BUL)
     y = native('L', y, SH.fig_framework, 9600000)
     y = caption('L', y, '그림 1. 연구의 구성') + GAP
     y = section('L', y, '단계 1. Ontology 설계', ST1_BUL)
-    y = tbl('L', y, 'Table 2. 전체 질문과 세부 질문(CQ)', [2000000, 11500000], CQ_ROWS, sz=1800)
+    y = tbl('L', y, 'Table 2. 전체 질문과 세부 질문(CQ)', [2000000, 11500000], CQ_ROWS)
     y = native('L', y, lambda x_, y_, w_: SH.fig_kg(x_, y_, w_, schema=True), 9000000)
     y = caption('L', y, '그림 2. Ontology: Class 6개, 관계 9개, Class별 Data Property')
     log['L_end'] = y

@@ -28,9 +28,15 @@ def tw(text, px):
     return w * px
 
 
+FIG_S = 10800            # 모든 그림이 같은 배율(EMU/px)을 쓴다
+COLW = 14113138
+TITLE_PT, BODY_PT = 1800, 1600   # 그림 안 글자: 제목 18pt, 본문 16pt (모든 그림 동일)
+
+
 class Canvas:
     def __init__(self, ox, oy, width_emu, wpx, hpx, name='그림'):
-        self.ox, self.oy, self.s = ox, oy, width_emu / float(wpx)
+        self.s = FIG_S
+        self.ox, self.oy = ox + (COLW - int(wpx * FIG_S)) // 2, oy
         self.wpx, self.hpx, self.name = wpx, hpx, name
         self.items = []
 
@@ -38,7 +44,7 @@ class Canvas:
         return int(round(v * self.s))
 
     def pt(self, px):
-        return int(round(px * self.s / EMU_PT * 100))   # 1/100 pt
+        return TITLE_PT if px >= 22 else BODY_PT   # 글자 크기는 두 가지로 통일
 
     def height_emu(self):
         return self.E(self.hpx)
@@ -72,8 +78,9 @@ class Canvas:
         self.shape('rect', x, y, w, h, [(t, px, bold, color)], fill='FFFFFF' if halo else None, line=None, algn=algn, anchor=anchor, ins=2, name='글상자')
 
     def label(self, cx, cy, t, px=20, color='222222'):
-        w = tw(t, px) + 10
-        self.text(cx - w / 2, cy - px * 0.7, w, px * 1.4, t, px, False, color, halo=True)
+        px = max(px, 19)
+        w = tw(t, 19) + 14
+        self.text(cx - w / 2, cy - 14, w, 28, t, 19, False, color, halo=True)
 
     def line(self, x1, y1, x2, y2, arrow=True, color='3B4A63', lw=2.5, dash=False):
         x, y = min(x1, x2), min(y1, y2)
@@ -138,12 +145,12 @@ def card(c, x, y, w, cls, ent, lines, px=18):
 def fig_kg(ox, oy, width_emu, schema=False):
     """그림 2: Class 6, 관계 9를 모두 적용한 충주댐 승인 1368 예시(개체 ID와 Data Property 값 포함)"""
     c = Canvas(ox, oy, width_emu, 1090, 690, '그림2 KG 예시')
-    X0, X1, W_ = 45, 620, 440
+    X0, X1, W_ = 45, 650, 400
     if schema:
         hA = card(c, X0, 0, W_, 'Approval', None, ['approvalTime', 'approvalContent'])
         hK = card(c, X1, 0, W_, 'Criterion', None, ['criterionType', 'criterionValue', 'unit'])
     else:
-        hA = card(c, X0, 0, W_, 'Approval', 'APR:1368', ['approvalTime = 2012-08-24', 'approvalContent = “방류시작 15:00; 2000㎥/s”'])
+        hA = card(c, X0, 0, W_, 'Approval', 'APR:1368', ['approvalTime = 2012-08-24', 'approvalContent = “방류시작 15:00; 2000”'])
         hK = card(c, X1, 0, W_, 'Criterion', 'CRI:CR-02', ['criterionType = 홍수기 제한수위', 'criterionValue = 138.0', 'unit = EL.m'])
     yB = max(hA, hK) + 56
     if schema:
@@ -161,12 +168,12 @@ def fig_kg(ox, oy, width_emu, schema=False):
         hH = card(c, X1, yC, W_, 'HydrometeorologicalState', 'HMS:1003110:수위', ['variableType = 수위', 'stationCode = 1003110'])
     m0, m1 = X0 + 220, X1 + 220
     c.line(m0, hA + 2, m0, yB - 2); c.label(m0 + 80, hA + 35, 'authorizes', 19)
-    c.line(X0 + W_ + 2, 90, X1 - 2, yB + 40); c.label(X0 + W_ + 70, 150, 'concernsDam', 18)
-    c.line(X0 + W_ + 2, yB + 90, X1 - 2, yB + 90); c.label(X0 + W_ + 68, yB + 68, 'performedOnDam', 15)
+    c.line(X0 + W_ + 2, 90, X1 - 2, yB + 40); c.label(X0 + W_ + 110, 150, 'concernsDam', 18)
+    c.line(X0 + W_ + 2, yB + 90, X1 - 2, yB + 90); c.label(X0 + W_ + 100, yB + 66, 'performedOnDam', 15)
     c.line(m1, hK + 2, m1, yB - 2); c.label(m1 + 85, hK + 35, 'appliesToDam', 19)
-    c.line(m1, yB + hD + 2, m1, yC - 2); c.label(m1 + 120, yB + hD + 35, 'hasHydrometeorologicalState', 16)
+    c.line(m1, yB + hD + 2, m1, yC - 2); c.label(m1 - 100, yB + hD + 35, 'hasHydrometeorologicalState', 16)
     c.line(m0, yB + hB + 2, m0, yC - 2); c.label(m0 + 70, yB + hB + 35, 'supportedBy', 19)
-    c.line(X1 - 2, yC + 90, X0 + W_ + 2, yC + 90); c.label(X0 + W_ + 68, yC + 68, 'supportedBy', 18)
+    c.line(X1 - 2, yC + 90, X0 + W_ + 2, yC + 90); c.label(X0 + W_ + 100, yC + 66, 'supportedBy', 18)
     c.poly([(X0, 70), (18, 70), (18, yC + 120), (X0 - 2, yC + 120)])
     c.poly([(X1 + W_, 70), (1070, 70), (1070, yC + max(hC, hH) + 28), (X0 + 300, yC + max(hC, hH) + 28), (X0 + 300, yC + hC + 2)])
     c.hpx = yC + max(hC, hH) + 62
