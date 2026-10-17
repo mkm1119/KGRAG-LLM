@@ -251,3 +251,22 @@ def fig_steps(ox, oy, width_emu):
     c.poly([(850, 127), (850, 150), (150, 150), (150, 173)])
     c.line(302, 237, 348, 237); c.line(652, 237, 698, 237)
     return c
+
+
+def fig_bundle(ox, oy, width_emu):
+    """근거 묶음의 구성(구역·출처 번호)과 답변의 구성(근거/판단/자료에 없음). 값 없이 형식만 보인다."""
+    c = Canvas(ox, oy, width_emu, 1000, 395, '그림 근거 묶음과 답변')
+    c.text(0, 0, 470, 36, '근거 묶음 (구역 / 출처 번호)', 24, True, '1F3A5F')
+    rows = [('[MEA:관측소코드:시각]', '현재 상태 (CQ1)'), ('[MEA:관측소코드:시각]', '운영 시각 상태 (CQ2)'), ('[OPR] ← [APR]', '운영행위·승인 (CQ3)'),
+            ('[APR:번호]', '방류 승인 (CQ4)'), ('[CRI:번호]', '운영기준 (CQ5)'), ('[EVI:…]', '출처 (CQ6)')]
+    y = 42
+    for tag, lab in rows:
+        c.shape('rect', 0, y, 250, 50, [(tag, 20, False, '222222')], fill='E9EEF5', lw=1.75)
+        c.shape('rect', 250, y, 220, 50, [(lab, 20, False, '222222')], fill='FFFFFF', lw=1.75, algn='l', ins=12)
+        y += 58
+    c.line(480, 190, 540, 190, lw=3.5)
+    c.text(550, 0, 450, 36, '답변 (근거 사용 원칙에 따라 작성)', 24, True, '1F3A5F')
+    c.shape('rect', 550, 42, 450, 100, [('근거', 22, True, '1F3A5F'), ('사실에 단위·시각과 출처 번호 표기', 20, False, '222222')], fill='E9EEF5', lw=1.75, algn='l', ins=14)
+    c.shape('rect', 550, 150, 450, 100, [('판단', 22, True, '1F3A5F'), ('판단임을 밝히고, 근거 번호를 함께 적음', 20, False, '222222')], fill='FFFFFF', lw=1.75, algn='l', ins=14)
+    c.shape('rect', 550, 258, 450, 100, [('자료에 없음', 22, True, '1F3A5F'), ('근거 묶음에 없는 내용은 단정하지 않음', 20, False, '222222')], fill='F4F4F4', lw=1.75, algn='l', ins=14)
+    return c

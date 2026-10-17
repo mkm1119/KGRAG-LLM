@@ -312,6 +312,16 @@ def build(tpl_path, out_path, scale=1):
             y += 800000
         return y
 
+    def pair_rows(rows):
+        d = rows[1:]
+        h = rows[0]
+        out = [h + h]
+        half = (len(d) + 1) // 2
+        for i in range(half):
+            a = d[i]; b = d[i + half] if i + half < len(d) else ['', '']
+            out.append(a + b)
+        return out
+
     def tbl(col, y, cap, colw, rows, sz=TBL):
         x = LX if col == 'L' else RX
         shapes.append(caption_bar(t_cap, x + 232858, y, CW - 463716, cap))
@@ -354,21 +364,20 @@ def build(tpl_path, out_path, scale=1):
     # 오른쪽 열: 단계 2 / 단계 3 / 결론 / 감사 / 참고문헌
     y = 6350000
     y = section('R', y, '단계 2. KG 구축', ST2_BUL)
-    y = native('R', y, SH.fig_steps, 11000000)
+    y = native('R', y, SH.fig_steps, 12000000)
     y = caption('R', y, '그림 3. KG 구축 6단계')
     y = native('R', y, SH.fig_kg, 9600000)
     y = caption('R', y, '그림 4. 구축된 KG의 일부 (충주댐 승인 1368번)')
     y = bullets('R', y, KG_EXPL) + GAP
     y = section('R', y, '단계 3. 근거 기반 질의응답', ST3_BUL)
-    y = native('R', y, SH.fig_qa, 11400000)
-    y = caption('R', y, '그림 5. 질의응답의 처리 단계') + GAP
+    y = native('R', y, SH.fig_qa, 11600000)
+    y = caption('R', y, '그림 5. 질의응답의 처리 단계')
+    y = native('R', y, SH.fig_bundle, 11800000)
+    y = caption('R', y, '그림 6. 근거 묶음과 답변의 구성') + GAP
     y = section('R', y, '결론', CONCL) + GAP
     y = section('R', y, '감사의 글', None)
     h = est_h([ACK], 1600, CW, bullet=False)
     shapes.append(textbox(RX, y, CW, [para(ACK, 1600, bullet=False)], h)); y += h + 100000
-    y = section('R', y, '참고문헌', None)
-    h = est_h(REFS, 1400, CW, bullet=False, spc_aft=150)
-    shapes.append(textbox(RX, y, CW, [para('%d. %s' % (i + 1, r), 1400, bullet=False, spc_aft=150) for i, r in enumerate(REFS)], h)); y += h
     log['R_end'] = y
 
     body = ''.join(shapes)
