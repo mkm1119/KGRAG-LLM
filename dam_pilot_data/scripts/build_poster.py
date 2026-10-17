@@ -196,6 +196,9 @@ ST2_BUL = [
     '자료의 형태에 맞게 **6단계**로 처리하여 Ontology에 맞는 개체와 관계로 구축함',
     '측정값 전체와 규정 원문은 KG 밖 저장소에 두고, KG에는 **찾아가는 키**만 저장함',
 ]
+KG_EXPL = [
+    '구축된 KG의 일부(충주댐 승인 기록 한 건): 승인 기록 한 행은 **Approval**과 **EvidenceSource**로, 비고에서 규칙으로 읽은 운영행위는 **Operation**으로, 별표3의 제한수위는 **Criterion**으로 만들어지고, 값이 일치하는 개체끼리 관계로 연결됨 (구축 결과: **개체 264, 관계 418**)',
+]
 ST3_BUL = [
     '질문에서 **의도(CQ, 복수 가능)** 와 대상(댐·시점)을 뽑고, 의도에 따라 KG와 저장소에서 근거를 찾아 **출처 번호가 붙은 근거 묶음**으로 정리함',
     '근거 묶음을 바탕으로 답변하며, **근거와 판단을 나누어** 표시함',
@@ -337,18 +340,21 @@ def build(tpl_path, out_path, scale=1):
     y = caption('L', y, '그림 1. 연구의 구성') + GAP
     y = section('L', y, '단계 1. Ontology 설계', ST1_BUL)
     y = tbl('L', y, 'Table 1. 전체 질문과 세부 질문(CQ)', [2000000, 11500000], CQ_ROWS)
-    y = native('L', y, SH.fig_kg, 13400000)
-    y = caption('L', y, '그림 2. Ontology의 Class·관계와 개체 예시(충주댐 승인 1368번)')
+    y = native('L', y, lambda x_, y_, w_: SH.fig_kg(x_, y_, w_, schema=True), 12400000)
+    y = caption('L', y, '그림 2. Ontology: Class 6개, 관계 9개, Class별 Data Property')
     log['L_end'] = y
 
     # 오른쪽 열: 단계 2 / 단계 3 / 결론 / 감사 / 참고문헌
     y = 6350000
     y = section('R', y, '단계 2. KG 구축', ST2_BUL)
-    y = native('R', y, SH.fig_build, 13400000)
-    y = caption('R', y, '그림 3. KG 구축 6단계와 승인 1368번의 적용') + GAP
+    y = native('R', y, SH.fig_steps, 11000000)
+    y = caption('R', y, '그림 3. KG 구축 6단계')
+    y = native('R', y, SH.fig_kg, 9600000)
+    y = caption('R', y, '그림 4. 구축된 KG의 일부 (충주댐 승인 1368번)')
+    y = bullets('R', y, KG_EXPL) + GAP
     y = section('R', y, '단계 3. 근거 기반 질의응답', ST3_BUL)
-    y = native('R', y, SH.fig_qa, 13400000)
-    y = caption('R', y, '그림 4. 질의응답의 처리 단계') + GAP
+    y = native('R', y, SH.fig_qa, 11400000)
+    y = caption('R', y, '그림 5. 질의응답의 처리 단계') + GAP
     y = section('R', y, '결론', CONCL) + GAP
     y = section('R', y, '감사의 글', None)
     h = est_h([ACK], 1600, CW, bullet=False)

@@ -124,29 +124,41 @@ def fig_framework(ox, oy, width_emu):
 
 
 def card(c, x, y, w, cls, ent, lines, px=18):
-    for t in [ent] + lines:
+    for t in ([ent] if ent else []) + lines:
         assert tw(t, px) <= w - 30, ('카드 글이 넓음', t, tw(t, px), w)
-    n = 1 + len(lines)
+    n = (1 if ent else 0) + len(lines)
     h = 66 + n * 28
     c.shape('rect', x, y, w, h, fill='FFFFFF', lw=1.75)
     c.shape('rect', x, y, w, 44, [(cls, 24, True, '1F4E79')], fill='E9EEF5', lw=1.75, algn='l', ins=14)
-    items = [(ent, px, True, '222222')] + [(t, px, False, '222222') for t in lines]
+    items = ([(ent, px, True, '222222')] if ent else []) + [(t, px, False, '222222') for t in lines]
     c.shape('rect', x, y + 46, w, h - 46, items, fill=None, line=None, algn='l', anchor='t', ins=14, name='속성')
     return h
 
 
-def fig_kg(ox, oy, width_emu):
+def fig_kg(ox, oy, width_emu, schema=False):
     """그림 2: Class 6, 관계 9를 모두 적용한 충주댐 승인 1368 예시(개체 ID와 Data Property 값 포함)"""
     c = Canvas(ox, oy, width_emu, 1090, 690, '그림2 KG 예시')
     X0, X1, W_ = 45, 620, 440
-    hA = card(c, X0, 0, W_, 'Approval', 'APR:1368', ['approvalTime = 2012-08-24', 'approvalContent = “방류시작 15:00; 2000㎥/s”'])
-    hK = card(c, X1, 0, W_, 'Criterion', 'CRI:CR-02', ['criterionType = 홍수기 제한수위', 'criterionValue = 138.0', 'unit = EL.m'])
+    if schema:
+        hA = card(c, X0, 0, W_, 'Approval', None, ['approvalTime', 'approvalContent'])
+        hK = card(c, X1, 0, W_, 'Criterion', None, ['criterionType', 'criterionValue', 'unit'])
+    else:
+        hA = card(c, X0, 0, W_, 'Approval', 'APR:1368', ['approvalTime = 2012-08-24', 'approvalContent = “방류시작 15:00; 2000㎥/s”'])
+        hK = card(c, X1, 0, W_, 'Criterion', 'CRI:CR-02', ['criterionType = 홍수기 제한수위', 'criterionValue = 138.0', 'unit = EL.m'])
     yB = max(hA, hK) + 56
-    hB = card(c, X0, yB, W_, 'Operation', 'OPR:1368:1', ['operationType = 탄력적 방류', 'operationTime = 2012-08-24T15:00'])
-    hD = card(c, X1, yB, W_, 'Dam', 'DAM:1003110', ['damName = 충주댐', 'damType = 다목적댐'])
+    if schema:
+        hB = card(c, X0, yB, W_, 'Operation', None, ['operationType', 'operationTime'])
+        hD = card(c, X1, yB, W_, 'Dam', None, ['damName', 'damType'])
+    else:
+        hB = card(c, X0, yB, W_, 'Operation', 'OPR:1368:1', ['operationType = 탄력적 방류', 'operationTime = 2012-08-24T15:00'])
+        hD = card(c, X1, yB, W_, 'Dam', 'DAM:1003110', ['damName = 충주댐', 'damType = 다목적댐'])
     yC = yB + max(hB, hD) + 56
-    hC = card(c, X0, yC, W_, 'EvidenceSource', 'EVI:AP:1368', ['sourceTitle = 홍수예보 댐방류승인', 'sourceType = 승인자료', 'sourceLocator = 순차번호 1368'])
-    hH = card(c, X1, yC, W_, 'HydrometeorologicalState', 'HMS:1003110:수위', ['variableType = 수위', 'stationCode = 1003110'])
+    if schema:
+        hC = card(c, X0, yC, W_, 'EvidenceSource', None, ['sourceTitle', 'sourceType', 'sourceLocator'])
+        hH = card(c, X1, yC, W_, 'HydrometeorologicalState', None, ['variableType', 'stationCode'])
+    else:
+        hC = card(c, X0, yC, W_, 'EvidenceSource', 'EVI:AP:1368', ['sourceTitle = 홍수예보 댐방류승인', 'sourceType = 승인자료', 'sourceLocator = 순차번호 1368'])
+        hH = card(c, X1, yC, W_, 'HydrometeorologicalState', 'HMS:1003110:수위', ['variableType = 수위', 'stationCode = 1003110'])
     m0, m1 = X0 + 220, X1 + 220
     c.line(m0, hA + 2, m0, yB - 2); c.label(m0 + 80, hA + 35, 'authorizes', 19)
     c.line(X0 + W_ + 2, 90, X1 - 2, yB + 40); c.label(X0 + W_ + 70, 150, 'concernsDam', 18)
@@ -159,7 +171,7 @@ def fig_kg(ox, oy, width_emu):
     c.poly([(X1 + W_, 70), (1070, 70), (1070, yC + max(hC, hH) + 28), (X0 + 300, yC + max(hC, hH) + 28), (X0 + 300, yC + hC + 2)])
     c.hpx = yC + max(hC, hH) + 62
     yT = yC + max(hC, hH) + 40
-    c.text(0, yT, 1090, 28, '카드: Class 이름, 개체(Entity) ID, Data Property = 값.   화살표: 관계(Relation) 9종류', 20, False, '444444')
+    c.text(0, yT, 1090, 28, ('카드: Class 이름과 Data Property.   화살표: 관계(Relation) 9종류' if schema else '카드: Class 이름, 개체(Entity) ID, Data Property = 값.   화살표: 관계(Relation) 9종류'), 20, False, '444444')
     return c
 
 
@@ -223,3 +235,19 @@ def fig_qa(ox, oy, width_emu):
         ('답변 생성', '', ['근거 묶음과 근거 사용 원칙(근거만 사실로, 출처 번호 표기)을 받아 답변', '근거: 사실과 출처 번호  /  판단: 판단임을 밝히고 근거 표시  /  없는 내용: “자료에 없음”']),
     ]
     return rows_fig(ox, oy, width_emu, rows, '그림 질의응답 흐름')
+
+
+def fig_steps(ox, oy, width_emu):
+    """KG 구축 6단계(한 줄 설명)"""
+    c = Canvas(ox, oy, width_emu, 1000, 300, '그림 KG 구축 6단계')
+    items = [('1 전처리', '중복·표기 정리, 대상 댐 선택'), ('2 구조화 자료 매핑', '표의 열·행을 속성·개체로 옮김'), ('3 문서 자료 추출', '글 속의 값을 규칙으로 추출'),
+             ('4 관계 연결', '값이 일치하는 개체 쌍에 관계 생성'), ('5 검증', '허용 규칙으로 점검, Ontology 보완'), ('6 저장', 'KG는 Neo4j, 측정값·원문은 저장소')]
+    w, h = 300, 125
+    xs = [0, 350, 700]
+    for i, (t, d) in enumerate(items):
+        x = xs[i % 3]; y = 0 if i < 3 else 175
+        c.shape('roundRect', x, y, w, h, [(t, 26, True, '1F3A5F'), (d, 21, False, '222222')], fill='E9EEF5', lw=1.75, adj=6000)
+    c.line(302, 62, 348, 62); c.line(652, 62, 698, 62)
+    c.poly([(850, 127), (850, 150), (150, 150), (150, 173)])
+    c.line(302, 237, 348, 237); c.line(652, 237, 698, 237)
+    return c
