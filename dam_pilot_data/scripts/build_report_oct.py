@@ -157,6 +157,28 @@ ps[70] = parts[0] + ''.join('<hp:tc ' + c for c in tcs)
 # 고정 높이가 작으면 한글이 줄여 표시할 수 있어 셀 높이를 충분히 키운다
 ps[70] = ps[70].replace('height="12446"', 'height="9000"').replace('height="7826"', 'height="9000"')
 
+# Ⅲ 표에 3, 4 항목(내용 비움) 추가: 2번 항목의 제목 행·내용 행을 복제
+def add_empty_sections(tbl_p, titles):
+    trs = re.findall(r'<hp:tr>.*?</hp:tr>', tbl_p, flags=re.S)
+    assert len(trs) == 6
+    t_tr, c_tr = trs[4], trs[5]
+    last = trs[5]
+    new = ''
+    for k, title in enumerate(titles):
+        r1, r2 = 6 + 2 * k, 7 + 2 * k
+        x1 = re.sub(r'<hp:t>[^<]*</hp:t>', '<hp:t>%s</hp:t>' % escape(title), t_tr, count=1)
+        x1 = x1.replace('rowAddr="4"', 'rowAddr="%d"' % r1)
+        x2 = c_tr.replace('rowAddr="5"', 'rowAddr="%d"' % r2)
+        x2 = re.sub(r'(textHeight="0" hasTextRef="0" hasNumRef="0">).*?(</hp:subList>)', r'\1' + cell_paras([('b', '')]) + r'\2', x2, flags=re.S)
+        x2 = x2.replace('height="9000"', 'height="3000"')
+        new += x1 + x2
+    out = tbl_p.replace(last, last + new, 1)
+    out = out.replace('rowCnt="6"', 'rowCnt="%d"' % (6 + 2 * len(titles)), 1)
+    return out
+
+
+ps[70] = add_empty_sections(ps[70], ['3. sLLM 후보군 평가 방향', '4. 도메인 특화 성능 향상 전략'])
+
 # ---------------------------------------------------------------- Ⅳ 세부 수행 실적
 IV = [
     H1('1. 국내외 기술 트렌드 조사'),
