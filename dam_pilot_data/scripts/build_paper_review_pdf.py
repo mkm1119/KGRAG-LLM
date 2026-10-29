@@ -154,6 +154,51 @@ def wrap_ind(font, text, size, width):
     return out
 
 
+# ---------------------------------------------------------------- 메모가 가리키는 원문 위치 찾기
+COLORS = [(0.85, 0.33, 0.31), (0.20, 0.47, 0.75), (0.30, 0.62, 0.35), (0.85, 0.55, 0.15), (0.55, 0.38, 0.70), (0.15, 0.60, 0.62), (0.60, 0.45, 0.30)]
+
+
+def norm(t):
+    return re.sub(r'[^a-z0-9]', '', t.lower())
+
+
+def anchor_finder(src, W):
+    """페이지별로 열(왼쪽·오른쪽)마다 줄을 이어 붙여 두고, 문구가 시작하는 줄의 위치를 찾는다."""
+    from pdf_text_extract2 import PDF
+    from pdf_text_positions import lines
+    pdf = PDF(src); pages = pdf.pages()
+
+    def find(pi, phrase):
+        start = phrase.startswith('^'); ph = norm(phrase.lstrip('^'))
+        ls = lines(pdf, pages[pi - 1])
+        full = []                                  # 열을 무시하고 같은 높이의 줄을 합친 것(가운데 정렬된 그림 제목 등)
+        for l in sorted(ls, key=lambda l: (-round(l[1]), l[0])):
+            if full and abs(full[-1][1] - l[1]) < 2:
+                full[-1] = (full[-1][0], full[-1][1], full[-1][2], full[-1][3] + l[3])
+            else:
+                full.append(tuple(l))
+        for col in (0, 1, 2):
+            cl = full if col == 2 else sorted([l for l in ls if (l[0] >= W / 2 - 10) == bool(col)], key=lambda l: -l[1])
+            text, offs = '', []
+            for l in cl:
+                offs.append(len(text)); text += norm(l[3])
+            k = text.find(ph)
+            while k >= 0:
+                if not start or k in offs:
+                    j = max(i for i, o in enumerate(offs) if o <= k)
+                    return cl[j]
+                k = text.find(ph, k + 1)
+        return None
+    return find
+
+
+def circle(cx, cy, r):
+    k = 0.5523 * r
+    return (b'%.2f %.2f m %.2f %.2f %.2f %.2f %.2f %.2f c %.2f %.2f %.2f %.2f %.2f %.2f c %.2f %.2f %.2f %.2f %.2f %.2f c %.2f %.2f %.2f %.2f %.2f %.2f c f'
+            % (cx + r, cy, cx + r, cy + k, cx + k, cy + r, cx, cy + r, cx - k, cy + r, cx - r, cy + k, cx - r, cy,
+               cx - r, cy - k, cx - k, cy - r, cx, cy - r, cx + k, cy - r, cx + r, cy - k, cx + r, cy))
+
+
 # ---------------------------------------------------------------- PDF 증분 저장
 def main(src, tjson, dst, mode='review'):
     b = open(src, 'rb').read()
@@ -224,7 +269,8 @@ def main(src, tjson, dst, mode='review'):
     def tj(s):
         return b'<' + ''.join('%04X' % font.gid(c) for c in s).encode() + b'> Tj'
 
-    overflow = []
+    overflow = []; missing = []
+    finder = anchor_finder(src, 595.0) if memo else None
     for pi, pn in enumerate(pages, 1):
         d = objs[pn]
         mb = [float(x) for x in re.search(rb'/MediaBox\s*\[([^\]]*)\]', d).group(1).split()]
@@ -233,6 +279,10 @@ def main(src, tjson, dst, mode='review'):
         X2 = W + TRANS_W                   # 메모 칸 시작
         WT = W + TRANS_W + MEMO_W
         entries = tr.get(str(pi), [])
+        num = 0
+        for e in entries:
+            if e.get('anchors'):
+                num += 1; e['_n'] = num
         # 글자 크기를 줄여 가며 한 페이지에 맞춤
         TW = (MEMO_W if memo else TRANS_W) - 2 * PAD
         WR = (lambda t, sz, w: wrap_ind(font, t, sz, w)) if memo else (lambda t, sz, w: [(0, l) for l in wrap(font, t, sz, w)])
@@ -242,14 +292,15 @@ def main(src, tjson, dst, mode='review'):
             for e in entries:
                 lead = e.get('lead', '')
                 if lead.startswith('#'):
-                    blocks.append(('h', WR(lead[1:].strip(), size + 0.6, TW), size + 0.6))
+                    nb = e.get('_n')
+                    blocks.append(('h', [(dx + (13 if nb else 0), l) for dx, l in WR(lead[1:].strip(), size + 0.6, TW - (13 if nb else 0))], size + 0.6, nb))
                     if e['ko']:
                         blocks.append(('k', WR(e['ko'], size, TW), size))
                     continue
                 if lead:
                     blocks.append(('l', WR('¶ ' + lead, lead_size, TW), lead_size))
                 blocks.append(('k', WR(e['ko'], size, TW), size))
-            need = sum(len(L) * s * 1.38 + (3.5 if k == 'k' else 1.5 if k == 'l' else 3) for k, L, s in blocks)
+            need = sum(len(L) * s * 1.38 + (3.5 if k == 'k' else 1.5 if k == 'l' else 3) for k, L, s, *_ in blocks)
             if need <= H - 62:
                 break
         else:
@@ -264,12 +315,28 @@ def main(src, tjson, dst, mode='review'):
             c.append(b'BT /FKR 8.5 Tf 0.12 0.23 0.37 rg %.2f %.2f Td %s ET' % (X1, y, tj('해석 (p.%d)' % pi)))
         c.append(b'BT /FKR 8.5 Tf 0.12 0.23 0.37 rg %.2f %.2f Td %s ET' % (X2 + PAD, y, tj('메모' + (' (p.%d)' % pi if memo else ''))))
         y -= 16
-        for kind, L, s in blocks:
+        for kind, L, s, *nb in blocks:
             col = {'h': b'0.12 0.23 0.37', 'l': b'0.45 0.45 0.5', 'k': b'0.1 0.1 0.1'}[kind]
+            if nb and nb[0]:
+                r_, g_, b_ = COLORS[(nb[0] - 1) % len(COLORS)]
+                c.append(b'q %.2f %.2f %.2f rg %s Q' % (r_, g_, b_, circle(X1 + 5, y - s * 1.38 + s * 0.35, 5.2)))
+                c.append(b'BT /FKR 6.2 Tf 1 1 1 rg %.2f %.2f Td %s ET' % (X1 + 5 - font.width(str(nb[0]), 6.2) / 2, y - s * 1.38 + s * 0.35 - 2.1, tj(str(nb[0]))))
             for dx, line in L:
                 y -= s * 1.38
                 c.append(b'BT /FKR %.2f Tf %s rg %.2f %.2f Td %s ET' % (s, col, X1 + dx, y, tj(line)))
             y -= 3.5 if kind == 'k' else 1.5 if kind == 'l' else 3
+        for e in entries:                      # 원문 쪽에 같은 번호 표시
+            if not e.get('_n'):
+                continue
+            r_, g_, b_ = COLORS[(e['_n'] - 1) % len(COLORS)]
+            for a in e['anchors']:
+                hit = finder(pi, a)
+                if not hit:
+                    missing.append((pi, a)); continue
+                lx, ly, lsz, _ = hit
+                cx, cy = lx - 7.5, ly + lsz * 0.35
+                c.append(b'q %.2f %.2f %.2f rg %s Q' % (r_, g_, b_, circle(cx, cy, 5.0)))
+                c.append(b'BT /FKR 6.0 Tf 1 1 1 rg %.2f %.2f Td %s ET' % (cx - font.width(str(e['_n']), 6.0) / 2, cy - 2.0, tj(str(e['_n']))))
         cs = add(stream(b'', b'\n'.join(c)))
         # 페이지 사전 고치기
         nd = d
@@ -311,6 +378,8 @@ def main(src, tjson, dst, mode='review'):
         nxt[0], root, info.group(0) if info else b'', idm.group(0) if idm else b'', sx, xref)
     open(dst, 'wb').write(out)
     print('pages', len(pages), 'font glyphs', len(gids), 'subset KB', len(ttf) // 1024, 'overflow pages', overflow)
+    for pm in missing:
+        print('원문 위치를 못 찾음:', pm)
 
 
 def add_font(res, f0):
