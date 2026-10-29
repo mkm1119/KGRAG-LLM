@@ -336,6 +336,16 @@ def main(src, tjson, dst, mode='review'):
 
     overflow = []; missing = []
     finder = anchor_finder(src, 595.0) if memo else None
+    marks = []
+    _sp = {}
+
+    def sent_page(pi):
+        if pi not in _sp:
+            from pdf_sentences import Page, PDF as _P
+            if '_pdf' not in _sp:
+                _sp['_pdf'] = _P(src)
+            _sp[pi] = Page(_sp['_pdf'], _sp['_pdf'].pages()[pi - 1])
+        return _sp[pi]
     for pi, pn in enumerate(pages, 1):
         d = objs[pn]
         mb = [float(x) for x in re.search(rb'/MediaBox\s*\[([^\]]*)\]', d).group(1).split()]
@@ -395,16 +405,34 @@ def main(src, tjson, dst, mode='review'):
             if not e.get('_n'):
                 continue
             r_, g_, b_ = COLORS[(e['_n'] - 1) % len(COLORS)]
+            tint = tuple(1 - 0.30 * (1 - v) for v in (r_, g_, b_))
+            spans = []                         # 문장 단위 표시: (시작, 끝)
             for a in e['anchors']:
-                hit = finder(pi, a)
+                if a.startswith('S:'):
+                    pg = sent_page(pi)
+                    st = pg.find(a[2:])
+                    if st is None:
+                        missing.append((pi, a)); continue
+                    spans.append((st, pg.sentence_end(st)))
+                    continue
+                hit = finder(pi, a)            # 그림·표 제목, 초록 등은 줄 단위
                 if not hit:
                     missing.append((pi, a)); continue
                 (lx, ly, lsz, _), rects = hit
-                tint = tuple(1 - 0.30 * (1 - v) for v in (r_, g_, b_))
                 hl.append(b'%.3f %.3f %.3f rg ' % tint + b' '.join(b'%.2f %.2f %.2f %.2f re' % (x0, y0, x1 - x0, y1 - y0) for x0, y0, x1, y1 in rects) + b' f')
+                marks.append((lx, ly, lsz))
+            prev = None
+            for st, en in sorted(spans):
+                rects, first = sent_page(pi).rects(st, en)
+                hl.append(b'%.3f %.3f %.3f rg ' % tint + b' '.join(b'%.2f %.2f %.2f %.2f re' % (x0, y0, x1 - x0, y1 - y0) for x0, y0, x1, y1 in rects) + b' f')
+                if prev is None or st - prev > 2:      # 이어지는 문장이면 번호를 다시 찍지 않음
+                    marks.append((306.6 if first[0] >= 297.6 else 37.6, first[1], first[2]))   # 번호는 그 줄의 열 왼쪽 여백에
+                prev = en
+            for lx, ly, lsz in marks:
                 cx, cy = lx - 7.5, ly + lsz * 0.35
                 c.append(b'q %.2f %.2f %.2f rg %s Q' % (r_, g_, b_, circle(cx, cy, 5.0)))
                 c.append(b'BT /FKR 6.0 Tf 1 1 1 rg %.2f %.2f Td %s ET' % (cx - font.width(str(e['_n']), 6.0) / 2, cy - 2.0, tj(str(e['_n']))))
+            marks.clear()
         cs = add(stream(b'', b'\n'.join(c)))
         # 페이지 사전 고치기
         nd = d

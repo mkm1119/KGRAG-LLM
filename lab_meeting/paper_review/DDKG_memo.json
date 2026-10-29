@@ -11,9 +11,13 @@
    "lead": "#연구 배경",
    "ko": "- 운영연수가 늘어남에따라 댐은 구조적 노후화와 기능 저하를 겪는다\n- 자연재해와 인간활동 강화로 댐 안전 상황은 더욱 심각해지고 있다\n- 전통적인 리스크 분석 방법은 개별 댐을 대상으로 하며, 전문가 판단이나 수치 계산에 크게 의존한다\n- 지역 규모에서 여러 댐에 걸친 리스크 요인 분석은 여전히 제한적이다\n- 현재 댐 결함과 관련된 핵심 정보의 상당 부분은 비정형 텍스트로 기록되어 있고 구조화가 잘 되어 있지 않아, 지식을 상관 분석과 추론에 효과적으로 적용하기 어렵다.\n- 지식그래프는 이러한 정보 조직과 구조화된 지식으로 변환하는 효율적인 도구를 제공한다.",
    "anchors": [
-    "With the increase in operating years",
-    "At present, much of the critical",
-    "^Knowledge graphs (KGs)"
+    "S:With the increase in operating years, dam pro",
+    "S:Coupled with the current frequent occurrence ",
+    "S:Traditional risk analysis methods are mostly ",
+    "S:Analyses of risk factors across multiple proj",
+    "S:At present, much of the critical key informat",
+    "S:These textual data are heterogeneous in forma",
+    "S:Knowledge graphs (KGs) [9]offer an efficient "
    ]
   }
  ],
@@ -22,31 +26,49 @@
    "lead": "#한계와 해결방안",
    "ko": "- 지식 추출과 관련하여 딥러닝 기반 자연어 처리 및 LLM의 발전은 상당한 진전과 지식을 추출할 새로운 기회를 만들었다\n- 하지만 댐 공학이라는 전문 분야에서의 LLM은 도메인 적응성, 지식의 복잡성, 적용의 경제성과 관련된 어려움이 있다\n- 범용 모델은 댐 공학 전문 지식이 부족하여 어려움이 있다\n- 이러한 문제를 해결하기 위해 댐 결함 온톨로지(DDO) 개발한다\n- 나아가 LLM을 활용하여 온톨로지 기반 위험 분류 프레임워크(OHCF)를 제안한다\n- 이 과정을 바탕으로 댐 결함 지식그래프(DDKG)를 구축하여 댐에 걸친 위험 정보를 구조적으로 통합하고 이를 통해 댐 안전관리를 지원한다.",
    "anchors": [
-    "Constructing KGs from large volumes",
-    "^However, when applied to the specialized",
-    "^To address these challenges"
+    "S:In this regard, deep learning-based natural l",
+    "S:In particular, recent advances in large langu",
+    "S:However, when applied to the specialized doma",
+    "S:Generalpurpose models lack a deep understandi",
+    "S:To address these challenges, this study devel",
+    "S:An Ontology-guided Hazard Classification Fram",
+    "S:Based on this process, a dam defects knowledg"
    ]
   },
   {
    "lead": "#기존 연구들의 한계",
    "ko": "- 모두 수리공학의 운영과 유지관리를 향상시키는 것을 목표로 함\n- 하지만 표현의 세밀도와 주제 초점에서 각기 다르다\n- 일반적으로 기존 연구는 결함의 구체적인 양상과 관련 영향 요인 사이의 복잡한 관계를 특성화 하는데 부족하다\n- 이러한 한계는 현재 모델이 댐 안전 분야에서 세밀한 분석과 고급 추론을 지원하는 능력을 저해한다",
    "anchors": [
-    "^While the aforementioned studies"
+    "S:While the aforementioned studies all aim to e",
+    "S:In general, existing research still falls sho",
+    "S:This limitation hinders the capacity of curre"
    ]
   },
   {
    "lead": "#온톨로지와 지식그래프(KG) 개념",
    "ko": "- KG는 '개체-관계-개체' 삼항으로 현실 세계의 지식을 묘사하는 구조화된 의미 네트워크이다\n- 온톨로지가 지식의 스키마 계층을 정의하는 개념적 틀이라면, KG는 이 틀 안에서 현실 세계의 데이터로 인스턴스화된 지식 베이스이다",
    "anchors": [
-    "KG is a structured semantic network"
+    "S:KG is a structured semantic network that depi",
+    "S:While an ontology serves as the conceptual fr"
    ]
   },
   {
    "lead": "#개체 추출의 발전 과정 및 한계",
    "ko": "- KG를 만들려면 비정형 텍스트(글)에서 대상을 찾아 미리 정해 둔 종류(라벨)를 붙여야 한다.\n- 이 작업을 개체명 인식(NER)이라 한다\n- 개체명 인식 방법은 다음과 같이 발전했다\n1. 사람이 규칙을 정해서 쓰는 방식\n2. 규칙을 사람이 정하지 않고, 컴퓨터가 글의 특징을 스스로 배우는 딥러닝 방식\n3. 미리 언어를 익힌 모델(BERT 등)에 정답 예시로 추가 학습시키는 방식\n- 3번의 한계: 사람이 정답 예시를 많이 만들어야 하고, 정해 둔 종류 목록에 없거나 예시가 적은 개념은 잘 찾지 못한다.\n- LLM은 추가 학습 없이 지시문(+ 예시 몇 개)만으로 대상을 찾을 수 있어, KG 구축과 온톨로지 확장에 쓰이고 있다.\n- 하지만 학습한 글이 대부분 일반 글이라 수리공학 같은 전문 분야의 용어와 지식을 잘 모른다.\n- 그래서 최근에는 모델의 일부만 가볍게 추가 학습시키거나(PEFT), 단계별로 생각하게 시키는(CoT) 방법으로 출력 형식과 복잡한 의미 파악을 보완한다.\n- 그래도 LLM은 환각 때문에 종류를 틀리거나 임의로 붙일 수 있어, 추출 결과를 믿기 어렵다. (→ 2.3에서 이 문제를 풀기 위해 OHCF를 제안)",
    "anchors": [
-    "^A key step in constructing",
-    "^Recently, the application of LLMs"
+    "S:A key step in constructing the KG data layer ",
+    "S:NER aims to identify entity mentions in text ",
+    "S:Early NER methods typically relied on complex",
+    "S:With the rise of deep learning, NER systems a",
+    "S:Subsequently, the Transformer [38]architectur",
+    "S:However, such methods usually depend on subst",
+    "S:When these label systems are constrained by l",
+    "S:Recently, the application of LLMs in NER has ",
+    "S:In downstream tasks like NER, LLMs can achiev",
+    "S:Numerous studies have utilized LLMs to assist",
+    "S:Furthermore, research has demonstrated that L",
+    "S:Nevertheless, the direct application of LLMs ",
+    "S:This is primarily due to the distribution shi"
    ]
   }
  ],
@@ -59,30 +81,42 @@
    "lead": "#기존 연구의 공백 3가지",
    "ko": "1. 수리공학 온톨로지 연구는 있지만, 댐 결함을 세밀하게 표현하지 못한다. 특히 위험 형태(어떤 결함인지)와 위험 부위(어디에서 생겼는지)를 나타내는 부분이 부족하다.\n2. BERT 같은 기존 추출 방법은 댐 보고서 글에 잘 맞지 않는다.\n   - 보고서의 위험 서술은 문장이 조각나 있고, 한 문장에 여러 위험이 겹쳐 있으며, 같은 내용도 여러 방식으로 쓴다.\n   - 종류(라벨)가 적을 때는 잘하지만, 종류가 많고 종류 사이 관계가 복잡하면 정답 예시가 훨씬 많이 필요하다.\n   - 전문가가 미리 정한 종류에 묶여 있어, 처음 보는 개념은 찾지 못한다.\n3. LLM은 개체 추출에 가능성이 크지만, 댐 안전 분야 지식이 부족해 환각(그럴듯하지만 틀린 답)이 심하다.",
    "anchors": [
-    "However, several research gaps remain"
+    "S:However, several research gaps remain.",
+    "S:First, although existing studies in hydraulic",
+    "S:Second, existing knowledge extraction methods",
+    "S:Hazard descriptions in such texts are often f",
+    "S:Although these methods have shown good perfor",
+    "S:In addition, these models are typically const",
+    "S:Third, although large language models have sh"
    ]
   },
   {
    "lead": "#이 연구의 해결 방향 [목표]",
    "ko": "- 댐 결함을 세밀하게 표현하는 온톨로지(DDO)를 만든다.\n- 온톨로지를 기준으로 위험 지식을 인식하고, 새 개념이 나오면 온톨로지를 확장하는 OHCF를 제안한다.",
    "anchors": [
-    "To address these gaps, this study"
+    "S:To address these gaps, this study develops a "
    ]
   },
   {
    "lead": "#3. 방법론 개요",
    "ko": "- 방법은 세 부분으로 이루어진다: 온톨로지(DDO) 구축 → 지식 추출 → 지식 융합",
    "anchors": [
-    "^This section describes the implementation"
+    "S:This section describes the implementation of ",
+    "S:Fig. 1illustrates the overall construction fr",
+    "S:DDO construction, knowledge extraction, and k"
    ]
   },
   {
    "lead": "#방법론 - 댐 결함 온톨로지(DDO) 구축",
    "ko": "온톨로지 개발의 이유: 위험 용어를 통일하고, 복잡한 원인 매커니즘의 상관분석을 가능하게 하며, 지능형 진단과 의사결정같은 하위 응용을 지원하는데 필수적이다\n\n1. 댐 위험 도메인 온톨로지와 관련 작업 정의\n2. 댐 위험과 관련된 기존 온톨로지 모델의 재사용 검토\n3. 관련 용어 나열\n4. 온톨로지 클래스와 계층 구조 정의\n5. 클래스 속성과 관계 정리\n6. 제약 명시\n7. 인스턴스 생성\n\n온톨로지는 OWL(온톨로지를 표현하는 표준 언어, W3C 권고)로 작성했고, Protégé(온톨로지 편집 프로그램)로 만들고 관리했다.",
    "anchors": [
-    "^An ontology is a standardized",
-    "In this study, a seven-step",
-    "^The DDO is constructed using"
+    "S:In dam engineering, developing a structured a",
+    "S:In this study, a seven-step methodology is ad",
+    "S:The process comprises the following steps:",
+    "S:(1) defining the dam hazard domain ontology a",
+    "S:The DDO is constructed using the Web Ontology",
+    "S:´´ and is stored and managed with the Protege",
+    "S:OWL is an ontology language recommended by th"
    ]
   },
   {
@@ -102,48 +136,63 @@
    "lead": "#온톨로지 구조: DDO = 〈C, P, H〉",
    "ko": "- DDO는 세 가지로 이루어진다: 최상위 클래스들(C), 클래스끼리 잇는 관계들(P), 각 최상위 클래스 아래의 하위 클래스들(H)\n- 하위 클래스는 위치 번호로 표기하며, 예를 들어 c3(2,1)은 세 번째 최상위 클래스 아래 두 번째 하위 클래스의 첫 번째 하위 클래스이다 (이후 c5, c6 등도 같은 방식)",
    "anchors": [
-    "^The structure of the DDO can be represented",
-    "^where C="
+    "S:The structure of the DDO can be represented u",
+    "S:DDO=〈C,P,H〉(1) where C={c|i∈N}is the set of t",
+    "S:) all subclasses under each top-level class, "
    ]
   },
   {
    "lead": "#최상위 클래스",
    "ko": "- 댐 결함은 공학 내부 요인과 환경 조건이 함께 작용해 발생하므로 7개의 최상위 클래스를 정의했다\n- Dam, Properties, Location, Parameter, HazardForm, HazardComponent, SafetyEvaluation",
    "anchors": [
-    "^Dam defects arise from the coupled",
-    "^Table 1"
+    "^Table 1",
+    "S:Dam defects arise from the coupled effects of",
+    "S:Therefore, seven top-level classes are initia"
    ]
   },
   {
    "lead": "#의미 관계와 계층 관계",
    "ko": "- 의미 관계는 서로 다른 최상위 클래스를 연결하는 객체 속성으로 구성한다\n- 모든 최상위 클래스는 정보를 구체적인 댐에 고정하기 위해 Dam에 연결되고, HazardForm은 occursAt으로 HazardComponent와 연결된다\n- 계층 관계는 hasSubclass로 각 클래스 내부의 계층 구조를 만들어 지식 표현의 깊이와 세밀도를 높인다\n- 하위 클래스는 상위 클래스의 관계를 상속하여 재사용성, 확장성, 추론 능력이 향상된다",
    "anchors": [
-    "^To further enhance the semantic",
-    "^Hierarchical relationships are constructed"
+    "S:To further enhance the semantic expressivenes",
+    "S:Semantic relationships are primarily establis",
+    "S:All toplevel classes are connected to the Dam",
+    "S:Specifically, HazardForm is linked to HazardC",
+    "S:Hierarchical relationships are constructed us",
+    "S:Hierarchical relationships allow subclasses t",
+    "S:This effectively improves the reusability, sc"
    ]
   },
   {
    "lead": "#c5 HazardForm과 c6 HazardComponent의 계층 구성",
    "ko": "- 위험 형태(HazardForm, c5)와 위험 부위(HazardComponent, c6)는 DDKG의 가장 핵심 요소이지만 비정형 텍스트에서 추출해야 해서 어렵다\n- LLM은 \"spillway\"와 \"Side wall\"을 각각 인식해도 둘 사이의 전체-부분 관계를 잘못 해석하여 같은 계층으로 분류하는 경우가 많다\n- 이를 극복하기 위해 전문가 지식을 바탕으로 위험 형태와 위험 부위의 계층을 정교화했다\n- HazardForm은 중국 댐 안전평가 지침(SL 258–2017)의 5개 평가 항목(홍수 방어, 침투, 구조, 내진, 금속 구조)을 1단계 하위 클래스로 두고, 그 아래 2단계와 3단계를 정의했다\n- HazardComponent는 구조물을 기능에 따라 차수 구조물, 방류 구조물, 도수 구조물로 나누어 1단계 하위 클래스로 두었다",
    "anchors": [
-    "^Among the top-level classes",
-    "^To overcome these limitations in semantic",
-    "^(a) Hierarchical structure of HazardForm",
-    "^(b) Hierarchical structure of Hazard"
+    "S:Among the top-level classes, “cHazardForm” an",
+    "S:These entities must be extracted from unstruc",
+    "S:For instance, although LLMs can recognize ent",
+    "S:LLMs may incorrectly classify entities with s",
+    "S:To overcome these limitations in semantic und",
+    "S:In China, for example, the Guidelines on Dam ",
+    "S:As a result, hazard issues corresponding to t",
+    "S:Under each level-1 subclass, level-2 and leve",
+    "S:Dam engineering structures can be broadly cla"
    ]
   },
   {
    "lead": "#계층 모델링의 한계와 보완",
    "ko": "- 전문가 경험만으로 계층을 만들면 지식의 범위에 한계가 있어 온톨로지의 포괄 범위가 제한될 수 있다\n- 이를 해결하기 위해 지식 추출 과정에서 발견된 미정의 개체를 바탕으로 온톨로지를 보완하거나 확장한다 (3.2.3)",
    "anchors": [
-    "^In practical applications, hierarchical"
+    "S:In practical applications, hierarchical model",
+    "S:As a result, the ontology coverage may be lim",
+    "S:To address this, during knowledge extraction,"
    ]
   },
   {
    "lead": "#3.2 데이터 계층 구축",
    "ko": "- 데이터 계층은 DDO를 기준으로 댐 운영 중 생성된 다중 출처의 이질적 데이터에서 지식을 추출하도록 설계했다 (그림 3)",
    "anchors": [
-    "^The data layer is designed"
+    "S:The data layer is designed to extract knowled",
+    "S:The overall framework of data layer construct"
    ]
   },
   {
@@ -154,10 +203,14 @@
    "lead": "#지식 출처와 전처리",
    "ko": "- 저수지 운영관리 플랫폼의 정형 표는 Dam, Properties, Location, Parameter(c1~c4) 클래스에 필요한 데이터를 대부분 충족한다\n- HazardForm, HazardComponent, SafetyEvaluation(c5~c7)의 데이터는 PDF, DOC, PNG 등 형식이 다양한 비정형 텍스트에서 나오며, 불필요한 정보가 많아 추출 전에 전처리한다\n- 전처리는 문서를 마크다운으로 변환(OCR로 레이아웃 분석)하고, 정규식으로 필요한 지식이 있는 텍스트 블록의 경계를 나누어 불필요한 내용을 지운 뒤, 블록들을 하나의 텍스트 모음(말뭉치, 논문에서는 T라고 부름)으로 통합한다",
    "anchors": [
-    "The China Reservoir Operation",
-    "^In contrast, the data corresponding",
-    "^For a given unstructured text",
-    "^T={D"
+    "S:The China Reservoir Operation and Management ",
+    "S:In contrast, the data corresponding to top-le",
+    "S:These texts are highly heterogenous in format",
+    "S:Prior to knowledge extraction, the texts are ",
+    "S:For a given unstructured text D, its format i",
+    "S:State-of-the-art optical char-md acter recogn",
+    "S:Next, regular expressions are used to delimit",
+    "S:Finally, the extracted text blocks are integr"
    ]
   }
  ],
@@ -175,7 +228,10 @@
    "lead": "#3.2.2 규칙 기반 지식 추출 [방법]",
    "ko": "- 안전평가(SafetyEvaluation, c7)는 홍수 방어, 침투, 구조, 내진, 금속 구조 평가 결과이며 A, B, C 등급으로 나뉜다\n- 평가 결과는 고도로 표준화된 문장으로 쓰여 정규식으로 바로 추출할 수 있으며, 딥러닝 기반 인식이 필요 없다",
    "anchors": [
-    "^Entities associated with the top-level class"
+    "S:Entities associated with the top-level class ",
+    "S:Each evaluation is classified into Grade A, B",
+    "S:Because these results are generally described",
+    "S:For example, from the expression “the flood-c"
    ]
   },
   {
@@ -186,8 +242,9 @@
    "lead": "#위험 개체 추출의 어려움",
    "ko": "- 위험 개체 추출의 핵심 난점은 다양하게 표현된 위험 정보를 DDO의 정해진 범주에 정확히 배정하는 것이다\n- 범용 LLM은 이런 세밀한 분류에서는 정확도가 낮지만, 명확한 지시가 있으면 보고서에서 위험 관련 서술을 찾아내는 일은 효율적으로 한다",
    "anchors": [
-    "^In contrast, the extraction of engineering",
-    "^General-purpose language models achieve"
+    "S:In contrast, the extraction of engineering ha",
+    "S:General-purpose language models achieve relat",
+    "S:Although general-purpose LLMs show limited pe"
    ]
   },
   {
@@ -204,9 +261,11 @@
    "lead": "#위험 서술 추출과 분할 [방법]",
    "ko": "- 먼저 LLM에 \"위험 관련 서술을 찾아라\"라는 지시문(추출 프롬프트, P1)을 주어, 전처리로 모은 보고서 텍스트(T)에서 위험 관련 서술 조각을 찾는다\n- 이 조각은 원문 그대로라 한 문장에 여러 위험 형태와 부위가 섞여 있어 분류에 장애가 된다\n- 그래서 \"섞인 서술을 하나씩 나눠라\"라는 두 번째 지시문(분할 프롬프트, P2)으로, 한 문장에 위험 하나와 부위 하나만 담긴 위험 서술 단위로 나눈다 (식 3)\n- 범용 LLM은 추가 학습 없이 프롬프트만으로 두 단계를 비교적 안정적으로 수행했다",
    "anchors": [
-    "^descriptions. Accordingly, given",
-    "denotes a hazard-related descriptive fragment",
-    "^T→"
+    "S:Accordingly, given an input report text T, th",
+    "S:This creates an obstacle to subsequent hazard",
+    "S:To address this issue, this study further des",
+    "S:T→H={h,h,…,h}→E={e,e,…,e}(3) where hdenotes a",
+    "S:Based on our instance-level observations, gen"
    ]
   },
   {
@@ -220,7 +279,7 @@
    "lead": "#OHCF: 위험 서술 단위 분류 [방법]",
    "ko": "- OHCF(이 논문이 제안한 분류 방법)는 나눈 위험 서술 단위를 온톨로지의 위험 형태·위험 부위 중 가장 세부(3단계) 분류로 분류한다\n- 미세조정, 온도 교란 투표, 온톨로지 제약 일관성 검사, 전문가 검토와 온톨로지 확장의 네 단계로 구성된다",
    "anchors": [
-    "On this basis, OHCF is designed"
+    "S:On this basis, OHCF is designed to classify e"
    ]
   },
   {
@@ -236,58 +295,77 @@
    "lead": "#a) LLM 미세조정 [방법]",
    "ko": "- 제한된 자원에서 세밀한 분류 능력을 높이기 위해 LoRA로 경량 LLM을 미세조정하여 위험 서술과 온톨로지 라벨의 대응을 학습시킨다\n- LoRA는 원래 가중치는 고정하고 두 개의 작은 행렬로 분해한 증분만 학습하여, 적은 파라미터만 갱신한다 (식 4, 5)\n- 미세조정된 모델은 위험 서술 단위를 넣으면 위험 형태와 위험 부위 분류 결과를 내놓는다 (식 6)",
    "anchors": [
-    "^adopted to fine-tune a lightweight",
-    "^LoRA is an efficient",
-    "^After fine-tuning, the functionality"
+    "S:adopted to fine-tune a lightweight LLM, enabl",
+    "S:LoRA is an efficient parameter-adaptation met",
+    "S:It requires updates to only a small number of",
+    "S:The core principle of LoRA is to freeze the o",
+    "S:The incremental update can be expressed as Eq",
+    "S:After fine-tuning, the functionality of the m"
    ]
   },
   {
    "lead": "#b) 온도 교란 투표 [방법]",
    "ko": "- 한 번의 추론 결과가 항상 최적은 아니므로 오분류를 줄이기 위해 투표를 도입한다\n- 같은 서술 단위를 LLM의 온도 설정값을 바꿔 가며 여러 번 분류하고, 가장 많이 나온 라벨을 최종 결과로 선택한다 (식 7~9)\n- 라벨을 내지 못하거나 동점인 경우는 False로 표시해 전문가 검토로 넘긴다",
    "anchors": [
-    "^b) Temperature-perturbed voting",
-    "^For generative models, the result",
-    "^where s",
-    "For samples where the model fails"
+    "S:For generative models, the result of a single",
+    "S:To further reduce the probability of misclass",
+    "S:Specifically, n different model temperatures ",
+    "S:Following the majority principle, the candida",
+    "S:For samples where the model fails to produce "
    ]
   },
   {
    "lead": "#c) 온톨로지 제약 일관성 검사 [방법]",
    "ko": "- 투표 후에도 공학적으로 맞지 않는 라벨 쌍이 나올 수 있다 (예: 파랑벽 마루 표고 부족이 댐 차수체로 분류됨)\n- 온톨로지 계층과 공학 지식을 바탕으로 함께 나올 수 없는 위험 형태–위험 부위 조합을 미리 목록으로 만든다 (논문에서는 충돌 집합 A, 식 10)\n- 분류 결과가 이 목록에 있으면 False(통과 못 함), 없으면 True(통과)로 판정하고, False는 전문가 검토로 넘긴다 (식 11)",
    "anchors": [
-    "c) Ontology-constraint consistency",
-    "^To further improve the reliability",
-    "^Entity samples for which"
+    "S:Although the temperature-perturbed voting str",
+    "S:For example, if the hazard description “the e",
+    "S:A constraint-conflict set A, defined as a spa",
+    "S:Based on this constraint-conflict set, a clas",
+    "S:V takes the final classification result L= (s"
    ]
   },
   {
    "lead": "#d) 전문가 검토와 온톨로지 확장 [방법]",
    "ko": "- False로 표시된 샘플은 자동으로 모아 전문가 검토 대기열에 올린다\n- 전문가는 기존 개념이면 올바른 노드로 라벨을 고치고, 새 개념이면 DDO에 노드를 추가해 연결한다\n- 시스템이 모호한 샘플을 거르고 전문가가 최종 수정과 확장을 맡는 준자동 방식으로 DDO가 반복적으로 갱신·확장된다",
    "anchors": [
-    "d) Expert review and ontology",
-    "^During the review process"
+    "S:Samples marked as “False” are automatically a",
+    "S:During the review process, experts first dete",
+    "S:If the concept is already present, experts co",
+    "S:If the expert confirms that the concept is ne",
+    "S:In this semi-automated workflow, the system a",
+    "S:In this way, the DDO achieves dynamic updatin"
    ]
   },
   {
    "lead": "#3.3 KG 저장 [방법]",
    "ko": "- 저장소로 Neo4j를 선택했으며, Cypher로 조회·추가·삭제·수정이 효율적이고 다중 홉 질의에 강하기 때문이다\n- 추출한 지식을 JSON으로 통합하고, DDO의 관계에 따라 Python 스크립트가 JSON 키-값을 읽어 Cypher 문을 생성해 노드와 관계를 일괄 적재한다",
    "anchors": [
-    "^In this paper, the Neo4j graph",
-    "^The knowledge extracted in Section 3.2"
+    "S:In this paper, the Neo4j graph database is se",
+    "S:Utilizing the Cypher query language, Neo4j en",
+    "S:It also exhibits superior performance in exec",
+    "S:The knowledge extracted in Section 3.2is inte",
+    "S:Based on the semantic and hierarchical relati",
+    "S:This process facilitates the batch creation o"
    ]
   },
   {
    "lead": "#4. 사례 연구 개요",
    "ko": "- 데이터 출처를 소개하고, OHCF 구성요소의 효과를 검증하는 실험을 한 뒤, DDKG를 구축하고 결함 분석 응용을 보인다",
    "anchors": [
-    "^This section begins by outlining"
+    "S:This section begins by outlining the data sou",
+    "S:Subsequently, ablation experiments are conduc",
+    "S:Finally, the DDKG is established, and its app"
    ]
   },
   {
    "lead": "#4.1 데이터 출처",
    "ko": "- 중국의 댐은 안전 상태에 따라 1~3류로 나뉘며, 위험이 큰 3류 댐의 안전 감정 보고서가 위험 정보의 출처가 된다\n- 데이터는 저수지 운영관리 플랫폼의 기본 속성·수문·지리 데이터와, 2000~2025년 위험 댐 22,076개의 안전 감정 보고서이다",
    "anchors": [
-    "^In China, dam projects are categorized"
+    "S:In China, dam projects are categorized into C",
+    "S:Class III dams, which are characterized by si",
+    "S:The knowledge in the DDKG is derived from two",
+    "S:(1) basic engineering attributes, hydrologica"
    ]
   }
  ],
@@ -296,16 +374,24 @@
    "lead": "#4.1 (이어서)",
    "ko": "- 보고서는 통일된 구조를 가지며, 위험 형태·위험 부위·안전평가 관련 내용이 있는 네 부분(현장 점검, 안전 분석·평가, 주요 문제 요약, 안전평가 결론)을 정규식으로 뽑아 말뭉치로 썼다",
    "anchors": [
-    "^etc.), dam safety analysis"
+    "S:etc.), dam safety analysis and evaluation (su",
+    "S:Using the preprocessing method in Section 3.2"
    ]
   },
   {
    "lead": "#4.2.1 데이터셋 구축 [방법]",
    "ko": "- 수리공학 안전 위험에 대한 공개 학습 데이터셋이 없어 준자동 방식으로 직접 구축했다\n- DeepSeek-V3-671B로 예비 라벨을 붙이고, 전문가가 검증·수정한 뒤, LLM으로 의미는 같고 표현만 다른 문장을 만들어 증강했다\n- 데이터 형식은 지시(역할, 과제, 출력 요구)-입력(보고서 원문)-출력(수정된 라벨, JSON)의 Alpaca 형식이다\n- 120,471개 서술을 기계 라벨링한 뒤 1,200개를 무작위로 골라 전문가가 검증했다 (표 5)",
    "anchors": [
-    "^Currently, there are no publicly",
-    "Fig. 5 illustrates the comprehensive",
-    "A total of 120,471"
+    "S:Currently, there are no publicly available mo",
+    "S:Therefore, this study constructs a domain-spe",
+    "S:DeepSeek-V3-671B was first used to generate p",
+    "S:These labels were then verified and corrected",
+    "S:The dataset structure adopts the Alpaca forma",
+    "S:In this framework, “Input” consists of pre-pr",
+    "S:The “Instruction” is composed of three elemen",
+    "S:A total of 120,471 hazard description samples",
+    "S:Subsequently, 1,200 samples were randomly sel",
+    "S:To further enhance the dataset, the LLM) was "
    ]
   },
   {
@@ -326,9 +412,11 @@
    "lead": "#4.2.2 실험 구성과 평가 지표 [방법]",
    "ko": "- 중국어 텍스트이므로 중국어로 주로 학습된 오픈소스 LLM 6개(DeepSeek-V3-671B, Qwen3-32B, GLM4-32B, Qwen3-14B, GLM4-9B, Qwen3-8B)를 비교했다\n- DeepSeek-V3-671B는 자원 한계로 미세조정하지 않고 기준으로만 사용했다\n- 학습·검증·시험은 7:1:2로 나누고 과적합을 막기 위해 조기 종료를 적용했다\n- 평가는 매크로 평균 정밀도, 재현율, F1으로 했다 (식 12~14)",
    "anchors": [
-    "Given that the tasks in this study",
-    "During fine-tuning, the maximum",
-    "^where TP"
+    "S:Given that the tasks in this study are based ",
+    "S:It should be noted that DeepSeek-V3-671B was ",
+    "S:During fine-tuning, the maximum learning rate",
+    "S:To reduce the risk of overfitting, an early s",
+    "S:The evaluation metrics included macro-average"
    ]
   }
  ],
@@ -337,9 +425,19 @@
    "lead": "#4.2.3 (1) 미세조정 성능 평가 [결과]",
    "ko": "- 모든 모델을 같은 프롬프트와 온도 0으로 평가했다\n- 미세조정 전에는 모델이 클수록 성능이 좋았고, DeepSeek-V3-671B가 가장 좋아 예비 라벨링에 대형 모델을 쓴 것을 뒷받침한다\n- 미세조정 후 F1이 약 26~34%p 올랐고, GLM4-32B가 위험 형태와 위험 부위 분류 모두 90% 가까이로 가장 좋아 이후 실험의 기본 모델로 선택했다\n- 8B~14B 모델은 성능은 낮지만 자원과 비용이 적어 실용적인 선택지이다\n- 위험 형태 분류의 남은 오류는 주로 구조 위험에서 구조 강도 부족과 불안정을 혼동한 것으로, 보고서가 비슷한 표현을 쓰고 원인을 분명히 밝히지 않기 때문이다",
    "anchors": [
-    "The fine-tuning results are shown",
-    "^After fine-tuning, the fine-tuned models",
-    "^Further inspection of the prediction"
+    "S:The fine-tuning results are shown in Fig. 6. ",
+    "S:The temperature parameter was uniformly set t",
+    "S:From the baseline results, the overall recogn",
+    "S:DeepSeek-V3-671B achieves the best baseline p",
+    "S:This result also supports the use of large-pa",
+    "S:After fine-tuning, the fine-tuned models show",
+    "S:Among the tested models, GLM4-32B achieved th",
+    "S:In comparison, the 8B–14B models showed lower",
+    "S:Therefore, in resource-constrained or cost-se",
+    "S:For the subsequent experiments in this study,",
+    "S:Further inspection of the prediction results ",
+    "S:For structural hazards, the models tend to co",
+    "S:This is mainly because these categories are d"
    ]
   },
   {
@@ -353,16 +451,25 @@
    "lead": "#4.2.3 (2) 온도별 성능 평가 [결과]",
    "ko": "- 미세조정한 GLM4-32B와 Qwen3-32B로 온도 0~1.0의 6개 값에서 투표 실험을 했다\n- 한 온도만 쓰면 온도에 따라 성능이 흔들리지만, 여러 온도의 투표 결과는 모든 경우에서 더 높아 한 번의 추론 오류 영향을 줄인다\n- 두 모델을 섞은 투표는 GLM4-32B 단독보다 좋지 않았는데, Qwen3-32B의 오답과 두 모델의 비슷한 혼동 패턴 때문으로 본다",
    "anchors": [
-    "Furthermore, we conducted voting",
-    "^The experimental results show that model",
-    "^In addition, the experiment further"
+    "S:Furthermore, we conducted voting experiments ",
+    "S:In our experiments, six temperature values be",
+    "S:The experimental results show that model perf",
+    "S:Overall, the P, R, and F1 values obtained thr",
+    "S:This indicates that the voting strategy can e",
+    "S:In addition, the experiment further examined ",
+    "S:The results show that the overall performance",
+    "S:A possible reason is that the overall predict",
+    "S:In addition, the two models may have shared s"
    ]
   },
   {
    "lead": "#4.2.3 (3) 제거 실험 [결과]",
    "ko": "- GLM4-32B로 OHCF 구성요소의 기여를 평가했다 (표 6)\n- 미세조정이 성능 향상의 대부분을 차지하고, 투표와 일관성 검사는 추가로 소폭 향상시킨다\n- 전체 OHCF는 위험 형태와 위험 부위 분류 모두 가장 좋으며 모든 지표가 90%를 넘는다",
    "anchors": [
-    "^The ablation study was conducted"
+    "S:The ablation study was conducted based on the",
+    "S:As shown in Table 6, fine-tuning provides the",
+    "S:The voting and consistency checking modules b",
+    "S:Overall, the complete OHCF achieves the best "
    ]
   }
  ],
@@ -385,7 +492,10 @@
    "lead": "#4.3.1 DDKG 구축과 시각화 [결과]",
    "ko": "- 미세조정한 GLM4-32B를 OHCF의 기본 모델로 모든 위험 서술에 적용했다\n- 댐별 데이터를 JSON 파일로 정리해 Python 스크립트로 Neo4j에 일괄 적재했다\n- DDKG는 노드 201,362개, 관계 953,447개이며, 댐마다 여러 제원으로 표현되어 Parameter 노드가 가장 많다",
    "anchors": [
-    "Based on the experimental results, the fine-tuned"
+    "S:Based on the experimental results, the fine-t",
+    "S:The data layer entities associated with each ",
+    "S:In total, the constructed DDKG contained 201,",
+    "S:The number of nodes associated with each top-"
    ]
   },
   {
@@ -399,14 +509,30 @@
    "lead": "#그림 8 설명 (본문)",
    "ko": "- 각 댐은 DDO의 규칙에 따라 속성, 평가, 위험 형태, 위험 부위 노드와 연결되고, 위험 노드는 계층을 따라 상위 분류와 연결된다\n- 서로 다른 댐도 유역, 규모, 댐 형식 같은 공통 노드로 연결되어 군집 분석과 추론의 기반이 된다",
    "anchors": [
-    "^Fig. 8 illustrates the main knowledge"
+    "^Fig. 8 illustrates the main knowledge",
+    "S:Under the semantic constraints defined in the",
+    "S:These entities can be further traced upward a",
+    "S:In addition, engi-555 neering entities can be",
+    "S:For example, two dam instances in Fig. 8 are ",
+    "S:Pearl River Basin”, “Scale:",
+    "S:Small”, and “Dam type:",
+    "S:Homogeneous Earth Dam”.",
+    "S:This interconnected structure provides a robu"
    ]
   },
   {
    "lead": "#4.3.2 다중 제약 검색의 예 [결과]",
    "ko": "- 핵심 노드에 조건을 걸어 특정 조건의 위험 분포를 검색할 수 있다 (그림 9)\n- 양쯔강 유역, 필댐, 중형의 세 조건으로 댐을 좁히고, Dam–exhibitsHazards–HazardForm 관계와 hasSubclass 계층으로 구조 위험과 그 하위 분류만 검색한다",
    "anchors": [
-    "The core function of KGs"
+    "S:By constraining key entity nodes, the DDKG ca",
+    "S:This retrieval involves three fixed constrain",
+    "S:Yangtze River Basin (River_Basin), embankment",
+    "S:These constraints restrict the search scope t",
+    "S:Within the defined sample pool, hazard nodes ",
+    "S:At the same time, constraints on hazard forms",
+    "S:(:HazardForm {node_name:'Structure'})-[:hasSu",
+    "S:HazardForm).",
+    "S:This strictly limits the retrieval to the “St"
    ]
   }
  ],
@@ -415,8 +541,9 @@
    "lead": "#4.3.2 (이어서)",
    "ko": "- DDKG는 흩어진 유역, 댐 형식, 위험 정보를 개체와 관계로 연결된 네트워크로 정리하여, 텍스트 매칭이 아닌 그래프 경로로 다중 조건 검색과 위험 추적을 할 수 있다",
    "anchors": [
-    "^its recursive subclasses",
-    "The DDKG, as a structured"
+    "S:its recursive subclasses.",
+    "S:The DDKG, as a structured knowledge base, org",
+    "S:In this way, complex retrieval and reasoning "
    ]
   },
   {
@@ -437,9 +564,12 @@
    "lead": "#4.4 양쯔강 유역 댐 결함 분석 [결과]",
    "ko": "- 양쯔강 유역 댐을 대상으로 결함 분석과 의사결정 지원에서 DDKG의 활용 가능성을 확인했다\n- C등급(심각한 결함) 안전평가 항목의 발생 빈도와 동시 발생 빈도를 분석했다 (그림 10)\n- C등급은 침투, 구조, 홍수 방어에 집중되며 침투가 가장 많다",
    "anchors": [
-    "^This section takes dam projects",
-    "^In practical engineering, a Grade-C",
-    "From the perspective of individual"
+    "S:This section takes dam projects in the Yangtz",
+    "S:The purpose is to further verify the applicat",
+    "S:In practical engineering, a Grade-C result in",
+    "S:To identify the major safety weaknesses of da",
+    "S:From the perspective of individual safety eva",
+    "S:Among them, seepage safety has the highest Gr"
    ]
   }
  ],
@@ -448,7 +578,10 @@
    "lead": "#4.4 (이어서) [결과]",
    "ko": "- 구조 55.67%, 홍수 방어 48.23%로 C등급 비율이 높아, 장기 운영 중 노후화, 침투 방지 능력 부족, 홍수 방어 능력 부족이 공통 문제임을 보여준다\n- 금속 구조와 내진은 주된 문제가 아니다",
    "anchors": [
-    "^prominent weakness in the safety"
+    "S:prominent weakness in the safety evaluation o",
+    "S:The Grade-C occurrence frequencies of structu",
+    "S:This suggests that dams in the Yangtze River ",
+    "S:In contrast, metal-structure safety defects a"
    ]
   },
   {
@@ -462,10 +595,20 @@
    "lead": "#4.4.1 침투-구조 복합 결함 분석 [결과, 논의]",
    "ko": "- 침투 결함과 구조 결함의 연관이 강해 상위 5개 동시 발생 조합을 뽑았다 (표 8)\n- 도수 암거의 침투 누수와 구조 강도 부족 조합이 가장 많은데, 초기 흙·사력댐의 조적 암거가 주변 성토와 재료가 달라 접촉부에 침투 경로가 생기고 구조가 열화되기 때문이다\n- 기초의 침투 누수는 지지력을 약화시켜 사면 침하와 활동 불안정으로 이어질 수 있고, 부등 침하는 여수로 등에 균열을 일으켜 다시 침투를 유발한다\n- 침투와 구조 결함은 서로를 강화하므로 안전 진단과 보강에서 함께 고려해야 한다",
    "anchors": [
-    "The co-occurrence analysis of Grade-C",
-    "It can be seen that seepage",
-    "^In addition, seepage leakage",
-    "Therefore, seepage anomalies"
+    "S:The co-occurrence analysis of Grade-C safety ",
+    "S:To further identify the specific defect combi",
+    "S:It can be seen that seepage leakage “c(2,2,1)",
+    "S:In early earth-rockfill dams, conveyance culv",
+    "S:Their material properties differ markedly fro",
+    "S:As a result, concentrated seepage paths are l",
+    "S:Long-term seepage erosion may not only weaken",
+    "S:This may reduce structural strength and furth",
+    "S:In addition, seepage leakage c5(2,2,1) in dam",
+    "S:Long-term foundation seepage may cause soil l",
+    "S:This process may induce excessive settlement ",
+    "S:Meanwhile, uneven settlement of the dam body ",
+    "S:These results indicate that seepage and struc",
+    "S:Therefore, safety diagnosis and reinforcement"
    ]
   },
   {
@@ -479,13 +622,16 @@
    "lead": "#4.4.2 필댐의 홍수 방어 위험 분석 [결과, 논의]",
    "ko": "- 필댐은 홍수 방어 능력이 부족하면 월류 위험이 커진다\n- 양쯔강 유역 필댐의 규모별 홍수 방어 위험 빈도를 식 (15)로 계산했다 (그림 11)\n- 가장 중대한 위험은 차수 구조물 여유고 부족과 방류 능력 위험이며, 세부적으로는 댐 마루 표고 부족과 여수로 방류 능력 부족이 가장 많다\n- 소형 댐은 과거의 낮은 기준과 투자 부족으로 설계 홍수 기준 부족과 마루 표고 부족이 많다\n- 방류 능력 부족은 홍수 압력이 크고 방류 체계가 복잡한 대형 댐일수록 많다\n- 소형 댐은 오랫동안 비어 있던 저수지가 많아 홍수 방어 시설 누락이 심각하다",
    "anchors": [
-    "Flood control and disaster mitigation",
-    "Fig. 11 depicts the frequency",
-    "^Overall",
-    "Small-scale projects are more",
-    "^The occurrence frequency of",
-    "In small projects, although",
-    "^where λ"
+    "S:For embankment dams, insufficient floodcontro",
+    "S:Fig. 11depicts the frequency distribution of ",
+    "S:The occurrence frequency of each flood contro",
+    "S:Overall, “c(1,2) Insufficient freeboard of wa",
+    "S:Within these categories, “c(1,2,1) Insufficie",
+    "S:Small-scale projects are more prone than medi",
+    "S:The occurrence frequency of “c(1,3,2) Insuffi",
+    "S:Compared with small-scale projects, medium- a",
+    "S:In small projects, although insufficient disc",
+    "S:This is mainly because some small reservoirs "
    ]
   }
  ],
@@ -494,8 +640,12 @@
    "lead": "#4.4.2 (이어서) [논의]",
    "ko": "- 방치된 방류 시설은 홍수 시 물을 제때 내보내지 못해 월류나 붕괴로 이어질 수 있어 위험을 간과하면 안 된다\n- DDKG로 유역, 댐 형식, 규모, 위험 유형, 부위별로 위험 정보를 검색·비교할 수 있어 지역 댐 안전 분석과 의사결정을 지원할 수 있다",
    "anchors": [
-    "^such conditions, their original",
-    "In summary, the DDKG provides"
+    "S:Although these reservoirs may currently have ",
+    "S:Once a flood event occurs, the reservoir may ",
+    "S:In the absence of functional flood release fa",
+    "S:In summary, the DDKG provides a structured ba",
+    "S:The Yangtze River Basin case study shows that",
+    "S:This demonstrates the potential of the DDKG t"
    ]
   },
   {
@@ -507,20 +657,33 @@
   },
   {
    "lead": "#5. 결론 [목표, 차이]",
-   "ko": "- 비정형 텍스트가 충분히 활용되지 않는 문제와 범용 LLM의 전문 분야 적응 문제를 해결하기 위해, 도메인 온톨로지와 LLM을 결합한 KG 구축 방법을 제안했다"
+   "ko": "- 비정형 텍스트가 충분히 활용되지 않는 문제와 범용 LLM의 전문 분야 적응 문제를 해결하기 위해, 도메인 온톨로지와 LLM을 결합한 KG 구축 방법을 제안했다",
+   "anchors": [
+    "S:To address the underutilization of unstructur"
+   ]
   },
   {
    "lead": "#주요 기여",
    "ko": "1. 위험 형태와 위험 부위를 세분화한 댐 결함 온톨로지(DDO)를 개발했다\n2. 미세조정, 온도 교란 투표, 온톨로지 제약 검사, 전문가 검증을 결합한 OHCF로 위험 분류의 신뢰성을 높였다\n3. 22,076개 댐의 보고서로 DDKG를 구축하고 다중 조건 검색과 지역 위험 분석에 활용할 수 있음을 보였다",
    "anchors": [
-    "To address the underutilization"
+    "S:(1) A dam defects ontology (DDO) was develope",
+    "S:In particular, the classes of hazard forms an",
+    "S:(2) An Ontology-guided Hazard Classification ",
+    "S:By integrating fine-tuning, temperature-pertu",
+    "S:(3) Based on the proposed method, a dam defec",
+    "S:The case study shows that the DDKG can suppor"
    ]
   },
   {
    "lead": "#한계와 향후 연구 [논의]",
    "ko": "1. 활용이 단일 지역 분석에 그쳐, 더 세밀한 공간 단위와 개별 댐 단위 분석으로 확장할 예정이다\n2. 과거 보고서로 만든 정적 지식 베이스라, 시간 데이터와 자동 갱신을 도입해 동적인 시스템으로 바꿀 예정이다\n3. 지식 추출은 평가했지만 구축된 KG 자체는 아직 체계적으로 평가하지 않아, 구조, 완전성, 일관성, 실질적 효과를 검토할 예정이다",
    "anchors": [
-    "Despite these contributions"
+    "S:(1) The application of the DDKG in this study",
+    "S:Future research will further expand its appli",
+    "S:(2) At present, the DDKG is a static knowledg",
+    "S:Future work to transform the DDKG into a dyna",
+    "S:(3) Although this study evaluates hazard know",
+    "S:Future research will examine its structural p"
    ]
   }
  ]
