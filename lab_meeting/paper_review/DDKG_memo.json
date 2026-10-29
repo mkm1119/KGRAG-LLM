@@ -102,7 +102,8 @@
    "lead": "#온톨로지의 구조: DDO = 〈C, P, H〉 (식 1)",
    "ko": "- DDO의 구조는 식 (1)의 삼항 형식으로 나타낼 수 있다\n- C: 최상위 클래스의 집합\n- P: 객체 속성의 집합, pij는 방향이 있는 관계 ci→cj\n- H: 각 최상위 클래스 아래 모든 하위 클래스의 집합\n- ci(j1,…,jk)는 경로 색인 순서열 (예: c3(2,1)은 최상위 클래스 c3의 두 번째 하위 클래스의 첫 번째 자식)",
    "anchors": [
-    "^The structure of the DDO can be represented"
+    "^The structure of the DDO can be represented",
+    "^where C="
    ]
   },
   {
@@ -155,7 +156,8 @@
    "anchors": [
     "The China Reservoir Operation",
     "^In contrast, the data corresponding",
-    "^For a given unstructured text"
+    "^For a given unstructured text",
+    "^T={D"
    ]
   }
  ],
@@ -202,7 +204,9 @@
    "lead": "#3.2.3 (이어서) 위험 서술 조각 추출과 분할 [방법]",
    "ko": "1. 추출 프롬프트 P1로 입력 보고서 텍스트 T에서 위험 관련 서술 조각을 식별\n  - 이 단계의 결과는 원문에서 직접 추출한 서술 조각이며, 한 문장에 여러 위험 형태와 위험 부위의 조합이 동시에 포함되는 중첩 표현이 많아 이후 분류에 장애가 됨\n2. 서술 분할 프롬프트 P2로 복잡한 위험 표현을 의미가 더 명확하고 구조가 더 단일한 위험 서술 단위로 분해 (그림 4)\n- 식 (3): T →(P1) H = {h1,…,hm} →(P2) E = {e1,…,en}\n  - hi: 원문에서 추출한 위험 관련 서술 조각, ei: 분할 후 얻은 위험 서술 단위\n- 인스턴스 수준의 관찰에 따르면 범용 LLM은 과제 특화 학습 없이 프롬프트만으로 두 과제를 비교적 안정적으로 수행",
    "anchors": [
-    "^descriptions. Accordingly, given"
+    "^descriptions. Accordingly, given",
+    "denotes a hazard-related descriptive fragment",
+    "^T→"
    ]
   },
   {
@@ -233,7 +237,8 @@
    "ko": "- 제한된 계산 자원에서 세밀한 분류 능력을 높이기 위해 LoRA로 경량 LLM을 미세조정하여 위험 서술 단위와 온톨로지 라벨 사이의 의미적 대응을 학습\n- LoRA: 대형 모델 미세조정을 위한 효율적인 파라미터 적응 방법으로, 소수의 파라미터만 갱신\n  - 원래 가중치 행렬 W0를 고정하고 증분 행렬 ΔW만 갱신하며, ΔW는 두 작은 행렬 A와 B로 분해 (식 4)\n  - 출력 h = W0x + ΔWx = W0x + BAx (식 5)\n- 미세조정 후 모델은 후보 개체 ei에 대해 표준화된 라벨 (sf, sc)를 생성하는 함수 fθ*로 기술 (식 6)",
    "anchors": [
     "^adopted to fine-tune a lightweight",
-    "^LoRA is an efficient"
+    "^LoRA is an efficient",
+    "^After fine-tuning, the functionality"
    ]
   },
   {
@@ -241,7 +246,9 @@
    "ko": "- 생성 모델에서 한 번의 추론 결과가 반드시 전역 최적 해는 아니므로, 오분류 확률을 줄이기 위해 투표 메커니즘 도입\n1. 위험 서술 개체 ei에 대해 서로 다른 n개의 온도 T = {τ1,…,τn}로 n번 독립 추론\n2. 각 후보 라벨이 나타난 빈도를 득표수로 셈\n3. 다수결 원칙에 따라 가장 많은 표를 받은 라벨을 최종 분류 결과 L*i로 선택 (식 7~9)\n- 분류 라벨을 내지 못하거나 동점인 샘플은 \"False\"로 표시하고 d단계로 넘김",
    "anchors": [
     "^b) Temperature-perturbed voting",
-    "^For generative models, the result"
+    "^For generative models, the result",
+    "^where s",
+    "For samples where the model fails"
    ]
   },
   {
@@ -249,7 +256,8 @@
    "ko": "- 투표 후에도 명백히 일관되지 않은 라벨 쌍이 생성될 수 있음\n  - 예: \"the existing wave wall crest elevation is insufficient\" → (c5(1,2,1) Insufficient water-retaining elevation, c6(1,2,1) Dam impervious body)는 공학 지식과 맞지 않음\n1. DDO 계층과 공학 지식에 따라 명백히 양립할 수 없는 c5와 c6 라벨 쌍을 제약 충돌 집합 A로 기록 (식 10)\n2. 일관성 검사 함수 V: 분류 결과 (s*f, s*c)가 A에 속하면 False, 속하지 않으면 True (식 11)\n3. True인 샘플은 수용, False인 샘플은 d단계로 넘김",
    "anchors": [
     "c) Ontology-constraint consistency",
-    "^To further improve the reliability"
+    "^To further improve the reliability",
+    "^Entity samples for which"
    ]
   },
   {
@@ -319,7 +327,8 @@
    "ko": "- 중국어 공학 텍스트 과제이므로 주로 중국어 말뭉치로 학습된 오픈소스 LLM 선택: DeepSeek-V3-671B, Qwen3-32B, GLM4-32B, Qwen3-14B, GLM4-9B, Qwen3-8B\n- H800 80 GB GPU 8개, Python 3.10, CUDA 12.6, LLaMA-Factory로 미세조정, 양자화 미적용\n- DeepSeek-V3-671B는 계산 자원과 데이터셋 규모의 한계로 미세조정하지 않고 기준 참고용으로만 사용\n- 최대 학습률 5×10^-4, 에폭 7, 학습·검증·시험 7:1:2, 조기 종료(검증 손실이 여러 에폭 계속 증가하면 종료)\n- \"False\"는 대상 개체가 식별되지 않은 출력 없음으로 간주\n- 평가 지표: 매크로 평균 정밀도 Pmacro, 재현율 Rmacro, F1macro (식 12~14)\n  - TPi: 실제 라벨이 i이고 올바르게 예측한 수, FPi: 실제 라벨이 다른 클래스인데 i로 예측한 수, FNi: 실제 라벨이 i인데 다른 클래스로 예측한 수",
    "anchors": [
     "Given that the tasks in this study",
-    "During fine-tuning, the maximum"
+    "During fine-tuning, the maximum",
+    "^where TP"
    ]
   }
  ],
@@ -475,7 +484,8 @@
     "^Overall",
     "Small-scale projects are more",
     "^The occurrence frequency of",
-    "In small projects, although"
+    "In small projects, although",
+    "^where λ"
    ]
   }
  ],
