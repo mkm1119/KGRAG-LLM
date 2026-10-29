@@ -4,7 +4,7 @@
 원문 페이지 내용(글자·그림·링크)은 그대로 두고, 증분 저장(incremental update)으로 페이지 크기와 내용 스트림만 덧붙인다.
 그래서 원문 글자를 그대로 선택·형광펜 칠할 수 있다. 분류 방식: 고전 xref 표를 쓰는 PDF(목적 문서: DDKG)만 지원.
 
-사용: python3 build_paper_review_pdf.py <원문.pdf> <해석.json> <출력.pdf>
+사용: python3 build_paper_review_pdf.py <원문.pdf> <해석.json | -> <출력.pdf>   ('-'이면 해석 칸 없이 메모 칸만)
 해석.json: {"1": [{"lead": "원문 문단 첫머리", "ko": "해석"}, ...], "2": [...]}  (lead가 "#"로 시작하면 소제목 줄)
 """
 import json, re, struct, sys, zlib
@@ -138,7 +138,11 @@ def wrap(font, text, size, width):
 # ---------------------------------------------------------------- PDF 증분 저장
 def main(src, tjson, dst):
     b = open(src, 'rb').read()
-    tr = json.load(open(tjson, encoding='utf-8'))
+    global TRANS_W, MEMO_W
+    if tjson == '-':
+        tr, TRANS_W, MEMO_W = {}, 0.0, 360.0
+    else:
+        tr = json.load(open(tjson, encoding='utf-8'))
     objs = {}
     for m in re.finditer(rb'(?<![\d])(\d+)\s+0\s+obj\b(.*?)endobj', b, re.S):
         objs[int(m.group(1))] = m.group(2)
@@ -228,10 +232,12 @@ def main(src, tjson, dst):
             overflow.append(pi)
         c = []
         c.append(b'q 1 1 1 rg %.2f 0 %.2f %.2f re f Q' % (W, TRANS_W + MEMO_W, H))
-        c.append(b'q 0.97 0.975 0.985 rg %.2f 0 %.2f %.2f re f Q' % (W, TRANS_W, H))
-        c.append(b'q 0.55 0.55 0.6 RG 0.6 w %.2f 0 m %.2f %.2f l S %.2f 0 m %.2f %.2f l S Q' % (W, W, H, X2, X2, H))
+        c.append(b'q 0.55 0.55 0.6 RG 0.6 w %.2f 0 m %.2f %.2f l S Q' % (W, W, H))
         y = H - 26
-        c.append(b'BT /FKR 8.5 Tf 0.12 0.23 0.37 rg %.2f %.2f Td %s ET' % (X1, y, tj('해석 (p.%d)' % pi)))
+        if TRANS_W:
+            c.append(b'q 0.97 0.975 0.985 rg %.2f 0 %.2f %.2f re f Q' % (W, TRANS_W, H))
+            c.append(b'q 0.55 0.55 0.6 RG 0.6 w %.2f 0 m %.2f %.2f l S Q' % (X2, X2, H))
+            c.append(b'BT /FKR 8.5 Tf 0.12 0.23 0.37 rg %.2f %.2f Td %s ET' % (X1, y, tj('해석 (p.%d)' % pi)))
         c.append(b'BT /FKR 8.5 Tf 0.12 0.23 0.37 rg %.2f %.2f Td %s ET' % (X2 + PAD, y, tj('메모')))
         y -= 16
         for kind, L, s in blocks:
