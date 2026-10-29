@@ -4,7 +4,7 @@
 원문 페이지 내용(글자·그림·링크)은 그대로 두고, 증분 저장(incremental update)으로 페이지 크기와 내용 스트림만 덧붙인다.
 그래서 원문 글자를 그대로 선택·형광펜 칠할 수 있다. 분류 방식: 고전 xref 표를 쓰는 PDF(목적 문서: DDKG)만 지원.
 
-사용: python3 build_paper_review_pdf.py <원문.pdf> <해석.json | -> <출력.pdf>   ('-'이면 해석 칸 없이 메모 칸만)
+사용: python3 build_paper_review_pdf.py <원문.pdf> <해석.json | -> <출력.pdf> [memo]   ('-'이면 빈 메모 칸만, memo이면 json 내용을 메모 칸에 씀)
 해석.json: {"1": [{"lead": "원문 문단 첫머리", "ko": "해석"}, ...], "2": [...]}  (lead가 "#"로 시작하면 소제목 줄)
 """
 import json, re, struct, sys, zlib
@@ -135,11 +135,33 @@ def wrap(font, text, size, width):
     return lines
 
 
+def wrap_ind(font, text, size, width):
+    """메모용: 줄 앞 공백은 들여쓰기, '- '·'1. ' 같은 글머리는 내어쓰기로 처리. [(x 이동, 줄)] 반환."""
+    out = []
+    for para in text.split('\n'):
+        n = len(para) - len(para.lstrip(' '))
+        body = para.strip()
+        ind = n * 4.0
+        m = re.match(r'(- |· |\d+\. |[①-⑩] )', body)
+        hang = font.width(m.group(1), size) if m else 0
+        lines = wrap(font, body, size, width - ind) if not hang else None
+        if hang:
+            first = wrap(font, body, size, width - ind)
+            lines = [first[0]] + wrap(font, body[len(first[0]):].strip(), size, width - ind - hang) if len(first) > 1 else first
+            out += [(ind + (hang if i else 0), l) for i, l in enumerate(lines)]
+        else:
+            out += [(ind, l) for l in lines]
+    return out
+
+
 # ---------------------------------------------------------------- PDF 증분 저장
-def main(src, tjson, dst):
+def main(src, tjson, dst, mode='review'):
     b = open(src, 'rb').read()
     global TRANS_W, MEMO_W
-    if tjson == '-':
+    memo = mode == 'memo'
+    if memo:                      # 메모 칸에 메모 내용을 써 넣음(해석 칸 없음)
+        tr, TRANS_W, MEMO_W = json.load(open(tjson, encoding='utf-8')), 0.0, 420.0
+    elif tjson == '-':
         tr, TRANS_W, MEMO_W = {}, 0.0, 360.0
     else:
         tr = json.load(open(tjson, encoding='utf-8'))
@@ -207,24 +229,26 @@ def main(src, tjson, dst):
         d = objs[pn]
         mb = [float(x) for x in re.search(rb'/MediaBox\s*\[([^\]]*)\]', d).group(1).split()]
         x0, y0, W, H = mb
-        X1 = W + PAD                       # 해석 칸 시작
+        X1 = W + PAD if not memo else W + PAD   # 글을 쓰는 칸 시작
         X2 = W + TRANS_W                   # 메모 칸 시작
         WT = W + TRANS_W + MEMO_W
         entries = tr.get(str(pi), [])
         # 글자 크기를 줄여 가며 한 페이지에 맞춤
-        for size in (7.6, 7.2, 6.8, 6.4, 6.0, 5.6, 5.2):
+        TW = (MEMO_W if memo else TRANS_W) - 2 * PAD
+        WR = (lambda t, sz, w: wrap_ind(font, t, sz, w)) if memo else (lambda t, sz, w: [(0, l) for l in wrap(font, t, sz, w)])
+        for size in (7.6, 7.2, 6.8, 6.4, 6.0, 5.6, 5.2, 4.8):
             lead_size = size - 0.8; lh = size * 1.38
             blocks = []
             for e in entries:
                 lead = e.get('lead', '')
                 if lead.startswith('#'):
-                    blocks.append(('h', wrap(font, lead[1:].strip(), size + 0.6, TRANS_W - 2 * PAD), size + 0.6))
+                    blocks.append(('h', WR(lead[1:].strip(), size + 0.6, TW), size + 0.6))
                     if e['ko']:
-                        blocks.append(('k', wrap(font, e['ko'], size, TRANS_W - 2 * PAD), size))
+                        blocks.append(('k', WR(e['ko'], size, TW), size))
                     continue
                 if lead:
-                    blocks.append(('l', wrap(font, '¶ ' + lead, lead_size, TRANS_W - 2 * PAD), lead_size))
-                blocks.append(('k', wrap(font, e['ko'], size, TRANS_W - 2 * PAD), size))
+                    blocks.append(('l', WR('¶ ' + lead, lead_size, TW), lead_size))
+                blocks.append(('k', WR(e['ko'], size, TW), size))
             need = sum(len(L) * s * 1.38 + (3.5 if k == 'k' else 1.5 if k == 'l' else 3) for k, L, s in blocks)
             if need <= H - 62:
                 break
@@ -238,13 +262,13 @@ def main(src, tjson, dst):
             c.append(b'q 0.97 0.975 0.985 rg %.2f 0 %.2f %.2f re f Q' % (W, TRANS_W, H))
             c.append(b'q 0.55 0.55 0.6 RG 0.6 w %.2f 0 m %.2f %.2f l S Q' % (X2, X2, H))
             c.append(b'BT /FKR 8.5 Tf 0.12 0.23 0.37 rg %.2f %.2f Td %s ET' % (X1, y, tj('해석 (p.%d)' % pi)))
-        c.append(b'BT /FKR 8.5 Tf 0.12 0.23 0.37 rg %.2f %.2f Td %s ET' % (X2 + PAD, y, tj('메모')))
+        c.append(b'BT /FKR 8.5 Tf 0.12 0.23 0.37 rg %.2f %.2f Td %s ET' % (X2 + PAD, y, tj('메모' + (' (p.%d)' % pi if memo else ''))))
         y -= 16
         for kind, L, s in blocks:
             col = {'h': b'0.12 0.23 0.37', 'l': b'0.45 0.45 0.5', 'k': b'0.1 0.1 0.1'}[kind]
-            for line in L:
+            for dx, line in L:
                 y -= s * 1.38
-                c.append(b'BT /FKR %.2f Tf %s rg %.2f %.2f Td %s ET' % (s, col, X1, y, tj(line)))
+                c.append(b'BT /FKR %.2f Tf %s rg %.2f %.2f Td %s ET' % (s, col, X1 + dx, y, tj(line)))
             y -= 3.5 if kind == 'k' else 1.5 if kind == 'l' else 3
         cs = add(stream(b'', b'\n'.join(c)))
         # 페이지 사전 고치기
@@ -326,4 +350,4 @@ def matching(s, i):
 
 
 if __name__ == '__main__':
-    main(*sys.argv[1:4])
+    main(*sys.argv[1:5])
