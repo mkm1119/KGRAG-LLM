@@ -163,22 +163,29 @@ def norm(t):
 
 
 def anchor_finder(src, W):
-    """페이지별로 열(왼쪽·오른쪽)마다 줄을 이어 붙여 두고, 문구가 시작하는 줄의 위치를 찾는다."""
+    """문구가 시작하는 줄을 찾고, 그 문단이 끝나는 곳까지 형광펜 칠할 사각형들을 만든다.
+    문단의 끝: 다음 줄이 들여쓰기되었거나(새 문단), 줄 간격이 크게 벌어지거나(제목·그림), 글자 크기가 바뀌는 곳.
+    왼쪽 열 끝까지 이어지면 오른쪽 열 맨 위에서 계속한다."""
     from pdf_text_extract2 import PDF
     from pdf_text_positions import lines
     pdf = PDF(src); pages = pdf.pages()
+    COLS = ((37.6, 289.0), (306.6, 557.7))
+
+    def colof(x):
+        return 0 if x < W / 2 - 10 else 1
 
     def find(pi, phrase):
         start = phrase.startswith('^'); ph = norm(phrase.lstrip('^'))
-        ls = lines(pdf, pages[pi - 1])
+        ls = [l for l in lines(pdf, pages[pi - 1]) if l[1] < 745]          # 머리말(저자·학술지명) 제외
         full = []                                  # 열을 무시하고 같은 높이의 줄을 합친 것(가운데 정렬된 그림 제목 등)
         for l in sorted(ls, key=lambda l: (-round(l[1]), l[0])):
             if full and abs(full[-1][1] - l[1]) < 2:
                 full[-1] = (full[-1][0], full[-1][1], full[-1][2], full[-1][3] + l[3])
             else:
                 full.append(tuple(l))
+        bycol = [sorted([l for l in ls if colof(l[0]) == c], key=lambda l: -l[1]) for c in (0, 1)]
         for col in (0, 1, 2):
-            cl = full if col == 2 else sorted([l for l in ls if (l[0] >= W / 2 - 10) == bool(col)], key=lambda l: -l[1])
+            cl = full if col == 2 else bycol[col]
             text, offs = '', []
             for l in cl:
                 offs.append(len(text)); text += norm(l[3])
@@ -186,9 +193,67 @@ def anchor_finder(src, W):
             while k >= 0:
                 if not start or k in offs:
                     j = max(i for i, o in enumerate(offs) if o <= k)
-                    return cl[j]
+                    line = cl[j]
+                    if col == 2:                   # 두 열에 걸친 줄(초록, 그림 제목): 같은 왼쪽 끝으로 이어지는 줄까지
+                        rows = [l for l in full if l[2] >= 6.6]
+                        k0 = next(i for i, l in enumerate(rows) if l[1] <= line[1] + 0.5)
+                        seq = [rows[k0]]
+                        for l in rows[k0 + 1:]:
+                            if abs(l[0] - line[0]) > 6 or seq[-1][1] - l[1] > l[2] * 2.0 or abs(l[2] - seq[-1][2]) > 0.5:
+                                break
+                            seq.append(l)
+                        frac = (k - offs[j]) / max(1, len(norm(line[3])))
+                        R0 = 557.7
+                        rects = []
+                        for n, l in enumerate(seq):
+                            x0 = l[0] + (frac * (R0 - l[0]) if n == 0 else 0)
+                            x1 = min(R0, l[0] + len(l[3]) * l[2] * 0.53) if n == len(seq) - 1 else R0   # 그림 제목은 띄어쓰기가 빠져 뽑히므로 넉넉히
+                            rects.append((x0 - 1, l[1] - l[2] * 0.25, max(x0 + 4, x1 + 1), l[1] + l[2] * 0.85))
+                        return line, rects
+                    frac = (k - offs[j]) / max(1, len(norm(line[3])))
+                    return line, span(bycol, col, line, frac)
                 k = text.find(ph, k + 1)
         return None
+
+    def span(bycol, col, first, frac):
+        body = [[l for l in bycol[c] if l[2] >= 6.6] for c in (0, 1)]
+        seq = []                                   # (열, 줄)
+        c = col
+        rows = body[c]
+        k = next(i for i, l in enumerate(rows) if l[1] <= first[1] + 0.5)
+        prev = None
+        while True:
+            if k >= len(rows):
+                if c == 0 and body[1] and prev is not None and prev[2] >= 7.6:   # 왼쪽 열 끝 → 오른쪽 열 맨 위로(본문일 때만)
+                    c, rows = 1, body[1]
+                    # 오른쪽 열에서 같은 크기 본문의 첫 줄부터(그 위의 그림 글자는 건너뜀)
+                    k = next((i for i, r in enumerate(rows) if abs(r[2] - prev[2]) < 0.3 and COLS[1][0] - 1 <= r[0] <= COLS[1][0] + 13), len(rows))
+                    if k >= len(rows) or rows[k][0] > COLS[1][0] + 6:  # 오른쪽 열이 새 문단으로 시작하면 끝
+                        break
+                    prev = None
+                    continue
+                break
+            l = rows[k]
+            if prev is not None:
+                L0 = COLS[c][0]
+                if l[0] > L0 + 6 or prev[1] - l[1] > prev[2] * 2.0 or abs(l[2] - prev[2]) > 0.5:
+                    # 왼쪽 열에서 끊겼는데 그 아래에 같은 크기의 본문 줄이 더 없으면(그림·표·각주뿐) 오른쪽 열로 이어진다
+                    rest = rows[k:]
+                    bodylike = [r for r in rest if abs(r[2] - prev[2]) < 0.3 and L0 - 1 <= r[0] <= L0 + 13]
+                    if c == 0 and not bodylike and prev[2] >= 7.6 and l[0] <= L0 + 6 and body[1]:
+                        k = len(rows); continue
+                    if c == 0 and not bodylike and prev[2] >= 7.6 and body[1]:
+                        k = len(rows); continue
+                    break
+            seq.append((c, l)); prev = l; k += 1
+        rects = []
+        for n, (c, l) in enumerate(seq):
+            L0, R0 = COLS[c]
+            last = n == len(seq) - 1
+            x0 = l[0] + (frac * (R0 - l[0]) if n == 0 else 0)
+            x1 = min(R0, l[0] + len(l[3]) * l[2] * 0.47) if last else R0
+            rects.append((x0 - 1, l[1] - l[2] * 0.25, max(x0 + 4, x1 + 1), l[1] + l[2] * 0.85))
+        return rects
     return find
 
 
@@ -325,6 +390,7 @@ def main(src, tjson, dst, mode='review'):
                 y -= s * 1.38
                 c.append(b'BT /FKR %.2f Tf %s rg %.2f %.2f Td %s ET' % (s, col, X1 + dx, y, tj(line)))
             y -= 3.5 if kind == 'k' else 1.5 if kind == 'l' else 3
+        hl = []                                # 원문 아래에 깔 형광펜(글자보다 먼저 그림)
         for e in entries:                      # 원문 쪽에 같은 번호 표시
             if not e.get('_n'):
                 continue
@@ -333,7 +399,9 @@ def main(src, tjson, dst, mode='review'):
                 hit = finder(pi, a)
                 if not hit:
                     missing.append((pi, a)); continue
-                lx, ly, lsz, _ = hit
+                (lx, ly, lsz, _), rects = hit
+                tint = tuple(1 - 0.30 * (1 - v) for v in (r_, g_, b_))
+                hl.append(b'%.3f %.3f %.3f rg ' % tint + b' '.join(b'%.2f %.2f %.2f %.2f re' % (x0, y0, x1 - x0, y1 - y0) for x0, y0, x1, y1 in rects) + b' f')
                 cx, cy = lx - 7.5, ly + lsz * 0.35
                 c.append(b'q %.2f %.2f %.2f rg %s Q' % (r_, g_, b_, circle(cx, cy, 5.0)))
                 c.append(b'BT /FKR 6.0 Tf 1 1 1 rg %.2f %.2f Td %s ET' % (cx - font.width(str(e['_n']), 6.0) / 2, cy - 2.0, tj(str(e['_n']))))
@@ -344,7 +412,8 @@ def main(src, tjson, dst, mode='review'):
             nd = re.sub(box + rb'\s*\[[^\]]*\]', box + b' [%g %g %.3f %g]' % (x0, y0, WT, H), nd)
         cm = re.search(rb'/Contents\s*(\[[^\]]*\]|\d+ 0 R)', nd)
         inner = cm.group(1)[1:-1] if cm.group(1).startswith(b'[') else cm.group(1)
-        nd = nd[:cm.start()] + b'/Contents [%d 0 R %s %d 0 R %d 0 R]' % (qs, inner.strip(), Qs, cs) + nd[cm.end():]
+        pre = (b'%d 0 R ' % add(stream(b'', b'q ' + b'\n'.join(hl) + b' Q'))) if hl else b''
+        nd = nd[:cm.start()] + b'/Contents [%s%d 0 R %s %d 0 R %d 0 R]' % (pre, qs, inner.strip(), Qs, cs) + nd[cm.end():]
         rm = re.search(rb'/Resources\s*(\d+) 0 R', nd)
         if rm:                                   # 참조된 자원 사전은 복사해서 고친다
             res = objs[int(rm.group(1))].strip()

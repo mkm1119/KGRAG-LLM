@@ -71,7 +71,7 @@ def lines(pdf, pn, tol=2.0, mid=297.6):
     rs = sorted(runs(pdf, pn), key=lambda r: (-round(r[1]), r[0]))
     out = []
     for x, y, s, t in rs:
-        if out and abs(out[-1][1] - y) < tol and x - out[-1][4] < 30 and x >= out[-1][0] and (x >= mid) == (out[-1][0] >= mid):
+        if out and abs(out[-1][1] - y) < tol and x >= out[-1][0] and (x >= mid) == (out[-1][0] >= mid):
             out[-1][3] += t; out[-1][4] = x + len(t) * s * 0.45
         else:
             out.append([x, y, s, t, x + len(t) * s * 0.45])
