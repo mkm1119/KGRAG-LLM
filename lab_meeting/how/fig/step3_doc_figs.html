@@ -153,23 +153,23 @@ table.t tr.dim td{color:#999}
  .cap6 span{font-weight:normal;color:#666}
  </style>
  <div class="g6">
-  <div><div class="cap6">Entity 표 <span>한 줄 = Entity 하나 (일부 열)</span></div>
+  <div><div class="cap6">kgv4_entities.csv <span>한 줄 = Entity 하나 (일부 열)</span></div>
    <table class="mt"><tr><th>Entity ID</th><th>Class</th></tr><tr><td>APR:504</td><td>Approval</td></tr></table></div>
   <div class="ar">→</div>
   <div style="grid-row:span 3">
    <div style="border:2.5px solid #23907F;border-radius:12px;background:#E8F5F2;padding:10px 12px;font-size:14.5px">
-    <div style="font-size:13px;color:#555">세 표의 줄을 Entity ID로 모은 모습</div>
+    <div style="font-size:13px;color:#555">CSV 3개의 줄을 Entity ID로 모은 모습</div>
     <div style="margin:4px 0 6px;font-size:18px;font-weight:bold">APR:504 <span class="tag" style="background:#23907F;font-size:14px">Approval</span></div>
     approvalTime = 2011-06-27 <span class="note">(날짜)</span><br>approvalContent = "방류시작 2011-06-27 18:00; 접수방류량 2000㎥/s; 비고: (실제방류는 20시부터)" <span class="note">(글자)</span>
     <div style="margin-top:8px;border-top:1px dashed #9cc;padding-top:6px;font-size:13.5px;color:#444">출처: approval_records_clean.csv 504번째 행 · 규칙 MR-APR · 원본 값 그대로</div>
    </div>
   </div>
-  <div><div class="cap6">속성 표 <span>한 줄 = Entity의 속성 하나</span></div>
+  <div><div class="cap6">kgv4_properties.csv <span>한 줄 = Entity의 속성 하나</span></div>
    <table class="mt"><tr><th>Entity ID</th><th>속성</th><th>값</th><th>자료형</th></tr>
    <tr><td>APR:504</td><td>approvalTime</td><td>2011-06-27</td><td>날짜</td></tr>
    <tr><td>APR:504</td><td>approvalContent</td><td>방류시작 2011-06-27 18:00; 접수방류량 2000㎥/s; 비고: (실제방류는 20시부터)</td><td>글자</td></tr></table></div>
   <div class="ar">→</div>
-  <div><div class="cap6">출처 표 <span>한 줄 = Entity의 출처 하나</span></div>
+  <div><div class="cap6">kgv4_provenance.csv <span>한 줄 = Entity의 출처 하나</span></div>
    <table class="mt"><tr><th>Entity ID</th><th>원본 파일</th><th>위치</th><th>규칙</th><th>값의 성격</th></tr>
    <tr><td>APR:504</td><td>approval_records_clean.csv</td><td>504번째 행</td><td>MR-APR</td><td>원본 그대로</td></tr></table></div>
   <div class="ar">→</div>

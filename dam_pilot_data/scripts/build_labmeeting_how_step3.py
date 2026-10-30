@@ -93,7 +93,7 @@ add(table([
      '논문(Zhou 외 2023) · 온톨로지(OntoDSMS) · 연결 도구(D2RQ)를 구분. 벤치마킹 대상 = D2RQ의 매핑 원리'],
     ['문헌의 방법', '표 → Class, 열 → 속성, 행 → 개체 (대응 원칙만)', '원리 4개와 각 원리의 예: 키 값으로 식별자, 표 → Class, 열 → 속성, 대응은 사람이 결정'],
     ['우리 구현', 'Class별 결과 예시 표', '한 행을 따라가는 과정 5개와 과정별 결과'],
-    ['결과', '예시 값만', '결과 표 3개를 모은 Entity의 모습(그림 5), 단계 3이 끝난 상태(그림 8)'],
+    ['결과', '예시 값만', '결과물이 CSV 파일 3개임을 밝히고 파일 안의 실제 줄을 보임, 그것을 모은 Entity(그림 5), 단계 3이 끝난 상태(그림 8)'],
     ['검토할 점', '없음', 'approvalContent에 세 열이 합쳐짐, ID 접두어 표기'],
     ['10/19 질문', '—', '매핑이 어떻게 작동하나 → 3장 · 댐 기본 자료 → 3.3 · AP와 APR → 과정 4, 4장'],
 ], [1700, 3700, 4572]))
@@ -149,7 +149,7 @@ lis('승인 표에서 만든 APR: ID 80개는 모두 Approval Class의 Entity로
     'EVI:AP: ID 80개는 모두 EvidenceSource Class의 Entity로 기록한다.')
 add(fig('step3_doc_f2'))
 add(caption('그림 2. Class 지정'))
-add(para('결과: Entity 표 (한 줄 = Entity 하나)'))
+add(para('결과: CSV 파일 kgv4_entities.csv에 줄이 생긴다 (한 줄 = Entity 하나)'))
 add(rtable([['Entity ID', 'Class'], ['APR:504', 'Approval'], ['EVI:AP:504', 'EvidenceSource']], [4986, 4986]))
 
 add(label('과정 3. 열 → Data Property (원리 3)'))
@@ -158,7 +158,7 @@ lis('승인년월일시분 → approvalTime. 원본 값에 시각이 없어 앞 
     '세 열을 합친 이유: 주어진 온톨로지에 Approval의 내용 속성이 approvalContent 하나뿐이었다(4장 검토할 점 1).')
 add(fig('step3_doc_f3'))
 add(caption('그림 3. 열 → Data Property — 원본 셀 값, 변환 규칙, 결과'))
-add(para('결과: 속성 표 (한 줄 = Entity의 속성 하나)'))
+add(para('결과: CSV 파일 kgv4_properties.csv에 줄이 생긴다 (한 줄 = Entity의 속성 하나)'))
 add(rtable([['Entity ID', '속성', '값', '자료형'],
             ['APR:504', 'approvalTime', '2011-06-27', '날짜'],
             ['APR:504', 'approvalContent', P504['approvalContent'], '글자']], [1500, 2000, 5372, 1100]))
@@ -169,6 +169,7 @@ lis('같은 행의 출처 열을 근거 Entity EVI:AP:504의 속성으로 옮긴
     '두 ID의 504는 둘이 같은 원본 행에서 나왔다는 표시이다. 나중에 ID 글자(AP, APR)를 맞춰 보고 찾아서 잇는 것이 아니다.')
 add(fig('step3_doc_f8'))
 add(caption('그림 4. 같은 행에서 함께 만들며 잇는다 (APR:504 → EVI:AP:504)'))
+add(para('결과: 근거 Entity의 속성도 같은 CSV 파일 kgv4_properties.csv에 줄로 추가된다'))
 add(rtable([['Entity ID', '속성', '값', '자료형'],
             ['EVI:AP:504', 'sourceTitle', '환경부 한강홍수통제소 홍수예보 댐방류승인', '글자'],
             ['EVI:AP:504', 'sourceType', '승인자료', '글자'],
@@ -176,24 +177,33 @@ add(rtable([['Entity ID', '속성', '값', '자료형'],
 
 add(label('과정 5. 출처 기록'))
 lis('우리 원본은 DB가 아니라 내려받은 CSV·JSON 파일이어서, 매핑한 값을 옮겨 저장한다.',
-    '값을 옮기면 KG의 값과 원본 행의 연결이 끊긴다. 그래서 Entity마다 원본 파일, 그 안의 위치, 적용한 규칙, 값의 성격을 출처 표에 남긴다.',
+    '값을 옮기면 KG의 값과 원본 행의 연결이 끊긴다. 그래서 Entity마다 원본 파일, 그 안의 위치, 적용한 규칙, 값의 성격을 출처 파일에 남긴다.',
     '위치(504번째 행)로 원 파일의 해당 행을 바로 열 수 있다. 값의 성격 "원본 그대로"는 원본 값을 가공 없이 옮겼다는 뜻이다.')
+add(para('결과: CSV 파일 kgv4_provenance.csv에 줄이 생긴다 (한 줄 = Entity의 출처 하나)'))
 add(rtable([['Entity ID', '원본 파일', '위치', '규칙', '값의 성격', '메모'],
             ['APR:504', 'approval_records_clean.csv', '504번째 행', 'MR-APR', '원본 그대로', '승인일은 날짜만 있음']],
            [1300, 2800, 1500, 1200, 1500, 1672]))
 
-add(label('결과: 표 3개를 모은 Entity'))
-lis('과정 1~5의 결과는 Entity 표, 속성 표, 출처 표 3개이다.',
-    '세 표의 줄을 Entity ID(APR:504)로 모으면 Entity 하나의 전체 모습이 된다: Class, 속성값, 출처(그림 5).')
+add(label('결과: CSV 파일 3개'))
+lis('단계 3의 결과물은 CSV 파일 3개이며, 03_normalized 폴더에 저장된다.',
+    'kgv4_entities.csv: Entity ID와 Class (한 줄 = Entity 하나)',
+    'kgv4_properties.csv: Entity ID, 속성, 값, 자료형 (한 줄 = Entity의 속성 하나)',
+    'kgv4_provenance.csv: Entity ID, 원본 파일, 위치, 규칙, 값의 성격 (한 줄 = Entity의 출처 하나)',
+    '세 파일의 줄을 Entity ID(APR:504)로 모으면 Entity 하나의 전체 모습이 된다: Class, 속성값, 출처(그림 5).')
+add(para('파일 안의 실제 모습 (첫 줄은 열 이름, 이어서 APR:504의 줄)'))
+add(code('kgv4_entities.csv\n  entity_id,class,label\n  APR:504,Approval,승인 504 (충주댐)\n\n'
+         'kgv4_properties.csv\n  entity_id,property,value,datatype\n  APR:504,approvalTime,2011-06-27,date\n  APR:504,approvalContent,' + P504['approvalContent'] + ',string\n\n'
+         'kgv4_provenance.csv\n  item,kind,source_file,source_locator,rule,data_origin,note\n  APR:504,entity,03_normalized/approval_records_clean.csv,row_number_in_file=504,MR-APR,real,승인일은 날짜만 있음'))
 add(fig('step3_doc_f6'))
-add(caption('그림 5. 결과 표 3개의 한 줄과 그것을 모은 Entity (APR:504)'))
+add(caption('그림 5. CSV 파일 3개의 줄과 그것을 모은 Entity (APR:504)'))
 
 add(h2('3.3 댐 자료와 측정 자료'))
 add(label('Dam (댐 기본 자료)'))
 lis('입력: 댐 한 개가 한 행인 표는 따로 없다. K-water 일자료에는 댐 하나의 하루 측정값이 한 행이고, 행마다 댐 코드(DAM_CD), 댐 이름, 댐 유형이 반복해서 붙어 있다.',
     '식별자: 틀 "DAM:" + {DAM_CD}로 만든다. 충주댐의 12,582행은 모두 DAM_CD가 1003110이므로 모두 DAM:1003110이 되고, Entity 하나로 모인다(원리 1).',
     'Class: Dam',
-    '속성: 댐 유형 열 → damType(다목적댐). damName에는 승인 자료의 "충주"와 맞춘 표준 댐명(충주댐)을 넣는다.')
+    '속성: 댐 유형 열 → damType(다목적댐). damName에는 승인 자료의 "충주"와 맞춘 표준 댐명(충주댐)을 넣는다.',
+    '결과: 승인과 같은 CSV 파일 3개에 Dam Entity의 줄이 추가된다.')
 add(fig('step3_doc_f9'))
 add(caption('그림 6. K-water 일자료 → Dam Entity'))
 add(label('HydrometeorologicalState (HMS, 수문·기상 상태)'))
@@ -201,7 +211,8 @@ lis('입력: K-water 시간자료. 한 행이 (댐 코드, 시각)이고 변수 
     '행마다 Entity를 만들면 55만 개가 된다. KG에 필요한 것은 "어느 댐에 어떤 측정 변수가 있는가"이므로, 키 열(DAM_CD)과 열 머리(변수명)를 함께 틀에 넣어 (댐, 변수)마다 Entity를 만든다. 예: HMS:1003110:수위',
     '결과: 댐 4 × 변수 6 = 24개. 속성은 variableType(수위 등)과 stationCode(1003110)이다.',
     '시각별 값은 KG에 넣지 않고 측정 저장소에 그대로 둔다.',
-    '같은 자료에서 댐마다 측정자료 근거 Entity EVI:KW:{DAM_CD}를 만들고, HMS와 supportedBy로 잇는다.')
+    '같은 자료에서 댐마다 측정자료 근거 Entity EVI:KW:{DAM_CD}를 만들고, HMS와 supportedBy로 잇는다.',
+    '결과: 같은 CSV 파일 3개에 HMS와 근거 Entity의 줄이 추가된다.')
 add(fig('step3_doc_f5'))
 add(caption('그림 7. K-water 시간자료 → HMS Entity'))
 
