@@ -54,11 +54,11 @@ table.t tr.dim td{color:#999}
 <div class="fig" id="f2">
  <div style="display:flex;gap:16px">
   <div class="box" style="flex:1">
-   <div class="hd">표의 모든 행 ID → 한 클래스의 인스턴스</div>
+   <div class="hd">표의 모든 행 ID → 한 Class의 Entity</div>
    <div style="display:flex;align-items:center;gap:10px;margin-top:8px">
     <div><span class="id">APR:473</span><br><span class="id" style="margin-top:4px">APR:504</span><br><span class="id" style="margin-top:4px">APR:574</span><br><span class="note">… 80개</span></div>
     <span class="arr">⟶</span>
-    <div><span class="tag" style="background:var(--cls);font-size:18px">Approval</span><div class="note">인스턴스 80</div></div>
+    <div><span class="tag" style="background:var(--cls);font-size:18px">Approval</span><div class="note">Entity 80</div></div>
    </div>
    <div style="display:flex;align-items:center;gap:10px;margin-top:10px">
     <span class="id">EVI:AP:504</span><span class="note" style="white-space:nowrap">… 80개</span><span class="arr">⟶</span>
@@ -66,13 +66,13 @@ table.t tr.dim td{color:#999}
    </div>
   </div>
   <div class="box" style="flex:1.05">
-   <div class="hd">라벨 = 틀 + 열 값</div>
+   <div class="hd">표시 이름 = 틀 + 열 값 <span style="font-weight:normal">(온톨로지 속성 아님)</span></div>
    <div class="line"><span class="chip">관측소명 = <b style="color:var(--cls)">충주</b></span><span class="arr">→</span><span class="chip">댐명 사전 → 충주댐</span></div>
    <div class="line"><span class="chip mono" style="font-size:14.5px">"승인 {순차번호} ({댐명})"</span></div>
    <div class="line"><span class="arr">→</span><span class="chip"><b>승인 504 (충주댐)</b></span></div>
   </div>
  </div>
- <div class="d2rq"><b>원리 2 · D2RQ 구문</b> <span class="mono">map:item a d2rq:ClassMap; d2rq:class :Item.</span><br>라벨: <span class="mono">d2rq:property rdfs:label; d2rq:pattern "item #@@item.item_ID@@"</span></div>
+ <div class="d2rq"><b>원리 2 · D2RQ 구문</b> <span class="mono">map:item a d2rq:ClassMap; d2rq:class :Item.</span><br>표의 모든 행 식별자를 Item Class로 선언한다 (문헌의 instance = 우리의 Entity)</div>
 </div>
 
 <!-- 그림 3: 열 → 속성 -->
@@ -98,14 +98,14 @@ table.t tr.dim td{color:#999}
   <div class="rl">속성으로 만들지 않음<br><span class="note">값 = 댐 코드(DAM_CD)</span></div><div class="ar">⇢</div>
   <div class="out" style="background:#EEF2FB;border-color:#B5C6EC"><b>관계</b> APR:504 —concernsDam→ DAM:1003110<br><span class="note">단계 5에서 연결</span></div>
  </div>
- <div class="sub">다른 개체를 가리키는 열 → 관계 (D2RQ의 refersToClassMap에 해당, 원문 미확인)</div>
+ <div class="sub">다른 Entity를 가리키는 열 → 속성이 아니라 관계로 (단계 5)</div>
 
  <div class="row3">
   <div class="cv"><span class="tag" style="background:var(--cls)">관측소명</span><br>충주</div><div class="ar">→</div>
-  <div class="rl">라벨에만 사용 (그림 2)</div><div class="ar">→</div>
-  <div class="out"><b>label</b> = 승인 504 (충주댐)</div>
+  <div class="rl">표시 이름에만 사용 (그림 2)</div><div class="ar">→</div>
+  <div class="out">표시 이름 = 승인 504 (충주댐)</div>
  </div>
- <div class="sub">원리 3 · d2rq:pattern (rdfs:label)</div>
+ <div class="sub">Data Property가 아니라 그래프를 볼 때 읽기 쉽게 붙이는 이름</div>
 </div>
 
 <!-- 그림 4: 결과 그래프 조각 -->
@@ -118,7 +118,7 @@ table.t tr.dim td{color:#999}
   <rect x="10" y="10" width="440" height="160" rx="12" fill="#E8F5F2" stroke="#23907F" stroke-width="2.5"/>
   <text x="26" y="40" font-size="18" font-weight="bold">APR:504</text>
   <rect x="346" y="22" width="92" height="26" rx="5" fill="#23907F"/><text x="392" y="40" fill="#fff" text-anchor="middle" font-weight="bold">Approval</text>
-  <text x="26" y="70">label = 승인 504 (충주댐)</text>
+  <text x="26" y="70">표시 이름 = 승인 504 (충주댐)</text>
   <text x="26" y="96">approvalTime = 2011-06-27 (date)</text>
   <text x="26" y="122">approvalContent = "방류시작 2011-06-27 18:00;</text>
   <text x="26" y="146">  접수방류량 2000㎥/s; 비고: (실제방류는 20시부터)"</text>
@@ -158,4 +158,105 @@ table.t tr.dim td{color:#999}
  <div class="note" style="margin-top:6px">· 댐 4개 × 변수 6개 = HMS 개체 24개 · 속성: variableType = 수위, stationCode = 1003110<br>· 시각별 값(131.55 등)은 KG에 넣지 않고 측정 저장소에 둔다 → 질문이 오면 (댐 코드, 시각)으로 조회</div>
 </div>
 
+
+<!-- 그림 6: 결과 파일 → 노드 -->
+<div class="fig" id="f6">
+ <style>
+ .g6{display:grid;grid-template-columns:500px 34px 1fr;gap:10px 0;align-items:center}
+ .mt{border-collapse:collapse;font-size:13.5px;width:100%}
+ .mt th,.mt td{border:1px solid var(--line);padding:3px 6px;text-align:left}
+ .mt th{background:#666;color:#fff;font-weight:bold}
+ .cap6{font-size:14px;font-weight:bold;margin:0 0 3px}
+ .cap6 span{font-weight:normal;color:#666}
+ </style>
+ <div class="g6">
+  <div><div class="cap6">kgv4_entities.csv <span>한 줄 = Entity 하나</span></div>
+   <table class="mt"><tr><th>Entity ID</th><th>Class</th><th>표시 이름</th></tr><tr><td>APR:504</td><td>Approval</td><td>승인 504 (충주댐)</td></tr></table></div>
+  <div class="ar">→</div>
+  <div rowspan="2" style="grid-row:span 2">
+   <div style="border:2.5px solid #23907F;border-radius:12px;background:#E8F5F2;padding:10px 12px;font-size:14.5px">
+    <div style="font-size:13px;color:#555">Neo4j 노드 (단계 7에서 적재)</div>
+    <div style="margin:4px 0 6px"><span class="tag" style="background:#23907F">Entity</span> <span class="tag" style="background:#23907F">Approval</span></div>
+    id = APR:504<br>표시 이름 = 승인 504 (충주댐)<br>approvalTime = date 2011-06-27<br>approvalContent = "방류시작 2011-06-27 18:00; 접수방류량 2000㎥/s; 비고: (실제방류는 20시부터)"
+   </div>
+  </div>
+  <div><div class="cap6">kgv4_properties.csv <span>한 줄 = Entity의 속성 하나</span></div>
+   <table class="mt"><tr><th>Entity ID</th><th>속성</th><th>값</th><th>자료형</th></tr>
+   <tr><td>APR:504</td><td>approvalTime</td><td>2011-06-27</td><td>date</td></tr>
+   <tr><td>APR:504</td><td>approvalContent</td><td>방류시작 2011-06-27 18:00; 접수방류량 2000㎥/s; 비고: (실제방류는 20시부터)</td><td>string</td></tr></table></div>
+  <div class="ar">→</div>
+  <div><div class="cap6">kgv4_provenance.csv <span>한 줄 = Entity의 출처 하나</span></div>
+   <table class="mt"><tr><th>Entity ID</th><th>원본 파일</th><th>위치</th><th>규칙</th><th>값의 성격</th></tr>
+   <tr><td>APR:504</td><td>approval_records_clean.csv</td><td>row_number_in_file=504</td><td>MR-APR</td><td>real</td></tr></table></div>
+  <div class="ar">→</div>
+  <div style="border:1.5px dashed #999;border-radius:10px;padding:8px 10px;font-size:14px;background:#FAFAFA">원본 CSV의 504번째 행<br><span class="note">그래프에 넣지 않고 파일로 둔다. Entity ID로 원본 행을 찾는 색인</span></div>
+ </div>
+</div>
+
+<!-- 그림 7: 단계 3이 끝난 상태 (충주댐) -->
+<div class="fig" id="f7">
+ <svg width="808" height="404" viewBox="0 0 840 420" font-family="WenQuanYi Zen Hei" font-size="14.5">
+  <defs>
+   <marker id="a7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#444"/></marker>
+  </defs>
+  <!-- 승인 표 그룹 -->
+  <rect x="8" y="8" width="420" height="400" rx="12" fill="#FBFBF8" stroke="#BBB" stroke-dasharray="5 4"/>
+  <text x="22" y="32" font-weight="bold" fill="#555">승인 표에서</text>
+  <g font-size="14.5">
+   <rect x="22" y="52" width="150" height="40" rx="7" fill="#E8F5F2" stroke="#23907F" stroke-width="2"/><text x="97" y="77" text-anchor="middle">APR:418</text>
+   <rect x="262" y="52" width="150" height="40" rx="7" fill="#F2F2F2" stroke="#7A7A7A" stroke-width="2"/><text x="337" y="77" text-anchor="middle">EVI:AP:418</text>
+   <line x1="172" y1="72" x2="258" y2="72" stroke="#444" stroke-width="2" marker-end="url(#a7)"/><text x="215" y="64" text-anchor="middle" font-size="12.5">supportedBy</text>
+   <rect x="22" y="132" width="150" height="40" rx="7" fill="#E8F5F2" stroke="#23907F" stroke-width="2.5"/><text x="97" y="157" text-anchor="middle" font-weight="bold">APR:504</text>
+   <rect x="262" y="132" width="150" height="40" rx="7" fill="#F2F2F2" stroke="#7A7A7A" stroke-width="2.5"/><text x="337" y="157" text-anchor="middle" font-weight="bold">EVI:AP:504</text>
+   <line x1="172" y1="152" x2="258" y2="152" stroke="#444" stroke-width="2" marker-end="url(#a7)"/><text x="215" y="144" text-anchor="middle" font-size="12.5">supportedBy</text>
+   <rect x="22" y="212" width="150" height="40" rx="7" fill="#E8F5F2" stroke="#23907F" stroke-width="2"/><text x="97" y="237" text-anchor="middle">APR:574</text>
+   <rect x="262" y="212" width="150" height="40" rx="7" fill="#F2F2F2" stroke="#7A7A7A" stroke-width="2"/><text x="337" y="237" text-anchor="middle">EVI:AP:574</text>
+   <line x1="172" y1="232" x2="258" y2="232" stroke="#444" stroke-width="2" marker-end="url(#a7)"/><text x="215" y="224" text-anchor="middle" font-size="12.5">supportedBy</text>
+   <text x="22" y="290" fill="#555">… 외 12쌍 (충주댐 승인 15건)</text>
+   <text x="22" y="318" fill="#555" font-size="13.5">Approval: approvalTime, approvalContent</text>
+   <text x="22" y="340" fill="#555" font-size="13.5">EvidenceSource: sourceTitle, sourceType, sourceLocator</text>
+  </g>
+  <!-- Dam -->
+  <rect x="448" y="8" width="384" height="96" rx="12" fill="#FBFBF8" stroke="#BBB" stroke-dasharray="5 4"/>
+  <text x="462" y="32" font-weight="bold" fill="#555">K-water 일자료에서</text>
+  <rect x="560" y="44" width="170" height="48" rx="8" fill="#FFF4EA" stroke="#E07A2F" stroke-width="2.5"/><text x="645" y="65" text-anchor="middle" font-weight="bold">DAM:1003110</text><text x="645" y="84" text-anchor="middle" font-size="13">충주댐 · 다목적댐</text>
+  <!-- HMS -->
+  <rect x="448" y="124" width="384" height="284" rx="12" fill="#FBFBF8" stroke="#BBB" stroke-dasharray="5 4"/>
+  <text x="462" y="148" font-weight="bold" fill="#555">K-water 시간자료에서</text>
+  <g font-size="13.5">
+   <rect x="462" y="160" width="170" height="32" rx="6" fill="#EEF2FB" stroke="#2F66D0" stroke-width="1.8"/><text x="547" y="181" text-anchor="middle">HMS:1003110:수위</text>
+   <rect x="648" y="160" width="170" height="32" rx="6" fill="#EEF2FB" stroke="#2F66D0" stroke-width="1.8"/><text x="733" y="181" text-anchor="middle">…:저수량</text>
+   <rect x="462" y="200" width="170" height="32" rx="6" fill="#EEF2FB" stroke="#2F66D0" stroke-width="1.8"/><text x="547" y="221" text-anchor="middle">…:강우량</text>
+   <rect x="648" y="200" width="170" height="32" rx="6" fill="#EEF2FB" stroke="#2F66D0" stroke-width="1.8"/><text x="733" y="221" text-anchor="middle">…:유입량</text>
+   <rect x="462" y="240" width="170" height="32" rx="6" fill="#EEF2FB" stroke="#2F66D0" stroke-width="1.8"/><text x="547" y="261" text-anchor="middle">…:총방류량</text>
+   <rect x="648" y="240" width="170" height="32" rx="6" fill="#EEF2FB" stroke="#2F66D0" stroke-width="1.8"/><text x="733" y="261" text-anchor="middle">…:저수율</text>
+  </g>
+  <line x1="640" y1="274" x2="640" y2="342" stroke="#444" stroke-width="2" marker-end="url(#a7)"/><text x="650" y="314" font-size="12.5">supportedBy (6개 모두)</text>
+  <rect x="555" y="346" width="170" height="40" rx="7" fill="#F2F2F2" stroke="#7A7A7A" stroke-width="2"/><text x="640" y="371" text-anchor="middle">EVI:KW:1003110</text>
+ </svg>
+ <div class="note">단계 3이 끝나면 Entity와 속성은 갖춰지고, 같은 행·같은 자료에서 함께 만든 근거만 이어져 있다(실선). <b>승인 ↔ 댐, 댐 ↔ 측정 상태는 아직 연결되지 않았다</b> → 단계 5에서 concernsDam, hasHydrometeorologicalState로 잇는다.</div>
+</div>
+
+<!-- 그림 8: ID 접두어 -->
+<div class="fig" id="f8">
+ <div style="display:flex;gap:14px;align-items:stretch">
+  <div class="box" style="flex:0 0 190px;display:flex;flex-direction:column;justify-content:center;text-align:center;background:#FFF8E6;border-color:#D9B44A">승인 표<br><b>504행</b><br><span class="note">(순차번호 504)</span></div>
+  <div style="display:flex;flex-direction:column;justify-content:space-around;font-size:22px;color:#555">→<br>→</div>
+  <div style="flex:1;display:flex;flex-direction:column;gap:10px">
+   <div class="box" style="background:#E8F5F2;border-color:#23907F">
+    <span style="font-size:21px;font-weight:bold"><span style="color:#23907F">APR</span> : <span style="color:var(--key)">504</span></span>
+    <div class="note" style="margin-top:4px"><b style="color:#23907F">APR</b> = Approval (승인 자체) · <b style="color:var(--key)">504</b> = 원본 504행</div>
+   </div>
+   <div style="text-align:center;font-size:15px;color:#333">↓ <b>supportedBy</b> — 504행을 처리할 때 두 Entity를 함께 만들며 바로 긋는 선</div>
+   <div class="box">
+    <span style="font-size:21px;font-weight:bold"><span style="color:#555">EVI</span> : <span style="color:#8A55C2">AP</span> : <span style="color:var(--key)">504</span></span>
+    <div class="note" style="margin-top:4px"><b>EVI</b> = EvidenceSource (그 승인이 적힌 자료) · <b style="color:#8A55C2">AP</b> = 출처 종류: 승인자료 · <b style="color:var(--key)">504</b> = 같은 원본 504행</div>
+    <div class="note">출처 종류: <b>AP</b> 승인자료 · <b>KW</b> K-water 측정자료 (EVI:KW:1003110) · <b>LAW</b> 규정 (EVI:LAW:별표3)</div>
+   </div>
+  </div>
+ </div>
+ <div class="d2rq" style="background:#F4F7FD;border-color:#9DB4E6"><b style="color:#2F4F9A">연결은 글자가 아니라 선으로 찾는다</b><br>
+ <span class="mono">MATCH (a {id:'APR:504'})-[:supportedBy]->(e) RETURN e.id</span> → <span class="mono">'EVI:AP:504'</span><br>
+ <span class="note">ID의 글자(AP, APR)가 같은지 비교하지 않는다. 다만 사람이 볼 때 AP와 APR이 헷갈리므로 EVI:APR:504로 맞출지 검토한다.</span></div>
+</div>
 </body></html>
