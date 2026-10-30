@@ -34,45 +34,40 @@ table.t tr.dim td{color:#999}
 <!-- 그림 1: 식별자 -->
 <div class="fig" id="f1">
  <div class="box">
-  <div class="line"><span class="chip">순차번호 = <b style="color:var(--key)">504</b></span><span class="arr">→</span><span class="chip mono">"APR:" + {순차번호}</span><span class="arr">→</span><span class="id">APR:504</span><span class="note" style="margin-left:10px">승인 개체</span></div>
-  <div class="line"><span class="chip">순차번호 = <b style="color:var(--key)">504</b></span><span class="arr">→</span><span class="chip mono">"EVI:AP:" + {순차번호}</span><span class="arr">→</span><span class="id">EVI:AP:504</span><span class="note" style="margin-left:10px">근거 개체</span></div>
+  <div class="line"><span class="chip">순차번호 = <b style="color:var(--key)">504</b></span><span class="arr">→</span><span class="chip mono">"APR:" + {순차번호}</span><span class="arr">→</span><span class="id">APR:504</span><span class="note" style="margin-left:10px">승인 Entity</span></div>
+  <div class="line"><span class="chip">순차번호 = <b style="color:var(--key)">504</b></span><span class="arr">→</span><span class="chip mono">"EVI:AP:" + {순차번호}</span><span class="arr">→</span><span class="id">EVI:AP:504</span><span class="note" style="margin-left:10px">근거 Entity</span></div>
  </div>
  <div style="display:flex;gap:18px;margin-top:12px;align-items:center">
   <table class="t">
-   <tr><th style="background:var(--key)">순차번호</th><th>승인 개체 ID</th><th>근거 개체 ID</th></tr>
+   <tr><th style="background:var(--key)">순차번호</th><th>승인 Entity ID</th><th>근거 Entity ID</th></tr>
    <tr class="dim"><td>473</td><td>APR:473</td><td>EVI:AP:473</td></tr>
    <tr class="hl"><td>504</td><td>APR:504</td><td>EVI:AP:504</td></tr>
    <tr class="dim"><td>574</td><td>APR:574</td><td>EVI:AP:574</td></tr>
    <tr class="dim"><td colspan="3" style="text-align:center">… 80행 → 서로 다른 ID 80쌍</td></tr>
   </table>
-  <div class="note">· 행 하나 → 승인 ID 하나 + 근거 ID 하나<br>· 같은 행이면 언제 다시 만들어도 같은 ID<br>· 단계 5는 이 ID로 개체를 찾아 관계를 잇는다</div>
+  <div class="note">· 행 하나 → 승인 ID 하나 + 근거 ID 하나<br>· ID는 원본의 순차번호로 만든다<br>· 그래서 같은 행은 언제 다시 만들어도 같은 ID</div>
  </div>
  <div class="d2rq"><b>원리 1 · D2RQ 구문</b> <span class="mono">d2rq:uriPattern "item/@@item.item_ID@@"</span><br>@@ 사이 열(item_ID)의 값을 행마다 끼워 식별자를 만든다: item_ID = 7 → <span class="mono">item/7</span></div>
 </div>
 
-<!-- 그림 2: 클래스 -->
+<!-- 그림 2: Class -->
 <div class="fig" id="f2">
- <div style="display:flex;gap:16px">
-  <div class="box" style="flex:1">
-   <div class="hd">표의 모든 행 ID → 한 Class의 Entity</div>
-   <div style="display:flex;align-items:center;gap:10px;margin-top:8px">
+ <div class="box">
+  <div class="hd">승인 표에서 만든 ID → 모두 같은 Class의 Entity</div>
+  <div style="display:flex;align-items:center;gap:40px;margin-top:8px">
+   <div style="display:flex;align-items:center;gap:10px">
     <div><span class="id">APR:473</span><br><span class="id" style="margin-top:4px">APR:504</span><br><span class="id" style="margin-top:4px">APR:574</span><br><span class="note">… 80개</span></div>
     <span class="arr">⟶</span>
-    <div><span class="tag" style="background:var(--cls);font-size:18px">Approval</span><div class="note">Entity 80</div></div>
+    <div><span class="tag" style="background:var(--cls);font-size:18px">Approval</span><div class="note">Entity 80개</div></div>
    </div>
-   <div style="display:flex;align-items:center;gap:10px;margin-top:10px">
-    <span class="id">EVI:AP:504</span><span class="note" style="white-space:nowrap">… 80개</span><span class="arr">⟶</span>
-    <div><span class="tag" style="background:var(--cls);font-size:18px">EvidenceSource</span></div>
+   <div style="display:flex;align-items:center;gap:10px">
+    <div><span class="id">EVI:AP:473</span><br><span class="id" style="margin-top:4px">EVI:AP:504</span><br><span class="id" style="margin-top:4px">EVI:AP:574</span><br><span class="note">… 80개</span></div>
+    <span class="arr">⟶</span>
+    <div><span class="tag" style="background:var(--cls);font-size:18px">EvidenceSource</span><div class="note">Entity 80개</div></div>
    </div>
-  </div>
-  <div class="box" style="flex:1.05">
-   <div class="hd">표시 이름 = 틀 + 열 값 <span style="font-weight:normal">(온톨로지 속성 아님)</span></div>
-   <div class="line"><span class="chip">관측소명 = <b style="color:var(--cls)">충주</b></span><span class="arr">→</span><span class="chip">댐명 사전 → 충주댐</span></div>
-   <div class="line"><span class="chip mono" style="font-size:14.5px">"승인 {순차번호} ({댐명})"</span></div>
-   <div class="line"><span class="arr">→</span><span class="chip"><b>승인 504 (충주댐)</b></span></div>
   </div>
  </div>
- <div class="d2rq"><b>원리 2 · D2RQ 구문</b> <span class="mono">map:item a d2rq:ClassMap; d2rq:class :Item.</span><br>표의 모든 행 식별자를 Item Class로 선언한다 (문헌의 instance = 우리의 Entity)</div>
+ <div class="d2rq"><b>원리 2 · D2RQ</b> <span class="mono">d2rq:class :Item</span> — 그 표의 모든 행 식별자를 Item Class의 Entity로 선언한다</div>
 </div>
 
 <!-- 그림 3: 열 → 속성 -->
@@ -82,30 +77,17 @@ table.t tr.dim td{color:#999}
  <div class="row3">
   <div class="cv"><span class="tag" style="background:var(--prop)">승인년월일시분</span><br>2011-06-27</div><div class="ar">→</div>
   <div class="rl">앞 10글자를 날짜로 읽음<br><span class="note">값에 시각이 없음</span></div><div class="ar">→</div>
-  <div class="out"><b>approvalTime</b><br>= 2011-06-27 <span class="note">(date)</span></div>
+  <div class="out"><b>approvalTime</b><br>= 2011-06-27 <span class="note">(자료형: 날짜)</span></div>
  </div>
- <div class="sub">원리 3 · d2rq:column (열 하나 → 속성 하나)</div>
+ <div class="sub">원리 3 · D2RQ column — 열 하나의 셀 값을 속성 하나로</div>
 
  <div class="row3">
   <div class="cv"><span class="tag" style="background:var(--merge)">방류시작시간</span> 2011-06-27 18:00<br><span class="tag" style="background:var(--merge)">접수방류량</span> 2000<br><span class="tag" style="background:var(--merge)">비고</span> (실제방류는 20시부터)</div><div class="ar">→</div>
   <div class="rl">세 값을 문자열 틀에 넣음<br><span class="mono" style="font-size:13.5px">"방류시작 {}; 접수방류량 {}㎥/s; 비고: {}"</span><br><span class="note">비고는 원문 그대로, 해석 안 함</span></div><div class="ar">→</div>
-  <div class="out"><b>approvalContent</b> = "방류시작 2011-06-27 18:00; 접수방류량 2000㎥/s; 비고: (실제방류는 20시부터)" <span class="note">(string)</span></div>
+  <div class="out"><b>approvalContent</b> = "방류시작 2011-06-27 18:00; 접수방류량 2000㎥/s; 비고: (실제방류는 20시부터)" <span class="note">(자료형: 글자)</span></div>
  </div>
- <div class="sub">원리 3 · d2rq:pattern (여러 열 → 문자열 하나) · <span class="warn">온톨로지에 내용 속성이 하나뿐이라 합침 → 검토할 점 1</span></div>
+ <div class="sub">원리 3 · D2RQ pattern — 여러 열 값을 글자 틀에 넣어 속성 하나로 · <span class="warn">온톨로지에 내용 속성이 하나뿐이라 합침 → 검토할 점 1</span></div>
 
- <div class="row3">
-  <div class="cv"><span class="tag" style="background:var(--rel)">관측소코드</span><br>1003110</div><div class="ar">→</div>
-  <div class="rl">속성으로 만들지 않음<br><span class="note">값 = 댐 코드(DAM_CD)</span></div><div class="ar">⇢</div>
-  <div class="out" style="background:#EEF2FB;border-color:#B5C6EC"><b>관계</b> APR:504 —concernsDam→ DAM:1003110<br><span class="note">단계 5에서 연결</span></div>
- </div>
- <div class="sub">다른 Entity를 가리키는 열 → 속성이 아니라 관계로 (단계 5)</div>
-
- <div class="row3">
-  <div class="cv"><span class="tag" style="background:var(--cls)">관측소명</span><br>충주</div><div class="ar">→</div>
-  <div class="rl">표시 이름에만 사용 (그림 2)</div><div class="ar">→</div>
-  <div class="out">표시 이름 = 승인 504 (충주댐)</div>
- </div>
- <div class="sub">Data Property가 아니라 그래프를 볼 때 읽기 쉽게 붙이는 이름</div>
 </div>
 
 <!-- 그림 4: 결과 그래프 조각 -->
@@ -155,41 +137,42 @@ table.t tr.dim td{color:#999}
   <tr class="dim"><td colspan="6" style="text-align:center">… 댐 4개 × 시각</td></tr>
  </table>
  <div class="line" style="margin-top:14px;font-size:15px"><span class="chip">DAM_CD = <b style="color:var(--key)">1003110</b></span><span class="arr" style="padding:0 4px">+</span><span class="chip">열 머리 = <b style="color:var(--key)">수위</b></span><span class="arr">→</span><span class="chip mono" style="font-size:14px">"HMS:"+{DAM_CD}+":"+{변수}</span><span class="arr">→</span><span class="id">HMS:1003110:수위</span></div>
- <div class="note" style="margin-top:6px">· 댐 4개 × 변수 6개 = HMS 개체 24개 · 속성: variableType = 수위, stationCode = 1003110<br>· 시각별 값(131.55 등)은 KG에 넣지 않고 측정 저장소에 둔다 → 질문이 오면 (댐 코드, 시각)으로 조회</div>
+ <div class="note" style="margin-top:6px">· 댐 4개 × 변수 6개 = HMS Entity 24개 · 속성: variableType = 수위, stationCode = 1003110<br>· 시각별 값(131.55 등)은 KG에 넣지 않고 측정 저장소에 둔다 그대로 둔다</div>
 </div>
 
 
-<!-- 그림 6: 결과 파일 → 노드 -->
+<!-- 그림 6: 결과 표 3개 → Entity -->
 <div class="fig" id="f6">
  <style>
- .g6{display:grid;grid-template-columns:500px 34px 1fr;gap:10px 0;align-items:center}
+ .g6{display:grid;grid-template-columns:480px 34px 1fr;gap:10px 0;align-items:center}
  .mt{border-collapse:collapse;font-size:13.5px;width:100%}
  .mt th,.mt td{border:1px solid var(--line);padding:3px 6px;text-align:left}
  .mt th{background:#666;color:#fff;font-weight:bold}
+ .mt th:last-child,.mt td:last-child{white-space:nowrap}
  .cap6{font-size:14px;font-weight:bold;margin:0 0 3px}
  .cap6 span{font-weight:normal;color:#666}
  </style>
  <div class="g6">
-  <div><div class="cap6">kgv4_entities.csv <span>한 줄 = Entity 하나</span></div>
-   <table class="mt"><tr><th>Entity ID</th><th>Class</th><th>표시 이름</th></tr><tr><td>APR:504</td><td>Approval</td><td>승인 504 (충주댐)</td></tr></table></div>
+  <div><div class="cap6">Entity 표 <span>한 줄 = Entity 하나 (일부 열)</span></div>
+   <table class="mt"><tr><th>Entity ID</th><th>Class</th></tr><tr><td>APR:504</td><td>Approval</td></tr></table></div>
   <div class="ar">→</div>
-  <div rowspan="2" style="grid-row:span 2">
+  <div style="grid-row:span 3">
    <div style="border:2.5px solid #23907F;border-radius:12px;background:#E8F5F2;padding:10px 12px;font-size:14.5px">
-    <div style="font-size:13px;color:#555">Neo4j 노드 (단계 7에서 적재)</div>
-    <div style="margin:4px 0 6px"><span class="tag" style="background:#23907F">Entity</span> <span class="tag" style="background:#23907F">Approval</span></div>
-    id = APR:504<br>표시 이름 = 승인 504 (충주댐)<br>approvalTime = date 2011-06-27<br>approvalContent = "방류시작 2011-06-27 18:00; 접수방류량 2000㎥/s; 비고: (실제방류는 20시부터)"
+    <div style="font-size:13px;color:#555">세 표의 줄을 Entity ID로 모은 모습</div>
+    <div style="margin:4px 0 6px;font-size:18px;font-weight:bold">APR:504 <span class="tag" style="background:#23907F;font-size:14px">Approval</span></div>
+    approvalTime = 2011-06-27 <span class="note">(날짜)</span><br>approvalContent = "방류시작 2011-06-27 18:00; 접수방류량 2000㎥/s; 비고: (실제방류는 20시부터)" <span class="note">(글자)</span>
+    <div style="margin-top:8px;border-top:1px dashed #9cc;padding-top:6px;font-size:13.5px;color:#444">출처: approval_records_clean.csv 504번째 행 · 규칙 MR-APR · 원본 값 그대로</div>
    </div>
   </div>
-  <div><div class="cap6">kgv4_properties.csv <span>한 줄 = Entity의 속성 하나</span></div>
+  <div><div class="cap6">속성 표 <span>한 줄 = Entity의 속성 하나</span></div>
    <table class="mt"><tr><th>Entity ID</th><th>속성</th><th>값</th><th>자료형</th></tr>
-   <tr><td>APR:504</td><td>approvalTime</td><td>2011-06-27</td><td>date</td></tr>
-   <tr><td>APR:504</td><td>approvalContent</td><td>방류시작 2011-06-27 18:00; 접수방류량 2000㎥/s; 비고: (실제방류는 20시부터)</td><td>string</td></tr></table></div>
+   <tr><td>APR:504</td><td>approvalTime</td><td>2011-06-27</td><td>날짜</td></tr>
+   <tr><td>APR:504</td><td>approvalContent</td><td>방류시작 2011-06-27 18:00; 접수방류량 2000㎥/s; 비고: (실제방류는 20시부터)</td><td>글자</td></tr></table></div>
   <div class="ar">→</div>
-  <div><div class="cap6">kgv4_provenance.csv <span>한 줄 = Entity의 출처 하나</span></div>
+  <div><div class="cap6">출처 표 <span>한 줄 = Entity의 출처 하나</span></div>
    <table class="mt"><tr><th>Entity ID</th><th>원본 파일</th><th>위치</th><th>규칙</th><th>값의 성격</th></tr>
-   <tr><td>APR:504</td><td>approval_records_clean.csv</td><td>row_number_in_file=504</td><td>MR-APR</td><td>real</td></tr></table></div>
+   <tr><td>APR:504</td><td>approval_records_clean.csv</td><td>504번째 행</td><td>MR-APR</td><td>원본 그대로</td></tr></table></div>
   <div class="ar">→</div>
-  <div style="border:1.5px dashed #999;border-radius:10px;padding:8px 10px;font-size:14px;background:#FAFAFA">원본 CSV의 504번째 행<br><span class="note">그래프에 넣지 않고 파일로 둔다. Entity ID로 원본 행을 찾는 색인</span></div>
  </div>
 </div>
 
@@ -234,29 +217,45 @@ table.t tr.dim td{color:#999}
   <line x1="640" y1="274" x2="640" y2="342" stroke="#444" stroke-width="2" marker-end="url(#a7)"/><text x="650" y="314" font-size="12.5">supportedBy (6개 모두)</text>
   <rect x="555" y="346" width="170" height="40" rx="7" fill="#F2F2F2" stroke="#7A7A7A" stroke-width="2"/><text x="640" y="371" text-anchor="middle">EVI:KW:1003110</text>
  </svg>
- <div class="note">단계 3이 끝나면 Entity와 속성은 갖춰지고, 같은 행·같은 자료에서 함께 만든 근거만 이어져 있다(실선). <b>승인 ↔ 댐, 댐 ↔ 측정 상태는 아직 연결되지 않았다</b> → 단계 5에서 concernsDam, hasHydrometeorologicalState로 잇는다.</div>
+ <div class="note">각 자료에서 Entity와 속성이 만들어졌고, 같은 행·같은 자료에서 함께 만든 근거만 supportedBy로 이어져 있다(실선). 서로 다른 자료에서 만든 승인, 댐, 측정 상태 Entity는 아직 서로 떨어져 있다.</div>
 </div>
 
-<!-- 그림 8: ID 접두어 -->
+<!-- 그림 8: 같은 행에서 함께 만들며 잇는다 -->
 <div class="fig" id="f8">
- <div style="display:flex;gap:14px;align-items:stretch">
-  <div class="box" style="flex:0 0 190px;display:flex;flex-direction:column;justify-content:center;text-align:center;background:#FFF8E6;border-color:#D9B44A">승인 표<br><b>504행</b><br><span class="note">(순차번호 504)</span></div>
-  <div style="display:flex;flex-direction:column;justify-content:space-around;font-size:22px;color:#555">→<br>→</div>
-  <div style="flex:1;display:flex;flex-direction:column;gap:10px">
-   <div class="box" style="background:#E8F5F2;border-color:#23907F">
-    <span style="font-size:21px;font-weight:bold"><span style="color:#23907F">APR</span> : <span style="color:var(--key)">504</span></span>
-    <div class="note" style="margin-top:4px"><b style="color:#23907F">APR</b> = Approval (승인 자체) · <b style="color:var(--key)">504</b> = 원본 504행</div>
+ <div style="display:flex;gap:14px;align-items:center">
+  <div class="box" style="flex:0 0 170px;text-align:center;background:#FFF8E6;border-color:#D9B44A;padding:16px 8px">승인 표<br><b style="font-size:20px">504행</b><br><span class="note">한 행을 처리하면서</span></div>
+  <div style="font-size:24px;color:#555">⟹</div>
+  <div style="flex:1">
+   <div style="display:flex;align-items:center;gap:0">
+    <div class="box" style="flex:1;background:#E8F5F2;border-color:#23907F;text-align:center"><span style="font-size:20px;font-weight:bold">APR:<span style="color:var(--key)">504</span></span><br><span class="note">승인</span></div>
+    <div style="flex:0 0 150px;text-align:center"><div style="font-size:14px;font-weight:bold">supportedBy</div><div style="border-top:2.5px solid #444;margin:2px 6px;position:relative"><span style="position:absolute;right:-6px;top:-11px;font-size:16px">▶</span></div><div class="note" style="font-size:13px">만들 때 바로 이음</div></div>
+    <div class="box" style="flex:1;text-align:center"><span style="font-size:20px;font-weight:bold">EVI:AP:<span style="color:var(--key)">504</span></span><br><span class="note">그 승인이 적힌 자료</span></div>
    </div>
-   <div style="text-align:center;font-size:15px;color:#333">↓ <b>supportedBy</b> — 504행을 처리할 때 두 Entity를 함께 만들며 바로 긋는 선</div>
-   <div class="box">
-    <span style="font-size:21px;font-weight:bold"><span style="color:#555">EVI</span> : <span style="color:#8A55C2">AP</span> : <span style="color:var(--key)">504</span></span>
-    <div class="note" style="margin-top:4px"><b>EVI</b> = EvidenceSource (그 승인이 적힌 자료) · <b style="color:#8A55C2">AP</b> = 출처 종류: 승인자료 · <b style="color:var(--key)">504</b> = 같은 원본 504행</div>
-    <div class="note">출처 종류: <b>AP</b> 승인자료 · <b>KW</b> K-water 측정자료 (EVI:KW:1003110) · <b>LAW</b> 규정 (EVI:LAW:별표3)</div>
-   </div>
+   <div class="note" style="margin-top:8px;text-align:center">① 두 Entity를 <b>같은 504행에서 동시에</b> 만든다 → ② 만드는 그 자리에서 supportedBy로 잇는다</div>
   </div>
  </div>
- <div class="d2rq" style="background:#F4F7FD;border-color:#9DB4E6"><b style="color:#2F4F9A">연결은 글자가 아니라 선으로 찾는다</b><br>
- <span class="mono">MATCH (a {id:'APR:504'})-[:supportedBy]->(e) RETURN e.id</span> → <span class="mono">'EVI:AP:504'</span><br>
- <span class="note">ID의 글자(AP, APR)가 같은지 비교하지 않는다. 다만 사람이 볼 때 AP와 APR이 헷갈리므로 EVI:APR:504로 맞출지 검토한다.</span></div>
+ <div class="d2rq" style="background:#F4F7FD;border-color:#9DB4E6"><b style="color:#2F4F9A">왜 AP와 APR 글자가 달라도 이어지나</b><br>
+ · 나중에 ID 글자를 맞춰 보고 찾아서 잇는 것이 아니라, 처음 만들 때 이미 이어 둔다.<br>
+ · 두 ID의 <b style="color:var(--key)">504</b>는 둘이 같은 원본 행에서 나왔다는 표시이다.<br>
+ <span class="note">접두어: APR = 승인(Approval) · EVI = 근거 자료(EvidenceSource) · EVI 뒤의 AP = 출처 종류 승인자료 (측정자료는 KW, 규정은 LAW)</span></div>
+</div>
+
+<!-- 그림 9: Dam -->
+<div class="fig" id="f9">
+ <div class="hd">K-water 일자료 (한 행 = 댐 하나의 하루 측정값 하나)</div>
+ <table class="t" style="margin-top:6px">
+  <tr><th style="background:var(--key)">DAM_CD</th><th>댐 이름</th><th style="background:var(--prop)">댐 유형</th><th>날짜</th><th>변수</th><th>값</th></tr>
+  <tr><td>1003110</td><td>충주댐</td><td>다목적댐</td><td>2021-12-31</td><td>저수위</td><td>131.53</td></tr>
+  <tr><td>1003110</td><td>충주댐</td><td>다목적댐</td><td>2021-12-30</td><td>저수위</td><td>131.63</td></tr>
+  <tr><td>1003110</td><td>충주댐</td><td>다목적댐</td><td>2021-12-29</td><td>저수위</td><td>131.71</td></tr>
+  <tr class="dim"><td colspan="6" style="text-align:center">… DAM_CD 1003110인 행 12,582개</td></tr>
+ </table>
+ <div class="line" style="margin-top:14px;font-size:15.5px"><span class="chip">DAM_CD = <b style="color:var(--key)">1003110</b> <span class="note">(12,582행 모두)</span></span><span class="arr">→</span><span class="chip mono" style="font-size:14px">"DAM:" + {DAM_CD}</span><span class="arr">→</span><span class="id">DAM:1003110</span><span class="note" style="margin-left:8px">ID 하나 → Entity 하나</span></div>
+ <div class="box" style="margin-top:10px;background:#fff">
+  <div style="font-weight:bold">DAM:1003110 <span class="tag" style="background:var(--cls);font-size:14px">Dam</span></div>
+  damName = 충주댐 <span class="note">(승인 자료의 "충주"와 맞춘 표준 댐명)</span><br>
+  damType = 다목적댐 <span class="note">(<span style="color:var(--prop);font-weight:bold">댐 유형</span> 열의 값)</span>
+ </div>
+ <div class="d2rq"><b>원리 1 적용</b> — ID를 키 값(DAM_CD)으로 만들기 때문에, 같은 댐의 여러 행은 모두 같은 ID가 되어 Entity 하나로 모인다</div>
 </div>
 </body></html>

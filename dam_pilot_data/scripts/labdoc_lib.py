@@ -31,7 +31,7 @@ class Template:
     def widths(self, i):
         return [int(v) for v in re.findall(r'<w:gridCol w:w="(\d+)"', self.top[i])]
 
-    def save(self, out, body_xml, images=None):
+    def save(self, out, body_xml, images=None, page_numbers=False):
         import xml.dom.minidom
         doc = self.open + body_xml + self.sect + '</w:body></w:document>'
         xml.dom.minidom.parseString(doc.encode('utf8'))
@@ -51,9 +51,20 @@ class Template:
                     data = rels.encode('utf8')
                 elif item.filename == '[Content_Types].xml':
                     data = ct.encode('utf8')
+                elif page_numbers and item.filename.startswith('word/footer'):
+                    data = add_page_number(data.decode('utf8')).encode('utf8')
                 zo.writestr(item, data)
             for key, (rid, path) in images.items():
                 zo.write(path, 'word/media/%s.png' % key)
+
+
+def add_page_number(ftr):
+    """바닥글 마지막 문단 끝에 ' · 쪽 / 전체쪽' 필드를 붙인다."""
+    rpr = '<w:rPr><w:color w:val="787878"/><w:sz w:val="16"/>%s</w:rPr>' % LANG
+    fld = lambda instr: '<w:fldSimple w:instr=" %s "><w:r>%s<w:t>1</w:t></w:r></w:fldSimple>' % (instr, rpr)
+    add = '<w:r>%s<w:t xml:space="preserve">  ·  </w:t></w:r>%s<w:r>%s<w:t xml:space="preserve"> / </w:t></w:r>%s' % (rpr, fld('PAGE'), rpr, fld('NUMPAGES'))
+    i = ftr.rindex('</w:p>')
+    return ftr[:i] + add + ftr[i:]
 
 
 def run(text, sz=None, b=False, color=None, mono=False):
