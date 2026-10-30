@@ -173,7 +173,7 @@ APR:504,   approvalContent, 방류시작 2011-06-27 18:00; 접수방류량 2000�
 
 <!-- ⑤ -->
 <div class="panel" id="p5">
- <div class="ph"><span class="num">5</span><span class="pt">근거 개체와 출처 기록</span><span class="pd">D2RQ에는 없고 우리가 추가한 과정 · 값을 복사해 오므로 원본으로 되돌아갈 길이 필요하다</span></div>
+ <div class="ph"><span class="num">5</span><span class="pt">근거 개체와 출처 기록</span><span class="pd">데이터 구조에 맞춘 응용 · 원본이 DB가 아닌 파일이라 값을 옮겨 오므로, 원본 행으로 되돌아갈 길을 남긴다</span></div>
  <div class="grid2">
   <div class="box">
    <div class="small"><b>(가) 근거 개체: 이 승인이 어느 자료의 어느 행에서 왔는지를 그래프 안의 개체로 둔다</b></div>
@@ -194,7 +194,7 @@ note           = 승인일은 날짜만 있음</pre>
    <div class="note" style="margin-top:6px">· <b>row_number_in_file</b>: 원본 CSV(cp949)의 행 번호 → 원 파일의 504번째 행을 바로 연다.<br>· <b>rule</b>: 어떤 매핑 규칙으로 만들었는지 (매핑 파일 대신 규칙 ID로 남김).<br>· <b>data_origin = real</b>: 원본 값을 그대로 옮긴 것 (가공·추정 아님).</div>
   </div>
  </div>
- <div class="d2rq" style="margin-top:10px"><b>D2RQ와 다른 이유</b> · D2RQ는 가상 그래프라서 질의할 때마다 원본 DB를 직접 읽는다. 그래서 출처를 따로 기록할 필요가 없다. 우리는 CSV 값을 복사해 Neo4j에 저장하므로, 이 기록이 KG 값과 원본 행을 잇는 유일한 연결이다.</div>
+ <div class="d2rq" style="margin-top:10px"><b>응용한 이유</b> · D2RQ는 가상 그래프라서 질의할 때마다 원본 DB를 직접 읽는다. 그래서 출처를 따로 기록할 필요가 없다. 우리는 CSV 값을 복사해 Neo4j에 저장하므로, 이 기록이 KG 값과 원본 행을 잇는 유일한 연결이다.</div>
 </div>
 
 <!-- ⑥ -->
