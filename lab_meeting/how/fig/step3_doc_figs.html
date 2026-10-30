@@ -335,4 +335,103 @@ table.t tr.dim td{color:#999}
   <div class="r"><span class="n">문서 저장소</span> kgv4_documents.csv<br>조회 키 "별표 3", 원문 그대로</div>
  </div>
 </div>
+
+<!-- 그림 12: 승인 기록 전처리 (실제 행) -->
+<div class="fig" id="f12">
+ <style>
+ table.pp{border-collapse:collapse;font-size:13.5px;width:100%}
+ table.pp th,table.pp td{border:1px solid var(--line);padding:4px 6px;white-space:nowrap}
+ table.pp th{background:#555;color:#fff}
+ table.pp th.add{background:#3F8F2A}
+ table.pp td.add{background:#F1F8EE;color:#2F6B1F}
+ table.pp tr.out td{color:#AAA}
+ table.pp tr.del td{background:#FDECEA;color:#B3261E;text-decoration:line-through}
+ table.pp tr.del td.res{text-decoration:none}
+ table.pp tr.keep td{background:#FFF8E0}
+ .res{font-weight:bold;text-decoration:none}
+ </style>
+ <div class="hd">승인 기록 원본 — 한강수계 16개 시설, 3,929행 중 순차번호 2216~2222</div>
+ <table class="pp" style="margin-top:6px">
+  <tr><th class="add">원본 행 번호<br>(추가)</th><th>순차번호</th><th>관측소명</th><th>승인일</th><th>방류시작시간</th><th>접수<br>방류량</th><th>비고</th><th class="add">출처<br>(추가)</th><th style="min-width:62px">처리</th></tr>
+  <tr class="out"><td class="add">2216</td><td>2216</td><td>괴산댐</td><td>2016-07-04</td><td>2016-07-04 15:30</td><td>736</td><td>(감소방류 -295㎥/s)</td><td class="add">…</td><td class="res">대상 외</td></tr>
+  <tr class="out"><td class="add">2217</td><td>2217</td><td>팔당댐</td><td>2016-07-04</td><td>2016-07-04 19:00</td><td>899</td><td>(초기수문방류 130㎥/s)</td><td class="add">…</td><td class="res">대상 외</td></tr>
+  <tr class="keep"><td class="add">2218</td><td>2218</td><td>광동</td><td>2016-07-04</td><td>2016-07-04 18:00</td><td>200</td><td></td><td class="add">…</td><td class="res" style="color:#2F6B1F">남김</td></tr>
+  <tr class="keep"><td class="add">2219</td><td>2219</td><td>광동</td><td>2016-07-04</td><td>2016-07-04 18:40</td><td>200</td><td></td><td class="add">…</td><td class="res" style="color:#2F6B1F">남김</td></tr>
+  <tr class="del"><td class="add">2220</td><td>2220</td><td>광동</td><td>2016-07-04</td><td>2016-07-04 18:00</td><td>200</td><td></td><td class="add">…</td><td class="res">지움<br><span style="font-weight:normal">= 2218</span></td></tr>
+  <tr class="out"><td class="add">2221</td><td>2221</td><td>청평댐</td><td>2016-07-04</td><td>2016-07-04 21:30</td><td>755</td><td>(초기수문방류 99㎥/s)</td><td class="add">…</td><td class="res">대상 외</td></tr>
+  <tr class="out"><td class="add">2222</td><td>2222</td><td>팔당댐</td><td>2016-07-04</td><td>2016-07-04 19:20</td><td>1757</td><td>(증가방류 858㎥/s)</td><td class="add">…</td><td class="res">대상 외</td></tr>
+ </table>
+ <div class="line" style="margin-top:12px;font-size:15px;flex-wrap:wrap">
+  <span class="chip">3,929행</span><span class="arr">→</span><span class="chip">중복 7행 지움</span><span class="arr">→</span>
+  <span class="chip"><b>approval_records_clean.csv</b> 3,922행</span><span class="arr">→</span><span class="chip">대상 4개 댐</span><span class="arr">→</span><span class="id">80행</span>
+ </div>
+ <div class="note" style="margin-top:6px">지운 행은 approval_preprocess_log.csv에 (지운 번호 2220, 남긴 번호 2218, 이유)로 남긴다. 2219는 방류시작시간(18:40)이 달라 남긴다.</div>
+</div>
+
+<!-- 그림 13: 시간자료 전처리 (실제 행) -->
+<div class="fig" id="f13">
+ <style>
+ table.tt{border-collapse:collapse;font-size:14px}
+ table.tt th,table.tt td{border:1px solid var(--line);padding:4px 8px;white-space:nowrap}
+ table.tt th{background:#555;color:#fff}
+ table.tt tr.h24 td{background:#FFF1C9;font-weight:bold}
+ .cap{font-size:14px;font-weight:bold;margin:0 0 4px}
+ .cap span{font-weight:normal;color:#666}
+ </style>
+ <div style="display:flex;gap:14px;align-items:center">
+  <div>
+   <div class="cap">파일 ② <span>승인 기간에 맞춰 추가로 받은 자료 (2010-08 ~ 2020-12)</span></div>
+   <table class="tt"><tr><th>DAM_CD</th><th>SDATE_raw</th><th>수위</th><th>유입량</th></tr>
+    <tr><td>1003110</td><td>2020123122</td><td>131.54</td><td>9.441</td></tr>
+    <tr><td>1003110</td><td>2020123123</td><td>131.55</td><td>171.565</td></tr></table>
+   <div style="text-align:center;color:#2F66D0;font-size:14px;margin:6px 0">↕ 기간이 이어진다 (겹치는 시각 없음)</div>
+   <div class="cap">파일 ① <span>처음 받은 자료 (2021-01 ~ 2026-09)</span></div>
+   <table class="tt"><tr><th>DAM_CD</th><th>SDATE_raw</th><th>수위</th><th>유입량</th></tr>
+    <tr class="h24"><td>1003110</td><td>2020123124</td><td>131.54</td><td>0</td></tr>
+    <tr><td>1003110</td><td>2021010101</td><td>131.55</td><td>186.52</td></tr></table>
+  </div>
+  <div class="arr" style="font-size:26px">⟹</div>
+  <div>
+   <div class="cap">측정 저장소 <span>이어 붙이고 시각을 읽음</span></div>
+   <table class="tt"><tr><th>SDATE_raw</th><th>시각</th><th>수위</th><th>유입량</th></tr>
+    <tr><td>2020123122</td><td>2020-12-31 22:00</td><td>131.54</td><td>9.441</td></tr>
+    <tr><td>2020123123</td><td>2020-12-31 23:00</td><td>131.55</td><td>171.565</td></tr>
+    <tr class="h24"><td>2020123124</td><td>2021-01-01 00:00</td><td>131.54</td><td>0</td></tr>
+    <tr><td>2021010101</td><td>2021-01-01 01:00</td><td>131.55</td><td>186.52</td></tr></table>
+  </div>
+ </div>
+ <div class="note" style="margin-top:10px">· 라벨의 시(HH)가 01~24라서 <b>24시는 다음날 0시</b>로 읽는다 (노란 행). 값은 바꾸지 않는다.<br>· 4개 댐 × 6개 변수(수위, 저수량, 강우량, 유입량, 총방류량, 저수율), 508,246개 (댐, 시각). 빈 값은 채우지 않는다.</div>
+</div>
+
+<!-- 그림 14: 별표3 꺼내기 (XML 구조) -->
+<div class="fig" id="f14">
+ <style>
+ .xml{font-family:"DejaVu Sans Mono",monospace;font-size:13.5px;line-height:1.6;border:1.5px solid var(--line);border-radius:8px;padding:8px 10px;background:#FAFAFA}
+ .xml .g{color:#999}
+ .xml .hl{background:#FFF1C9;font-weight:bold;color:#222;padding:1px 3px;border-radius:3px}
+ </style>
+ <div style="display:flex;gap:12px;align-items:center">
+  <div style="flex:1">
+   <div class="cap">규정 XML (연계운영규정, 2026-07-08 시행)</div>
+   <div class="xml">
+    &lt;AdmRulService&gt;<br>
+    &nbsp;&nbsp;<span class="g">&lt;행정규칙기본정보&gt; 규정명, 발령일자 …</span><br>
+    &nbsp;&nbsp;<span class="g">&lt;조문내용&gt; 제1조(목적) … ×24</span><br>
+    &nbsp;&nbsp;<span class="g">&lt;부칙&gt; …</span><br>
+    &nbsp;&nbsp;&lt;별표&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span class="g">&lt;별표단위&gt; 별표번호 0001 연계운영 대상 시설</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span class="g">&lt;별표단위&gt; 별표번호 0002 협의회 구성</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span class="hl">&lt;별표단위&gt; 별표번호 0003 댐의 홍수기 제한수위(제6조)</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hl">&lt;별표내용&gt; [별표 3] … ┌───┬─────┬…</span>
+   </div>
+  </div>
+  <div class="arr" style="font-size:26px">⟹</div>
+  <div style="flex:0 0 290px">
+   <div class="cap">문서 저장소 <span style="font-weight:normal;color:#666">kgv4_documents.csv</span></div>
+   <table class="tt" style="font-size:13.5px;width:100%"><tr><th>조회 키</th><th>원문</th></tr>
+    <tr><td>별표 3</td><td style="white-space:normal">댐의 홍수기 제한수위(제6조)<br><span class="mono" style="font-size:12.5px">│한 강 │다목적댐 │소양강댐 │190.3 │…<br>│수 계 │ │충 주 댐 │138.0 │…</span></td></tr></table>
+  </div>
+ </div>
+ <div class="note" style="margin-top:8px">XML 태그로 별표번호 3인 &lt;별표단위&gt;만 꺼내고, 글자는 바꾸지 않고 원문 그대로 저장한다.</div>
+</div>
 </body></html>
