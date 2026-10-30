@@ -36,7 +36,24 @@ body{margin:0;background:#fff;color:#222;font-family:"WenQuanYi Zen Hei",sans-se
 .tag{display:inline-block;border-radius:5px;padding:1px 8px;color:#fff;font-weight:bold;font-size:12.5px}
 .note{color:#555;font-size:13.5px}
 .ar2{text-align:center;color:#555;font-size:20px}
+
+.st{display:grid;grid-template-columns:200px 26px minmax(0,1.25fr) 26px minmax(0,1fr);align-items:stretch;gap:0}
+.st .h{font-size:12.5px;color:#666;font-weight:bold;padding-bottom:3px}
+.st .k{border:1.5px solid var(--line);border-radius:8px;padding:7px 9px;background:#fff;font-size:13.5px;word-break:break-all}
+.st .q{border-radius:8px;padding:7px 9px 7px 9px;background:#EFEFEB;font-size:13.5px}
+.st .q ol{margin:0;padding-left:18px}
+.st .q li{margin:1px 0}
+.st .r{border-radius:8px;padding:7px 9px;background:#EEF6EA;border:1.5px solid #B9D8AE;font-size:13.5px;word-break:break-all}
+.st .ar{display:flex;align-items:center;justify-content:center;color:#555;font-size:18px}
+.stp{margin-top:6px;font-size:12.5px;color:#8A6A00}
 '''
+
+
+def stepfig(fid, inp, acts, res, pr=''):
+    """과정 하나: 입력 → 수행(번호 매긴 동작) → 결과"""
+    return ('<div class="fig" id="%s"><div class="st"><div class="h">입력</div><div></div><div class="h">수행 순서</div><div></div><div class="h">결과</div>'
+            '<div class="k">%s</div><div class="ar">→</div><div class="q"><ol>%s</ol></div><div class="ar">→</div><div class="r">%s</div></div>%s</div>'
+            % (fid, inp, ''.join('<li>%s</li>' % a for a in acts), res, ('<div class="stp">%s</div>' % pr) if pr else ''))
 
 
 def proc(fid, cap, rows):
@@ -136,6 +153,96 @@ F.append(result('R_CRI', [['CRI:CR-02', 'Criterion'], ['EVI:LAW:별표3', 'Evide
                 [['CRI:CR-02', 'criterion_list.csv', 'CR-02', 'MR-CRI', '원본 그대로']],
                 [card('CRI:CR-02', 'Criterion', ['criterionType = 홍수기 제한수위', 'criterionValue = 138.0', 'unit = EL.m', '<b>→ supportedBy EVI:LAW:별표3</b>'], 'criterion_list.csv CR-02', '#C77A1E', '#FDF3E3'),
                  card('EVI:LAW:별표3', 'EvidenceSource', ['sourceTitle = 댐과 보 등의 연계운영규정 (훈령 제42호, 2026-07-08 시행)', 'sourceType = 규정', 'sourceLocator = 별표 3 (문서 저장소 조회 키)'], None, '#7A7A7A', '#F2F2F2')]))
+
+# ---------------- 과정별 그림 (과정 → 수행 순서 → 결과)
+M = lambda t: '<span class="mono">%s</span>' % t
+F.append(stepfig('S_APR5', '원본 행 번호 = <b>504</b><br>규칙 ID = MR-APR', [
+    'Entity를 만든 행의 원본 행 번호를 꺼낸다',
+    '원본 파일 이름, 위치(행 번호), 적용한 규칙 ID, 값의 성격(원본 그대로)을 한 줄로 묶는다',
+    '출처 파일에 한 줄을 쓴다'], 'APR:504 · approval_records_clean.csv · 504번째 행 · MR-APR · 원본 그대로'))
+# 댐
+F.append(stepfig('S_DAM1', '대상 댐 목록<br>충주댐 1003110<br>소양강댐 1012110<br>횡성댐 1006110<br>광동댐 1001210', [
+    '대상 댐 목록을 위에서부터 하나씩 꺼낸다',
+    '그 댐의 코드(K-water DAM_CD)를 틀 ' + M('"DAM:"+{DAM_CD}') + '에 넣는다',
+    '4개 댐에서 ID 4개가 나온다'], '<b>DAM:1003110</b> 외 3개<br><span class="note">일자료에서 DAM_CD가 1003110인 12,582행은 모두 이 Entity를 가리킨다</span>', '원리 1 · 키 값으로 식별자'))
+F.append(stepfig('S_DAM2', 'DAM:1003110', [
+    '댐 목록에서 만든 ID에 Class Dam을 붙인다',
+    'Entity 파일에 (ID, Class) 한 줄을 쓴다'], 'DAM:1003110 → Dam', '원리 2 · 한 자료의 ID는 같은 Class'))
+F.append(stepfig('S_DAM3', 'K-water 일자료의 행<br>DAM_CD = 1003110<br>댐 유형 = 다목적댐<br><span class="note">(같은 댐의 행마다 반복)</span>', [
+    '일자료를 한 행씩 읽으며, 댐 코드마다 처음 나온 댐 유형을 적어 둔다 (1003110 → 다목적댐)',
+    '대상 댐마다 그 표에서 코드로 댐 유형을 찾아 damType으로 쓴다',
+    'damName에는 대상 댐 목록의 표준 댐명을 쓴다 (승인 자료의 "충주"와 맞춘 이름)',
+    '속성 파일에 두 줄을 쓴다'], 'damType = 다목적댐 (글자)<br>damName = 충주댐 (글자)', '원리 3 · 열 하나 → 속성 하나'))
+F.append(stepfig('S_DAM4', 'DAM:1003110', [
+    '온톨로지에서 근거 관계(supportedBy)가 정의된 Class인지 확인한다',
+    'Dam은 정의되어 있지 않으므로 근거 Entity를 만들지 않는다'], '근거 연결 없음', ''))
+F.append(stepfig('S_DAM5', 'DAM_CD = 1003110<br>규칙 ID = MR-DAM', [
+    '원본 파일 이름과 위치(DAM_CD)를 묶는다',
+    '출처 파일에 한 줄을 쓴다'], 'DAM:1003110 · kwater_mywater_period_daily_long.csv.gz · DAM_CD=1003110 · MR-DAM · 원본 그대로'))
+# HMS
+F.append(stepfig('S_HMS1', '대상 댐 목록 (4개)<br>변수 목록 (6개)<br>수위 ↔ DATA1_수위(EL.m)<br>저수량 ↔ DATA2_저수량(MCM)<br>… 저수율 ↔ DATA7_저수율(%)', [
+    '대상 댐을 하나씩 꺼낸다',
+    '그 댐에 대해 변수 목록을 하나씩 꺼낸다',
+    '댐 코드와 변수명을 틀 ' + M('"HMS:"+{DAM_CD}+":"+{변수}') + '에 넣는다',
+    '4 × 6번 반복한다'], '<b>HMS:1003110:수위</b>, …:저수량 … 24개<br><span class="note">시간자료 553,609행을 행마다 Entity로 만들지 않는다</span>', '원리 1 응용 · 키가 키 열과 열 머리에 있는 넓은 표'))
+F.append(stepfig('S_HMS2', 'HMS:1003110:수위', [
+    '시간자료의 (댐, 변수)에서 만든 ID에 Class HydrometeorologicalState를 붙인다',
+    'Entity 파일에 한 줄을 쓴다'], 'HMS:1003110:수위 → HydrometeorologicalState', '원리 2'))
+F.append(stepfig('S_HMS3', '변수명 = 수위<br>댐 코드 = 1003110', [
+    '변수명을 variableType으로 쓴다',
+    '댐 코드를 stationCode로 쓴다 (측정 저장소에서 값을 찾을 때의 키)',
+    '시각별 값(131.55 …)은 KG에 쓰지 않는다',
+    '속성 파일에 두 줄을 쓴다'], 'variableType = 수위<br>stationCode = 1003110', '원리 3'))
+F.append(stepfig('S_HMS4', '대상 댐 = 충주댐 (1003110)', [
+    '댐마다 근거 Entity ID ' + M('"EVI:KW:"+{DAM_CD}') + '를 한 번 만든다',
+    '근거 Entity에 sourceTitle, sourceType(측정자료), sourceLocator(DAM_CD=1003110 충주댐 시간별 자료)를 쓴다',
+    '그 댐의 HMS 6개를 모두 이 근거에 잇는 관계 줄을 쓴다'], 'EVI:KW:1003110<br><b>HMS:1003110:수위 —supportedBy→ EVI:KW:1003110</b>'))
+F.append(stepfig('S_HMS5', '변수의 열 이름 = DATA1_수위(EL.m)<br>규칙 ID = MR-HMS', [
+    '값이 들어 있는 열 이름을 위치로 쓴다',
+    '출처 파일에 한 줄을 쓴다'], 'HMS:1003110:수위 · kwater_mywater_hydr_H_wide.csv.gz · DATA1_수위(EL.m) · MR-HMS · 원본 그대로'))
+# 운영행위
+F.append(stepfig('S_OPR1', '중간 파일의 줄<br>504 · 만듦 · 방류<br>2754 · 만듦 · 초기방류<br>2754 · 만듦 · 탄력적 방류<br>3519 · 만들지 않음', [
+    '중간 파일을 한 줄씩 읽는다',
+    '"만들지 않음" 줄(변경 승인 17줄)은 건너뛴다',
+    '순차번호마다 몇 번째 줄인지 센다 (순번)',
+    '틀 ' + M('"OPR:"+{순차번호}+":"+{순번}') + '에 넣는다'], '<b>OPR:504:1</b><br>OPR:2754:1, OPR:2754:2<br><span class="note">68개</span>'))
+F.append(stepfig('S_OPR2', 'OPR:504:1', [
+    '비고에서 뽑은 행위의 ID에 Class Operation을 붙인다',
+    'Entity 파일에 한 줄을 쓴다'], 'OPR:504:1 → Operation'))
+F.append(stepfig('S_OPR3', 'operationType = 방류<br>operationTime = 2011-06-27 20:00', [
+    '행위 유형을 operationType으로 쓴다',
+    '시각을 일시 형식(2011-06-27T20:00)으로 바꿔 operationTime으로 쓴다',
+    '속성 파일에 두 줄을 쓴다'], 'operationType = 방류 (글자)<br>operationTime = 2011-06-27T20:00 (일시)'))
+F.append(stepfig('S_OPR4', '순차번호 = 504', [
+    '순차번호로 그 비고가 적힌 승인 행의 근거 ID ' + M('"EVI:AP:"+{순차번호}') + '를 만든다 (이미 있는 Entity)',
+    '관계 줄을 쓴다'], '<b>OPR:504:1 —supportedBy→ EVI:AP:504</b>'))
+F.append(stepfig('S_OPR5', '순차번호 = 504<br>적용한 규칙 = 실제 방류 시각 문구<br>시각 출처 = 비고 명시 시각', [
+    '그 줄에 적힌 적용 규칙을 규칙 칸에 쓴다',
+    '값의 성격을 "비고에서 분류"로 쓴다 (원본 값을 옮긴 것이 아니라 규칙으로 만든 값)',
+    '출처 파일에 한 줄을 쓴다'], 'OPR:504:1 · operation_from_remarks_5dams.csv · 순차번호=504 · 실제 방류 시각 문구 · 비고에서 분류'))
+# 기준
+F.append(stepfig('S_CRI1', 'criterion_list.csv의 줄<br>CR-01 소양강댐 \'190.3\'<br>CR-02 충주댐 \'138.0\'<br>CR-03 횡성댐 \'178.2\'<br>CR-09 팔당댐 \'25.51)\'', [
+    'criterion_list.csv를 한 줄씩 읽는다',
+    '대상 댐이 아닌 줄과 제한수위가 아닌 줄은 건너뛴다',
+    '제한수위 칸이 숫자뿐인지 확인한다 (각주가 붙으면 건너뜀)',
+    '줄의 번호를 틀 ' + M('"CRI:"+{번호}') + '에 넣는다'], '<b>CRI:CR-02</b>, CRI:CR-01, CRI:CR-03<br><span class="note">번호는 별표3 한강수계 표의 댐 순서로 붙인 연구용 번호</span>'))
+F.append(stepfig('S_CRI2', 'CRI:CR-02', [
+    '별표3에서 뽑은 기준의 ID에 Class Criterion을 붙인다',
+    'Entity 파일에 한 줄을 쓴다'], 'CRI:CR-02 → Criterion'))
+F.append(stepfig('S_CRI3', '제한수위 칸 = \'138.0\'<br>단위 = EL.m', [
+    'criterionType에 "홍수기 제한수위"를 쓴다',
+    '칸 원문 \'138.0\'을 숫자 138.0으로 바꿔 criterionValue로 쓴다',
+    '단위 칸을 unit으로 쓴다',
+    '속성 파일에 세 줄을 쓴다'], 'criterionType = 홍수기 제한수위<br>criterionValue = 138.0 (숫자)<br>unit = EL.m'))
+F.append(stepfig('S_CRI4', '규정 XML의 별표3<br>(규정 하나)', [
+    '규정 근거 Entity를 고정 ID ' + M('"EVI:LAW:별표3"') + '로 한 번 만든다',
+    '근거 Entity에 sourceTitle(규정 이름, 시행일), sourceType(규정), sourceLocator(별표 3)를 쓴다',
+    '기준 3개를 모두 이 근거에 잇는 관계 줄을 쓴다'], 'EVI:LAW:별표3<br><b>CRI:CR-02 —supportedBy→ EVI:LAW:별표3</b><br><span class="note">sourceLocator "별표 3" = 문서 저장소 조회 키</span>'))
+F.append(stepfig('S_CRI5', '번호 = CR-02<br>규칙 ID = MR-CRI', [
+    '원본 파일 이름과 위치(번호)를 묶는다',
+    '값의 성격을 "원본 그대로"로 쓴다',
+    '출처 파일에 한 줄을 쓴다'], 'CRI:CR-02 · criterion_list.csv · CR-02 · MR-CRI · 원본 그대로'))
+
 # ---------------- 비정형 추출이 끝난 상태
 G = '''<div class="fig" id="S4">
  <style>.grp{border:1.5px dashed #BBB;border-radius:10px;padding:7px 9px;background:#FBFBF8}.grp .gt{font-size:13px;color:#555;font-weight:bold;margin-bottom:5px}
