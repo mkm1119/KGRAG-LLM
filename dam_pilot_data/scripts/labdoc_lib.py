@@ -59,12 +59,14 @@ class Template:
 
 
 def add_page_number(ftr):
-    """바닥글 마지막 문단 끝에 ' · 쪽 / 전체쪽' 필드를 붙인다."""
+    """바닥글 마지막 문단을 가운데 정렬된 '쪽 / 전체쪽' 필드로 바꾼다."""
     rpr = '<w:rPr><w:color w:val="787878"/><w:sz w:val="16"/>%s</w:rPr>' % LANG
     fld = lambda instr: '<w:fldSimple w:instr=" %s "><w:r>%s<w:t>1</w:t></w:r></w:fldSimple>' % (instr, rpr)
-    add = '<w:r>%s<w:t xml:space="preserve">  ·  </w:t></w:r>%s<w:r>%s<w:t xml:space="preserve"> / </w:t></w:r>%s' % (rpr, fld('PAGE'), rpr, fld('NUMPAGES'))
+    add = '%s<w:r>%s<w:t xml:space="preserve"> / </w:t></w:r>%s' % (fld('PAGE'), rpr, fld('NUMPAGES'))
     i = ftr.rindex('</w:p>')
-    return ftr[:i] + add + ftr[i:]
+    j = ftr.rindex('<w:p', 0, i)
+    k = ftr.index('</w:pPr>', j) + len('</w:pPr>') if '</w:pPr>' in ftr[j:i] else ftr.index('>', j) + 1
+    return ftr[:k] + add + ftr[i:]  # 바닥글 글자는 지우고 가운데에 "쪽 / 전체 쪽"만
 
 
 def run(text, sz=None, b=False, color=None, mono=False):
