@@ -710,7 +710,7 @@ table.t tr.dim td{color:#999}
   <tr><th style="background:var(--key)">DAM_CD</th><th>SDATE</th><th style="background:var(--key)">DATA1_수위</th><th style="background:var(--key)">DATA2_저수량</th><th style="background:var(--key)">DATA3_강우량</th><th style="background:var(--key)">DATA4_유입량</th><th style="background:#bbb">DATA5</th><th style="background:var(--key)">DATA6_총방류량</th><th style="background:var(--key)">DATA7_저수율</th></tr>
   <tr><td>1003110</td><td>2021010101</td><td>131.55</td><td>1484.5892</td><td>0</td><td>186.52</td><td style="color:#999">186.52</td><td>0.159</td><td>53.99</td></tr>
   <tr><td>1003110</td><td>2021010102</td><td>131.54</td><td>1484.0261</td><td>0</td><td>0</td><td style="color:#999">-156.285</td><td>0.159</td><td>53.96</td></tr>
-  <tr class="dim"><td colspan="9" style="text-align:center">… 4개 댐, 553,609행</td></tr>
+  <tr class="dim"><td colspan="9" style="text-align:center">… 4개 댐, 508,246행 (두 파일을 이은 것)</td></tr>
  </table>
  <div class="note" style="margin-top:4px">DATA5는 원본에 변수 이름이 없어 쓰지 않는다 → 변수 6개</div>
  <div class="line" style="margin-top:12px;font-size:14px"><span class="chip">DAM_CD = <b style="color:var(--key)">1003110</b></span><span class="arr" style="padding:0 3px">+</span><span class="chip">변수명 = <b style="color:var(--key)">수위</b></span><span class="arr">→</span><span class="chip mono" style="font-size:13px">"HMS:"+{DAM_CD}+":"+{변수}</span><span class="arr" style="padding:0 4px">→</span><span class="id">HMS:1003110:수위</span></div>
@@ -719,7 +719,7 @@ table.t tr.dim td{color:#999}
   <div style="margin-top:6px;line-height:2.1"><span class="id">HMS:1003110:수위</span> <span class="id">HMS:1003110:저수량</span> <span class="id">HMS:1003110:강우량</span><br><span class="id">HMS:1003110:유입량</span> <span class="id">HMS:1003110:총방류량</span> <span class="id">HMS:1003110:저수율</span></div>
   <div class="note">대상 댐 4개를 하나씩, 각 댐에서 변수 6개를 하나씩 → 4 × 6 = 24개</div>
  </div>
- <div class="d2rq"><b>원리 1 응용</b> — 행마다 만들면 55만 개가 된다. KG에 필요한 것은 "어느 댐에 어떤 측정 변수가 있는가"이므로, 키가 키 열(DAM_CD)과 열 머리(변수명) 두 곳에 있는 넓은 표에 맞춰 두 값을 함께 틀에 넣는다</div>
+ <div class="d2rq"><b>원리 1 응용</b> — 행마다 만들면 약 51만 개가 된다. KG에 필요한 것은 "어느 댐에 어떤 측정 변수가 있는가"이므로, 키가 키 열(DAM_CD)과 열 머리(변수명) 두 곳에 있는 넓은 표에 맞춰 두 값을 함께 틀에 넣는다</div>
 </div>
 
 <div class="fig" id="h2"><div class="box"><div class="hd">시간자료에서 만든 ID → 모두 HydrometeorologicalState</div><div style="display:flex;align-items:center;gap:40px;margin-top:8px"><div style="display:flex;align-items:center;gap:10px"><div><span class="id" style="margin-top:4px">HMS:1003110:수위</span><br><span class="id" style="margin-top:4px">HMS:1003110:저수량</span><br><span class="id" style="margin-top:4px">…</span><br><span class="note">24개 (4개 댐 × 6개 변수)</span></div><span class="arr">⟶</span><div><span class="tag" style="background:var(--cls);font-size:17px">HydrometeorologicalState</span></div></div></div></div><div class="d2rq"><b>원리 2</b> — 한 자료에서 나온 ID는 모두 같은 Class의 Entity가 된다</div></div>
@@ -739,7 +739,7 @@ table.t tr.dim td{color:#999}
  </div>
  <div class="sub">원리 3 — 열 하나의 값을 속성 하나로</div>
  <div class="row3">
-  <div class="cv">시각별 셀 값<br>131.55, 131.54, …<br><span class="note">(55만 행)</span></div><div class="ar">→</div>
+  <div class="cv">시각별 셀 값<br>131.55, 131.54, …<br><span class="note">(약 51만 행)</span></div><div class="ar">→</div>
   <div class="rl">KG에 넣지 않는다</div><div class="ar">→</div>
   <div class="out" style="background:#F2F2F2;border-color:#ccc">측정 저장소에 그대로 둔다<br><span class="note">stationCode + 시각으로 찾는다</span></div>
  </div>
