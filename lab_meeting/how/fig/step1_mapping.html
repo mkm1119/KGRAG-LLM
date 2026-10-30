@@ -67,7 +67,7 @@ pre.f{margin:4px 0 0;background:#FAFAFA;border:1px solid var(--line);border-radi
   <span><i class="sw c-key"></i>키 → 식별자 (②)</span>
   <span><i class="sw c-cls"></i>이름 → 개체 라벨 (③)</span>
   <span><i class="sw c-prop"></i>열 하나 → 속성 하나 (④)</span>
-  <span><i class="sw c-merge"></i>열 세 개 → 속성 하나로 합침 (④, 남은 문제)</span>
+  <span><i class="sw c-merge"></i>열 세 개 → 속성 하나로 합침 (④, 검토할 점)</span>
   <span><i class="sw c-rel"></i>속성이 아니라 관계로 (3단계)</span>
   <span><i class="sw c-prov"></i>근거·출처 기록 (⑤)</span>
  </div>
@@ -152,8 +152,8 @@ EVI:AP:504, EvidenceSource, 한강홍수통제소 댐방류승인 순차번호 5
 
   <div class="cellv"><span class="tag c-merge">방류시작시간</span> 2011-06-27 18:00<br><span class="tag c-merge">접수방류량</span> 2000<br><span class="tag c-merge">비고</span> (실제방류는 20시부터)</div><div class="arrow">→</div>
   <div class="rule">세 값을 한 문자열 틀에 넣는다<br><code>"방류시작 {}; 접수방류량 {}㎥/s; 비고: {}"</code><br><span class="note">비고가 비어 있으면 앞의 두 값만</span></div><div class="arrow">→</div>
-  <div class="out"><b>approvalContent</b> = "방류시작 2011-06-27 18:00; 접수방류량 2000㎥/s; 비고: (실제방류는 20시부터)" <span class="note">(string)</span><br><span class="warn">⚠ 시각·유량이 문자열에 묻혀 수치 질의 불가</span></div>
-  <div class="d2rq"><code>d2rq:pattern</code><br>여러 열 → 문자열 하나<br><span class="warn">원칙(열→속성)과 어긋남</span></div>
+  <div class="out"><b>approvalContent</b> = "방류시작 2011-06-27 18:00; 접수방류량 2000㎥/s; 비고: (실제방류는 20시부터)" <span class="note">(string)</span><br><span class="warn">⚠ 주어진 온톨로지에 Approval 내용 속성이 하나뿐이라 합침 → 검토할 점</span></div>
+  <div class="d2rq"><code>d2rq:pattern</code><br>여러 열 → 문자열 하나<br><span class="warn">온톨로지 속성 추가 검토</span></div>
 
   <div class="cellv"><span class="tag c-rel">관측소코드</span><br>1003110</div><div class="arrow">→</div>
   <div class="rule">속성으로 만들지 않는다<br><span class="note">값이 댐 코드(DAM_CD)와 같으므로 댐 개체를 가리키는 데 쓴다</span></div><div class="arrow">⇢</div>
