@@ -434,4 +434,52 @@ table.t tr.dim td{color:#999}
  </div>
  <div class="note" style="margin-top:8px">XML 태그로 별표번호 3인 &lt;별표단위&gt;만 꺼내고, 글자는 바꾸지 않고 원문 그대로 저장한다.</div>
 </div>
+
+<!-- 그림 15: 비고 → Operation (실제 행) -->
+<div class="fig" id="f15">
+ <style>
+ table.op{border-collapse:collapse;font-size:13.5px;width:100%}
+ table.op th,table.op td{border:1px solid var(--line);padding:5px 7px;vertical-align:middle}
+ table.op th{background:#555;color:#fff}
+ mark.c{background:#E3E3E3;text-decoration:line-through;color:#666}
+ mark.a{background:#E6DAF5;color:#5E3A8E;font-weight:bold}
+ mark.t{background:#FFE2B8;color:#9A4E00;font-weight:bold}
+ mark.x{background:#FDDCD8;color:#B3261E;font-weight:bold}
+ .opid{font-weight:bold;white-space:nowrap}
+ .nores{color:#B3261E;font-weight:bold}
+ </style>
+ <table class="op">
+  <tr><th style="width:90px">승인<br>(방류시작)</th><th>비고 원문</th><th style="width:210px">적용한 규칙</th><th style="width:150px">Operation</th></tr>
+  <tr><td>504 충주<br><span class="note">18:00</span></td><td>(실제방류는 <mark class="t">20시부터</mark>)</td><td>행위 문구 없음 → 실제 방류 시각 문구 → 방류, 시각은 비고의 20시</td><td><span class="opid">OPR:504:1</span><br>방류 · 20:00</td></tr>
+  <tr><td>2754 소양강<br><span class="note">14:00</span></td><td>최대 1500㎥/s<mark class="c">(발전방류 포함)</mark>이내 <mark class="a">탄력</mark>적 방류 (<mark class="a">초기</mark> 1000㎥/s이내 방류)</td><td>조건 문구 지움 → 행위 문구 2개(초기, 탄력) → Operation 2개, 시각은 방류시작시간</td><td><span class="opid">OPR:2754:1</span> 초기방류<br><span class="opid">OPR:2754:2</span> 탄력적 방류<br>· 14:00</td></tr>
+  <tr><td>279 횡성<br><span class="note">17:00</span></td><td><mark class="t">9.11 16:00</mark> 수문<mark class="a">방류종료</mark></td><td>행위 문구(종료) → 방류종료, 시각은 비고의 9.11 16:00</td><td><span class="opid">OPR:279:1</span><br>방류종료 · 09-11 16:00</td></tr>
+  <tr><td>418 충주<br><span class="note">15:00</span></td><td><span class="note">(비어 있음)</span></td><td>비고 없음 → 승인 자체를 방류로, 시각은 방류시작시간</td><td><span class="opid">OPR:418:1</span><br>방류 · 15:00</td></tr>
+  <tr><td>3519 충주<br><span class="note">08-02 18:00</span></td><td>방류기간 (당초) 08/02 18:00 ~ 08/12 18:00 (<mark class="x">변경</mark>) 08/02 18:00 ~ 08/16 24:00 …</td><td>승인 변경 문구 → 같은 방류의 변경으로 보고 만들지 않음 (사유 기록)</td><td><span class="nores">만들지 않음</span></td></tr>
+ </table>
+ <div class="note" style="margin-top:8px"><mark class="c">회색 취소선</mark> 지운 조건 문구 · <mark class="a">보라</mark> 행위 문구 · <mark class="t">주황</mark> 비고에 적힌 시각 · <mark class="x">빨강</mark> 승인 변경 문구</div>
+</div>
+
+<!-- 그림 16: 별표3 → Criterion -->
+<div class="fig" id="f16">
+ <style>
+ .box3{font-family:"DejaVu Sans Mono",monospace;font-size:14px;line-height:1.55;border:1.5px solid var(--line);border-radius:8px;padding:8px 10px;background:#FAFAFA;white-space:pre}
+ .box3 .hl{background:#FFF1C9}
+ .box3 .g{color:#AAA}
+ </style>
+ <div class="cap">문서 저장소의 별표3 원문 (일부)</div>
+<div class="box3"><span class="g">│구 분 │댐 종류   │댐 명     │홍수기 제한수위 │시설별 최저 운영수위│</span>
+<span class="hl">│한 강 │다목적댐  │소양강댐  │190.3           │-                   │</span>
+<span class="hl">│수 계 │          │충 주 댐  │138.0           │-                   │</span>
+<span class="hl">│      │          │횡 성 댐  │178.2           │-                   │</span>
+<span class="g">│      │          │팔 당 댐  │25.51)          │-                   │</span></div>
+ <div class="line" style="margin-top:10px;font-size:15px"><span class="chip">댐 이름 "충주댐"</span><span class="arr">→</span><span class="chip mono" style="font-size:13.5px">│\s*충\s*주\s*댐\s*│\s*(값)\s*│\s*(값)\s*│</span><span class="arr">→</span><span class="chip">칸 원문 '138.0', '-'</span></div>
+ <div class="note">글자 사이 공백을 허용(\s*)해서 "충 주 댐"과 "충주댐"을 같은 이름으로 읽는다. 칸의 글자는 해석하지 않고 원문 그대로 남긴다.</div>
+ <table class="tt" style="margin-top:10px;font-size:14px;width:100%">
+  <tr><th>댐</th><th>제한수위 칸 원문</th><th>Criterion</th><th>criterionValue</th><th>unit</th></tr>
+  <tr><td>소양강댐</td><td>'190.3'</td><td>CRI:CR-01</td><td>190.3 (숫자)</td><td>EL.m</td></tr>
+  <tr style="background:#FFF1C9;font-weight:bold"><td>충주댐</td><td>'138.0'</td><td>CRI:CR-02</td><td>138.0 (숫자)</td><td>EL.m</td></tr>
+  <tr><td>횡성댐</td><td>'178.2'</td><td>CRI:CR-03</td><td>178.2 (숫자)</td><td>EL.m</td></tr>
+  <tr style="color:#999"><td>팔당댐</td><td>'25.51)' (값 25.5 + 각주 1)</td><td colspan="3">대상 댐 아님 · 각주가 붙은 값은 숫자만 받는 규칙에서 빠짐</td></tr>
+ </table>
+</div>
 </body></html>
