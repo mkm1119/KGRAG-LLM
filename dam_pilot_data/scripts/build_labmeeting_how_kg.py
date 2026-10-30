@@ -86,31 +86,32 @@ add(dateline('2026.10.30 · 문경민'))
 
 # ================================================================== 1. 단계와 방법론 구체화 현황
 add(h1('1. KG 구축 단계와 방법론 구체화 현황'))
-lis('KG 구축은 아래 순서로 수행했다. 모든 단계의 수행은 끝났고, 이번 자료는 그중 자료 준비, 구조화 자료 매핑, 비정형 텍스트 추출의 방법론을 구체화했다. 이 세 단계를 마치면 KG의 Entity 264개와 속성 616개가 만들어진다.',
-    '나머지는 다음 주에 구체화한다(6장). 각 원리의 자세한 설명은 부록 E에 있다.')
+lis('KG 구축은 아래 순서로 수행했다. 모든 단계의 수행은 끝났고, 이번 자료는 그중 자료 준비, 구조화 자료 매핑, 비정형 텍스트 추출의 방법론을 정리했다.',
+    '이 세 단계를 마치면 KG에 들어갈 Entity 264개와 속성 616개가 만들어진다. 이들을 관계로 이어 KG를 완성하는 것은 개체 해소·연결이다.',
+    '모든 단계를 수행했지만, 방법론을 정리한 것은 자료 준비부터 비정형 텍스트 추출까지이다. 나머지는 다음 주에 정리한다(6장). 각 원리의 자세한 설명은 부록 E에 있다.')
 DONE, NEXT = 'E3F1DC', 'FDEBD3'
 def status_table():
     ws = [1300, 2500, 3300, 2872]
     rows = [
-        ('자료 준비', '소스 구분과 전처리', '소스 구분: Huang 외(2026)가 자료를 정형 표와 비정형 텍스트로 나누어 서로 다른 Class를 채운 원리\n전처리: 문헌 근거 없음', '구체화함 (2장)', DONE),
-        ('구조화 자료 매핑', '정형 표의 행·열을 Entity와 속성으로', 'Zhou 외(2023)가 OntoDSMS 구축에 사용한 D2RQ의 매핑 원리', '구체화함 (3장)', DONE),
-        ('비정형 텍스트 추출', '비고에서 운영행위, 별표3에서 운영기준을 뽑음', 'Huang 외(2026)의 규칙 기반 지식 추출', '구체화함 (4장)', DONE),
-        ('개체 해소·연결', '서로 다른 자료의 Entity를 관계로 이음', 'Purohit 외(2024)의 개체 중의성 해소(GraphAide)', '수행함, 방법론 구체화는 다음 주', NEXT),
-        ('검증', '만든 KG가 온톨로지 제약에 맞는지 확인', '근거 문헌부터 다시 정함', '수행함, 방법론 재정립은 다음 주', NEXT),
-        ('저장', 'CSV를 Cypher로 바꿔 Neo4j에 넣음', 'Huang 외(2026)의 저장 방식', '수행함, 다음 주', NEXT),
-        ('검색·답변', '질문에 맞는 근거를 찾아 LLM이 답함', '방법 자체를 다시 고민', '수행함, 다음 주', NEXT),
+        ('자료 준비', '소스 구분과 전처리', '소스 구분: Huang 외(2026)가 자료를 정형 표와 비정형 텍스트로 나누어 서로 다른 Class를 채운 원리\n전처리: 문헌 근거 없음', '정리함 (2장)', DONE),
+        ('구조화 자료 매핑', '정형 표의 행·열을 Entity와 속성으로', 'Zhou 외(2023)가 OntoDSMS 구축에 사용한 D2RQ의 매핑 원리', '정리함 (3장)', DONE),
+        ('비정형 텍스트 추출', '비고에서 운영행위, 별표3에서 운영기준을 뽑음', 'Huang 외(2026)의 규칙 기반 지식 추출', '정리함 (4장)', DONE),
+        ('개체 해소·연결', '서로 다른 자료의 Entity를 관계로 이음', 'Purohit 외(2024)의 개체 중의성 해소(GraphAide)', '아직 정리 못 함 (다음 주)', NEXT),
+        ('검증', '만든 KG가 온톨로지 제약에 맞는지 확인', '—', '아직 정리 못 함 (다음 주)', NEXT),
+        ('저장', 'CSV를 Cypher로 바꿔 Neo4j에 넣음', 'Huang 외(2026)의 저장 방식', '아직 정리 못 함 (다음 주)', NEXT),
+        ('검색·답변', '질문에 맞는 근거를 찾아 LLM이 답함', '—', '아직 정리 못 함 (다음 주)', NEXT),
     ]
     out = ['<w:tbl><w:tblPr><w:tblW w:w="%d" w:type="dxa"/><w:jc w:val="center"/><w:tblBorders>%s</w:tblBorders><w:tblLayout w:type="fixed"/></w:tblPr><w:tblGrid>%s</w:tblGrid>'
            % (L.W, L.BORD, ''.join('<w:gridCol w:w="%d"/>' % w for w in ws))]
-    out.append('<w:tr><w:trPr><w:cantSplit/><w:tblHeader/></w:trPr>' + ''.join(L.cell(c, w, fill='D9EAF7', b=True, center=True) for c, w in zip(['단계', '하는 일', '따른 원리', '방법론 구체화'], ws)) + '</w:tr>')
+    out.append('<w:tr><w:trPr><w:cantSplit/><w:tblHeader/></w:trPr>' + ''.join(L.cell(c, w, fill='D9EAF7', b=True, center=True) for c, w in zip(['단계', '하는 일', '따른 원리', '방법론 정리'], ws)) + '</w:tr>')
     for name, job, src, st, fill in rows:
         out.append('<w:tr><w:trPr><w:cantSplit/></w:trPr>' + L.cell(name, ws[0], fill='EEF5FA', b=True, color='1F4E79', center=True)
                    + L.cell(job, ws[1]) + L.cell(src, ws[2]) + L.cell(st, ws[3], fill=fill, b=True, center=True) + '</w:tr>')
     out.append('</w:tbl>')
     return ''.join(out) + spacer()
-add(label('표 1. 단계별 하는 일, 따른 원리, 방법론 구체화 여부'))
+add(label('표 1. 단계별 하는 일, 따른 원리, 방법론 정리 여부'))
 add(status_table())
-add(L.flow(['자료 5가지', '자료 준비', '구조화 자료 매핑', '비정형 텍스트 추출', 'Entity 264\n속성 616']))
+add(L.flow(['자료 5가지', '자료 준비', '구조화 자료 매핑', '비정형 텍스트 추출', 'Entity 264\n속성 616\n(연결 전)']))
 
 # ================================================================== 3. 자료 준비
 add(h1('2. 자료 준비: 소스 구분과 전처리'))
@@ -233,6 +234,8 @@ lis('입력: 댐 한 개가 한 행인 표는 따로 없다. K-water 일자료�
     '결과: 승인과 같은 CSV 파일 3개에 Dam Entity의 줄이 추가된다.')
 add(fig('step3_doc_f9'))
 add(caption('그림 10. K-water 일자료 → Dam Entity'))
+add(para('결과: KG CSV 파일 3개에 생기는 줄'))
+add(code('kgv4_entities.csv\n  DAM:1003110,Dam,충주댐\n\nkgv4_properties.csv\n  DAM:1003110,damName,충주댐,string\n  DAM:1003110,damType,다목적댐,string\n\nkgv4_provenance.csv\n  DAM:1003110,entity,03_normalized/kwater_mywater_period_daily_long.csv.gz,DAM_CD=1003110,MR-DAM,real,댐 유형은 K-water 원문 그대로'))
 add(label('HydrometeorologicalState (HMS, 수문·기상 상태)'))
 lis('입력: K-water 시간자료. 한 행이 (댐 코드, 시각)이고 변수 6개(수위, 저수량, 강우량, 유입량, 총방류량, 저수율)가 열로 펼쳐진 넓은 형태이며 553,609행이다.',
     '행마다 Entity를 만들면 55만 개가 된다. KG에 필요한 것은 "어느 댐에 어떤 측정 변수가 있는가"이므로, 키 열(DAM_CD)과 열 머리(변수명)를 함께 틀에 넣어 (댐, 변수)마다 Entity를 만든다. 예: HMS:1003110:수위',
@@ -240,6 +243,8 @@ lis('입력: K-water 시간자료. 한 행이 (댐 코드, 시각)이고 변수 
     '같은 자료에서 댐마다 측정자료 근거 Entity EVI:KW:{DAM_CD}를 만들고, HMS와 supportedBy로 잇는다.')
 add(fig('step3_doc_f5'))
 add(caption('그림 11. K-water 시간자료 → HMS Entity'))
+add(para('결과: KG CSV 파일 3개에 생기는 줄 (출처의 위치에는 값이 들어 있는 열 이름을 남긴다)'))
+add(code('kgv4_entities.csv\n  HMS:1003110:수위,HydrometeorologicalState,충주댐_수위\n  EVI:KW:1003110,EvidenceSource,K-water MyWater 수문자료 충주댐\n\nkgv4_properties.csv\n  HMS:1003110:수위,variableType,수위,string\n  HMS:1003110:수위,stationCode,1003110,string\n  EVI:KW:1003110,sourceLocator,DAM_CD=1003110 충주댐 시간별 자료,string\n\nkgv4_provenance.csv\n  HMS:1003110:수위,entity,03_normalized/kwater_mywater_hydr_H_wide.csv.gz,DATA1_수위(EL.m),MR-HMS,real'))
 
 add(h2('3.4 구조화 자료 매핑이 끝난 상태'))
 lis('그림 12는 충주댐에 관련된 Entity를 만든 자료별로 모은 것이다.',
@@ -279,27 +284,46 @@ add(table([
 ], [1900, 3700, 3172, 1200]))
 add(fig('step3_doc_f15'))
 add(caption('그림 13. 실제 비고 5건이 Operation이 되는 과정'))
-add(para('결과: 중간 파일 operation_from_remarks_5dams.csv(만든 68행 + 만들지 않은 17행과 사유), 그리고 KG CSV 파일에 Operation의 줄'))
-add(rtable([['Entity ID', '속성', '값', '자료형'],
-            ['OPR:504:1', 'operationType', '방류', '글자'],
-            ['OPR:504:1', 'operationTime', '2011-06-27T20:00', '일시'],
-            ['OPR:2754:1', 'operationType', '초기방류', '글자'],
-            ['OPR:2754:2', 'operationType', '탄력적 방류', '글자']], [2000, 2400, 4372, 1200]))
-lis('80개 승인 중 63개에서 Operation 68개가 만들어진다(58개 승인에서 1개, 5개 승인에서 2개). 17개 승인은 변경 승인이라 만들지 않았다.',
-    'Operation도 승인과 같은 행에서 나왔으므로, 근거 Entity EVI:AP:{순차번호}에 supportedBy로 바로 잇는다(그림 14).')
+add(label('Operation Entity 만들기'))
+lis('규칙을 적용한 결과는 먼저 중간 파일 operation_from_remarks_5dams.csv에 적는다. 한 줄은 승인 하나의 행위 하나이고(85줄 = 만든 68줄 + 만들지 않은 17줄과 사유), 열은 순차번호, 비고 원문, operationType, 적용한 규칙, operationTime, 시각 출처 등이다.',
+    '이 줄을 구조화 자료 매핑과 같은 순서로 Entity로 만든다(그림 14): ① 식별자 "OPR:" + {순차번호} + ":" + {순번} → OPR:504:1. 순번은 한 비고에서 몇 번째로 잡힌 행위인지이며, 한 승인에서 행위가 둘이면 OPR:2754:1, OPR:2754:2가 된다.',
+    '② Class는 Operation, 속성은 operationType(글자)과 operationTime(일시). ③ 출처에는 중간 파일과 순차번호, 적용한 규칙, 값의 성격 "비고에서 분류"를 남긴다. 원본 값을 그대로 옮긴 승인과 달리, 운영행위는 규칙으로 분류해 만든 값이기 때문이다.')
+add(fig('step3_doc_f21'))
+add(caption('그림 14. Operation Entity 만들기 — 중간 파일의 504행 줄에서 OPR:504:1로'))
+add(para('결과: KG CSV 파일 3개에 생기는 줄'))
+add(code('kgv4_entities.csv\n  OPR:504:1,Operation,충주댐 방류 (2011-06-27 20:00)\n\n'
+         'kgv4_properties.csv\n  OPR:504:1,operationType,방류,string\n  OPR:504:1,operationTime,2011-06-27T20:00,datetime\n\n'
+         'kgv4_provenance.csv\n  OPR:504:1,entity,03_normalized/operation_from_remarks_5dams.csv,순차번호=504,실제 방류 시각 문구,derived(비고 분류),시각 출처: 비고 명시 시각(실제 방류)'))
+lis('80개 승인 중 63개에서 Operation 68개가 만들어진다(58개 승인에서 1개, 5개 승인에서 2개). 17개 승인은 변경 승인이라 만들지 않았다.')
+add(label('근거 연결'))
+lis('비고는 승인 504행에 적혀 있으므로, 비고에서 뽑은 운영행위의 근거도 504행의 근거 Entity EVI:AP:504이다. ID의 순차번호로 바로 정해지므로 다른 표를 찾지 않고 supportedBy로 잇는다(그림 15).')
 add(fig('step3_doc_f19'))
-add(caption('그림 14. 운영행위의 근거 연결 — 같은 504행의 근거 Entity에 잇는다'))
+add(caption('그림 15. 운영행위의 근거 연결 — 비고가 적힌 504행의 근거 Entity에 잇는다'))
 
 add(h2('4.3 별표3 → Criterion (홍수기 제한수위)'))
 lis('대상: 전처리에서 꺼내 둔 별표3 원문. 선 문자로 그린 표라 칸이 "│"로 나뉘어 있고, 댐 이름 글자 사이에 공백이 있다("충 주 댐").',
-    '① 댐 이름마다 정규식으로 그 댐의 행을 찾는다. 이름 글자 사이에 공백을 허용(\\s*)해서 "충 주 댐"과 "충주댐"을 같은 이름으로 읽고, 이어지는 두 칸(홍수기 제한수위, 시설별 최저 운영수위)의 글자를 원문 그대로 남긴다(criterion_list.csv).',
-    '② 대상 댐이면서 제한수위 칸이 숫자뿐인 경우에만 Criterion을 만든다. 값은 숫자(criterionValue), 단위는 EL.m이다.',
-    '결과: 충주, 소양강, 횡성 3개(CRI:CR-01~03). 광동댐은 별표3에 없다.',
-    'Criterion은 규정 근거 Entity EVI:LAW:별표3에 supportedBy로 잇는다(그림 16). 근거 Entity의 sourceLocator "별표 3"은 전처리에서 저장한 문서 저장소의 조회 키이다.')
+    '① 댐 이름마다 정규식으로 그 댐의 행을 찾는다. 이름 글자 사이에 공백을 허용(\\s*)해서 "충 주 댐"과 "충주댐"을 같은 이름으로 읽고, 이어지는 두 칸(홍수기 제한수위, 시설별 최저 운영수위)의 글자를 원문 그대로 중간 파일 criterion_list.csv에 남긴다(그림 16).',
+    '② 대상 댐이면서 제한수위 칸이 숫자뿐인 경우에만 Criterion을 만든다. 충주, 소양강, 횡성 3개이며, 광동댐은 별표3에 없다.')
 add(fig('step3_doc_f16'))
-add(caption('그림 15. 별표3의 문자로 그린 표에서 댐별 제한수위 칸 읽기'))
+add(caption('그림 16. 별표3의 문자로 그린 표에서 댐별 제한수위 칸 읽기'))
+add(label('Criterion Entity 만들기'))
+lis('중간 파일 criterion_list.csv의 한 줄은 별표3의 댐 하나이다. 번호(CR-01, CR-02 …)는 별표3 한강수계 표에 댐이 나오는 순서대로 붙인 연구용 번호이다(소양강 CR-01, 충주 CR-02, 횡성 CR-03, 화천 CR-04 …).',
+    '① 식별자 "CRI:" + {번호} → CRI:CR-02. ② Class는 Criterion, 속성은 criterionType(홍수기 제한수위), criterionValue(칸 원문 \'138.0\'을 숫자 138.0으로), unit(EL.m).',
+    '③ 근거 Entity: 규정은 하나이므로 고정 ID "EVI:LAW:별표3"으로 근거 Entity 하나를 만들고, sourceTitle(규정 이름과 시행일), sourceType(규정), sourceLocator(별표 3)를 넣는다. ④ 출처에는 criterion_list.csv의 번호 CR-02와 값의 성격 "원본 그대로"를 남긴다(그림 17).')
+add(fig('step3_doc_f22'))
+add(caption('그림 17. Criterion Entity 만들기 — 중간 파일의 CR-02 줄에서 CRI:CR-02로'))
+add(para('결과: KG CSV 파일 3개에 생기는 줄'))
+add(code('kgv4_entities.csv\n  CRI:CR-02,Criterion,충주댐 홍수기 제한수위\n  EVI:LAW:별표3,EvidenceSource,댐과 보 등의 연계운영규정 별표3\n\n'
+         'kgv4_properties.csv\n  CRI:CR-02,criterionType,홍수기 제한수위,string\n  CRI:CR-02,criterionValue,138.0,decimal\n  CRI:CR-02,unit,EL.m,string\n  EVI:LAW:별표3,sourceLocator,별표 3,string\n\n'
+         'kgv4_provenance.csv\n  CRI:CR-02,entity,03_normalized/criterion_list.csv,CR-02,MR-CRI,real,별표3 해당 행(각주 표시 없음)'))
+add(label('근거 연결'))
+lis('Criterion 3개는 모두 같은 규정에서 나왔으므로 근거 Entity EVI:LAW:별표3에 supportedBy로 잇는다(그림 18). sourceLocator "별표 3"은 전처리에서 저장한 문서 저장소의 조회 키라서, 근거에서 원문으로 바로 갈 수 있다.')
 add(fig('step3_doc_f20'))
-add(caption('그림 16. 운영기준의 근거 연결 — 규정 근거 Entity EVI:LAW:별표3에 잇는다'))
+add(caption('그림 18. 운영기준의 근거 연결 — 규정 근거 Entity EVI:LAW:별표3에 잇는다'))
+
+add(h2('4.4 비정형 텍스트 추출이 끝난 상태'))
+lis('비정형 텍스트 추출에서 Operation %d개, Criterion %d개, 규정 근거 EvidenceSource %d개와 속성 %d개가 더해진다.' % (EC['OPR'], EC['CRI'], EC['EVI:LAW'], PC['OPR'] + PC['CRI'] + PC['EVI:LAW']),
+    '구조화 자료 매핑의 결과와 합치면 KG에 들어갈 Entity %d개와 속성 %d개가 모두 만들어진다. 같은 행·같은 자료에서 함께 만든 근거만 이어져 있고, 승인과 댐, 운영행위와 댐, 기준과 댐처럼 서로 다른 자료에서 나온 Entity는 아직 이어지지 않았다. 이들을 관계로 이어 KG를 완성하는 것이 개체 해소·연결이다(다음 주).' % (len(ents), len(props)))
 
 # ================================================================== 5. 검토할 점
 add(h1('5. 검토할 점'))
