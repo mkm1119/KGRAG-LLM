@@ -644,4 +644,191 @@ table.t tr.dim td{color:#999}
   <div class="r">criterion_list.csv · CR-02 · 규칙 MR-CRI · 값의 성격: 원본 그대로</div>
  </div>
 </div>
+
+<!-- ===== 댐·HMS·OPR·CRI 과정 그림 ===== -->
+<style>
+.g6{display:grid;grid-template-columns:575px 30px 1fr;gap:10px 0;align-items:center}
+.mt{border-collapse:collapse;font-size:12.5px;width:100%}
+.mt th,.mt td{border:1px solid var(--line);padding:3px 6px;text-align:left}
+.mt th{background:#666;color:#fff;font-weight:bold}
+.mt td{white-space:nowrap}
+.mt{font-size:14px !important}
+.cap6{font-size:14px;font-weight:bold;margin:0 0 3px}
+.cap6 span{font-weight:normal;color:#666}
+</style>
+<!-- 댐 과정 1: 식별자 -->
+<div class="fig" id="d1">
+ <div style="display:flex;gap:16px;align-items:flex-start">
+  <div><div class="hd">대상 댐 목록 (승인 자료의 관측소명 ↔ K-water 댐 코드)</div>
+  <table class="t" style="margin-top:6px">
+   <tr><th>승인 관측소명</th><th>표준 댐명</th><th style="background:var(--key)">DAM_CD</th><th>→ Entity ID</th></tr>
+   <tr class="dim"><td>소양강</td><td>소양강댐</td><td>1012110</td><td>DAM:1012110</td></tr>
+   <tr class="hl"><td>충주</td><td>충주댐</td><td>1003110</td><td>DAM:1003110</td></tr>
+   <tr class="dim"><td>횡성</td><td>횡성댐</td><td>1006110</td><td>DAM:1006110</td></tr>
+   <tr class="dim"><td>광동</td><td>광동댐</td><td>1001210</td><td>DAM:1001210</td></tr>
+  </table></div>
+  <div class="note" style="margin-top:28px">· 목록을 위에서부터 하나씩 꺼낸다<br>· 댐 하나 → ID 하나<br>· 4개 댐 → Dam ID 4개</div>
+ </div>
+ <div class="line" style="margin-top:12px"><span class="chip">DAM_CD = <b style="color:var(--key)">1003110</b></span><span class="arr">→</span><span class="chip mono">"DAM:" + {DAM_CD}</span><span class="arr">→</span><span class="id">DAM:1003110</span></div>
+ <div class="box" style="margin-top:10px;background:#fff">
+  <div class="hd">K-water 일자료에서 같은 코드의 행</div>
+  <table class="t" style="margin-top:4px;font-size:14.5px">
+   <tr><th style="background:var(--key)">DAM_CD</th><th>댐 이름</th><th>댐 유형</th><th>날짜</th><th>변수</th><th>값</th></tr>
+   <tr><td>1003110</td><td>충주댐</td><td>다목적댐</td><td>2021-12-31</td><td>저수위</td><td>131.53</td></tr>
+   <tr><td>1003110</td><td>충주댐</td><td>다목적댐</td><td>2021-12-30</td><td>저수위</td><td>131.63</td></tr>
+   <tr class="dim"><td colspan="6" style="text-align:center">… DAM_CD 1003110인 행 12,582개 → 모두 DAM:1003110 하나를 가리킨다</td></tr>
+  </table>
+ </div>
+ <div class="d2rq"><b>원리 1 적용</b> — 키 값(DAM_CD)으로 ID를 만들기 때문에, 같은 댐의 여러 행은 모두 같은 ID가 되어 Entity 하나로 모인다</div>
+</div>
+
+<div class="fig" id="d2"><div class="box"><div class="hd">대상 댐 목록에서 만든 ID → 모두 Dam</div><div style="display:flex;align-items:center;gap:40px;margin-top:8px"><div style="display:flex;align-items:center;gap:10px"><div><span class="id" style="margin-top:4px">DAM:1012110</span><br><span class="id" style="margin-top:4px">DAM:1003110</span><br><span class="id" style="margin-top:4px">DAM:1006110</span><br><span class="id" style="margin-top:4px">DAM:1001210</span><br><span class="note">4개</span></div><span class="arr">⟶</span><div><span class="tag" style="background:var(--cls);font-size:17px">Dam</span></div></div></div></div><div class="d2rq"><b>원리 2</b> — 한 자료에서 나온 ID는 모두 같은 Class의 Entity가 된다</div></div>
+
+<!-- 댐 과정 3: 속성 -->
+<div class="fig" id="d3">
+ <div class="row3"><div class="hd">원본 값</div><div></div><div class="hd">변환 규칙</div><div></div><div class="hd">결과 (속성 = 값)</div></div>
+ <div class="row3">
+  <div class="cv">일자료 행들의 <span class="tag" style="background:var(--prop)">댐 유형</span><br>1012110 → 다목적댐<br><b>1003110 → 다목적댐</b><br>1006110 → 다목적댐<br>1001210 → 용수댐</div><div class="ar">→</div>
+  <div class="rl">일자료를 한 행씩 읽으며 코드마다 처음 나온 댐 유형을 적어 두고, 대상 댐의 코드로 찾는다<br><span class="note">값은 원문 그대로</span></div><div class="ar">→</div>
+  <div class="out"><b>damType</b><br>= 다목적댐 <span class="note">(글자)</span></div>
+ </div>
+ <div class="sub">원리 3 — 열 하나(댐 유형)의 값을 속성 하나로</div>
+ <div class="row3">
+  <div class="cv">대상 댐 목록의 <span class="tag" style="background:var(--prop)">표준 댐명</span><br>충주댐</div><div class="ar">→</div>
+  <div class="rl">그대로 옮긴다<br><span class="note">승인 자료의 "충주"와 맞춘 이름</span></div><div class="ar">→</div>
+  <div class="out"><b>damName</b><br>= 충주댐 <span class="note">(글자)</span></div>
+ </div>
+ <div class="sub">원리 4 — 어느 값을 어느 속성으로 옮길지는 사람이 정한다</div>
+</div>
+
+<div class="fig" id="d6"><div><div><div style="margin-bottom:8px"><div class="cap6">kgv4_entities.csv <span>한 줄 = Entity 하나</span></div><table class="mt"><tr><th>Entity ID</th><th>Class</th></tr><tr><td>DAM:1003110</td><td>Dam</td></tr></table></div><div style="margin-bottom:8px"><div class="cap6">kgv4_properties.csv <span>한 줄 = Entity의 속성 하나</span></div><table class="mt"><tr><th>Entity ID</th><th>속성</th><th>값</th><th>자료형</th></tr><tr><td>DAM:1003110</td><td>damName</td><td>충주댐</td><td>글자</td></tr><tr><td>DAM:1003110</td><td>damType</td><td>다목적댐</td><td>글자</td></tr></table></div><div style="margin-bottom:8px"><div class="cap6">kgv4_provenance.csv <span>한 줄 = Entity의 출처 하나</span></div><table class="mt"><tr><th>Entity ID</th><th>원본 파일</th><th>위치</th><th>규칙</th><th>값의 성격</th></tr><tr><td>DAM:1003110</td><td>kwater_mywater_period_daily_long.csv.gz</td><td>DAM_CD=1003110</td><td>MR-DAM</td><td>원본 그대로</td></tr></table></div></div><div style="text-align:center;font-size:15px;color:#555;margin:2px 0 8px">↓ 세 파일의 줄을 Entity ID로 모으면</div><div style="display:flex;gap:12px;align-items:stretch"><div style="border:2.5px solid #E07A2F;border-radius:12px;background:#FFF4EA;padding:10px 14px;font-size:15px;flex:1"><div style="margin:4px 0 6px;font-size:18px;font-weight:bold">DAM:1003110 <span class="tag" style="background:#E07A2F;font-size:14px">Dam</span></div>damName = 충주댐 <span class="note">(글자)</span><br>damType = 다목적댐 <span class="note">(글자)</span><div style="margin-top:8px;border-top:1px dashed #aaa;padding-top:6px;font-size:13.5px;color:#444">출처: K-water 일자료 · DAM_CD=1003110 · 규칙 MR-DAM · 원본 그대로</div></div></div></div></div>
+
+<!-- HMS 과정 1: 식별자 -->
+<div class="fig" id="h1">
+ <div class="hd">K-water 시간자료 (넓은 형태: 한 행 = 댐 하나의 한 시각, 변수는 열)</div>
+ <table class="t" style="margin-top:6px;font-size:14px">
+  <tr><th style="background:var(--key)">DAM_CD</th><th>SDATE</th><th style="background:var(--key)">DATA1_수위</th><th style="background:var(--key)">DATA2_저수량</th><th style="background:var(--key)">DATA3_강우량</th><th style="background:var(--key)">DATA4_유입량</th><th style="background:#bbb">DATA5</th><th style="background:var(--key)">DATA6_총방류량</th><th style="background:var(--key)">DATA7_저수율</th></tr>
+  <tr><td>1003110</td><td>2021010101</td><td>131.55</td><td>1484.5892</td><td>0</td><td>186.52</td><td style="color:#999">186.52</td><td>0.159</td><td>53.99</td></tr>
+  <tr><td>1003110</td><td>2021010102</td><td>131.54</td><td>1484.0261</td><td>0</td><td>0</td><td style="color:#999">-156.285</td><td>0.159</td><td>53.96</td></tr>
+  <tr class="dim"><td colspan="9" style="text-align:center">… 4개 댐, 553,609행</td></tr>
+ </table>
+ <div class="note" style="margin-top:4px">DATA5는 원본에 변수 이름이 없어 쓰지 않는다 → 변수 6개</div>
+ <div class="line" style="margin-top:12px;font-size:14px"><span class="chip">DAM_CD = <b style="color:var(--key)">1003110</b></span><span class="arr" style="padding:0 3px">+</span><span class="chip">변수명 = <b style="color:var(--key)">수위</b></span><span class="arr">→</span><span class="chip mono" style="font-size:13px">"HMS:"+{DAM_CD}+":"+{변수}</span><span class="arr" style="padding:0 4px">→</span><span class="id">HMS:1003110:수위</span></div>
+ <div class="box" style="margin-top:8px;background:#fff">
+  <div class="hd">댐 하나 × 변수 6개 → ID 6개 (충주댐)</div>
+  <div style="margin-top:6px;line-height:2.1"><span class="id">HMS:1003110:수위</span> <span class="id">HMS:1003110:저수량</span> <span class="id">HMS:1003110:강우량</span><br><span class="id">HMS:1003110:유입량</span> <span class="id">HMS:1003110:총방류량</span> <span class="id">HMS:1003110:저수율</span></div>
+  <div class="note">대상 댐 4개를 하나씩, 각 댐에서 변수 6개를 하나씩 → 4 × 6 = 24개</div>
+ </div>
+ <div class="d2rq"><b>원리 1 응용</b> — 행마다 만들면 55만 개가 된다. KG에 필요한 것은 "어느 댐에 어떤 측정 변수가 있는가"이므로, 키가 키 열(DAM_CD)과 열 머리(변수명) 두 곳에 있는 넓은 표에 맞춰 두 값을 함께 틀에 넣는다</div>
+</div>
+
+<div class="fig" id="h2"><div class="box"><div class="hd">시간자료에서 만든 ID → 모두 HydrometeorologicalState</div><div style="display:flex;align-items:center;gap:40px;margin-top:8px"><div style="display:flex;align-items:center;gap:10px"><div><span class="id" style="margin-top:4px">HMS:1003110:수위</span><br><span class="id" style="margin-top:4px">HMS:1003110:저수량</span><br><span class="id" style="margin-top:4px">…</span><br><span class="note">24개 (4개 댐 × 6개 변수)</span></div><span class="arr">⟶</span><div><span class="tag" style="background:var(--cls);font-size:17px">HydrometeorologicalState</span></div></div></div></div><div class="d2rq"><b>원리 2</b> — 한 자료에서 나온 ID는 모두 같은 Class의 Entity가 된다</div></div>
+
+<!-- HMS 과정 3: 속성 -->
+<div class="fig" id="h3">
+ <div class="row3"><div class="hd">원본 값</div><div></div><div class="hd">변환 규칙</div><div></div><div class="hd">결과 (속성 = 값)</div></div>
+ <div class="row3">
+  <div class="cv">열 머리 <span class="tag" style="background:var(--prop)">DATA1_수위(EL.m)</span></div><div class="ar">→</div>
+  <div class="rl">변수 목록에서 이 열의 변수명을 꺼낸다</div><div class="ar">→</div>
+  <div class="out"><b>variableType</b> = 수위 <span class="note">(글자)</span></div>
+ </div>
+ <div class="row3">
+  <div class="cv"><span class="tag" style="background:var(--prop)">DAM_CD</span> 1003110</div><div class="ar">→</div>
+  <div class="rl">그대로 옮긴다</div><div class="ar">→</div>
+  <div class="out"><b>stationCode</b> = 1003110 <span class="note">(글자)</span></div>
+ </div>
+ <div class="sub">원리 3 — 열 하나의 값을 속성 하나로</div>
+ <div class="row3">
+  <div class="cv">시각별 셀 값<br>131.55, 131.54, …<br><span class="note">(55만 행)</span></div><div class="ar">→</div>
+  <div class="rl">KG에 넣지 않는다</div><div class="ar">→</div>
+  <div class="out" style="background:#F2F2F2;border-color:#ccc">측정 저장소에 그대로 둔다<br><span class="note">stationCode + 시각으로 찾는다</span></div>
+ </div>
+</div>
+
+<!-- HMS 과정 4: 근거 -->
+<div class="fig" id="h4">
+ <div style="display:flex;gap:14px;align-items:center">
+  <div class="box" style="flex:0 0 160px;text-align:center;background:#FFF8E6;border-color:#D9B44A;padding:14px 8px">시간자료<br><b style="font-size:18px">DAM_CD<br>1003110</b><br><span class="note">충주댐의 행들</span></div>
+  <div style="font-size:24px;color:#555">⟹</div>
+  <div style="flex:1;line-height:2.0"><span class="id">HMS:1003110:수위</span><br><span class="id">HMS:1003110:저수량</span><br><span class="note">… 6개 모두</span></div>
+  <div style="flex:0 0 120px;text-align:center"><div style="font-size:14px;font-weight:bold">supportedBy</div><div style="border-top:2.5px solid #444;margin:2px 6px;position:relative"><span style="position:absolute;right:-6px;top:-11px;font-size:16px">▶</span></div><div class="note" style="font-size:13px">같은 댐의 자료</div></div>
+  <div class="box" style="flex:1.2"><b style="font-size:17px">EVI:KW:1003110</b> <span class="tag" style="background:#7A7A7A;font-size:13px">EvidenceSource</span><br><span style="font-size:14px">sourceTitle = K-water MyWater 수문 시간자료<br>sourceType = 측정자료<br>sourceLocator = DAM_CD=1003110 충주댐 시간별 자료</span></div>
+ </div>
+ <div class="note" style="margin-top:10px">① 댐마다 근거 Entity를 한 번 만든다(ID "EVI:KW:" + {DAM_CD}) → ② 그 댐의 HMS 6개를 만들 때마다 supportedBy로 잇는다. 같은 댐 코드로 만들었으므로 찾을 필요가 없다.</div>
+</div>
+
+<div class="fig" id="h6"><div><div><div style="margin-bottom:8px"><div class="cap6">kgv4_entities.csv <span>한 줄 = Entity 하나</span></div><table class="mt"><tr><th>Entity ID</th><th>Class</th></tr><tr><td>HMS:1003110:수위</td><td>HydrometeorologicalState</td></tr><tr><td>EVI:KW:1003110</td><td>EvidenceSource</td></tr></table></div><div style="margin-bottom:8px"><div class="cap6">kgv4_properties.csv <span>한 줄 = Entity의 속성 하나</span></div><table class="mt"><tr><th>Entity ID</th><th>속성</th><th>값</th><th>자료형</th></tr><tr><td>HMS:1003110:수위</td><td>variableType</td><td>수위</td><td>글자</td></tr><tr><td>HMS:1003110:수위</td><td>stationCode</td><td>1003110</td><td>글자</td></tr><tr><td>EVI:KW:1003110</td><td>sourceType</td><td>측정자료</td><td>글자</td></tr><tr><td>EVI:KW:1003110</td><td>sourceLocator</td><td>DAM_CD=1003110 충주댐 시간별 자료</td><td>글자</td></tr></table></div><div style="margin-bottom:8px"><div class="cap6">kgv4_provenance.csv <span>한 줄 = Entity의 출처 하나</span></div><table class="mt"><tr><th>Entity ID</th><th>원본 파일</th><th>위치</th><th>규칙</th><th>값의 성격</th></tr><tr><td>HMS:1003110:수위</td><td>kwater_mywater_hydr_H_wide.csv.gz</td><td>DATA1_수위(EL.m)</td><td>MR-HMS</td><td>원본 그대로</td></tr></table></div></div><div style="text-align:center;font-size:15px;color:#555;margin:2px 0 8px">↓ 세 파일의 줄을 Entity ID로 모으면</div><div style="display:flex;gap:12px;align-items:stretch"><div style="border:2.5px solid #2F66D0;border-radius:12px;background:#EEF2FB;padding:10px 14px;font-size:15px;flex:1"><div style="margin:4px 0 6px;font-size:18px;font-weight:bold">HMS:1003110:수위 <span class="tag" style="background:#2F66D0;font-size:14px">HydrometeorologicalState</span></div>variableType = 수위 <span class="note">(글자)</span><br>stationCode = 1003110 <span class="note">(글자)</span><br>→ supportedBy EVI:KW:1003110<div style="margin-top:8px;border-top:1px dashed #aaa;padding-top:6px;font-size:13.5px;color:#444">출처: K-water 시간자료 · DATA1_수위(EL.m) 열 · 규칙 MR-HMS · 원본 그대로</div></div><div style="border:2.5px solid #7A7A7A;border-radius:12px;background:#F2F2F2;padding:10px 14px;font-size:15px;flex:1"><div style="margin:4px 0 6px;font-size:18px;font-weight:bold">EVI:KW:1003110 <span class="tag" style="background:#7A7A7A;font-size:14px">EvidenceSource</span></div>sourceType = 측정자료<br>sourceLocator = DAM_CD=1003110 충주댐 시간별 자료<div style="margin-top:8px;border-top:1px dashed #aaa;padding-top:6px;font-size:13.5px;color:#444">출처: K-water 시간자료 · DAM_CD=1003110</div></div></div></div></div>
+
+<!-- OPR 과정 1: 식별자 -->
+<div class="fig" id="o1">
+ <div class="hd">중간 파일 operation_from_remarks_5dams.csv (한 줄 = 승인 하나의 행위 하나, 85줄)</div>
+ <table class="t" style="margin-top:6px;font-size:14.5px">
+  <tr><th style="background:var(--key)">순차번호</th><th>비고 원문</th><th>만듦</th><th>operationType</th><th>순번 (세기)</th><th>→ Entity ID</th></tr>
+  <tr class="hl"><td>504</td><td>(실제방류는 20시부터)</td><td>Y</td><td>방류</td><td>504의 1번째</td><td>OPR:504:1</td></tr>
+  <tr><td>2754</td><td>… 탄력적 방류 (초기 1000㎥/s이내 방류)</td><td>Y</td><td>초기방류</td><td>2754의 1번째</td><td>OPR:2754:1</td></tr>
+  <tr><td>2754</td><td>(같은 비고)</td><td>Y</td><td>탄력적 방류</td><td>2754의 2번째</td><td>OPR:2754:2</td></tr>
+  <tr class="dim"><td>3519</td><td>방류기간 (당초) … (변경) …</td><td>N</td><td></td><td>건너뜀</td><td>(만들지 않음)</td></tr>
+ </table>
+ <div class="line" style="margin-top:12px"><span class="chip">순차번호 = <b style="color:var(--key)">504</b></span><span class="arr" style="padding:0 4px">+</span><span class="chip">순번 = <b style="color:var(--key)">1</b></span><span class="arr">→</span><span class="chip mono">"OPR:" + {순차번호} + ":" + {순번}</span><span class="arr">→</span><span class="id">OPR:504:1</span></div>
+ <div class="note" style="margin-top:6px">① 한 줄씩 읽어 만듦 = N이면 건너뛴다 → ② 순차번호마다 몇 번째 줄인지 센다 → ③ 틀에 넣는다. 한 승인에서 행위가 둘이면 :1, :2로 나뉜다.</div>
+</div>
+
+<div class="fig" id="o2"><div class="box"><div class="hd">비고에서 뽑은 행위의 ID → 모두 Operation</div><div style="display:flex;align-items:center;gap:40px;margin-top:8px"><div style="display:flex;align-items:center;gap:10px"><div><span class="id" style="margin-top:4px">OPR:504:1</span><br><span class="id" style="margin-top:4px">OPR:2754:1</span><br><span class="id" style="margin-top:4px">OPR:2754:2</span><br><span class="note">… 68개</span></div><span class="arr">⟶</span><div><span class="tag" style="background:#8A55C2;font-size:17px">Operation</span></div></div></div></div></div>
+
+<!-- OPR 과정 3: 속성 -->
+<div class="fig" id="o3">
+ <div class="row3"><div class="hd">중간 파일의 값</div><div></div><div class="hd">변환 규칙</div><div></div><div class="hd">결과 (속성 = 값)</div></div>
+ <div class="row3">
+  <div class="cv"><span class="tag" style="background:var(--prop)">operationType</span><br>방류</div><div class="ar">→</div>
+  <div class="rl">그대로 옮긴다</div><div class="ar">→</div>
+  <div class="out"><b>operationType</b> = 방류 <span class="note">(글자)</span></div>
+ </div>
+ <div class="row3">
+  <div class="cv"><span class="tag" style="background:var(--prop)">operationTime</span><br>2011-06-27 20:00<br><span class="note">시각 출처: 비고 명시 시각</span></div><div class="ar">→</div>
+  <div class="rl">날짜와 시각 사이 공백을 T로 바꿔 일시 형식으로</div><div class="ar">→</div>
+  <div class="out"><b>operationTime</b> = 2011-06-27T20:00 <span class="note">(일시)</span></div>
+ </div>
+ <div class="note" style="margin-top:6px">operationTime은 추출할 때 정해진다: 비고에 시각이 있으면 그 시각(504: 승인된 18:00 대신 비고의 20:00), 없으면 승인의 방류시작시간</div>
+</div>
+
+<div class="fig" id="o6"><div><div><div style="margin-bottom:8px"><div class="cap6">kgv4_entities.csv <span>한 줄 = Entity 하나</span></div><table class="mt"><tr><th>Entity ID</th><th>Class</th></tr><tr><td>OPR:504:1</td><td>Operation</td></tr></table></div><div style="margin-bottom:8px"><div class="cap6">kgv4_properties.csv <span>한 줄 = Entity의 속성 하나</span></div><table class="mt"><tr><th>Entity ID</th><th>속성</th><th>값</th><th>자료형</th></tr><tr><td>OPR:504:1</td><td>operationType</td><td>방류</td><td>글자</td></tr><tr><td>OPR:504:1</td><td>operationTime</td><td>2011-06-27T20:00</td><td>일시</td></tr></table></div><div style="margin-bottom:8px"><div class="cap6">kgv4_provenance.csv <span>한 줄 = Entity의 출처 하나</span></div><table class="mt"><tr><th>Entity ID</th><th>원본 파일</th><th>위치</th><th>규칙</th><th>값의 성격</th></tr><tr><td>OPR:504:1</td><td>operation_from_remarks_5dams.csv</td><td>순차번호=504</td><td>실제 방류 시각 문구</td><td>비고에서 분류</td></tr></table></div></div><div style="text-align:center;font-size:15px;color:#555;margin:2px 0 8px">↓ 세 파일의 줄을 Entity ID로 모으면</div><div style="display:flex;gap:12px;align-items:stretch"><div style="border:2.5px solid #8A55C2;border-radius:12px;background:#F3ECFA;padding:10px 14px;font-size:15px;flex:1"><div style="margin:4px 0 6px;font-size:18px;font-weight:bold">OPR:504:1 <span class="tag" style="background:#8A55C2;font-size:14px">Operation</span></div>operationType = 방류 <span class="note">(글자)</span><br>operationTime = 2011-06-27T20:00 <span class="note">(일시)</span><br>→ supportedBy EVI:AP:504<div style="margin-top:8px;border-top:1px dashed #aaa;padding-top:6px;font-size:13.5px;color:#444">출처: 중간 파일 순차번호=504 · 규칙 "실제 방류 시각 문구" · 비고에서 분류</div></div></div></div></div>
+
+<!-- CRI 과정 1: 식별자 -->
+<div class="fig" id="c1">
+ <div class="hd">중간 파일 criterion_list.csv (한 줄 = 별표3 한강수계의 댐 하나, 9줄)</div>
+ <table class="t" style="margin-top:6px;font-size:14.5px">
+  <tr><th style="background:var(--key)">번호</th><th>댐</th><th>제한수위 칸 원문</th><th>대상 댐?</th><th>숫자뿐?</th><th>→ Entity ID</th></tr>
+  <tr><td>CR-01</td><td>소양강댐</td><td>'190.3'</td><td>예</td><td>예</td><td>CRI:CR-01</td></tr>
+  <tr class="hl"><td>CR-02</td><td>충주댐</td><td>'138.0'</td><td>예</td><td>예</td><td>CRI:CR-02</td></tr>
+  <tr><td>CR-03</td><td>횡성댐</td><td>'178.2'</td><td>예</td><td>예</td><td>CRI:CR-03</td></tr>
+  <tr class="dim"><td>CR-04 …</td><td>화천댐 …</td><td>…</td><td>아니오</td><td></td><td>건너뜀</td></tr>
+  <tr class="dim"><td>CR-09</td><td>팔당댐</td><td>'25.51)'</td><td>아니오</td><td>아니오 (각주)</td><td>건너뜀</td></tr>
+ </table>
+ <div class="line" style="margin-top:12px"><span class="chip">번호 = <b style="color:var(--key)">CR-02</b></span><span class="arr">→</span><span class="chip mono">"CRI:" + {번호}</span><span class="arr">→</span><span class="id">CRI:CR-02</span></div>
+ <div class="note" style="margin-top:6px">① 한 줄씩 읽어 대상 댐이 아니거나 제한수위 칸이 숫자뿐이 아니면 건너뛴다 → ② 번호를 틀에 넣는다. 번호는 별표3 한강수계 표에 댐이 나오는 순서대로 붙인 연구용 번호이다. 광동댐은 별표3에 없다.</div>
+</div>
+
+<div class="fig" id="c2"><div class="box"><div class="hd">별표3에서 뽑은 기준의 ID → 모두 Criterion</div><div style="display:flex;align-items:center;gap:40px;margin-top:8px"><div style="display:flex;align-items:center;gap:10px"><div><span class="id" style="margin-top:4px">CRI:CR-01</span><br><span class="id" style="margin-top:4px">CRI:CR-02</span><br><span class="id" style="margin-top:4px">CRI:CR-03</span><br><span class="note">3개</span></div><span class="arr">⟶</span><div><span class="tag" style="background:#C77A1E;font-size:17px">Criterion</span></div></div></div></div></div>
+
+<!-- CRI 과정 3: 속성 -->
+<div class="fig" id="c3">
+ <div class="row3"><div class="hd">중간 파일의 값</div><div></div><div class="hd">변환 규칙</div><div></div><div class="hd">결과 (속성 = 값)</div></div>
+ <div class="row3">
+  <div class="cv"><span class="tag" style="background:var(--prop)">제한수위 칸 원문</span><br>'138.0'</div><div class="ar">→</div>
+  <div class="rl">따옴표 안의 숫자를 꺼내 숫자로 읽는다</div><div class="ar">→</div>
+  <div class="out"><b>criterionValue</b> = 138.0 <span class="note">(숫자)</span></div>
+ </div>
+ <div class="row3">
+  <div class="cv"><span class="tag" style="background:var(--prop)">단위</span><br>EL.m</div><div class="ar">→</div>
+  <div class="rl">그대로 옮긴다</div><div class="ar">→</div>
+  <div class="out"><b>unit</b> = EL.m <span class="note">(글자)</span></div>
+ </div>
+ <div class="row3">
+  <div class="cv">별표3 제목<br>댐의 홍수기 제한수위</div><div class="ar">→</div>
+  <div class="rl">기준 종류를 적는다</div><div class="ar">→</div>
+  <div class="out"><b>criterionType</b> = 홍수기 제한수위 <span class="note">(글자)</span></div>
+ </div>
+</div>
+
+<div class="fig" id="c6"><div><div><div style="margin-bottom:8px"><div class="cap6">kgv4_entities.csv <span>한 줄 = Entity 하나</span></div><table class="mt"><tr><th>Entity ID</th><th>Class</th></tr><tr><td>CRI:CR-02</td><td>Criterion</td></tr><tr><td>EVI:LAW:별표3</td><td>EvidenceSource</td></tr></table></div><div style="margin-bottom:8px"><div class="cap6">kgv4_properties.csv <span>한 줄 = Entity의 속성 하나</span></div><table class="mt"><tr><th>Entity ID</th><th>속성</th><th>값</th><th>자료형</th></tr><tr><td>CRI:CR-02</td><td>criterionType</td><td>홍수기 제한수위</td><td>글자</td></tr><tr><td>CRI:CR-02</td><td>criterionValue</td><td>138.0</td><td>숫자</td></tr><tr><td>CRI:CR-02</td><td>unit</td><td>EL.m</td><td>글자</td></tr><tr><td>EVI:LAW:별표3</td><td>sourceLocator</td><td>별표 3</td><td>글자</td></tr></table></div><div style="margin-bottom:8px"><div class="cap6">kgv4_provenance.csv <span>한 줄 = Entity의 출처 하나</span></div><table class="mt"><tr><th>Entity ID</th><th>원본 파일</th><th>위치</th><th>규칙</th><th>값의 성격</th></tr><tr><td>CRI:CR-02</td><td>criterion_list.csv</td><td>CR-02</td><td>MR-CRI</td><td>원본 그대로</td></tr></table></div></div><div style="text-align:center;font-size:15px;color:#555;margin:2px 0 8px">↓ 세 파일의 줄을 Entity ID로 모으면</div><div style="display:flex;gap:12px;align-items:stretch"><div style="border:2.5px solid #C77A1E;border-radius:12px;background:#FDF3E3;padding:10px 14px;font-size:15px;flex:1"><div style="margin:4px 0 6px;font-size:18px;font-weight:bold">CRI:CR-02 <span class="tag" style="background:#C77A1E;font-size:14px">Criterion</span></div>criterionType = 홍수기 제한수위<br>criterionValue = 138.0 <span class="note">(숫자)</span> · unit = EL.m<br>→ supportedBy EVI:LAW:별표3<div style="margin-top:8px;border-top:1px dashed #aaa;padding-top:6px;font-size:13.5px;color:#444">출처: criterion_list.csv · CR-02 · 규칙 MR-CRI · 원본 그대로</div></div><div style="border:2.5px solid #7A7A7A;border-radius:12px;background:#F2F2F2;padding:10px 14px;font-size:15px;flex:1"><div style="margin:4px 0 6px;font-size:18px;font-weight:bold">EVI:LAW:별표3 <span class="tag" style="background:#7A7A7A;font-size:14px">EvidenceSource</span></div>sourceType = 규정<br>sourceLocator = 별표 3 <span class="note">(문서 저장소 조회 키)</span><div style="margin-top:8px;border-top:1px dashed #aaa;padding-top:6px;font-size:13.5px;color:#444">출처: 연계운영규정 XML · 별표3</div></div></div></div></div>
 </body></html>
