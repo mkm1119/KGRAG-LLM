@@ -103,6 +103,12 @@ def para(t, sz=BODY):
     return '<w:p><w:pPr><w:spacing w:before="60" w:after="120"/><w:rPr>%s</w:rPr></w:pPr>%s</w:p>' % (LANG, run(t, sz=sz))
 
 
+
+def para_runs(parts, sz=BODY):
+    """굵기가 섞인 문단: parts = [(글자, 굵게 여부), ...]"""
+    return '<w:p><w:pPr><w:spacing w:before="40" w:after="120"/><w:rPr>%s</w:rPr></w:pPr>%s</w:p>' % (LANG, ''.join(run(t, sz=sz, b=b, color='1F4E79' if b else None) for t, b in parts))
+
+
 def li(t, sz=BODY):
     return '<w:p><w:pPr><w:pStyle w:val="a0"/><w:spacing w:after="60"/><w:rPr>%s</w:rPr></w:pPr>%s</w:p>' % (LANG, run(t, sz=sz))
 
