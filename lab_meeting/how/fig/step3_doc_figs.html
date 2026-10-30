@@ -258,4 +258,81 @@ table.t tr.dim td{color:#999}
  </div>
  <div class="d2rq"><b>원리 1 적용</b> — ID를 키 값(DAM_CD)으로 만들기 때문에, 같은 댐의 여러 행은 모두 같은 ID가 되어 Entity 하나로 모인다</div>
 </div>
+
+<!-- 그림 10: 단계 1 소스 구분 -->
+<div class="fig" id="f10">
+ <style>
+ .s1{display:grid;grid-template-columns:230px 24px 170px 24px 170px 24px 1fr;align-items:center;gap:8px 0}
+ .s1 .src{border:1.5px solid var(--line);border-radius:8px;padding:6px 9px;background:#fff;font-size:15px}
+ .s1 .ty{border-radius:7px;padding:5px 8px;font-size:14.5px;text-align:center;font-weight:bold}
+ .ty.st{background:#EEF6EA;border:1.5px solid #B9D8AE;color:#2F6B1F}
+ .ty.un{background:#F3ECFA;border:1.5px solid #CDB5EA;color:#5E3A8E}
+ .s1 .pt{border-radius:7px;padding:5px 8px;font-size:14px;text-align:center;background:#F1F1EE}
+ .s1 .cl{font-size:14px}
+ .s1 .cl span{display:inline-block;background:var(--cls);color:#fff;border-radius:5px;padding:2px 7px;margin:2px 2px;font-weight:bold}
+ .s1 .ar{font-size:18px}
+ .s1 .hh{font-size:13.5px;color:#666;font-weight:bold}
+ .ex{font-size:12.5px;color:#666;margin-top:3px}
+ </style>
+ <div class="s1">
+  <div class="hh">자료</div><div></div><div class="hh">형태</div><div></div><div class="hh">처리 방법</div><div></div><div class="hh">채우는 Class</div>
+
+  <div class="src">승인 기록 CSV<div class="ex">관측소코드, 승인일, 방류시작시간, 접수방류량 …</div></div><div class="ar">→</div>
+  <div class="ty st">정형 표</div><div class="ar">→</div><div class="pt">열 값을 그대로 옮김</div><div class="ar">→</div>
+  <div class="cl"><span>Approval</span><span>EvidenceSource</span></div>
+
+  <div class="src">승인 기록 CSV의 <b>비고 열</b><div class="ex">"(실제방류는 20시부터)"</div></div><div class="ar">→</div>
+  <div class="ty un">표 안의 문장<br><span style="font-weight:normal;font-size:13px">비정형</span></div><div class="ar">→</div><div class="pt">문장을 읽어 값을 뽑음</div><div class="ar">→</div>
+  <div class="cl"><span>Operation</span></div>
+
+  <div class="src">K-water 일자료<div class="ex">DAM_CD, 댐 이름, 댐 유형, 날짜, 값</div></div><div class="ar">→</div>
+  <div class="ty st">정형 표</div><div class="ar">→</div><div class="pt">열 값을 그대로 옮김</div><div class="ar">→</div>
+  <div class="cl"><span>Dam</span></div>
+
+  <div class="src">K-water 시간자료<div class="ex">DAM_CD, 시각, 수위, 저수량 …</div></div><div class="ar">→</div>
+  <div class="ty st">정형 표</div><div class="ar">→</div><div class="pt">열 값을 그대로 옮김</div><div class="ar">→</div>
+  <div class="cl"><span>HydrometeorologicalState</span><span>EvidenceSource</span></div>
+
+  <div class="src">연계운영규정 XML의 <b>별표3</b><div class="ex">"│충 주 댐 │138.0 │"</div></div><div class="ar">→</div>
+  <div class="ty un">문자로 그린 표<br><span style="font-weight:normal;font-size:13px">비정형</span></div><div class="ar">→</div><div class="pt">글자를 읽어 값을 뽑음</div><div class="ar">→</div>
+  <div class="cl"><span>Criterion</span><span>EvidenceSource</span></div>
+ </div>
+ <div class="d2rq"><b>DDKG의 원리</b> — 플랫폼의 정형 표가 c1~c4(Dam, Properties, Location, Parameter)의 데이터를 채우고, 보고서의 비정형 텍스트가 c5~c7(HazardForm, HazardComponent, SafetyEvaluation)의 데이터를 채운다. 비정형 텍스트는 따로 전처리한 뒤 추출한다.</div>
+</div>
+
+<!-- 그림 11: 단계 2 전처리 -->
+<div class="fig" id="f11">
+ <style>
+ .s2{display:flex;align-items:stretch;gap:6px;margin:8px 0 14px}
+ .s2 .b{border:1.5px solid var(--line);border-radius:8px;padding:6px 8px;background:#fff;font-size:14px;flex:1}
+ .s2 .op{border-radius:8px;padding:6px 8px;background:#F1F1EE;font-size:14px;flex:1}
+ .s2 .r{border-radius:8px;padding:6px 8px;background:#EEF6EA;border:1.5px solid #B9D8AE;font-size:14px;flex:1}
+ .s2 .a{align-self:center;color:#555;font-size:18px}
+ .s2 .n{font-weight:bold}
+ .sh{font-size:15px;font-weight:bold;margin-top:4px}
+ </style>
+ <div class="sh">승인 기록</div>
+ <div class="s2">
+  <div class="b">원본 CSV<br><span class="note">3,929행 · 16개 시설</span></div><div class="a">→</div>
+  <div class="op">① 인코딩 변환, 출처 열 추가<br><span class="note">값은 그대로</span></div><div class="a">→</div>
+  <div class="op">② 중복 행 7개 제거<br><span class="note">지운 행은 로그에</span></div><div class="a">→</div>
+  <div class="r"><span class="n">approval_records_clean.csv</span><br>3,922행</div><div class="a">→</div>
+  <div class="op">③ 대상 4개 댐 선택</div><div class="a">→</div>
+  <div class="r"><b>80행</b><br><span class="note">단계 3의 입력</span></div>
+ </div>
+ <div class="note" style="margin:-6px 0 10px">중복 행 예: 괴산댐 순차번호 446과 447은 값이 모두 같다 → 446만 남김</div>
+ <div class="sh">K-water 시간자료</div>
+ <div class="s2">
+  <div class="b">처음 받은 파일 + 승인 기간에 맞춰 추가로 받은 파일</div><div class="a">→</div>
+  <div class="op">① 두 파일을 합침<br><span class="note">같은 (댐, 시각)이 겹치면 처음 받은 값</span></div><div class="a">→</div>
+  <div class="op">② 시각 라벨의 24시를 다음날 0시로 읽음<br><span class="note">예: 2020123124 → 2021-01-01 00:00</span></div><div class="a">→</div>
+  <div class="r"><span class="n">측정 저장소</span><br>4개 댐 × 6개 변수, <b>508,246</b>개 (댐, 시각)<br><span class="note">값은 그대로, 빈 값은 비워 둠</span></div>
+ </div>
+ <div class="sh">연계운영규정 별표3</div>
+ <div class="s2">
+  <div class="b">규정 XML (본문 + 별표 1~3)</div><div class="a">→</div>
+  <div class="op">XML 태그 &lt;별표단위&gt; 중 별표번호 3만 꺼냄<br><span class="note">글자는 바꾸지 않음</span></div><div class="a">→</div>
+  <div class="r"><span class="n">문서 저장소</span> kgv4_documents.csv<br>조회 키 "별표 3", 원문 그대로</div>
+ </div>
+</div>
 </body></html>
