@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>단계 3 문서용 그림</title>
+<style>
+:root{--key:#E07A2F;--cls:#23907F;--prop:#3F8F2A;--merge:#8A55C2;--rel:#2F66D0;--prov:#7A7A7A;--line:#C9C9C9}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:#222;font-family:"WenQuanYi Zen Hei",sans-serif;font-size:17px;line-height:1.45}
+.fig{width:840px;padding:14px 16px;margin:0 0 30px;background:#fff}
+.mono{font-family:"DejaVu Sans Mono",monospace;font-size:15.5px}
+.chip{white-space:nowrap;display:inline-block;border:1.5px solid var(--line);border-radius:6px;padding:4px 10px;background:#fff}
+.id{white-space:nowrap;display:inline-block;border:2.5px solid var(--key);border-radius:7px;padding:4px 11px;background:#FFF4EA;font-weight:bold}
+.tag{display:inline-block;border-radius:5px;padding:2px 9px;color:#fff;font-weight:bold}
+.arr{color:#555;font-size:22px;padding:0 8px}
+.line{display:flex;align-items:center;flex-wrap:nowrap;margin:8px 0}
+.d2rq{background:#FFF8E6;border:1.5px dashed #D9B44A;border-radius:8px;padding:8px 12px;font-size:15px;margin-top:12px}
+.d2rq b{color:#8A6A00}
+.note{color:#555;font-size:15px}
+.box{border:1.5px solid var(--line);border-radius:9px;padding:10px 12px;background:#F7F7F5}
+table.t{border-collapse:collapse;font-size:15.5px}
+table.t th,table.t td{border:1px solid var(--line);padding:4px 10px}
+table.t th{background:#555;color:#fff}
+table.t tr.hl td{background:#FFF1C9;font-weight:bold}
+table.t tr.dim td{color:#999}
+.row3{display:grid;grid-template-columns:250px 30px 270px 30px 1fr;align-items:center;gap:0;margin:10px 0}
+.cv{border:1.5px solid var(--line);border-radius:7px;padding:6px 9px;background:#fff;font-size:15.5px}
+.rl{border-radius:7px;padding:6px 9px;background:#EFEFEB;font-size:15px}
+.out{border-radius:7px;padding:6px 9px;background:#EEF6EA;border:1.5px solid #B9D8AE;font-size:15.5px}
+.ar{text-align:center;color:#555;font-size:20px}
+.sub{font-size:14px;color:#8A6A00;margin:2px 0 0 0}
+.warn{color:#B3261E;font-weight:bold}
+.hd{font-size:14px;color:#666;font-weight:bold}
+</style></head><body>
+
+<!-- 그림 1: 식별자 -->
+<div class="fig" id="f1">
+ <div class="box">
+  <div class="line"><span class="chip">순차번호 = <b style="color:var(--key)">504</b></span><span class="arr">→</span><span class="chip mono">"APR:" + {순차번호}</span><span class="arr">→</span><span class="id">APR:504</span><span class="note" style="margin-left:10px">승인 개체</span></div>
+  <div class="line"><span class="chip">순차번호 = <b style="color:var(--key)">504</b></span><span class="arr">→</span><span class="chip mono">"EVI:AP:" + {순차번호}</span><span class="arr">→</span><span class="id">EVI:AP:504</span><span class="note" style="margin-left:10px">근거 개체</span></div>
+ </div>
+ <div style="display:flex;gap:18px;margin-top:12px;align-items:center">
+  <table class="t">
+   <tr><th style="background:var(--key)">순차번호</th><th>승인 개체 ID</th><th>근거 개체 ID</th></tr>
+   <tr class="dim"><td>473</td><td>APR:473</td><td>EVI:AP:473</td></tr>
+   <tr class="hl"><td>504</td><td>APR:504</td><td>EVI:AP:504</td></tr>
+   <tr class="dim"><td>574</td><td>APR:574</td><td>EVI:AP:574</td></tr>
+   <tr class="dim"><td colspan="3" style="text-align:center">… 80행 → 서로 다른 ID 80쌍</td></tr>
+  </table>
+  <div class="note">· 행 하나 → 승인 ID 하나 + 근거 ID 하나<br>· 같은 행이면 언제 다시 만들어도 같은 ID<br>· 단계 5는 이 ID로 개체를 찾아 관계를 잇는다</div>
+ </div>
+ <div class="d2rq"><b>원리 1 · D2RQ 구문</b> <span class="mono">d2rq:uriPattern "item/@@item.item_ID@@"</span><br>@@ 사이 열(item_ID)의 값을 행마다 끼워 식별자를 만든다: item_ID = 7 → <span class="mono">item/7</span></div>
+</div>
+
+<!-- 그림 2: 클래스 -->
+<div class="fig" id="f2">
+ <div style="display:flex;gap:16px">
+  <div class="box" style="flex:1">
+   <div class="hd">표의 모든 행 ID → 한 클래스의 인스턴스</div>
+   <div style="display:flex;align-items:center;gap:10px;margin-top:8px">
+    <div><span class="id">APR:473</span><br><span class="id" style="margin-top:4px">APR:504</span><br><span class="id" style="margin-top:4px">APR:574</span><br><span class="note">… 80개</span></div>
+    <span class="arr">⟶</span>
+    <div><span class="tag" style="background:var(--cls);font-size:18px">Approval</span><div class="note">인스턴스 80</div></div>
+   </div>
+   <div style="display:flex;align-items:center;gap:10px;margin-top:10px">
+    <span class="id">EVI:AP:504</span><span class="note" style="white-space:nowrap">… 80개</span><span class="arr">⟶</span>
+    <div><span class="tag" style="background:var(--cls);font-size:18px">EvidenceSource</span></div>
+   </div>
+  </div>
+  <div class="box" style="flex:1.05">
+   <div class="hd">라벨 = 틀 + 열 값</div>
+   <div class="line"><span class="chip">관측소명 = <b style="color:var(--cls)">충주</b></span><span class="arr">→</span><span class="chip">댐명 사전 → 충주댐</span></div>
+   <div class="line"><span class="chip mono" style="font-size:14.5px">"승인 {순차번호} ({댐명})"</span></div>
+   <div class="line"><span class="arr">→</span><span class="chip"><b>승인 504 (충주댐)</b></span></div>
+  </div>
+ </div>
+ <div class="d2rq"><b>원리 2 · D2RQ 구문</b> <span class="mono">map:item a d2rq:ClassMap; d2rq:class :Item.</span><br>라벨: <span class="mono">d2rq:property rdfs:label; d2rq:pattern "item #@@item.item_ID@@"</span></div>
+</div>
+
+<!-- 그림 3: 열 → 속성 -->
+<div class="fig" id="f3">
+ <div class="row3"><div class="hd">원본 열 = 셀 값</div><div></div><div class="hd">변환 규칙</div><div></div><div class="hd">결과 (속성 = 값)</div></div>
+
+ <div class="row3">
+  <div class="cv"><span class="tag" style="background:var(--prop)">승인년월일시분</span><br>2011-06-27</div><div class="ar">→</div>
+  <div class="rl">앞 10글자를 날짜로 읽음<br><span class="note">값에 시각이 없음</span></div><div class="ar">→</div>
+  <div class="out"><b>approvalTime</b><br>= 2011-06-27 <span class="note">(date)</span></div>
+ </div>
+ <div class="sub">원리 3 · d2rq:column (열 하나 → 속성 하나)</div>
+
+ <div class="row3">
+  <div class="cv"><span class="tag" style="background:var(--merge)">방류시작시간</span> 2011-06-27 18:00<br><span class="tag" style="background:var(--merge)">접수방류량</span> 2000<br><span class="tag" style="background:var(--merge)">비고</span> (실제방류는 20시부터)</div><div class="ar">→</div>
+  <div class="rl">세 값을 문자열 틀에 넣음<br><span class="mono" style="font-size:13.5px">"방류시작 {}; 접수방류량 {}㎥/s; 비고: {}"</span><br><span class="note">비고는 원문 그대로, 해석 안 함</span></div><div class="ar">→</div>
+  <div class="out"><b>approvalContent</b> = "방류시작 2011-06-27 18:00; 접수방류량 2000㎥/s; 비고: (실제방류는 20시부터)" <span class="note">(string)</span></div>
+ </div>
+ <div class="sub">원리 3 · d2rq:pattern (여러 열 → 문자열 하나) · <span class="warn">온톨로지에 내용 속성이 하나뿐이라 합침 → 검토할 점 1</span></div>
+
+ <div class="row3">
+  <div class="cv"><span class="tag" style="background:var(--rel)">관측소코드</span><br>1003110</div><div class="ar">→</div>
+  <div class="rl">속성으로 만들지 않음<br><span class="note">값 = 댐 코드(DAM_CD)</span></div><div class="ar">⇢</div>
+  <div class="out" style="background:#EEF2FB;border-color:#B5C6EC"><b>관계</b> APR:504 —concernsDam→ DAM:1003110<br><span class="note">단계 5에서 연결</span></div>
+ </div>
+ <div class="sub">다른 개체를 가리키는 열 → 관계 (D2RQ의 refersToClassMap에 해당, 원문 미확인)</div>
+
+ <div class="row3">
+  <div class="cv"><span class="tag" style="background:var(--cls)">관측소명</span><br>충주</div><div class="ar">→</div>
+  <div class="rl">라벨에만 사용 (그림 2)</div><div class="ar">→</div>
+  <div class="out"><b>label</b> = 승인 504 (충주댐)</div>
+ </div>
+ <div class="sub">원리 3 · d2rq:pattern (rdfs:label)</div>
+</div>
+
+<!-- 그림 4: 결과 그래프 조각 -->
+<div class="fig" id="f4">
+ <svg width="808" height="356" viewBox="0 0 840 370" font-family="WenQuanYi Zen Hei" font-size="15.5">
+  <defs>
+   <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#444"/></marker>
+   <marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2F66D0"/></marker>
+  </defs>
+  <rect x="10" y="10" width="440" height="160" rx="12" fill="#E8F5F2" stroke="#23907F" stroke-width="2.5"/>
+  <text x="26" y="40" font-size="18" font-weight="bold">APR:504</text>
+  <rect x="346" y="22" width="92" height="26" rx="5" fill="#23907F"/><text x="392" y="40" fill="#fff" text-anchor="middle" font-weight="bold">Approval</text>
+  <text x="26" y="70">label = 승인 504 (충주댐)</text>
+  <text x="26" y="96">approvalTime = 2011-06-27 (date)</text>
+  <text x="26" y="122">approvalContent = "방류시작 2011-06-27 18:00;</text>
+  <text x="26" y="146">  접수방류량 2000㎥/s; 비고: (실제방류는 20시부터)"</text>
+
+  <rect x="10" y="240" width="440" height="120" rx="12" fill="#F2F2F2" stroke="#7A7A7A" stroke-width="2.5"/>
+  <text x="26" y="270" font-size="18" font-weight="bold">EVI:AP:504</text>
+  <rect x="290" y="252" width="148" height="26" rx="5" fill="#7A7A7A"/><text x="364" y="270" fill="#fff" text-anchor="middle" font-weight="bold">EvidenceSource</text>
+  <text x="26" y="300">sourceTitle = 한강홍수통제소 댐방류승인</text>
+  <text x="26" y="324">sourceType = 승인자료</text>
+  <text x="26" y="348">sourceLocator = 순차번호 504</text>
+  <line x1="230" y1="170" x2="230" y2="236" stroke="#444" stroke-width="2.5" marker-end="url(#ah)"/>
+  <text x="246" y="200" font-weight="bold">supportedBy</text><text x="246" y="222" fill="#555" font-size="14">같은 행에서 바로 연결</text>
+
+  <rect x="600" y="20" width="230" height="84" rx="12" fill="#fff" stroke="#2F66D0" stroke-width="2" stroke-dasharray="7 5"/>
+  <text x="616" y="50" font-size="17" font-weight="bold">DAM:1003110</text><text x="616" y="78">충주댐 (Dam)</text>
+  <line x1="450" y1="62" x2="596" y2="62" stroke="#2F66D0" stroke-width="2.2" stroke-dasharray="7 5" marker-end="url(#ahb)"/>
+  <text x="462" y="52" fill="#2F66D0" font-weight="bold">concernsDam</text><text x="462" y="86" fill="#2F66D0" font-size="14">단계 5</text>
+
+  <rect x="600" y="200" width="230" height="84" rx="12" fill="#fff" stroke="#2F66D0" stroke-width="2" stroke-dasharray="7 5"/>
+  <text x="616" y="230" font-size="17" font-weight="bold">OPR:504:1</text><text x="616" y="258">방류 2011-06-27 20:00</text>
+  <path d="M450,140 C520,150 540,240 596,242" fill="none" stroke="#2F66D0" stroke-width="2.2" stroke-dasharray="7 5" marker-end="url(#ahb)"/>
+  <text x="470" y="290" fill="#2F66D0" font-weight="bold">authorizes</text><text x="470" y="310" fill="#2F66D0" font-size="14">단계 4 추출 · 단계 5 연결</text>
+ </svg>
+ <div class="note">실선 = 단계 3에서 생성 · 점선 = 이후 단계에서 생성·연결</div>
+</div>
+
+<!-- 그림 5: HMS -->
+<div class="fig" id="f5">
+ <div class="hd">K-water 시간자료 (넓은 형태, 553,609행)</div>
+ <table class="t" style="margin-top:6px">
+  <tr><th style="background:var(--key)">DAM_CD</th><th>SDATE</th><th style="background:var(--key)">DATA1_수위</th><th style="background:var(--key)">DATA2_저수량</th><th>…</th><th style="background:var(--key)">DATA7_저수율</th></tr>
+  <tr><td>1003110</td><td>2021010101</td><td>131.55</td><td>1484.5892</td><td>…</td><td>53.99</td></tr>
+  <tr><td>1003110</td><td>2021010102</td><td>131.54</td><td>1484.0261</td><td>…</td><td>53.96</td></tr>
+  <tr class="dim"><td colspan="6" style="text-align:center">… 댐 4개 × 시각</td></tr>
+ </table>
+ <div class="line" style="margin-top:14px;font-size:15px"><span class="chip">DAM_CD = <b style="color:var(--key)">1003110</b></span><span class="arr" style="padding:0 4px">+</span><span class="chip">열 머리 = <b style="color:var(--key)">수위</b></span><span class="arr">→</span><span class="chip mono" style="font-size:14px">"HMS:"+{DAM_CD}+":"+{변수}</span><span class="arr">→</span><span class="id">HMS:1003110:수위</span></div>
+ <div class="note" style="margin-top:6px">· 댐 4개 × 변수 6개 = HMS 개체 24개 · 속성: variableType = 수위, stationCode = 1003110<br>· 시각별 값(131.55 등)은 KG에 넣지 않고 측정 저장소에 둔다 → 질문이 오면 (댐 코드, 시각)으로 조회</div>
+</div>
+
+</body></html>
