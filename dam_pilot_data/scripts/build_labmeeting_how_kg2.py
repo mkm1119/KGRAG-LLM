@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""랩미팅 자료(docx): KG 구축 how (2) — 개체 해소·연결, 저장, 검색·답변과 11/26 시연 계획.
+"""랩미팅 자료(docx): KG 구축 how (2) — Relation 채우기, 저장, 검색·답변과 11/26 시연 계획.
 10/30 자료(build_labmeeting_how_kg.py)와 같은 서식·구성(따른 원리 → 과정 → 결과, 검토할 점, 다음 계획, 부록)이다.
 그림은 lab_meeting/how2/fig/kg2_*.png (원본 kg2_figs.html, scripts/build_kg_doc2_figs.py).
 사용: python3 scripts/build_labmeeting_how_kg2.py <출력 docx>
@@ -82,33 +82,32 @@ def lis(*items):
 rtable = lambda rows, widths: table(rows, widths, header=True, firstcol=False)
 
 # ================================================================== 표지
-add(title('KG 구축 how 보완 (2)', '개체 해소·연결 · 저장 · 검색·답변'))
+add(title('KG 구축 how 보완 (2)', 'Relation 채우기 · 저장 · 검색·답변'))
 add(subtitle('따른 문헌의 원리와 실제 수행 과정, 그리고 11/26 시연 계획'))
 add(dateline('2026.11 · 문경민'))
 
 # ================================================================== 1. 현황
 add(h1('1. KG 구축 단계와 방법론 구체화 현황'))
-lis('10/30 자료에서 정리한 세 단계(자료 준비, 구조화 자료 매핑, 비정형 텍스트 추출)를 마치면 Entity 264개와 속성 616개가 만들어지고, 같은 행·같은 자료에서 함께 만든 근거만 이어져 있다.',
-    '이번 자료는 그 다음 단계인 개체 해소·연결(2장), 저장(3장), 검색·답변(4장)의 방법론을 같은 방식(따른 원리 → 과정 → 결과)으로 정리했다. 10/30 자료의 온톨로지와 KG는 바꾸지 않았다.',
+lis('KG 구축은 온톨로지가 정해 둔 틀(Class, Data Property, Relation)에 자료의 실제 값을 채우는 일이다. 10/30 자료에서는 Class(Entity)와 Data Property(속성값)를 채우는 과정을 정리했다. 그 결과 Entity 264개와 속성값 616개가 만들어졌다.',
+    '이번 자료는 남은 Relation을 채우는 과정(2장), 채운 결과를 Neo4j에 넣는 저장(3장), 채워진 KG로 질문에 답하는 검색·답변(4장)을 같은 방식(따른 원리 → 과정 → 결과)으로 정리했다. 온톨로지와 KG의 내용은 10/30 자료와 같다.',
     '검증은 11/02 회의에 따라 다른 연구들이 KG·온톨로지를 어떻게 검증했는지 조사한 뒤 정리한다. 각 원리의 자세한 설명은 부록 C에 있다.')
 DONE, NOW, NEXT = 'E3F1DC', 'D6E8F7', 'FDEBD3'
 
 
 def status_table():
-    ws = [2200, 4900, 2872]
-    rows = [('자료 준비', '소스 구분과 전처리', '정리함 (10/30)', DONE),
-            ('구조화 자료 매핑', '정형 표의 행·열을 Entity와 속성으로', '정리함 (10/30)', DONE),
-            ('비정형 텍스트 추출', '비고에서 운영행위, 별표3에서 운영기준을 뽑음', '정리함 (10/30)', DONE),
-            ('개체 해소·연결', '서로 다른 자료의 Entity를 관계로 이음', '이번에 정리 (2장)', NOW),
-            ('저장', 'CSV를 Cypher로 바꿔 Neo4j에 넣음', '이번에 정리 (3장)', NOW),
-            ('검색·답변', '질문에 맞는 근거를 KG에서 찾아 LLM이 답함', '이번에 정리 (4장)', NOW),
-            ('검증', '만든 KG가 맞는지 확인', '선행연구 조사 후', NEXT)]
+    ws = [2100, 2900, 3172, 1800]
+    rows = [('자료 준비', '소스 구분과 전처리', '—', '정리함 (10/30)', DONE),
+            ('Class·Data Property 채우기', 'Entity와 속성값을 채움', '구조화 자료 매핑(정형 표), 비정형 텍스트 추출(비고, 별표3)', '정리함 (10/30)', DONE),
+            ('Relation 채우기', '관계마다 실제 짝을 채움', '자료 속 키로 짝을 고름(댐 표기 맞추기 포함)', '이번 (2장)', NOW),
+            ('저장', '채운 결과를 Neo4j에 넣음', 'CSV → Cypher → Neo4j', '이번 (3장)', NOW),
+            ('검색·답변', '질문에 맞는 근거를 KG에서 찾아 LLM이 답함', '의도 추출 → Cypher 템플릿 조회 → 근거 묶음 → 답변', '이번 (4장)', NOW),
+            ('검증', '만든 KG가 맞는지 확인', '—', '선행연구 조사 후', NEXT)]
     out = ['<w:tbl><w:tblPr><w:tblW w:w="%d" w:type="dxa"/><w:jc w:val="center"/><w:tblBorders>%s</w:tblBorders><w:tblLayout w:type="fixed"/></w:tblPr><w:tblGrid>%s</w:tblGrid>'
            % (L.W, L.BORD, ''.join('<w:gridCol w:w="%d"/>' % w for w in ws))]
-    out.append('<w:tr><w:trPr><w:cantSplit/><w:tblHeader/></w:trPr>' + ''.join(L.cell(c, w, fill='D9EAF7', b=True, center=True) for c, w in zip(['단계', '하는 일', '방법론 정리'], ws)) + '</w:tr>')
-    for name, job, st, fill in rows:
+    out.append('<w:tr><w:trPr><w:cantSplit/><w:tblHeader/></w:trPr>' + ''.join(L.cell(c, w, fill='D9EAF7', b=True, center=True) for c, w in zip(['단계', '하는 일', '방법', '방법론 정리'], ws)) + '</w:tr>')
+    for name, job, how, st, fill in rows:
         out.append('<w:tr><w:trPr><w:cantSplit/></w:trPr>' + L.cell(name, ws[0], fill='EEF5FA', b=True, color='1F4E79', center=True)
-                   + L.cell(job, ws[1]) + L.cell(st, ws[2], fill=fill, b=True, center=True) + '</w:tr>')
+                   + L.cell(job, ws[1]) + L.cell(how, ws[2]) + L.cell(st, ws[3], fill=fill, b=True, center=True) + '</w:tr>')
     out.append('</w:tbl>')
     return ''.join(out) + spacer()
 
@@ -116,58 +115,74 @@ def status_table():
 add(label('표 1. 단계별 하는 일과 방법론 정리 여부'))
 add(status_table())
 
-# ================================================================== 2. 개체 해소·연결
-add(h1('2. 개체 해소·연결'))
-add(h2('2.1 따른 원리와 진행 방식'))
-lis('따른 원리: Purohit 외(2024)는 GraphAide에서 뉴스 기사 1,846건으로 KG를 만들 때, 글에서 뽑은 대상의 표기를 기준 지식베이스(DARPA Wikidata)의 식별자(QID)에 대응시켰다. 표기마다 가장 가까운 QID를 찾아, 같은 QID를 받은 표기는 같은 노드가 된다(부록 C.1).',
-    '원리: 기준 식별자를 하나 정하고, 자료마다 다르게 적힌 같은 대상을 그 식별자에 대응시킨다.',
-    '우리는 K-water 댐 코드(DAM_CD)를 기준 식별자로 삼았다. 대상이 댐 4개라서 대응은 코드 일치와 대응 표로 했고, GraphAide의 벡터 검색과 LLM 재순위는 쓰지 않았다.',
-    '진행 방식: 먼저 자료마다 다른 댐 표기를 기준 식별자에 대응시키고(2.2), 그 다음 관계마다 시작 Entity에서 끝 Entity의 ID를 찾아 관계 줄을 쓴다(2.3). 결과는 kgv4_relations.csv에 쌓인다.')
+# ================================================================== 2. Relation 채우기
+add(h1('2. Relation 채우기'))
+add(h2('2.1 왜 Relation을 따로 채우는가'))
+lis('온톨로지의 Relation은 Class끼리의 짝이다. 예를 들어 "Approval —concernsDam→ Dam"은 "승인은 어떤 댐에 관한 것이다"라는 규칙 한 줄이고, 어느 승인이 어느 댐에 관한 것인지는 들어 있지 않다.',
+    'Class와 Data Property만 채우면 Neo4j에는 승인 노드 80개와 댐 노드 4개가 선 없이 따로 놓인다. 승인의 속성은 승인일과 승인 내용뿐이므로, "충주댐의 승인"을 조회해도 아무것도 나오지 않는다.',
+    '온톨로지 규칙만 보면 승인 80개 × 댐 4개 = 320개 짝이 모두 형식상 맞다. 그중 실제 짝 80개를 고르는 근거는 자료 안의 키이다. 승인 504행의 관측소코드가 1003110이므로 APR:504는 DAM:1003110(충주댐)에 잇는다(그림 {{r0}}).',
+    '즉 Relation 채우기는 "온톨로지가 허락한 짝 가운데 자료가 말해 주는 실제 짝만 골라 잇는 일"이다. 속성 칸에 값을 채우는 것과 같은 일이며, 채우는 값이 숫자나 글자가 아니라 다른 Entity라는 점만 다르다.')
+figcap('r0', '온톨로지가 허락한 짝(점선) 가운데 자료 속 키로 실제 짝(실선)을 고른다')
+add(label('Class·Data Property 채우기 다음에 하는 이유'))
+lis('끝 Entity가 먼저 만들어져 있어야 한다. 승인 표를 옮길 때는 다른 자료(K-water 일자료)에서 만드는 댐 Entity가 아직 없을 수 있다.',
+    '자료마다 다르게 적힌 댐("충주", 1003110, "충 주 댐")을 같은 댐으로 알아봐야 짝을 정할 수 있다(2.3).',
+    '그래서 모든 Entity를 만든 뒤에 Relation을 채운다. 근거 관계(supportedBy)도 온톨로지의 Relation이므로 이 단계에서 다른 관계와 함께 정리한다(10/30 자료 과정 4의 근거 연결).')
 
-add(h2('2.2 댐 표기를 기준 식별자에 대응 (개체 해소)'))
+add(h2('2.2 따른 원리와 진행 방식'))
+lis('따른 원리: Purohit 외(2024)는 GraphAide에서 뉴스 기사 1,846건으로 KG를 만들 때, 글에서 뽑은 대상의 표기를 기준 지식베이스(DARPA Wikidata)의 식별자(QID)에 대응시켰다. 표기마다 가장 가까운 QID를 찾아, 같은 QID를 받은 표기는 같은 노드가 된다(부록 C.1).',
+    '원리: 기준 식별자를 하나 정하고, 자료마다 다르게 적힌 같은 대상을 그 식별자에 대응시킨다. 우리는 K-water 댐 코드(DAM_CD)를 기준 식별자로 삼았다. 대상이 댐 4개라서 대응은 코드 일치와 대응 표로 했고, GraphAide의 벡터 검색과 LLM 재순위는 쓰지 않았다.',
+    '참고로 Huang 외(2026)는 댐마다 관련 Entity를 JSON 파일 하나로 묶어 적재했고, 본문에 서로 다른 자료의 같은 대상을 맞추는 단계는 따로 없다. 우리 자료는 승인 기록, K-water 자료, 규정이 서로 다른 기관에서 따로 와서 댐 표기를 맞추는 과정이 필요하다.',
+    '진행 방식: 먼저 댐 표기를 기준 식별자에 맞추고(2.3), 관계마다 ① 시작 Entity를 하나씩 읽고 ② 그 Entity에 든 키로 끝 Entity의 ID를 정하고 ③ 관계 줄을 쓰며 짝을 정한 방법(규칙)과 값의 성격을 남긴다(2.4). 결과는 kgv4_relations.csv에 쌓인다.')
+
+add(h2('2.3 댐 표기 맞추기 (개체 해소)'))
 add(label('입력: 자료마다 다른 댐 표기'))
 lis('승인 기록: 관측소명("충주")과 관측소코드(1003110). 자료 준비 때 대조한 결과, 관측소코드는 4개 댐 모두 K-water 댐 코드와 같았다.',
     'K-water 일자료·시간자료: 댐 코드(DAM_CD) 자체가 기준 식별자이다.',
     '규정 별표3: 댐 이름만 있고 코드가 없다. 원문에는 글자 사이에 공백이 있다("충 주 댐").')
 add(label('과정'))
-lis('승인 기록은 관측소코드가 댐 코드와 같으므로 코드로 그대로 대응한다.',
+lis('승인 기록은 관측소코드가 댐 코드와 같으므로 코드로 그대로 맞춘다.',
     '별표3은 비정형 텍스트 추출에서 공백을 허용해 읽은 이름("충주댐")을 대응 표의 표준 댐명에서 찾아 댐 코드를 얻는다.',
     '대응 표는 승인 관측소명, 별표3 댐 이름, 표준 댐명, 댐 코드를 한 줄에 둔 4줄짜리 표이다. 광동댐은 별표3에 없다.')
-figcap('g1', '댐 표기 세 가지를 기준 식별자 DAM:1003110에 대응시키기')
+figcap('g1', '댐 표기 세 가지를 기준 식별자 DAM:1003110에 맞추기')
 
-add(h2('2.3 관계별 연결'))
-add(label('진행 방식'))
-lis('관계마다 ① 시작 Entity를 하나씩 읽고 ② 그 Entity에 들어 있는 키로 끝 Entity의 ID를 정하고 ③ 관계 줄을 쓰며, 끝을 찾은 방법(규칙)과 값의 성격을 함께 남긴다.',
-    '근거 연결(supportedBy 175개)은 지난 단계에서 Entity를 만들 때 이미 이었으므로, 이번 단계에서 잇는 관계는 아래 5종 %d개이다.' % NEW)
-add(label('표 2. 관계별 끝 Entity를 찾는 키'))
-add(rtable([['관계', '시작 → 끝', '끝 Entity를 찾는 키', '값의 성격', '개수'],
-            ['hasHydrometeorologicalState', 'Dam → HMS', '같은 댐 코드 (HMS ID 속의 DAM_CD)', '원본 그대로', str(RC['hasHydrometeorologicalState'])],
-            ['concernsDam', 'Approval → Dam', '승인 행의 관측소코드 = 댐 코드', '원본 그대로', str(RC['concernsDam'])],
-            ['authorizes', 'Approval → Operation', '같은 순차번호 (그 승인 행의 비고에서 뽑은 행위)', '연구용 구성', str(RC['authorizes'])],
-            ['performedOnDam', 'Operation → Dam', '순차번호 → 승인 행의 관측소코드', '원본에서 유도', str(RC['performedOnDam'])],
-            ['appliesToDam', 'Criterion → Dam', '별표3 댐 이름 → 대응 표 → 댐 코드', '이름 일치', str(RC['appliesToDam'])]],
-           [2600, 1900, 3172, 1400, 900]))
-add(para('값의 성격: 원본 그대로 = 원본의 코드가 같아서 이음 / 원본에서 유도 = 원본의 키를 한 번 거쳐 이음 / 연구용 구성 = 원본에 직접 적힌 관계가 아니라 연구에서 정해 이음 / 이름 일치 = 코드가 없어 이름으로 이음.', sz=18))
+add(h2('2.4 관계별 짝 채우기'))
+add(label('표 2. 관계별 짝을 정하는 키'))
+REL_ROWS = [['supportedBy', 'Approval → EvidenceSource', '같은 순차번호 (같은 승인 행에서 만든 근거)', '원본 그대로', 80],
+            ['supportedBy', 'Operation → EvidenceSource', '운영행위 ID의 순차번호 (비고가 적힌 승인 행의 근거)', '원본에서 유도', 68],
+            ['supportedBy', 'HMS → EvidenceSource', '같은 댐 코드 (그 댐의 측정자료)', '원본 그대로', 24],
+            ['supportedBy', 'Criterion → EvidenceSource', '규정은 하나라 고정 ID (별표3)', '원본 그대로', 3],
+            ['hasHydrometeorologicalState', 'Dam → HMS', '같은 댐 코드 (HMS ID 속의 DAM_CD)', '원본 그대로', RC['hasHydrometeorologicalState']],
+            ['concernsDam', 'Approval → Dam', '승인 행의 관측소코드 = 댐 코드', '원본 그대로', RC['concernsDam']],
+            ['authorizes', 'Approval → Operation', '같은 순차번호 (그 승인 행의 비고에서 뽑은 행위)', '연구용 구성', RC['authorizes']],
+            ['performedOnDam', 'Operation → Dam', '순차번호 → 승인 행의 관측소코드', '원본에서 유도', RC['performedOnDam']],
+            ['appliesToDam', 'Criterion → Dam', '별표3 댐 이름 → 대응 표 → 댐 코드', '이름 일치', RC['appliesToDam']]]
+assert sum(r[4] for r in REL_ROWS) == len(rels) and sum(r[4] for r in REL_ROWS[:4]) == RC['supportedBy']
+add(rtable([['관계', '시작 → 끝', '짝을 정하는 키', '값의 성격', '개수']] + [r[:4] + [str(r[4])] for r in REL_ROWS] + [['합계', '', '', '', str(len(rels))]],
+           [2500, 2300, 3172, 1300, 700]))
+add(para('값의 성격: 원본 그대로 = 원본의 키가 같아서 이음 / 원본에서 유도 = 원본의 키를 한 번 거쳐 이음 / 연구용 구성 = 원본에 직접 적힌 관계가 아니라 연구에서 정해 이음 / 이름 일치 = 코드가 없어 이름으로 이음.', sz=18))
 
+add(label('근거: supportedBy'))
+lis('근거 Entity는 10/30 단계에서 이미 만들어 두었다. 시작 Entity의 ID에 든 순차번호나 댐 코드로 끝을 바로 정한다. 운영행위는 비고가 적힌 승인 행의 근거를, 기준은 하나뿐인 규정 근거를 끝으로 한다.')
+figcap('g7', '근거 관계 4종: 시작 Entity의 ID에 든 키로 근거 Entity를 정한다')
 add(label('수문·기상 상태: hasHydrometeorologicalState'))
-lis('댐을 하나씩 꺼내, 같은 댐 코드로 만든 HMS 6개를 찾아 관계 6개를 쓴다. HMS의 ID에 댐 코드가 들어 있으므로 찾는 데 다른 자료가 필요 없다.')
-figcap('g2', 'Dam → HMS: 같은 댐 코드로 잇는다')
+lis('댐을 하나씩 꺼내, 같은 댐 코드로 만든 HMS 6개를 찾아 관계 6개를 쓴다. HMS의 ID에 댐 코드가 들어 있으므로 다른 자료가 필요 없다.')
+figcap('g2', 'Dam → HMS: 같은 댐 코드로 짝을 정한다')
 add(label('승인: concernsDam'))
-lis('승인을 하나씩 꺼내, 그 승인 행의 관측소코드(1003110)로 댐 ID(DAM:1003110)를 정한다. 승인 80개가 모두 댐 하나에 이어진다.')
-figcap('g3', 'Approval → Dam: 승인 행의 관측소코드로 잇는다')
+lis('승인을 하나씩 꺼내, 그 승인 행의 관측소코드(1003110)로 댐 ID(DAM:1003110)를 정한다.')
+figcap('g3', 'Approval → Dam: 승인 행의 관측소코드로 짝을 정한다')
 add(label('운영행위: authorizes, performedOnDam'))
 lis('운영행위 ID(OPR:504:1)에 든 순차번호 504로 같은 승인 행을 찾는다. 그 승인(APR:504)에서 운영행위로 authorizes를, 그 행의 관측소코드로 정한 댐으로 performedOnDam을 쓴다.',
     'authorizes는 "같은 승인 행의 비고에서 뽑은 행위를 그 승인이 허가했다"고 연구에서 정해 이은 것이라 값의 성격이 연구용 구성이다(검토할 점 1).')
 figcap('g4', 'Approval → Operation → Dam: 순차번호가 같은 승인 행을 가리킨다')
 add(label('기준: appliesToDam'))
-lis('기준을 하나씩 꺼내, 별표3에서 읽은 댐 이름을 대응 표의 표준 댐명에서 찾아 댐 코드를 얻는다. 별표3에는 코드가 없어 이름으로 이었다는 사실을 값의 성격(이름 일치)으로 남긴다.')
-figcap('g5', 'Criterion → Dam: 별표3의 댐 이름을 대응 표로 댐 코드에 대응시킨다')
+lis('기준을 하나씩 꺼내, 별표3에서 읽은 댐 이름을 대응 표의 표준 댐명에서 찾아 댐 코드를 얻는다. 코드가 아니라 이름으로 정한 짝이라는 사실을 값의 성격(이름 일치)으로 남긴다.')
+figcap('g5', 'Criterion → Dam: 별표3의 댐 이름을 대응 표로 댐 코드에 맞춘다')
 
 add(label('결과'))
-lis('관계 %d개가 더해져 KG의 관계는 모두 %d개가 된다(kgv4_relations.csv).' % (NEW, len(rels)),
-    '연결 확인(10/19 질문 "연결이 실제로 되나"): 승인 80개 모두 댐에(concernsDam), 운영행위 68개 모두 댐과 승인에(performedOnDam, authorizes), 기준 3개 모두 댐에(appliesToDam), 댐 4개 모두 HMS 6개씩에 이어졌다. 승인 중 운영행위로 이어진 것은 63개이며, 나머지 17개는 변경 승인이라 운영행위를 만들지 않은 것이다.',
+lis('Relation 9종(온톨로지의 관계 9개)의 실제 짝 %d개가 kgv4_relations.csv에 채워진다.' % len(rels),
+    '연결 확인(10/19 질문 "연결이 실제로 되나"): 승인 80개 모두 댐과 근거에, 운영행위 68개 모두 댐·승인·근거에, HMS 24개 모두 댐과 근거에, 기준 3개 모두 댐과 근거에 이어졌다. 승인 중 운영행위로 이어진 것은 63개이며, 나머지 17개는 변경 승인이라 운영행위를 만들지 않은 것이다.',
     '이제 댐 하나에서 출발해 그 댐의 상태, 승인, 운영행위, 기준과 각각의 근거까지 관계를 따라 찾아갈 수 있다(그림 {{g6}}).')
-figcap('g6', '개체 해소·연결이 끝난 상태 — 충주댐에 이어진 Entity')
+figcap('g6', 'Relation 채우기가 끝난 상태 — 충주댐에 이어진 Entity')
 
 # ================================================================== 3. 저장
 add(h1('3. 저장'))
@@ -222,7 +237,7 @@ add(label('과정 3. KG 조회 (코드, Cypher 템플릿)'))
 lis('먼저 충주댐의 HMS에서 stationCode(1003110)를 얻는다. 측정 저장소를 찾아갈 키이다.',
     'CQ3: 충주댐에서 performedOnDam을 거꾸로 따라가 기간 안의 운영행위를 찾고, authorizes로 그것을 허가한 승인을 찾는다 → OPR:3412:1 ← APR:3412.',
     'CQ4: concernsDam으로 승인일이 기간 안인 승인을 찾는다 → APR:3412, APR:3519, APR:3647. 뒤의 둘은 변경 승인이라 운영행위가 없다.',
-    '2장에서 이은 관계가 여기서 조회 경로로 쓰인다. CQ별 경로는 그림 {{q2}}의 표와 같다.')
+    '2장에서 채운 관계가 여기서 조회 경로로 쓰인다. CQ별 경로는 그림 {{q2}}의 표와 같다.')
 figcap('q2', 'CQ3 Cypher 템플릿과 따라가는 관계, CQ별 조회 경로')
 add(label('과정 4. 외부 저장소 조회 (코드)'))
 lis('CQ2와 CQ3이 함께 있으면 운영행위 시각마다 그 시각의 측정값을 읽는다. 키는 stationCode 1003110과 시각 2020-08-02 18:00이다.',
@@ -251,10 +266,10 @@ add(rtable([['질문', '뽑은 의도', '결과', '시간'],
 
 # ================================================================== 5. 검토할 점
 add(h1('5. 검토할 점'))
-add(label('1. authorizes는 연구용 구성 (개체 해소·연결)'))
+add(label('1. authorizes는 연구용 구성 (Relation 채우기)'))
 lis('운영행위가 승인 비고에서 구성한 것이므로, "그 승인이 그 운영행위를 허가했다"는 연결도 연구에서 정한 것이다. 실행을 확인한 연결이 아니다.',
     '답변 지시문에 "실제 수행이 확정된 것처럼 쓰지 않는다"를 넣어 다루고 있다. 실제 운영 기록을 얻으면 다시 정한다.')
-add(label('2. 같은 코드를 같은 시설로 봄 (개체 해소·연결)'))
+add(label('2. 같은 코드를 같은 시설로 봄 (Relation 채우기)'))
 lis('승인 파일의 관측소코드와 K-water 댐 코드가 같으면 같은 댐으로 보았다(4개 댐 모두 이름도 일치). 두 기관의 코드가 같은 시설을 뜻한다는 공식 자료로 확인하지는 않았다.',
     '별표3은 코드가 없어 이름으로 이었다(appliesToDam 3개).')
 add(label('3. 답변 품질과 속도 (검색·답변, 서버 실행 기록)'))
@@ -288,6 +303,7 @@ table = L.table
 add(h1('부록 A. 용어 정리'))
 add(label('표 4. 용어 정의'))
 add(table([['용어', '본 연구에서의 정의'],
+           ['Relation 채우기', '온톨로지가 허락한 Class끼리의 짝 가운데, 자료 속 키로 실제 Entity끼리의 짝을 골라 잇는 일.'],
            ['개체 해소', '자료마다 다르게 적힌 같은 대상(충주, 충 주 댐, 1003110)을 하나의 기준 식별자에 대응시키는 일. 문헌의 entity disambiguation.'],
            ['기준 식별자', '같은 대상을 가리키는 표기들을 모으는 기준 ID. 본 연구는 K-water 댐 코드, GraphAide는 Wikidata의 QID.'],
            ['Neo4j', 'Entity를 노드로, 관계를 관계(엣지)로 저장하는 그래프 데이터베이스.'],
@@ -318,7 +334,7 @@ add(table([['Subject', 'Relation', 'Object', '의미'],
            ['Approval', 'supportedBy', 'EvidenceSource', '승인을 확인할 수 있는 근거자료'],
            ['Criterion', 'supportedBy', 'EvidenceSource', '운영기준을 확인할 수 있는 근거자료']], [2300, 2700, 2300, 2672]))
 add(h1('부록 C. 근거 문헌의 원리'))
-add(h2('C.1 Purohit 외(2024) — 개체 해소, 검색·답변'))
+add(h2('C.1 Purohit 외(2024) — Relation 채우기(개체 해소), 검색·답변'))
 lis('무엇인가: 여러 출처의 정형·비정형 자료로 KG를 만들고, 그 KG를 조회·추론하는 질의 시스템 GraphAide를 제안한 학회 논문이다(IEEE BigData 2024). OpenAI LLM, Chroma 벡터 DB, Neo4j, LangChain으로 구현했다.',
     'KG 생성 단계의 개체 해소: 기준 지식베이스로 DARPA Wikidata(DWD)를 쓰고, QID마다 설명 문서를 만들어 벡터 DB에 넣었다. 온톨로지와 DWD에 기반한 에이전트가 글에서 대상의 표기를 뽑고, RAG 기반 후보 재순위로 가장 가까운 QID를 고른다. → 기준 식별자에 대응시키는 원리만 따랐고, 벡터 DB와 LLM 재순위는 쓰지 않았다.',
     '질의 단계: LLM이 질문을 여러 형태로 확장하고, 이를 부분 그래프 조회 템플릿으로 바꿔 Cypher를 자동 생성한다. 그래프 조회 결과와 벡터 검색 결과를 합쳐 LLM의 맥락으로 주고, 답변을 모아 하나의 응답을 만든다. 정해진 순서(chain)와 에이전트를 함께 쓴다. → KG 조회 결과를 LLM의 근거로 주는 원리를 따랐고, Cypher는 CQ마다 미리 정한 템플릿으로 대신했다.',

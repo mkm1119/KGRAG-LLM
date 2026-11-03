@@ -46,6 +46,32 @@ table.t tr.dim td{color:#999}
 .step{border:1.5px solid var(--line);border-radius:9px;padding:8px 10px;background:#fff;font-size:14.5px}
 .arrow{font-size:20px;color:#555;text-align:center}
 </style></head><body>
+<!-- r0: 온톨로지의 짝과 실제 짝 -->
+<div class="fig" id="r0">
+ <div style="display:grid;grid-template-columns:300px 30px 1fr;align-items:center;gap:0 6px">
+  <div class="step" style="background:#FFF8E6;border-color:#D9B44A;text-align:center"><span class="hd">온톨로지 (Class끼리의 짝)</span><br><span class="nd apr" style="margin-top:6px">Approval</span> <span class="rel">— concernsDam →</span> <span class="nd dam">Dam</span><br><span class="note">"승인은 어떤 댐에 관한 것이다" (규칙 한 줄)</span></div>
+  <div class="arrow">→</div>
+  <div class="step"><span class="hd">KG (실제 짝) — 승인 504행의 관측소코드 = <b style="color:var(--key)">1003110</b></span>
+   <svg width="470" height="190" viewBox="0 0 470 190" font-family="WenQuanYi Zen Hei" font-size="14">
+    <defs><marker id="mr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#444"/></marker></defs>
+    <rect x="10" y="75" width="120" height="40" rx="8" fill="#E8F5F2" stroke="#23907F" stroke-width="2.5"/><text x="70" y="100" text-anchor="middle" font-weight="bold">APR:504</text>
+    <g font-size="13.5">
+     <rect x="300" y="8" width="160" height="34" rx="7" fill="#FFF4EA" stroke="#E07A2F" stroke-width="3"/><text x="380" y="30" text-anchor="middle" font-weight="bold">DAM:1003110 충주</text>
+     <rect x="300" y="54" width="160" height="34" rx="7" fill="#fff" stroke="#ccc" stroke-width="1.5"/><text x="380" y="76" text-anchor="middle" fill="#999">DAM:1012110 소양강</text>
+     <rect x="300" y="100" width="160" height="34" rx="7" fill="#fff" stroke="#ccc" stroke-width="1.5"/><text x="380" y="122" text-anchor="middle" fill="#999">DAM:1006110 횡성</text>
+     <rect x="300" y="146" width="160" height="34" rx="7" fill="#fff" stroke="#ccc" stroke-width="1.5"/><text x="380" y="168" text-anchor="middle" fill="#999">DAM:1001210 광동</text>
+    </g>
+    <line x1="130" y1="90" x2="296" y2="26" stroke="#444" stroke-width="2.8" marker-end="url(#mr)"/>
+    <line x1="130" y1="95" x2="296" y2="71" stroke="#bbb" stroke-width="1.5" stroke-dasharray="5 4"/>
+    <line x1="130" y1="100" x2="296" y2="117" stroke="#bbb" stroke-width="1.5" stroke-dasharray="5 4"/>
+    <line x1="130" y1="105" x2="296" y2="163" stroke="#bbb" stroke-width="1.5" stroke-dasharray="5 4"/>
+    <text x="140" y="56" font-size="12.5" fill="#2F4F9A" font-weight="bold">concernsDam</text>
+   </svg>
+  </div>
+ </div>
+ <div class="note" style="margin-top:8px">온톨로지 규칙만 보면 승인 80개 × 댐 4개 = 320개 짝이 모두 형식상 맞다(점선). 그중 실제 짝 80개를 고르는 근거가 자료 안의 키이다(실선: 관측소코드 1003110 → 충주댐).</div>
+</div>
+
 <!-- g1: 댐 표기 3가지 → 기준 식별자 -->
 <div class="fig" id="g1">
  <div style="display:grid;grid-template-columns:330px 40px 1fr;align-items:center;gap:10px 0">
@@ -66,6 +92,18 @@ table.t tr.dim td{color:#999}
   <tr><td>광동</td><td>(별표3에 없음)</td><td>광동댐</td><td>1001210</td><td>DAM:1001210</td></tr>
  </table>
  <div class="d2rq"><b>원리 · Purohit 외(2024)</b> — 기준 지식베이스(Wikidata)의 식별자(QID)를 기준으로 삼고, 글에서 나온 표기를 가장 가까운 QID에 대응시켜 같은 대상을 노드 하나로 만든다. 우리는 K-water 댐 코드를 기준 식별자로 삼았다.</div>
+</div>
+
+<!-- g7: 근거 관계 4종 -->
+<div class="fig" id="g7">
+ <table class="t" style="font-size:14.5px;width:100%">
+  <tr><th>시작</th><th>짝을 정하는 키</th><th>끝 (근거 Entity)</th><th>개수</th></tr>
+  <tr><td><span class="nd apr">APR:<b style="color:var(--key)">504</b></span></td><td>같은 순차번호 504 (같은 승인 행에서 만든 근거)</td><td><span class="nd evi">EVI:AP:<b style="color:var(--key)">504</b></span></td><td>80</td></tr>
+  <tr><td><span class="nd opr">OPR:<b style="color:var(--key)">504</b>:1</span></td><td>운영행위 ID의 순차번호 504 (비고가 적힌 승인 행의 근거)</td><td><span class="nd evi">EVI:AP:<b style="color:var(--key)">504</b></span></td><td>68</td></tr>
+  <tr><td><span class="nd hms">HMS:<b style="color:var(--key)">1003110</b>:수위</span></td><td>같은 댐 코드 1003110 (그 댐의 측정자료)</td><td><span class="nd evi">EVI:KW:<b style="color:var(--key)">1003110</b></span></td><td>24</td></tr>
+  <tr><td><span class="nd cri">CRI:CR-02</span></td><td>규정은 하나라 고정 ID (별표3)</td><td><span class="nd evi">EVI:LAW:별표3</span></td><td>3</td></tr>
+ </table>
+ <div class="note" style="margin-top:6px">근거 Entity는 10/30 단계에서 이미 만들어 두었다. 시작 Entity의 ID에 든 키(순차번호, 댐 코드)로 끝을 바로 정하므로 다른 표를 찾지 않는다.</div>
 </div>
 
 <!-- g2: hasHydrometeorologicalState -->
@@ -113,7 +151,7 @@ table.t tr.dim td{color:#999}
   <text x="563" y="134" text-anchor="middle" font-size="13" fill="#555">504 → 승인 504행의</text>
   <text x="563" y="152" text-anchor="middle" font-size="13" fill="#555">관측소코드 1003110</text>
   <path d="M95,70 C95,20 715,20 715,66" fill="none" stroke="#999" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#m4)"/>
-  <text x="405" y="30" text-anchor="middle" font-size="13" fill="#777">concernsDam (앞 그림)</text>
+  <text x="405" y="30" text-anchor="middle" font-size="13" fill="#777">concernsDam</text>
   <text x="20" y="196" font-size="13.5" fill="#555">운영행위 ID의 순차번호(504)가 같은 승인 행을 가리키므로, 승인과 댐을 다른 표에서 찾지 않는다.</text>
  </svg>
  <div class="note">authorizes 68개(값의 성격: 연구용 구성 — 실행 확인 아님), performedOnDam 68개(값의 성격: 원본에서 유도). 운영행위 68개가 모두 승인 하나와 댐 하나에 이어진다.</div>
@@ -153,7 +191,7 @@ table.t tr.dim td{color:#999}
   <rect x="20" y="10" width="170" height="30" rx="8" fill="#F2F2F2" stroke="#7A7A7A" stroke-width="1.5"/><text x="105" y="30" text-anchor="middle" font-size="12.5">EVI:AP:… 15개</text>
   <line x1="105" y1="60" x2="105" y2="42" stroke="#777" stroke-width="1.5" marker-end="url(#m6)"/>
  </svg>
- <div class="note">실선 화살표가 이번 단계에서 이은 관계이다(회색 상자는 지난 단계에서 이은 근거). 이제 댐 하나에서 출발해 그 댐의 상태, 승인, 운영행위, 기준과 각각의 근거까지 관계를 따라 찾아갈 수 있다.</div>
+ <div class="note">화살표가 모두 이번 단계에서 채운 관계이다(회색 상자는 근거 Entity). 이제 댐 하나에서 출발해 그 댐의 상태, 승인, 운영행위, 기준과 각각의 근거까지 관계를 따라 찾아갈 수 있다.</div>
 </div>
 
 <!-- s1: CSV 줄 → Cypher 문 -->
