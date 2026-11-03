@@ -146,6 +146,11 @@ lis('승인 기록은 관측소코드가 댐 코드와 같으므로 코드로 �
 figcap('g1', '댐 표기 세 가지를 기준 식별자 DAM:1003110에 맞추기')
 
 add(h2('2.4 관계별 짝 채우기'))
+add(label('승인 한 행에서 나오는 짝'))
+lis('표 2의 9줄 중 5줄(승인·운영행위의 supportedBy, authorizes, concernsDam, performedOnDam)은 승인 기록의 한 행에서 짝이 정해진다. 승인 504행 하나를 칸 그대로 보면 아래와 같다(그림 {{g0}}).',
+    '이 행에서 Entity 3개가 나온다: 승인 칸들로 APR:504를, 비고를 추출해 OPR:504:1을, 출처 열로 EVI:AP:504를 만들었다(10/30 단계). 세 ID에 모두 이 행의 순차번호 504가 들어 있다.',
+    '그래서 셋 사이의 짝(authorizes, supportedBy)은 ID의 순차번호만 보고 정한다. 댐과의 짝(concernsDam, performedOnDam)은 이 행의 관측소코드 1003110으로 정한다.')
+figcap('g0', '승인 504행 하나에서 나오는 Entity 3개와 그 짝 — 순차번호 504와 관측소코드 1003110이 짝을 정한다')
 add(label('표 2. 관계별 짝을 정하는 키'))
 REL_ROWS = [['supportedBy', 'Approval → EvidenceSource', '같은 순차번호 (같은 승인 행에서 만든 근거)', '원본 그대로', 80],
             ['supportedBy', 'Operation → EvidenceSource', '운영행위 ID의 순차번호 (비고가 적힌 승인 행의 근거)', '원본에서 유도', 68],
@@ -162,18 +167,17 @@ add(rtable([['관계', '시작 → 끝', '짝을 정하는 키', '값의 성격'
 add(para('값의 성격: 원본 그대로 = 원본의 키가 같아서 이음 / 원본에서 유도 = 원본의 키를 한 번 거쳐 이음 / 연구용 구성 = 원본에 직접 적힌 관계가 아니라 연구에서 정해 이음 / 이름 일치 = 코드가 없어 이름으로 이음.', sz=18))
 
 add(label('근거: supportedBy'))
-lis('근거 Entity는 10/30 단계에서 이미 만들어 두었다. 시작 Entity의 ID에 든 순차번호나 댐 코드로 끝을 바로 정한다. 운영행위는 비고가 적힌 승인 행의 근거를, 기준은 하나뿐인 규정 근거를 끝으로 한다.')
+lis('근거 Entity는 10/30 단계에서 이미 만들어 두었다. 시작 Entity의 ID에 든 순차번호나 댐 코드로 끝을 바로 정한다. 승인과 운영행위는 그림 {{g0}}처럼 같은 순차번호의 EVI:AP를, HMS는 같은 댐 코드의 EVI:KW를, 기준은 하나뿐인 규정 근거를 끝으로 한다.')
 figcap('g7', '근거 관계 4종: 시작 Entity의 ID에 든 키로 근거 Entity를 정한다')
 add(label('수문·기상 상태: hasHydrometeorologicalState'))
 lis('댐을 하나씩 꺼내, 같은 댐 코드로 만든 HMS 6개를 찾아 관계 6개를 쓴다. HMS의 ID에 댐 코드가 들어 있으므로 다른 자료가 필요 없다.')
 figcap('g2', 'Dam → HMS: 같은 댐 코드로 짝을 정한다')
 add(label('승인: concernsDam'))
-lis('승인을 하나씩 꺼내, 그 승인 행의 관측소코드(1003110)로 댐 ID(DAM:1003110)를 정한다.')
+lis('승인을 하나씩 꺼내, 그 승인 행의 관측소코드(1003110)로 댐 ID(DAM:1003110)를 정한다(그림 {{g0}}의 파란 칸). 승인 80개 모두 같은 방법이다.')
 figcap('g3', 'Approval → Dam: 승인 행의 관측소코드로 짝을 정한다')
 add(label('운영행위: authorizes, performedOnDam'))
-lis('운영행위 ID(OPR:504:1)에 든 순차번호 504로 같은 승인 행을 찾는다. 그 승인(APR:504)에서 운영행위로 authorizes를, 그 행의 관측소코드로 정한 댐으로 performedOnDam을 쓴다.',
+lis('운영행위 ID(OPR:504:1)에 든 순차번호 504로 그 비고가 적힌 승인 행을 찾는다(그림 {{g0}}). 그 행의 승인(APR:504)에서 운영행위로 authorizes를, 그 행의 관측소코드로 정한 댐으로 performedOnDam을 쓴다.',
     'authorizes는 "같은 승인 행의 비고에서 뽑은 행위를 그 승인이 허가했다"고 연구에서 정해 이은 것이라 값의 성격이 연구용 구성이다(검토할 점 1).')
-figcap('g4', 'Approval → Operation → Dam: 순차번호가 같은 승인 행을 가리킨다')
 add(label('기준: appliesToDam'))
 lis('기준을 하나씩 꺼내, 별표3에서 읽은 댐 이름을 대응 표의 표준 댐명에서 찾아 댐 코드를 얻는다. 코드가 아니라 이름으로 정한 짝이라는 사실을 값의 성격(이름 일치)으로 남긴다.')
 figcap('g5', 'Criterion → Dam: 별표3의 댐 이름을 대응 표로 댐 코드에 맞춘다')

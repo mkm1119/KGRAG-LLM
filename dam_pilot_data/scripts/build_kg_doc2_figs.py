@@ -77,6 +77,71 @@ add('''<!-- g1: 댐 표기 3가지 → 기준 식별자 -->
  <div class="d2rq"><b>원리 · Purohit 외(2024)</b> — 기준 지식베이스(Wikidata)의 식별자(QID)를 기준으로 삼고, 글에서 나온 표기를 가장 가까운 QID에 대응시켜 같은 대상을 노드 하나로 만든다. 우리는 K-water 댐 코드를 기준 식별자로 삼았다.</div>
 </div>''')
 
+add('''<!-- g0: 승인 504행 하나에서 나오는 Entity와 관계 -->
+<div class="fig" id="g0">
+ <svg width="808" height="400" viewBox="0 0 808 400" font-family="WenQuanYi Zen Hei" font-size="13.5">
+  <defs>
+   <marker id="m0" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#444"/></marker>
+   <marker id="m0g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#aaa"/></marker>
+  </defs>
+  <text x="2" y="12" font-size="13" fill="#555" font-weight="bold">승인 기록 504행 (approval_records_clean.csv)</text>
+  <!-- 머리 -->
+  <g font-size="12.5" fill="#fff" font-weight="bold" text-anchor="middle">
+   <rect x="2" y="18" width="78" height="26" fill="#E07A2F"/><text x="41" y="36">순차번호</text>
+   <rect x="80" y="18" width="92" height="26" fill="#2F66D0"/><text x="126" y="36">관측소코드</text>
+   <rect x="172" y="18" width="62" height="26" fill="#888"/><text x="203" y="36">관측소명</text>
+   <rect x="234" y="18" width="94" height="26" fill="#3F8F2A"/><text x="281" y="36">승인일</text>
+   <rect x="328" y="18" width="150" height="26" fill="#3F8F2A"/><text x="403" y="36">방류시작 · 접수방류량</text>
+   <rect x="478" y="18" width="170" height="26" fill="#8A55C2"/><text x="563" y="36">비고</text>
+   <rect x="648" y="18" width="158" height="26" fill="#7A7A7A"/><text x="727" y="36">출처 열</text>
+  </g>
+  <g text-anchor="middle">
+   <rect x="2" y="44" width="804" height="36" fill="#FFF1C9" stroke="#C9C9C9"/>
+   <text x="41" y="67" font-weight="bold" fill="#E07A2F" font-size="15">504</text>
+   <text x="126" y="67" font-weight="bold" fill="#2F66D0">1003110</text>
+   <text x="203" y="67">충주</text>
+   <text x="281" y="67">2011-06-27</text>
+   <text x="403" y="67">2011-06-27 18:00 · 2000</text>
+   <text x="563" y="67">(실제방류는 20시부터)</text>
+   <text x="727" y="63" font-size="11.5">한강홍수통제소</text><text x="727" y="76" font-size="11.5">댐방류승인 파일 …</text>
+  </g>
+  <!-- 칸 → Entity (회색 점선) -->
+  <g stroke="#aaa" stroke-width="1.6" stroke-dasharray="5 4" fill="none" marker-end="url(#m0g)">
+   <path d="M281,80 L240,166"/><path d="M403,80 L262,166"/>
+   <path d="M563,80 L520,166"/>
+   <path d="M727,80 L727,166"/>
+   <path d="M126,80 L126,336 L296,336"/>
+  </g>
+  <g font-size="11.5" fill="#888">
+   <text x="300" y="120">속성값</text>
+   <text x="550" y="120">추출(비고 규칙)</text>
+   <text x="735" y="120">속성값</text>
+   <text x="12" y="240">관측소코드 = 댐 코드</text><text x="12" y="255">→ 댐 Entity를 가리킴</text>
+  </g>
+  <!-- Entity -->
+  <rect x="170" y="168" width="140" height="42" rx="8" fill="#E8F5F2" stroke="#23907F" stroke-width="2.5"/><text x="240" y="194" text-anchor="middle" font-weight="bold">APR:<tspan fill="#E07A2F">504</tspan></text>
+  <rect x="450" y="168" width="140" height="42" rx="8" fill="#F3ECFA" stroke="#8A55C2" stroke-width="2.5"/><text x="520" y="194" text-anchor="middle" font-weight="bold">OPR:<tspan fill="#E07A2F">504</tspan>:1</text>
+  <rect x="660" y="168" width="140" height="42" rx="8" fill="#F2F2F2" stroke="#7A7A7A" stroke-width="2.5"/><text x="730" y="194" text-anchor="middle" font-weight="bold">EVI:AP:<tspan fill="#E07A2F">504</tspan></text>
+  <rect x="300" y="314" width="210" height="44" rx="8" fill="#FFF4EA" stroke="#E07A2F" stroke-width="2.5"/><text x="405" y="333" text-anchor="middle" font-weight="bold">DAM:<tspan fill="#2F66D0">1003110</tspan></text><text x="405" y="350" text-anchor="middle" font-size="11.5">충주댐 (K-water 자료에서 만든 Entity)</text>
+  <!-- 관계 -->
+  <g stroke="#444" stroke-width="2.4" fill="none" marker-end="url(#m0)">
+   <line x1="310" y1="189" x2="446" y2="189"/>
+   <line x1="590" y1="189" x2="656" y2="189"/>
+   <path d="M240,210 C240,290 730,290 730,214"/>
+   <line x1="255" y1="210" x2="355" y2="310"/>
+   <line x1="505" y1="210" x2="440" y2="310"/>
+  </g>
+  <g font-size="12.5" font-weight="bold" fill="#2F4F9A">
+   <text x="378" y="182" text-anchor="middle">authorizes</text>
+   <text x="623" y="160" text-anchor="middle">supportedBy</text>
+   <text x="600" y="282">supportedBy</text>
+   <text x="315" y="252">concernsDam</text>
+   <text x="470" y="262">performedOnDam</text>
+  </g>
+ </svg>
+ <div class="note">한 행에서 Entity 3개(APR, OPR, EVI:AP)가 나오고, 세 ID에 모두 순차번호 <b style="color:var(--key)">504</b>가 들어간다. 그래서 순차번호만 보면 같은 행에서 나온 짝(authorizes, supportedBy)을 바로 정할 수 있다. 댐은 그 행의 관측소코드 <b style="color:#2F66D0">1003110</b>으로 정한다(concernsDam, performedOnDam).</div>
+</div>''')
+
 add('''<!-- g7: 근거 관계 4종 -->
 <div class="fig" id="g7">
  <table class="t" style="font-size:14.5px;width:100%">
