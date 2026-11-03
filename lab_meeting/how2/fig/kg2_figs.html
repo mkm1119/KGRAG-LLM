@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>개체 해소·연결, 저장, 검색·답변 그림</title>
+<style>
+:root{--key:#E07A2F;--cls:#23907F;--prop:#3F8F2A;--merge:#8A55C2;--rel:#2F66D0;--prov:#7A7A7A;--line:#C9C9C9}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:#222;font-family:"WenQuanYi Zen Hei",sans-serif;font-size:17px;line-height:1.45}
+.fig{width:840px;padding:14px 16px;margin:0 0 30px;background:#fff}
+.mono{font-family:"DejaVu Sans Mono",monospace;font-size:15.5px}
+.chip{white-space:nowrap;display:inline-block;border:1.5px solid var(--line);border-radius:6px;padding:4px 10px;background:#fff}
+.id{white-space:nowrap;display:inline-block;border:2.5px solid var(--key);border-radius:7px;padding:4px 11px;background:#FFF4EA;font-weight:bold}
+.tag{display:inline-block;border-radius:5px;padding:2px 9px;color:#fff;font-weight:bold}
+.arr{color:#555;font-size:22px;padding:0 8px}
+.line{display:flex;align-items:center;flex-wrap:nowrap;margin:8px 0}
+.d2rq{background:#FFF8E6;border:1.5px dashed #D9B44A;border-radius:8px;padding:8px 12px;font-size:15px;margin-top:12px}
+.d2rq b{color:#8A6A00}
+.note{color:#555;font-size:15px}
+.box{border:1.5px solid var(--line);border-radius:9px;padding:10px 12px;background:#F7F7F5}
+table.t{border-collapse:collapse;font-size:15.5px}
+table.t th,table.t td{border:1px solid var(--line);padding:4px 10px}
+table.t th{background:#555;color:#fff}
+table.t tr.hl td{background:#FFF1C9;font-weight:bold}
+table.t tr.dim td{color:#999}
+.row3{display:grid;grid-template-columns:250px 30px 270px 30px 1fr;align-items:center;gap:0;margin:10px 0}
+.cv{border:1.5px solid var(--line);border-radius:7px;padding:6px 9px;background:#fff;font-size:15.5px}
+.rl{border-radius:7px;padding:6px 9px;background:#EFEFEB;font-size:15px}
+.out{border-radius:7px;padding:6px 9px;background:#EEF6EA;border:1.5px solid #B9D8AE;font-size:15.5px}
+.ar{text-align:center;color:#555;font-size:20px}
+.sub{font-size:14px;color:#8A6A00;margin:2px 0 0 0}
+.warn{color:#B3261E;font-weight:bold}
+.hd{font-size:14px;color:#666;font-weight:bold}
+</style><style>
+.k2{display:grid;gap:10px 0;align-items:center}
+.nd{display:inline-block;border-radius:8px;padding:5px 10px;font-weight:bold;white-space:nowrap;border:2px solid}
+.dam{border-color:#E07A2F;background:#FFF4EA}
+.apr{border-color:#23907F;background:#E8F5F2}
+.opr{border-color:#8A55C2;background:#F3ECFA}
+.hms{border-color:#2F66D0;background:#EEF2FB}
+.cri{border-color:#C77A1E;background:#FDF3E3}
+.evi{border-color:#7A7A7A;background:#F2F2F2}
+.rel{font-size:13.5px;font-weight:bold;color:#2F4F9A;white-space:nowrap}
+.code{font-family:"DejaVu Sans Mono",monospace;font-size:13px;background:#F7F7F5;border:1.5px solid #ddd;border-radius:8px;padding:8px 10px;white-space:pre-wrap;line-height:1.5}
+.hl1{background:#FFE7C2}.hl2{background:#D9F0E8}.hl3{background:#E4E9FA}.hl4{background:#F3E6FA}
+.tagL{display:inline-block;border-radius:5px;padding:1px 7px;font-size:12.5px;font-weight:bold;color:#fff}
+.llm{background:#B3261E}.cd{background:#2F66D0}
+.step{border:1.5px solid var(--line);border-radius:9px;padding:8px 10px;background:#fff;font-size:14.5px}
+.arrow{font-size:20px;color:#555;text-align:center}
+</style></head><body>
+<!-- g1: 댐 표기 3가지 → 기준 식별자 -->
+<div class="fig" id="g1">
+ <div style="display:grid;grid-template-columns:330px 40px 1fr;align-items:center;gap:10px 0">
+  <div class="cv"><span class="tag" style="background:var(--apr,#23907F)">승인 기록</span><br>관측소명 <b>충주</b> · 관측소코드 <b style="color:var(--key)">1003110</b></div><div class="ar">→</div>
+  <div class="rl">코드가 같다 → 그대로 대응 <span class="note">(코드 일치)</span></div>
+  <div class="cv"><span class="tag" style="background:#2F66D0">K-water 일자료·시간자료</span><br>DAM_CD <b style="color:var(--key)">1003110</b> · 댐 이름 <b>충주댐</b></div><div class="ar">→</div>
+  <div class="rl">기준 식별자 자체 <span class="note">(DAM_CD)</span></div>
+  <div class="cv"><span class="tag" style="background:#C77A1E">규정 별표3</span><br>댐 이름 <b>"충 주 댐"</b> · <span class="warn">코드 없음</span></div><div class="ar">→</div>
+  <div class="rl">공백을 뺀 이름 "충주댐"을 대응 표의 표준 댐명에서 찾는다 <span class="note">(이름 일치)</span></div>
+ </div>
+ <div style="text-align:center;margin:10px 0 4px;font-size:15px;color:#555">↓ 세 가지 표기가 모두 하나의 기준 식별자를 가리킨다</div>
+ <div style="text-align:center"><span class="nd dam" style="font-size:18px">DAM:1003110</span> <span class="note">(K-water 댐 코드)</span></div>
+ <table class="t" style="margin:12px auto 0;font-size:14.5px">
+  <tr><th>승인 관측소명</th><th>별표3 댐 이름</th><th>표준 댐명</th><th style="background:var(--key)">K-water 댐 코드</th><th>기준 식별자</th></tr>
+  <tr class="hl"><td>충주</td><td>충 주 댐</td><td>충주댐</td><td>1003110</td><td>DAM:1003110</td></tr>
+  <tr><td>소양강</td><td>소양강댐</td><td>소양강댐</td><td>1012110</td><td>DAM:1012110</td></tr>
+  <tr><td>횡성</td><td>횡성댐</td><td>횡성댐</td><td>1006110</td><td>DAM:1006110</td></tr>
+  <tr><td>광동</td><td>(별표3에 없음)</td><td>광동댐</td><td>1001210</td><td>DAM:1001210</td></tr>
+ </table>
+ <div class="d2rq"><b>원리 · Purohit 외(2024)</b> — 기준 지식베이스(Wikidata)의 식별자(QID)를 기준으로 삼고, 글에서 나온 표기를 가장 가까운 QID에 대응시켜 같은 대상을 노드 하나로 만든다. 우리는 K-water 댐 코드를 기준 식별자로 삼았다.</div>
+</div>
+
+<!-- g2: hasHydrometeorologicalState -->
+<div class="fig" id="g2">
+ <div style="display:flex;align-items:center;gap:14px">
+  <div class="step" style="flex:0 0 250px"><span class="hd">시작: Dam</span><br><span class="nd dam">DAM:1003110</span><br><span class="note">ID 속의 댐 코드 <b style="color:var(--key)">1003110</b></span></div>
+  <div style="flex:0 0 190px;text-align:center"><div class="rel">hasHydrometeorologicalState</div><div style="border-top:2.5px solid #444;margin:2px 6px;position:relative"><span style="position:absolute;right:-6px;top:-11px;font-size:16px">▶</span></div><div class="note" style="font-size:13px">같은 댐 코드</div></div>
+  <div class="step" style="flex:1"><span class="hd">끝: HMS (stationCode = 1003110인 것 6개)</span><br><span class="nd hms">HMS:<b style="color:var(--key)">1003110</b>:수위</span> <span class="nd hms">…:저수량</span> <span class="nd hms">…:강우량</span><br><span class="nd hms" style="margin-top:4px">…:유입량</span> <span class="nd hms">…:총방류량</span> <span class="nd hms">…:저수율</span></div>
+ </div>
+ <div class="note" style="margin-top:8px">① 댐을 하나씩 꺼낸다 → ② 같은 댐 코드로 만든 HMS 6개를 찾는다 → ③ 관계 줄 6개를 쓴다. 4개 댐 × 6 = 24개. 값의 성격: 원본 그대로(코드 일치).</div>
+</div>
+
+<!-- g3: concernsDam -->
+<div class="fig" id="g3">
+ <div style="display:flex;align-items:center;gap:14px">
+  <div class="step" style="flex:0 0 250px"><span class="hd">시작: Approval</span><br><span class="nd apr">APR:504</span><br><span class="note">승인 504행의 관측소코드 = <b style="color:var(--key)">1003110</b></span></div>
+  <div style="flex:0 0 150px;text-align:center"><div class="rel">concernsDam</div><div style="border-top:2.5px solid #444;margin:2px 6px;position:relative"><span style="position:absolute;right:-6px;top:-11px;font-size:16px">▶</span></div><div class="note" style="font-size:13px">관측소코드 = 댐 코드</div></div>
+  <div class="step" style="flex:1"><span class="hd">끝: Dam</span><br><span class="nd dam">DAM:<b style="color:var(--key)">1003110</b></span> <span class="note">충주댐</span></div>
+ </div>
+ <table class="t" style="margin-top:10px;font-size:14px">
+  <tr><th>순차번호</th><th style="background:var(--key)">관측소코드</th><th>관측소명</th><th>→ 시작 Entity</th><th>→ 끝 Entity</th></tr>
+  <tr class="hl"><td>504</td><td>1003110</td><td>충주</td><td>APR:504</td><td>DAM:1003110</td></tr>
+  <tr><td>473</td><td>1006110</td><td>횡성</td><td>APR:473</td><td>DAM:1006110</td></tr>
+  <tr class="dim"><td colspan="5" style="text-align:center">… 승인 80개 → 80개 모두 댐 하나에 이어짐 (충주 15, 소양강 6, 횡성 24, 광동 35)</td></tr>
+ </table>
+</div>
+
+<!-- g4: authorizes, performedOnDam -->
+<div class="fig" id="g4">
+ <div style="display:grid;grid-template-columns:1fr 1fr 1fr;align-items:center;gap:0 6px;text-align:center">
+  <div class="step"><span class="hd">같은 승인 504행</span><br>비고 "(실제방류는 20시부터)"<br>관측소코드 <b style="color:var(--key)">1003110</b></div>
+  <div></div><div></div>
+ </div>
+ <svg width="808" height="210" viewBox="0 0 808 210" font-family="WenQuanYi Zen Hei" font-size="15">
+  <defs><marker id="m4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#444"/></marker></defs>
+  <rect x="20" y="70" width="150" height="44" rx="8" fill="#E8F5F2" stroke="#23907F" stroke-width="2.5"/><text x="95" y="98" text-anchor="middle" font-weight="bold">APR:504</text>
+  <rect x="330" y="70" width="160" height="44" rx="8" fill="#F3ECFA" stroke="#8A55C2" stroke-width="2.5"/><text x="410" y="98" text-anchor="middle" font-weight="bold">OPR:504:1</text>
+  <rect x="640" y="70" width="150" height="44" rx="8" fill="#FFF4EA" stroke="#E07A2F" stroke-width="2.5"/><text x="715" y="98" text-anchor="middle" font-weight="bold">DAM:1003110</text>
+  <line x1="170" y1="92" x2="326" y2="92" stroke="#444" stroke-width="2.5" marker-end="url(#m4)"/>
+  <text x="248" y="82" text-anchor="middle" font-weight="bold" fill="#2F4F9A">authorizes</text>
+  <text x="248" y="134" text-anchor="middle" font-size="13" fill="#555">같은 순차번호 504</text>
+  <text x="248" y="152" text-anchor="middle" font-size="13" fill="#555">(그 행의 비고에서 뽑은 행위)</text>
+  <line x1="490" y1="92" x2="636" y2="92" stroke="#444" stroke-width="2.5" marker-end="url(#m4)"/>
+  <text x="563" y="82" text-anchor="middle" font-weight="bold" fill="#2F4F9A">performedOnDam</text>
+  <text x="563" y="134" text-anchor="middle" font-size="13" fill="#555">504 → 승인 504행의</text>
+  <text x="563" y="152" text-anchor="middle" font-size="13" fill="#555">관측소코드 1003110</text>
+  <path d="M95,70 C95,20 715,20 715,66" fill="none" stroke="#999" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#m4)"/>
+  <text x="405" y="30" text-anchor="middle" font-size="13" fill="#777">concernsDam (앞 그림)</text>
+  <text x="20" y="196" font-size="13.5" fill="#555">운영행위 ID의 순차번호(504)가 같은 승인 행을 가리키므로, 승인과 댐을 다른 표에서 찾지 않는다.</text>
+ </svg>
+ <div class="note">authorizes 68개(값의 성격: 연구용 구성 — 실행 확인 아님), performedOnDam 68개(값의 성격: 원본에서 유도). 운영행위 68개가 모두 승인 하나와 댐 하나에 이어진다.</div>
+</div>
+
+<!-- g5: appliesToDam -->
+<div class="fig" id="g5">
+ <div style="display:grid;grid-template-columns:250px 34px 270px 34px 1fr;align-items:center">
+  <div class="cv"><span class="nd cri">CRI:CR-02</span><br>중간 파일의 댐 칸<br><b>충주댐</b> <span class="note">(별표3 원문 "충 주 댐")</span></div><div class="ar">→</div>
+  <div class="rl">대응 표의 <b>표준 댐명</b>에서 같은 이름을 찾아 그 댐 코드를 꺼낸다<br><span class="note">별표3에는 코드가 없다</span></div><div class="ar">→</div>
+  <div class="out"><span class="rel">appliesToDam</span> → <span class="nd dam">DAM:1003110</span></div>
+ </div>
+ <div class="note" style="margin-top:8px">기준 3개 → 충주(CR-02), 소양강(CR-01), 횡성(CR-03) 각각 댐 하나. 값의 성격: 이름 일치(name-match) — 코드가 아니라 이름으로 찾은 연결임을 관계에 남긴다.</div>
+</div>
+
+<!-- g6: 연결이 끝난 상태 (충주댐) -->
+<div class="fig" id="g6">
+ <svg width="808" height="380" viewBox="0 0 808 380" font-family="WenQuanYi Zen Hei" font-size="14">
+  <defs><marker id="m6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#444"/></marker></defs>
+  <rect x="320" y="165" width="170" height="50" rx="10" fill="#FFF4EA" stroke="#E07A2F" stroke-width="3"/><text x="405" y="188" text-anchor="middle" font-weight="bold" font-size="16">DAM:1003110</text><text x="405" y="206" text-anchor="middle" font-size="12.5">충주댐</text>
+  <!-- HMS -->
+  <rect x="600" y="20" width="190" height="40" rx="8" fill="#EEF2FB" stroke="#2F66D0" stroke-width="2"/><text x="695" y="45" text-anchor="middle">HMS 6개 (수위 …)</text>
+  <line x1="490" y1="175" x2="600" y2="50" stroke="#444" stroke-width="2" marker-end="url(#m6)"/><text x="538" y="112" text-anchor="end" font-size="12" fill="#2F4F9A">hasHydrometeorologicalState</text>
+  <rect x="600" y="80" width="190" height="34" rx="8" fill="#F2F2F2" stroke="#7A7A7A" stroke-width="1.5"/><text x="695" y="102" text-anchor="middle" font-size="12.5">EVI:KW:1003110</text>
+  <line x1="695" y1="60" x2="695" y2="78" stroke="#777" stroke-width="1.5" marker-end="url(#m6)"/>
+  <!-- CRI -->
+  <rect x="600" y="300" width="190" height="40" rx="8" fill="#FDF3E3" stroke="#C77A1E" stroke-width="2"/><text x="695" y="325" text-anchor="middle">CRI:CR-02 (138.0 EL.m)</text>
+  <line x1="600" y1="315" x2="492" y2="210" stroke="#444" stroke-width="2" marker-end="url(#m6)"/><text x="520" y="285" font-size="12" fill="#2F4F9A">appliesToDam</text>
+  <rect x="600" y="346" width="190" height="30" rx="8" fill="#F2F2F2" stroke="#7A7A7A" stroke-width="1.5"/><text x="695" y="366" text-anchor="middle" font-size="12.5">EVI:LAW:별표3</text>
+  <!-- APR -->
+  <rect x="20" y="60" width="170" height="40" rx="8" fill="#E8F5F2" stroke="#23907F" stroke-width="2"/><text x="105" y="85" text-anchor="middle">Approval 15개</text>
+  <line x1="190" y1="85" x2="318" y2="175" stroke="#444" stroke-width="2" marker-end="url(#m6)"/><text x="200" y="140" font-size="12" fill="#2F4F9A">concernsDam</text>
+  <!-- OPR -->
+  <rect x="20" y="270" width="170" height="40" rx="8" fill="#F3ECFA" stroke="#8A55C2" stroke-width="2"/><text x="105" y="295" text-anchor="middle">Operation 14개</text>
+  <line x1="190" y1="285" x2="318" y2="205" stroke="#444" stroke-width="2" marker-end="url(#m6)"/><text x="215" y="232" font-size="12" fill="#2F4F9A">performedOnDam</text>
+  <line x1="105" y1="100" x2="105" y2="266" stroke="#444" stroke-width="2" marker-end="url(#m6)"/><text x="112" y="185" font-size="12" fill="#2F4F9A">authorizes</text>
+  <rect x="20" y="10" width="170" height="30" rx="8" fill="#F2F2F2" stroke="#7A7A7A" stroke-width="1.5"/><text x="105" y="30" text-anchor="middle" font-size="12.5">EVI:AP:… 15개</text>
+  <line x1="105" y1="60" x2="105" y2="42" stroke="#777" stroke-width="1.5" marker-end="url(#m6)"/>
+ </svg>
+ <div class="note">실선 화살표가 이번 단계에서 이은 관계이다(회색 상자는 지난 단계에서 이은 근거). 이제 댐 하나에서 출발해 그 댐의 상태, 승인, 운영행위, 기준과 각각의 근거까지 관계를 따라 찾아갈 수 있다.</div>
+</div>
+
+<!-- s1: CSV 줄 → Cypher 문 -->
+<div class="fig" id="s1">
+ <div class="hd">① Entity 하나 → 노드 하나 (entities·properties의 APR:504 줄을 모아서)</div>
+ <div class="code"><span class="note">kgv4_entities.csv    </span>APR:504, Approval
+<span class="note">kgv4_properties.csv  </span>APR:504, approvalTime, 2011-06-27, <b>date</b>
+<span class="note">                     </span>APR:504, approvalContent, 방류시작 2011-06-27 18:00; 접수방류량 2000㎥/s; …, string</div>
+ <div class="arrow">↓ Python 스크립트가 줄을 읽어 Cypher 문을 쓴다</div>
+ <div class="code"><span class="hl1">MERGE (n:Entity:Approval {id: 'APR:504'})</span> SET n.label = '승인 504 (충주댐)',
+  <span class="hl2">n.approvalTime = date('2011-06-27')</span>, n.approvalContent = '방류시작 2011-06-27 18:00; …';</div>
+ <div class="note" style="margin:4px 0 12px"><span class="hl1">&nbsp;노드 만들기&nbsp;</span> 라벨 = Entity + Class, 같은 id가 있으면 새로 만들지 않음(MERGE) · <span class="hl2">&nbsp;자료형 변환&nbsp;</span> 날짜는 date(), 일시는 datetime(), 숫자는 숫자로</div>
+ <div class="hd">② 관계 한 줄 → 관계 하나 (relations의 줄)</div>
+ <div class="code"><span class="note">kgv4_relations.csv   </span>APR:504, concernsDam, DAM:1003110, MR-APR-DAM, real</div>
+ <div class="arrow">↓</div>
+ <div class="code"><span class="hl3">MATCH (a:Entity {id: 'APR:504'}), (b:Entity {id: 'DAM:1003110'})</span>
+<span class="hl4">MERGE (a)-[r:concernsDam]->(b)</span> SET r.rule = 'MR-APR-DAM', r.origin = 'real', …;</div>
+ <div class="note" style="margin-top:4px"><span class="hl3">&nbsp;두 노드 찾기&nbsp;</span> 시작·끝 ID로 · <span class="hl4">&nbsp;관계 만들기&nbsp;</span> 관계 이름 그대로, 규칙과 값의 성격을 관계의 속성으로 남김</div>
+</div>
+
+<!-- s2: KG와 외부 저장소 -->
+<div class="fig" id="s2">
+ <div style="display:grid;grid-template-columns:1fr 60px 1fr;align-items:center;gap:14px 0">
+  <div class="step" style="background:#FFF8E6;border-color:#D9B44A"><b>Neo4j (KG)</b><br><span class="nd hms" style="margin:4px 0">HMS:1003110:수위</span><br>stationCode = <b style="color:var(--key)">1003110</b>, variableType = 수위<br><span class="note">값은 넣지 않음</span></div>
+  <div class="arrow">→<div class="note" style="font-size:12px">댐 코드 + 시각</div></div>
+  <div class="step"><b>측정 저장소</b> <span class="note">(시간자료 508,246행)</span><br><span class="mono" style="font-size:13px">(1003110, 2020-08-02 18:00)</span><br>수위 139.55 EL.m, 유입량 4945.201 CMS, …</div>
+  <div class="step" style="background:#FFF8E6;border-color:#D9B44A"><b>Neo4j (KG)</b><br><span class="nd evi" style="margin:4px 0">EVI:LAW:별표3</span><br>sourceLocator = <b style="color:var(--key)">별표 3</b></div>
+  <div class="arrow">→<div class="note" style="font-size:12px">조회 키</div></div>
+  <div class="step"><b>문서 저장소</b> <span class="note">(kgv4_documents.csv)</span><br>"별표 3" → 연계운영규정 별표3 원문<br><span class="mono" style="font-size:12.5px">│충 주 댐│138.0│…</span></div>
+ </div>
+ <div class="note" style="margin-top:10px">KG에는 의미·관계·근거 위치와 외부 저장소를 찾아가는 키만 둔다. 시간별 측정값과 규정 원문은 KG 밖에 두고, 질의할 때 키로 읽는다.</div>
+</div>
+
+<!-- q0: 전체 경로 한 장 -->
+<div class="fig" id="q0">
+ <div class="step" style="background:#FFF8E6;border-color:#D9B44A"><b>질문</b> "2020년 8월 충주댐 방류 승인과 운영행위, 그때의 수문 상태를 알려줘."</div>
+ <div class="arrow">↓</div>
+ <div class="step"><span class="tagL llm">LLM</span> <b>① 의도·값 추출</b> → <span class="mono" style="font-size:13px">{"intent": ["CQ2","CQ3","CQ4"], "dam": "충주댐", "period": {"start": "2020-08-01", "end": "2020-08-31"}}</span></div>
+ <div class="arrow">↓</div>
+ <div class="step"><span class="tagL cd">코드</span> <b>② 입력 확인</b> → 의도가 CQ1~CQ6 안인지, 댐이 4개 댐 안인지 확인, 기간을 [2020-08-01 00:00, 2020-09-01 00:00)로</div>
+ <div class="arrow">↓</div>
+ <div class="step"><span class="tagL cd">코드</span> <b>③ KG 조회 (Cypher 템플릿)</b> → 운영행위 OPR:3412:1(← 승인 APR:3412), 승인 APR:3412·APR:3519·APR:3647, 측정 키 1003110</div>
+ <div class="arrow">↓</div>
+ <div class="step"><span class="tagL cd">코드</span> <b>④ 외부 저장소 조회</b> → 운영 시각 2020-08-02 18:00의 측정값: 수위 139.55 EL.m, 유입량 4945.201 CMS, …</div>
+ <div class="arrow">↓</div>
+ <div class="step"><span class="tagL cd">코드</span> <b>⑤ 근거 묶음</b> → 의도별 구역, 항목마다 출처 번호([OPR:3412:1], [APR:3412], [MEA:1003110:2020080218] …)</div>
+ <div class="arrow">↓</div>
+ <div class="step"><span class="tagL llm">LLM</span> <b>⑥ 답변</b> → "근거"(출처 번호를 붙인 사실)와 "판단"(어느 근거에서 나왔는지 표시)으로 나누어 답함</div>
+ <div class="note" style="margin-top:6px">LLM은 ①과 ⑥ 두 곳에서만 쓰고(같은 모델, 프롬프트만 다름), KG와 저장소에서 근거를 찾는 ②~⑤는 코드가 정해진 순서대로 한다. 서버 실행 기록: Qwen3-32B, 38.8초.</div>
+</div>
+
+<!-- q1: 의도·값 추출 -->
+<div class="fig" id="q1">
+ <div class="code" style="font-size:14.5px">"<span class="hl1">2020년 8월</span> <span class="hl3">충주댐</span> <span class="hl2">방류 승인</span>과 <span class="hl4">운영행위</span>, <span class="hl1">그때의</span> <span class="hl4" style="background:#DDEEFF">수문 상태</span>를 알려줘."</div>
+ <div class="arrow">↓ 의도 목록(CQ1~CQ6)과 허용 댐 4개를 적은 지시문과 함께 LLM에 준다</div>
+ <table class="t" style="font-size:14px;width:100%">
+  <tr><th>질문 속 표현</th><th>뽑은 값</th><th>의미</th></tr>
+  <tr><td><span class="hl2">방류 승인</span></td><td>CQ4</td><td>과거 방류 승인</td></tr>
+  <tr><td><span class="hl4">운영행위</span></td><td>CQ3</td><td>과거 운영행위</td></tr>
+  <tr><td><span class="hl1">그때의</span> <span style="background:#DDEEFF">수문 상태</span></td><td>CQ2</td><td>과거 시점의 수문·기상 상태</td></tr>
+  <tr><td><span class="hl3">충주댐</span></td><td>dam = 충주댐</td><td>허용 댐 4개 중 하나 ("충주"라고 해도 충주댐으로)</td></tr>
+  <tr><td><span class="hl1">2020년 8월</span></td><td>period = 2020-08-01 ~ 2020-08-31</td><td>시점이 없으면 "전체"</td></tr>
+ </table>
+ <div class="note" style="margin-top:6px">출력은 JSON 하나뿐이다. 목록 밖의 댐(예: 팔당댐), 이유를 묻는 질문("왜 방류했나")은 의도를 비우고 이유를 적는다 → 이후 단계에서 "질의 불가"로 답한다.</div>
+</div>
+
+<!-- q2: KG 조회 -->
+<div class="fig" id="q2">
+ <div class="hd">CQ3 운영행위 템플릿 (값 $dam = '충주댐', $s = 2020-08-01, $e = 2020-09-01)</div>
+ <div class="code">MATCH (o:Operation)-[:<b>performedOnDam</b>]->(d:Dam {damName:$dam})
+WHERE o.operationTime >= datetime($s) AND o.operationTime &lt; datetime($e)
+OPTIONAL MATCH (a:Approval)-[:<b>authorizes</b>]->(o)
+RETURN o.id, o.operationType, o.operationTime, a.id</div>
+ <svg width="808" height="120" viewBox="0 0 808 120" font-family="WenQuanYi Zen Hei" font-size="14">
+  <defs><marker id="m7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#444"/></marker></defs>
+  <rect x="10" y="40" width="160" height="40" rx="8" fill="#E8F5F2" stroke="#23907F" stroke-width="2.5"/><text x="90" y="65" text-anchor="middle" font-weight="bold">APR:3412</text>
+  <rect x="300" y="40" width="190" height="40" rx="8" fill="#F3ECFA" stroke="#8A55C2" stroke-width="2.5"/><text x="395" y="58" text-anchor="middle" font-weight="bold">OPR:3412:1</text><text x="395" y="74" text-anchor="middle" font-size="12">방류, 2020-08-02 18:00</text>
+  <rect x="620" y="40" width="170" height="40" rx="8" fill="#FFF4EA" stroke="#E07A2F" stroke-width="2.5"/><text x="705" y="65" text-anchor="middle" font-weight="bold">충주댐</text>
+  <line x1="170" y1="60" x2="296" y2="60" stroke="#444" stroke-width="2" marker-end="url(#m7)"/><text x="233" y="50" text-anchor="middle" font-size="12.5" fill="#2F4F9A">authorizes</text>
+  <line x1="490" y1="60" x2="616" y2="60" stroke="#444" stroke-width="2" marker-end="url(#m7)"/><text x="553" y="50" text-anchor="middle" font-size="12.5" fill="#2F4F9A">performedOnDam</text>
+  <text x="400" y="110" text-anchor="middle" font-size="13" fill="#555">충주댐에서 출발해 관계를 거꾸로 따라가, 기간 안의 운영행위와 그것을 허가한 승인을 찾는다</text>
+ </svg>
+ <table class="t" style="font-size:14px;width:100%">
+  <tr><th>의도</th><th>따라가는 관계 (Cypher 템플릿)</th><th>외부 저장소</th><th>이 질문의 결과</th></tr>
+  <tr><td>CQ1 현재 상태</td><td>Dam → hasHydrometeorologicalState → HMS (stationCode 얻기)</td><td>측정: 가장 최근 시각</td><td>—</td></tr>
+  <tr><td>CQ2 과거 상태</td><td>(운영행위가 있으면) 운영 시각</td><td>측정: 그 시각</td><td>2020-08-02 18:00 1행</td></tr>
+  <tr class="hl"><td>CQ3 운영행위</td><td>Operation → performedOnDam → Dam, Approval → authorizes → Operation</td><td>—</td><td>OPR:3412:1 ← APR:3412</td></tr>
+  <tr class="hl"><td>CQ4 승인</td><td>Approval → concernsDam → Dam (승인일이 기간 안)</td><td>—</td><td>APR:3412, 3519, 3647</td></tr>
+  <tr><td>CQ5 운영기준</td><td>Criterion → appliesToDam → Dam</td><td>문서: sourceLocator</td><td>—</td></tr>
+  <tr><td>CQ6 근거</td><td>조회한 항목마다 → supportedBy → EvidenceSource</td><td>—</td><td>—</td></tr>
+ </table>
+</div>
+
+<!-- q3: 측정 저장소 조회 -->
+<div class="fig" id="q3">
+ <div style="display:grid;grid-template-columns:260px 40px 1fr;align-items:center;gap:0">
+  <div class="step"><span class="nd opr">OPR:3412:1</span><br>operationTime = 2020-08-02 18:00<br><span class="nd hms" style="margin-top:4px">HMS:1003110:…</span><br>stationCode = <b style="color:var(--key)">1003110</b></div>
+  <div class="arrow">→</div>
+  <div>
+   <div class="hd">측정 저장소에서 (1003110, 2020-08-02 18:00) 한 행</div>
+   <table class="t" style="font-size:14px;margin-top:4px">
+    <tr><th>수위</th><th>저수량</th><th>강우량</th><th>유입량</th><th>총방류량</th><th>저수율</th></tr>
+    <tr><td>139.55 EL.m</td><td>2126.472 MCM</td><td>1.901 mm</td><td>4945.201 CMS</td><td>707.145 CMS</td><td>77.3 %</td></tr>
+   </table>
+   <div class="note" style="margin-top:4px">출처 번호 <b>[MEA:1003110:2020080218]</b> (측정 · 댐 코드 · 시각 라벨)</div>
+  </div>
+ </div>
+ <div class="note" style="margin-top:8px">정각이 아닌 운영 시각(예: 06:30)은 앞뒤 정시 두 행을 함께 준다. 값은 저장소의 원값 그대로이며 계산한 값은 넣지 않는다.</div>
+</div>
+
+<!-- q4: 근거 묶음 -->
+<div class="fig" id="q4">
+ <div class="code" style="font-size:13px">[질문] 2020년 8월 충주댐 방류 승인과 운영행위, 그때의 수문 상태를 알려줘.
+[대상] 충주댐, 기간 2020-08-01 ~ 2020-08-31
+
+<span class="hl4">[근거 1. 운영행위와 허가한 승인]  (CQ3)</span> 운영행위의 시각은 비고에 적힌 시각, 없으면 승인된 방류 시작 시각이다.
+<span class="hl1">[OPR:3412:1]</span> 방류, 시각 2020-08-02 18:00 ← 승인 <span class="hl1">[APR:3412]</span>
+
+<span class="hl4">[근거 2. 운영 시각의 상태]  (CQ2)</span>
+<span class="hl1">[MEA:1003110:2020080218]</span> 2020-08-02 18:00  수위 139.55 EL.m, 저수량 2126.472 MCM, 강우량 1.901 mm,
+   유입량 4945.201 CMS, 총방류량 707.145 CMS, 저수율 77.3 %
+
+<span class="hl4">[근거 3. 방류 승인]  (CQ4)</span>
+<span class="hl1">[APR:3412]</span> 승인일 2020-08-02: 방류시작 2020-08-02 18:00; 접수방류량 3000㎥/s
+<span class="hl1">[APR:3519]</span> 승인일 2020-08-06: 방류시작 2020-08-02 18:00; 접수방류량 7000㎥/s; 비고: 방류기간 (당초) … (변경) …
+<span class="hl1">[APR:3647]</span> 승인일 2020-08-12: 방류시작 2020-08-06 06:00; 접수방류량 7000㎥/s; 비고: 수문방류 변경승인(방류기간연장) …
+
+<span class="hl2">[근거 사용 원칙]</span> 근거에 있는 내용만 사실로 쓰고 출처 번호를 붙인다 / 비교·해석은 판단임을 밝힌다 / 없으면 "자료에 없음"</div>
+ <div class="note" style="margin-top:4px"><span class="hl4">&nbsp;의도별 구역&nbsp;</span> <span class="hl1">&nbsp;출처 번호 = KG의 Entity ID, 측정값은 MEA&nbsp;</span> <span class="hl2">&nbsp;원칙 3문장&nbsp;</span></div>
+</div>
+
+<!-- q5: 답변 -->
+<div class="fig" id="q5">
+ <div class="code" style="font-size:13px;background:#fff"><b>근거</b>
+- 2020년 8월 2일 18:00에 방류가 승인되었으며, 방류량은 3000㎥/s로 접수되었습니다. <span class="hl1">[APR:3412]</span>
+- 이후 8월 6일에 방류 승인이 변경되어 방류량이 7000㎥/s로 증가하고, 방류 기간이 8월 2일 18:00부터 8월 16일 24:00까지로
+  확정되었습니다. <span class="hl1">[APR:3519]</span>
+- 8월 12일에는 방류 기간이 다시 연장되어 8월 6일 06:00부터 8월 22일 00:00까지로 확정되었습니다. <span class="hl1">[APR:3647]</span>
+- 방류가 시작된 2020년 8월 2일 18:00 기준, 수위는 139.55 EL.m, … 저수율은 77.3%입니다. <span class="hl1">[MEA:1003110:2020080218]</span>
+
+<b>판단</b>
+- 방류량은 처음 3000㎥/s에서 이후 7000㎥/s로 증가했습니다. 방류 기간은 여러 차례 변경되며 최종적으로 8월 22일 00:00까지
+  연장되었습니다. <span class="hl2">(근거: [APR:3412], [APR:3519], [APR:3647])</span>
+- … <span class="warn" style="font-weight:normal">이는 댐의 수문 상황과 유입량 변화에 따라 조정된 것으로 판단됩니다.</span> (근거: [APR:3412], …)</div>
+ <div class="note" style="margin-top:4px"><span class="hl1">&nbsp;사실마다 출처 번호&nbsp;</span> <span class="hl2">&nbsp;판단마다 쓴 근거&nbsp;</span> <span class="warn">빨간 글씨</span>: 자료에 없는 사유를 추정한 문장 → 검토할 점 3</div>
+</div>
+</body></html>
