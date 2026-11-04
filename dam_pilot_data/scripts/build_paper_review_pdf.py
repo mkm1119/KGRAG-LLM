@@ -445,7 +445,7 @@ def main(src, tjson, dst, mode='review'):
         rm = re.search(rb'/Resources\s*(\d+) 0 R', nd)
         if rm:                                   # 참조된 자원 사전은 복사해서 고친다
             res = objs[int(rm.group(1))].strip()
-            res = add(add_font(res, f0))
+            res = add(add_font(res, f0, objs))
             nd = nd[:rm.start()] + b'/Resources %d 0 R' % res + nd[rm.end():]
         else:
             m = re.search(rb'/Resources\s*<<', nd)
@@ -479,10 +479,14 @@ def main(src, tjson, dst, mode='review'):
         print('원문 위치를 못 찾음:', pm)
 
 
-def add_font(res, f0):
+def add_font(res, f0, objs=None):
     m = re.search(rb'/Font\s*<<', res)
     if m:
         return res[:m.end()] + b' /FKR %d 0 R ' % f0 + res[m.end():]
+    m = re.search(rb'/Font\s*(\d+) 0 R', res)
+    if m and objs is not None:          # 글꼴 사전이 간접 참조(/Font 6 0 R)인 PDF: 사전을 펼쳐 FKR을 더한다
+        fd = objs[int(m.group(1))].strip().replace(b'<<', b'<< /FKR %d 0 R ' % f0, 1)
+        return res[:m.start()] + b'/Font ' + fd + res[m.end():]
     return res.replace(b'<<', b'<< /Font << /FKR %d 0 R >> ' % f0, 1)
 
 
