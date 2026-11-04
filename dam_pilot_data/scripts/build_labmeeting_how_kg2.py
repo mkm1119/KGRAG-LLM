@@ -214,7 +214,8 @@ lis('원리: 과정 1·2에서 쓴 문을 파일 하나에 모아, Neo4j가 위�
 figcap('s3', '과정 3 — Cypher 파일의 구성과 실행 순서')
 
 add(h2('3.3 KG 밖에 두는 것: 측정 저장소와 문서 저장소'))
-lis('시간별 측정값(508,246행)과 규정 원문은 KG에 넣지 않고 CSV 파일로 둔다. KG에는 그 파일의 행을 찾아갈 값만 Data Property로 둔다.',
+lis('따른 원리: Zhou 외(2023)는 댐 안전 모니터링 데이터를 MySQL에 그대로 둔 채, 표의 키 열 값으로 온톨로지 인스턴스의 식별자를 만들어 행과 인스턴스를 대응시켰다(D2RQ 매핑). 질의가 들어오면 이를 SQL로 바꿔 MySQL에서 그 행을 읽어 오며, 데이터를 그래프 저장소로 복제하지 않는다(부록 D.3).',
+    '우리도 같은 원리로 시간별 측정값(508,246행)과 규정 원문은 KG에 넣지 않고 CSV 파일로 둔다. KG에는 그 파일의 행을 찾아갈 키만 Data Property로 두고, 조회할 때 그 키로 행을 읽는다. Zhou 외(2023)는 이를 매핑 파일로 구현했고, 우리는 키(stationCode와 시각, sourceLocator)로 CSV의 행을 찾는 코드로 구현했다.',
     '그림 {{s2}}의 위는 측정 저장소이다. Entity HMS:1003110:수위의 stationCode(1003110)가 DAM_CD 열과 같고, 찾을 시각(2020-08-02 18:00)이 SDATE_raw 열(2020080218)과 같은 행을 찾는다. 그 행의 DATA1_수위 열이 그 시각의 수위 139.55 EL.m이다.',
     '아래는 문서 저장소이다. Entity EVI:LAW:별표3의 sourceLocator("별표 3")가 sourceLocator 열과 같은 행을 찾으면, 그 행의 text가 규정 원문이다.')
 figcap('s2', '외부 저장소 CSV의 실제 모습과, KG의 값으로 행을 찾는 방법')
@@ -357,9 +358,16 @@ add(h2('D.2 Huang 외(2026) — 저장'))
 lis('추출한 지식을 JSON으로 통합하고, DDO의 의미·계층 관계에 따라 Python 스크립트가 JSON 키-값을 읽어 Cypher 문을 만든다. 이 문들로 DDKG의 Entity를 일괄 생성하고 Entity 사이의 관계를 만들어 Neo4j에 적재한다.',
     '저장소로 Neo4j를 고른 이유: Cypher로 조회·추가·삭제·수정이 효율적이고, 다중 홉 추론과 복잡한 질의에 강하다.',
     '구축한 DDKG는 Entity 201,362개, Relation 953,447개이다. → JSON 대신 CSV를 모은 형태로 쓴 것 외에는 같은 순서(모음 → 스크립트로 Cypher 생성 → 일괄 적재)를 따랐다.')
+add(h2('D.3 Zhou 외(2023) — KG 밖에 두는 저장소'))
+lis('무엇인가: 댐 안전 모니터링을 위한 BIM·온톨로지 기반 지식관리 저널 논문이다(Automation in Construction). OntoDSMS는 이 논문이 만든 댐 안전 모니터링 시스템(DSMS) 도메인 온톨로지의 이름이고, D2RQ는 이 논문이 쓴 기존 오픈소스 도구이다.',
+    '데이터를 원래 저장소에 둠: D2RQ는 관계형 DB에 접근하는 가상 RDF 그래프를 제공하며, RDB의 내용을 RDF 저장소에 복제하지 않고 RDF로 접근하게 한다(원문 6쪽).',
+    '키로 대응: 매핑 파일에서 표의 ID 열 값으로 인스턴스 식별자를 만들고(uriPattern), 표는 Class, 열은 DatatypeProperty, 행은 인스턴스, 셀은 값에 대응시킨다(원문 6쪽 그림 3, 7쪽).',
+    '질의할 때 읽어 옴: D2RQ는 RDF 질의를 SQL 문으로 번역해 RDB에서 실행한다(원문 7쪽). 이력 데이터와 실시간 수집 데이터를 MySQL에 둔 채 온톨로지와 대응시켰고(원문 10쪽), 질의 1에서 4번 구간 수직 변위 센서의 2015-2-28 이후 모니터링 데이터를 조회했다.',
+    '→ 데이터를 원래 저장소에 두고 키로 KG와 이어 질의할 때 읽어 오는 원리를 따랐다. 매핑 파일과 SQL 번역 대신, KG에서 키를 얻은 뒤 코드가 CSV에서 행을 찾는다.')
 add(h1('부록 E. 참고문헌'))
 lis('Huang, J., Hou, W., Zhang, S., Du, Z., & Yin, J. (2026). Dam defects ontology and knowledge graph construction from multi-source hazard data using large language models. Advanced Engineering Informatics, 76, 104987.',
-    'Purohit, S., Chin, G., Mackey, P. S., & Cottam, J. A. (2024). GraphAide: Advanced Graph-Assisted Query and Reasoning System. 2024 IEEE International Conference on Big Data. https://doi.org/10.1109/BigData62323.2024.10825705')
+    'Purohit, S., Chin, G., Mackey, P. S., & Cottam, J. A. (2024). GraphAide: Advanced Graph-Assisted Query and Reasoning System. 2024 IEEE International Conference on Big Data. https://doi.org/10.1109/BigData62323.2024.10825705',
+    'Zhou, Y., Bao, T., Shu, X., Li, Y., & Li, Y. (2023). BIM and ontology-based knowledge management for dam safety monitoring. Automation in Construction, 145, 104649.')
 
 body = re.sub(r'\{\{(\w+)\}\}', lambda mo: str(FIGNO[mo.group(1)]), ''.join(B))
 T.save(OUT, body, L.IMGS, page_numbers=True)
