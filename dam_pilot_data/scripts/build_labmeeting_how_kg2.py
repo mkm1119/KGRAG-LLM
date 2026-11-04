@@ -150,30 +150,30 @@ add(rtable([['Relation', '시작 → 끝', '끝 Entity를 정하는 키', '방�
 add(para('값의 성격: 원본 그대로 = 원본의 키가 같아서 이음 / 원본에서 유도 = 원본의 키를 한 번 거쳐 이음 / 연구용 구성 = 원본에 직접 적힌 관계가 아니라 연구에서 정해 이음 / 이름 일치 = 코드가 없어 이름으로 이음.', sz=18))
 
 add(h2('2.3 댐 표기 맞추기 (개체 해소)'))
-lis('그림 {{g1}}의 왼쪽은 충주댐이 자료마다 적힌 모습이다. 승인 기록은 관측소코드 1003110과 관측소명 "충주", K-water 자료는 DAM_CD 1003110, 규정 별표3은 "충 주 댐"이라는 이름뿐이고 코드가 없다.',
-    '승인 기록은 관측소코드가 K-water 댐 코드와 같아서 그대로 맞춘다(자료 준비 때 4개 댐 모두 같음을 확인). K-water 자료의 DAM_CD는 기준 식별자 자체이다.',
-    '별표3은 비정형 텍스트 추출에서 공백을 빼고 읽은 "충주댐"을 대응 표(표준 댐명 → 댐 코드, 4줄)에서 찾아 1003110을 얻는다. 광동댐은 별표3에 없다.',
+lis('그림 {{g1}}의 왼쪽은 충주댐이 자료마다 적힌 모습이다. ① 승인 기록은 관측소코드 1003110과 관측소명 "충주", ② K-water 자료는 DAM_CD 1003110, ③ 규정 별표3은 "충 주 댐"이라는 이름뿐이고 코드가 없다.',
+    '①은 관측소코드가 K-water 댐 코드와 같아서 그대로 맞춘다(자료 준비 때 4개 댐 모두 같음을 확인). ②는 기준 식별자 자체이다.',
+    '③은 비정형 텍스트 추출에서 공백을 빼고 읽은 "충주댐"을 대응 표(표준 댐명 → 댐 코드, 4줄)에서 찾아 1003110을 얻는다. 광동댐은 별표3에 없다.',
     '결과: 세 표기가 모두 하나의 Entity DAM:1003110을 가리킨다. 이후 2.4~2.6에서 댐을 끝 Entity로 정할 때 이 대응을 쓴다.')
 figcap('g1', '자료마다 다른 충주댐 표기 세 가지를 기준 식별자 DAM:1003110에 맞춘다')
 
 add(h2('2.4 승인 기록 한 행으로 채우는 관계'))
 lis('표 2의 9줄 중 5줄은 승인 기록의 한 행에서 끝 Entity가 정해진다. 그림 {{g0}}의 위쪽은 승인 504행을 칸 그대로 그린 것이다.',
-    '10/30 단계에서 이 행의 승인 칸들로 APR:504를, 비고를 추출해 OPR:504:1을, 출처 열로 EVI:AP:504를 만들었다. 세 ID에 모두 이 행의 순차번호 504(주황)가 들어 있다.',
-    '화살표는 이번에 채우는 관계이다. 위쪽 세 화살표, 곧 APR:504 → OPR:504:1(authorizes), APR:504 → EVI:AP:504와 OPR:504:1 → EVI:AP:504(supportedBy)는 ID의 순차번호가 같은 것끼리 잇는다. 아래쪽 두 화살표, 곧 APR:504 → DAM:1003110(concernsDam)과 OPR:504:1 → DAM:1003110(performedOnDam)은 이 행의 관측소코드 1003110(파랑)으로 끝 Entity를 정한다.',
+    '점선은 칸에서 Entity로 가는 길이다(10/30 단계). 승인일·방류시작·접수방류량 칸으로 APR:504를, 비고를 추출해 OPR:504:1을, 출처 열로 EVI:AP:504를 만들었다. 세 ID에 모두 이 행의 순차번호 504(주황)가 들어 있다.',
+    '실선은 이번에 채우는 관계이다. ① APR:504 → OPR:504:1(authorizes), ② APR:504 → EVI:AP:504와 OPR:504:1 → EVI:AP:504(supportedBy)는 ID의 순차번호가 같은 것끼리 잇는다. ③ APR:504 → DAM:1003110(concernsDam)과 OPR:504:1 → DAM:1003110(performedOnDam)은 이 행의 관측소코드 1003110(파랑)으로 끝 Entity를 정한다.',
     'authorizes는 "같은 승인 행의 비고에서 뽑은 행위를 그 승인이 허가했다"고 연구에서 정해 이은 것이라 값의 성격이 연구용 구성이다(검토할 점 1).',
     '결과: 승인 80행에 같은 방법을 적용해 supportedBy 148개(승인 80, 운영행위 68), authorizes 68개, concernsDam 80개, performedOnDam 68개를 채운다. 변경 승인 17개는 운영행위가 없어 authorizes가 없다.')
 figcap('g0', '승인 504행 하나에서 채우는 관계 — 순차번호 504와 관측소코드 1003110이 끝 Entity를 정한다')
 
 add(h2('2.5 댐 코드로 채우는 관계'))
-lis('그림 {{gB}}의 맨 위는 K-water 시간자료의 충주댐 한 행이다. 10/30 단계에서 이 표의 DAM_CD와 열 머리(변수)로 HMS 6개를 만들었고(각 열 바로 아래), 댐마다 측정자료 근거 EVI:KW 하나를 만들었다. 댐 Entity는 일자료에서 만들었다.',
-    '세 종류 Entity의 ID에 모두 같은 댐 코드 1003110(파랑)이 들어 있다. 그래서 위의 DAM:1003110에서 HMS 6개로(hasHydrometeorologicalState), HMS 6개에서 아래의 EVI:KW:1003110으로(supportedBy) 코드가 같은 것끼리 잇는다. 다른 자료를 찾을 필요가 없다.',
+lis('그림 {{gB}}의 위쪽은 K-water 시간자료의 충주댐 한 행이다. 10/30 단계에서 이 표의 DAM_CD와 열 머리(변수)로 HMS 6개를, 댐마다 측정자료 근거 EVI:KW 하나를 만들었고, 댐 Entity는 일자료에서 만들었다(점선).',
+    '세 종류 Entity의 ID에 모두 같은 댐 코드 1003110(파랑)이 들어 있다. 그래서 ① DAM:1003110 → HMS 6개(hasHydrometeorologicalState), ② HMS 6개 → EVI:KW:1003110(supportedBy)을 코드가 같은 것끼리 잇는다. 다른 자료를 찾을 필요가 없다.',
     '결과: 4개 댐 × 6개 변수로 hasHydrometeorologicalState 24개, supportedBy 24개를 채운다.')
 figcap('gB', '댐 코드로 채우는 관계 — 같은 코드 1003110을 가진 Dam, HMS, 측정자료 근거를 잇는다')
 
 add(h2('2.6 별표3 댐 이름으로 채우는 관계'))
 lis('그림 {{gC}}의 위쪽은 비정형 텍스트 추출로 만든 중간 파일 criterion_list.csv의 한 줄이다. 10/30 단계에서 이 줄로 CRI:CR-02를 만들었다(점선).',
-    '별표3에는 댐 코드가 없다. 그래서 이 줄의 댐 이름 "충주댐"을 오른쪽 대응 표에서 찾아 댐 코드 1003110을 얻고, CRI:CR-02 → DAM:1003110(appliesToDam)을 쓴다. 코드가 아니라 이름으로 정한 끝 Entity이므로 값의 성격을 "이름 일치"로 남긴다.',
-    '근거는 규정 하나뿐이라 근거 Entity도 하나(고정 ID EVI:LAW:별표3)이다. 기준 3개 모두 CRI → EVI:LAW:별표3(supportedBy)으로 잇는다.',
+    '별표3에는 댐 코드가 없다. 그래서 ① 이 줄의 댐 이름 "충주댐"을 대응 표에서 찾아 댐 코드 1003110을 얻고, ② CRI:CR-02 → DAM:1003110(appliesToDam)을 쓴다. 코드가 아니라 이름으로 정한 끝 Entity이므로 값의 성격을 "이름 일치"로 남긴다.',
+    '③ 근거는 규정 하나뿐이라 근거 Entity도 하나(고정 ID EVI:LAW:별표3)이다. 기준 3개 모두 CRI → EVI:LAW:별표3(supportedBy)으로 잇는다.',
     '결과: appliesToDam 3개(충주, 소양강, 횡성), supportedBy 3개를 채운다.')
 figcap('gC', '별표3 댐 이름으로 채우는 관계 — 이름을 대응 표로 댐 코드에 맞춘다')
 
@@ -190,19 +190,19 @@ add(h2('3.1 따른 원리와 진행 방식'))
 lis('따른 원리: Huang 외(2026)는 추출한 지식을 JSON으로 모은 뒤, 온톨로지의 관계에 따라 Python 스크립트가 JSON의 키-값을 읽어 Cypher 문을 만들고, Entity와 Relation을 Neo4j에 한꺼번에 넣었다. Neo4j는 Cypher로 조회·추가·삭제·수정이 효율적이고 여러 Relation을 건너는 질의에 강해서 골랐다고 밝혔다(부록 C.2).',
     'Neo4j는 Entity와 Relation을 그래프(점과 선) 모양으로 저장하는 데이터베이스이다. Cypher는 Neo4j에 Entity와 Relation을 넣고 찾을 때 쓰는 명령 문장이다. CSV는 줄의 목록이라 "충주댐에서 출발해 관계를 따라간다"는 질의를 바로 할 수 없어서, 그래프로 저장한다.',
     '우리는 모은 형태가 JSON이 아니라 2장까지 채운 CSV 파일 세 개이다. Python 스크립트가 이 파일의 줄을 읽어 Cypher 문을 쓰고(과정 1·2), 그 문을 모은 파일을 Neo4j에서 실행한다(과정 3). 출처 파일(kgv4_provenance)은 Neo4j에 넣지 않고 CSV로 둔다.',
-    '아래 그림들은 CSV의 칸과 Cypher 문의 자리를 같은 색으로 칠했다. 같은 색 칸의 값이 Cypher 문의 그 자리에 들어가며, 자리 위의 작은 글자는 그 값이 온 CSV 열 이름이다.')
+    '아래 그림들은 위에 CSV의 줄, 가운데에 Cypher 문의 틀, 아래에 실제 Cypher 문과 Neo4j에 생긴 결과를 둔다. 틀의 { } 자리에는 그 이름의 CSV 칸 값이 들어가며, 화살표는 칸에서 그 자리로 간다.')
 
 add(h2('3.2 CSV → Cypher → Neo4j'))
 add(label('과정 1. Entity를 Cypher 문으로 쓰고 Neo4j에 넣기'))
 lis('원리: Entity 하나는 Cypher 문 하나가 되고, 실행하면 Neo4j에 Entity 하나가 생긴다. Class와 Data Property 값도 그 문 안에 함께 들어간다.',
-    '그림 {{c1}}의 위는 입력이다. kgv4_entities.csv의 APR:504 줄 1개와 kgv4_properties.csv의 APR:504 줄 2개를 Python 스크립트가 Entity ID로 모은다.',
-    '가운데가 그 줄들로 쓴 Cypher 문이다. 같은 색을 따라가면, entity_id(APR:504)는 {id: \'APR:504\'} 자리에, class(Approval)는 :Approval 자리에, label은 n.label = 뒤에 들어간다. property(approvalTime, approvalContent)는 n. 뒤의 이름 자리에, value는 = 뒤의 값 자리에 들어간다. datatype이 date이면 값을 date( )로 감싸 글자가 아니라 날짜로 넣는다. 그래야 4장에서 "2020년 8월 안"처럼 기간으로 비교해 찾을 수 있다.',
-    '문장의 뜻은 그림의 설명과 같다. MERGE는 이 Entity가 없으면 만들고 있으면 그대로 쓰라는 뜻이라서, 같은 문을 다시 실행해도 APR:504가 둘이 되지 않는다. SET은 Data Property 값을 넣으라는 뜻이다.',
+    '그림 {{c1}}의 맨 위는 입력이다. 왼쪽은 kgv4_entities.csv의 APR:504 줄, 오른쪽은 kgv4_properties.csv의 APR:504 줄 2개이며, Python 스크립트가 이 줄들을 Entity ID로 모은다.',
+    '가운데는 Cypher 문의 틀이다. 화살표를 따라가면 entity_id 칸은 {entity_id} 자리에, class 칸은 :Entity 뒤의 {class} 자리에, label 칸은 n.label = 뒤에 들어간다. properties의 줄마다 property 칸은 n. 뒤의 {property}에, value 칸은 = 뒤의 {value}에 들어가 한 줄씩 생긴다. datatype 칸이 date이면 값을 date( )로 감싸 글자가 아니라 날짜로 넣는다. 그래야 4장에서 "2020년 8월 안"처럼 기간으로 비교해 찾을 수 있다.',
+    '그 아래가 APR:504의 값을 넣어 만든 실제 Cypher 문이고, 칠한 부분이 CSV에서 온 값이다. MERGE는 이 Entity가 없으면 만들고 있으면 그대로 쓰라는 뜻이라서, 같은 문을 다시 실행해도 APR:504가 둘이 되지 않는다. SET은 Data Property 값을 넣으라는 뜻이다.',
     '맨 아래가 실행 결과이다. Neo4j에 Entity APR:504가 Class와 Data Property 값을 가진 채 생긴다. %d개 Entity마다 이런 문이 하나씩 쓰인다.' % len(ents))
 figcap('c1', '과정 1 — CSV 칸이 Cypher 문의 자리로 들어가고, 실행하면 Neo4j에 Entity가 생긴다 (APR:504)')
 add(label('과정 2. Relation을 Cypher 문으로 쓰고 Neo4j에 넣기'))
 lis('원리: Relation 하나는 Cypher 문 하나가 된다. Relation은 두 Entity 사이에 긋는 것이므로, 문은 두 Entity를 먼저 찾고 그 사이에 Relation을 만든다.',
-    '그림 {{c2}}의 위는 kgv4_relations.csv의 한 줄이다. 같은 색을 따라가면, subject(APR:504)와 object(DAM:1003110)는 MATCH 문에서 찾을 두 Entity의 ID 자리에, relation(concernsDam)은 화살표 안의 이름 자리에, rule, origin, note는 SET 뒤의 값 자리에 들어간다.',
+    '그림 {{c2}}의 맨 위는 kgv4_relations.csv의 한 줄이다. 가운데 틀에서 화살표를 따라가면 subject와 object 칸은 MATCH 문에서 찾을 두 Entity의 ID 자리({subject}, {object})에, relation 칸은 화살표 모양 안의 {relation}에, rule, origin, note 칸은 SET 뒤의 값 자리에 들어간다. 그 아래가 이 줄의 값을 넣은 실제 Cypher 문이다.',
     'MATCH는 이미 있는 Entity를 찾으라는 뜻이고, 찾은 두 Entity를 이 문 안에서 a와 b로 부른다. (a)-[r:concernsDam]->(b)는 a에서 b로 가는 concernsDam Relation이라는 뜻이며, MERGE로 없을 때만 만든다.',
     '맨 아래가 실행 결과이다. 두 Entity 사이에 방향이 있는 선 하나가 생기고, 그 선에 규칙과 값의 성격이 남는다. %d개 Relation마다 이런 문이 하나씩 쓰인다.' % len(rels))
 figcap('c2', '과정 2 — 관계 CSV 한 줄이 Cypher 문이 되고, 실행하면 두 Entity 사이에 Relation이 생긴다')
