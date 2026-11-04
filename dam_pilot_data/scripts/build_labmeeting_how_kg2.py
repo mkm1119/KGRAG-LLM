@@ -60,7 +60,7 @@ def fig(name):
     subprocess.run(['convert', os.path.join(FIG, name + '.png'), '-trim', '-bordercolor', 'white', '-border', '12', '+repage', pth], check=True)
     with open(pth, 'rb') as f:
         w, h = struct.unpack('>II', f.read(24)[16:24])
-    full = name in ('kg2_k1', 'kg2_c1', 'kg2_c2', 'kg2_s3', 'kg2_s2', 'kg2_r1', 'kg2_q1', 'kg2_q2')   # Entity가 많은 결과 KG와 Cypher 문이 든 그림은 쪽 너비 전체로
+    full = name in ('kg2_k1', 'kg2_c1', 'kg2_c2', 'kg2_s3', 'kg2_s2', 'kg2_r1', 'kg2_q1', 'kg2_q2', 'kg2_ap1')   # Entity가 많은 결과 KG와 Cypher 문이 든 그림은 쪽 너비 전체로
     return L.image(name, pth, w, h, name, width=L.W if full else min(int(w * PX2DXA), L.W))
 
 
@@ -254,12 +254,12 @@ lis('원리: LLM은 질문을 자유롭게 해석하지 않고, 지시문에 정
 figcap('q1', '의도·값 추출 — 질문 속 표현을 지시문의 의도 목록, 허용되는 댐, 값의 형식에 맞춰 JSON으로 적는다')
 add(label('과정 2. 입력 확인 (코드)'))
 lis('의도가 CQ1~CQ6 안인지, 댐이 4개 댐 안인지 확인하고 이름을 표준 댐명으로 바꾼다("충주" → 충주댐).',
-    '기간의 끝 날짜는 그 날 전체로 읽어 [2020-08-01 00:00, 2020-09-01 00:00)으로 바꾼다. 이 두 시각이 다음 과정의 $s, $e이다. 확인을 통과하지 못하면 조회하지 않고 "질의 불가: 이유"를 답변 과정으로 넘긴다.')
+    '기간의 끝 날짜는 그 날 전체로 읽어 [2020-08-01 00:00, 2020-09-01 00:00)으로 바꾼다. 이 기간과 표준 댐명이 다음 과정에서 템플릿에 들어간다. 확인을 통과하지 못하면 조회하지 않고 "질의 불가: 이유"를 답변 과정으로 넘긴다.')
 add(label('과정 3. KG 검색과 외부 저장소 조회 (코드)'))
-lis('원리: 고른 의도마다 미리 정한 Cypher 템플릿에 값($dam, $s, $e)만 넣어 실행한다. 템플릿은 2장에서 채운 Relation을 따라가고, 측정값과 원문은 KG의 Data Property 값으로 외부 저장소(3.3)에서 가져온다.',
-    '그림 {{q2}}의 맨 위는 과정 2를 거친 값과 이 질문에 쓰는 템플릿 세 개이다. 템플릿의 색 글자는 아래 KG에서 같은 색의 Relation이고, $dam, $s, $e 자리에 위의 값이 들어간다.',
+lis('원리: 고른 의도마다 미리 정한 Cypher 템플릿에 댐 이름과 기간만 바꿔 넣어 실행한다. 템플릿은 2장에서 채운 Relation을 따라가고, 측정값과 원문은 KG의 Data Property 값으로 외부 저장소(3.3)에서 가져온다.',
+    '그림 {{q2}}의 맨 위는 과정 2를 거친 값과 이 질문에 쓰는 템플릿 세 개이다. 템플릿에서 주황 글자(충주댐)와 노랑 글자(날짜)가 과정 2의 값이 들어간 자리이고, 파랑·초록·보라 글자는 아래 KG에서 같은 색의 Relation이다.',
     '댐 코드 템플릿은 DAM:1003110에서 hasHydrometeorologicalState를 따라 HMS 6개를 찾고 stationCode 1003110을 얻는다. 측정 저장소를 찾아갈 키이다.',
-    'CQ4 승인 템플릿은 concernsDam으로 충주댐에 이어진 승인 15개 가운데 승인일이 $s 이상 $e 미만인 것을 고른다 → APR:3412, APR:3519, APR:3647. 뒤의 둘은 변경 승인이라 운영행위가 없다.',
+    'CQ4 승인 템플릿은 concernsDam으로 충주댐에 이어진 승인 15개 가운데 승인일이 2020-08-01 이상 2020-09-01 미만인 것을 고른다 → APR:3412, APR:3519, APR:3647. 뒤의 둘은 변경 승인이라 운영행위가 없다.',
     'CQ3 운영행위 템플릿은 performedOnDam으로 충주댐에 이어진 운영행위 14개 가운데 시각이 기간 안인 것을 고르고, authorizes를 거꾸로 따라 그것을 허가한 승인을 찾는다 → OPR:3412:1 ← APR:3412. 노란 띠 밖의 흐린 Entity는 기간 조건에서 걸러진 것이다.',
     'CQ2는 CQ3과 함께 있으므로 운영행위의 시각마다 그 시각의 상태를 읽는다. 맨 아래 점선처럼 HMS의 stationCode(1003110)를 DAM_CD 열에서, OPR:3412:1의 operationTime(2020-08-02 18:00)을 SDATE_raw 열(2020080218)에서 찾으면, 그 행이 그 시각의 측정값이다. 정각이 아닌 시각은 앞뒤 정시 두 행을 함께 읽는다.',
     '다른 의도가 있는 질문은 표 4의 경로를 따른다.')
@@ -293,8 +293,7 @@ add(label('1. 답할 수 있는 질문의 범위 (온톨로지, 검색·답변)'
 lis('온톨로지는 CQ1~CQ6에 답할 수 있는 구조로 만들었고, 검색은 CQ마다 정한 Cypher 템플릿으로 한다(4장). 그래서 지금 구조는 질문의 의도가 CQ1~CQ6에 해당할 때만 답할 수 있다.',
     '의도 목록에 없는 질문은 과정 1에서 intent가 비어 조회하지 않는다. 예: 방류 사유를 묻는 질문, 4개 댐 밖의 댐이나 두 댐을 함께 묻는 질문.')
 add(label('2. 과제 발표와 시연'))
-lis('11/20 과제 발표와 11/26 시연은 지금 구조(4장)로 한다.',
-    '서버 실행 결과는 질문 몇 개를 새로 만들어 다시 답변을 받은 뒤 정리한다.')
+lis('11/20 과제 발표와 11/26 시연은 지금 구조(4장)로 한다.')
 add(label('3. 연구'))
 lis('온톨로지 생성 방식을 다시 검토한다.',
     '검색·답변과 검증에 대한 선행 논문을 더 찾아 읽고 지금 방법과 비교한 뒤, 더 좋은 결과를 내는 방법을 적용한다. 검증은 11/02 회의에 따라 다른 연구들이 KG·온톨로지를 어떻게 검증했는지부터 조사한다.')
@@ -345,19 +344,9 @@ PC = collections.Counter(cls[p['entity_id']] if cls[p['entity_id']] != 'Evidence
 assert sum(PC.values()) == 616 and RC['supportedBy'] == 175
 add(h1('부록 C. 10/30 자료까지의 결과: 자료 준비, Class·Data Property 채우기'))
 lis('자료 준비: 승인 기록 3,929행에서 중복 7행을 지우고 대상 4개 댐의 80행을 남겼다. K-water 시간자료 두 파일을 이어 붙여 4개 댐의 508,246행을 측정 저장소에, 규정 XML에서 꺼낸 별표3 원문을 문서 저장소에 두었다.',
-    'Class·Data Property 채우기: 정형 표는 구조화 자료 매핑으로, 승인 비고와 별표3은 비정형 텍스트 추출로 Entity와 속성값을 만들었다(표 8). 결과는 kgv4_entities.csv(Entity %d개)와 kgv4_properties.csv(속성값 %d개)이다.' % (len(ents), len(props)),
+    'Class·Data Property 채우기: 정형 표는 구조화 자료 매핑으로, 승인 비고와 별표3은 비정형 텍스트 추출로 Entity와 속성값을 만들었다. 그림 {{ap1}}은 충주댐에 관한 실제 Entity를 자료마다 하나씩 보인 것이다. 결과는 kgv4_entities.csv(Entity %d개)와 kgv4_properties.csv(속성값 %d개)이다.' % (len(ents), len(props)),
     '이 단계에서 이어진 Relation은 같은 행·같은 자료에서 함께 만든 근거(supportedBy) %d개뿐이었다. 나머지 Relation %d개를 2장에서 채웠다.' % (RC['supportedBy'], NEW))
-add(label('표 8. 자료별로 채운 Class, Entity 수, Data Property'))
-add(table([['방법', '자료', 'Class (Entity 수)', 'Data Property (속성값 수)'],
-           ['구조화 자료 매핑', '승인 기록 (80행)', 'Approval (%d)' % CC['Approval'], 'approvalTime, approvalContent (%d)' % PC['Approval']],
-           ['', '', 'EvidenceSource 승인자료 (%d)' % EVC['AP'], 'sourceType, sourceTitle, sourceLocator (%d)' % PC['EVI:AP']],
-           ['', 'K-water 일자료 (대상 댐 4)', 'Dam (%d)' % CC['Dam'], 'damName, damType (%d)' % PC['Dam']],
-           ['', 'K-water 시간자료 (변수 6)', 'HydrometeorologicalState (%d)' % CC['HydrometeorologicalState'], 'stationCode, variableType (%d)' % PC['HydrometeorologicalState']],
-           ['', '', 'EvidenceSource 측정자료 (%d)' % EVC['KW'], 'sourceType, sourceTitle, sourceLocator (%d)' % PC['EVI:KW']],
-           ['비정형 텍스트 추출', '승인 비고', 'Operation (%d)' % CC['Operation'], 'operationTime, operationType (%d)' % PC['Operation']],
-           ['', '규정 별표3', 'Criterion (%d)' % CC['Criterion'], 'criterionType, criterionValue, unit (%d)' % PC['Criterion']],
-           ['', '', 'EvidenceSource 규정 (%d)' % EVC['LAW'], 'sourceType, sourceTitle, sourceLocator (%d)' % PC['EVI:LAW']],
-           ['합계', '', 'Entity %d' % len(ents), '속성값 %d' % len(props)]], [1900, 2300, 2800, 2972]))
+figcap('ap1', '10/30 자료까지 만든 Entity — 자료마다 충주댐의 실제 Entity 하나와 그 Data Property 값')
 add(h1('부록 D. 근거 문헌의 원리'))
 add(h2('D.1 Purohit 외(2024) — Relation 채우기(개체 해소), 검색·답변'))
 lis('무엇인가: 여러 출처의 정형·비정형 자료로 KG를 만들고, 그 KG를 조회·추론하는 질의 시스템 GraphAide를 제안한 학회 논문이다(IEEE BigData 2024). OpenAI LLM, Chroma 벡터 DB, Neo4j, LangChain으로 구현했다.',
