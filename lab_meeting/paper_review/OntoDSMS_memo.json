@@ -53,18 +53,11 @@
    ]
   },
   {
-   "lead": "#연구 내용과 기여 [목표, 차이]",
-   "ko": "- 기존 DSMS의 의미 기술, 논리적 추론, 데이터 공유 능력을 높이기 위해 BIM 기반 DSMS 도메인 온톨로지(OntoDSMS)를 구축한다\n1. BIM에서 맥락 정보를 추출하고, 가상 RDF 그래프로 관계형 DB(RDB)와 온톨로지를 대응시킨다\n2. 다차원적이고 단편적인 데이터를 '하나의 그래프'로 저장하는 도메인 온톨로지를 구축해, 동적 모니터링 데이터와 정적 정보를 실시간으로 연결한다\n3. 규칙 기반 추론기와 확장 SPARQL로 숨은 관계와 속성을 추론하고 일관된 질의 결과를 제공한다",
+   "lead": "#이 논문의 연구 내용과 기여 [목표]",
+   "ko": "- 이 논문은 기존 DSMS의 의미 기술, 논리적 추론, 데이터 공유 능력을 높이기 위해 BIM 기반 DSMS 도메인 온톨로지(OntoDSMS)를 구축한다\n1. BIM에서 맥락 정보를 추출하고, 가상 RDF 그래프로 관계형 DB(RDB)와 온톨로지를 대응시킨다\n2. 다차원적이고 단편적인 데이터를 '하나의 그래프'로 저장하는 도메인 온톨로지를 구축해, 동적 모니터링 데이터와 정적 정보를 실시간으로 연결한다\n3. 규칙 기반 추론기와 확장 SPARQL로 숨은 관계와 속성을 추론하고 일관된 질의 결과를 제공한다",
    "anchors": [
     "S:To enhance the capability of traditional DSM",
     "S:The main contributions of the proposed schem"
-   ]
-  },
-  {
-   "lead": "#논문 구성",
-   "ko": "- 2절 관련 연구와 DB·온톨로지 차이, 3절 OntoDSMS 모델링, 4절 RDB-온톨로지 대응, 5절 콘크리트 댐 사례, 6절 결론·한계",
-   "anchors": [
-    "S:The remainder of the paper is organized as f"
    ]
   },
   {
