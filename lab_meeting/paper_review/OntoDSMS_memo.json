@@ -1,0 +1,466 @@
+{
+ "1": [
+  {
+   "lead": "#연구 목적 [목표]",
+   "ko": "- 댐 운영 중 여러 출처에 흩어진 이질적인 모니터링 데이터는 통일된 통합 방법이 없어 지식 추출과 지능형 분석을 막고 있다\n- 이를 해결하기 위해 BIM과 도메인 온톨로지에 기반한 해결책을 제안한다\n- 도메인 지식 수집과 댐 정보 모델(BIM)의 맥락 정보 추출로 DSMS 도메인 온톨로지(OntoDSMS)를 만들고, 규칙 기반 추론기와 SPARQL 질의를 구현한다\n- 기존 데이터베이스보다 검색 시간을 줄이며, 사례로 실현 가능성을 보인다",
+   "anchors": [
+    "BOX:200,391,558,489"
+   ]
+  },
+  {
+   "lead": "#연구 배경",
+   "ko": "- 댐의 숨은 위험을 제때 찾지 못하면 안전한 운영에 큰 영향을 주므로, 댐 상태를 통제·평가하는 다차원적인 댐 안전 모니터링 시스템(DSMS)이 필요하다\n- 센서가 수집한 모니터링 정보가 쌓이면서 데이터 관리와 분석 부담이 커진다\n- DSMS가 복잡해질수록 데이터 형식과 이질성이 늘어 정보 공유와 통합이 어려워지고, '정보의 섬'이 생겼다\n- 기존 DSMS는 미리 정의된 정적 정보만 수동적으로 다루고 동적 정보를 지능적으로 다루지 못한다",
+   "anchors": [
+    "S:Therefore, it is mandatory to build a compre",
+    "S:However, while a dam operates, the monitorin",
+    "S:Moreover, as the complexity of DSMSs increas",
+    "S:Thus, a series of",
+    "S:As a result, the existing DSMSs deal only pa"
+   ]
+  },
+  {
+   "lead": "#BIM의 활용",
+   "ko": "- BIM은 구조 건전성 모니터링에 널리 쓰이며 정보 교환과 상호운용성을 돕고, 공간 관계를 직관적으로 기술한다\n- 예: 센서를 BIM 요소와 연결해 모니터링 정보를 공간적으로 시각화한 경보 관리 시스템(Hou 외)",
+   "anchors": [
+    "S:With the rapid advancement of informatizatio",
+    "S:BIM can describe the spatial relationship st",
+    "S:For instance, Hou et al. [5] proposed a BIM-",
+    "S:This system associated sensors with BIM elem"
+   ]
+  }
+ ],
+ "2": [
+  {
+   "lead": "#기존 BIM의 한계 [차이]",
+   "ko": "1. IFC는 데이터 스키마가 복잡해 개체와 관계 사이의 의미 대응이 명확하지 않고, 같은 정보를 여러 구조가 가리켜 자동 추론이 제한된다\n2. BIM은 대부분 정적 데이터라 동적 데이터를 자동으로 처리하지 못한다\n3. IFC를 데이터베이스와 연결하는 통합 방식은 정보 관리를 개선하기에 부족하다",
+   "anchors": [
+    "S:However, current BIM implementations suffer",
+    "S:However, complicated data schemas result in",
+    "S:At the same time, multiple data structures m",
+    "S:Second, for most parts, BIM contains static",
+    "S:Finally, most BIM systems integrate informati"
+   ]
+  },
+  {
+   "lead": "#BIM과 온톨로지의 결합",
+   "ko": "- BIM과 온톨로지를 결합하면 논리적 추론과 표준화된 질의 기능으로 위 문제를 해결할 수 있어 주목받고 있다\n- 온톨로지는 계층 구조를 가진 도메인 용어의 집합으로 도메인 지식의 골격이며, 도메인 지식은 트리플 집합으로 기술된다\n- OWL은 W3C의 온톨로지 언어로, 기계가 지식의 일관성을 검증하고 숨은 지식을 추론할 수 있게 한다",
+   "anchors": [
+    "S:Recently, combining BIM and ontology has gai",
+    "S:It is a collection of terms describing a dom",
+    "S:The latter is described as triple sets in a",
+    "S:Web Ontology Language (OWL) [10] is a new on",
+    "S:Therefore, machines can reason the knowledge"
+   ]
+  },
+  {
+   "lead": "#연구 내용과 기여 [목표, 차이]",
+   "ko": "- 기존 DSMS의 의미 기술, 논리적 추론, 데이터 공유 능력을 높이기 위해 BIM 기반 DSMS 도메인 온톨로지(OntoDSMS)를 구축한다\n1. BIM에서 맥락 정보를 추출하고, 가상 RDF 그래프로 관계형 DB(RDB)와 온톨로지를 대응시킨다\n2. 다차원적이고 단편적인 데이터를 '하나의 그래프'로 저장하는 도메인 온톨로지를 구축해, 동적 모니터링 데이터와 정적 정보를 실시간으로 연결한다\n3. 규칙 기반 추론기와 확장 SPARQL로 숨은 관계와 속성을 추론하고 일관된 질의 결과를 제공한다",
+   "anchors": [
+    "S:To enhance the capability of traditional DSM",
+    "S:The main contributions of the proposed schem"
+   ]
+  },
+  {
+   "lead": "#논문 구성",
+   "ko": "- 2절 관련 연구와 DB·온톨로지 차이, 3절 OntoDSMS 모델링, 4절 RDB-온톨로지 대응, 5절 콘크리트 댐 사례, 6절 결론·한계",
+   "anchors": [
+    "S:The remainder of the paper is organized as f"
+   ]
+  },
+  {
+   "lead": "#2.1 온톨로지 기반 BIM 연구",
+   "ko": "- BIM 기반 온톨로지 연구는 데이터 통합, 지식 관리, 성능 평가에 집중한다\n- IFC를 OWL 온톨로지로 변환(ifcOWL), IFC와 맞춘 안전 온톨로지, 운영·유지관리 정보 통합 등이 있다\n- 온톨로지의 클래스 계층은 지식 관리의 외부 틀을, 속성은 내부 구조를 정한다",
+   "anchors": [
+    "S:Indeed, domain ontology has been developed b",
+    "S:Pauwels et al. [14] obtained an OWL ontology",
+    "S:In [17–20], the class hierarchy in ontology"
+   ]
+  }
+ ],
+ "3": [
+  {
+   "lead": "#그림 1. Noy & McGuiness 방법의 하향식 모델링 과정 [방법]",
+   "ko": "- 온톨로지 구축 7단계(범위 → 재사용 → 용어 → 클래스·계층 → 속성 → 패싯 → 인스턴스)를 나타낸 그림",
+   "anchors": [
+    "^Fig. 1."
+   ]
+  },
+  {
+   "lead": "#규정·표준 기반 점검 연구",
+   "ko": "- BIM 데이터에 규정·표준의 규칙을 적용해 추론하는 응용이 전형적인 접근이 되었다\n- 예: 녹색 건축 평가 온톨로지, SPARQL 추론 기반 지하철 시공 안전 점검, 온톨로지 기반 법규 적합성 자동 점검",
+   "anchors": [
+    "S:Establishing BIM application programs with i",
+    "S:Li et al. [23] suggested a BIM-enabled seman"
+   ]
+  },
+  {
+   "lead": "#2.2 온톨로지와 데이터베이스의 차이",
+   "ko": "- 온톨로지는 DB의 대안으로 등장했으며, 정보 검색 효율과 결과 정확도를 높일 수 있고, 실제로는 서로 보완적이다\n- DB는 고유 이름 가정(UNA)으로 다른 이름을 다른 개체로 보지만, 온톨로지는 한 개체에 여러 이름을 인정한다\n- DB는 폐쇄 세계 가정(CWA)으로 선언되지 않은 것을 거짓으로 보고, 온톨로지는 개방 세계 가정(OWA)으로 알 수 없음으로 본다",
+   "anchors": [
+    "S:Compared with traditional databases, ontolog",
+    "S:In practical engineering, databases and onto",
+    "S:First, a database adopts the Unique Name Ass",
+    "S:On the contrary, an ontology recognizes mult",
+    "S:CWA is used by systems that contain complete",
+    "S:OWA is often applied to systems that contain"
+   ]
+  }
+ ],
+ "4": [
+  {
+   "lead": "#OWA와 CWA의 차이",
+   "ko": "- OWA에서는 규칙으로 숨은 정보를 추론할 수 있다\n- DB는 효율적인 정보 저장에, 온톨로지는 정보의 의미와 이해, 사람과 기계 사이의 소통에 초점을 둔다",
+   "anchors": [
+    "S:Hence, hidden implicit information can be in",
+    "S:A database focuses on efficient information"
+   ]
+  },
+  {
+   "lead": "#기존 연구의 한계 [차이]",
+   "ko": "- BIM과 온톨로지가 여러 건설 프로젝트에 쓰였지만 DSMS 정보를 관리·통합하는 연구는 제한적이다\n1. 특정 DSMS에 적용할 수 있는 확장 가능한 도메인 온톨로지가 정의되지 않았다\n2. DB와 온톨로지 사이의 변환 방법이 부족하다\n3. 일반 온톨로지는 동적 데이터와 센서 사이의 관계를 다루지 못한다",
+   "anchors": [
+    "S:Reviewing the existing literature shows that",
+    "S:This is because such implementations face so"
+   ]
+  },
+  {
+   "lead": "#해결 방안 [목표]",
+   "ko": "- 도메인 지식 수집과 BIM 맥락 정보 추출로 OntoDSMS를 만들고, 관계형 데이터와 온톨로지 사이의 대응, 규칙 기반 추론기와 SPARQL 질의를 구현한다",
+   "anchors": [
+    "S:This paper proposes a solution that exploits",
+    "S:Specifically, an OntoDSMS is created by comp",
+    "S:Moreover, an effective data mapping between"
+   ]
+  },
+  {
+   "lead": "#3. 온톨로지의 구성 [방법]",
+   "ko": "- 온톨로지는 Onto = {URL, C, OP, DP, I}로 쓴다: 고유 식별자, 클래스, 객체 속성(두 인스턴스 사이 관계), 데이터 속성(세부 값), 인스턴스\n- 개발 전에 구현 목적과 적용 시나리오를 먼저 정하고, 도메인의 핵심 개념과 공리를 기술해야 한다",
+   "anchors": [
+    "S:The ontology model can be formally described",
+    "S:Hence, it is necessary to define the impleme"
+   ]
+  },
+  {
+   "lead": "#구축 방법 선택: Noy & McGuiness 방법 [방법, 차이]",
+   "ko": "- 도메인 온톨로지 구축 방법에는 TOVE, IDEF5, Skeleton, KACTUS, SENSUS, METHONTOLOGY, Noy & McGuiness 방법이 있다\n- Noy & McGuiness 방법은 비교적 성숙했고 Gruber의 온톨로지 구축 5원칙을 엄격히 따르는 유일한 방법이라 선택했다\n- 하향식 전략으로 구축한다 (그림 1)",
+   "anchors": [
+    "S:The logical construction of a domain ontolog",
+    "S:The methods of constructing a domain ontolog",
+    "S:The Noy & McGuiness approach developed by St",
+    "S:In the proposed method, the OntoDSMS adopts"
+   ]
+  },
+  {
+   "lead": "#1단계: 도메인과 범위 [방법]",
+   "ko": "- 복잡한 댐 안전 모니터링 지식에서 다룰 지식과 개념의 수를 줄이기 위해 먼저 범위를 정한다\n- 목적: 정보 통합, 지식 공유, 독립적 분석 능력을 높여 관련자가 정보를 빠르게 찾게 하는 것\n- 범위: 기존 DSMS의 대상, 속성, 전문 용어, 관계 전체",
+   "anchors": [
+    "S:The first step of the Noy & McGuiness approa",
+    "S:It is an effective strategy to minimize the",
+    "S:The proposed model aims to enhance the capab",
+    "S:Therefore, the OntoDSMS contains complete ob"
+   ]
+  },
+  {
+   "lead": "#2단계: 기존 온톨로지 재사용 [방법]",
+   "ko": "- W3C 표준 센서 온톨로지 SSN과 그 경량 핵심 SOSA의 일부 클래스 계층과 공리를 확장·수정해 쓴다\n- 그림 2: SOSA의 Observation 관련 클래스와 관계\n- 표현 형식이 OWL과 달라도 변환할 수 있다 (예: IFC → ifcOWL)",
+   "anchors": [
+    "S:Semantic Sensor Network (SSN) is a standard",
+    "S:In the proposed method, some class hierarchi",
+    "S:The classes and relationships related to Obs",
+    "S:For example, Pauwels et al. [9] integrated I",
+    "^Fig. 2."
+   ]
+  }
+ ],
+ "5": [
+  {
+   "lead": "#3단계: 중요 용어 나열 [방법]",
+   "ko": "- 가장 일반적인 개념에서 시작해, 시스템이 설명하려는 개념을 겹치는지와 표현 방식(클래스인지 속성인지)에 관계없이 가능한 한 많이 나열한다\n- 예: 변형·침투·환경량 모니터링, 상대 변위·균열 개도·양압력, 탄성계수·재료 정보·설치 정보",
+   "anchors": [
+    "S:The top-down development process starts with",
+    "S:To explain the domain knowledge clearly, it",
+    "S:The listed concepts and terms need to be dec",
+    "S:For instance, the critical terms in DSMS inc",
+    "S:The measurement standards related to monitor",
+    "S:These terms related to structural physical"
+   ]
+  },
+  {
+   "lead": "#4단계: 클래스와 클래스 계층 [방법]",
+   "ko": "- 나열한 용어 중 일부는 클래스, 일부는 클래스 사이의 관계가 된다\n- 계층 개발은 하향식, 상향식, 결합 방식이 있으며, DSMS가 복잡하여 중복 작업과 지식 불일치를 피하려고 하향식을 택했다\n- 구조 관점: 최상위 Structure 아래 좌안·우안 댐, 배수문 등 하위 클래스, 그리고 Material, Element 클래스 (표 1)\n- 다중 출처 데이터 통합이 목적이라 관련 없는 클래스 구조는 생략했다\n- 모니터링 관점: 댐 파괴 징후(이상 변형, 이상 침투, 응력·변형률 변화)에 따라 EnvironmentQuantity, Transformation, Seepage, StressStrainAndTemperature 등으로 나누고, SSN·SOSA의 핵심 클래스를 확장했다 (표 2)",
+   "anchors": [
+    "S:To date, the comprehensive terms related to",
+    "S:Considering the DSMS complexity, the top-dow",
+    "S:In the dam structure, the top-level parent c",
+    "S:Then attribute classes like Material and Ele",
+    "S:However, the proposed method focuses on inte",
+    "S:Thus, some irrelevant class topologies have",
+    "S:Generally, the failure symptoms of dams can",
+    "S:Considering the reusability of the existing"
+   ]
+  },
+  {
+   "lead": "#표 1, 표 2. 구조 관점과 모니터링 관점의 클래스",
+   "ko": "- 표 1은 구조 관점의 클래스 6개, 표 2는 안전 모니터링 관점의 클래스 11개와 설명이다",
+   "anchors": [
+    "^Table 1",
+    "^Table 2"
+   ]
+  },
+  {
+   "lead": "#표 3. 속성과 슬롯",
+   "ko": "- 객체 속성 14개(hasSection, hosts, observes, madeBySensor, hasMaterial 등)와 데이터 속성 5개(hasResult, resultTime, hasName, hasManufactures, hasElevation)의 정의역과 치역",
+   "anchors": [
+    "^Table 3"
+   ]
+  }
+ ],
+ "6": [
+  {
+   "lead": "#5단계: 클래스의 속성(슬롯) [방법]",
+   "ko": "- 클래스로 고르고 남은 용어 대부분이 속성이 된다\n- 클래스만으로는 내부 관계를 충분히 나타내지 못해, 클래스의 속성을 슬롯으로 붙인다\n- OWL 속성은 개체 사이 관계인 ObjectProperty와 개체와 값 사이 관계인 DatatypeProperty로 나뉜다 (표 3)",
+   "anchors": [
+    "S:After step 4, we have already selected some",
+    "S:Most of the remaining terms are the properti",
+    "S:However, it does not reflect the internal re",
+    "S:Therefore, the internal structure and class",
+    "S:The structure and the facets of the slots ar"
+   ]
+  },
+  {
+   "lead": "#6단계: 슬롯의 패싯 [방법]",
+   "ko": "- 패싯은 값의 유형, 허용 값, 값의 개수(카디널리티) 등을 정한다\n- 값의 유형은 String, Number, Boolean, Enumerated이며, 예로 hasName의 값 유형은 String이다\n- Instance 유형 슬롯에 허용되는 클래스를 치역(range), 슬롯이 붙는 클래스를 정의역(domain)이라 한다",
+   "anchors": [
+    "S:A slot has different facets that describe th",
+    "S:The slot value types include String, Number",
+    "S:The value type of hasName is String",
+    "S:The allowed classes for slots of type Instan",
+    "S:The classes to which a slot is attached or t"
+   ]
+  },
+  {
+   "lead": "#7단계: 인스턴스 [방법]",
+   "ko": "- 완성된 틀에 개별 인스턴스를 채운다: 클래스 선택 → 인스턴스 생성 → 슬롯 채우기",
+   "anchors": [
+    "S:The last step is to fill the individual inst"
+   ]
+  },
+  {
+   "lead": "#4. RDB를 RDF로 변환하는 이유 [차이]",
+   "ko": "- DSMS의 데이터는 대개 로컬에 저장되어 응용 프로그램 사이 공유와 동적 수정이 어렵다\n- RDB는 저장 용량은 충분하지만 관계를 효과적으로 추출하지 못하고, 키워드 검색은 키워드가 너무 구체적이거나 일반적이면 결과가 나빠진다\n- 기존 RDB를 온톨로지로 변환하면 시스템 관리가 개선되고 반복 작업이 없어진다",
+   "anchors": [
+    "S:Moreover, data information is usually stored",
+    "S:A RDB has a sufficient capacity as a contain",
+    "S:Keyword-based search is a common and typical",
+    "S:Hence, converting an existing relational dat"
+   ]
+  },
+  {
+   "lead": "#D2RQ로 변환 [방법]",
+   "ko": "- 오픈소스 플랫폼 D2RQ로 변환을 구현한다\n- D2RQ의 가상 RDF 그래프는 RDB의 내용을 RDF 저장소에 복제하지 않고 RDF로 접근하게 한다\n- RDF가 아닌 DB를 SPARQL로 질의하고, 웹에서 링크드 데이터로 접근할 수 있다",
+   "anchors": [
+    "S:This work implements the transformation thro",
+    "S:A virtual RDF graph accessing to the relatio",
+    "S:According to D2RQ [48], the following operat"
+   ]
+  },
+  {
+   "lead": "#그림 3. 수정한 매핑 파일 (일부) [방법]",
+   "ko": "- 네임스페이스 정의, 연결한 MySQL DB 정보, 표 → 클래스 대응, 열 → DatatypeProperty 대응을 보여 준다",
+   "anchors": [
+    "^Fig. 3."
+   ]
+  }
+ ],
+ "7": [
+  {
+   "lead": "#D2RQ 매핑 원리 [방법]",
+   "ko": "- 매핑 언어로 매핑 파일을 만들고 가상 RDF 그래프를 구성하며, RDF 질의를 SQL 문으로 번역해 RDB에서 실행한다\n- 매핑 원칙: 표 → 클래스, 열 → DatatypeProperty, 행 → 인스턴스, 셀 값 → 리터럴\n- 매핑 파일은 DB에 따라 자동 생성되며, 용어를 온톨로지와 맞추기 위해 수정한다 (그림 3)",
+   "anchors": [
+    "S:Different methods have a consistent mechanis",
+    "S:Moreover, D2RQ translates the RDF query oper",
+    "S:The basic principles of mapping are as follo",
+    "S:A predefined mapping file can be generated a",
+    "S:Modifying the file is necessary to keep the"
+   ]
+  },
+  {
+   "lead": "#5. 사례 연구 대상 [결과]",
+   "ko": "- 중국의 콘크리트 댐, 12개 구간, 센서 179개 (표 4)",
+   "anchors": [
+    "S:The case study involves a concrete dam locat",
+    "S:In this case, the dam is divided into 12 sec",
+    "^Table 4"
+   ]
+  },
+  {
+   "lead": "#그림 4. 모니터링 정보 관리 프레임워크 [방법]",
+   "ko": "- 온톨로지 구축과 데이터 통합: BIM과 온톨로지를 결합하고, 데이터에서 지식을 추출하는 개념 규칙을 만든다\n- Apache Jena 기반 엔진과 응용: SPARQL 질의와 추론 기능을 확장해 숨은 관계를 추출하고 일관된 결과를 준다",
+   "anchors": [
+    "S:The framework of managing monitoring informa",
+    "S:This process is shown as Ontology Establishm",
+    "S:This process is shown as Apache Jena-based E",
+    "^Fig. 4."
+   ]
+  },
+  {
+   "lead": "#5.1 OntoDSMS의 구축 [방법]",
+   "ko": "- 하향식 논리와 Noy & McGuiness 방법으로 틀을 정의하고, 오픈소스 편집기 Protégé로 온톨로지를 만든다",
+   "anchors": [
+    "S:Considering the DSMS complexity, the top-dow",
+    "S:To accelerate the process of developing the"
+   ]
+  }
+ ],
+ "8": [
+  {
+   "lead": "#그림 5, 그림 6. 구축한 OntoDSMS [결과]",
+   "ko": "- 그림 5는 Protégé에서 만든 클래스 계층, 그림 6은 Sensor, Observation, Structure에 관한 스키마와 인스턴스의 대응(지식 그래프)이다\n- SSN과 SOSA의 핵심 클래스를 확장하고 일부 공리와 속성을 상속했다",
+   "anchors": [
+    "^Fig. 5.",
+    "^Fig. 6.",
+    "S:Considering the reuse of existing ontologies"
+   ]
+  },
+  {
+   "lead": "#Protégé를 쓴 이유",
+   "ko": "- GUI로 온톨로지를 만들고 시각화하며 데이터를 유연하게 채울 수 있고, 내장 도구로 규칙 추론과 SPARQL 질의를 미리 시험할 수 있다",
+   "anchors": [
+    "S:In addition, it is highly extensible and can"
+   ]
+  }
+ ],
+ "9": [
+  {
+   "lead": "#5.2 BIM에서 정보 추출 [방법]",
+   "ko": "- Autodesk Revit으로 BIM 환경을 만들고, 모델링 단계에서 매개변수를 만들어 맥락 정보를 그래픽에 연결한다\n- Structure 관점: Name, Material / Sensor 관점: Elevation, Manufacture, MonitorType, Name\n- Revit에서 모델을 누르면 나오는 맥락 정보(그림 7의 2, 3)와 그에 대응하는 온톨로지 기술(1, 4)\n- 모든 맥락 정보는 스프레드시트로 내보내 MySQL DB에 저장하고, 4절의 방법으로 온톨로지에 대응시킨다",
+   "anchors": [
+    "S:This section aims to extract context informa",
+    "S:From the Structure perspective, some paramet",
+    "S:From the Sensor perspective, some parameters",
+    "S:As presented in parts 2 and 3 in Fig. 7, the",
+    "S:The corresponding descriptions of that infor",
+    "S:Section 4 presents the mapping between the d",
+    "^Fig. 7."
+   ]
+  },
+  {
+   "lead": "#그림 8. MySQL의 표 구조 (일부)",
+   "ko": "- 이력·실시간 모니터링 데이터와 맥락 정보가 저장된 MySQL 표들",
+   "anchors": [
+    "^Fig. 8."
+   ]
+  }
+ ],
+ "10": [
+  {
+   "lead": "#MySQL과 온톨로지의 대응 [방법]",
+   "ko": "- BIM 맥락 정보 외에 MySQL DB가 또 하나의 주요 데이터 출처이다\n- 이력 데이터, 실시간 수집 데이터, 맥락 정보를 통합하려면 MySQL과 온톨로지 사이의 대응이 필요하다",
+   "anchors": [
+    "S:environment, the MySQL database is the other",
+    "S:A mapping between MySQL and ontology is requ"
+   ]
+  },
+  {
+   "lead": "#5.3 Apache Jena 기반 질의 [방법]",
+   "ko": "- Jena로 RDFS·OWL·규칙 추론기와 SPARQL 엔드포인트를 제공하고, 대표 질의 네 가지로 OntoDSMS의 효과를 보인다",
+   "anchors": [
+    "S:To publish ontology data for searching and s",
+    "S:Jena provides RDFS, OWL, general-purpose rul",
+    "S:To illustrate the effectiveness of OntoDSMS"
+   ]
+  },
+  {
+   "lead": "#질의 1 [결과]",
+   "ko": "- 4번 구간 수직 변위 센서의 2015-2-28 이후 모니터링 데이터를 조회한다 (그림 9)\n- 기존 DSMS는 센서와 구성요소의 관계를 갖고 있지 않아, 설치 문서나 도면을 비교해야 했다",
+   "anchors": [
+    "S:The first example shows how to query the mon",
+    "S:Traditional DSMSs contain sensor installatio",
+    "S:The relationships must be obtained by compar"
+   ]
+  },
+  {
+   "lead": "#질의 2 [결과]",
+   "ko": "- 4·5·6번 구간에 설치된 센서의 수와 유형을 조회한다\n- 전문가도 설치 문서나 도면을 확인해야 하는 정보를 바로 얻는다",
+   "anchors": [
+    "S:The second example shows how to query the nu",
+    "S:The dam structure is complex, and even profe"
+   ]
+  },
+  {
+   "lead": "#질의 3: 규칙 추론 [결과]",
+   "ko": "- 균열 모니터링에서 작동 상태가 비정상인 센서와 발생 시각, 관측 구성요소를 조회한다\n- RDB는 외부 프로그램 없이 이 질의를 할 수 없다\n- 센서와 Abnormal의 관계는 명시되어 있지 않고, 관측값의 허용 최대·최소값을 경고 지표로 둔 규칙으로 추론한다 (그림 10)",
+   "anchors": [
+    "S:The third example shows the query to access",
+    "S:Traditional RDB cannot realize the query wit",
+    "S:In the related rules, the observed allowed m"
+   ]
+  },
+  {
+   "lead": "#질의 4: 데이터 갱신",
+   "ko": "- 새 데이터가 생기면 온톨로지를 확장·수정해야 한다",
+   "anchors": [
+    "S:The fourth example reveals how to extend and",
+    "S:Therefore, the established ontology must be"
+   ]
+  },
+  {
+   "lead": "#그림 9, 그림 10",
+   "ko": "- 그림 9는 질의 1, 2의 코드와 결과, 그림 10은 질의 3의 코드와 규칙이다",
+   "anchors": [
+    "^Fig. 9.",
+    "^Fig. 10."
+   ]
+  }
+ ],
+ "11": [
+  {
+   "lead": "#질의 4, 5: SPARQL Update [결과]",
+   "ko": "- 데이터가 갱신되면 SPARQL Update 기반 작동기가 온톨로지를 갱신한다\n- 질의 4로 새 센서(번호, 위치, 유형, 모니터링 정보)를 추가하고, 질의 5로 센서 번호 B2–1을 BP2–1로 바꾼다 (그림 11)",
+   "anchors": [
+    "S:issue, an actuator based on SPARQL Update la",
+    "S:As illustrated in Fig. 11, a new sensor is a",
+    "^Fig. 11."
+   ]
+  },
+  {
+   "lead": "#표 5. SPARQL과 SQL 비교 [결과]",
+   "ko": "- 같은 질의를 SQL로도 실행해 결과를 검증했다. 두 시스템의 개체 수는 492,875이고, 같은 조건에서 10번 검색한 평균이다\n- 결과 수는 같고(2989, 39, 2), 응답 시간은 SPARQL이 0.26, 0.19, 2.35초, SQL이 2.72, 1.57, 7.26초이다",
+   "anchors": [
+    "S:To compare the relational database and ontol",
+    "S:Table 5 reports the number of entities in th",
+    "S:The number of entities included in both syst",
+    "^Table 5"
+   ]
+  },
+  {
+   "lead": "#6. 결론 [목표, 결과]",
+   "ko": "- 지식 관리를 위한 BIM 기반 도메인 온톨로지를 개발했다\n- 센서와 구조물 사이의 의미 관계를 트리플로 담은 지식 네트워크로 정보의 섬 문제를 해결했다\n- BIM 맥락 정보 추출과 가상 RDF 그래프 대응으로 모델링 시간을 줄였고, 확장 SPARQL이 기존 방법보다 효과적임을 보였다",
+   "anchors": [
+    "S:This paper develops a BIM-based domain ontol",
+    "S:Specifically, we construct a knowledge netwo",
+    "S:Extracting context information from the BIM",
+    "S:Indeed, we demonstrate that the enhanced fun"
+   ]
+  },
+  {
+   "lead": "#혁신 [차이]",
+   "ko": "1. 도메인 지식을 통합하는 DSMS 도메인 온톨로지로 BIM의 의미 관계 부족을 보완했다\n2. SSN과 SOSA를 DSMS에 적용해 단편적 정보를 '하나의 그래프'로 저장했다\n3. RDB와 RDF 사이의 데이터 대응 방법을 개발해 반복 작업을 줄였다\n4. SPARQL 질의를 확장해 논리적 추론 능력을 높였다",
+   "anchors": [
+    "S:First, a DSMS domain ontology is proposed to",
+    "S:Our method compensates for the lack of seman",
+    "S:Second, SSN and SOSA are applied to a tradit",
+    "S:Third, we develop a data mapping method betw",
+    "S:Finally, expanding the SPARQL queries improv"
+   ]
+  },
+  {
+   "lead": "#한계와 향후 연구 [논의]",
+   "ko": "1. BIM 기반 온톨로지에서 구조의 비기하 속성만 고려해, 그래픽 데이터가 갱신될 때 시스템 부담이 커질 수 있다\n2. 상호운용성은 해결했지만, 온톨로지 기반으로 모니터링 데이터에서 손상 식별, 이상 감지, 안전 평가를 하는 것은 아직 과제이다",
+   "anchors": [
+    "S:First, only structural nongeometric attribut",
+    "S:Second, it is still a challenge to realize t"
+   ]
+  }
+ ]
+}

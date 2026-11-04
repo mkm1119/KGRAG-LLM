@@ -415,6 +415,11 @@ def main(src, tjson, dst, mode='review'):
                         missing.append((pi, a)); continue
                     spans.append((st, pg.sentence_end(st)))
                     continue
+                if a.startswith('BOX:'):       # 글자 추출로 줄을 찾을 수 없는 곳(키워드 목록과 섞인 초록 등): 영역을 직접 지정
+                    bx0, by0, bx1, by1 = map(float, a[4:].split(','))
+                    hl.append(b'%.3f %.3f %.3f rg ' % tint + b'%.2f %.2f %.2f %.2f re f' % (bx0, by0, bx1 - bx0, by1 - by0))
+                    marks.append((bx0, by1 - 9, 7.2))
+                    continue
                 hit = finder(pi, a)            # 그림·표 제목, 초록 등은 줄 단위
                 if not hit:
                     missing.append((pi, a)); continue
