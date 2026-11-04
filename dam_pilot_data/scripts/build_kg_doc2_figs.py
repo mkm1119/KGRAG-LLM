@@ -257,6 +257,74 @@ add('''<!-- g6: 충주댐 KG 전체 -->
 </div>''')
 
 # ================================================================== 3장 저장
+add('''<!-- s0: 그래프 저장 모양 -->
+<div class="fig" id="s0">
+ <svg width="808" height="230" viewBox="0 0 808 230" font-family="WenQuanYi Zen Hei" font-size="13"><defs><marker id="m0s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#444"/></marker></defs>
+  <ellipse cx="170" cy="115" rx="150" ry="92" fill="#E8F5F2" stroke="#23907F" stroke-width="2.5"/>
+  <rect x="95" y="47" width="150" height="24" rx="5" fill="#23907F"/><text x="170" y="64" text-anchor="middle" fill="#fff" font-weight="bold">:Entity :Approval</text>
+  <text x="170" y="96" text-anchor="middle" font-weight="bold">id = 'APR:504'</text>
+  <text x="170" y="120" text-anchor="middle" font-size="12">approvalTime = 2011-06-27</text>
+  <text x="170" y="140" text-anchor="middle" font-size="12">approvalContent = '방류시작 …'</text>
+  <ellipse cx="640" cy="115" rx="140" ry="80" fill="#FFF4EA" stroke="#E07A2F" stroke-width="2.5"/>
+  <rect x="575" y="61" width="130" height="24" rx="5" fill="#E07A2F"/><text x="640" y="78" text-anchor="middle" fill="#fff" font-weight="bold">:Entity :Dam</text>
+  <text x="640" y="107" text-anchor="middle" font-weight="bold">id = 'DAM:1003110'</text>
+  <text x="640" y="129" text-anchor="middle" font-size="12">damName = '충주댐'</text>
+  <line x1="320" y1="115" x2="496" y2="115" stroke="#444" stroke-width="3" marker-end="url(#m0s)"/>
+  <rect x="345" y="93" width="126" height="22" rx="4" fill="#2F4F9A"/><text x="408" y="109" text-anchor="middle" fill="#fff" font-weight="bold">:concernsDam</text>
+  <text x="408" y="137" text-anchor="middle" font-size="11.5">rule = 'MR-APR-DAM'</text>
+  <text x="408" y="153" text-anchor="middle" font-size="11.5">origin = 'real'</text>
+  <circle cx="42" cy="60" r="10" fill="#B3261E"/><text x="42" y="64" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">①</text><circle cx="258" cy="59" r="10" fill="#B3261E"/><text x="258" y="63" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">②</text><circle cx="60" cy="130" r="10" fill="#B3261E"/><text x="60" y="134" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">③</text><circle cx="330" cy="100" r="10" fill="#B3261E"/><text x="330" y="104" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">④</text><circle cx="484" cy="104" r="10" fill="#B3261E"/><text x="484" y="108" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">⑤</text><circle cx="478" cy="145" r="10" fill="#B3261E"/><text x="478" y="149" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">⑥</text>
+ </svg>
+ <table class="t" style="font-size:13.5px;width:100%;margin-top:4px">
+  <tr><th>번호</th><th>Neo4j 용어</th><th>우리 용어</th><th>그림에서</th></tr>
+  <tr><td>①</td><td>노드 (node)</td><td>Entity 하나</td><td>타원 하나 = APR:504</td></tr>
+  <tr><td>②</td><td>라벨 (label)</td><td>Class (노드에 붙이는 이름표)</td><td>:Entity :Approval — 두 개를 붙인다</td></tr>
+  <tr><td>③</td><td>노드 속성 (property)</td><td>Data Property 값 (이름 = 값)</td><td>approvalTime = 2011-06-27</td></tr>
+  <tr><td>④</td><td>관계 (relationship)</td><td>Relation 하나 (시작 Entity → 끝 Entity, 방향이 있다)</td><td>APR:504 → DAM:1003110 화살표</td></tr>
+  <tr><td>⑤</td><td>관계 유형 (type)</td><td>Relation 이름</td><td>:concernsDam</td></tr>
+  <tr><td>⑥</td><td>관계 속성</td><td>그 관계를 채운 규칙과 값의 성격</td><td>rule, origin</td></tr>
+ </table>
+</div>''')
+
+add('''<!-- s1a: Entity → 노드 -->
+<div class="fig" id="s1a">
+<div class="hd">입력: CSV의 APR:504 줄</div><div class="code"><span class="note">kgv4_entities.csv    </span>APR:504, Approval, 승인 504 (충주댐)
+<span class="note">kgv4_properties.csv  </span>APR:504, approvalTime, 2011-06-27, <b>date</b>
+<span class="note">                     </span>APR:504, approvalContent, 방류시작 2011-06-27 18:00; …, string</div><div class="arrow">↓ Python 스크립트가 같은 Entity ID의 줄을 모아 Cypher 문 하나로 쓴다</div><div class="code" style="font-size:14px"><span style="background:#FFE7C2;border-radius:3px">MERGE<sup style="color:#B3261E;font-weight:bold">①</sup></span> <span style="background:#D9F0E8;border-radius:3px">(n:Entity:Approval<sup style="color:#B3261E;font-weight:bold">②</sup></span> <span style="background:#E4E9FA;border-radius:3px">{id: 'APR:504'})<sup style="color:#B3261E;font-weight:bold">③</sup></span>
+<span style="background:#F3E6FA;border-radius:3px">SET<sup style="color:#B3261E;font-weight:bold">④</sup></span> n.label = '승인 504 (충주댐)',
+    <span style="background:#FCE4E4;border-radius:3px">n.approvalTime = date('2011-06-27')<sup style="color:#B3261E;font-weight:bold">⑤</sup></span>,
+    n.approvalContent = '방류시작 2011-06-27 18:00; …';</div><div class="arrow">↓ Neo4j가 실행하면</div><div style="display:flex;align-items:center;gap:16px"><div style="flex:0 0 260px;border:2.5px solid #23907F;border-radius:50%;background:#E8F5F2;padding:22px 10px;text-align:center;font-size:13.5px"><span class="tagL" style="background:#23907F">:Entity :Approval</span><br><b>id = 'APR:504'</b><br>label = '승인 504 (충주댐)'<br>approvalTime = 2011-06-27 <span class="note">(날짜)</span><br>approvalContent = '방류시작 …'</div><div class="note" style="font-size:13.5px">노드 하나가 생긴다. 같은 문을 다시 실행해도 id가 같은 노드가 이미 있으므로 새로 만들지 않고 속성만 다시 넣는다.</div></div></div>''')
+
+add('''<!-- s1b: Relation → 관계 -->
+<div class="fig" id="s1b">
+<div class="hd">입력: CSV의 관계 한 줄</div><div class="code"><span class="note">kgv4_relations.csv   </span>APR:504, concernsDam, DAM:1003110, MR-APR-DAM, real</div><div class="arrow">↓ Python 스크립트가 Cypher 문 하나로 쓴다</div><div class="code" style="font-size:14px"><span style="background:#FFE7C2;border-radius:3px">MATCH<sup style="color:#B3261E;font-weight:bold">①</sup></span> <span style="background:#D9F0E8;border-radius:3px">(a:Entity {id: 'APR:504'})<sup style="color:#B3261E;font-weight:bold">②</sup></span>, <span style="background:#D9F0E8;border-radius:3px">(b:Entity {id: 'DAM:1003110'})<sup style="color:#B3261E;font-weight:bold">②</sup></span>
+<span style="background:#E4E9FA;border-radius:3px">MERGE<sup style="color:#B3261E;font-weight:bold">③</sup></span> <span style="background:#F3E6FA;border-radius:3px">(a)-[r:concernsDam]-&gt;(b)<sup style="color:#B3261E;font-weight:bold">④</sup></span>
+<span style="background:#FCE4E4;border-radius:3px">SET r.rule = 'MR-APR-DAM', r.origin = 'real'<sup style="color:#B3261E;font-weight:bold">⑤</sup></span>;</div><div class="arrow">↓ Neo4j가 실행하면</div><svg width="808" height="120" viewBox="0 0 808 120" font-family="WenQuanYi Zen Hei" font-size="13"><defs><marker id="m1b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#444"/></marker></defs><ellipse cx="140" cy="60" rx="120" ry="42" fill="#E8F5F2" stroke="#23907F" stroke-width="2.5"/><text x="140" y="56" text-anchor="middle" font-weight="bold">APR:504</text><text x="140" y="74" text-anchor="middle" font-size="11.5">:Entity :Approval</text><ellipse cx="660" cy="60" rx="130" ry="42" fill="#FFF4EA" stroke="#E07A2F" stroke-width="2.5"/><text x="660" y="56" text-anchor="middle" font-weight="bold">DAM:1003110</text><text x="660" y="74" text-anchor="middle" font-size="11.5">:Entity :Dam</text><line x1="260" y1="60" x2="526" y2="60" stroke="#444" stroke-width="3" marker-end="url(#m1b)"/><rect x="335" y="38" width="120" height="22" rx="4" fill="#2F4F9A"/><text x="395" y="54" text-anchor="middle" fill="#fff" font-weight="bold">:concernsDam</text><text x="395" y="82" text-anchor="middle" font-size="11.5">rule = 'MR-APR-DAM', origin = 'real'</text></svg><div class="note" style="font-size:13.5px">이미 있는 두 노드를 찾아(①②), 그 사이에 방향이 있는 관계 하나를 만든다(③④). 두 노드가 먼저 있어야 하므로 관계 문은 노드 문을 모두 실행한 뒤에 실행한다.</div></div>''')
+
+add('''<!-- s3: 적재 -->
+<div class="fig" id="s3">
+ <div style="display:grid;grid-template-columns:430px 34px 1fr;align-items:center;gap:0">
+  <div class="code" style="font-size:12px"><b>kgv4_load.cypher (684줄)</b>
+<span class="note">1줄   </span>// 주석
+<span class="note">1줄   </span>CREATE CONSTRAINT … REQUIRE n.id IS UNIQUE
+<span class="note">264줄 </span>MERGE (n:Entity:Dam {id: 'DAM:1003110'}) …
+<span class="note">      </span>MERGE (n:Entity:Approval {id: 'APR:504'}) …
+<span class="note">      </span>…  (노드 문: Entity마다 한 줄)
+<span class="note">418줄 </span>MATCH … MERGE (a)-[r:concernsDam]->(b) …
+<span class="note">      </span>…  (관계 문: Relation마다 한 줄)</div>
+  <div class="arrow">→</div>
+  <div>
+   <div class="step"><b>① Neo4j 시작</b> <span class="note">(Neo4j 5.26)</span></div>
+   <div class="arrow" style="font-size:15px">↓</div>
+   <div class="step"><b>② 기존 노드와 관계를 모두 지움</b><br><span class="mono" style="font-size:12.5px">MATCH (n) DETACH DELETE n</span></div>
+   <div class="arrow" style="font-size:15px">↓</div>
+   <div class="step"><b>③ 파일을 위에서부터 실행</b><br>제약 → 노드 264개 → 관계 418개</div>
+   <div class="arrow" style="font-size:15px">↓</div>
+   <div class="step"><b>④ 개수 확인</b><br><span class="mono" style="font-size:12.5px">MATCH (n:Entity) RETURN count(n)</span> → 264<br><span class="mono" style="font-size:12.5px">MATCH ()-[r]->() RETURN count(r)</span> → 418</div>
+  </div>
+ </div>
+</div>''')
+
 add('''<!-- s1: CSV 줄 → Cypher 문 -->
 <div class="fig" id="s1">
  <div class="hd">① Entity 하나 → 노드 하나 (entities·properties의 APR:504 줄을 모아서)</div>

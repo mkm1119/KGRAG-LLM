@@ -60,7 +60,7 @@ def fig(name):
     subprocess.run(['convert', os.path.join(FIG, name + '.png'), '-trim', '-bordercolor', 'white', '-border', '12', '+repage', pth], check=True)
     with open(pth, 'rb') as f:
         w, h = struct.unpack('>II', f.read(24)[16:24])
-    full = name in ('kg2_g6',)   # 결과 KG 그림은 Entity가 많아 쪽 너비 전체로
+    full = name in ('kg2_g6', 'kg2_s0', 'kg2_s1a', 'kg2_s1b', 'kg2_s3')   # Entity가 많은 결과 KG와 Cypher 문이 든 그림은 쪽 너비 전체로
     return L.image(name, pth, w, h, name, width=L.W if full else min(int(w * PX2DXA), L.W))
 
 
@@ -188,20 +188,56 @@ figcap('g6', 'Relation이 채워진 KG — 충주댐에 이어진 Entity 53개 �
 add(h1('3. 저장'))
 add(h2('3.1 따른 원리와 진행 방식'))
 lis('따른 원리: Huang 외(2026)는 추출한 지식을 JSON으로 모은 뒤, 온톨로지의 관계에 따라 Python 스크립트가 JSON의 키-값을 읽어 Cypher 문을 만들고, 노드와 관계를 Neo4j에 일괄 적재했다. Neo4j는 Cypher로 조회·추가·삭제·수정이 효율적이고 여러 관계를 건너는 질의(다중 홉 질의)에 강해서 골랐다고 밝혔다(부록 C.2).',
-    '우리는 모은 형태가 JSON이 아니라 CSV 파일이다. Python 스크립트가 kgv4_entities, kgv4_properties, kgv4_relations의 줄을 읽어 Cypher 파일을 만들고, 적재 스크립트가 그 파일을 Neo4j에 넣는다. 출처 파일(kgv4_provenance)은 Neo4j에 넣지 않고 CSV로 둔다.',
-    '측정값과 규정 원문은 KG에 넣지 않고 외부 저장소에 두며, KG에는 그것을 찾아가는 키만 둔다(3.3).')
-add(h2('3.2 CSV → Cypher → Neo4j'))
-add(label('과정 1. Entity → 노드'))
-lis('entities와 properties의 줄을 Entity ID로 모아 노드 문 하나를 쓴다. 라벨은 Entity와 Class 두 개이다(예: Entity:Approval).',
-    '속성은 자료형에 따라 바꾼다: 날짜는 date(), 일시는 datetime(), 숫자는 숫자로. 그래야 "2020년 8월 안의 운영행위"처럼 기간으로 찾을 수 있다.',
-    'MERGE는 같은 id의 노드가 있으면 새로 만들지 않는다. 그래서 다시 적재해도 노드가 겹치지 않는다. 파일 첫 줄에서 id가 유일하다는 제약을 건다.')
-add(label('과정 2. 관계 → 관계'))
-lis('relations의 줄마다 시작·끝 노드를 id로 찾고(MATCH), 그 사이에 관계를 만든다(MERGE). 규칙과 값의 성격은 관계의 속성으로 남겨, Neo4j에서도 어떻게 이은 관계인지 볼 수 있다.')
-figcap('s1', 'CSV 줄이 Cypher 문이 되는 과정 (APR:504 노드와 concernsDam 관계)')
-add(label('과정 3. 적재'))
-lis('Neo4j 5.26을 시작하고, 기존 노드를 모두 지운 뒤, Cypher 파일(%d줄: 주석 1, 제약 1, 노드 %d, 관계 %d)을 실행한다. 끝나면 노드 수와 관계 수를 세어 "nodes: %d, rels: %d"인지 확인한다.' % (CYPHER_LINES, len(ents), len(rels), len(ents), len(rels)))
+    'Neo4j는 그래프 데이터베이스이다. 엑셀이나 일반 데이터베이스처럼 표의 행과 열로 저장하지 않고, 노드와 관계로 저장한다. Cypher는 Neo4j에 노드와 관계를 넣고 찾을 때 쓰는 명령 언어이다.',
+    '우리는 모은 형태가 JSON이 아니라 CSV 파일이다. Python 스크립트가 kgv4_entities, kgv4_properties, kgv4_relations의 줄을 읽어 Cypher 문을 쓰고, 그 문들을 모은 파일을 Neo4j에서 실행한다. 출처 파일(kgv4_provenance)은 Neo4j에 넣지 않고 CSV로 둔다.',
+    '진행 방식: Entity를 노드로 넣고(과정 1), Relation을 관계로 넣고(과정 2), 이 둘을 한 파일로 모아 실행한다(과정 3).')
+add(label('Neo4j가 저장하는 모양'))
+lis('그림 {{s0}}은 Neo4j에 저장된 승인 504와 충주댐, 그 사이의 관계 하나를 그린 것이다. 빨간 번호마다 Neo4j 용어와 우리 용어가 짝을 이룬다(아래 표).',
+    '타원 하나가 노드(①)이고 Entity 하나이다. 노드 위의 이름표가 라벨(②)이며 Class를 나타낸다. 노드 안의 "이름 = 값"이 속성(③)이며 Data Property 값이다.',
+    '화살표가 관계(④)이며 Relation 하나이다. 화살표의 이름표가 관계 유형(⑤)으로 Relation 이름이고, 화살표 아래의 값(⑥)은 그 관계를 채운 규칙과 값의 성격이다.',
+    '노드에는 라벨을 두 개 붙인다. 하나는 Class(:Approval)이고, 다른 하나는 모든 노드에 공통인 :Entity이다. :Entity를 붙여 두면 Class를 몰라도 id 하나로 어떤 노드든 찾을 수 있고, id가 겹치지 않는다는 규칙도 한 번에 걸 수 있다.')
+figcap('s0', 'Neo4j가 저장하는 모양 — 노드, 라벨, 속성, 관계와 우리 용어')
 
-add(h2('3.3 KG 밖에 두는 것: 측정 저장소와 문서 저장소'))
+add(h2('3.2 Cypher 문을 읽는 법'))
+lis('과정 1·2의 Cypher 문에 쓰이는 문법은 표 3이 전부이다. 괄호 ( )는 노드, 화살표 -[ ]->는 관계를 그림처럼 적은 것이다.')
+add(label('표 3. 이 자료에 쓰인 Cypher 문법'))
+add(rtable([['쓰는 모양', '뜻', '예'],
+            ['( )', '노드 하나', "(n:Entity:Approval {id: 'APR:504'})"],
+            [':이름', '노드에서는 라벨, 관계에서는 관계 유형', ':Approval, :concernsDam'],
+            ['{이름: 값}', '그 속성값을 가진 노드(또는 관계)', "{id: 'APR:504'}"],
+            ['-[ ]->', '관계 하나와 그 방향(시작 → 끝)', '(a)-[r:concernsDam]->(b)'],
+            ['n, a, b, r', '한 문 안에서 노드나 관계를 가리키는 임시 이름', 'n.label = …  (n의 label 속성)'],
+            ['MERGE', '적은 모양이 이미 있으면 그대로 쓰고, 없으면 새로 만든다', "MERGE (n:Entity:Approval {id: 'APR:504'})"],
+            ['MATCH', '이미 있는 노드나 관계를 찾는다', "MATCH (a:Entity {id: 'APR:504'})"],
+            ['SET', '속성값을 넣는다', "SET n.approvalTime = date('2011-06-27')"],
+            ['date( ), datetime( )', '글자를 날짜·일시 값으로 바꾼다', "date('2011-06-27')"],
+            ['CREATE CONSTRAINT … IS UNIQUE', '같은 값이 두 노드에 들어가지 못하게 막는 규칙', 'id가 같은 노드는 하나뿐'],
+            ['MATCH (n) DETACH DELETE n', '모든 노드를 관계와 함께 지운다', '다시 적재하기 전에'],
+            ['RETURN count( )', '찾은 것의 개수를 돌려준다', 'MATCH (n:Entity) RETURN count(n)']],
+           [2900, 3800, 3272]))
+
+add(h2('3.3 CSV → Cypher → Neo4j'))
+add(label('과정 1. Entity → 노드'))
+lis('원리: Entity 하나는 노드 하나, Class는 라벨, Data Property는 노드 속성이 된다.',
+    '그림 {{s1a}}의 맨 위는 입력인 CSV 줄이다. Python 스크립트가 Entity ID가 같은 줄(entities 한 줄, properties 두 줄)을 모아 가운데의 Cypher 문 하나로 쓴다.',
+    '문을 번호대로 읽으면: ① MERGE — 없으면 만들고 있으면 그대로 쓴다. ② (n:Entity:Approval — 라벨이 Entity와 Approval인 노드 n. ③ {id: \'APR:504\'}) — id가 APR:504인 것. ④ SET — n에 속성값을 넣는다. ⑤ date(\'2011-06-27\') — properties의 자료형이 date이므로 글자가 아니라 날짜 값으로 넣는다.',
+    '자료형을 바꾸는 이유: 날짜·일시로 넣어야 "2020년 8월 안의 운영행위"처럼 기간으로 비교해 찾을 수 있다(4장 검색). 일시는 datetime(), 숫자는 숫자로 넣는다.',
+    '맨 아래는 실행 결과이다. 노드 하나가 생긴다. MERGE를 썼으므로 같은 문을 다시 실행해도 노드가 둘이 되지 않는다. 264개 Entity마다 이런 문이 한 줄씩 생긴다.')
+figcap('s1a', '과정 1 — CSV 줄이 Cypher 문이 되고, 실행하면 노드 하나가 된다 (APR:504)')
+add(label('과정 2. Relation → 관계'))
+lis('원리: Relation 한 줄은 관계 하나가 된다. 관계는 두 노드 사이에 긋는 것이므로, 두 노드를 먼저 찾고 그 사이에 관계를 만든다.',
+    '그림 {{s1b}}의 맨 위는 kgv4_relations.csv의 한 줄(시작 Entity, Relation, 끝 Entity, 규칙, 값의 성격)이다.',
+    '문을 번호대로 읽으면: ① MATCH — 이미 있는 노드를 찾는다. ② id가 APR:504인 노드를 a로, DAM:1003110인 노드를 b로 부른다. ③ MERGE — 없으면 만든다. ④ (a)-[r:concernsDam]->(b) — a에서 b로 가는, 유형이 concernsDam인 관계 r. ⑤ SET — 관계 r에 규칙과 값의 성격을 넣는다.',
+    '맨 아래는 실행 결과이다. 두 노드 사이에 화살표 하나가 생긴다. 규칙과 값의 성격을 관계에 남겨 두었으므로, Neo4j에서도 이 관계를 어떻게 채웠는지 볼 수 있다. 418개 Relation마다 이런 문이 한 줄씩 생긴다.')
+figcap('s1b', '과정 2 — 관계 한 줄이 Cypher 문이 되고, 실행하면 두 노드 사이에 관계가 생긴다 (concernsDam)')
+add(label('과정 3. 적재'))
+lis('원리: 문들을 한 파일에 모아 한 번에 실행한다(일괄 적재).',
+    '그림 {{s3}}의 왼쪽은 Python 스크립트가 쓴 Cypher 파일이다. %d줄은 주석 1줄, id가 겹치지 않게 하는 규칙(제약) 1줄, 노드 문 %d줄, 관계 문 %d줄이다.' % (CYPHER_LINES, len(ents), len(rels)),
+    '오른쪽은 실행 순서이다. ① Neo4j를 켜고 ② 남아 있는 노드와 관계를 모두 지운 뒤 ③ 파일을 위에서부터 실행한다. 관계 문은 두 노드를 찾아야 하므로 노드 문이 모두 끝난 뒤에 실행된다. ④ 마지막에 노드와 관계를 세어 %d개, %d개인지 확인한다.' % (len(ents), len(rels)),
+    '매번 지우고 처음부터 다시 넣으므로, CSV를 고친 뒤 다시 적재하면 Neo4j의 KG가 CSV와 항상 같아진다.')
+figcap('s3', '과정 3 — Cypher 파일의 구성과 적재 순서')
+
+add(h2('3.4 KG 밖에 두는 것: 측정 저장소와 문서 저장소'))
 lis('측정 저장소: 4개 댐의 시간자료 508,246행. KG의 HMS에 있는 stationCode(댐 코드)와 시각으로 한 행을 읽는다.',
     '문서 저장소: 연계운영규정 별표3 원문 1건. KG의 근거 Entity(EVI:LAW:별표3)에 있는 sourceLocator("별표 3")로 원문을 읽는다.')
 figcap('s2', 'KG에서 외부 저장소로 가는 키')
@@ -253,8 +289,8 @@ lis('LLM에 답변 지시문과 근거 묶음을 준다. 지시문: 근거 묶�
 figcap('q5', '답변 — 근거(출처 번호)와 판단(쓴 근거)으로 나뉜다')
 
 add(label('결과'))
-lis('질문마다 의도 원문, 의도 JSON, 조회 결과, 근거 묶음, 답변이 파일로 남는다. 서버에서 질문 5개를 실행한 결과는 표 3과 같다.')
-add(label('표 3. 서버 실행 결과 (Qwen3-32B, 2026-10-16)'))
+lis('질문마다 의도 원문, 의도 JSON, 조회 결과, 근거 묶음, 답변이 파일로 남는다. 서버에서 질문 5개를 실행한 결과는 표 4와 같다.')
+add(label('표 4. 서버 실행 결과 (Qwen3-32B, 2026-10-16)'))
 fmt_i = lambda t: ', '.join(t['intent_json'].get('intent') or []) or '없음 (거절)'
 add(rtable([['질문', '뽑은 의도', '결과', '시간'],
             ['충주댐 현재 상태를 제한수위와 비교하고, 비슷한 수문 상태일 때의 승인·운영행위', fmt_i(TR['q1']), '근거와 판단으로 답함', '%.1f초' % TR['q1']['seconds']],
@@ -301,12 +337,15 @@ L.cell.__defaults__ = L.cell.__defaults__[:4] + (14,) + L.cell.__defaults__[5:]
 L.table.__defaults__ = (True, True, 14, ())
 table = L.table
 add(h1('부록 A. 용어 정리'))
-add(label('표 4. 용어 정의'))
+add(label('표 5. 용어 정의'))
 add(table([['용어', '본 연구에서의 정의'],
            ['Relation 채우기', '온톨로지가 허락한 Class 사이의 관계 가운데, 자료 속 키로 Entity 사이의 실제 관계(시작 Entity → 끝 Entity)를 골라 잇는 일.'],
            ['개체 해소', '자료마다 다르게 적힌 같은 대상(충주, 충 주 댐, 1003110)을 하나의 기준 식별자에 대응시키는 일. 문헌의 entity disambiguation.'],
            ['기준 식별자', '같은 대상을 가리키는 표기들을 모으는 기준 ID. 본 연구는 K-water 댐 코드, GraphAide는 Wikidata의 QID.'],
-           ['Neo4j', 'Entity를 노드로, 관계를 관계(엣지)로 저장하는 그래프 데이터베이스.'],
+           ['Neo4j', '표의 행·열 대신 노드와 관계로 저장하는 그래프 데이터베이스.'],
+           ['노드', 'Neo4j에 저장된 Entity 하나. 라벨(Class)과 속성(Data Property 값)을 가진다.'],
+           ['라벨', '노드에 붙이는 이름표. Class(예: :Approval)와 공통 이름표 :Entity를 붙인다.'],
+           ['관계 유형', 'Neo4j에 저장된 관계의 이름. Relation 이름(예: :concernsDam)과 같다.'],
            ['Cypher', 'Neo4j에 노드·관계를 넣고 찾는 질의 언어. MERGE(없으면 만듦), MATCH(찾음) 등.'],
            ['조회 템플릿', 'CQ마다 미리 정해 둔 Cypher 문. 댐 이름과 기간만 바꿔 넣어 실행한다.'],
            ['의도', '질문이 요구하는 CQ(CQ1~CQ6). 한 질문에 여러 개가 있을 수 있다.'],
@@ -314,7 +353,7 @@ add(table([['용어', '본 연구에서의 정의'],
            ['출처 번호', '근거 항목마다 붙이는 표시. KG의 Entity ID이거나 측정값의 [MEA:댐 코드:시각].'],
            ['환각', 'LLM이 자료에 없는 사실을 지어내는 것.']], [1944, 8028], firstcol=True))
 add(h1('부록 B. Ontology가 답해야 할 질문과 관계'))
-add(label('표 5. 세부 질문 (CQ1~CQ6)'))
+add(label('표 6. 세부 질문 (CQ1~CQ6)'))
 add(table([['번호', '질문 대상', '세부 질문'],
            ['CQ1', '현재 수문·기상 상태', '대상 댐의 현재 또는 기준시점의 강우, 수위, 유입량, 방류량 등 수문·기상 상태는 무엇인가?'],
            ['CQ2', '과거 수문·기상 상태', '선택된 과거 시점 또는 사례에서 대상 댐의 강우, 수위, 유입량, 방류량 등 수문·기상 상태는 어떠했는가?'],
@@ -322,7 +361,7 @@ add(table([['번호', '질문 대상', '세부 질문'],
            ['CQ4', '과거 방류 승인', '해당 과거 시점 또는 사례에서 어떤 방류 승인이 있었으며, 그 승인내용은 무엇인가?'],
            ['CQ5', '현재 운영기준', '현재 대상 댐에 적용되는 운영기준은 무엇이며, 현재 운영 판단과 관련된 기준값은 무엇인가?'],
            ['CQ6', '공식 근거', '각 수문·기상 상태, 운영행위, 승인내용 및 운영기준을 확인할 수 있는 공식 자료 또는 근거문서는 무엇인가?']], [1000, 2200, 6772]))
-add(label('표 6. Relation (9개)'))
+add(label('표 7. Relation (9개)'))
 add(table([['Subject', 'Relation', 'Object', '의미'],
            ['Dam', 'hasHydrometeorologicalState', 'HydrometeorologicalState', '댐이 해당 수문·기상 변수 정보와 연결됨'],
            ['Operation', 'performedOnDam', 'Dam', '운영행위가 특정 Dam에서 수행됨'],
