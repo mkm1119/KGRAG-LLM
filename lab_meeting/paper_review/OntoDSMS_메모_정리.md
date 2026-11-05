@@ -111,10 +111,16 @@ Zhou, Y., Bao, T., Shu, X., Li, Y., & Li, Y. (2023). BIM and ontology-based know
 - 목적: 정보 통합, 지식 공유, 독립적 분석 능력을 높여 관련자가 정보를 빠르게 찾게 하는 것
 - 범위: 기존 DSMS의 대상, 속성, 전문 용어, 관계 전체
 
+### 그림 2. SOSA의 Observation 관련 클래스와 관계 [방법]
+
+- 2단계에서 재사용한 SOSA 온톨로지 중 Observation에 관련된 클래스와 관계를 나타낸 그림이다
+- Observation을 중심으로 Sensor(madeBySensor / madeObservation), ObservableProperty(observedProperty), FeatureOfInterest(hasFeatureOfInterest / isFeatureOfInterestOf), Procedure(usedProcedure), Result(hasResult / isResultOf)와 이어진다
+- 값으로는 resultTime과 hasSimpleResult(rdfs:Literal), phenomenonTime(time:TemporalEntity)을 가진다
+- Sensor는 observes / isObservedBy로 ObservableProperty와, Hosts / isHosteBy로 위쪽 클래스와 이어진다
+
 ### 2단계: 기존 온톨로지 재사용 [방법]
 
 - W3C 표준 센서 온톨로지 SSN과 그 경량 핵심 SOSA의 일부 클래스 계층과 공리를 확장·수정해 쓴다
-- 그림 2: SOSA의 Observation 관련 클래스와 관계
 - 표현 형식이 OWL과 달라도 변환할 수 있다 (예: IFC → ifcOWL)
 
 ---
@@ -190,7 +196,11 @@ Zhou, Y., Bao, T., Shu, X., Li, Y., & Li, Y. (2023). BIM and ontology-based know
 
 ### 5. 사례 연구 대상 [결과]
 
-- 중국의 콘크리트 댐, 12개 구간, 센서 179개 (표 4)
+- 중국의 콘크리트 댐, 12개 구간, 센서 179개
+
+### 표 4. 댐 안전 모니터링 센서의 주요 정보 [결과]
+
+- 모니터링 항목별 센서 수: 변형(수평 변위 12, 수직 변위 11, 균열 22), 침투(양압력 24, 기초 침투 10, 댐 주변 침투 20, 누수 15), 응력·변형률·온도(25, 25, 12), 환경량(상류 수위, 하류 수위, 강우량 각 1)
 
 ### 그림 4. 모니터링 정보 관리 프레임워크 [방법]
 
@@ -222,8 +232,12 @@ Zhou, Y., Bao, T., Shu, X., Li, Y., & Li, Y. (2023). BIM and ontology-based know
 
 - Autodesk Revit으로 BIM 환경을 만들고, 모델링 단계에서 매개변수를 만들어 맥락 정보를 그래픽에 연결한다
 - Structure 관점: Name, Material / Sensor 관점: Elevation, Manufacture, MonitorType, Name
-- Revit에서 모델을 누르면 나오는 맥락 정보(그림 7의 2, 3)와 그에 대응하는 온톨로지 기술(1, 4)
 - 모든 맥락 정보는 스프레드시트로 내보내 MySQL DB에 저장하고, 4절의 방법으로 온톨로지에 대응시킨다
+
+### 그림 7. BIM 환경의 맥락 정보와 그에 대응하는 OWL 기술 [방법]
+
+- 2, 3번 부분: Revit에서 모델을 누르면 나오는 맥락 정보
+- 1, 4번 부분: 그 정보에 대응하는 온톨로지의 기술
 
 ### 그림 8. MySQL의 표 구조 (일부)
 
@@ -273,7 +287,11 @@ Zhou, Y., Bao, T., Shu, X., Li, Y., & Li, Y. (2023). BIM and ontology-based know
 ### 질의 4, 5: SPARQL Update [결과]
 
 - 데이터가 갱신되면 SPARQL Update 기반 작동기가 온톨로지를 갱신한다
-- 질의 4로 새 센서(번호, 위치, 유형, 모니터링 정보)를 추가하고, 질의 5로 센서 번호 B2–1을 BP2–1로 바꾼다 (그림 11)
+
+### 그림 11. SPARQL 질의 4와 질의 5 [결과]
+
+- 질의 4: 새 센서를 번호, 위치, 유형, 모니터링 정보와 함께 추가하는 코드
+- 질의 5: 센서 번호 B2–1을 BP2–1로 바꾸는 코드
 
 ### 표 5. SPARQL과 SQL 비교 [결과]
 

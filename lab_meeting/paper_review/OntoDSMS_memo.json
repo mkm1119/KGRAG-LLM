@@ -150,14 +150,20 @@
    ]
   },
   {
+   "lead": "#그림 2. SOSA의 Observation 관련 클래스와 관계 [방법]",
+   "ko": "- 2단계에서 재사용한 SOSA 온톨로지 중 Observation에 관련된 클래스와 관계를 나타낸 그림이다\n- Observation을 중심으로 Sensor(madeBySensor / madeObservation), ObservableProperty(observedProperty), FeatureOfInterest(hasFeatureOfInterest / isFeatureOfInterestOf), Procedure(usedProcedure), Result(hasResult / isResultOf)와 이어진다\n- 값으로는 resultTime과 hasSimpleResult(rdfs:Literal), phenomenonTime(time:TemporalEntity)을 가진다\n- Sensor는 observes / isObservedBy로 ObservableProperty와, Hosts / isHosteBy로 위쪽 클래스와 이어진다",
+   "anchors": [
+    "^Fig. 2.",
+    "S:The classes and relationships related to Obs"
+   ]
+  },
+  {
    "lead": "#2단계: 기존 온톨로지 재사용 [방법]",
-   "ko": "- W3C 표준 센서 온톨로지 SSN과 그 경량 핵심 SOSA의 일부 클래스 계층과 공리를 확장·수정해 쓴다\n- 그림 2: SOSA의 Observation 관련 클래스와 관계\n- 표현 형식이 OWL과 달라도 변환할 수 있다 (예: IFC → ifcOWL)",
+   "ko": "- W3C 표준 센서 온톨로지 SSN과 그 경량 핵심 SOSA의 일부 클래스 계층과 공리를 확장·수정해 쓴다\n- 표현 형식이 OWL과 달라도 변환할 수 있다 (예: IFC → ifcOWL)",
    "anchors": [
     "S:Semantic Sensor Network (SSN) is a standard",
     "S:In the proposed method, some class hierarchi",
-    "S:The classes and relationships related to Obs",
-    "S:For example, Pauwels et al. [9] integrated I",
-    "^Fig. 2."
+    "S:For example, Pauwels et al. [9] integrated I"
    ]
   }
  ],
@@ -275,11 +281,18 @@
   },
   {
    "lead": "#5. 사례 연구 대상 [결과]",
-   "ko": "- 중국의 콘크리트 댐, 12개 구간, 센서 179개 (표 4)",
+   "ko": "- 중국의 콘크리트 댐, 12개 구간, 센서 179개",
    "anchors": [
     "S:The case study involves a concrete dam locat",
-    "S:In this case, the dam is divided into 12 sec",
-    "^Table 4"
+    "S:In this case, the dam is divided into 12 sec"
+   ]
+  },
+  {
+   "lead": "#표 4. 댐 안전 모니터링 센서의 주요 정보 [결과]",
+   "ko": "- 모니터링 항목별 센서 수: 변형(수평 변위 12, 수직 변위 11, 균열 22), 침투(양압력 24, 기초 침투 10, 댐 주변 침투 20, 누수 15), 응력·변형률·온도(25, 25, 12), 환경량(상류 수위, 하류 수위, 강우량 각 1)",
+   "anchors": [
+    "^Table 4",
+    "S:Table 4 reports the deployment of the monit"
    ]
   },
   {
@@ -322,15 +335,21 @@
  "9": [
   {
    "lead": "#5.2 BIM에서 정보 추출 [방법]",
-   "ko": "- Autodesk Revit으로 BIM 환경을 만들고, 모델링 단계에서 매개변수를 만들어 맥락 정보를 그래픽에 연결한다\n- Structure 관점: Name, Material / Sensor 관점: Elevation, Manufacture, MonitorType, Name\n- Revit에서 모델을 누르면 나오는 맥락 정보(그림 7의 2, 3)와 그에 대응하는 온톨로지 기술(1, 4)\n- 모든 맥락 정보는 스프레드시트로 내보내 MySQL DB에 저장하고, 4절의 방법으로 온톨로지에 대응시킨다",
+   "ko": "- Autodesk Revit으로 BIM 환경을 만들고, 모델링 단계에서 매개변수를 만들어 맥락 정보를 그래픽에 연결한다\n- Structure 관점: Name, Material / Sensor 관점: Elevation, Manufacture, MonitorType, Name\n- 모든 맥락 정보는 스프레드시트로 내보내 MySQL DB에 저장하고, 4절의 방법으로 온톨로지에 대응시킨다",
    "anchors": [
     "S:This section aims to extract context informa",
     "S:From the Structure perspective, some paramet",
     "S:From the Sensor perspective, some parameters",
+    "S:Section 4 presents the mapping between the d"
+   ]
+  },
+  {
+   "lead": "#그림 7. BIM 환경의 맥락 정보와 그에 대응하는 OWL 기술 [방법]",
+   "ko": "- 2, 3번 부분: Revit에서 모델을 누르면 나오는 맥락 정보\n- 1, 4번 부분: 그 정보에 대응하는 온톨로지의 기술",
+   "anchors": [
+    "^Fig. 7.",
     "S:As presented in parts 2 and 3 in Fig. 7, the",
-    "S:The corresponding descriptions of that infor",
-    "S:Section 4 presents the mapping between the d",
-    "^Fig. 7."
+    "S:The corresponding descriptions of that infor"
    ]
   },
   {
@@ -405,11 +424,17 @@
  "11": [
   {
    "lead": "#질의 4, 5: SPARQL Update [결과]",
-   "ko": "- 데이터가 갱신되면 SPARQL Update 기반 작동기가 온톨로지를 갱신한다\n- 질의 4로 새 센서(번호, 위치, 유형, 모니터링 정보)를 추가하고, 질의 5로 센서 번호 B2–1을 BP2–1로 바꾼다 (그림 11)",
+   "ko": "- 데이터가 갱신되면 SPARQL Update 기반 작동기가 온톨로지를 갱신한다",
    "anchors": [
-    "S:issue, an actuator based on SPARQL Update la",
-    "S:As illustrated in Fig. 11, a new sensor is a",
-    "^Fig. 11."
+    "S:issue, an actuator based on SPARQL Update la"
+   ]
+  },
+  {
+   "lead": "#그림 11. SPARQL 질의 4와 질의 5 [결과]",
+   "ko": "- 질의 4: 새 센서를 번호, 위치, 유형, 모니터링 정보와 함께 추가하는 코드\n- 질의 5: 센서 번호 B2–1을 BP2–1로 바꾸는 코드",
+   "anchors": [
+    "^Fig. 11.",
+    "S:As illustrated in Fig. 11, a new sensor is a"
    ]
   },
   {
