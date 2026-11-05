@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>댐 운영 질의응답 시연</title>
+<style>
+:root{--bg:#f6f7f9;--panel:#fff;--ink:#1d232b;--sub:#5b6573;--line:#dde2e8;--brand:#1f4e79;--brand2:#2f66d0;--ok:#23907f;--warn:#b3261e;
+ --apr:#23907f;--opr:#8a55c2;--mea:#2f66d0;--cri:#c77a1e;--evi:#7a7a7a;--dam:#e07a2f}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR","WenQuanYi Zen Hei",sans-serif;background:var(--bg);color:var(--ink);font-size:15px}
+.app{display:grid;grid-template-columns:330px 1fr;height:100vh}
+aside{background:var(--panel);border-right:1px solid var(--line);padding:20px 18px;overflow:auto}
+aside h1{font-size:18px;margin:0 0 4px;color:var(--brand)}
+aside .lead{color:var(--sub);font-size:13px;line-height:1.5;margin:0 0 16px}
+aside h2{font-size:13px;color:var(--sub);margin:18px 0 8px;font-weight:600}
+.dams{display:flex;flex-wrap:wrap;gap:6px}
+.dams span{border:1.5px solid var(--dam);background:#fff4ea;border-radius:6px;padding:3px 9px;font-weight:600;font-size:13px}
+.can li{margin:4px 0;font-size:13.5px;line-height:1.45}
+.can{padding-left:18px;margin:0}
+.ex button{display:block;width:100%;text-align:left;border:1px solid var(--line);background:#fafbfc;border-radius:8px;padding:8px 10px;margin:0 0 6px;font:inherit;font-size:13.5px;cursor:pointer;line-height:1.4}
+.ex button:hover{border-color:var(--brand2);background:#eef2fb}
+.note{font-size:12.5px;color:var(--sub);line-height:1.55;background:#fafbfc;border:1px solid var(--line);border-radius:8px;padding:9px 10px}
+.mode{display:inline-block;font-size:11.5px;border-radius:5px;padding:1px 7px;color:#fff;background:var(--ok);margin-left:6px;vertical-align:2px}
+.mode.replay{background:#8a6a00}
+main{display:flex;flex-direction:column;height:100vh;min-width:0}
+#log{flex:1;overflow:auto;padding:22px 28px}
+.empty{color:var(--sub);text-align:center;margin-top:14vh;line-height:1.8}
+.q{margin:18px 0 8px auto;max-width:760px;background:var(--brand);color:#fff;border-radius:14px 14px 2px 14px;padding:10px 14px;width:fit-content}
+.a{max-width:900px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:0 0 10px}
+.steps{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.step{font-size:12.5px;border-radius:20px;padding:3px 10px;border:1px solid var(--line);color:var(--sub);background:#fafbfc}
+.step.run{border-color:var(--brand2);color:var(--brand2);background:#eef2fb}
+.step.run::after{content:"";display:inline-block;width:8px;height:8px;margin-left:6px;border-radius:50%;border:2px solid var(--brand2);border-top-color:transparent;animation:sp .8s linear infinite;vertical-align:-1px}
+.step.done{border-color:#b9d8ae;color:#2b6a1f;background:#eef6ea}
+.step .who{font-size:10.5px;font-weight:700;margin-right:4px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.meta{font-size:13px;color:var(--sub);line-height:1.6;margin:0 0 8px;padding:8px 10px;background:#fafbfc;border-radius:8px;border:1px dashed var(--line)}
+.meta b{color:var(--ink)}
+.chip{display:inline-block;border-radius:5px;padding:0 6px;margin:0 1px;font-size:12.5px;font-weight:600;cursor:pointer;border:1px solid;background:#fff;white-space:nowrap;font-family:ui-monospace,Menlo,Consolas,monospace}
+.chip:hover{filter:brightness(.92)}
+.chip.APR{color:var(--apr);border-color:var(--apr)}.chip.OPR{color:var(--opr);border-color:var(--opr)}.chip.MEA{color:var(--mea);border-color:var(--mea)}
+.chip.CRI{color:var(--cri);border-color:var(--cri)}.chip.EVI{color:var(--evi);border-color:var(--evi)}.chip.HMS{color:var(--mea);border-color:var(--mea)}.chip.DAM{color:var(--dam);border-color:var(--dam)}
+.ans{line-height:1.7}
+.ans h4{margin:10px 0 4px;font-size:14px}
+.ans h4.g{color:var(--ok)}.ans h4.j{color:#8a6a00}
+.ans p{margin:2px 0}
+.ans.refused{color:var(--ink);background:#fff8e6;border-radius:8px;padding:10px 12px;border:1px solid #ecd9a3}
+details{margin-top:10px;font-size:13px}
+details pre{white-space:pre-wrap;background:#f7f7f5;border:1px solid var(--line);border-radius:8px;padding:10px;max-height:340px;overflow:auto;font-size:12.5px;line-height:1.5}
+.time{font-size:12px;color:var(--sub);margin-top:8px}
+.err{color:var(--warn)}
+form{display:flex;gap:8px;padding:14px 28px 18px;border-top:1px solid var(--line);background:var(--panel)}
+form input{flex:1;font:inherit;font-size:16px;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;outline:none}
+form input:focus{border-color:var(--brand2)}
+form button{font:inherit;font-weight:700;padding:0 22px;border:0;border-radius:10px;background:var(--brand);color:#fff;cursor:pointer}
+form button:disabled{background:#9aa6b5;cursor:default}
+#drawer{position:fixed;top:0;right:0;height:100vh;width:min(560px,92vw);background:#fff;border-left:1px solid var(--line);box-shadow:-8px 0 24px rgba(0,0,0,.08);transform:translateX(105%);transition:transform .2s;overflow:auto;padding:18px 20px;z-index:5}
+#drawer.open{transform:none}
+#drawer .x{float:right;border:0;background:none;font-size:22px;cursor:pointer;color:var(--sub)}
+#drawer h3{margin:0 0 2px;font-size:17px}
+#drawer .kind{color:var(--sub);font-size:13px;margin-bottom:12px}
+#drawer table{border-collapse:collapse;width:100%;font-size:13.5px;margin:4px 0 14px}
+#drawer td{border:1px solid var(--line);padding:5px 8px;vertical-align:top}
+#drawer td:first-child{background:#f4f6f9;width:34%;font-weight:600}
+#drawer .cap{font-size:12.5px;color:var(--sub);margin-top:6px}
+#drawer pre{white-space:pre;overflow:auto;font-size:11.5px;background:#f7f7f5;border:1px solid var(--line);border-radius:8px;padding:8px;line-height:1.35}
+@media (max-width:860px){.app{grid-template-columns:1fr}aside{display:none}#log{padding:16px}form{padding:12px 16px}}
+</style>
+</head>
+<body>
+<div class="app">
+ <aside>
+  <h1>댐 운영 질의응답 <span id="mode" class="mode">live</span></h1>
+  <p class="lead">질문을 범용 LLM이 해석하면, 지식그래프(KG)와 측정·문서 저장소에서 근거를 찾아 출처 번호를 붙여 답합니다. 출처 번호를 누르면 원문이 보입니다.</p>
+  <h2>대상 댐 (K-water)</h2>
+  <div class="dams" id="dams"></div>
+  <h2>물어볼 수 있는 것</h2>
+  <ul class="can">
+   <li>현재 수문 상태 (수위, 유입량, 방류량, 저수율 등)</li>
+   <li>과거 시점의 수문 상태</li>
+   <li>과거 방류 승인과 운영행위</li>
+   <li>홍수기 제한수위와 근거 규정</li>
+  </ul>
+  <h2>예시 질문 (누르면 바로 질문)</h2>
+  <div class="ex" id="ex"></div>
+  <h2>알아 두실 점</h2>
+  <div class="note" id="notes">
+   · "현재"는 저장된 마지막 시각의 값이며 실시간이 아닙니다.<br>
+   · 답변은 범용 LLM이 쓰며, "근거"에는 출처 번호가, "판단"에는 쓴 근거가 붙습니다.<br>
+   · 한 번에 댐 하나씩 물어봐 주세요. 방류 사유처럼 자료에 없는 내용은 답하지 않습니다.
+  </div>
+ </aside>
+ <main>
+  <div id="log"><div class="empty" id="empty">댐 운영에 대해 질문해 보세요.<br>왼쪽 예시 질문을 눌러도 됩니다.</div></div>
+  <form id="f"><input id="q" placeholder="예: 충주댐 지금 수위 알려줘" autocomplete="off"><button id="go">질문</button></form>
+ </main>
+</div>
+<div id="drawer"><button class="x" onclick="closeD()">×</button><div id="dbody"></div></div>
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let busy=false;
+fetch('/api/config').then(r=>r.json()).then(c=>{
+  $('#mode').textContent=c.mode==='live'?'실시간 실행':'재생 모드'; if(c.mode!=='live')$('#mode').classList.add('replay');
+  $('#dams').innerHTML=c.dams.map(d=>'<span>'+esc(d)+'</span>').join('');
+  $('#ex').innerHTML=c.examples.map(q=>'<button type="button">'+esc(q)+'</button>').join('');
+  $('#ex').querySelectorAll('button').forEach(b=>b.onclick=()=>ask(b.textContent));
+  if(c.latest)$('#notes').innerHTML=$('#notes').innerHTML.replace('저장된 마지막 시각','저장된 마지막 시각('+esc(c.latest)+')');
+});
+$('#f').onsubmit=e=>{e.preventDefault();const q=$('#q').value.trim();if(q)ask(q)};
+function chipify(t){return esc(t).replace(/\[((APR|OPR|MEA|CRI|EVI|HMS|DAM):[^\]\s]+)\]/g,(m,id,k)=>'<span class="chip '+k+'" data-id="'+id+'">'+id+'</span>')}
+function renderAns(t){
+  return t.split('\n').map(l=>{
+    const s=l.replace(/\*\*/g,'').trim();
+    if(/^근거\s*:?$/.test(s))return '<h4 class="g">근거</h4>';
+    if(/^판단\s*:?$/.test(s))return '<h4 class="j">판단</h4>';
+    if(!s)return '';
+    return '<p>'+chipify(s)+'</p>';
+  }).join('');
+}
+const STEPS=[['intent','LLM','질문 해석'],['search','코드','KG·저장소 검색'],['bundle','코드','근거 정리'],['answer','LLM','답변 작성']];
+function ask(q){
+  if(busy)return; busy=true; $('#go').disabled=true; $('#q').value=''; $('#empty')&&$('#empty').remove();
+  const log=$('#log');
+  log.insertAdjacentHTML('beforeend','<div class="q">'+esc(q)+'</div>');
+  const box=document.createElement('div'); box.className='a';
+  box.innerHTML='<div class="steps">'+STEPS.map(s=>'<span class="step" data-k="'+s[0]+'"><span class="who">'+s[1]+'</span>'+s[2]+'</span>').join('')+'</div><div class="meta" hidden></div><div class="ans"></div><div class="extra"></div><div class="time"></div>';
+  log.appendChild(box); log.scrollTop=log.scrollHeight;
+  const st=k=>box.querySelector('.step[data-k="'+k+'"]'), meta=box.querySelector('.meta');
+  let cur=null; const t0=Date.now();
+  const tick=setInterval(()=>{box.querySelector('.time').textContent=((Date.now()-t0)/1000).toFixed(0)+'초'},500);
+  const set=k=>{if(cur)st(cur).className='step done';cur=k;if(k)st(k).className='step run'};
+  const es=new EventSource('/api/ask?q='+encodeURIComponent(q));
+  es.addEventListener('stage',e=>set(JSON.parse(e.data).key));
+  es.addEventListener('intent',e=>{const d=JSON.parse(e.data);meta.hidden=false;
+    meta.innerHTML=d.intents&&d.intents.length?'<b>질문 해석</b> · '+esc(d.intents.join(', '))+' · 댐 '+esc(d.dam||'-')+' · 기간 '+esc(d.period||'전체')
+      +(d.paths&&d.paths.length?'<br><b>따라갈 경로</b> · '+esc(d.paths.join(' / ')):''):'<b>질문 해석</b> · 정해진 질문 범위 밖'});
+  es.addEventListener('search',e=>{const d=JSON.parse(e.data);if(d.items.length)meta.innerHTML+='<br><b>찾은 근거</b> · '+esc(d.items.join(', '))});
+  es.addEventListener('bundle',e=>{const d=JSON.parse(e.data);box.querySelector('.extra').innerHTML='<details><summary>LLM에 준 근거 묶음 보기</summary><pre>'+chipify(d.text)+'</pre></details>'});
+  es.addEventListener('answer',e=>{const d=JSON.parse(e.data);const a=box.querySelector('.ans');
+    if(d.refused){a.classList.add('refused');a.innerHTML=esc(d.text).replace(/\n/g,'<br>');} else a.innerHTML=renderAns(d.text);
+    box.querySelectorAll('.step').forEach(s=>{if(!s.classList.contains('done')&&!s.classList.contains('run'))s.style.opacity=.45});});
+  es.addEventListener('error',e=>{if(e.data){box.querySelector('.ans').innerHTML='<span class="err">'+esc(JSON.parse(e.data).text)+'</span>'}});
+  es.addEventListener('done',e=>{const d=JSON.parse(e.data);set(null);clearInterval(tick);box.querySelector('.time').textContent='걸린 시간 '+d.seconds+'초';es.close();busy=false;$('#go').disabled=false;$('#q').focus();log.scrollTop=log.scrollHeight});
+  es.onerror=()=>{if(busy){clearInterval(tick);es.close();busy=false;$('#go').disabled=false;box.querySelector('.ans').innerHTML||(box.querySelector('.ans').innerHTML='<span class="err">서버 연결이 끊겼습니다.</span>')}};
+}
+document.addEventListener('click',e=>{const c=e.target.closest('.chip');if(c)openD(c.dataset.id)});
+function openD(id){
+  fetch('/api/source?id='+encodeURIComponent(id)).then(r=>r.json()).then(d=>{
+    let h='<h3>'+esc(d.title||id)+'</h3><div class="kind">'+esc(d.kind||'')+'</div>';
+    (d.blocks||[]).forEach(b=>{
+      if(b.caption)h+='<div class="cap">'+esc(b.caption)+'</div>';
+      if(b.rows)h+='<table>'+b.rows.map(r=>'<tr><td>'+esc(r[0])+'</td><td>'+chipify(r[1])+'</td></tr>').join('')+'</table>';
+      if(b.pre)h+='<pre>'+esc(b.pre)+'</pre>';
+      if(b.text)h+='<p>'+esc(b.text)+'</p>';
+    });
+    $('#dbody').innerHTML=h;$('#drawer').classList.add('open');
+  });
+}
+function closeD(){$('#drawer').classList.remove('open')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeD()});
+</script>
+</body>
+</html>
