@@ -179,12 +179,15 @@ def anchor_finder(src, W):
         ls = [l for l in lines(pdf, pages[pi - 1]) if l[1] < 745]          # 머리말(저자·학술지명) 제외
         full = []                                  # 열을 무시하고 같은 높이의 줄을 합친 것(가운데 정렬된 그림 제목 등)
         for l in sorted(ls, key=lambda l: (-round(l[1]), l[0])):
+            if not any(ch.isalnum() for ch in l[3]):            # 악센트 기호만 따로 뽑힌 조각(Protégé의 ´)은 건너뜀
+                continue
+            xe = l[0] + len(l[3].rstrip()) * l[2] * 0.5          # 이 조각의 오른쪽 끝(추정)
             if full and abs(full[-1][1] - l[1]) < 2:
-                full[-1] = (full[-1][0], full[-1][1], full[-1][2], full[-1][3] + l[3])
+                full[-1] = (full[-1][0], full[-1][1], full[-1][2], full[-1][3] + l[3], max(full[-1][4], xe))
             else:
-                full.append(tuple(l))
+                full.append(tuple(l[:4]) + (xe,))
         bycol = [sorted([l for l in ls if colof(l[0]) == c], key=lambda l: -l[1]) for c in (0, 1)]
-        for col in (0, 1, 2):
+        for col in ((2, 0, 1) if ph.startswith('fig') else (0, 1, 2)):   # 그림 제목은 가운데 정렬로 두 열에 걸치므로 같은 높이 줄을 합친 것에서 먼저 찾음
             cl = full if col == 2 else bycol[col]
             text, offs = '', []
             for l in cl:
@@ -207,7 +210,7 @@ def anchor_finder(src, W):
                         rects = []
                         for n, l in enumerate(seq):
                             x0 = l[0] + (frac * (R0 - l[0]) if n == 0 else 0)
-                            x1 = min(R0, l[0] + len(l[3]) * l[2] * 0.53) if n == len(seq) - 1 else R0   # 그림 제목은 띄어쓰기가 빠져 뽑히므로 넉넉히
+                            x1 = min(R0, max(l[4], l[0] + len(l[3]) * l[2] * 0.53) + 3) if n == len(seq) - 1 else R0   # 같은 높이의 조각들(두 열에 걸친 그림 제목)의 오른쪽 끝까지
                             rects.append((x0 - 1, l[1] - l[2] * 0.25, max(x0 + 4, x1 + 1), l[1] + l[2] * 0.85))
                         return line, rects
                     frac = (k - offs[j]) / max(1, len(norm(line[3])))
@@ -268,9 +271,10 @@ def circle(cx, cy, r):
 def main(src, tjson, dst, mode='review'):
     b = open(src, 'rb').read()
     global TRANS_W, MEMO_W
-    memo = mode == 'memo'
+    memo = mode in ('memo', 'memo2')
+    style2 = mode == 'memo2'      # 번호 대신 메모 제목에 형광펜 색을 칠하는 방식(메모용 PDF와 같은 칸 너비)
     if memo:                      # 메모 칸에 메모 내용을 써 넣음(해석 칸 없음)
-        tr, TRANS_W, MEMO_W = json.load(open(tjson, encoding='utf-8')), 0.0, 420.0
+        tr, TRANS_W, MEMO_W = json.load(open(tjson, encoding='utf-8')), 0.0, (360.0 if style2 else 420.0)
     elif tjson == '-':
         tr, TRANS_W, MEMO_W = {}, 0.0, 360.0
     else:
@@ -361,21 +365,23 @@ def main(src, tjson, dst, mode='review'):
         # 글자 크기를 줄여 가며 한 페이지에 맞춤
         TW = (MEMO_W if memo else TRANS_W) - 2 * PAD
         WR = (lambda t, sz, w: wrap_ind(font, t, sz, w)) if memo else (lambda t, sz, w: [(0, l) for l in wrap(font, t, sz, w)])
-        for size in (7.6, 7.2, 6.8, 6.4, 6.0, 5.6, 5.2, 4.8):
+        GAP = 9.0 if style2 else 0.0                  # 메모와 메모 사이 간격
+        for size in ((8.6, 8.2, 7.8, 7.4, 7.0, 6.6, 6.2, 5.8) if style2 else (7.6, 7.2, 6.8, 6.4, 6.0, 5.6, 5.2, 4.8)):
             lead_size = size - 0.8; lh = size * 1.38
             blocks = []
             for e in entries:
                 lead = e.get('lead', '')
                 if lead.startswith('#'):
                     nb = e.get('_n')
-                    blocks.append(('h', [(dx + (13 if nb else 0), l) for dx, l in WR(lead[1:].strip(), size + 0.6, TW - (13 if nb else 0))], size + 0.6, nb))
+                    ind = 13 if (nb and not style2) else 0
+                    blocks.append(('h', [(dx + ind, l) for dx, l in WR(lead[1:].strip(), size + 0.6, TW - ind)], size + 0.6, nb))
                     if e['ko']:
                         blocks.append(('k', WR(e['ko'], size, TW), size))
                     continue
                 if lead:
                     blocks.append(('l', WR('¶ ' + lead, lead_size, TW), lead_size))
                 blocks.append(('k', WR(e['ko'], size, TW), size))
-            need = sum(len(L) * s * 1.38 + (3.5 if k == 'k' else 1.5 if k == 'l' else 3) for k, L, s, *_ in blocks)
+            need = sum(len(L) * s * 1.38 + (3.5 + GAP if k == 'k' else 1.5 if k == 'l' else 3) for k, L, s, *_ in blocks)
             if need <= H - 62:
                 break
         else:
@@ -392,14 +398,21 @@ def main(src, tjson, dst, mode='review'):
         y -= 16
         for kind, L, s, *nb in blocks:
             col = {'h': b'0.12 0.23 0.37', 'l': b'0.45 0.45 0.5', 'k': b'0.1 0.1 0.1'}[kind]
-            if nb and nb[0]:
+            if nb and nb[0] and style2:
+                r_, g_, b_ = COLORS[(nb[0] - 1) % len(COLORS)]
+                tint = tuple(1 - 0.30 * (1 - v) for v in (r_, g_, b_))
+                yy = y
+                for dx, line in L:
+                    yy -= s * 1.38
+                    c.append(b'q %.3f %.3f %.3f rg %.2f %.2f %.2f %.2f re f Q' % (tint + (X1 + dx - 1.5, yy - s * 0.28, font.width(line, s) + 3, s * 1.18)))
+            elif nb and nb[0]:
                 r_, g_, b_ = COLORS[(nb[0] - 1) % len(COLORS)]
                 c.append(b'q %.2f %.2f %.2f rg %s Q' % (r_, g_, b_, circle(X1 + 5, y - s * 1.38 + s * 0.35, 5.2)))
                 c.append(b'BT /FKR 6.2 Tf 1 1 1 rg %.2f %.2f Td %s ET' % (X1 + 5 - font.width(str(nb[0]), 6.2) / 2, y - s * 1.38 + s * 0.35 - 2.1, tj(str(nb[0]))))
             for dx, line in L:
                 y -= s * 1.38
                 c.append(b'BT /FKR %.2f Tf %s rg %.2f %.2f Td %s ET' % (s, col, X1 + dx, y, tj(line)))
-            y -= 3.5 if kind == 'k' else 1.5 if kind == 'l' else 3
+            y -= 3.5 + GAP if kind == 'k' else 1.5 if kind == 'l' else 3
         hl = []                                # 원문 아래에 깔 형광펜(글자보다 먼저 그림)
         for e in entries:                      # 원문 쪽에 같은 번호 표시
             if not e.get('_n'):
@@ -423,7 +436,7 @@ def main(src, tjson, dst, mode='review'):
                 hit = finder(pi, a)            # 그림·표 제목, 초록 등은 줄 단위
                 if not hit:
                     missing.append((pi, a)); continue
-                (lx, ly, lsz, _), rects = hit
+                (lx, ly, lsz, *_), rects = hit
                 hl.append(b'%.3f %.3f %.3f rg ' % tint + b' '.join(b'%.2f %.2f %.2f %.2f re' % (x0, y0, x1 - x0, y1 - y0) for x0, y0, x1, y1 in rects) + b' f')
                 marks.append((lx, ly, lsz))
             prev = None
@@ -433,7 +446,7 @@ def main(src, tjson, dst, mode='review'):
                 if prev is None or st - prev > 2:      # 이어지는 문장이면 번호를 다시 찍지 않음
                     marks.append((306.6 if first[0] >= 297.6 else 37.6, first[1], first[2]))   # 번호는 그 줄의 열 왼쪽 여백에
                 prev = en
-            for lx, ly, lsz in marks:
+            for lx, ly, lsz in ([] if style2 else marks):
                 cx, cy = lx - 7.5, ly + lsz * 0.35
                 c.append(b'q %.2f %.2f %.2f rg %s Q' % (r_, g_, b_, circle(cx, cy, 5.0)))
                 c.append(b'BT /FKR 6.0 Tf 1 1 1 rg %.2f %.2f Td %s ET' % (cx - font.width(str(e['_n']), 6.0) / 2, cy - 2.0, tj(str(e['_n']))))

@@ -14,7 +14,7 @@ def norm(t):
 
 class Page:
     def __init__(self, pdf, pn, W=595.0):
-        ls = [l for l in lines(pdf, pn) if 60 < l[1] < 745 and l[2] >= 7.6]
+        ls = [l for l in lines(pdf, pn) if 48 < l[1] < 745 and l[2] >= 7.6]   # 맨 아래 본문 줄(y 52~59)까지 포함
         self.rows = []
         for c, (L0, R0) in enumerate(COLS):
             cl = sorted([l for l in ls if (l[0] >= W / 2 - 10) == bool(c)], key=lambda l: -l[1])
@@ -67,7 +67,7 @@ class Page:
             c, l = self.rows[i]
             L0, R0 = COLS[c]
             t = l[3].rstrip(); n = max(1, len(t))
-            wid = min(R0 - l[0], n * l[2] * 0.52) if i + 1 < len(self.rows) and self.rows[i + 1][1][0] <= L0 + 6 and self.rows[i + 1][0] == c else min(R0 - l[0], n * l[2] * 0.47)
+            wid = min(R0 - l[0], n * l[2] * 0.52) if i + 1 < len(self.rows) and ((self.rows[i + 1][1][0] <= L0 + 6 and self.rows[i + 1][0] == c) or self.rows[i + 1][0] != c) else min(R0 - l[0], n * l[2] * 0.47)   # 열의 마지막 줄도 양쪽 정렬된 줄로 봄
             x0 = l[0] + wid * lo / n; x1 = l[0] + wid * hi / n
             rs.append((x0 - 0.8, l[1] - l[2] * 0.25, x1 + 0.8, l[1] + l[2] * 0.85))
         return rs, self.rows[min(out)][1]
