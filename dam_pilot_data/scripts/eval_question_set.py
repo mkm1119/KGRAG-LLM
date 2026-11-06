@@ -47,13 +47,27 @@ def main():
                 r['result'] = '(gold 없음: %s)' % (q['extension'] or '범위 밖'); rows.append(r); continue
             j = q['gold']
         else:
-            raw, j = P.intent_llm(q['question']); r['intent_raw'] = raw
+            try:
+                raw, j = P.intent_llm(q['question']); r['intent_raw'] = raw
+            except Exception as e:
+                raw, j = None, None; r['error'] = '의도 추출 오류: %s: %s' % (type(e).__name__, e)
         r['intent_json'] = j
-        res = P.r9.run(j) if j and j.get('intent') else {'status': 'refused', 'reason': (j or {}).get('reason', '의도 없음')}
-        bundle = P.r10.build(res, q['question'])
-        r['result'] = found(res); r['bundle_chars'] = len(bundle); r['bundle'] = bundle
+        try:
+            res = P.r9.run(j) if j and j.get('intent') else {'status': 'refused', 'reason': (j or {}).get('reason', '의도 없음')}
+            bundle = P.r10.build(res, q['question'])
+            r['result'] = found(res); r['bundle_chars'] = len(bundle); r['bundle'] = bundle
+            if a.mode == 'llm':
+                r['answer'] = P.answer_llm(q['question'], bundle) if res.get('status') == 'ok' else None
+        except Exception as e:   # 한 질문의 오류로 전체가 멈추지 않게 기록하고 넘어간다 (예: 근거 묶음이 모델 한도를 넘어 400)
+            body = ''
+            if hasattr(e, 'read'):
+                try:
+                    body = e.read().decode('utf-8', 'replace')[:500]
+                except Exception:
+                    pass
+            r['error'] = '%s: %s %s' % (type(e).__name__, e, body)
+            r['result'] = '오류: %s (근거 묶음 %s자)' % (type(e).__name__, r.get('bundle_chars', '?'))
         if a.mode == 'llm':
-            r['answer'] = P.answer_llm(q['question'], bundle) if res.get('status') == 'ok' else None
             g = q['gold']
             r['intent_match'] = (g is None and not (j or {}).get('intent')) or (g is not None and j is not None and sorted(j.get('intent') or []) == sorted(g['intent'])
                                 and j.get('dam') == g.get('dam') and norm_period(j.get('period')) == norm_period(g.get('period'))
