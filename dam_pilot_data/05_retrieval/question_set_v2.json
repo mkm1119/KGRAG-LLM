@@ -1,0 +1,1791 @@
+[
+ {
+  "id": "q001",
+  "task": "A01",
+  "question": "충주댐 지금 상황 알려줘",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ1"
+   ],
+   "dam": "충주댐",
+   "period": "전체"
+  },
+  "extension": null,
+  "note": "",
+  "source": "v1",
+  "task_name": "현재 수문 상태 요약"
+ },
+ {
+  "id": "q002",
+  "task": "A01",
+  "question": "소양강 현재 수위랑 유입량?",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ1"
+   ],
+   "dam": "소양강댐",
+   "period": "전체"
+  },
+  "extension": null,
+  "note": "줄임말",
+  "source": "v1",
+  "task_name": "현재 수문 상태 요약"
+ },
+ {
+  "id": "q003",
+  "task": "A02",
+  "question": "2020년 8월 2일 18시 충주댐 수위는?",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ2"
+   ],
+   "dam": "충주댐",
+   "period": {
+    "at": "2020-08-02"
+   }
+  },
+  "extension": null,
+  "note": "시각까지 지정. 값 형식은 날짜만이라 하루 24행이 나옴",
+  "source": "v1",
+  "task_name": "특정 시점 수문 값 조회"
+ },
+ {
+  "id": "q004",
+  "task": "A02",
+  "question": "어제 오후 3시 횡성댐 수위는?",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ2"
+   ],
+   "dam": "횡성댐",
+   "period": {
+    "at": "2026-11-05"
+   }
+  },
+  "extension": null,
+  "note": "상대 날짜. 자료가 09-28까지라 \"자료에 없음\"이 맞음",
+  "source": "v1",
+  "task_name": "특정 시점 수문 값 조회"
+ },
+ {
+  "id": "q005",
+  "task": "A03",
+  "question": "지난 일주일 광동댐 유입량 추이 보여줘",
+  "expect": "extend",
+  "gold": null,
+  "extension": "T1",
+  "note": "상대 날짜 + 기간 통계. 자료 기간 밖",
+  "source": "v1",
+  "task_name": "기간 수문 변화 요약"
+ },
+ {
+  "id": "q006",
+  "task": "A03",
+  "question": "2020년 8월 충주댐 최고 수위는 얼마였어?",
+  "expect": "extend",
+  "gold": null,
+  "extension": "T1",
+  "note": "지금은 한 달 전체 시간자료(약 740행)가 근거 묶음에 들어감",
+  "source": "v1",
+  "task_name": "기간 수문 변화 요약"
+ },
+ {
+  "id": "q007",
+  "task": "A04",
+  "question": "2020년 8월 2일 하루 동안 충주댐 수위가 얼마나 올랐어?",
+  "expect": "extend",
+  "gold": null,
+  "extension": "T1",
+  "note": "변화량 계산",
+  "source": "v1",
+  "task_name": "수위 변화량·상승률 계산"
+ },
+ {
+  "id": "q008",
+  "task": "A05",
+  "question": "충주댐 총저수용량이 얼마야?",
+  "expect": "extend",
+  "gold": null,
+  "extension": "O1",
+  "note": "제원",
+  "source": "v1",
+  "task_name": "수위로 저수량·저수율 확인"
+ },
+ {
+  "id": "q009",
+  "task": "A07",
+  "question": "충주댐이랑 소양강댐 지금 수위 비교해줘",
+  "expect": "extend",
+  "gold": null,
+  "extension": "T3",
+  "note": "지금은 두 댐 질문을 거절(규칙 4)",
+  "source": "v1",
+  "task_name": "여러 댐 현황 한 번에 보기"
+ },
+ {
+  "id": "q010",
+  "task": "B01",
+  "question": "충주댐 지금 수위가 홍수기 제한수위보다 높아?",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ1",
+    "CQ5"
+   ],
+   "dam": "충주댐",
+   "period": "전체"
+  },
+  "extension": null,
+  "note": "",
+  "source": "v1",
+  "task_name": "제한수위 대비 현재 수위 비교"
+ },
+ {
+  "id": "q011",
+  "task": "B01",
+  "question": "횡성댐 제한수위까지 얼마나 남았어?",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ1",
+    "CQ5"
+   ],
+   "dam": "횡성댐",
+   "period": "전체"
+  },
+  "extension": null,
+  "note": "차이 계산은 LLM 판단",
+  "source": "v1",
+  "task_name": "제한수위 대비 현재 수위 비교"
+ },
+ {
+  "id": "q012",
+  "task": "B02",
+  "question": "오늘 소양강댐에 홍수기 제한수위가 적용돼?",
+  "expect": "extend",
+  "gold": null,
+  "extension": "O2",
+  "note": "홍수기 기간 필요",
+  "source": "v1",
+  "task_name": "홍수기 해당 여부와 적용 기준 확인"
+ },
+ {
+  "id": "q013",
+  "task": "B03",
+  "question": "충주댐 지금 방류해야 하는 상황이야?",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ1",
+    "CQ5"
+   ],
+   "dam": "충주댐",
+   "period": "전체"
+  },
+  "extension": null,
+  "note": "판단 질문. 근거와 판단 분리 확인",
+  "source": "v1",
+  "task_name": "방류 필요성 판단 근거 정리"
+ },
+ {
+  "id": "q014",
+  "task": "B04",
+  "question": "지금 충주댐 상황이랑 비슷했을 때 어떻게 방류했어?",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ1",
+    "CQ2",
+    "CQ3",
+    "CQ4",
+    "CQ5"
+   ],
+   "dam": "충주댐",
+   "period": "전체"
+  },
+  "extension": null,
+  "note": "종합 질문",
+  "source": "v1",
+  "task_name": "비슷한 수문 상황의 과거 방류 사례 찾기"
+ },
+ {
+  "id": "q015",
+  "task": "B09",
+  "question": "충주댐 계획홍수위까지 얼마나 여유 있어?",
+  "expect": "extend",
+  "gold": null,
+  "extension": "O1",
+  "note": "제원 + 현재 수위",
+  "source": "v1",
+  "task_name": "계획홍수위·여유고 확인"
+ },
+ {
+  "id": "q016",
+  "task": "B05",
+  "question": "충주댐 방류량을 초당 2000톤으로 늘리면 내일 수위는?",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "모형 필요",
+  "source": "v1",
+  "task_name": "방류량 변경 시 수위 변화 추정"
+ },
+ {
+  "id": "q017",
+  "task": "C01",
+  "question": "2017년 8월 소양강댐 방류 승인 내역 알려줘",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ4"
+   ],
+   "dam": "소양강댐",
+   "period": {
+    "start": "2017-08-01",
+    "end": "2017-08-31"
+   }
+  },
+  "extension": null,
+  "note": "",
+  "source": "v1",
+  "task_name": "방류 승인 이력 조회"
+ },
+ {
+  "id": "q018",
+  "task": "C01",
+  "question": "광동댐은 2019년에 방류 승인이 몇 번 있었어?",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ4"
+   ],
+   "dam": "광동댐",
+   "period": {
+    "start": "2019-01-01",
+    "end": "2019-12-31"
+   }
+  },
+  "extension": null,
+  "note": "건수 세기는 LLM",
+  "source": "v1",
+  "task_name": "방류 승인 이력 조회"
+ },
+ {
+  "id": "q019",
+  "task": "C02",
+  "question": "2020년 8월 충주댐 승인 방류량이랑 실제 방류량 비교해줘",
+  "expect": "extend",
+  "gold": null,
+  "extension": "T4",
+  "note": "부분적으로 CQ2·CQ3·CQ4로 가능",
+  "source": "v1",
+  "task_name": "승인 내용과 실제 방류 비교"
+ },
+ {
+  "id": "q020",
+  "task": "C06",
+  "question": "2020년 8월 충주댐 방류 승인이 어떻게 바뀌었는지 정리해줘",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ4"
+   ],
+   "dam": "충주댐",
+   "period": {
+    "start": "2020-08-01",
+    "end": "2020-08-31"
+   }
+  },
+  "extension": null,
+  "note": "",
+  "source": "v1",
+  "task_name": "변경 승인 이력 정리"
+ },
+ {
+  "id": "q021",
+  "task": "C04",
+  "question": "충주댐 방류 통보 문자 초안 써줘",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "통보 양식 필요",
+  "source": "v1",
+  "task_name": "방류 통보문 초안 작성"
+ },
+ {
+  "id": "q022",
+  "task": "C07",
+  "question": "광동댐 방류가 충주댐에 영향을 줘?",
+  "expect": "extend",
+  "gold": null,
+  "extension": "O4",
+  "note": "수계 관계",
+  "source": "v1",
+  "task_name": "상류 댐 방류 영향 확인"
+ },
+ {
+  "id": "q023",
+  "task": "C08",
+  "question": "충주댐은 어느 댐들과 연계운영해?",
+  "expect": "extend",
+  "gold": null,
+  "extension": "O3",
+  "note": "규정 조문",
+  "source": "v1",
+  "task_name": "연계운영 대상과 기준 확인"
+ },
+ {
+  "id": "q024",
+  "task": "D03",
+  "question": "소양강댐 저수율 작년 이맘때랑 비교하면 어때?",
+  "expect": "extend",
+  "gold": null,
+  "extension": "T2",
+  "note": "예년 비교",
+  "source": "v1",
+  "task_name": "예년 대비 저수 현황 비교"
+ },
+ {
+  "id": "q025",
+  "task": "D01",
+  "question": "횡성댐 저수율 보면 지금 가뭄이야?",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "가뭄 기준 미수집",
+  "source": "v1",
+  "task_name": "저수율 기반 가뭄 단계 확인"
+ },
+ {
+  "id": "q026",
+  "task": "E01",
+  "question": "충주댐 오늘 발전량 얼마야?",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "내부 자료",
+  "source": "v1",
+  "task_name": "발전 계획 대비 실적 확인"
+ },
+ {
+  "id": "q027",
+  "task": "E04",
+  "question": "충주댐 발전할 수 있는 최저 수위는?",
+  "expect": "extend",
+  "gold": null,
+  "extension": "O1",
+  "note": "제원의 저수위. 별표3 최저 운영수위는 \"-\"",
+  "source": "v1",
+  "task_name": "발전 가능 수위 범위 확인"
+ },
+ {
+  "id": "q028",
+  "task": "F01",
+  "question": "광동댐 홍수기 제한수위 알려줘",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ5"
+   ],
+   "dam": "광동댐",
+   "period": "전체"
+  },
+  "extension": null,
+  "note": "별표3에 없음. 제원(O1)에는 있음",
+  "source": "v1",
+  "task_name": "홍수기 제한수위 조회"
+ },
+ {
+  "id": "q029",
+  "task": "F02",
+  "question": "충주댐 제한수위 근거 규정이 뭐야?",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ5",
+    "CQ6"
+   ],
+   "dam": "충주댐",
+   "period": "전체"
+  },
+  "extension": null,
+  "note": "",
+  "source": "v1",
+  "task_name": "기준의 근거 조항 제시"
+ },
+ {
+  "id": "q030",
+  "task": "F03",
+  "question": "연계운영규정에서 홍수기는 언제부터 언제까지야?",
+  "expect": "extend",
+  "gold": null,
+  "extension": "O2",
+  "note": "규정 조문",
+  "source": "v1",
+  "task_name": "규정 조항 질의응답"
+ },
+ {
+  "id": "q031",
+  "task": "F05",
+  "question": "댐에서 방류하기 전에 하류에 알려야 한다는 규정 있어?",
+  "expect": "extend",
+  "gold": null,
+  "extension": "O3",
+  "note": "규정 조문",
+  "source": "v1",
+  "task_name": "현재 상황에 적용되는 조항 찾기"
+ },
+ {
+  "id": "q032",
+  "task": "F08",
+  "question": "홍수기 제한수위가 뭐야?",
+  "expect": "extend",
+  "gold": null,
+  "extension": "O3",
+  "note": "용어 설명(규정 정의 조항)",
+  "source": "v1",
+  "task_name": "운영 용어 설명"
+ },
+ {
+  "id": "q033",
+  "task": "G01",
+  "question": "2020년 8월 충주댐 수위 자료에 이상한 값 있어?",
+  "expect": "extend",
+  "gold": null,
+  "extension": "T5",
+  "note": "",
+  "source": "v1",
+  "task_name": "계측값 이상치 확인"
+ },
+ {
+  "id": "q034",
+  "task": "G02",
+  "question": "횡성댐 수위 자료 중에 빠진 시간 있어?",
+  "expect": "extend",
+  "gold": null,
+  "extension": "T5",
+  "note": "",
+  "source": "v1",
+  "task_name": "결측 구간 확인"
+ },
+ {
+  "id": "q035",
+  "task": "G05",
+  "question": "관제 태그 TAG-0001은 무슨 값이야?",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "내부 자료",
+  "source": "v1",
+  "task_name": "관제 태그 의미 조회"
+ },
+ {
+  "id": "q036",
+  "task": "H01",
+  "question": "충주댐 오늘 운영 일보 초안 써줘",
+  "expect": "extend",
+  "gold": null,
+  "extension": "T7",
+  "note": "문서 작성(근거는 CQ1)",
+  "source": "v1",
+  "task_name": "일일 운영 현황 보고서 초안"
+ },
+ {
+  "id": "q037",
+  "task": "H02",
+  "question": "2020년 8월 충주댐 홍수 상황 보고서 초안 만들어줘",
+  "expect": "extend",
+  "gold": null,
+  "extension": "T7",
+  "note": "문서 작성(근거는 CQ2~CQ4)",
+  "source": "v1",
+  "task_name": "홍수 상황 보고서 초안"
+ },
+ {
+  "id": "q038",
+  "task": "I01",
+  "question": "2011년 7월 횡성댐 운영 이력 알려줘",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ3"
+   ],
+   "dam": "횡성댐",
+   "period": {
+    "start": "2011-07-01",
+    "end": "2011-07-31"
+   }
+  },
+  "extension": null,
+  "note": "",
+  "source": "v1",
+  "task_name": "기간 운영 이력 조회"
+ },
+ {
+  "id": "q039",
+  "task": "I02",
+  "question": "2017년 8월 소양강댐 방류 시작했을 때 수위는?",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ2",
+    "CQ3"
+   ],
+   "dam": "소양강댐",
+   "period": {
+    "start": "2017-08-01",
+    "end": "2017-08-31"
+   }
+  },
+  "extension": null,
+  "note": "",
+  "source": "v1",
+  "task_name": "운영 시점의 수문 상태 조회"
+ },
+ {
+  "id": "q040",
+  "task": "I03",
+  "question": "충주댐 역대 가장 큰 유입량은 언제였어?",
+  "expect": "extend",
+  "gold": null,
+  "extension": "T6",
+  "note": "",
+  "source": "v1",
+  "task_name": "주요 홍수 사상 목록"
+ },
+ {
+  "id": "q041",
+  "task": "I05",
+  "question": "광동댐은 보통 수위 몇일 때 방류를 시작했어?",
+  "expect": "extend",
+  "gold": null,
+  "extension": "T1",
+  "note": "운영 시각 수위의 통계",
+  "source": "v1",
+  "task_name": "방류 시작 조건 경향 정리"
+ },
+ {
+  "id": "q042",
+  "task": "J01",
+  "question": "충주댐 내일 유입량 예측 알려줘",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "예측 시스템",
+  "source": "v1",
+  "task_name": "유입량 예측 결과 해설"
+ },
+ {
+  "id": "q043",
+  "task": "J02",
+  "question": "이번 주말 소양강댐 유역 비 예보 어때?",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "예보 미수집",
+  "source": "v1",
+  "task_name": "강우 예보 요약"
+ },
+ {
+  "id": "q044",
+  "task": "K04",
+  "question": "2020년 8월 2일에 충주댐 방류했어?",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ3",
+    "CQ4"
+   ],
+   "dam": "충주댐",
+   "period": {
+    "at": "2020-08-02"
+   }
+  },
+  "extension": null,
+  "note": "",
+  "source": "v1",
+  "task_name": "방류 사실 확인"
+ },
+ {
+  "id": "q045",
+  "task": "K01",
+  "question": "충주댐 방류 때문에 피해 봤다는 민원 답변 초안 써줘",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "민원 대응은 범위 밖",
+  "source": "v1",
+  "task_name": "방류 관련 민원 답변 초안"
+ },
+ {
+  "id": "q046",
+  "task": "-",
+  "question": "안녕하세요",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "인사",
+  "source": "v1",
+  "task_name": ""
+ },
+ {
+  "id": "q047",
+  "task": "-",
+  "question": "충주댐은 왜 2020년 8월에 방류했어?",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "규칙 3(사유는 자료에 없음)",
+  "source": "v1",
+  "task_name": ""
+ },
+ {
+  "id": "q048",
+  "task": "-",
+  "question": "팔당댐 현재 수위는?",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "범위 밖 댐",
+  "source": "v1",
+  "task_name": ""
+ },
+ {
+  "id": "q049",
+  "task": "-",
+  "question": "충주땜 지금 수위 얼마야",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ1"
+   ],
+   "dam": "충주댐",
+   "period": "전체"
+  },
+  "extension": null,
+  "note": "오타",
+  "source": "v1",
+  "task_name": ""
+ },
+ {
+  "id": "q050",
+  "task": "-",
+  "question": "작년 여름에 소양강댐 방류 승인 있었어?",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ4"
+   ],
+   "dam": "소양강댐",
+   "period": {
+    "start": "2025-06-01",
+    "end": "2025-08-31"
+   }
+  },
+  "extension": null,
+  "note": "상대 날짜. 승인 기록이 2021-07까지라 \"없음\"이 자료 기간 때문임을 밝혀야 함",
+  "source": "v1",
+  "task_name": ""
+ },
+ {
+  "task": "A06",
+  "question": "충주댐 유역에 지금까지 비 얼마나 왔어?",
+  "expect": "extend",
+  "gold": null,
+  "extension": "P1",
+  "note": "유역 강우 미수집(댐 지점 강우만 있음)",
+  "source": "task",
+  "id": "q051",
+  "task_name": "유역 강우 현황 요약"
+ },
+ {
+  "task": "A08",
+  "question": "충주댐 하류 목계교 수위 어때?",
+  "expect": "extend",
+  "gold": null,
+  "extension": "P2",
+  "note": "하천 수위 미수집",
+  "source": "task",
+  "id": "q052",
+  "task_name": "하류 하천 수위 확인"
+ },
+ {
+  "task": "B06",
+  "question": "충주댐에서 방류하면 하류 여주까지 몇 시간 걸려?",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "내부 자료",
+  "source": "task",
+  "id": "q053",
+  "task_name": "방류 도달 시간 확인"
+ },
+ {
+  "task": "B07",
+  "question": "충주댐 하류가 홍수 경보 단계야?",
+  "expect": "extend",
+  "gold": null,
+  "extension": "P2",
+  "note": "경보 기준 미수집",
+  "source": "task",
+  "id": "q054",
+  "task_name": "하류 경보 기준 초과 여부 확인"
+ },
+ {
+  "task": "B08",
+  "question": "충주댐 수문 2m 열면 방류량이 얼마야?",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "내부 자료",
+  "source": "task",
+  "id": "q055",
+  "task_name": "수문 개도별 방류량 확인"
+ },
+ {
+  "task": "B10",
+  "question": "소양강댐 홍수기 끝나면 언제쯤 상시만수위 돼?",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "예측·모형",
+  "source": "task",
+  "id": "q056",
+  "task_name": "홍수기 이후 수위 회복 검토"
+ },
+ {
+  "task": "C03",
+  "question": "충주댐 방류 승인 요청서 초안 써줘",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "양식",
+  "source": "task",
+  "id": "q057",
+  "task_name": "방류 승인 요청서 초안 작성"
+ },
+ {
+  "task": "C05",
+  "question": "충주댐 방류하면 어디에 연락해야 해?",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "내부 연락 체계",
+  "source": "task",
+  "id": "q058",
+  "task_name": "통보 대상 기관 확인"
+ },
+ {
+  "task": "D02",
+  "question": "횡성댐 지금 물로 며칠 공급할 수 있어?",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "공급량 자료",
+  "source": "task",
+  "id": "q059",
+  "task_name": "용수 공급 가능 기간 추정"
+ },
+ {
+  "task": "D04",
+  "question": "충주댐 하천유지용수 기준이 얼마야?",
+  "expect": "extend",
+  "gold": null,
+  "extension": "P3",
+  "note": "기준 미수집",
+  "source": "task",
+  "id": "q060",
+  "task_name": "하천유지용수 방류 기준 확인"
+ },
+ {
+  "task": "D05",
+  "question": "광동댐 이번 달 용수 공급 계획대로 됐어?",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "내부 자료",
+  "source": "task",
+  "id": "q061",
+  "task_name": "용수 공급 계획 대비 실적"
+ },
+ {
+  "task": "D06",
+  "question": "소양강댐은 예전에 가뭄 때 저수율이 얼마까지 내려갔어?",
+  "expect": "extend",
+  "gold": null,
+  "extension": "T6",
+  "note": "저수율 최저 사상",
+  "source": "task",
+  "id": "q062",
+  "task_name": "갈수기 과거 운영 사례 찾기"
+ },
+ {
+  "task": "E02",
+  "question": "충주댐 지금 발전 방류량 얼마야?",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "내부 자료",
+  "source": "task",
+  "id": "q063",
+  "task_name": "발전 방류량 현황"
+ },
+ {
+  "task": "E03",
+  "question": "충주댐 발전기 몇 대 돌고 있어?",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "내부 자료",
+  "source": "task",
+  "id": "q064",
+  "task_name": "발전기 가동 상태 요약"
+ },
+ {
+  "task": "E05",
+  "question": "충주댐 총방류량 중 발전 방류가 얼마야?",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "내부 자료",
+  "source": "task",
+  "id": "q065",
+  "task_name": "발전 방류와 수문 방류 구분"
+ },
+ {
+  "task": "E06",
+  "question": "충주댐 지난달 발전기 정지 이력 보여줘",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "내부 자료",
+  "source": "task",
+  "id": "q066",
+  "task_name": "발전 정지·재가동 이력 조회"
+ },
+ {
+  "task": "E07",
+  "question": "충주댐 오늘 발전 운영 요약해줘",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "내부 자료",
+  "source": "task",
+  "id": "q067",
+  "task_name": "일일 발전 운영 요약"
+ },
+ {
+  "task": "F04",
+  "question": "연계운영규정 이번 개정에서 바뀐 게 뭐야?",
+  "expect": "extend",
+  "gold": null,
+  "extension": "P4",
+  "note": "개정 이력 일부만 있음(criterion_version_history)",
+  "source": "task",
+  "id": "q068",
+  "task_name": "규정 개정 내용 비교"
+ },
+ {
+  "task": "F06",
+  "question": "소양강댐 계획홍수위랑 상시만수위 알려줘",
+  "expect": "extend",
+  "gold": null,
+  "extension": "O1",
+  "note": "제원",
+  "source": "task",
+  "id": "q069",
+  "task_name": "댐 제원 조회"
+ },
+ {
+  "task": "F07",
+  "question": "방류 전에 해야 할 절차가 뭐야?",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "내부 매뉴얼",
+  "source": "task",
+  "id": "q070",
+  "task_name": "운영 절차 단계 안내"
+ },
+ {
+  "task": "G03",
+  "question": "충주댐 수위계 두 개 값이 왜 달라?",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "계측 태그",
+  "source": "task",
+  "id": "q071",
+  "task_name": "계측기 간 값 불일치 확인"
+ },
+ {
+  "task": "G04",
+  "question": "충주댐 이번 달 누수량 기준 넘은 적 있어?",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "안전 계측",
+  "source": "task",
+  "id": "q072",
+  "task_name": "안전 계측 기준 초과 확인"
+ },
+ {
+  "task": "G06",
+  "question": "충주댐 수문 설비 마지막 점검이 언제야?",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "점검 기록",
+  "source": "task",
+  "id": "q073",
+  "task_name": "설비 점검 이력 조회"
+ },
+ {
+  "task": "G07",
+  "question": "충주댐 어제 수문 몇 번 열었어?",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "설비 기록",
+  "source": "task",
+  "id": "q074",
+  "task_name": "수문 설비 작동 이력 조회"
+ },
+ {
+  "task": "G08",
+  "question": "수위계 고장 나면 어떻게 해?",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "내부 매뉴얼",
+  "source": "task",
+  "id": "q075",
+  "task_name": "이상 상황 대응 절차 안내"
+ },
+ {
+  "task": "H03",
+  "question": "2020년 8월 충주댐 방류 결과 보고 써줘",
+  "expect": "extend",
+  "gold": null,
+  "extension": "T7",
+  "note": "근거는 CQ2~CQ4",
+  "source": "task",
+  "id": "q076",
+  "task_name": "방류 결과 보고 작성"
+ },
+ {
+  "task": "H04",
+  "question": "충주댐 2026년 9월 운영 실적 요약해줘",
+  "expect": "extend",
+  "gold": null,
+  "extension": "T1",
+  "note": "기간 통계 + 문서",
+  "source": "task",
+  "id": "q077",
+  "task_name": "주간·월간 운영 실적 요약"
+ },
+ {
+  "task": "H05",
+  "question": "충주댐 오늘 야간 근무 인수인계 요약해줘",
+  "expect": "extend",
+  "gold": null,
+  "extension": "T7",
+  "note": "근무 기록은 없음, 수문 상태만 가능",
+  "source": "task",
+  "id": "q078",
+  "task_name": "근무 교대 인수인계 요약"
+ },
+ {
+  "task": "H06",
+  "question": "충주댐 지금 상황 본사 보고용으로 세 줄 요약해줘",
+  "expect": "extend",
+  "gold": null,
+  "extension": "T7",
+  "note": "근거는 CQ1(+CQ5)",
+  "source": "task",
+  "id": "q079",
+  "task_name": "상급 기관 보고용 요약"
+ },
+ {
+  "task": "H07",
+  "question": "이 메모를 운영 일지 양식으로 바꿔줘",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "입력 문서·양식",
+  "source": "task",
+  "id": "q080",
+  "task_name": "운영 일지 정리"
+ },
+ {
+  "task": "H08",
+  "question": "이 보고서 수치가 맞는지 확인해줘",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "입력 문서",
+  "source": "task",
+  "id": "q081",
+  "task_name": "보고서 수치 확인"
+ },
+ {
+  "task": "I04",
+  "question": "충주댐 2020년이랑 2011년 홍수 운영 비교해줘",
+  "expect": "extend",
+  "gold": null,
+  "extension": "T6",
+  "note": "사상 비교(근거는 CQ2~CQ4로 일부 가능)",
+  "source": "task",
+  "id": "q082",
+  "task_name": "홍수 사상 간 운영 비교"
+ },
+ {
+  "task": "I06",
+  "question": "충주댐은 유입량 대비 승인 방류량이 보통 어느 정도였어?",
+  "expect": "extend",
+  "gold": null,
+  "extension": "T4",
+  "note": "",
+  "source": "task",
+  "id": "q083",
+  "task_name": "승인 방류량과 유입량 관계 정리"
+ },
+ {
+  "task": "I07",
+  "question": "승인 3519번 원본 기록 보여줘",
+  "expect": "extend",
+  "gold": null,
+  "extension": "T8",
+  "note": "번호로 원문 조회(시연 화면 출처 보기로는 가능)",
+  "source": "task",
+  "id": "q084",
+  "task_name": "과거 기록 원문 확인"
+ },
+ {
+  "task": "J03",
+  "question": "충주댐 이대로면 모레 수위 얼마나 돼?",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "예측·모형",
+  "source": "task",
+  "id": "q085",
+  "task_name": "예측 기반 수위 전망"
+ },
+ {
+  "task": "J04",
+  "question": "충주댐 방류 1000이랑 2000일 때 비교해줘",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "모형",
+  "source": "task",
+  "id": "q086",
+  "task_name": "방류 시나리오 비교"
+ },
+ {
+  "task": "J05",
+  "question": "충주댐 지난 홍수 때 유입 예측이 얼마나 맞았어?",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "예측 이력",
+  "source": "task",
+  "id": "q087",
+  "task_name": "예측 정확도 점검"
+ },
+ {
+  "task": "J06",
+  "question": "홍수기 전에 점검할 것 정리해줘",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "내부 매뉴얼",
+  "source": "task",
+  "id": "q088",
+  "task_name": "홍수기 대비 사전 점검 목록"
+ },
+ {
+  "task": "J07",
+  "question": "충주댐 올해 운영 계획 대비 실적 어때?",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "계획 자료",
+  "source": "task",
+  "id": "q089",
+  "task_name": "연간 운영 계획 대비 실적"
+ },
+ {
+  "task": "K02",
+  "question": "2020년 8월 충주댐 방류 언론 설명자료 초안 써줘",
+  "expect": "extend",
+  "gold": null,
+  "extension": "T7",
+  "note": "",
+  "source": "task",
+  "id": "q090",
+  "task_name": "대외 설명자료 초안"
+ },
+ {
+  "task": "K03",
+  "question": "신입한테 홍수기 운영 기본을 설명해줘",
+  "expect": "extend",
+  "gold": null,
+  "extension": "O3",
+  "note": "규정 조문",
+  "source": "task",
+  "id": "q091",
+  "task_name": "신규 직원 교육용 질의응답"
+ },
+ {
+  "task": "K05",
+  "question": "2020년 8월 2일 충주댐 방류량이랑 수위 정리해줘",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ2"
+   ],
+   "dam": "충주댐",
+   "period": {
+    "at": "2020-08-02"
+   }
+  },
+  "extension": null,
+  "note": "",
+  "source": "task",
+  "id": "q092",
+  "task_name": "하류 피해 시점 운영 사실 정리"
+ },
+ {
+  "task": "A01",
+  "question": "소양강댐 지금 수위랑 방류량이 어때?",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ1"
+   ],
+   "dam": "소양강댐",
+   "period": "전체"
+  },
+  "extension": null,
+  "note": "",
+  "source": "old_v3/q01",
+  "id": "q093",
+  "task_name": "현재 수문 상태 요약"
+ },
+ {
+  "task": "A01",
+  "question": "충주 댐 현재 저수율 알려줘",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ1"
+   ],
+   "dam": "충주댐",
+   "period": "전체"
+  },
+  "extension": null,
+  "note": "띄어쓰기",
+  "source": "old_v3/q02",
+  "id": "q094",
+  "task_name": "현재 수문 상태 요약"
+ },
+ {
+  "task": "A02",
+  "question": "횡성댐에서 2020년 8월 4일 오후 3시 전후로 수위가 어땠는지 보고 싶어",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ2"
+   ],
+   "dam": "횡성댐",
+   "period": {
+    "at": "2020-08-04"
+   }
+  },
+  "extension": null,
+  "note": "시각 지정",
+  "source": "old_v3/q04",
+  "id": "q095",
+  "task_name": "특정 시점 수문 값 조회"
+ },
+ {
+  "task": "I01",
+  "question": "2020년 8월에 충주댐에서 어떤 방류 조작이 있었어?",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ3"
+   ],
+   "dam": "충주댐",
+   "period": {
+    "start": "2020-08-01",
+    "end": "2020-08-31"
+   }
+  },
+  "extension": null,
+  "note": "",
+  "source": "old_v3/q05",
+  "id": "q096",
+  "task_name": "기간 운영 이력 조회"
+ },
+ {
+  "task": "I01",
+  "question": "광동댐은 2019년 9월에 어떤 식으로 방류를 운영했나요?",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ3"
+   ],
+   "dam": "광동댐",
+   "period": {
+    "start": "2019-09-01",
+    "end": "2019-09-30"
+   }
+  },
+  "extension": null,
+  "note": "",
+  "source": "old_v3/q06",
+  "id": "q097",
+  "task_name": "기간 운영 이력 조회"
+ },
+ {
+  "task": "C01",
+  "question": "2020년 8월 광동댐 방류 승인 내역 알려줘",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ4"
+   ],
+   "dam": "광동댐",
+   "period": {
+    "start": "2020-08-01",
+    "end": "2020-08-31"
+   }
+  },
+  "extension": null,
+  "note": "",
+  "source": "old_v3/q07",
+  "id": "q098",
+  "task_name": "방류 승인 이력 조회"
+ },
+ {
+  "task": "F01",
+  "question": "횡성댐 홍수기 제한수위는?",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ5"
+   ],
+   "dam": "횡성댐",
+   "period": "전체"
+  },
+  "extension": null,
+  "note": "",
+  "source": "old_v3/q09",
+  "id": "q099",
+  "task_name": "홍수기 제한수위 조회"
+ },
+ {
+  "task": "F01",
+  "question": "광동댐은 지켜야 하는 제한수위가 얼마야?",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ5"
+   ],
+   "dam": "광동댐",
+   "period": "전체"
+  },
+  "extension": null,
+  "note": "별표3에 없음(O1 보완)",
+  "source": "old_v3/q10",
+  "id": "q100",
+  "task_name": "홍수기 제한수위 조회"
+ },
+ {
+  "task": "F02",
+  "question": "승인 3412번은 무슨 자료에 근거한 거야?",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ6"
+   ],
+   "target": {
+    "type": "approval",
+    "id": "3412"
+   }
+  },
+  "extension": null,
+  "note": "번호 지정",
+  "source": "old_v3/q11",
+  "id": "q101",
+  "task_name": "기준의 근거 조항 제시"
+ },
+ {
+  "task": "F02",
+  "question": "충주댐 수위 데이터 출처가 뭐야?",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ1",
+    "CQ6"
+   ],
+   "dam": "충주댐",
+   "period": "전체"
+  },
+  "extension": null,
+  "note": "",
+  "source": "old_v3/q12",
+  "id": "q102",
+  "task_name": "기준의 근거 조항 제시"
+ },
+ {
+  "task": "B04",
+  "question": "2017년 8월 24일부터 31일까지 소양강댐 운영 상황을 승인, 당시 상태, 기준까지 알려줘",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ2",
+    "CQ3",
+    "CQ4",
+    "CQ5"
+   ],
+   "dam": "소양강댐",
+   "period": {
+    "start": "2017-08-24",
+    "end": "2017-08-31"
+   }
+  },
+  "extension": null,
+  "note": "",
+  "source": "old_v3/q13",
+  "id": "q103",
+  "task_name": "비슷한 수문 상황의 과거 방류 사례 찾기"
+ },
+ {
+  "task": "B04",
+  "question": "지금 소양강댐 상황이랑 비슷했던 과거에는 어떻게 했어?",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ1",
+    "CQ2",
+    "CQ3",
+    "CQ4",
+    "CQ5"
+   ],
+   "dam": "소양강댐",
+   "period": "전체"
+  },
+  "extension": null,
+  "note": "",
+  "source": "old_v3/q14",
+  "id": "q104",
+  "task_name": "비슷한 수문 상황의 과거 방류 사례 찾기"
+ },
+ {
+  "task": "B04",
+  "question": "광동댐 지금 상태랑 비슷한 과거 사례 두 개만 보여줘",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ1",
+    "CQ2",
+    "CQ3",
+    "CQ4",
+    "CQ5"
+   ],
+   "dam": "광동댐",
+   "period": "전체"
+  },
+  "extension": null,
+  "note": "개수 지정",
+  "source": "old_v3/q15",
+  "id": "q105",
+  "task_name": "비슷한 수문 상황의 과거 방류 사례 찾기"
+ },
+ {
+  "task": "C01",
+  "question": "소양강댐 방류 승인 내역 알려줘",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ4"
+   ],
+   "dam": "소양강댐",
+   "period": "전체"
+  },
+  "extension": null,
+  "note": "기간 없음",
+  "source": "old_v3/q18",
+  "id": "q106",
+  "task_name": "방류 승인 이력 조회"
+ },
+ {
+  "task": "J02",
+  "question": "내일 충주댐 날씨 어때?",
+  "expect": "refuse",
+  "gold": null,
+  "extension": null,
+  "note": "예보 미수집",
+  "source": "old_v3/q19",
+  "id": "q107",
+  "task_name": "강우 예보 요약"
+ },
+ {
+  "task": "B01",
+  "question": "지금 소양강댐 수위가 제한수위보다 얼마나 낮아? 현재 상태를 기준이랑 같이 알려줘",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ1",
+    "CQ5"
+   ],
+   "dam": "소양강댐",
+   "period": "전체"
+  },
+  "extension": null,
+  "note": "",
+  "source": "old_v3/m01",
+  "id": "q108",
+  "task_name": "제한수위 대비 현재 수위 비교"
+ },
+ {
+  "task": "B04",
+  "question": "지금 충주댐 상황이랑 비슷했던 과거 사례를 찾아서, 그때 어떤 승인이 있었고 어떤 방류를 했는지, 제한수위에 비해 수위는 어땠는지 비교해줘",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ1",
+    "CQ2",
+    "CQ3",
+    "CQ4",
+    "CQ5"
+   ],
+   "dam": "충주댐",
+   "period": "전체"
+  },
+  "extension": null,
+  "note": "",
+  "source": "old_v3/m03",
+  "id": "q109",
+  "task_name": "비슷한 수문 상황의 과거 방류 사례 찾기"
+ },
+ {
+  "task": "C02",
+  "question": "소양강댐 지금 상태를 제한수위와 비교하고, 비슷했던 과거 사례에서 승인된 방류량 대비 실제 방류량이 어땠는지 알려줘",
+  "expect": "extend",
+  "gold": null,
+  "extension": "T4",
+  "note": "",
+  "source": "old_v3/m04",
+  "id": "q110",
+  "task_name": "승인 내용과 실제 방류 비교"
+ },
+ {
+  "task": "C02",
+  "question": "2020년 8월 2일부터 10일 사이 충주댐에서 승인된 방류량과 실제 측정된 방류량이 얼마나 차이 났는지, 그때 수위가 제한수위를 넘었는지 알려줘",
+  "expect": "extend",
+  "gold": null,
+  "extension": "T4",
+  "note": "",
+  "source": "old_v3/m05",
+  "id": "q111",
+  "task_name": "승인 내용과 실제 방류 비교"
+ },
+ {
+  "task": "H02",
+  "question": "횡성댐 2020년 8월 방류 운영을 승인 내용과 당시 수위, 제한수위, 근거까지 한 번에 정리해줘",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ2",
+    "CQ3",
+    "CQ4",
+    "CQ5",
+    "CQ6"
+   ],
+   "dam": "횡성댐",
+   "period": {
+    "start": "2020-08-01",
+    "end": "2020-08-31"
+   }
+  },
+  "extension": null,
+  "note": "",
+  "source": "old_v3/m06",
+  "id": "q112",
+  "task_name": "홍수 상황 보고서 초안"
+ },
+ {
+  "task": "B04",
+  "question": "광동댐 현재 상태와 비슷한 과거 사례에서의 승인과 방류 내용을 알려줘. 제한수위는 얼마나 되는지도",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ1",
+    "CQ2",
+    "CQ3",
+    "CQ4",
+    "CQ5"
+   ],
+   "dam": "광동댐",
+   "period": "전체"
+  },
+  "extension": null,
+  "note": "",
+  "source": "old_v3/m07",
+  "id": "q113",
+  "task_name": "비슷한 수문 상황의 과거 방류 사례 찾기"
+ },
+ {
+  "task": "B01",
+  "question": "광동댐 현재 수위가 제한수위에 비해 어때?",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ1",
+    "CQ5"
+   ],
+   "dam": "광동댐",
+   "period": "전체"
+  },
+  "extension": null,
+  "note": "기준 없음(O1 보완)",
+  "source": "old_v3/m08",
+  "id": "q114",
+  "task_name": "제한수위 대비 현재 수위 비교"
+ },
+ {
+  "task": "F02",
+  "question": "충주댐이 2020년 8월에 방류하기 전에 어떤 승인을 받았고 그 방류의 공식 근거는 뭐야?",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ3",
+    "CQ4",
+    "CQ6"
+   ],
+   "dam": "충주댐",
+   "period": {
+    "start": "2020-08-01",
+    "end": "2020-08-31"
+   }
+  },
+  "extension": null,
+  "note": "",
+  "source": "old_v3/m09",
+  "id": "q115",
+  "task_name": "기준의 근거 조항 제시"
+ },
+ {
+  "task": "A07",
+  "question": "소양강댐이랑 충주댐 중 지금 어느 쪽이 제한수위에 더 가까워?",
+  "expect": "extend",
+  "gold": null,
+  "extension": "T3",
+  "note": "",
+  "source": "old_v3/m10",
+  "id": "q116",
+  "task_name": "여러 댐 현황 한 번에 보기"
+ },
+ {
+  "task": "C01",
+  "question": "충주(승인파일 관측소코드 1003110)의 2020년 방류 승인 record는 몇 건이며 각각 접수일자·방류시작시간·접수방류량은?",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ4"
+   ],
+   "dam": "충주댐",
+   "period": {
+    "start": "2020-01-01",
+    "end": "2020-12-31"
+   }
+  },
+  "extension": null,
+  "note": "접수일자는 KG에 없음(10/30 검토할 점 1)",
+  "source": "qa_pilot/Q01",
+  "id": "q117",
+  "task_name": "방류 승인 이력 조회"
+ },
+ {
+  "task": "F02",
+  "question": "소양강댐의 홍수기 제한수위 기준값과 그 값이 실린 문서는?",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ5",
+    "CQ6"
+   ],
+   "dam": "소양강댐",
+   "period": "전체"
+  },
+  "extension": null,
+  "note": "서버 실행 q2와 같은 뜻",
+  "source": "qa_pilot/Q02",
+  "id": "q118",
+  "task_name": "기준의 근거 조항 제시"
+ },
+ {
+  "task": "I07",
+  "question": "승인 순차번호 3519의 비고 원문은?",
+  "expect": "extend",
+  "gold": null,
+  "extension": "T8",
+  "note": "",
+  "source": "qa_pilot/Q03",
+  "id": "q119",
+  "task_name": "과거 기록 원문 확인"
+ },
+ {
+  "task": "-",
+  "question": "MyWater 충주댐(1003110)에 조회 목록으로 연결된 관측소는 몇 개이며 유형별로는?",
+  "expect": "obsolete",
+  "gold": null,
+  "extension": null,
+  "note": "옛 KG(관측소 Class) 기준",
+  "source": "qa_pilot/Q04",
+  "id": "q120",
+  "task_name": ""
+ },
+ {
+  "task": "B02",
+  "question": "2020-08-02 충주댐 승인 당시 적용되던 홍수기 제한수위는?",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ5"
+   ],
+   "dam": "충주댐",
+   "period": {
+    "at": "2020-08-02"
+   }
+  },
+  "extension": null,
+  "note": "기준의 시점 버전은 KG에 없음(현재 규정 값만)",
+  "source": "qa_pilot/Q06",
+  "id": "q121",
+  "task_name": "홍수기 해당 여부와 적용 기준 확인"
+ },
+ {
+  "task": "I02",
+  "question": "충주댐에서 2020년 8월 초 방류 승인이 났을 때 그 무렵 저수위·유입량·방류량은 어땠나?",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ2",
+    "CQ3",
+    "CQ4"
+   ],
+   "dam": "충주댐",
+   "period": {
+    "start": "2020-08-01",
+    "end": "2020-08-10"
+   }
+  },
+  "extension": null,
+  "note": "\"8월 초\" 해석",
+  "source": "qa_pilot/N01",
+  "id": "q122",
+  "task_name": "운영 시점의 수문 상태 조회"
+ },
+ {
+  "task": "F05",
+  "question": "횡성댐의 2020년 방류 승인은 어떤 운영기준을 근거로 한 것인가?",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ4",
+    "CQ5"
+   ],
+   "dam": "횡성댐",
+   "period": {
+    "start": "2020-01-01",
+    "end": "2020-12-31"
+   }
+  },
+  "extension": null,
+  "note": "승인-기준 관계는 KG에 없음. 단정하지 않아야 함",
+  "source": "qa_pilot/N02",
+  "id": "q123",
+  "task_name": "현재 상황에 적용되는 조항 찾기"
+ },
+ {
+  "task": "F01",
+  "question": "광동댐 방류 승인 시 참고할 운영기준(시설별 값)이 있나?",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ5"
+   ],
+   "dam": "광동댐",
+   "period": "전체"
+  },
+  "extension": null,
+  "note": "없음(O1 보완)",
+  "source": "qa_pilot/N03",
+  "id": "q124",
+  "task_name": "홍수기 제한수위 조회"
+ },
+ {
+  "task": "C02",
+  "question": "충주댐 2020-08-02 승인의 접수방류량(3000)만큼 실제로 방류가 이루어졌나?",
+  "expect": "extend",
+  "gold": null,
+  "extension": "T4",
+  "note": "",
+  "source": "qa_pilot/N04",
+  "id": "q125",
+  "task_name": "승인 내용과 실제 방류 비교"
+ },
+ {
+  "task": "B04",
+  "question": "충주댐 현재 수문, 기상 데이터를 가져오고 제한수위와 비교한 후에, 이와 비슷한 수문상태일 때의 승인 및 운영 행위가 있었으면 알려줘.",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ1",
+    "CQ2",
+    "CQ3",
+    "CQ4",
+    "CQ5"
+   ],
+   "dam": "충주댐",
+   "period": "전체"
+  },
+  "extension": null,
+  "note": "10/16 서버 실행 q1",
+  "source": "server/q1",
+  "id": "q126",
+  "task_name": "비슷한 수문 상황의 과거 방류 사례 찾기"
+ },
+ {
+  "task": "I02",
+  "question": "2020년 8월 충주댐 방류 승인과 운영행위, 그때의 수문 상태를 알려줘.",
+  "expect": "answer_now",
+  "gold": {
+   "intent": [
+    "CQ2",
+    "CQ3",
+    "CQ4"
+   ],
+   "dam": "충주댐",
+   "period": {
+    "start": "2020-08-01",
+    "end": "2020-08-31"
+   }
+  },
+  "extension": null,
+  "note": "10/16 서버 실행 q3",
+  "source": "server/q3",
+  "id": "q127",
+  "task_name": "운영 시점의 수문 상태 조회"
+ }
+]

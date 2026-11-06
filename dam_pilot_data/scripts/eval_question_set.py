@@ -56,7 +56,8 @@ def main():
             r['answer'] = P.answer_llm(q['question'], bundle) if res.get('status') == 'ok' else None
             g = q['gold']
             r['intent_match'] = (g is None and not (j or {}).get('intent')) or (g is not None and j is not None and sorted(j.get('intent') or []) == sorted(g['intent'])
-                                and j.get('dam') == g['dam'] and norm_period(j.get('period')) == norm_period(g['period']))
+                                and j.get('dam') == g.get('dam') and norm_period(j.get('period')) == norm_period(g.get('period'))
+                                and j.get('target') == g.get('target'))
         r['seconds'] = round(time.time() - t0, 1)
         json.dump(r, open(os.path.join(run, q['id'] + '.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1, default=str)
         rows.append(r); print(q['id'], q['expect'], r['result'][:80], r.get('bundle_chars', ''))
