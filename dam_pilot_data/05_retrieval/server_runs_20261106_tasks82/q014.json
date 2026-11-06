@@ -1,0 +1,40 @@
+{
+ "id": "q014",
+ "task": "B04",
+ "question": "지금 충주댐 상황이랑 비슷했을 때 어떻게 방류했어?",
+ "expect": "answer_now",
+ "gold": {
+  "intent": [
+   "CQ1",
+   "CQ2",
+   "CQ3",
+   "CQ4",
+   "CQ5"
+  ],
+  "dam": "충주댐",
+  "period": "전체"
+ },
+ "extension": null,
+ "note": "종합 질문",
+ "source": "v1",
+ "task_name": "비슷한 수문 상황의 과거 방류 사례 찾기",
+ "request_example": "지금이랑 비슷했을 때 어떻게 방류했어?",
+ "intent_raw": "{\"intent\": [\"CQ1\", \"CQ3\"], \"dam\": \"충주댐\", \"period\": {\"at\": \"YYYY-MM-DD\"}, \"reason\": \"날짜가 명시되지 않아 period는 예시로 표시됨\"}",
+ "intent_json": {
+  "intent": [
+   "CQ1",
+   "CQ3"
+  ],
+  "dam": "충주댐",
+  "period": {
+   "at": "YYYY-MM-DD"
+  },
+  "reason": "날짜가 명시되지 않아 period는 예시로 표시됨"
+ },
+ "result": "거절: 시점 형식 오류: time data 'YYYY-MM-DD' does not match format '%Y-%m-%d'",
+ "bundle_chars": 80,
+ "bundle": "[근거 묶음] 질의 불가: 시점 형식 오류: time data 'YYYY-MM-DD' does not match format '%Y-%m-%d'",
+ "answer": null,
+ "intent_match": false,
+ "seconds": 1.6
+}

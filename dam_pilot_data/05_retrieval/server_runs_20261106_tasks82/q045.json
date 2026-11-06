@@ -1,0 +1,24 @@
+{
+ "id": "q045",
+ "task": "K01",
+ "question": "충주댐 방류 때문에 피해 봤다는 민원 답변 초안 써줘",
+ "expect": "refuse",
+ "gold": null,
+ "extension": null,
+ "note": "민원 대응은 범위 밖",
+ "source": "v1",
+ "task_name": "방류 관련 민원 답변 초안",
+ "request_example": "방류 때문에 피해 봤다는 민원 답변 초안 써줘",
+ "intent_raw": "{\"intent\": [], \"dam\": \"충주댐\", \"reason\": \"방류 사유는 자료에 없음\"}",
+ "intent_json": {
+  "intent": [],
+  "dam": "충주댐",
+  "reason": "방류 사유는 자료에 없음"
+ },
+ "result": "거절: 방류 사유는 자료에 없음",
+ "bundle_chars": 28,
+ "bundle": "[근거 묶음] 질의 불가: 방류 사유는 자료에 없음",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 0.8
+}

@@ -1,0 +1,29 @@
+{
+ "id": "q005",
+ "task": "A03",
+ "question": "지난 일주일 광동댐 유입량 추이 보여줘",
+ "expect": "extend",
+ "gold": null,
+ "extension": "T1",
+ "note": "상대 날짜 + 기간 통계. 자료 기간 밖",
+ "source": "v1",
+ "task_name": "기간 수문 변화 요약",
+ "request_example": "지난 일주일 OO댐 유입량 추이 보여줘",
+ "intent_raw": "{\"intent\": [\"CQ2\"], \"dam\": \"광동댐\", \"period\": {\"start\": \"YYYY-MM-DD\", \"end\": \"YYYY-MM-DD\"}}",
+ "intent_json": {
+  "intent": [
+   "CQ2"
+  ],
+  "dam": "광동댐",
+  "period": {
+   "start": "YYYY-MM-DD",
+   "end": "YYYY-MM-DD"
+  }
+ },
+ "result": "거절: 시점 형식 오류: time data 'YYYY-MM-DD' does not match format '%Y-%m-%d'",
+ "bundle_chars": 80,
+ "bundle": "[근거 묶음] 질의 불가: 시점 형식 오류: time data 'YYYY-MM-DD' does not match format '%Y-%m-%d'",
+ "answer": null,
+ "intent_match": false,
+ "seconds": 1.1
+}

@@ -1,0 +1,24 @@
+{
+ "task": "H05",
+ "question": "충주댐 오늘 야간 근무 인수인계 요약해줘",
+ "expect": "extend",
+ "gold": null,
+ "extension": "T7",
+ "note": "근무 기록은 없음, 수문 상태만 가능",
+ "source": "task",
+ "id": "q078",
+ "task_name": "근무 교대 인수인계 요약",
+ "request_example": "오늘 야간 근무 인수인계 요약해줘",
+ "intent_raw": "{\"intent\": [], \"dam\": \"충주댐\", \"reason\": \"야간 근무 인수인계와 관련된 정보는 제공되지 않았습니다.\"}",
+ "intent_json": {
+  "intent": [],
+  "dam": "충주댐",
+  "reason": "야간 근무 인수인계와 관련된 정보는 제공되지 않았습니다."
+ },
+ "result": "거절: 야간 근무 인수인계와 관련된 정보는 제공되지 않았습니다.",
+ "bundle_chars": 46,
+ "bundle": "[근거 묶음] 질의 불가: 야간 근무 인수인계와 관련된 정보는 제공되지 않았습니다.",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 1.1
+}

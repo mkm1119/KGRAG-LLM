@@ -1,0 +1,36 @@
+{
+ "id": "q003",
+ "task": "A02",
+ "question": "2020년 8월 2일 18시 충주댐 수위는?",
+ "expect": "answer_now",
+ "gold": {
+  "intent": [
+   "CQ2"
+  ],
+  "dam": "충주댐",
+  "period": {
+   "at": "2020-08-02"
+  }
+ },
+ "extension": null,
+ "note": "시각까지 지정. 값 형식은 날짜만이라 하루 24행이 나옴",
+ "source": "v1",
+ "task_name": "특정 시점 수문 값 조회",
+ "request_example": "어제 오후 3시 OO댐 수위는?",
+ "intent_raw": "{\"intent\": [\"CQ2\"], \"dam\": \"충주댐\", \"period\": {\"at\": \"2020-08-02T18:00:00\"}}",
+ "intent_json": {
+  "intent": [
+   "CQ2"
+  ],
+  "dam": "충주댐",
+  "period": {
+   "at": "2020-08-02T18:00:00"
+  }
+ },
+ "result": "거절: 시점 형식 오류: unconverted data remains: :00",
+ "bundle_chars": 54,
+ "bundle": "[근거 묶음] 질의 불가: 시점 형식 오류: unconverted data remains: :00",
+ "answer": null,
+ "intent_match": false,
+ "seconds": 1.3
+}

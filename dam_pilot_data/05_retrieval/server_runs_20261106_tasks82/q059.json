@@ -1,0 +1,28 @@
+{
+ "task": "D02",
+ "question": "횡성댐 지금 물로 며칠 공급할 수 있어?",
+ "expect": "refuse",
+ "gold": null,
+ "extension": null,
+ "note": "공급량 자료",
+ "source": "task",
+ "id": "q059",
+ "task_name": "용수 공급 가능 기간 추정",
+ "request_example": "지금 물로 며칠 공급할 수 있어?",
+ "intent_raw": "{\"intent\": [\"CQ1\"], \"dam\": \"횡성댐\", \"period\": {\"at\": \"전체\"}}",
+ "intent_json": {
+  "intent": [
+   "CQ1"
+  ],
+  "dam": "횡성댐",
+  "period": {
+   "at": "전체"
+  }
+ },
+ "result": "거절: 시점 형식 오류: time data '전체' does not match format '%Y-%m-%dT%H:%M'",
+ "bundle_chars": 78,
+ "bundle": "[근거 묶음] 질의 불가: 시점 형식 오류: time data '전체' does not match format '%Y-%m-%dT%H:%M'",
+ "answer": null,
+ "intent_match": false,
+ "seconds": 0.8
+}

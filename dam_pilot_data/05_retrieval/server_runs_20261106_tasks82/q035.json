@@ -1,0 +1,24 @@
+{
+ "id": "q035",
+ "task": "G05",
+ "question": "관제 태그 TAG-0001은 무슨 값이야?",
+ "expect": "refuse",
+ "gold": null,
+ "extension": null,
+ "note": "내부 자료",
+ "source": "v1",
+ "task_name": "관제 태그 의미 조회",
+ "request_example": "태그 OOOO는 무슨 값이야?",
+ "intent_raw": "{\"intent\": [], \"dam\": \"\", \"reason\": \"질문에서 언급된 '관제 태그 TAG-0001'은 제공된 자료 범위를 벗어납니다.\"}",
+ "intent_json": {
+  "intent": [],
+  "dam": "",
+  "reason": "질문에서 언급된 '관제 태그 TAG-0001'은 제공된 자료 범위를 벗어납니다."
+ },
+ "result": "거절: 질문에서 언급된 '관제 태그 TAG-0001'은 제공된 자료 범위를 벗어납니다.",
+ "bundle_chars": 59,
+ "bundle": "[근거 묶음] 질의 불가: 질문에서 언급된 '관제 태그 TAG-0001'은 제공된 자료 범위를 벗어납니다.",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 1.4
+}

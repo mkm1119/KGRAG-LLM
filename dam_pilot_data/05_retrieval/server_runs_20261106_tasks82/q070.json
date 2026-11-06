@@ -1,0 +1,27 @@
+{
+ "task": "F07",
+ "question": "방류 전에 해야 할 절차가 뭐야?",
+ "expect": "refuse",
+ "gold": null,
+ "extension": null,
+ "note": "내부 매뉴얼",
+ "source": "task",
+ "id": "q070",
+ "task_name": "운영 절차 단계 안내",
+ "request_example": "방류 전에 해야 할 절차가 뭐야?",
+ "intent_raw": "{\"intent\": [\"CQ4\"], \"dam\": null, \"period\": \"전체\", \"reason\": \"댐 이름이 지정되지 않았으며, 두 개 이상의 댐을 묻는 질문은 처리하지 않습니다.\"}",
+ "intent_json": {
+  "intent": [
+   "CQ4"
+  ],
+  "dam": null,
+  "period": "전체",
+  "reason": "댐 이름이 지정되지 않았으며, 두 개 이상의 댐을 묻는 질문은 처리하지 않습니다."
+ },
+ "result": "거절: 범위 밖의 댐: None",
+ "bundle_chars": 28,
+ "bundle": "[근거 묶음] 질의 불가: 범위 밖의 댐: None",
+ "answer": null,
+ "intent_match": false,
+ "seconds": 1.5
+}

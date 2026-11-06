@@ -1,0 +1,25 @@
+{
+ "task": "J06",
+ "question": "홍수기 전에 점검할 것 정리해줘",
+ "expect": "refuse",
+ "gold": null,
+ "extension": null,
+ "note": "내부 매뉴얼",
+ "source": "task",
+ "id": "q088",
+ "task_name": "홍수기 대비 사전 점검 목록",
+ "request_example": "홍수기 전에 점검할 것 정리해줘",
+ "intent_raw": "{\"intent\": [], \"dam\": null, \"period\": null, \"reason\": \"질문은 댐 운영과 관련된 수문기상 상태, 운영행위, 승인, 기준 등 목록에 정의된 의도에 해당하지 않음\"}",
+ "intent_json": {
+  "intent": [],
+  "dam": null,
+  "period": null,
+  "reason": "질문은 댐 운영과 관련된 수문기상 상태, 운영행위, 승인, 기준 등 목록에 정의된 의도에 해당하지 않음"
+ },
+ "result": "거절: 질문은 댐 운영과 관련된 수문기상 상태, 운영행위, 승인, 기준 등 목록에 정의된 의도에 해당하지 않음",
+ "bundle_chars": 72,
+ "bundle": "[근거 묶음] 질의 불가: 질문은 댐 운영과 관련된 수문기상 상태, 운영행위, 승인, 기준 등 목록에 정의된 의도에 해당하지 않음",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 1.7
+}

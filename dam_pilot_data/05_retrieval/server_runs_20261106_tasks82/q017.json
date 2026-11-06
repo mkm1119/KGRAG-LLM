@@ -1,0 +1,37 @@
+{
+ "id": "q017",
+ "task": "C01",
+ "question": "2017년 8월 소양강댐 방류 승인 내역 알려줘",
+ "expect": "answer_now",
+ "gold": {
+  "intent": [
+   "CQ4"
+  ],
+  "dam": "소양강댐",
+  "period": {
+   "start": "2017-08-01",
+   "end": "2017-08-31"
+  }
+ },
+ "extension": null,
+ "note": "",
+ "source": "v1",
+ "task_name": "방류 승인 이력 조회",
+ "request_example": "작년 8월 방류 승인 내역 알려줘",
+ "intent_raw": "{\"intent\": [\"CQ4\"], \"dam\": \"소양강댐\", \"period\": {\"at\": \"2017-08\"}}",
+ "intent_json": {
+  "intent": [
+   "CQ4"
+  ],
+  "dam": "소양강댐",
+  "period": {
+   "at": "2017-08"
+  }
+ },
+ "result": "거절: 시점 형식 오류: time data '2017-08' does not match format '%Y-%m-%dT%H:%M'",
+ "bundle_chars": 83,
+ "bundle": "[근거 묶음] 질의 불가: 시점 형식 오류: time data '2017-08' does not match format '%Y-%m-%dT%H:%M'",
+ "answer": null,
+ "intent_match": false,
+ "seconds": 1.0
+}

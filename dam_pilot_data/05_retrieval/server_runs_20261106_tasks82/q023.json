@@ -1,0 +1,24 @@
+{
+ "id": "q023",
+ "task": "C08",
+ "question": "충주댐은 어느 댐들과 연계운영해?",
+ "expect": "extend",
+ "gold": null,
+ "extension": "O3",
+ "note": "규정 조문",
+ "source": "v1",
+ "task_name": "연계운영 대상과 기준 확인",
+ "request_example": "우리 댐은 어느 댐과 연계운영해?",
+ "intent_raw": "{\"intent\": [], \"dam\": null, \"reason\": \"질문은 댐의 연계 운영에 대한 것으로, 정해진 의도 목록(CQ1~CQ6)에 해당하지 않습니다.\"}",
+ "intent_json": {
+  "intent": [],
+  "dam": null,
+  "reason": "질문은 댐의 연계 운영에 대한 것으로, 정해진 의도 목록(CQ1~CQ6)에 해당하지 않습니다."
+ },
+ "result": "거절: 질문은 댐의 연계 운영에 대한 것으로, 정해진 의도 목록(CQ1~CQ6)에 해당하지 않습니다.",
+ "bundle_chars": 67,
+ "bundle": "[근거 묶음] 질의 불가: 질문은 댐의 연계 운영에 대한 것으로, 정해진 의도 목록(CQ1~CQ6)에 해당하지 않습니다.",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 1.4
+}

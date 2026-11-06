@@ -1,0 +1,23 @@
+{
+ "id": "q016",
+ "task": "B05",
+ "question": "충주댐 방류량을 초당 2000톤으로 늘리면 내일 수위는?",
+ "expect": "refuse",
+ "gold": null,
+ "extension": null,
+ "note": "모형 필요",
+ "source": "v1",
+ "task_name": "방류량 변경 시 수위 변화 추정",
+ "request_example": "방류량을 2000으로 늘리면 내일 수위는?",
+ "intent_raw": "{\"intent\": [], \"reason\": \"질문은 미래 수위를 예측하는 것에 초점을 맞추고 있으며, 이는 제공된 의도 목록(CQ1~CQ6)에 포함되지 않습니다.\"}",
+ "intent_json": {
+  "intent": [],
+  "reason": "질문은 미래 수위를 예측하는 것에 초점을 맞추고 있으며, 이는 제공된 의도 목록(CQ1~CQ6)에 포함되지 않습니다."
+ },
+ "result": "거절: 질문은 미래 수위를 예측하는 것에 초점을 맞추고 있으며, 이는 제공된 의도 목록(CQ1~CQ6)에 포함되지 않습니다.",
+ "bundle_chars": 80,
+ "bundle": "[근거 묶음] 질의 불가: 질문은 미래 수위를 예측하는 것에 초점을 맞추고 있으며, 이는 제공된 의도 목록(CQ1~CQ6)에 포함되지 않습니다.",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 1.5
+}

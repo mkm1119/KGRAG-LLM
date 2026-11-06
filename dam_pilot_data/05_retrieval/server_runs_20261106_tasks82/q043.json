@@ -1,0 +1,24 @@
+{
+ "id": "q043",
+ "task": "J02",
+ "question": "이번 주말 소양강댐 유역 비 예보 어때?",
+ "expect": "refuse",
+ "gold": null,
+ "extension": null,
+ "note": "예보 미수집",
+ "source": "v1",
+ "task_name": "강우 예보 요약",
+ "request_example": "이번 주말 유역 강우 예보 어때?",
+ "intent_raw": "{\"intent\": [], \"dam\": \"소양강댐\", \"reason\": \"비 예보는 수문기상 상태나 운영 행위와 관련되지 않음\"}",
+ "intent_json": {
+  "intent": [],
+  "dam": "소양강댐",
+  "reason": "비 예보는 수문기상 상태나 운영 행위와 관련되지 않음"
+ },
+ "result": "거절: 비 예보는 수문기상 상태나 운영 행위와 관련되지 않음",
+ "bundle_chars": 44,
+ "bundle": "[근거 묶음] 질의 불가: 비 예보는 수문기상 상태나 운영 행위와 관련되지 않음",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 1.1
+}

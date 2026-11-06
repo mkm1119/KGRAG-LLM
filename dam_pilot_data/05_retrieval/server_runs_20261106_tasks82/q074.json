@@ -1,0 +1,29 @@
+{
+ "task": "G07",
+ "question": "충주댐 어제 수문 몇 번 열었어?",
+ "expect": "refuse",
+ "gold": null,
+ "extension": null,
+ "note": "설비 기록",
+ "source": "task",
+ "id": "q074",
+ "task_name": "수문 설비 작동 이력 조회",
+ "request_example": "어제 수문 몇 번 열었어?",
+ "intent_raw": "{\"intent\": [\"CQ2\", \"CQ3\"], \"dam\": \"충주댐\", \"period\": {\"at\": \"YYYY-MM-DD-1\"}}",
+ "intent_json": {
+  "intent": [
+   "CQ2",
+   "CQ3"
+  ],
+  "dam": "충주댐",
+  "period": {
+   "at": "YYYY-MM-DD-1"
+  }
+ },
+ "result": "거절: 시점 형식 오류: time data 'YYYY-MM-DD-1' does not match format '%Y-%m-%dT%H:%M'",
+ "bundle_chars": 88,
+ "bundle": "[근거 묶음] 질의 불가: 시점 형식 오류: time data 'YYYY-MM-DD-1' does not match format '%Y-%m-%dT%H:%M'",
+ "answer": null,
+ "intent_match": false,
+ "seconds": 1.0
+}

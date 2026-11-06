@@ -1,0 +1,28 @@
+{
+ "id": "q042",
+ "task": "J01",
+ "question": "충주댐 내일 유입량 예측 알려줘",
+ "expect": "refuse",
+ "gold": null,
+ "extension": null,
+ "note": "예측 시스템",
+ "source": "v1",
+ "task_name": "유입량 예측 결과 해설",
+ "request_example": "내일 유입량 예측 얼마야?",
+ "intent_raw": "{\"intent\": [\"CQ1\"], \"dam\": \"충주댐\", \"period\": {\"at\": \"내일\"}}",
+ "intent_json": {
+  "intent": [
+   "CQ1"
+  ],
+  "dam": "충주댐",
+  "period": {
+   "at": "내일"
+  }
+ },
+ "result": "거절: 시점 형식 오류: time data '내일' does not match format '%Y-%m-%dT%H:%M'",
+ "bundle_chars": 78,
+ "bundle": "[근거 묶음] 질의 불가: 시점 형식 오류: time data '내일' does not match format '%Y-%m-%dT%H:%M'",
+ "answer": null,
+ "intent_match": false,
+ "seconds": 0.8
+}

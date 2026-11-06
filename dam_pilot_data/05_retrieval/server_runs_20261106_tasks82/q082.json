@@ -1,0 +1,23 @@
+{
+ "task": "I04",
+ "question": "충주댐 2020년이랑 2011년 홍수 운영 비교해줘",
+ "expect": "extend",
+ "gold": null,
+ "extension": "T6",
+ "note": "사상 비교(근거는 CQ2~CQ4로 일부 가능)",
+ "source": "task",
+ "id": "q082",
+ "task_name": "홍수 사상 간 운영 비교",
+ "request_example": "2020년이랑 2011년 홍수 운영 비교해줘",
+ "intent_raw": "{\"intent\": [\"CQ1\", \"CQ2\", \"CQ3\", \"CQ5\"], \"dam\": \"충주댐\", \"period\": {\"start\": \"2020-01-01\", \"end\": \"2020-12-31\"}, \"period\": {\"start\": \"2011-01-01\", \"end\": \"2011-12-31\"}}",
+ "intent_json": {
+  "intent": [],
+  "reason": "질문에 같은 종류의 값(period)이 둘 이상 있어 한 번에 처리하지 않음"
+ },
+ "result": "거절: 질문에 같은 종류의 값(period)이 둘 이상 있어 한 번에 처리하지 않음",
+ "bundle_chars": 57,
+ "bundle": "[근거 묶음] 질의 불가: 질문에 같은 종류의 값(period)이 둘 이상 있어 한 번에 처리하지 않음",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 2.8
+}

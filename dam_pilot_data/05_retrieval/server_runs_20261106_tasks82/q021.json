@@ -1,0 +1,24 @@
+{
+ "id": "q021",
+ "task": "C04",
+ "question": "충주댐 방류 통보 문자 초안 써줘",
+ "expect": "refuse",
+ "gold": null,
+ "extension": null,
+ "note": "통보 양식 필요",
+ "source": "v1",
+ "task_name": "방류 통보문 초안 작성",
+ "request_example": "방류 통보 문자 초안 써줘",
+ "intent_raw": "{\"intent\": [], \"dam\": \"충주댐\", \"reason\": \"방류 사유는 자료에 없음\"}",
+ "intent_json": {
+  "intent": [],
+  "dam": "충주댐",
+  "reason": "방류 사유는 자료에 없음"
+ },
+ "result": "거절: 방류 사유는 자료에 없음",
+ "bundle_chars": 28,
+ "bundle": "[근거 묶음] 질의 불가: 방류 사유는 자료에 없음",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 0.8
+}

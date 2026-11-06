@@ -1,0 +1,30 @@
+{
+ "id": "q024",
+ "task": "D03",
+ "question": "소양강댐 저수율 작년 이맘때랑 비교하면 어때?",
+ "expect": "extend",
+ "gold": null,
+ "extension": "T2",
+ "note": "예년 비교",
+ "source": "v1",
+ "task_name": "예년 대비 저수 현황 비교",
+ "request_example": "작년 이맘때보다 저수율 어때?",
+ "intent_raw": "{\"intent\": [\"CQ1\", \"CQ2\"], \"dam\": \"소양강댐\", \"period\": {\"start\": \"YYYY-MM-DD\", \"end\": \"YYYY-MM-DD\"}}",
+ "intent_json": {
+  "intent": [
+   "CQ1",
+   "CQ2"
+  ],
+  "dam": "소양강댐",
+  "period": {
+   "start": "YYYY-MM-DD",
+   "end": "YYYY-MM-DD"
+  }
+ },
+ "result": "거절: 시점 형식 오류: time data 'YYYY-MM-DD' does not match format '%Y-%m-%d'",
+ "bundle_chars": 80,
+ "bundle": "[근거 묶음] 질의 불가: 시점 형식 오류: time data 'YYYY-MM-DD' does not match format '%Y-%m-%d'",
+ "answer": null,
+ "intent_match": false,
+ "seconds": 1.2
+}

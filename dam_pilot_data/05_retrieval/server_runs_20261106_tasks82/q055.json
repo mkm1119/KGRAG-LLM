@@ -1,0 +1,24 @@
+{
+ "task": "B08",
+ "question": "충주댐 수문 2m 열면 방류량이 얼마야?",
+ "expect": "refuse",
+ "gold": null,
+ "extension": null,
+ "note": "내부 자료",
+ "source": "task",
+ "id": "q055",
+ "task_name": "수문 개도별 방류량 확인",
+ "request_example": "수문 2m 열면 방류량이 얼마야?",
+ "intent_raw": "{\"intent\": [], \"dam\": \"충주댐\", \"reason\": \"방류 사유는 자료에 없음\"}",
+ "intent_json": {
+  "intent": [],
+  "dam": "충주댐",
+  "reason": "방류 사유는 자료에 없음"
+ },
+ "result": "거절: 방류 사유는 자료에 없음",
+ "bundle_chars": 28,
+ "bundle": "[근거 묶음] 질의 불가: 방류 사유는 자료에 없음",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 0.8
+}

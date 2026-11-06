@@ -1,0 +1,24 @@
+{
+ "task": "C05",
+ "question": "충주댐 방류하면 어디에 연락해야 해?",
+ "expect": "refuse",
+ "gold": null,
+ "extension": null,
+ "note": "내부 연락 체계",
+ "source": "task",
+ "id": "q058",
+ "task_name": "통보 대상 기관 확인",
+ "request_example": "방류하면 어디에 연락해야 해?",
+ "intent_raw": "{\"intent\": [], \"dam\": \"\", \"reason\": \"방류 사유나 절차에 대한 질문은 자료에 포함되지 않았으며, 연락처나 절차는 제공되지 않았습니다.\"}",
+ "intent_json": {
+  "intent": [],
+  "dam": "",
+  "reason": "방류 사유나 절차에 대한 질문은 자료에 포함되지 않았으며, 연락처나 절차는 제공되지 않았습니다."
+ },
+ "result": "거절: 방류 사유나 절차에 대한 질문은 자료에 포함되지 않았으며, 연락처나 절차는 제공되지 않았습니다.",
+ "bundle_chars": 68,
+ "bundle": "[근거 묶음] 질의 불가: 방류 사유나 절차에 대한 질문은 자료에 포함되지 않았으며, 연락처나 절차는 제공되지 않았습니다.",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 1.4
+}

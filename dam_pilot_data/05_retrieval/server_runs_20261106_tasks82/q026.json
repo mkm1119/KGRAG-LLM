@@ -1,0 +1,24 @@
+{
+ "id": "q026",
+ "task": "E01",
+ "question": "충주댐 오늘 발전량 얼마야?",
+ "expect": "refuse",
+ "gold": null,
+ "extension": null,
+ "note": "내부 자료",
+ "source": "v1",
+ "task_name": "발전 계획 대비 실적 확인",
+ "request_example": "오늘 발전량 계획대로 나오고 있어?",
+ "intent_raw": "{\"intent\": [], \"dam\": \"충주댐\", \"reason\": \"발전량은 수문기상 상태나 운영 행위와 관련되지 않아 지원되지 않습니다.\"}",
+ "intent_json": {
+  "intent": [],
+  "dam": "충주댐",
+  "reason": "발전량은 수문기상 상태나 운영 행위와 관련되지 않아 지원되지 않습니다."
+ },
+ "result": "거절: 발전량은 수문기상 상태나 운영 행위와 관련되지 않아 지원되지 않습니다.",
+ "bundle_chars": 54,
+ "bundle": "[근거 묶음] 질의 불가: 발전량은 수문기상 상태나 운영 행위와 관련되지 않아 지원되지 않습니다.",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 1.2
+}
