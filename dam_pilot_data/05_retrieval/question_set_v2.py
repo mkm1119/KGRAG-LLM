@@ -115,3 +115,13 @@ json.dump(out, open(os.path.join(HERE, 'question_set_v2.json'), 'w', encoding='u
 from collections import Counter
 print(len(out), dict(Counter(q['expect'] for q in out)), dict(Counter(q['source'].split('/')[0] for q in out)))
 print(dict(sorted(Counter(q['extension'] for q in out if q['extension']).items())))
+
+# ---- 한수원 태스크 82개만: 태스크마다 대표 질문 하나(태스크 후보의 '사용자 요청 예'를 실제 댐·날짜로 바꾼 것) → question_set_tasks82.json
+t82, seen = [], set()
+for q in out:
+    if q['task'] in tasks and q['task'] not in seen and q['source'] in ('v1', 'task'):
+        seen.add(q['task']); t82.append(dict(q, request_example=tasks[q['task']]['사용자 요청 예']))
+t82.sort(key=lambda q: q['task'])
+assert len(t82) == len(tasks) == 82
+json.dump(t82, open(os.path.join(HERE, 'question_set_tasks82.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+print('tasks82', len(t82), dict(Counter(q['expect'] for q in t82)))
