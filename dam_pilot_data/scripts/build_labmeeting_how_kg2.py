@@ -89,7 +89,7 @@ add(dateline('2026.11 · 문경민'))
 
 # ================================================================== 1. 현황
 add(h1('1. KG 구축 단계와 방법론 구체화 현황'))
-lis('KG 구축은 두 단계로 한다. 먼저 온톨로지의 Class와 Data Property에 맞춰 자료에서 Entity와 그 Data Property 값을 만들고, 다음에 만든 Entity들을 온톨로지의 Relation에 맞춰 이어 KG를 완성한다.',
+lis('KG 구축은 두 단계로 한다. 먼저 온톨로지의 Class와 Data Property에 맞춰 자료에서 실제값으로 Entity와 그 Data Property를 만들고, 다음에 만든 Entity들을 온톨로지의 Relation에 맞춰 이어 KG를 완성한다.',
     '10/30 자료에서 앞 단계를 정리했고, 그 결과 Entity 264개와 Data Property 값 616개가 만들어졌다. 이번 자료는 Entity를 Relation으로 잇는 과정(2장), 완성한 KG를 Neo4j에 넣는 저장(3장), KG로 질문에 답하는 검색·답변(4장)을 같은 방식(따른 원리 → 과정 → 결과)으로 정리했다.',
     '온톨로지의 CQ와 Relation은 부록 B, 10/30 자료까지의 결과는 부록 C, 각 원리의 자세한 설명은 부록 D에 있다.')
 DONE, NOW, NEXT = 'E3F1DC', 'D6E8F7', 'FDEBD3'
@@ -130,45 +130,33 @@ lis('따른 원리: Purohit 외(2024)는 GraphAide에서 뉴스 기사 1,846건�
     '원리: 기준 식별자를 하나 정하고, 자료마다 다르게 적힌 같은 대상을 그 식별자에 대응시킨다. 우리는 K-water 댐 코드를 기준 식별자로 삼았다. 이번에는 대상이 댐 4개라서 코드 일치와 대응 표를 적용했다. GraphAide의 벡터 검색과 LLM 재순위는 대상과 자료가 늘어날 때 적용을 검토한다.',
     '참고로 Huang 외(2026)는 댐마다 관련 Entity를 JSON 파일 하나로 묶어 적재했고, 본문에 서로 다른 자료의 같은 대상을 맞추는 단계는 따로 없다. 우리 자료는 승인 기록, K-water 자료, 규정이 서로 다른 기관에서 따로 와서 댐 표기를 맞추는 과정이 필요하다.',
     '진행 방식: 먼저 자료마다 다르게 적힌 댐 표기를 기준 식별자(댐 코드)에 맞춘다. 그 다음 Relation마다 시작 Entity를 하나씩 읽고, 키로 이을 끝 Entity를 찾아 Relation 한 줄을 쓴다.',
-    '키는 두 Entity가 같은 대상에 관한 것임을 알려 주는 값이다(승인 순차번호, 댐 코드, 댐 이름). 외부 저장소에서 행을 찾을 때 쓰는 키와 같은 뜻이다. 시작 Entity와 끝 Entity는 Relation 한 줄의 출발점과 도착점이다. 예를 들어 "APR:504 —concernsDam→ DAM:1003110"에서 APR:504가 시작 Entity, DAM:1003110이 끝 Entity이다.',
-    '표 2는 Relation마다 실제 한 줄을 예로 들어, 시작 Entity에서 어떤 키로 끝 Entity를 찾는지 보인 것이다. 키를 얻는 자료에 따라 승인 기록 한 행, K-water 댐 코드, 별표3 댐 이름의 세 가지로 나뉜다.')
-add(label('표 2. Relation별로 끝 Entity를 찾는 키 (실제 한 줄의 예)'))
-REL_ROWS = [['승인 기록 한 행', 'supportedBy', 'APR:504 → EVI:AP:504', '두 ID에 든 승인 순차번호 504가 같다', 80],
-            ['', 'supportedBy', 'OPR:504:1 → EVI:AP:504', '운영행위 ID에 든 순차번호 504가 같다', 68],
-            ['', 'authorizes', 'APR:504 → OPR:504:1', '순차번호 504가 같다 (504행의 비고에서 추출한 운영행위)', RC['authorizes']],
-            ['', 'concernsDam', 'APR:504 → DAM:1003110', '504행의 관측소코드 1003110 = 충주댐의 댐 코드', RC['concernsDam']],
-            ['', 'performedOnDam', 'OPR:504:1 → DAM:1003110', '504행의 관측소코드 1003110 = 충주댐의 댐 코드', RC['performedOnDam']],
-            ['K-water 댐 코드', 'hasHydrometeorologicalState', 'DAM:1003110 → HMS:1003110:수위', '두 ID에 든 댐 코드 1003110이 같다', RC['hasHydrometeorologicalState']],
-            ['', 'supportedBy', 'HMS:1003110:수위 → EVI:KW:1003110', '두 ID에 든 댐 코드 1003110이 같다', 24],
-            ['별표3 댐 이름', 'appliesToDam', 'CRI:CR-02 → DAM:1003110', '별표3의 댐 이름 "충주댐"을 대응 표에서 찾으면 1003110', RC['appliesToDam']],
-            ['', 'supportedBy', 'CRI:CR-02 → EVI:LAW:별표3', '규정이 하나라 근거 Entity도 하나', 3]]
-assert sum(r[4] for r in REL_ROWS) == len(rels)
-add(rtable([['키를 얻는 자료', 'Relation', '실제 한 줄 (시작 → 끝 Entity)', '끝 Entity를 찾는 키', '개수']] + [r[:4] + [str(r[4])] for r in REL_ROWS] + [['합계', '', '', '', str(len(rels))]],
-           [1500, 2250, 2900, 2672, 650]))
+    '키는 두 Entity가 같은 대상에 관한 것임을 알려 주는 값이다(승인 순차번호, 댐 코드, 댐 이름). 시작 Entity와 끝 Entity는 Relation 한 줄의 출발점과 도착점이다. 예를 들어 "APR:504 —concernsDam→ DAM:1003110"에서 APR:504가 시작 Entity, DAM:1003110이 끝 Entity이다.')
 
 add(h2('2.3 댐 표기 맞추기 (개체 해소)'))
 lis('그림 {{g1}}의 왼쪽은 충주댐이 자료마다 적힌 모습이다. ① 승인 기록은 관측소코드 1003110과 관측소명 "충주", ② K-water 자료는 DAM_CD 1003110, ③ 규정 별표3은 "충 주 댐"이라는 이름뿐이고 코드가 없다.',
-    '①은 관측소코드가 K-water 댐 코드와 같아서 그대로 맞춘다(자료 준비 때 4개 댐 모두 같음을 확인). ②는 기준 식별자 자체이다.',
+    '①은 관측소코드가 K-water 댐 코드와 같아서 그대로 맞춘다(자료 준비 때 4개 댐 모두 같음을 확인).',
+    '②는 기준 식별자 자체이다.',
     '③은 비정형 텍스트 추출에서 공백을 빼고 읽은 "충주댐"을 대응 표(표준 댐명 → 댐 코드, 4줄)에서 찾아 1003110을 얻는다. 광동댐은 별표3에 없다.',
     '결과: 세 표기가 모두 하나의 Entity DAM:1003110을 가리킨다.')
 figcap('g1', '자료마다 다른 충주댐 표기 세 가지를 기준 식별자 DAM:1003110에 맞춘다')
 
 add(h2('2.4 승인 기록 한 행으로 잇는 Relation'))
 lis('승인 기록 한 행에서 키를 얻어 잇는 Relation은 다섯 가지이다. 그림 {{g0}}의 위쪽은 승인 기록 원본 파일(CSV)의 504행을 실제 데이터 열 그대로 그린 것이다.',
-    '점선은 열의 값으로 Entity와 그 Data Property 값을 만든 길이다. 승인일·방류시작·접수방류량 열로 APR:504를, 비고를 추출해 OPR:504:1을, 출처 열로 EVI:AP:504를 만들었다. 세 ID에 모두 이 행의 순차번호 504(주황)가 들어 있다.',
-    '실선이 이번에 잇는 Relation이다. ① APR:504 → OPR:504:1(authorizes), ② APR:504 → EVI:AP:504와 OPR:504:1 → EVI:AP:504(supportedBy)는 ID의 순차번호가 같은 것끼리 잇는다. ③ APR:504 → DAM:1003110(concernsDam)과 OPR:504:1 → DAM:1003110(performedOnDam)은 이 행의 관측소코드 1003110(파랑)과 같은 댐 코드를 가진 DAM:1003110을 끝 Entity로 찾는다.',
+    '그림 위의 범례처럼 회색 점선은 앞 단계에서 열의 값으로 Entity를 만든 길, 파란 점선은 키가 같은 Entity를 찾는 길, 검은 실선은 이번 단계에서 이은 Relation이다.',
+    '앞 단계에서 승인일·방류시작·접수방류량 열로 APR:504를, 비고를 추출해 OPR:504:1을, 출처 열로 EVI:AP:504를 만들었다(회색 점선). 세 ID에 모두 이 행의 순차번호 504(주황)가 들어 있다.',
+    '실선이 이번에 잇는 Relation이다. ① APR:504 → OPR:504:1(authorizes), ② APR:504 → EVI:AP:504와 OPR:504:1 → EVI:AP:504(supportedBy)는 ID의 순차번호가 같은 것끼리 잇는다. ③ APR:504 → DAM:1003110(concernsDam)과 OPR:504:1 → DAM:1003110(performedOnDam)은 이 행의 관측소코드 1003110과 같은 댐 코드를 가진 DAM:1003110을 끝 Entity로 찾는다(파란 점선).',
     '결과: 승인 80행에 같은 방법을 적용해 supportedBy 148개(승인 80, 운영행위 68), authorizes 68개, concernsDam 80개, performedOnDam 68개를 잇는다. 변경 승인 17개는 운영행위가 없어 authorizes가 없다.')
 figcap('g0', '승인 504행 하나에서 잇는 Relation — 순차번호 504와 관측소코드 1003110으로 이을 Entity를 찾는다')
 
 add(h2('2.5 댐 코드로 잇는 Relation'))
-lis('그림 {{gB}}의 위쪽은 K-water 시간자료의 충주댐 한 행이다. 점선은 이 표의 DAM_CD와 열 머리(변수)로 HMS 6개와 측정자료 근거 EVI:KW 하나를 만든 길이다. 댐 Entity는 일자료에서 만들었다.',
+lis('그림 {{gB}}의 위쪽은 K-water 시간자료의 충주댐 한 행이다. 앞 단계에서 이 표의 DAM_CD와 열 머리(변수)로 HMS 6개와 측정자료 근거 EVI:KW 하나를 만들었다(회색 점선). 댐 Entity는 일자료에서 만들었고, 이 행의 DAM_CD 1003110과 같은 댐 코드로 찾는다(파란 점선).',
     '세 종류 Entity의 ID에 모두 같은 댐 코드 1003110(파랑)이 들어 있다. 그래서 ① DAM:1003110 → HMS 6개(hasHydrometeorologicalState), ② HMS 6개 → EVI:KW:1003110(supportedBy)을 코드가 같은 것끼리 잇는다. 다른 자료를 찾을 필요가 없다.',
     '결과: 4개 댐 × 6개 변수로 hasHydrometeorologicalState 24개, supportedBy 24개를 잇는다.')
 figcap('gB', '댐 코드로 잇는 Relation — 같은 코드 1003110을 가진 Dam, HMS, 측정자료 근거를 잇는다')
 
 add(h2('2.6 별표3 댐 이름으로 잇는 Relation'))
-lis('그림 {{gC}}의 위쪽은 비정형 텍스트 추출로 만든 중간 파일 criterion_list.csv의 한 줄이다. 점선은 이 줄로 CRI:CR-02를 만든 길이다.',
-    '별표3에는 댐 코드가 없다. 그래서 ① 이 줄의 댐 이름 "충주댐"을 대응 표에서 찾아 댐 코드 1003110을 얻고, ② CRI:CR-02 → DAM:1003110(appliesToDam)을 쓴다. 코드가 아니라 이름으로 찾은 끝 Entity라서, Relation 한 줄에 이름으로 찾았다는 표시(name-match)를 남긴다.',
+lis('그림 {{gC}}의 위쪽은 비정형 텍스트 추출로 만든 중간 파일 criterion_list.csv의 한 줄이다. 앞 단계에서 이 줄로 CRI:CR-02를 만들었다(회색 점선).',
+    '별표3에는 댐 코드가 없다. 그래서 ① 이 줄의 댐 이름 "충주댐"을 대응 표에서 찾아 댐 코드 1003110을 얻고(파란 점선), ② CRI:CR-02 → DAM:1003110(appliesToDam)을 쓴다. 코드가 아니라 이름으로 찾은 끝 Entity라서, Relation 한 줄에 이름으로 찾았다는 표시(name-match)를 남긴다.',
     '③ 근거는 규정 하나뿐이라 근거 Entity도 하나(고정 ID EVI:LAW:별표3)이다. 기준 3개 모두 CRI → EVI:LAW:별표3(supportedBy)으로 잇는다.',
     '결과: appliesToDam 3개(충주, 소양강, 횡성), supportedBy 3개를 잇는다.')
 figcap('gC', '별표3 댐 이름으로 잇는 Relation — 이름을 대응 표로 댐 코드에 맞춘다')
@@ -217,12 +205,12 @@ lis('시간별 측정값(508,246행)과 규정 원문은 KG에 넣지 않고 CSV
 figcap('s2', '외부 저장소 CSV의 실제 모습과, KG의 값으로 행을 찾는 방법')
 
 add(h2('3.4 결과: Neo4j에 저장된 KG'))
-lis('Neo4j에 Entity %d개와 Relation %d개가 저장된다(표 3).' % (len(ents), len(rels)),
+lis('Neo4j에 Entity %d개와 Relation %d개가 저장된다(표 2).' % (len(ents), len(rels)),
     '그림 {{k1}}은 Neo4j에 저장된 충주댐의 Entity 53개와 Relation이다. 왼쪽 세 점선 상자는 승인자료 근거 15, 승인 15, 운영행위 14개이고, 한 줄이 승인 한 건이다. 승인마다 왼쪽 근거(supportedBy)와 오른쪽 운영행위(authorizes)로 이어지며, 3519와 3647은 변경 승인이라 운영행위가 없다.',
     '상자에서 나가는 굵은 선은 상자 안의 Entity가 모두 가진 Relation이다. 승인 15개는 모두 DAM:1003110에(concernsDam), 운영행위 14개는 모두 DAM:1003110에(performedOnDam)와 같은 순차번호의 근거에(supportedBy) 이어진다. 오른쪽 위는 DAM:1003110의 HMS 6개와 그 근거, 오른쪽 아래는 기준 CR-02와 그 근거이다.',
     '맨 아래 두 점선 상자는 KG에 넣지 않은 외부 저장소이고, 점선 화살표는 Relation이 아니라 KG의 값으로 그 행을 찾아오는 길이다. HMS의 stationCode와 시각으로 측정값을, EVI:LAW:별표3의 sourceLocator로 규정 원문을 가져온다.')
 figcap('k1', 'Neo4j에 저장된 KG(충주댐 Entity 53개)와 외부 저장소로 가는 길')
-add(label('표 3. Neo4j에 저장된 Entity와 Relation 수'))
+add(label('표 2. Neo4j에 저장된 Entity와 Relation 수'))
 add(rtable([['Class', 'Entity 수', 'Relation', 'Relation 수'],
             ['EvidenceSource', str(CC['EvidenceSource']), 'supportedBy', str(RC['supportedBy'])],
             ['Approval', str(CC['Approval']), 'concernsDam', str(RC['concernsDam'])],
@@ -259,9 +247,9 @@ lis('원리: 고른 의도마다 미리 정한 Cypher 템플릿에 댐 이름과
     'CQ4 승인 템플릿은 concernsDam으로 충주댐에 이어진 승인 15개 가운데 승인일이 2020-08-01 이상 2020-09-01 미만인 것을 고른다 → APR:3412, APR:3519, APR:3647. 뒤의 둘은 변경 승인이라 운영행위가 없다.',
     'CQ3 운영행위 템플릿은 performedOnDam으로 충주댐에 이어진 운영행위 14개 가운데 시각이 기간 안인 것을 고르고, authorizes를 거꾸로 따라 그것을 허가한 승인을 찾는다 → OPR:3412:1 ← APR:3412. 노란 띠 밖의 흐린 Entity는 기간 조건에서 걸러진 것이다.',
     'CQ2는 CQ3과 함께 있으므로 운영행위의 시각마다 그 시각의 상태를 읽는다. 맨 아래 점선처럼 HMS의 stationCode(1003110)를 DAM_CD 열에서, OPR:3412:1의 operationTime(2020-08-02 18:00)을 SDATE_raw 열(2020080218)에서 찾으면, 그 행이 그 시각의 측정값이다. 정각이 아닌 시각은 앞뒤 정시 두 행을 함께 읽는다.',
-    '다른 의도가 있는 질문은 표 4의 경로를 따른다.')
+    '다른 의도가 있는 질문은 표 3의 경로를 따른다.')
 figcap('q2', 'KG 검색과 외부 저장소 조회 — 템플릿이 따라가는 Relation과 기간 조건, KG의 값으로 찾는 측정 저장소의 행')
-add(label('표 4. 의도별 Cypher 템플릿이 따라가는 Relation과 외부 저장소'))
+add(label('표 3. 의도별 Cypher 템플릿이 따라가는 Relation과 외부 저장소'))
 add(rtable([['의도', '따라가는 Relation (Cypher 템플릿)', '외부 저장소'],
             ['CQ1 현재 상태', 'Dam → hasHydrometeorologicalState → HMS (stationCode)', '측정: 저장된 가장 최근 시각의 행'],
             ['CQ2 과거 상태', '(CQ3과 함께면) 운영행위의 operationTime', '측정: 그 시각의 행, CQ3이 없으면 기간 안의 행'],
@@ -302,7 +290,7 @@ L.cell.__defaults__ = L.cell.__defaults__[:4] + (14,) + L.cell.__defaults__[5:]
 L.table.__defaults__ = (True, True, 14, ())
 table = L.table
 add(h1('부록 A. 용어 정리'))
-add(label('표 5. 용어 정의'))
+add(label('표 4. 용어 정의'))
 add(table([['용어', '본 연구에서의 정의'],
            ['Relation 잇기', '온톨로지의 Relation 정의에 맞는 Class 사이의 조합 가운데, 키로 실제로 이어질 Entity 쌍(시작 Entity → 끝 Entity)을 찾아 잇는 일.'],
            ['키', '두 자료나 두 Entity가 같은 대상에 관한 것임을 알려 주는 값. 예: 승인 순차번호 504, 댐 코드 1003110. Relation을 이을 때와 외부 저장소에서 행을 찾을 때 같은 뜻으로 쓴다.'],
@@ -318,7 +306,7 @@ add(table([['용어', '본 연구에서의 정의'],
            ['출처 번호', '근거 항목마다 붙이는 표시. KG의 Entity ID이거나 측정값의 [MEA:댐 코드:시각].'],
            ['환각', 'LLM이 자료에 없는 사실을 지어내는 것.']], [1944, 8028], firstcol=True))
 add(h1('부록 B. Ontology가 답해야 할 질문과 관계'))
-add(label('표 6. 세부 질문 (CQ1~CQ6)'))
+add(label('표 5. 세부 질문 (CQ1~CQ6)'))
 add(table([['번호', '질문 대상', '세부 질문'],
            ['CQ1', '현재 수문·기상 상태', '대상 댐의 현재 또는 기준시점의 강우, 수위, 유입량, 방류량 등 수문·기상 상태는 무엇인가?'],
            ['CQ2', '과거 수문·기상 상태', '선택된 과거 시점 또는 사례에서 대상 댐의 강우, 수위, 유입량, 방류량 등 수문·기상 상태는 어떠했는가?'],
@@ -326,7 +314,7 @@ add(table([['번호', '질문 대상', '세부 질문'],
            ['CQ4', '과거 방류 승인', '해당 과거 시점 또는 사례에서 어떤 방류 승인이 있었으며, 그 승인내용은 무엇인가?'],
            ['CQ5', '현재 운영기준', '현재 대상 댐에 적용되는 운영기준은 무엇이며, 현재 운영 판단과 관련된 기준값은 무엇인가?'],
            ['CQ6', '공식 근거', '각 수문·기상 상태, 운영행위, 승인내용 및 운영기준을 확인할 수 있는 공식 자료 또는 근거문서는 무엇인가?']], [1000, 2200, 6772]))
-add(label('표 7. Relation (9개)'))
+add(label('표 6. Relation (9개)'))
 add(table([['Subject', 'Relation', 'Object', '의미'],
            ['Dam', 'hasHydrometeorologicalState', 'HydrometeorologicalState', '댐이 해당 수문·기상 변수 정보와 연결됨'],
            ['Operation', 'performedOnDam', 'Dam', '운영행위가 특정 Dam에서 수행됨'],
