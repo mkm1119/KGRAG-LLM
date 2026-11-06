@@ -3,6 +3,7 @@
 10/30 자료(build_labmeeting_how_kg.py)와 같은 서식·구성(따른 원리 → 과정 → 결과, 검토할 점, 다음 계획, 부록)이다.
 그림은 lab_meeting/how2/fig/kg2_*.png (원본 kg2_figs.html, scripts/build_kg_doc2_figs.py).
 사용: python3 scripts/build_labmeeting_how_kg2.py <출력 docx>
+11/06부터는 그림 크기를 손으로 맞춘 lab_meeting/2026.11.06_랩미팅_KG구축_how2.docx가 기준본이다. 이후 고칠 내용은 그 파일을 직접 고치고, 이 스크립트에는 글만 맞춰 둔다.
 """
 import collections, csv, importlib.util, json, os, re, struct, subprocess, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -160,7 +161,7 @@ lis('그림 {{gC}}의 위쪽은 별표3에서 추출한 중간 파일 criterion_
 figcap('gC', '별표3 댐 이름으로 잇는 Relation — 이름을 대응 표로 댐 코드에 맞춘다')
 
 add(h2('2.7 결과: Relation을 이은 CSV'))
-lis('실제 Relation %d개가 kgv4_relations.csv에 한 줄씩 쓰였다(그림 {{r1}}). 한 줄은 시작 Entity(subject), Relation 이름(relation), 끝 Entity(object), 끝 Entity를 찾은 방법의 이름(rule), 원본의 키로 바로 이었는지 표시(origin), 설명(note)이다.' % len(rels),
+lis('실제 Relation %d개가 kgv4_relations.csv에 한 줄씩 쓰였다(그림 {{r1}}). 한 줄은 시작 Entity(subject), Relation 이름(relation), 끝 Entity(object)로 이루어진다.' % len(rels),
     '이로써 KG에 들어갈 내용이 CSV 파일 세 개(kgv4_entities, kgv4_properties, kgv4_relations)에 모두 담겼다.',
     '연결 확인: 4개 댐 전체에서 승인 80개 모두 댐과 근거에, 운영행위 68개 모두 댐·승인·근거에, HMS 24개 모두 댐과 근거에, 기준 3개 모두 댐과 근거에 이어졌다. 승인 중 운영행위로 이어진 것은 63개이며, 나머지 17개는 변경 승인이다.')
 figcap('r1', 'kgv4_relations.csv의 실제 줄 — 충주댐 Entity 몇 개가 시작인 줄 14개')
