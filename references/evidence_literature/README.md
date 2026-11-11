@@ -29,3 +29,7 @@
 | Gao2019_KGAccuracyEvaluation.pdf | Gao et al. (2019), Efficient Knowledge Graph Accuracy Evaluation, PVLDB 12(11), arXiv:1907.09657 |
 | Draetta2025_GRADES.pdf | Draetta et al. (2025), Beyond the Metrics (GRADES), RAGE-KG 2025, CEUR-WS Vol-4079 |
 | Nunez2026_HERMES.pdf | Nuñez et al. (2026), HERMES, RAGE-KG 2026, CEUR-WS Vol-4312 |
+| KeetKhan2024_TypesOfCQs.pdf | Keet & Khan (2024), Discerning and Characterising Types of Competency Questions for Ontologies, arXiv:2412.13688 |
+| Alharbi2023_RetrofittingCQs.pdf | Alharbi et al. (2024), An Experiment in Retrofitting Competency Questions for Existing Ontologies, ACM SAC 2024, arXiv:2311.05662 |
+| Alharbi2025_CQElicitationComparison.pdf | Alharbi et al. (2025), A Comparative Study of Competency Question Elicitation Methods from Ontology Requirements, arXiv:2507.02989 |
+| WatkissLeek2026_IDEA2.pdf | Watkiss-Leek et al. (2026), IDEA2: Expert-in-the-loop competency question elicitation, arXiv:2604.01344 |
