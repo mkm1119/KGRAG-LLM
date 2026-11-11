@@ -36,3 +36,4 @@
 | AbuSalih2021_DomainSpecificKGSurvey.pdf | Abu-Salih (2021), Domain-specific Knowledge Graphs: A survey, J. Network and Computer Applications 185, arXiv:2011.00235 (3.5절 KG 평가, 8쪽) |
 | Wilson2023_OntologyQualityModel.pdf | Wilson et al. (2023), A Conceptual Model for Ontology Quality Assessment: A Systematic Review, Semantic Web 14(6), 1051–1097 (SWJ 원고 swj3003) |
 | LiGarijo2025_LLM4OE_SLR.pdf | Li, Garijo & Poveda-Villalón (2026), Large Language Models for Ontology Engineering: A Systematic Literature Review, Semantic Web, doi:10.1177/22104968261465514 (SWJ 원고 swj3864) |
+| KeetLawrynowicz2016_TDD.pdf | Keet & Ławrynowicz (2016), Test-Driven Development of Ontologies, ESWC 2016 (확장판 arXiv:1512.06211) |
