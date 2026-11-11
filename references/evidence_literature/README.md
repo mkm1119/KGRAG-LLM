@@ -33,3 +33,4 @@
 | Alharbi2023_RetrofittingCQs.pdf | Alharbi et al. (2024), An Experiment in Retrofitting Competency Questions for Existing Ontologies, ACM SAC 2024, arXiv:2311.05662 |
 | Alharbi2025_CQElicitationComparison.pdf | Alharbi et al. (2025), A Comparative Study of Competency Question Elicitation Methods from Ontology Requirements, arXiv:2507.02989 |
 | WatkissLeek2026_IDEA2.pdf | Watkiss-Leek et al. (2026), IDEA2: Expert-in-the-loop competency question elicitation, arXiv:2604.01344 |
+| AbuSalih2021_DomainSpecificKGSurvey.pdf | Abu-Salih (2021), Domain-specific Knowledge Graphs: A survey, J. Network and Computer Applications 185, arXiv:2011.00235 (3.5절 KG 평가, 8쪽) |

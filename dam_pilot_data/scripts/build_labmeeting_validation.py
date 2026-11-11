@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""랩미팅 자료(docx): 검증 방법 선행연구 조사와 단계별 검증 설계(안).
+"""랩미팅 자료(docx): 온톨로지 검증과 KG 검증 방법 — 선행연구 분석과 우리 구조에 맞는 방안.
 서식은 11/06 자료(build_labmeeting_how_kg2.py)와 같다(labdoc_lib, 같은 템플릿).
-질문 세트 v2(연구용, 127개)의 정답(gold)을 근거로 쓴다. 한수원 과제 질문(82개)의 실행 결과는 과제 문서에 둔다.
+근거 문헌: references/evidence_literature/ (해석: lab_meeting/paper_review/검증부분_해석*.md)
+KG 숫자는 dam_pilot_data/03_normalized/kgv4_*.csv에서 계산한다.
 사용: python3 scripts/build_labmeeting_validation.py <출력 docx>
 """
-import collections, glob, importlib.util, json, os, sys
+import collections, csv, importlib.util, os, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 spec = importlib.util.spec_from_file_location('L', os.path.join(HERE, 'labdoc_lib.py')); L = importlib.util.module_from_spec(spec); spec.loader.exec_module(L)
 _li, _para = L.li, L.para
@@ -14,25 +15,27 @@ L.para = lambda t, sz=19: _para(t, sz).replace('w:after="120"/>', 'w:after="100"
 L.cell.__defaults__ = L.cell.__defaults__[:4] + (17,) + L.cell.__defaults__[5:]
 L.table.__defaults__ = (True, True, 17, ())
 _h1 = L.h1
-L.h1 = lambda t, pagebreak=False: _h1(t, False).replace('<w:pStyle w:val="1"/>', '<w:pStyle w:val="1"/><w:spacing w:before="280" w:after="40"/>', 1)
+L.h1 = lambda t, pagebreak=False: _h1(t, pagebreak).replace('<w:pStyle w:val="1"/>', '<w:pStyle w:val="1"/><w:spacing w:before="280" w:after="40"/>', 1)
 L.label = lambda t: '<w:p><w:pPr><w:keepNext/><w:spacing w:before="140" w:after="20"/><w:rPr>%s</w:rPr></w:pPr>%s</w:p>' % (L.LANG, L.run(t, sz=22, b=True, color='1F4E79'))
 for n in ('title', 'subtitle', 'dateline', 'label', 'h1', 'h2', 'para', 'li', 'spacer', 'table'):
     globals()[n] = getattr(L, n)
 
-ROOT = os.path.join(HERE, '..'); R5 = os.path.join(ROOT, '05_retrieval')
+ROOT = os.path.join(HERE, '..'); N = os.path.join(ROOT, '03_normalized')
 LAB = os.path.join(ROOT, '..', 'lab_meeting')
 OUT = sys.argv[1]
 T = L.Template(os.path.join(LAB, '랩미팅 자료_KG구축_검색답변_최종.docx'))
 
-# ------------------------------------------------------------------ 사실: 연구용 질문 세트 v2
-QS = {q['id']: q for q in json.load(open(os.path.join(R5, 'question_set_v2.json'), encoding='utf-8'))}
-EXP = collections.Counter(q['expect'] for q in QS.values())
-assert len(QS) == 127 and EXP['answer_now'] == 47 and EXP['extend'] == 42 and EXP['refuse'] == 37
-GOLD = sum(1 for q in QS.values() if q['gold'])
-assert GOLD == 47
-EX = QS['q039']
-assert EX['question'] == '2017년 8월 소양강댐 방류 시작했을 때 수위는?' and EX['gold']['period'] == {'start': '2017-08-01', 'end': '2017-08-31'}
-REFUSE = EXP['refuse']
+# ------------------------------------------------------------------ 사실: 지금 KG(kgv4)에서 계산
+rd = lambda p: list(csv.DictReader(open(os.path.join(N, p), encoding='utf-8-sig')))
+ENT, REL = rd('kgv4_entities.csv'), rd('kgv4_relations.csv')
+CC = collections.Counter(e['class'] for e in ENT)
+SUB = collections.defaultdict(set)
+for r in REL:
+    SUB[r['relation']].add(r['subject'])
+N_APR, N_OP = CC['Approval'], CC['Operation']
+APR_DAM, OP_DAM, APR_OP = len(SUB['concernsDam']), len(SUB['performedOnDam']), len(SUB['authorizes'])
+assert (len(ENT), len(REL), N_APR, N_OP) == (264, 418, 80, 68)
+assert (APR_DAM, OP_DAM, APR_OP) == (80, 68, 63)
 
 B = []
 add = B.append
@@ -45,149 +48,90 @@ def lis(*items):
 
 rtable = lambda rows, widths: table(rows, widths, header=True, firstcol=False)
 
-# ================================================================== 표지
-add(title('검증 방법 선행연구 조사', '그래프 기반 질의응답의 단계별 검증'))
-add(subtitle('선행연구의 검증 방법과 우리 파이프라인에 적용할 검증(안)'))
+# ================================================================== 표지·요약
+add(title('온톨로지와 KG의 검증 방법', '선행연구 분석과 우리 구조에 맞는 방안'))
 add(dateline('2026.11 · 문경민'))
+add(h1('요약'))
+add(label('온톨로지 검증'))
+lis('댐 분야 최근 논문들은 온톨로지를 Noy·McGuinness 방법으로 만들었고, 이 방법은 역량 질문(CQ)을 범위 설정과 검증의 기본으로 제시한다.',
+    'CQ 검증은 오래 쓰인 방법이지만, CQ를 누가 어떻게 만드느냐에 따라 품질이 달라지는 약점이 있다.',
+    '→ 전문가의 검토를 받아 CQ 세트를 만들고, 그중 검증용 CQ로 온톨로지를 시험하는 방안을 제안한다.')
+add(label('KG 검증'))
+lis('댐 분야 논문들은 추출 단계만 수치로 평가하고 KG 자체의 검증은 향후 과제로 남겼다. KG 품질 연구는 정확성·완전성·일관성을 지표로 잰다.',
+    '사람이 판정하는 정답 자료는 비용이 커서 작게 만들 수밖에 없는 것이 약점이다.',
+    '→ 우리 KG는 정형 원자료에서 만들었으므로 원자료를 기준으로 지표를 자동 계산하고, 원자료로 판단할 수 없는 부분만 전문가가 표본으로 판정하는 방안을 제안한다.')
 
-# ================================================================== 1
-add(h1('1. 검증을 다시 보는 이유'))
-lis('우리 파이프라인은 질문 → ① 의도 추출(LLM) → ② KG 검색 → ③ 근거 묶음 → ④ 답변(LLM)의 단계로 되어 있다. 지금까지는 최종 답변을 사람이 읽고 맞는지 판단했다.',
-    '최종 답변만 보면 어느 단계에서 틀렸는지 알 수 없다. 예: 질문 세트 v2의 "%s"' % EX['question'],
-    '  · 의도 추출에서 기간을 "2017년 8월 1일" 하루로 읽으면, 검색은 그날의 기록만 찾고, 답변은 "방류 기록 없음"이라고 한다.',
-    '  · 답변 자체는 근거와 어긋나지 않는 그럴듯한 답이라, 최종 답만 채점하면 원인(① 기간 값)이 드러나지 않는다.',
-    '  · 반대로 의도 추출이 정답과 달라도(CQ를 하나 더 넣는 등) 최종 답이 맞을 수 있다. 이때 ① 단계의 차이는 드러나지 않는다.',
-    '→ 어느 단계에서 틀렸는지 알아야 고칠 곳을 정할 수 있다. 검증을 어떻게 할지 선행연구를 조사해 단계별 검증을 정하고, 필요한 경우 외부 전문가를 어떻게 참여시킬지 정리한다.')
+# ================================================================== 1. 온톨로지 검증
+add(h1('1. 온톨로지 검증', pagebreak=True))
+add(h2('1.1 선행연구는 온톨로지를 어떻게 만들고 검증했나'))
+lis('댐 분야 최근 논문 두 편(Huang 외, 2026; Zhou 외, 2023)은 모두 Noy·McGuinness의 7단계 방법으로 온톨로지를 만들었다.',
+    'Noy·McGuinness는 1단계에서 "온톨로지가 답할 수 있어야 하는 질문", 즉 역량 질문(CQ)으로 범위를 정하고, 이 질문을 나중에 온톨로지가 충분한지 확인하는 리트머스 시험으로 쓰라고 한다.',
+    '다른 주요 방법론(NeOn, METHONTOLOGY, eXtreme Design)도 CQ를 설계와 검증의 바탕으로 쓴다. 홍수 분야 온톨로지들도 CQ를 질의로 바꿔 답이 나오는지 확인하거나 추론기로 모순을 검사한 경우가 가장 많았다(Li 외, 2025).',
+    'CQ를 질의로 바꿔 기대한 답이 나오는지 보는 CQ 검증은 10년 넘게 쓰인 방법이다(Lippolis 외, 2025).')
 
-# ================================================================== 2
-add(h1('2. 조사 방법'))
-lis('출발 논문: 검증을 주제로 한 최근 논문 3편.',
-    '  · GRADES (Draetta 외, 2025): 그래프 기반 질의응답의 단계별 평가 프레임워크, RAGE-KG 2025(ISWC 워크숍)',
-    '  · HERMES (Nuñez 외, 2026): GraphRAG 답변이 그래프 근거를 따르는지 검증, RAGE-KG 2026(ISWC 워크숍)',
-    '  · Yu 외(2024): RAG 평가 서베이(검색과 생성 구성요소별 지표·벤치마크 정리)',
-    '거슬러 올라가기(backward snowballing): 출발 논문의 참고문헌 중 평가·검증을 다룬 문헌을 모으고, 그 문헌의 참고문헌으로 다시 거슬러 올라간다. 이번 자료는 1차(출발 논문의 참고문헌)까지이다.',
-    '우리 분야(댐·수자원)는 따로 검색해 검증 방법을 확인했다.',
-    '분류 기준: 무엇을 검증하나(파이프라인 단계) × 어떻게 검증하나(정답 비교 / 자동 지표 / LLM 판정 / 사람·전문가).')
+add(h2('1.2 다른 검증 방법은 왜 어려운가'))
+lis('온톨로지 평가 방법은 크게 기준 온톨로지와 비교, 분야 문서와 비교, 과업 성능, 품질 기준의 네 가지다(Raad·Cruz, 2015).',
+    '앞의 두 방법은 비교할 기준 자원이 있어야 하는데, 이런 자원은 대부분 없거나 불완전하고, 온톨로지의 요구사항을 반영하지도 못한다(Lippolis 외, 2025). 댐 운영 분야에도 비교할 기준 온톨로지가 없다.')
 
-# ================================================================== 3
-add(h1('3. 조사 결과'))
-add(h2('3.1 댐·수자원 분야 연구의 검증'))
-add(label('표 2. 댐·수자원 분야 KG·LLM 연구가 한 검증'))
-add(rtable([['연구', '만든 것', '검증 방법', '단계별 검증'],
-            ['저수지 조도 규칙 KG (2023, 중국)', '조도 규칙 KG와 추론 경로', '삼협댐에 적용해 그래프를 보임', '없음'],
-            ['Baudrit 외 (2022)', '댐 시스템 그래프 지식 모델', '개념 증명(proof of concept)', '확인 못 함'],
-            ['Zhou 외 (2023), OntoDSMS', '댐 안전 모니터링 온톨로지', '관계형 DB와 검색 시간 비교, 사례 질의', '없음'],
-            ['Huang 외 (2026), DDKG', 'LLM으로 댐 결함 KG 구축', '개체 인식 지표(모두 90% 이상), 전문가 검증 모듈', '추출 단계만'],
-            ['HydroLLM-Benchmark (2025)', '수문학 LLM 벤치마크', '문항 정답률, 서술형은 코사인 유사도', '없음(LLM 단독)'],
-            ['WaterGPT (EvalWater)', '수자원 도메인 LLM', '약 1만 문항 정답률', '없음(LLM 단독)'],
-            ['Hosseini 외 (수자원 LLM 비교)', '범용 LLM 3종 비교', '리뷰 논문의 답을 기준으로 관련성·정확성 등 평가', '없음(LLM 단독)'],
-            ['수리 KG 제약 RAG (중국)', 'KG 제약을 더한 벡터 검색 RAG', '전문 질의응답 정확도 91.5%', '없음(최종 정답률)']],
-           [2700, 2500, 3272, 1500]))
-lis('조사한 범위에서 댐·수자원 연구의 검증은 사례 적용, 추출 단계 지표, 최종 정답률이었다. 질의응답 파이프라인을 단계별로 검증하거나, 범위 밖 질문의 거절을 검증한 연구는 찾지 못했다.')
+add(h2('1.3 CQ의 약점'))
+lis('좋은 CQ가 무엇인지에 대한 기준과 지침이 부족해, CQ가 모호하게 쓰이거나 답할 수 없게 만들어지는 경우가 많다. 모호한 CQ는 불완전한 온톨로지로 이어진다(Keet·Khan, 2024).',
+    '같은 요구사항에서도 CQ를 만드는 방법에 따라 결과가 크게 다르다. 온톨로지 엔지니어가 만든 CQ가 가장 적합했고, LLM이 만든 CQ는 사람의 것과 겹치는 부분이 거의 없었다(Alharbi 외, 2025).',
+    '엔지니어는 CQ를 형식화할 줄 알지만 도메인 지식이 부족하고, 도메인 전문가는 그 반대라는 간극이 있다(Watkiss-Leek 외, 2026).',
+    '→ 지금 우리 CQ는 연구자가 만든 것이라, 이 CQ로만 검증하면 연구자의 생각으로 연구자의 결과를 채점하는 셈이 된다.')
 
-add(h2('3.2 그래프 RAG·RAG 평가 연구: 단계별로 정리'))
-add(label('표 3. 단계별로 검증할 것과 선행연구의 방법'))
-add(rtable([['단계', '검증할 것', '방법', '문헌'],
-            ['질문 이해 (정보 추출)', '질문에서 뽑은 엔티티·유형이 맞는지', '전문가가 만든 정답과 비교해 정밀도·재현율·F1', 'GRADES'],
-            ['검색 (엔티티 연결·조회)', '가져온 엔티티·근거가 질문에 맞는지', '전문가가 상위 10개의 관련성 판단 → 평균 정밀도', 'GRADES'],
-            ['', '', '맥락 관련성을 LLM이 판정', 'RAGAS, ARES'],
-            ['', '', '검색 지표(정밀도, 재현율, 순위 지표) 정리', 'Yu 외(2024)'],
-            ['답변의 근거 충실성', '답의 내용이 가져온 근거에 있는지', '답을 원자 주장으로 쪼개 근거 트리플과 하나씩 대조', 'HERMES'],
-            ['', '', 'LLM이 주장별로 근거에서 확인되는지 판정', 'RAGAS'],
-            ['', '', '작은 LM 판정기 + 소량의 사람 주석으로 보정', 'ARES'],
-            ['답변 문장의 오류', '틀린 내용, 확인 불가, 오해 소지', '오류 분류표로 수작업 분류', 'Kasner·Dušek(2024), GRADES'],
-            ['거절', '근거에 답이 없을 때 거절하는지', '답이 없는 문서만 줬을 때의 거절률', 'RGB (Chen 외, 2024)'],
-            ['사람·전문가', '질문 세트의 타당성, 출력의 쓸모', '전문가가 질문을 검토하고 출력의 적합성 판단', 'GRADES'],
-            ['', '', '크라우드소싱 판정', 'Gienapp 외(2025)'],
-            ['', 'KG 자체의 정확성', 'LLM 판정과 사람 확인을 결합한 KG 검증', 'Tsaneva 외(2025)'],
-            ['온톨로지', 'CQ를 다 답하는지, 구조 품질', 'CQ 충족 여부, 평가 분류(정답 비교·코퍼스·과업·기준)', 'FOCA, Raad·Cruz(2015), McDaniel·Storey(2019)']],
-           [1900, 2300, 3672, 2100]))
-lis('평가 지표 자체의 한계도 보고되었다: 자동 지표는 사람 판단과 상관이 낮고(Novikova 외, 2017), LLM 판정은 사람의 관련성 판정을 대체하지 못한다(Clarke·Dietz, 2024).',
-    'GRADES는 LLM의 한계를 보완하려는 파이프라인을 LLM으로만 평가하면 자기강화 고리에 빠질 위험이 있다고 보고, 중간 단계 평가와 최종 출력의 사람 평가를 함께 둘 것을 제안했다.',
-    'RAG 평가를 실험 설계부터 정리한 방법론도 있다(Simon 외, 2024).')
+add(h2('1.4 우리 구조에 제안하는 방법'))
+lis('전문가의 검토를 받아 CQ 세트를 만든다. 위 연구들은 모두 사람, 특히 도메인 전문가의 참여로 CQ의 품질 문제를 보완했다(Alharbi 외, 2025; Watkiss-Leek 외, 2026).',
+    'CQ를 범위 설정용과 검증용으로 나눈다. 범위 설정 CQ는 답할 수 없어도 되지만 검증 CQ는 온톨로지가 반드시 답할 수 있어야 한다(Keet·Khan, 2024). 홍수 온톨로지 연구도 CQ의 70%로 온톨로지를 만들고 떼어 둔 30%로 평가했다(Li 외, 2025).',
+    '검증 CQ로 온톨로지를 시험하고, 답할 수 없는 CQ가 있으면 빠진 구조를 찾아 고친다.',
+    '→ 지금의 연구 구조(CQ로 설계한 온톨로지)를 그대로 쓰면서 CQ의 약점을 전문가로 보완할 수 있어, 우리 연구 구조에 가장 무리가 없는 방안으로 판단했다.')
+add(label('정할 것'))
+lis('검증 CQ를 어디서 얻을지: 설계에 쓰지 않은 질문, 또는 전문가가 낸 질문',
+    '누가 검토할지: 댐 운영 실무 경험자, 수자원 분야 연구자')
 
-add(h2('3.3 선행연구에서 전문가를 참여시킨 방법'))
-add(label('표 4. 선행연구에서 전문가·사람이 맡은 역할과 신뢰도를 확보한 방법'))
-add(rtable([['연구', '전문가·사람이 맡은 일', '인원·규모', '신뢰도 확보, 부담 줄이기'],
-            ['GRADES (2025)', '질문 세트 검토·검증, 정답 작성, 단계별 출력 판정, 최종 출력의 적합성 판단', '분야 학자 2명(질문 검토), 연구자 2명(정답), 분야 연구자 2명(판정)', '2명이 따로 판정해 일치도(Cohen κ) 계산, 의견이 갈리면 제3 전문가가 판정. 판정 일치도가 0.315, 0.154로 낮았음'],
-            ['HERMES (2026)', '도메인 전문가가 CQ 10개 작성(실제 지식 요구를 반영)', 'CQ 10개 × 그래프 6 × LLM 4 = 240회 평가', '근거 충실성은 자동 계산. 자동 지표를 사람 판정과 비교한 검증은 향후 과제로 둠(대표 표본에 전문가 주석과 일치도)'],
-            ['ARES (2024)', '자동 판정기를 보정할 소량의 사람 주석', '수백 개 주석', '사람 주석으로 자동 판정의 오차를 보정(prediction-powered inference)'],
-            ['Gienapp 외 (2025)', '크라우드소싱으로 답변 판정', '쌍 비교 판정 47,320개', '사람의 쌍 비교 판정이 LLM 판정보다 신뢰성·비용 면에서 낫다고 보고'],
-            ['Tsaneva 외 (2025)', 'KG 검증에 LLM 판정과 사람 확인을 결합', '—', 'LLM이 먼저 판정하고 사람이 확인'],
-            ['Hosseini 외 (수자원)', '기준 답과 평가 항목으로 답변 평가', 'LLM 3종', '평가 항목: 관련성, 정확성, 신뢰성, 새로움']],
-           [1700, 3100, 2300, 2872]))
-lis('공통점: 전문가는 ① 질문(입력)이 실제 지식 요구를 반영하는지 검토하고, ② 자동으로 판정하기 어려운 출력(답의 적합성·쓸모)을 판정하며, ③ 자동 지표가 믿을 만한지 표본으로 확인하는 역할을 맡는다.',
-    '전문가 판정은 사람마다 다를 수 있어(GRADES의 낮은 일치도) 2명 이상이 따로 판정하고 일치도를 보고한다. 판정 기준과 예시를 미리 주지 않으면 일치도가 낮아진다.',
-    '전문가 부담을 줄이기 위해 전수 판정 대신 표본을 판정하거나, 소량의 판정으로 자동 판정을 보정한다(ARES).')
+# ================================================================== 2. KG 검증
+add(h1('2. KG 검증'))
+add(h2('2.1 선행연구는 KG를 어떻게 검증했나'))
+lis('댐 분야 논문들은 KG 자체를 수치로 검증하지 않았다. Huang 외(2026)는 개체 인식 단계만 정밀도·재현율로 평가하고, KG 자체의 구조, 완전성, 일관성, 실제 효용 평가를 향후 과제로 남겼다. Purohit 외(2024)도 정식 평가를 향후 과제로 두었다.',
+    '도메인 특화 KG는 그 분야의 사실을 모두 모은 완전하고 정확한 기준이 없어 평가가 어렵고, 사례 연구나 도메인 전문가로 평가하기도 한다(Abu-Salih, 2021).',
+    '반면 KG 품질 연구는 품질을 차원으로 나누고 차원마다 지표로 잰다(Zaveri 외, 2016). 그중 핵심은 정확성(값이 실제 사실과 맞는가), 완전성(필요한 정보가 다 있는가), 일관성(모순이 없는가)이다.',
+    '평가는 일부를 사람이 정답으로 표시해 비교하거나 결과를 사람이 판정하는 방식으로 하며, 판정은 보통 표본으로 하고 판정자 간 일치도를 함께 보고한다(Paulheim, 2017). KG의 정확도를 "맞는 사실의 비율"로 정의하고 표본으로 추정하는 방법도 있다(Gao 외, 2019).')
 
-add(h2('3.4 조사에서 확인한 것'))
-lis('최근 연구는 최종 출력만이 아니라 파이프라인 구성요소별로 평가한다(GRADES, ARES, Yu 외).',
-    '자동 지표나 LLM 판정만으로 평가하지 않고 사람·전문가 평가를 함께 둔다(GRADES, ARES, Gienapp 외).',
-    '거절은 RGB에서 별도의 능력(negative rejection)으로 측정한다. 그래프 기반 질의응답에서 범위 밖 질문의 거절을 평가한 연구는 이번 조사에서 찾지 못했다.')
+add(h2('2.2 이 방법들의 약점'))
+lis('사람이 만드는 정답 자료는 품질이 높지만 비용이 커서 작게 만들 수밖에 없다(Paulheim, 2017).',
+    '사람의 판정도 사람마다 달라 여러 명의 판정과 일치도 확인이 필요하다(Paulheim, 2017).')
 
-# ================================================================== 4
-add(h1('4. 우리 파이프라인의 단계별 검증(안)'))
-add(h2('4.1 단계별 검증'))
-add(label('표 5. 단계별 검증할 것, 기준, 참고한 방법, 지금 있는 것'))
-add(rtable([['단계', '검증할 것', '기준·지표', '참고', '지금 있는 것'],
-            ['⓪ 온톨로지·KG', 'CQ마다 답을 돌려주는지, KG 값이 원자료와 같은지', 'CQ 충족 여부, 표본 대조 일치율', 'FOCA, Tsaneva 외', 'CQ 5개, Entity 264·Relation 418'],
-            ['① 의도 추출', '의도·댐·기간·대상이 정답과 같은지', '항목별 일치율, 오류 유형(한계 A·B)', 'GRADES', '질문 세트 v2의 의도 정답 %d개, 의도 일치 비교 코드' % GOLD],
-            ['② KG 검색', '필요한 행과 근거를 다 가져왔는지', '정답 의도로 실행한 결과와 비교한 재현율·정밀도', 'GRADES, Yu 외', '정답 의도 실행(gold 모드)'],
-            ['③ 근거 묶음', '모델 한도 안인지, 답에 필요한 근거가 들어갔는지', '글자 수, 필요한 근거 포함률(한계 C)', 'RAGAS', '근거 묶음 글자 수 기록'],
-            ['④ 답변', '근거에 있는 내용만 말하는지, 다른 값으로 대신하지 않는지, 출처 표기', '주장 단위 대조, 오류 분류(한계 D·E·G)', 'HERMES, RAGAS, Kasner·Dušek', '사람이 답변을 읽고 분류'],
-            ['⑤ 거절', '범위 밖·자료 없는 질문을 거절하는지, 거절 이유가 맞는지', '거절해야 할 %d개 질문의 거절률, 이유 일치(한계 F)' % REFUSE, 'RGB', 'v2의 기대 동작 표시(거절 %d개)' % REFUSE],
-            ['⑥ 전문가', '질문 세트가 실제 지식 요구에 맞는지, 답이 맞고 쓸모 있는지', '평가 양식에 따른 판정, 판정자 간 일치도', 'GRADES, HERMES', '없음 (4.2)']],
-           [1500, 2600, 2400, 1572, 1900]))
-lis('①~③은 정답을 정해 두면 자동으로 계산할 수 있다. ④~⑥은 사람 판정이 필요하며, LLM 판정을 쓰더라도 일부를 사람이 확인해 보정한다(ARES의 방식).',
-    '①·②의 정답은 질문 세트 v2에서 지금 답할 수 있는 %d개에 있다(question_set_v2.json의 gold). 확장해야 할 질문은 확장 후 정답을 만든다.' % GOLD)
-
-add(h2('4.2 외부 전문가 활용(안)'))
-add(label('표 6. 외부 전문가에게 맡길 일'))
-add(rtable([['역할', '하는 일', '방법', '근거'],
-            ['질문·정답 검토', '질문 세트와 CQ가 실제 댐 운영의 지식 요구를 반영하는지, 정답이 맞는지 검토', '질문 목록과 정답을 보내 의견을 받음', 'GRADES, HERMES'],
-            ['출력 판정', '④ 답변과 ⑤ 거절이 맞는지, 근거와 맞는지, 실제로 쓸모 있는지 판정', '표본을 뽑아 평가 양식으로 2명이 따로 판정, 일치도 계산, 의견이 갈리면 제3자', 'GRADES'],
-            ['자동 지표 확인', '자동 지표(①~③, LLM 판정)가 사람 판정과 맞는지 확인', '전문가 판정 표본과 자동 지표를 비교', 'HERMES(향후 과제), ARES']],
-           [1700, 3300, 3172, 1800]))
-lis('평가 양식 항목(안): 정확성(값이 맞는가), 근거 충실성(근거에 있는 내용만 말하는가), 거절의 적절성, 쓸모(업무에 도움이 되는가). 항목마다 판정 기준과 예시를 붙인다.',
-    '부담 줄이기: 전수 대신 표본을 판정한다. 양식은 연구실 안에서 먼저 시험해 판정 기준이 모호한 곳을 고친 뒤 보낸다.',
-    '판정자 후보: 댐 운영 실무 경험자, 수자원 분야 교수·연구자. 판정자가 둘 이상이어야 일치도를 계산할 수 있다.')
-
-# ================================================================== 5
-add(h1('5. 정해야 할 것'))
-add(label('표 7. 검증 방법을 마무리하기 위해 정할 것'))
-add(rtable([['항목', '선택지', '고려할 점'],
-            ['판정자', '실무자 / 교수·연구자 / 둘 다', '역할별로 다를 수 있음(질문 검토는 실무자, 출력 판정은 둘 다)'],
-            ['판정자 수', '2명 / 3명', '2명이면 일치도 계산, 3명이면 의견이 갈릴 때 다수결 가능'],
-            ['표본 크기', '단계·기대 동작별로 몇 개씩', '전문가 부담과 결과의 대표성'],
-            ['자동 판정(LLM) 사용', '쓰지 않음 / 쓰고 표본으로 보정', 'LLM으로만 평가하면 자기강화 위험(GRADES), 쓰면 사람 판정으로 보정(ARES)'],
-            ['섭외 방법', '교수님 네트워크, 학회, 기관 협조', '판정 일정과 자문 처리 방식']],
-           [1900, 3500, 4572]))
-
-# ================================================================== 6
-add(h1('6. 다음 할 일'))
-lis('조사 계속: 출발 논문 참고문헌의 참고문헌(2차)과 출발 논문을 인용한 최근 논문으로 단계별 비교표를 넓힌다.',
-    '단계별 정답과 지표: v2 질문 세트의 정답을 검색 단계까지 정리하고, ①~③ 지표를 계산하는 코드를 만든다.',
-    '평가 양식 초안: 4.2의 항목으로 양식을 만들어 연구실 안에서 먼저 시험한다.')
+add(h2('2.3 우리 구조에 제안하는 방법'))
+lis('우리 KG는 승인 기록, 관측 자료, 규정 같은 정형 원자료에서 만들었다. 도메인 KG 연구들이 어려워한 기준 자료를 원자료로 대신할 수 있어, KG 품질 연구의 지표를 그대로 계산할 수 있다.')
+add(label('표 1. 우리 KG에 적용할 검증'))
+add(rtable([['차원', '확인할 것', '방법', '누가'],
+            ['정확성', 'KG의 값이 원자료와 같은가', '원자료와 전부 대조', '자동'],
+            ['', '글에서 뽑은 값과 댐 연결이 맞는가', '표본을 뽑아 판정', '전문가'],
+            ['완전성', '원자료의 대상과 연결이 빠짐없이 들어갔는가', '비율 계산', '자동'],
+            ['일관성', '온톨로지에 정한 규칙을 지키는가 (예: 승인은 댐 하나에 연결)', '규칙 위반 질의', '자동']],
+           [1500, 3900, 2672, 1900]))
+lis('예: 지금 KG에서 완전성을 계산하면 승인 %d건과 운영행위 %d건은 모두 댐과 연결되어 있다. 승인 중 운영행위와 이어진 것은 %d건(%d%%)이다. 나머지 %d건이 원래 운영이 없었던 것인지 연결이 빠진 것인지는 원자료만으로 판단하기 어려워, 이런 대상이 전문가 판정으로 넘어간다.'
+    % (APR_DAM, OP_DAM, APR_OP, round(APR_OP / N_APR * 100), N_APR - APR_OP),
+    '전문가 판정은 같은 댐이나 같은 승인 건끼리 묶어 보여 준다. 같은 대상의 사실을 묶어 확인하면 판정 비용이 줄어든다(Gao 외, 2019).',
+    '→ 자동으로 할 수 있는 것은 원자료로 하고 사람이 판단해야 하는 것만 전문가에게 맡겨, 비용을 줄이면서 댐 분야 논문들이 향후 과제로 남긴 KG 자체의 검증을 수치로 할 수 있다.')
+add(label('정할 것'))
+lis('전문가에게 보여 줄 표본의 크기와 묶는 단위', '판정자 수(2명 이상이어야 일치도를 낼 수 있음)')
 
 # ================================================================== 참고문헌
-add(h1('부록. 참고문헌'))
-lis('Chen, J., Lin, H., Han, X., & Sun, L. (2024). Benchmarking large language models in retrieval-augmented generation. AAAI 2024, 38, 17754–17762.',
-    'Clarke, C. L., & Dietz, L. (2024). LLM-based relevance assessment still can\'t replace human relevance assessment. arXiv:2412.17156.',
-    'Draetta, L., Stranisci, M. A., Corallo, F., Balestrucci, P. F., Oliverio, M., Damiano, R., & Mazzei, A. (2025). Beyond the Metrics: an Investigation into the Reliability of Evaluation Metrics for Domain Specific Graph-based Question Answering. RAGE-KG 2025, CEUR-WS Vol-4079.',
-    'Es, S., James, J., Espinosa Anke, L., & Schockaert, S. (2024). RAGAs: Automated evaluation of retrieval augmented generation. EACL 2024 (System Demonstrations).',
-    'Gienapp, L., Hagen, T., Fröbe, M., Hagen, M., Stein, B., Potthast, M., & Scells, H. (2025). The viability of crowdsourcing for RAG evaluation. arXiv:2504.15689.',
+add(h1('참고문헌'))
+lis('Abu-Salih, B. (2021). Domain-specific knowledge graphs: A survey. Journal of Network and Computer Applications, 185, 103076.',
+    'Alharbi, R., Tamma, V., Payne, T. R., & de Berardinis, J. (2025). A comparative study of competency question elicitation methods from ontology requirements. arXiv:2507.02989.',
+    'Gao, J., Li, X., Xu, Y. E., Sisman, B., Dong, X. L., & Yang, J. (2019). Efficient knowledge graph accuracy evaluation. Proceedings of the VLDB Endowment, 12(11).',
     'Huang, J., Hou, W., Zhang, S., Du, Z., & Yin, J. (2026). Dam defects ontology and knowledge graph construction from multi-source hazard data using large language models. Advanced Engineering Informatics, 76, 104987.',
-    'Kasner, Z., & Dušek, O. (2024). Beyond traditional benchmarks: Analyzing behaviors of open LLMs on data-to-text generation. ACL 2024.',
-    'McDaniel, M., & Storey, V. C. (2019). Evaluating domain ontologies: Clarification, classification, and challenges. ACM Computing Surveys, 52(4), 70.',
-    'Novikova, J., Dušek, O., Cercas Curry, A., & Rieser, V. (2017). Why we need new evaluation metrics for NLG. EMNLP 2017.',
-    'Nuñez, G., Zárate, M., & Fillottrani, P. R. (2026). HERMES: Grounding Fidelity Evaluation in GraphRAG-Based Marine Knowledge Graphs Across LLM Configurations. RAGE-KG 2026, CEUR-WS Vol-4312.',
-    'Raad, J., & Cruz, C. (2015). A survey on ontology evaluation methods. KEOD 2015.',
-    'Saad-Falcon, J., Khattab, O., Potts, C., & Zaharia, M. (2024). ARES: An automated evaluation framework for retrieval-augmented generation systems. NAACL 2024.',
-    'Simon, S., Mailach, A., Dorn, J., & Siegmund, N. (2024). A methodology for evaluating RAG systems: A case study on configuration dependency validation. arXiv:2410.08801.',
-    'Tsaneva, S., Dessì, D., Osborne, F., & Sabou, M. (2025). Knowledge graph validation by integrating LLMs and human-in-the-loop. Information Processing & Management, 62, 104145.',
-    'Yu, H., Gan, A., Zhang, K., Tong, S., Liu, Q., & Liu, Z. (2024). Evaluation of retrieval-augmented generation: A survey. CCF Conference on Big Data, 102–120.',
-    'Zhou, Y., Bao, T., Shu, X., Li, Y., & Li, Y. (2023). BIM and ontology-based knowledge management for dam safety monitoring. Automation in Construction, 145, 104649.',
-    '그 밖에 표 2의 수자원 분야 연구(저수지 조도 규칙 KG, Baudrit 외 2022, HydroLLM-Benchmark, WaterGPT, Hosseini 외, 수리 KG 제약 RAG)와 FOCA(Bandeira 외)는 서지 정보를 원문으로 확인한 뒤 채운다.')
+    'Keet, C. M., & Khan, Z. C. (2024). Discerning and characterising types of competency questions for ontologies. arXiv:2412.13688.',
+    'Li, S., Erickson, C., Zajac, M., Guo, X., Duan, Q., & Gong, J. (2025). A semi-automated framework for flood ontology construction with an application in risk communication. Water, 17, 2801.',
+    'Lippolis, A. S., Saeedizade, M. J., Keskisärkkä, R., Gangemi, A., Blomqvist, E., & Nuzzolese, A. G. (2025). Large language models assisting ontology evaluation. arXiv:2507.14552.',
+    'Noy, N. F., & McGuinness, D. L. (2001). Ontology development 101: A guide to creating your first ontology. Stanford University.',
+    'Paulheim, H. (2017). Knowledge graph refinement: A survey of approaches and evaluation methods. Semantic Web, 8(3), 489–508.',
+    'Purohit, S., Chin, G., Mackey, P. S., & Cottam, J. A. (2024). GraphAide: Advanced graph-assisted query and reasoning system. 2024 IEEE International Conference on Big Data.',
+    'Raad, J., & Cruz, C. (2015). A survey on ontology evaluation methods. KEOD 2015, 179–186.',
+    'Watkiss-Leek, E., Alharbi, R., Rostron, H., Ng, A., et al. (2026). IDEA2: Expert-in-the-loop competency question elicitation for collaborative ontology engineering. arXiv:2604.01344.',
+    'Zaveri, A., Rula, A., Maurino, A., Pietrobon, R., Lehmann, J., & Auer, S. (2016). Quality assessment for linked data: A survey. Semantic Web, 7(1), 63–93.',
+    'Zhou, Y., Bao, T., Shu, X., Li, Y., & Li, Y. (2023). BIM and ontology-based knowledge management for dam safety monitoring. Automation in Construction, 145, 104649.')
 
 T.save(OUT, ''.join(B), L.IMGS, page_numbers=True)
 print('saved', OUT)
