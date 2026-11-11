@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
 """두 단 논문 PDF의 본문을 열 순서(왼쪽 → 오른쪽)로 이어 붙이고, 문장 단위로 나눠 위치(줄 사각형)를 돌려준다. stdlib만 사용."""
-import re
+import os, re
 from pdf_text_extract2 import PDF
 from pdf_text_positions import lines
 
 COLS = ((37.6, 289.0), (306.6, 557.7))
+TOP = 745
+ONE = os.environ.get('PR_ONECOL')          # 1단 편집 논문(예: CEUR): "왼쪽끝,오른쪽끝,머리말경계"
+if ONE:
+    _l, _r, TOP = (float(x) for x in ONE.split(','))
+    COLS = ((_l, _r), (_l, _r))
 ABBR = ('Fig', 'Figs', 'al', 'e.g', 'i.e', 'Eq', 'No', 'vs', 'Sect', 'Ref')
 
 
@@ -14,9 +19,17 @@ def norm(t):
 
 class Page:
     def __init__(self, pdf, pn, W=595.0):
-        ls = [l for l in lines(pdf, pn) if 48 < l[1] < 745 and l[2] >= 7.6]   # 맨 아래 본문 줄(y 52~59)까지 포함
+        ls = [l for l in lines(pdf, pn) if 48 < l[1] < TOP and l[2] >= 7.6]   # 맨 아래 본문 줄(y 52~59)까지 포함
         self.rows = []
-        for c, (L0, R0) in enumerate(COLS):
+        if ONE:                                # 1단: 같은 높이로 쪼개진 조각을 한 줄로 합친다
+            merged = []
+            for l in sorted(ls, key=lambda l: (-round(l[1]), l[0])):
+                if merged and abs(merged[-1][1] - l[1]) < 2:
+                    m = merged[-1]; merged[-1] = (m[0], m[1], m[2], m[3].rstrip() + ' ' + l[3])
+                else:
+                    merged.append(tuple(l[:4]))
+            self.rows = [(0, l) for l in merged]
+        for c, (L0, R0) in enumerate(() if ONE else COLS):
             cl = sorted([l for l in ls if (l[0] >= W / 2 - 10) == bool(c)], key=lambda l: -l[1])
             self.rows += [(c, l) for l in cl]
         raw, rmap, self.breaks = '', [], set()

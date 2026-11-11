@@ -7,7 +7,7 @@
 사용: python3 build_paper_review_pdf.py <원문.pdf> <해석.json | -> <출력.pdf> [memo]   ('-'이면 빈 메모 칸만, memo이면 json 내용을 메모 칸에 씀)
 해석.json: {"1": [{"lead": "원문 문단 첫머리", "ko": "해석"}, ...], "2": [...]}  (lead가 "#"로 시작하면 소제목 줄)
 """
-import json, re, struct, sys, zlib
+import json, os, re, struct, sys, zlib
 
 FONT_TTC = '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc'
 TRANS_W, MEMO_W = 400.0, 300.0          # 해석 칸, 메모 칸 너비(pt)
@@ -170,13 +170,18 @@ def anchor_finder(src, W):
     from pdf_text_positions import lines
     pdf = PDF(src); pages = pdf.pages()
     COLS = ((37.6, 289.0), (306.6, 557.7))
+    TOP = 745
+    one = os.environ.get('PR_ONECOL')          # 1단 편집 논문(예: CEUR): "왼쪽끝,오른쪽끝,머리말경계" (예: 72,523,790)
+    if one:
+        OL, OR, TOP = (float(x) for x in one.split(','))
+        COLS = ((OL, OR), (OL, OR))
 
     def colof(x):
-        return 0 if x < W / 2 - 10 else 1
+        return 0 if one or x < W / 2 - 10 else 1
 
     def find(pi, phrase):
         start = phrase.startswith('^'); ph = norm(phrase.lstrip('^'))
-        ls = [l for l in lines(pdf, pages[pi - 1]) if l[1] < 745]          # 머리말(저자·학술지명) 제외
+        ls = [l for l in lines(pdf, pages[pi - 1]) if l[1] < TOP]          # 머리말(저자·학술지명) 제외
         full = []                                  # 열을 무시하고 같은 높이의 줄을 합친 것(가운데 정렬된 그림 제목 등)
         for l in sorted(ls, key=lambda l: (-round(l[1]), l[0])):
             if not any(ch.isalnum() for ch in l[3]):            # 악센트 기호만 따로 뽑힌 조각(Protégé의 ´)은 건너뜀
@@ -187,6 +192,8 @@ def anchor_finder(src, W):
             else:
                 full.append(tuple(l[:4]) + (xe,))
         bycol = [sorted([l for l in ls if colof(l[0]) == c], key=lambda l: -l[1]) for c in (0, 1)]
+        if one:                                    # 1단: 같은 높이로 쪼개진 조각을 한 줄로 합친 것을 본문 열로 쓴다
+            bycol = [[l for l in full if l[0] < OR], []]
         for col in ((2, 0, 1) if ph.startswith('fig') else (0, 1, 2)):   # 그림 제목은 가운데 정렬로 두 열에 걸치므로 같은 높이 줄을 합친 것에서 먼저 찾음
             cl = full if col == 2 else bycol[col]
             text, offs = '', []
