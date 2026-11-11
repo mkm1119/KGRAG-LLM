@@ -14,3 +14,18 @@
 - 이 폴더에 넣었다는 사실은 원문 대조를 수행했다는 뜻이 아니다. **대조 상태:** `Noy.pdf` — STEP 1-A Step 1 절(p.4–6)을 대조 완료(`dam_pilot_data/04_reports/M_STEP1A_DOMAIN_SCOPE.md` §9); 그 외 4편 — 미대조. 대조 시 절·쪽을 확인한 뒤 `STEP1_DECISION_LOG.md`를 갱신한다.
 - 텍스트 확인에는 `dam_pilot_data/scripts/pdf_text_extract.py`(표준 라이브러리 전용, 단순 인코딩 PDF만 지원)를 썼다. `Noy.pdf`에는 동작했고 `36_FloodOntology.pdf`는 읽지 못했다.
 - 출판사 PDF의 저작권·재배포 조건은 저장소 공개 범위에 따라 확인이 필요하다.
+
+## validation/ — 검증 방법 문헌 (2026-11-11 추가)
+
+공개 원문(arXiv, CEUR-WS, Semantic Web Journal 원고, SciTePress)을 받은 그대로 보관한다. 해석: `lab_meeting/paper_review/검증부분_해석2_온톨로지_KG.md`
+
+| 파일 | 문헌 |
+|---|---|
+| RaadCruz2015_OntologyEvaluationSurvey.pdf | Raad & Cruz (2015), A Survey on Ontology Evaluation Methods, KEOD |
+| Lippolis2025_LLM_OntologyEvaluation.pdf | Lippolis et al. (2025), Large Language Models Assisting Ontology Evaluation, arXiv:2507.14552 |
+| Bandeira2016_FOCA.pdf | Bandeira et al. (2016), FOCA: A Methodology for Ontology Evaluation, arXiv:1612.03353 |
+| Zaveri2016_LinkedDataQuality.pdf | Zaveri et al. (2016), Quality Assessment for Linked Data: A Survey, Semantic Web 7(1) (게재 전 원고) |
+| Paulheim2017_KGRefinement.pdf | Paulheim (2017), Knowledge Graph Refinement: A Survey of Approaches and Evaluation Methods, Semantic Web 8(3) (게재 전 원고) |
+| Gao2019_KGAccuracyEvaluation.pdf | Gao et al. (2019), Efficient Knowledge Graph Accuracy Evaluation, PVLDB 12(11), arXiv:1907.09657 |
+| Draetta2025_GRADES.pdf | Draetta et al. (2025), Beyond the Metrics (GRADES), RAGE-KG 2025, CEUR-WS Vol-4079 |
+| Nunez2026_HERMES.pdf | Nuñez et al. (2026), HERMES, RAGE-KG 2026, CEUR-WS Vol-4312 |
