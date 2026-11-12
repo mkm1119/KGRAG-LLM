@@ -35,6 +35,7 @@
 | WatkissLeek2026_IDEA2.pdf | Watkiss-Leek et al. (2026), IDEA2: Expert-in-the-loop competency question elicitation, arXiv:2604.01344 |
 | AbuSalih2021_DomainSpecificKGSurvey.pdf | Abu-Salih (2021), Domain-specific Knowledge Graphs: A survey, J. Network and Computer Applications 185, arXiv:2011.00235 (3.5절 KG 평가, 8쪽) |
 | Wilson2023_OntologyQualityModel.pdf | Wilson et al. (2023), A Conceptual Model for Ontology Quality Assessment: A Systematic Review, Semantic Web 14(6), 1051–1097 (SWJ 원고 swj3003) |
+| Hofer2023_KGConstructionSurvey_arXiv.pdf | Hofer et al., Construction of Knowledge Graphs: State and Challenges, arXiv:2302.11509v2 (게재본: Information 15(8), 509, 2024). 3.6절 품질 보증 |
 | LiGarijo2025_LLM4OE_SLR.pdf | Li, Garijo & Poveda-Villalón (2026), Large Language Models for Ontology Engineering: A Systematic Literature Review, Semantic Web, doi:10.1177/22104968261465514 (SWJ 원고 swj3864) |
 | KeetLawrynowicz2016_TDD.pdf | Keet & Ławrynowicz (2016), Test-Driven Development of Ontologies, ESWC 2016 (확장판 arXiv:1512.06211) |
 | BezerraFreitas2017_CQUnitTesting.pdf | Bezerra & Freitas (2017), Verifying Description Logic Ontologies based on Competency Questions and Unit Testing, ONTOBRAS 2017, CEUR-WS Vol-1908, 159–164 |
