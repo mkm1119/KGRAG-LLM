@@ -1,0 +1,23 @@
+{
+ "id": "q015",
+ "task": "B09",
+ "question": "충주댐 계획홍수위까지 얼마나 여유 있어?",
+ "expect": "extend",
+ "gold": null,
+ "extension": "O1",
+ "note": "제원 + 현재 수위",
+ "source": "v1",
+ "task_name": "계획홍수위·여유고 확인",
+ "request_example": "계획홍수위까지 얼마나 남았어?",
+ "intent_raw": "{\"intent\": [], \"reason\": \"계획홍수위는 자료에 없음(운영기준은 홍수기 제한수위뿐)\"}",
+ "intent_json": {
+  "intent": [],
+  "reason": "계획홍수위는 자료에 없음(운영기준은 홍수기 제한수위뿐)"
+ },
+ "result": "거절: 계획홍수위는 자료에 없음(운영기준은 홍수기 제한수위뿐)",
+ "bundle_chars": 39,
+ "bundle": "■ 질의 불가: 계획홍수위는 자료에 없음(운영기준은 홍수기 제한수위뿐)",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 1.2
+}

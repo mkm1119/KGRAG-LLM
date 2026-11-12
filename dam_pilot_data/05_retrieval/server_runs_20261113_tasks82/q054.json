@@ -1,0 +1,23 @@
+{
+ "task": "B07",
+ "question": "충주댐 하류가 홍수 경보 단계야?",
+ "expect": "extend",
+ "gold": null,
+ "extension": "P2",
+ "note": "경보 기준 미수집",
+ "source": "task",
+ "id": "q054",
+ "task_name": "하류 경보 기준 초과 여부 확인",
+ "request_example": "하류 지점이 경보 단계야?",
+ "intent_raw": "{\"intent\": [], \"reason\": \"하류 지점의 수위·경보는 자료에 없음\"}",
+ "intent_json": {
+  "intent": [],
+  "reason": "하류 지점의 수위·경보는 자료에 없음"
+ },
+ "result": "거절: 하류 지점의 수위·경보는 자료에 없음",
+ "bundle_chars": 29,
+ "bundle": "■ 질의 불가: 하류 지점의 수위·경보는 자료에 없음",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 0.9
+}

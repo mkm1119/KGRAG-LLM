@@ -1,0 +1,23 @@
+{
+ "task": "H08",
+ "question": "이 보고서 수치가 맞는지 확인해줘",
+ "expect": "refuse",
+ "gold": null,
+ "extension": null,
+ "note": "입력 문서",
+ "source": "task",
+ "id": "q081",
+ "task_name": "보고서 수치 확인",
+ "request_example": "이 보고서 수치가 맞는지 확인해줘",
+ "intent_raw": "{\"intent\": [], \"reason\": \"보고서 수치 검증은 자료에 있는 항목이 아닌 요청이므로 자료에 없음\"}",
+ "intent_json": {
+  "intent": [],
+  "reason": "보고서 수치 검증은 자료에 있는 항목이 아닌 요청이므로 자료에 없음"
+ },
+ "result": "거절: 보고서 수치 검증은 자료에 있는 항목이 아닌 요청이므로 자료에 없음",
+ "bundle_chars": 46,
+ "bundle": "■ 질의 불가: 보고서 수치 검증은 자료에 있는 항목이 아닌 요청이므로 자료에 없음",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 1.1
+}

@@ -1,0 +1,23 @@
+{
+ "task": "E03",
+ "question": "충주댐 발전기 몇 대 돌고 있어?",
+ "expect": "refuse",
+ "gold": null,
+ "extension": null,
+ "note": "내부 자료",
+ "source": "task",
+ "id": "q064",
+ "task_name": "발전기 가동 상태 요약",
+ "request_example": "발전기 몇 대 돌고 있어?",
+ "intent_raw": "{\"intent\": [], \"reason\": \"발전기 운전 대수는 자료에 없음\"}",
+ "intent_json": {
+  "intent": [],
+  "reason": "발전기 운전 대수는 자료에 없음"
+ },
+ "result": "거절: 발전기 운전 대수는 자료에 없음",
+ "bundle_chars": 26,
+ "bundle": "■ 질의 불가: 발전기 운전 대수는 자료에 없음",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 0.8
+}

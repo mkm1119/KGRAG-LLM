@@ -1,0 +1,23 @@
+{
+ "task": "H07",
+ "question": "이 메모를 운영 일지 양식으로 바꿔줘",
+ "expect": "refuse",
+ "gold": null,
+ "extension": null,
+ "note": "입력 문서·양식",
+ "source": "task",
+ "id": "q080",
+ "task_name": "운영 일지 정리",
+ "request_example": "이 메모를 운영 일지 양식으로 바꿔줘",
+ "intent_raw": "{\"intent\": [], \"reason\": \"운영 일지 양식은 자료에 없음\"}",
+ "intent_json": {
+  "intent": [],
+  "reason": "운영 일지 양식은 자료에 없음"
+ },
+ "result": "거절: 운영 일지 양식은 자료에 없음",
+ "bundle_chars": 25,
+ "bundle": "■ 질의 불가: 운영 일지 양식은 자료에 없음",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 0.9
+}

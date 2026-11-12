@@ -1,0 +1,23 @@
+{
+ "task": "D04",
+ "question": "충주댐 하천유지용수 기준이 얼마야?",
+ "expect": "extend",
+ "gold": null,
+ "extension": "P3",
+ "note": "기준 미수집",
+ "source": "task",
+ "id": "q060",
+ "task_name": "하천유지용수 방류 기준 확인",
+ "request_example": "하천유지용수 기준이 얼마야?",
+ "intent_raw": "{\"intent\": [], \"reason\": \"하천유지용수 기준은 자료에 없음\"}",
+ "intent_json": {
+  "intent": [],
+  "reason": "하천유지용수 기준은 자료에 없음"
+ },
+ "result": "거절: 하천유지용수 기준은 자료에 없음",
+ "bundle_chars": 26,
+ "bundle": "■ 질의 불가: 하천유지용수 기준은 자료에 없음",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 0.9
+}

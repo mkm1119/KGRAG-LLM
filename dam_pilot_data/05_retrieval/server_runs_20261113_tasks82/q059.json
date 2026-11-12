@@ -1,0 +1,23 @@
+{
+ "task": "D02",
+ "question": "횡성댐 지금 물로 며칠 공급할 수 있어?",
+ "expect": "refuse",
+ "gold": null,
+ "extension": null,
+ "note": "공급량 자료",
+ "source": "task",
+ "id": "q059",
+ "task_name": "용수 공급 가능 기간 추정",
+ "request_example": "지금 물로 며칠 공급할 수 있어?",
+ "intent_raw": "{\"intent\": [], \"reason\": \"미래 예측·모의는 자료에 없음\"}",
+ "intent_json": {
+  "intent": [],
+  "reason": "미래 예측·모의는 자료에 없음"
+ },
+ "result": "거절: 미래 예측·모의는 자료에 없음",
+ "bundle_chars": 25,
+ "bundle": "■ 질의 불가: 미래 예측·모의는 자료에 없음",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 0.9
+}

@@ -1,0 +1,23 @@
+{
+ "id": "q031",
+ "task": "F05",
+ "question": "댐에서 방류하기 전에 하류에 알려야 한다는 규정 있어?",
+ "expect": "extend",
+ "gold": null,
+ "extension": "O3",
+ "note": "규정 조문",
+ "source": "v1",
+ "task_name": "현재 상황에 적용되는 조항 찾기",
+ "request_example": "지금 상황에 적용되는 규정 조항이 뭐야?",
+ "intent_raw": "{\"intent\": [], \"reason\": \"방류 절차는 자료에 없음\"}",
+ "intent_json": {
+  "intent": [],
+  "reason": "방류 절차는 자료에 없음"
+ },
+ "result": "거절: 방류 절차는 자료에 없음",
+ "bundle_chars": 22,
+ "bundle": "■ 질의 불가: 방류 절차는 자료에 없음",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 0.8
+}

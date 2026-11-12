@@ -1,0 +1,23 @@
+{
+ "task": "F07",
+ "question": "방류 전에 해야 할 절차가 뭐야?",
+ "expect": "refuse",
+ "gold": null,
+ "extension": null,
+ "note": "내부 매뉴얼",
+ "source": "task",
+ "id": "q070",
+ "task_name": "운영 절차 단계 안내",
+ "request_example": "방류 전에 해야 할 절차가 뭐야?",
+ "intent_raw": "{\"intent\": [], \"reason\": \"방류 절차는 자료에 없음\"}",
+ "intent_json": {
+  "intent": [],
+  "reason": "방류 절차는 자료에 없음"
+ },
+ "result": "거절: 방류 절차는 자료에 없음",
+ "bundle_chars": 22,
+ "bundle": "■ 질의 불가: 방류 절차는 자료에 없음",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 0.8
+}

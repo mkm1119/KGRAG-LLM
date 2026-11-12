@@ -1,0 +1,23 @@
+{
+ "task": "J05",
+ "question": "충주댐 지난 홍수 때 유입 예측이 얼마나 맞았어?",
+ "expect": "refuse",
+ "gold": null,
+ "extension": null,
+ "note": "예측 이력",
+ "source": "task",
+ "id": "q087",
+ "task_name": "예측 정확도 점검",
+ "request_example": "지난 홍수 때 유입 예측이 얼마나 맞았어?",
+ "intent_raw": "{\"intent\": [], \"reason\": \"유입 예측은 자료에 없음\"}",
+ "intent_json": {
+  "intent": [],
+  "reason": "유입 예측은 자료에 없음"
+ },
+ "result": "거절: 유입 예측은 자료에 없음",
+ "bundle_chars": 22,
+ "bundle": "■ 질의 불가: 유입 예측은 자료에 없음",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 0.8
+}

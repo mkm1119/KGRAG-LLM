@@ -1,0 +1,23 @@
+{
+ "task": "B08",
+ "question": "충주댐 수문 2m 열면 방류량이 얼마야?",
+ "expect": "refuse",
+ "gold": null,
+ "extension": null,
+ "note": "내부 자료",
+ "source": "task",
+ "id": "q055",
+ "task_name": "수문 개도별 방류량 확인",
+ "request_example": "수문 2m 열면 방류량이 얼마야?",
+ "intent_raw": "{\"intent\": [], \"reason\": \"수문 개도와 방류량의 관계는 자료에 없음\"}",
+ "intent_json": {
+  "intent": [],
+  "reason": "수문 개도와 방류량의 관계는 자료에 없음"
+ },
+ "result": "거절: 수문 개도와 방류량의 관계는 자료에 없음",
+ "bundle_chars": 31,
+ "bundle": "■ 질의 불가: 수문 개도와 방류량의 관계는 자료에 없음",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 1.0
+}

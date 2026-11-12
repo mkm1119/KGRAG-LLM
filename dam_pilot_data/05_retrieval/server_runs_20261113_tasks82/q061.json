@@ -1,0 +1,23 @@
+{
+ "task": "D05",
+ "question": "광동댐 이번 달 용수 공급 계획대로 됐어?",
+ "expect": "refuse",
+ "gold": null,
+ "extension": null,
+ "note": "내부 자료",
+ "source": "task",
+ "id": "q061",
+ "task_name": "용수 공급 계획 대비 실적",
+ "request_example": "이번 달 용수 공급 계획대로 됐어?",
+ "intent_raw": "{\"intent\": [], \"reason\": \"용수 공급 계획은 자료에 없음\"}",
+ "intent_json": {
+  "intent": [],
+  "reason": "용수 공급 계획은 자료에 없음"
+ },
+ "result": "거절: 용수 공급 계획은 자료에 없음",
+ "bundle_chars": 25,
+ "bundle": "■ 질의 불가: 용수 공급 계획은 자료에 없음",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 0.8
+}

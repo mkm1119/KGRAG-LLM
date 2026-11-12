@@ -1,0 +1,23 @@
+{
+ "id": "q022",
+ "task": "C07",
+ "question": "광동댐 방류가 충주댐에 영향을 줘?",
+ "expect": "extend",
+ "gold": null,
+ "extension": "O4",
+ "note": "수계 관계",
+ "source": "v1",
+ "task_name": "상류 댐 방류 영향 확인",
+ "request_example": "상류 댐 방류가 우리 유입량에 영향 있어?",
+ "intent_raw": "{\"intent\": [], \"reason\": \"방류가 다른 댐에 미치는 영향은 자료에 없음\"}",
+ "intent_json": {
+  "intent": [],
+  "reason": "방류가 다른 댐에 미치는 영향은 자료에 없음"
+ },
+ "result": "거절: 방류가 다른 댐에 미치는 영향은 자료에 없음",
+ "bundle_chars": 33,
+ "bundle": "■ 질의 불가: 방류가 다른 댐에 미치는 영향은 자료에 없음",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 1.0
+}

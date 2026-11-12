@@ -1,0 +1,23 @@
+{
+ "task": "J03",
+ "question": "충주댐 이대로면 모레 수위 얼마나 돼?",
+ "expect": "refuse",
+ "gold": null,
+ "extension": null,
+ "note": "예측·모형",
+ "source": "task",
+ "id": "q085",
+ "task_name": "예측 기반 수위 전망",
+ "request_example": "이대로면 모레 수위 얼마나 돼?",
+ "intent_raw": "{\"intent\": [], \"reason\": \"미래 예측·모의는 자료에 없음\"}",
+ "intent_json": {
+  "intent": [],
+  "reason": "미래 예측·모의는 자료에 없음"
+ },
+ "result": "거절: 미래 예측·모의는 자료에 없음",
+ "bundle_chars": 25,
+ "bundle": "■ 질의 불가: 미래 예측·모의는 자료에 없음",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 0.9
+}

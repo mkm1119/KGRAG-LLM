@@ -1,0 +1,23 @@
+{
+ "task": "G06",
+ "question": "충주댐 수문 설비 마지막 점검이 언제야?",
+ "expect": "refuse",
+ "gold": null,
+ "extension": null,
+ "note": "점검 기록",
+ "source": "task",
+ "id": "q073",
+ "task_name": "설비 점검 이력 조회",
+ "request_example": "수문 설비 마지막 점검이 언제야?",
+ "intent_raw": "{\"intent\": [], \"reason\": \"수문 설비 점검 기록은 자료에 없음\"}",
+ "intent_json": {
+  "intent": [],
+  "reason": "수문 설비 점검 기록은 자료에 없음"
+ },
+ "result": "거절: 수문 설비 점검 기록은 자료에 없음",
+ "bundle_chars": 28,
+ "bundle": "■ 질의 불가: 수문 설비 점검 기록은 자료에 없음",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 0.9
+}

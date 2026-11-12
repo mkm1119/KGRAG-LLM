@@ -1,0 +1,23 @@
+{
+ "id": "q030",
+ "task": "F03",
+ "question": "연계운영규정에서 홍수기는 언제부터 언제까지야?",
+ "expect": "extend",
+ "gold": null,
+ "extension": "O2",
+ "note": "규정 조문",
+ "source": "v1",
+ "task_name": "규정 조항 질의응답",
+ "request_example": "연계운영규정에서 홍수기를 어떻게 정의해?",
+ "intent_raw": "{\"intent\": [], \"reason\": \"연계운영규정에서 홍수기의 기간은 자료에 없음\"}",
+ "intent_json": {
+  "intent": [],
+  "reason": "연계운영규정에서 홍수기의 기간은 자료에 없음"
+ },
+ "result": "거절: 연계운영규정에서 홍수기의 기간은 자료에 없음",
+ "bundle_chars": 33,
+ "bundle": "■ 질의 불가: 연계운영규정에서 홍수기의 기간은 자료에 없음",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 1.1
+}

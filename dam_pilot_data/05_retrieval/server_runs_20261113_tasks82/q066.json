@@ -1,0 +1,23 @@
+{
+ "task": "E06",
+ "question": "충주댐 지난달 발전기 정지 이력 보여줘",
+ "expect": "refuse",
+ "gold": null,
+ "extension": null,
+ "note": "내부 자료",
+ "source": "task",
+ "id": "q066",
+ "task_name": "발전 정지·재가동 이력 조회",
+ "request_example": "지난달 발전기 정지 이력 보여줘",
+ "intent_raw": "{\"intent\": [], \"reason\": \"발전기 정지는 자료에 없음\"}",
+ "intent_json": {
+  "intent": [],
+  "reason": "발전기 정지는 자료에 없음"
+ },
+ "result": "거절: 발전기 정지는 자료에 없음",
+ "bundle_chars": 23,
+ "bundle": "■ 질의 불가: 발전기 정지는 자료에 없음",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 0.8
+}

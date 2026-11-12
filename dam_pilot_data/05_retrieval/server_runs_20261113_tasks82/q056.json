@@ -1,0 +1,23 @@
+{
+ "task": "B10",
+ "question": "소양강댐 홍수기 끝나면 언제쯤 상시만수위 돼?",
+ "expect": "refuse",
+ "gold": null,
+ "extension": null,
+ "note": "예측·모형",
+ "source": "task",
+ "id": "q056",
+ "task_name": "홍수기 이후 수위 회복 검토",
+ "request_example": "홍수기 끝나면 언제쯤 상시만수위 돼?",
+ "intent_raw": "{\"intent\": [], \"reason\": \"상시만수위는 자료에 없음(운영기준은 홍수기 제한수위뿐)\"}",
+ "intent_json": {
+  "intent": [],
+  "reason": "상시만수위는 자료에 없음(운영기준은 홍수기 제한수위뿐)"
+ },
+ "result": "거절: 상시만수위는 자료에 없음(운영기준은 홍수기 제한수위뿐)",
+ "bundle_chars": 39,
+ "bundle": "■ 질의 불가: 상시만수위는 자료에 없음(운영기준은 홍수기 제한수위뿐)",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 1.2
+}

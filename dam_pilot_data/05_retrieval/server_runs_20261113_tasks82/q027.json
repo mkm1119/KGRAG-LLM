@@ -1,0 +1,23 @@
+{
+ "id": "q027",
+ "task": "E04",
+ "question": "충주댐 발전할 수 있는 최저 수위는?",
+ "expect": "extend",
+ "gold": null,
+ "extension": "O1",
+ "note": "제원의 저수위. 별표3 최저 운영수위는 \"-\"",
+ "source": "v1",
+ "task_name": "발전 가능 수위 범위 확인",
+ "request_example": "발전 가능한 최저 수위가 얼마야?",
+ "intent_raw": "{\"intent\": [], \"reason\": \"발전할 수 있는 최저 수위는 자료에 없음\"}",
+ "intent_json": {
+  "intent": [],
+  "reason": "발전할 수 있는 최저 수위는 자료에 없음"
+ },
+ "result": "거절: 발전할 수 있는 최저 수위는 자료에 없음",
+ "bundle_chars": 31,
+ "bundle": "■ 질의 불가: 발전할 수 있는 최저 수위는 자료에 없음",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 0.9
+}

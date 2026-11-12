@@ -1,0 +1,23 @@
+{
+ "task": "G08",
+ "question": "수위계 고장 나면 어떻게 해?",
+ "expect": "refuse",
+ "gold": null,
+ "extension": null,
+ "note": "내부 매뉴얼",
+ "source": "task",
+ "id": "q075",
+ "task_name": "이상 상황 대응 절차 안내",
+ "request_example": "수위계 고장 나면 어떻게 해?",
+ "intent_raw": "{\"intent\": [], \"reason\": \"수위계 고장 시 대응 방법은 자료에 없음\"}",
+ "intent_json": {
+  "intent": [],
+  "reason": "수위계 고장 시 대응 방법은 자료에 없음"
+ },
+ "result": "거절: 수위계 고장 시 대응 방법은 자료에 없음",
+ "bundle_chars": 31,
+ "bundle": "■ 질의 불가: 수위계 고장 시 대응 방법은 자료에 없음",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 0.9
+}

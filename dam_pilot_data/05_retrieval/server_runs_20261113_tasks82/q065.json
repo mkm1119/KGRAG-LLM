@@ -1,0 +1,23 @@
+{
+ "task": "E05",
+ "question": "충주댐 총방류량 중 발전 방류가 얼마야?",
+ "expect": "refuse",
+ "gold": null,
+ "extension": null,
+ "note": "내부 자료",
+ "source": "task",
+ "id": "q065",
+ "task_name": "발전 방류와 수문 방류 구분",
+ "request_example": "총방류량 중 발전 방류가 얼마야?",
+ "intent_raw": "{\"intent\": [], \"reason\": \"발전 방류량은 자료에 없음(총방류량만 있음)\"}",
+ "intent_json": {
+  "intent": [],
+  "reason": "발전 방류량은 자료에 없음(총방류량만 있음)"
+ },
+ "result": "거절: 발전 방류량은 자료에 없음(총방류량만 있음)",
+ "bundle_chars": 33,
+ "bundle": "■ 질의 불가: 발전 방류량은 자료에 없음(총방류량만 있음)",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 1.0
+}

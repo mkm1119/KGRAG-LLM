@@ -1,0 +1,23 @@
+{
+ "task": "G04",
+ "question": "충주댐 이번 달 누수량 기준 넘은 적 있어?",
+ "expect": "refuse",
+ "gold": null,
+ "extension": null,
+ "note": "안전 계측",
+ "source": "task",
+ "id": "q072",
+ "task_name": "안전 계측 기준 초과 확인",
+ "request_example": "이번 달 누수량 기준 넘은 적 있어?",
+ "intent_raw": "{\"intent\": [], \"reason\": \"누수량은 자료에 없음\"}",
+ "intent_json": {
+  "intent": [],
+  "reason": "누수량은 자료에 없음"
+ },
+ "result": "거절: 누수량은 자료에 없음",
+ "bundle_chars": 20,
+ "bundle": "■ 질의 불가: 누수량은 자료에 없음",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 0.7
+}

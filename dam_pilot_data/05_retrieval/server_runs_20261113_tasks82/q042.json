@@ -1,0 +1,23 @@
+{
+ "id": "q042",
+ "task": "J01",
+ "question": "충주댐 내일 유입량 예측 알려줘",
+ "expect": "refuse",
+ "gold": null,
+ "extension": null,
+ "note": "예측 시스템",
+ "source": "v1",
+ "task_name": "유입량 예측 결과 해설",
+ "request_example": "내일 유입량 예측 얼마야?",
+ "intent_raw": "{\"intent\": [], \"reason\": \"미래의 유입량 예측은 자료에 없음\"}",
+ "intent_json": {
+  "intent": [],
+  "reason": "미래의 유입량 예측은 자료에 없음"
+ },
+ "result": "거절: 미래의 유입량 예측은 자료에 없음",
+ "bundle_chars": 27,
+ "bundle": "■ 질의 불가: 미래의 유입량 예측은 자료에 없음",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 0.9
+}

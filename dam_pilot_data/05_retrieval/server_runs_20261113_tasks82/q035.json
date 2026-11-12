@@ -1,0 +1,23 @@
+{
+ "id": "q035",
+ "task": "G05",
+ "question": "관제 태그 TAG-0001은 무슨 값이야?",
+ "expect": "refuse",
+ "gold": null,
+ "extension": null,
+ "note": "내부 자료",
+ "source": "v1",
+ "task_name": "관제 태그 의미 조회",
+ "request_example": "태그 OOOO는 무슨 값이야?",
+ "intent_raw": "{\"intent\": [], \"reason\": \"태그 TAG-0001의 값은 자료에 없음\"}",
+ "intent_json": {
+  "intent": [],
+  "reason": "태그 TAG-0001의 값은 자료에 없음"
+ },
+ "result": "거절: 태그 TAG-0001의 값은 자료에 없음",
+ "bundle_chars": 31,
+ "bundle": "■ 질의 불가: 태그 TAG-0001의 값은 자료에 없음",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 0.9
+}

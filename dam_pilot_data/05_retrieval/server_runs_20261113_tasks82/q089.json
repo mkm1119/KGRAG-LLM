@@ -1,0 +1,23 @@
+{
+ "task": "J07",
+ "question": "충주댐 올해 운영 계획 대비 실적 어때?",
+ "expect": "refuse",
+ "gold": null,
+ "extension": null,
+ "note": "계획 자료",
+ "source": "task",
+ "id": "q089",
+ "task_name": "연간 운영 계획 대비 실적",
+ "request_example": "올해 운영 계획 대비 실적 어때?",
+ "intent_raw": "{\"intent\": [], \"reason\": \"운영 계획 대비 실적은 자료에 없음\"}",
+ "intent_json": {
+  "intent": [],
+  "reason": "운영 계획 대비 실적은 자료에 없음"
+ },
+ "result": "거절: 운영 계획 대비 실적은 자료에 없음",
+ "bundle_chars": 28,
+ "bundle": "■ 질의 불가: 운영 계획 대비 실적은 자료에 없음",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 0.9
+}

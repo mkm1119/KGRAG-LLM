@@ -32,6 +32,7 @@ def found(res):
     if 'approvals' in res: f.append('승인 %d' % len(res['approvals']))
     if 'state_at_operations' in res: f.append('운영시각 측정 %d' % sum(len(x['rows']) for x in res['state_at_operations']))
     if 'state_period' in res: f.append('기간 측정 %d행' % len(res['state_period']))
+    if 'state_period_summary' in res: f.append('기간 요약 %d행' % res['state_period_summary']['n_rows'])
     if 'evidence' in res: f.append('출처 %d' % len({e['ev'] for v in res['evidence'].values() for e in v}))
     return ', '.join(f) or '(없음)'
 

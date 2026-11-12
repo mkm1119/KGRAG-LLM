@@ -1,0 +1,23 @@
+{
+ "task": "F06",
+ "question": "소양강댐 계획홍수위랑 상시만수위 알려줘",
+ "expect": "extend",
+ "gold": null,
+ "extension": "O1",
+ "note": "제원",
+ "source": "task",
+ "id": "q069",
+ "task_name": "댐 제원 조회",
+ "request_example": "OO댐 총저수용량이 얼마야?",
+ "intent_raw": "{\"intent\": [], \"reason\": \"계획홍수위와 상시만수위는 자료에 없음(운영기준은 홍수기 제한수위뿐)\"}",
+ "intent_json": {
+  "intent": [],
+  "reason": "계획홍수위와 상시만수위는 자료에 없음(운영기준은 홍수기 제한수위뿐)"
+ },
+ "result": "거절: 계획홍수위와 상시만수위는 자료에 없음(운영기준은 홍수기 제한수위뿐)",
+ "bundle_chars": 46,
+ "bundle": "■ 질의 불가: 계획홍수위와 상시만수위는 자료에 없음(운영기준은 홍수기 제한수위뿐)",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 1.4
+}

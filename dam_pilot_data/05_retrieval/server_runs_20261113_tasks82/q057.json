@@ -1,0 +1,23 @@
+{
+ "task": "C03",
+ "question": "충주댐 방류 승인 요청서 초안 써줘",
+ "expect": "refuse",
+ "gold": null,
+ "extension": null,
+ "note": "양식",
+ "source": "task",
+ "id": "q057",
+ "task_name": "방류 승인 요청서 초안 작성",
+ "request_example": "방류 승인 요청서 초안 써줘",
+ "intent_raw": "{\"intent\": [], \"reason\": \"통보문 작성에 필요한 내용(수신처, 문안)은 자료에 없음\"}",
+ "intent_json": {
+  "intent": [],
+  "reason": "통보문 작성에 필요한 내용(수신처, 문안)은 자료에 없음"
+ },
+ "result": "거절: 통보문 작성에 필요한 내용(수신처, 문안)은 자료에 없음",
+ "bundle_chars": 40,
+ "bundle": "■ 질의 불가: 통보문 작성에 필요한 내용(수신처, 문안)은 자료에 없음",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 1.1
+}

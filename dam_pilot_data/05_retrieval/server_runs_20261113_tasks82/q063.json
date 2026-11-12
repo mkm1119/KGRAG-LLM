@@ -1,0 +1,23 @@
+{
+ "task": "E02",
+ "question": "충주댐 지금 발전 방류량 얼마야?",
+ "expect": "refuse",
+ "gold": null,
+ "extension": null,
+ "note": "내부 자료",
+ "source": "task",
+ "id": "q063",
+ "task_name": "발전 방류량 현황",
+ "request_example": "지금 발전 방류량 얼마야?",
+ "intent_raw": "{\"intent\": [], \"reason\": \"발전 방류량은 자료에 없음(총방류량만 있음)\"}",
+ "intent_json": {
+  "intent": [],
+  "reason": "발전 방류량은 자료에 없음(총방류량만 있음)"
+ },
+ "result": "거절: 발전 방류량은 자료에 없음(총방류량만 있음)",
+ "bundle_chars": 33,
+ "bundle": "■ 질의 불가: 발전 방류량은 자료에 없음(총방류량만 있음)",
+ "answer": null,
+ "intent_match": true,
+ "seconds": 1.0
+}
