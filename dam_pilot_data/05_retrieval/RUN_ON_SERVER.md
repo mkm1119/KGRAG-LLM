@@ -36,6 +36,14 @@ python3 dam_pilot_data/scripts/step11_pipeline.py --questions-file dam_pilot_dat
 결과는 `dam_pilot_data/05_retrieval/runs/<시각>/`에 질문마다 `*_trace.json`(의도 원문, 의도 JSON, 근거 묶음, 답변)과 `*_retrieval.json`(검색 결과)로 저장된다.
 `--no-answer`는 의도·검색·근거 묶음까지만 실행한다. `--mock`은 LLM 없이 배관만 점검하는 가짜 모드이고 그 결과는 성과가 아니다.
 
+### 82개 질문 다시 돌리기 (11/13 수정 후)
+```bash
+git pull
+export PIPELINE_TODAY=2026-11-06     # 선택. "오늘", "지난달"의 기준 날짜를 고정한다(11/06 실행과 같은 조건으로 비교할 때). 주지 않으면 실행하는 날의 날짜
+bash dam_pilot_data/scripts/run_eval_server.sh
+```
+결과 폴더 `dam_pilot_data/05_retrieval/eval_runs/<시각>_llm/`을 통째로 올리면 11/06 결과와 같은 기준으로 다시 나눈다. 고친 내용과 질문별 대응은 `05_retrieval/tasks82_fix_20261113.md`.
+
 ## 5. 확인할 것 (사람이 점검)
 1. **의도 추출:** `*_trace.json`의 `intent_json`이 질문이 요구하는 CQ를 모두 담았는지(전체 질문은 CQ1~CQ6), 댐 이름이 정규화됐는지, 범위 밖 댐은 `intent: []`와 `reason`으로 나왔는지.
 2. **근거와 판단의 분리:** 답변이 "근거"와 "판단" 두 부분으로 나뉘는지, 근거 문장마다 출처 번호가 붙었는지, 판단 문장 끝에 어느 근거에서 나왔는지 적었는지.

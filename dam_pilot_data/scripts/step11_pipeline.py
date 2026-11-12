@@ -57,20 +57,82 @@ def parse_json(txt):
         return None, []
 
 
+WEEK = '월화수목금토일'
+
+
+def today():
+    """오늘 날짜. 시연이나 재현 때는 환경변수 PIPELINE_TODAY=YYYY-MM-DD로 고정할 수 있다."""
+    v = os.environ.get('PIPELINE_TODAY')
+    return datetime.strptime(v, '%Y-%m-%d') if v else datetime.now()
+
+
+def intent_system():
+    """질문 해석 프롬프트 + 기준 시각(오늘 날짜, 저장된 측정자료의 마지막 시각). '오늘', '지난달' 같은 말을 실제 날짜로 바꾸는 데 쓴다."""
+    t = today()
+    o = [INTENT_PROMPT.rstrip(), '', '## 기준 시각', '- 오늘 날짜: %s (%s요일)' % (t.strftime('%Y-%m-%d'), WEEK[t.weekday()])]
+    try:
+        st = r9.store()
+        o.append('- 저장된 측정자료의 마지막 시각: ' + ', '.join('%s %s' % (n, st.latest(c).strftime('%Y-%m-%d %H:%M')) for c, n in r9.M.CODES.items()))
+    except Exception:
+        pass
+    return '\n'.join(o)
+
+
 def intent_llm(question):
-    raw = chat([{'role': 'system', 'content': INTENT_PROMPT}, {'role': 'user', 'content': question}])
+    sysm = intent_system()
+    msgs = [{'role': 'system', 'content': sysm}, {'role': 'user', 'content': question}]
+    raw = chat(msgs)
     j, dups = parse_json(raw)
     if j is None:
-        raw2 = chat([{'role': 'system', 'content': INTENT_PROMPT}, {'role': 'user', 'content': question},
-                     {'role': 'assistant', 'content': raw}, {'role': 'user', 'content': 'JSON 하나만 다시 출력하세요.'}])
+        msgs += [{'role': 'assistant', 'content': raw}, {'role': 'user', 'content': 'JSON 하나만 다시 출력하세요.'}]
+        raw2 = chat(msgs)
         raw, (j, dups) = raw + '\n--- 재시도 ---\n' + raw2, parse_json(raw2)
     if dups:
-        j = {'intent': [], 'reason': '질문에 같은 종류의 값(%s)이 둘 이상 있어 한 번에 처리하지 않음' % ', '.join(dups)}
+        return raw, {'intent': [], 'reason': '질문에 같은 종류의 값(%s)이 둘 이상 있어 한 번에 처리하지 않음' % ', '.join(dups)}
+    # 값 확인: 시점이 날짜로 읽히지 않으면(형식 예시를 그대로 냄, '내일' 등) 이유를 알려 주고 한 번 다시 묻는다
+    if j and j.get('intent'):
+        _, err = r9.check(j)
+        if err and err.startswith('시점 형식 오류'):
+            msgs2 = [{'role': 'system', 'content': sysm}, {'role': 'user', 'content': question}, {'role': 'assistant', 'content': json.dumps(j, ensure_ascii=False)},
+                     {'role': 'user', 'content': 'period 값을 날짜로 읽을 수 없습니다(%s). 기준 시각의 오늘 날짜로 실제 날짜를 계산해 넣으세요. 질문에 시점이 없으면 "전체", '
+                                                 '미래의 값이나 날짜가 아닌 숫자를 묻는 질문이면 intent를 빈 목록으로 두고 reason을 적으세요. JSON 하나만 다시 출력하세요.' % err}]
+            raw2 = chat(msgs2); j2, d2 = parse_json(raw2)
+            raw += '\n--- 시점 재시도 ---\n' + raw2
+            if j2 is not None and not d2:
+                j = j2
     return raw, j
 
 
+TAG = re.compile(r'\[([^\[\]\n]{1,60})\]')
+ID = re.compile(r'^[A-Z]{2,5}:\S+$')
+LAST_CITE = {}
+
+
+def cite_check(answer, bundle):
+    """답변의 대괄호 표시를 근거 묶음의 출처 번호와 맞춰 본다. 반환: (맞는 번호, 묶음에 없는 번호나 출처 번호가 아닌 표시)"""
+    valid = {x for x in TAG.findall(bundle) if ID.match(x)}
+    used = TAG.findall(answer or '')
+    ok = [x for x in used if x in valid]
+    bad = sorted({x for x in used if x not in valid and (ID.match(x) or re.match(r'^(CQ\d|근거\s*\d|원칙|자료에 없음|출처)', x))})
+    return ok, bad, valid
+
+
 def answer_llm(question, bundle):
-    return chat([{'role': 'system', 'content': ANSWER_PROMPT}, {'role': 'user', 'content': bundle}], max_tokens=2500)
+    msgs = [{'role': 'system', 'content': ANSWER_PROMPT}, {'role': 'user', 'content': bundle}]
+    ans = chat(msgs, max_tokens=2500)
+    ok, bad, valid = cite_check(ans, bundle)
+    LAST_CITE.clear(); LAST_CITE.update({'retry': False, 'bad_first': bad, 'n_ok_first': len(ok)})
+    if bad or (valid and not ok):   # 출처 번호가 아닌 표시를 썼거나 출처 번호가 하나도 없으면 한 번 다시 쓰게 한다
+        why = ('다음 표시는 근거 묶음의 출처 번호가 아닙니다: %s. ' % ', '.join('[%s]' % b for b in bad)) if bad else '사실 문장에 출처 번호가 없습니다. '
+        msgs += [{'role': 'assistant', 'content': ans},
+                 {'role': 'user', 'content': why + '출처 번호는 근거 묶음에서 항목 앞에 붙은 대괄호 번호만 씁니다. 구역 이름(CQ1, 근거 1), "원칙", "자료에 없음"은 대괄호에 넣지 않습니다. '
+                                                   '출처 번호를 붙일 수 없는 문장은 근거 부분에서 빼거나 "자료에 없음"이라고 쓰세요. 같은 형식으로 답변 전체를 다시 쓰세요.'}]
+        ans2 = chat(msgs, max_tokens=2500)
+        ok2, bad2, _ = cite_check(ans2, bundle)
+        LAST_CITE.update({'retry': True, 'bad_final': bad2, 'n_ok_final': len(ok2)})
+        if len(bad2) < len(bad) or (ok2 and not ok):
+            ans = ans2
+    return ans
 
 
 def mock(examples):

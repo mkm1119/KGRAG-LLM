@@ -14,7 +14,12 @@ s = importlib.util.spec_from_file_location('p11', os.path.join(HERE, 'step11_pip
 
 
 def norm_period(p):
-    return json.dumps(p, sort_keys=True, ensure_ascii=False) if isinstance(p, dict) else str(p)
+    """의도 비교용. 같은 기간을 다르게 적은 것(2017-08과 2017-08-01~2017-08-31)을 같게 본다."""
+    try:
+        s_, e_, _ = P.r9.norm_period(p)
+        return '전체' if s_ is None else '%s~%s' % (s_.isoformat(), e_.isoformat())
+    except Exception:
+        return json.dumps(p, sort_keys=True, ensure_ascii=False) if isinstance(p, dict) else str(p)
 
 
 def found(res):
@@ -58,6 +63,8 @@ def main():
             r['result'] = found(res); r['bundle_chars'] = len(bundle); r['bundle'] = bundle
             if a.mode == 'llm':
                 r['answer'] = P.answer_llm(q['question'], bundle) if res.get('status') == 'ok' else None
+                if r['answer'] is not None:
+                    r['cite_check'] = dict(P.LAST_CITE)
         except Exception as e:   # 한 질문의 오류로 전체가 멈추지 않게 기록하고 넘어간다 (예: 근거 묶음이 모델 한도를 넘어 400)
             body = ''
             if hasattr(e, 'read'):

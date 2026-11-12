@@ -35,12 +35,59 @@ def cypher(query, **params):
 
 
 # ---- 단계 1. 입력 확인 (정규화 포함)
-def parse_t(s, end=False):
-    s = s.replace(' ', 'T')
-    if len(s) == 10:
-        d = datetime.strptime(s, '%Y-%m-%d')
-        return d + timedelta(days=1) if end else d
-    return datetime.strptime(s, '%Y-%m-%dT%H:%M')
+import re, calendar
+
+_KO = re.compile(r'^(\d{4})년(?:(\d{1,2})월(?:(\d{1,2})일(?:(\d{1,2})시(?:(\d{1,2})분)?)?)?)?$')
+_ISO = re.compile(r'^(\d{4})(?:[-./](\d{1,2})(?:[-./](\d{1,2})(?:[T ](\d{1,2})(?::(\d{1,2})(?::\d{1,2}(?:\.\d+)?)?)?)?)?)?$')
+
+
+def parse_t(v):
+    """시점 문자열을 (시작, 끝, 단위)로 읽는다. 끝은 포함하지 않는다. 단위: year, month, day, time.
+    받는 형식: 2020, 2020-08, 2020-08-02, 2020-08-02T18, 2020-08-02T18:00(:00), 2020.08.02, 2020/08/02, '2020년 8월 2일 18시'.
+    형식 예시('YYYY-MM-DD')나 '내일' 같은 말은 날짜가 아니므로 ValueError."""
+    if not isinstance(v, str):
+        raise ValueError('시점 값이 문자열이 아님: %r' % (v,))
+    t = v.strip().rstrip('Z')
+    m = _ISO.match(t) or _KO.match(re.sub(r'\s+', '', t))
+    if not m:
+        raise ValueError('날짜로 읽을 수 없는 값 %r' % v)
+    y, mo, d, h, mi = [int(x) if x is not None else None for x in m.groups()]
+    if not 1900 <= y <= 2100:
+        raise ValueError('연도가 범위(1900~2100) 밖 %r' % v)
+    if mo is None:
+        return datetime(y, 1, 1), datetime(y + 1, 1, 1), 'year'
+    if d is None:
+        return datetime(y, mo, 1), datetime(y, mo, 1) + timedelta(days=calendar.monthrange(y, mo)[1]), 'month'
+    if h is None:
+        return datetime(y, mo, d), datetime(y, mo, d) + timedelta(days=1), 'day'
+    if h == 24:
+        t0 = datetime(y, mo, d) + timedelta(days=1)
+    else:
+        t0 = datetime(y, mo, d, h, mi or 0)
+    return t0, t0 + timedelta(hours=1), 'time'
+
+
+def norm_period(p):
+    """period를 (시작, 끝, 정리한 period)로 만든다. '전체'이면 (None, None, '전체')."""
+    if p in (None, '', '전체') or (isinstance(p, dict) and (not p or set(p.values()) <= {'전체', None, ''})):
+        return None, None, '전체'
+    if isinstance(p, str):
+        p = {'at': p}
+    if not isinstance(p, dict):
+        raise ValueError('period 형식 오류: %r' % (p,))
+    f = lambda t: t.strftime('%Y-%m-%d') if (t.hour, t.minute) == (0, 0) else t.strftime('%Y-%m-%dT%H:%M')
+    if p.get('at'):
+        s_, e_, unit = parse_t(p['at'])
+        if unit in ('day', 'time'):
+            return s_, e_, {'at': f(s_)}
+        return s_, e_, {'start': f(s_), 'end': f(e_ - timedelta(days=1))}
+    if p.get('start') and p.get('end'):
+        s_ = parse_t(p['start'])[0]; e0, e1, unit = parse_t(p['end'])
+        e_ = e0 if unit == 'time' else e1          # 날짜만 쓴 end는 그 날(달, 해) 전체
+        if e_ <= s_:
+            raise ValueError('기간의 끝이 시작보다 앞섬: %s ~ %s' % (p['start'], p['end']))
+        return s_, e_, {'start': f(s_), 'end': f(e0 if unit == 'time' else e_ - timedelta(days=1))}
+    raise ValueError('period에 at 또는 start·end가 없음: %r' % (p,))
 
 
 def check(req):
@@ -56,21 +103,18 @@ def check(req):
             return None, 'CQ6 대상 오류'
         out['target'] = t
         return out, None
-    dam = DAMS.get(req.get('dam'))
+    d = req.get('dam')
+    if not d:
+        return None, '댐이 지정되지 않음 (충주댐, 소양강댐, 횡성댐, 광동댐 중 하나를 정해 물어야 한다)'
+    dam = DAMS.get(d) if isinstance(d, str) else None
     if dam is None:
-        return None, '범위 밖의 댐: %s' % req.get('dam')
+        return None, '범위 밖의 댐: %s' % (d,)
     out['dam'] = dam
-    p = req.get('period', '전체')
-    if p == '전체':
-        out['start'], out['end'] = datetime(1900, 1, 1), datetime(2999, 1, 1)
-    else:
-        try:
-            if 'at' in p:
-                out['start'] = parse_t(p['at']); out['end'] = parse_t(p['at'], True) if len(p['at']) == 10 else out['start'] + timedelta(hours=1)
-            else:
-                out['start'], out['end'] = parse_t(p['start']), parse_t(p['end'], True)
-        except Exception as e:
-            return None, '시점 형식 오류: %s' % e
+    try:
+        s_, e_, p = norm_period(req.get('period', '전체'))
+    except Exception as e:
+        return None, '시점 형식 오류: %s' % e
+    out['start'], out['end'] = (s_, e_) if s_ else (datetime(1900, 1, 1), datetime(2999, 1, 1))
     out['period'] = p
     return out, None
 
@@ -104,6 +148,28 @@ def document(locator):
 
 def rows_out(pairs):
     return [(t.strftime('%Y-%m-%d %H:%M'), v) for t, v in pairs]
+
+
+MAX_PERIOD_ROWS = 100   # 기간의 정시 행이 이보다 많으면 전부 싣지 않고 요약한다(모델 입력 한도)
+
+
+def summarize(code, rows, start, end):
+    """긴 기간의 정시 행을 줄인다. 원래 행에서 고른 것(처음, 마지막, 변수별 최대·최소)은 원값 그대로이고,
+    개수와 강우량 합계만 코드가 계산한다."""
+    num = lambda v: float(v) if v not in ('', None) else None
+    S = {'n_rows': len(rows), 'first': rows_out(rows[:1]), 'last': rows_out(rows[-1:]), 'vars': {}}
+    first, last = rows[0][0], rows[-1][0]
+    S['n_expected'] = int((last - first).total_seconds() // 3600) + 1
+    for n in M.VARS:
+        vals = [(num(v[n]), t, v) for t, v in rows if num(v[n]) is not None]
+        d = {'n_missing': len(rows) - len(vals)}
+        if vals:
+            hi = max(vals, key=lambda x: x[0]); lo = min(vals, key=lambda x: x[0])
+            d['max'] = rows_out([(hi[1], hi[2])]); d['min'] = rows_out([(lo[1], lo[2])])
+            if n == '강우량':
+                d['sum'] = round(sum(x[0] for x in vals), 3)
+        S['vars'][n] = d
+    return S
 
 
 def run(req):
@@ -152,7 +218,13 @@ def run(req):
                 t = datetime.strptime(o['time'][:16], '%Y-%m-%dT%H:%M')
                 R['state_at_operations'].append({'op': o['op'], 'time': o['time'][:16].replace('T', ' '), 'rows': rows_out(store().at(code, t))})
         else:
-            R['state_period'] = rows_out(store().span(code, q['start'], q['end']))
+            rows = store().span(code, q['start'], q['end'])
+            if len(rows) > MAX_PERIOD_ROWS:
+                R['state_period_summary'] = summarize(code, rows, q['start'], q['end'])
+            else:
+                R['state_period'] = rows_out(rows)
+    if 'CQ1' in its or 'CQ2' in its:
+        R['data_range'] = [x.strftime('%Y-%m-%d %H:%M') for x in store().range(code)]
     # CQ4: 승인
     if 'CQ4' in its:
         R['approvals'] = cypher(Q_APPS, dam=dam, s=q['start'].strftime('%Y-%m-%d'), e=q['end'].strftime('%Y-%m-%d'))

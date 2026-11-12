@@ -29,6 +29,14 @@ class Store:
         """저장된 가장 최근 시각."""
         return max(t for (c, t) in self.d if c == code)
 
+    def range(self, code):
+        """저장된 자료의 처음과 마지막 시각."""
+        if not hasattr(self, '_rg'):
+            self._rg = {}
+            for (c, t) in self.d:
+                lo, hi = self._rg.get(c, (t, t)); self._rg[c] = (min(lo, t), max(hi, t))
+        return self._rg[code]
+
     def at(self, code, t):
         """시각 t의 값. 정각이면 그 시각 1행, 아니면 t를 감싸는 앞뒤 정시 2행. 없는 시각은 건너뛴다. 반환: [(시각, 값 dict)]"""
         if t.minute == 0 and t.second == 0:
