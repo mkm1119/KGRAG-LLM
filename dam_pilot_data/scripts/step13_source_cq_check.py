@@ -52,6 +52,16 @@ for e, c in ent.items():
         cri[DAMS[out_[e]['appliesToDam'][0].split(':')[1]]] = prop[e]['criterionValue']
 add('S5', '원자료 대조', '운영기준 값(criterionValue)이 규정 별표3 원문의 그 댐 값과 같음', len(cri), sum(annex.get(d) == v for d, v in cri.items()),
     '; '.join('%s KG %s / 원문 %s' % (d, v, annex.get(d)) for d, v in cri.items()) + '; 광동댐은 별표3에 없음' * ('광동댐' not in annex))
+# 댐: K-water 댐 기본정보를 정리한 표(dam_catalog_kwater_basic.csv)와 대조. 운영기준은 같은 표의 홍수기제한수위(규정과 독립된 자료)와도 대조
+cat = {r['dam_id_source']: r for r in rd('dam_catalog_kwater_basic.csv')}
+dams = [e for e, c in ent.items() if c == 'Dam']
+add('S9', '원자료 대조', '댐의 이름과 유형(damName, damType)이 K-water 댐 기본정보와 같음', len(dams),
+    sum(e.split(':')[1] in cat and prop[e].get('damName') == cat[e.split(':')[1]]['dam_name_source'] and prop[e].get('damType') == cat[e.split(':')[1]]['facility_type_source'] for e in dams),
+    '기대 값은 K-water 댐 기본정보를 정리한 표에서 읽음')
+kw = {r['dam_name_source']: r['홍수기제한수위(EL.m)[DATA10]'] for r in cat.values()}
+add('S10', '다른 자료와 대조', '운영기준 값이 K-water 댐 기본정보의 홍수기제한수위와 같음(규정 별표3과 독립된 자료)', len(cri),
+    sum(d in kw and float(kw[d]) == float(v) for d, v in cri.items()),
+    '; '.join('%s KG %s / K-water %s' % (d, v, kw.get(d)) for d, v in cri.items()) + '; 광동댐은 K-water에만 %s' % kw.get('광동댐'))
 ops = [o for o in rd('operation_from_remarks_5dams.csv') if o['operation_created'] == 'Y']
 kg_opr = [e for e, c in ent.items() if c == 'Operation']
 add('S6', '원자료 대조', '운영행위가 나온 승인이 모두 원본에 있음', len(kg_opr), sum(e.split(':')[1] in exp for e in kg_opr))
