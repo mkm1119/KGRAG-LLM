@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""STEP 13: KG v4를 (가) 원자료와 대조하고 (나) CQ1~CQ6마다 KG에서 근거를 찾아 원자료에서 센 값과 대조한다. stdlib만 사용.
+"""STEP 13: KG v4를 (가) 원자료와 대조하고 (나) CQ1~CQ6마다 KG에서 근거를 찾아 원자료에서 센 값과 대조하고 (다) 분야 상식으로 만든 후보 규칙을 실행한다. stdlib만 사용.
 step6_validate.py(온톨로지 규칙 검사)와 짝이 되는 검사이다. KG를 만든 중간 파일이 아니라 원본 파일을 다시 읽어 기대 값을 만든다.
 원자료: 01_raw/FloodControl 승인 CSV(cp949), 01_raw/Law 연계운영규정 XML(별표3).
 중간 파일을 쓰는 곳: 운영행위(비고에서 뽑은 표 operation_from_remarks_5dams.csv), 중복 제거 기록(approval_preprocess_log.csv).
@@ -89,6 +89,18 @@ add('C6', 'CQ6 공식 근거', '상태·운영행위·승인·운영기준에서
     sum(bool(out_[e]['supportedBy']) and all(prop[x].get('sourceLocator') for x in out_[e]['supportedBy']) for e in tgt))
 loc = [prop[e]['sourceLocator'] for e, c in ent.items() if c == 'EvidenceSource' and e.startswith('EVI:AP:')]
 add('C6b', 'CQ6 공식 근거', '승인 근거자료의 출처 위치(순차번호)가 원본에 있는 행을 가리킴', len(loc), sum(l.replace('순차번호', '').strip() in exp for l in loc))
+
+# ------------------------------------------------------------------ (다) 후보 규칙: 분야 상식으로 만든 규칙. 맞는 규칙인지는 전문가 확인이 필요하다
+au = [(r['subject'], r['object']) for r in rels if r['relation'] == 'authorizes']
+early = [(a, o) for a, o in au if prop[o]['operationTime'][:10] < prop[a]['approvalTime']]
+rows.append({'id': 'R1', 'group': '후보 규칙', 'check': '운영행위의 날짜가 그 운영행위를 허가한 승인의 승인일보다 이르지 않음', 'expected': len(au), 'kg': len(au) - len(early), 'result': '전문가 확인 필요',
+             'note': '; '.join('%s(%s) 시각 %s / %s 승인일 %s' % (o, prop[o]['operationType'], prop[o]['operationTime'], a, prop[a]['approvalTime']) for a, o in early)})
+grp = collections.defaultdict(list)
+for k, v in exp.items():
+    grp[(v['관측소코드'].strip(), v['방류시작시간'].strip())].append(k)
+multi = {k: v for k, v in grp.items() if len(v) > 1}
+rows.append({'id': 'R2', 'group': '후보 규칙', 'check': '같은 댐에 같은 방류시작시간을 가진 승인이 둘 이상인 묶음', 'expected': '-', 'kg': len(multi), 'result': '정보',
+             'note': '승인 %d개. 변경·연장 승인을 가려내는 데 쓸 수 있음' % sum(len(v) for v in multi.values())})
 
 with open(os.path.join(N, 'step13_source_cq_check.csv'), 'w', encoding='utf-8-sig', newline='') as f:
     w = csv.DictWriter(f, fieldnames=list(rows[0])); w.writeheader(); w.writerows(rows)
