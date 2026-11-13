@@ -10,6 +10,9 @@ ONE = os.environ.get('PR_ONECOL')          # 1단 편집 논문(예: CEUR): "왼
 if ONE:
     _l, _r, TOP = (float(x) for x in ONE.split(','))
     COLS = ((_l, _r), (_l, _r))
+if os.environ.get('PR_COLS'):            # 2단이지만 판형이 다른 논문(예: IEEE 레터 판형): "왼쪽단 시작,끝,오른쪽단 시작,끝"
+    _c = [float(x) for x in os.environ['PR_COLS'].split(',')]
+    COLS = ((_c[0], _c[1]), (_c[2], _c[3]))
 ABBR = ('Fig', 'Figs', 'al', 'e.g', 'i.e', 'Eq', 'No', 'vs', 'Sect', 'Ref')
 
 
