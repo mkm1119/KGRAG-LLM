@@ -4,7 +4,9 @@
    "lead": "#연구 목적",
    "ko": "- 여러 출처의 자료로 지식그래프(KG)를 만들고, 그 KG에 자연어로 질의하고 추론하는 시스템 GraphAide를 제안한다\n- KG와 LLM을 함께 써서 특정 분야의 디지털 조수를 빠르게 만드는 것이 목표다\n- RAG의 설계 방식과 시맨틱 웹 기술(온톨로지)을 합친 에이전트형 LLM 응용이다",
    "anchors": [
-    "S:In this context, we introduce an advanced query and reasoning"
+    "S:In this context, we introduce an advanced query and reasoning",
+    "S:GraphAide harnesses both the KG and LLMs",
+    "S:It integrates design patterns from retrieval"
    ]
   },
   {
@@ -12,7 +14,9 @@
    "ko": "- LLM은 요약, 연관, 추론에서 성능이 좋아 여러 분야에 빠르게 쓰이고 있다\n- KG는 개념을 개체로, 개체 사이를 관계로 나타낸 것이다. 만드는 데는 자료 규모, 분야마다 다른 개념, 구축 비용의 어려움이 있다\n- LLM 응용의 큰 문제는 환각(없는 사실을 만들어 냄)이다",
    "anchors": [
     "S:Knowledge Graphs (KGs) are formal representations of key",
-    "S:A major challenge in developing accurate and consistent"
+    "S:A major challenge in developing accurate and consistent",
+    "S:They have been adopted at an extraordinary rate",
+    "S:However, constructing these KGs presents"
    ]
   },
   {
@@ -20,7 +24,11 @@
    "ko": "- RAG는 질문과 관련된 문맥을 찾아 LLM에 함께 넣어 환각을 줄인다. 기본 RAG는 벡터 DB에서 의미가 비슷한 조각을 찾는다\n- 한계: 벡터 검색은 질문과 문서의 의미 유사도에만 의존한다. 문서 사이의 관계, 메타데이터 같은 구조 정보를 쓰지 못한다\n- KG는 여러 문서에 흩어진 정보를 관계로 이어 저장하므로 이 한계를 보완한다\n→ 의미 문맥(벡터)과 구조 문맥(그래프)을 함께 쓰자는 것이 이 논문의 출발점이다",
    "anchors": [
     "S:However, a vector search-based method is constrained by",
-    "S:By integrating KGs into the design pattern, the system"
+    "S:By integrating KGs into the design pattern, the system",
+    "S:Retrieval-augmented generation (RAG) [8] is a well",
+    "S:A foundational RAG-based system employs",
+    "S:It fails to leverage the structural context",
+    "S:Knowledge Graphs (KGs) offer a robust"
    ]
   }
  ],
@@ -29,7 +37,8 @@
    "lead": "#GraphAide의 주요 기능",
    "ko": "- 온톨로지에 맞춘 KG 구축: txt, html, pdf 등에서 여러 값, 여러 출처, 시간 속성을 다룬다\n- 임베딩 생성과 관리: 벡터 DB를 여러 개 두고 질문에 따라 고른다\n- 온톨로지 설정을 틀(template)로 바꿔 끼울 수 있다. 같은 자료로 KG를 여러 판 만들 수 있다\n- 문맥 생성 강화: 벡터 검색과 그래프의 부분 그래프 매칭을 합친다\n- 외부 함수 실행: 시계열 DB의 시간 자료 같은 다른 형태의 자료를 가져와 문맥에 더한다",
    "anchors": [
-    "S:GraphAide combines a robust graph matching approach"
+    "S:GraphAide combines a robust graph matching approach",
+    "BOX:58,262,300,453"
    ]
   },
   {
@@ -38,16 +47,22 @@
    "anchors": [
     "S:However, the baseline RAG is limited by",
     "S:GraphRAG [10] advances this",
-    "S:A common challenge with these approaches"
+    "S:A common challenge with these approaches",
+    "S:Existing Knowledge Graph (KG)-based LLM capabilities often",
+    "S:A baseline RAG approach [9] transforms",
+    "S:GraphRAG leverages community detection",
+    "S:Other approaches, such as the work by Trajanoska"
    ]
   },
   {
    "lead": "#구조 개요: 두 단계",
-   "ko": "- 생성 단계: 여러 출처의 정보를 합쳐 KG를 만든다. KG는 벡터 DB와 함께 지식 저장소가 된다\n- 질의 단계: 사용자 질문으로 지식 저장소를 조회하고, 설명과 근거를 붙여 답한다\n- 정해진 순서로 실행하는 체인과, LLM의 응답을 보고 다음 질의를 스스로 정하는 에이전트를 섞어 쓴다\n- 풀어야 할 문제를 8가지로 나눴다: 자료 적재와 정규화, 개체명 인식, 분야에 맞는 의미 주석, 그래프 모델링과 저장, 질의 해석과 문맥 생성, 질의 확장과 후보 생성, 요약과 설명 가능한 응답 생성",
+   "ko": "- 생성 단계: 여러 출처의 정보를 합쳐 KG를 만든다. KG는 벡터 DB와 함께 지식 저장소가 된다\n- 질의 단계: 사용자 질문으로 지식 저장소를 조회하고, 설명과 근거를 붙여 답한다\n- 정해진 순서로 실행하는 체인과, LLM의 응답을 보고 다음 질의를 스스로 정하는 에이전트를 섞어 쓴다\n- 풀어야 할 문제를 7가지로 나눴다: 자료 적재와 정규화, 개체명 인식, 분야에 맞는 의미 주석, 그래프 모델링과 저장, 질의 해석과 문맥 생성, 질의 확장과 후보 생성, 요약과 설명 가능한 응답 생성",
    "anchors": [
     "S:GraphAide is a hybrid application leveraging both chains",
     "S:As illustrated in Figure 1, the generation phase",
-    "S:In the query phase, GraphAide provides a user"
+    "S:In the query phase, GraphAide provides a user",
+    "S:Unlike hardcoded instructions",
+    "S:GraphAide decomposes the query and reasoning"
    ]
   }
  ],
@@ -56,7 +71,9 @@
    "lead": "#A. 자료 적재",
    "ko": "- 텍스트, CSV, PDF 등 흔한 형식을 그대로 받는다\n- 적재한 자료를 나누고 조각낸다. 벡터 검색을 빠르게 하고, LLM이 한 번에 받을 수 있는 길이를 넘는 자료를 다루기 위해서다\n- 조각 크기와 겹치는 길이는 고정값을 쓰고, 분야에 맞게 바꿀 수 있다",
    "anchors": [
-    "S:A collection of source data (i.e.,"
+    "S:A collection of source data (i.e.,",
+    "S:GraphAide creates an abstraction layer",
+    "S:GraphAide employs static chunk"
    ]
   },
   {
@@ -64,7 +81,8 @@
    "ko": "- 기본 RAG와 달리 벡터 DB와 그래프 DB 양쪽에 저장한다\n- 벡터 DB: 분야 자료나 범용 지식(WikiData)의 임베딩을 저장한다\n- 그래프 DB: 구조 정보를 추가로 저장한다. 저자들은 이것을 이 시스템의 새로운 점이라고 했다",
    "anchors": [
     "S:In contrast to basic RAG, GraphAide persists",
-    "S:The novelty of GraphAide lies in its use of"
+    "S:The novelty of GraphAide lies in its use of",
+    "S:GraphAide uses a vector database to store embeddings"
    ]
   },
   {
@@ -73,7 +91,8 @@
    "anchors": [
     "S:It employs a prompt-based, few-shot",
     "S:GraphAide supports the dynamic selection",
-    "S:GraphAide uses Pydantic"
+    "S:GraphAide uses Pydantic",
+    "S:GraphAide de"
    ]
   },
   {
@@ -82,22 +101,25 @@
    "anchors": [
     "S:User queries are often incomplete",
     "S:Subsequently, GraphAide leverages LLMs",
-    "S:The GraphAide API supports commonly used graph"
+    "S:The GraphAide API supports commonly used graph",
+    "S:GraphAide applies a similar approach"
    ]
   },
   {
    "lead": "#E. 지표와 평가",
-   "ko": "- 구성요소가 여럿인 시스템은 지표 하나로는 성능을 설명하기 어렵다. 구성요소마다 역할과 다루는 자료에 맞는 지표가 필요하다\n- 표 I: 개체 추출은 답 정확도, 의미 주석은 문맥 관련성·정확도와 답 관련성·정확도와 의미 유사도, 개체 구분은 문맥 정밀도·재현율과 ROC 곡선, 질의 확장은 답 관련성, 그래프 질의 생성은 답 정확도·관련성\n- 평가 자료 준비와 지표 계산에는 RAGAS를 쓴다\n- 표 I은 어떤 지표를 쓸지를 정한 것이고, 표의 지표 전부에 대한 결과값은 논문에 없다",
+   "ko": "- 구성요소가 여럿인 시스템은 지표 하나로는 성능을 설명하기 어렵다. 구성요소마다 역할과 다루는 자료에 맞는 지표가 필요하다\n- 표 I: 개체 추출은 답 정확도, 의미 주석은 문맥 관련성·정확도와 답 관련성·정확도와 의미 유사도, 개체 구분은 문맥 정밀도·재현율과 ROC 곡선, 질의 확장은 답 관련성, 그래프 질의 생성은 답 정확도·관련성\n- 평가 자료 준비와 지표 계산에는 RAGAS를 쓴다\n- 평가 자료와 지표를 자동으로 만드는 API 개발은 향후 과제다\n- 표 I은 어떤 지표를 쓸지를 정한 것이고, 표의 지표 전부에 대한 결과값은 논문에 없다",
    "anchors": [
     "S:Evaluation of a comprehensive GenAI application",
-    "S:GraphAide leverages RAGAS [20]"
+    "S:GraphAide leverages RAGAS [20]",
+    "S:There is also a need to identify relevant metrics",
+    "S:Future work will focus on developing an API"
    ]
   },
   {
    "lead": "#표 I. 구성요소별 지표",
    "ko": "- GraphAide의 구성요소 다섯 개마다 평가에 쓸 지표를 나열한 표다. 지표의 값은 없다",
    "anchors": [
-    "S:TABLE I: Metrics for Different Components"
+    "TABLE I: Metrics for Different Components"
    ]
   }
  ],
@@ -106,7 +128,8 @@
    "lead": "#정성 평가",
    "ko": "- 사람이 참여해 응답을 평가하는 정성 지표도 필요하다고 했다\n- 검색 모델과 LLM을 바꿔 가며 비교할 수 있는 결과를 만들어, 분야 전문가가 평가할 수 있게 한다",
    "anchors": [
-    "S:GraphAide provides methods to"
+    "S:GraphAide provides methods to",
+    "S:qualitative metrics are required to evaluate"
    ]
   },
   {
@@ -114,7 +137,8 @@
    "ko": "- 부분 그래프 매칭 결과와 벡터 검색 결과를 합쳐 LLM에 줄 문맥을 만든다\n- 늘린 질문마다 LLM에 따로 묻고, 한 번 더 호출해 응답들을 하나로 합친다\n- 조건이 여러 개인 복잡한 질의 틀을 자동으로 만드는 것은 향후 과제다",
    "anchors": [
     "S:It offers an API to combine subgraph",
-    "S:GraphAide executes multiple parallel requests"
+    "S:GraphAide executes multiple parallel requests",
+    "S:Auto-generation of complex templates"
    ]
   },
   {
@@ -123,14 +147,16 @@
    "anchors": [
     "S:For our experiment, we instantiated GraphAide using",
     "S:An ontology [23] is also constructed",
-    "S:A DARPA version of WikiData"
+    "S:A DARPA version of WikiData",
+    "S:We used GPT-4o model",
+    "S:To demonstrate GraphAide’s capabilities, we used AIDA"
    ]
   },
   {
    "lead": "#그림 1. GraphAide 구조",
    "ko": "- KG 생성 단계(왼쪽)와 KG 질의 단계(오른쪽)의 구성요소와 흐름을 나타낸 그림이다",
    "anchors": [
-    "S:Fig. 1: GraphAide Architecture"
+    "Fig. 1: GraphAide Architecture"
    ]
   }
  ],
@@ -145,7 +171,7 @@
   },
   {
    "lead": "#KG 품질 평가 방법",
-   "ko": "- 만든 KG를 기존 시스템(GAIA)이 만든 KG와 비교했다\n- 비교한 것은 노드 유형과 관계 유형의 분포다(그림 4, 그림 5)\n- 기준 KG는 노드 유형이 사람(PER)에 쏠려 있고, GraphAide의 KG는 유형이 더 다양하고 고르게 나왔다고 했다\n- 개체 추출과 관계 추출의 품질이 기준 KG보다 좋다고 했으나, 정밀도나 재현율 같은 수치는 없다\n→ KG에 들어간 내용이 맞는지를 확인한 것이 아니라, 유형이 얼마나 다양하게 뽑혔는지를 본 것이다",
+   "ko": "- 만든 KG를 기존 시스템(GAIA)이 만든 KG와 비교했다\n- 비교한 것은 노드 유형과 관계 유형의 분포다(그림 4, 그림 5)\n- 기준 KG는 노드 유형이 사람(PER)에 쏠려 있다. GraphAide의 KG에 대한 설명은 6쪽으로 이어진다\n- 개체 추출과 관계 추출의 품질이 기준 KG보다 좋다고 했으나, 정밀도나 재현율 같은 수치는 없다\n→ KG에 들어간 내용이 맞는지를 확인한 것이 아니라, 유형이 얼마나 다양하게 뽑혔는지를 본 것이다",
    "anchors": [
     "S:We evaluated the quality of the generated KG",
     "S:The resulting KG has demonstrated better NER",
@@ -156,24 +182,37 @@
    "lead": "#노드 유형의 계층 표기",
    "ko": "- 노드 유형은 온톨로지의 계층을 따라 가장 구체적인 개념까지 적는다\n- 예: GPE_UrbanArea_City는 지정학적 개체 아래 도시 지역 아래 도시를 뜻한다",
    "anchors": [
-    "S:An extracted node type follows a hierarchical"
+    "S:An extracted node type follows a hierarchical",
+    "S:For example, GPE"
    ]
   },
   {
    "lead": "#그림 2. DWD 임베딩",
    "ko": "- 개체 구분에 쓴 기준 지식(DWD)의 임베딩을 2차원에 찍어, 뜻이 비슷한 항목이 모여 있는 모습을 보인 그림이다",
    "anchors": [
-    "S:Fig. 2: DARPA WikiData (DWD) Embeddings"
+    "Fig. 2: DARPA WikiData (DWD) Embeddings"
    ]
   }
  ],
  "6": [
   {
+   "lead": "#KG 품질 평가 (5쪽에서 이어짐)",
+   "ko": "- 기준 KG는 관계 유형도 일부 유형이 대부분을 차지한다고 했다\n- GraphAide는 노드 유형을 더 다양하고 조밀하게 뽑았고, 엣지는 사건 기반 유형을 더 잘 뽑았다고 했다",
+   "anchors": [
+    "S:types such as",
+    "S:In contrast, GraphAide extracts a more diverse",
+    "S:Similarly, for the edge types"
+   ]
+  },
+  {
    "lead": "#의미 주석(유형 부여) 평가",
    "ko": "- 노드에 유형을 붙이는 과정을 RAGAS의 답 관련성, 답 정확도, 의미 유사도로 평가했다\n- 답 정확도만으로는 설명되지 않는 경우가 있었다. 예: 정확도는 0.23인데 LLM이 붙인 유형(건물, 철도 기관)이 정답 유형(사무용 건물, 기차역)과 뜻이 가까워 의미 유사도는 0.92였다\n- 논문에 나온 수치는 이 예시 하나의 값이고, 전체 평균은 없다",
    "anchors": [
     "S:We evaluated the semantic annotation process",
-    "S:In such cases, semantic similarity can be"
+    "S:In such cases, semantic similarity can be",
+    "S:we observed some anomalous node type",
+    "S:For a user input",
+    "S:As such, the building is a marked example"
    ]
   },
   {
@@ -183,14 +222,16 @@
     "S:For the qualitative evaluation of the generated responses",
     "S:As shown in Figure 7, the speci",
     "S:Taking this a step further, the KG-based retrieval",
-    "S:The context generated from the subgraph"
+    "S:The context generated from the subgraph",
+    "S:In addition to using OpenAI’s GPT-4o as the baseline LLM",
+    "S:Entities such as"
    ]
   },
   {
    "lead": "#그림 3. 생성된 KG",
    "ko": "- 뉴스 기사에서 생성한 KG의 일부를 그래프 DB 화면으로 보인 그림이다",
    "anchors": [
-    "S:Fig. 3: GraphAide generated KG"
+    "Fig. 3: GraphAide generated KG"
    ]
   }
  ],
@@ -199,8 +240,8 @@
    "lead": "#그림 4, 그림 5. 유형 분포",
    "ko": "- 그림 4는 GraphAide가 생성한 KG, 그림 5는 기준 KG의 노드 유형(왼쪽)과 관계 유형(오른쪽) 비율을 나타낸 막대그래프다\n- 노드는 기준 KG가 PER에 쏠려 있고, 관계는 GraphAide의 KG가 Contact와 Conflict에 쏠려 있다",
    "anchors": [
-    "S:Fig. 4: Type Distributions (Top-10 )",
-    "S:Fig. 5: Type Distributions of Baseline KG"
+    "Fig. 4: Type Distributions (Top-10 )",
+    "Fig. 5: Type Distributions of Baseline KG"
    ]
   },
   {
@@ -227,14 +268,14 @@
    "lead": "#그림 6. 의미 주석 평가",
    "ko": "- 표본 약 200개에 대해 답 관련성, 답 정확도, 의미 유사도 점수를 점으로 찍은 그림이다",
    "anchors": [
-    "S:Fig. 6: Evaluation of Semantic Annotation Process"
+    "Fig. 6: Evaluation of Semantic Annotation Process"
    ]
   },
   {
    "lead": "#그림 7. 문맥 수준별 응답 비교",
    "ko": "- 같은 질문에 대해 문맥을 네 수준(LLM만, WikiData, 분야 문서, 분야 문서와 KG)으로 달리했을 때의 응답을 나란히 보인 그림이다",
    "anchors": [
-    "S:Fig. 7: GraphAide results for a user query"
+    "Fig. 7: GraphAide results for a user query"
    ]
   }
  ]
