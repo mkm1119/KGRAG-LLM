@@ -173,7 +173,22 @@ class Engine:
             self.P = load('p11', 'step11_pipeline.py')
             t0 = time.time(); self.store = self.P.r9.store(); print('측정 저장소 미리 읽음 %.1f초' % (time.time() - t0))
         self.src = Sources(self.store)
+        self.scope = self.build_scope()
         self.latest = {c: self.store.latest(c).strftime('%Y-%m-%d %H:%M') for c in ('1003110',)}
+
+    def build_scope(self):
+        """댐별로 실제 들어 있는 자료 범위(측정 기간, 승인·운영행위 건수와 기간, 제한수위 유무)."""
+        ms = load('ms_scope', 'measurement_store.py'); src = self.src; out = []
+        prop = lambda e, k: next((v for kk, v in src.prop.get(e, []) if kk == k), '')
+        for code, name in ms.CODES.items():
+            dam = 'DAM:' + code
+            apr = sorted(prop(sj, 'approvalTime')[:10] for sj, rs in src.rel.items() if sj.startswith('APR:') and ('concernsDam', dam) in rs)
+            opr = [sj for sj, rs in src.rel.items() if sj.startswith('OPR:') and ('performedOnDam', dam) in rs]
+            cri = [sj for sj, rs in src.rel.items() if sj.startswith('CRI:') and ('appliesToDam', dam) in rs]
+            lo, hi = self.store.range(code)
+            out.append({'dam': name, 'type': prop(dam, 'damType'), 'mea': '%s ~ %s' % (lo.strftime('%Y.%m'), hi.strftime('%Y.%m')),
+                        'apr': len(apr), 'apr_range': ('%s ~ %s' % (apr[0][:4], apr[-1][:4])) if apr else '', 'opr': len(opr), 'cri': bool(cri)})
+        return out
 
     @staticmethod
     def key(q):
@@ -193,7 +208,7 @@ class Engine:
         else:
             tr = self.replay.get(self.key(q))
             if not tr:
-                emit('answer', {'text': '오프라인 재생 모드입니다. 미리 받아 둔 질문만 보여 드릴 수 있습니다. 왼쪽 예시 질문을 눌러 주세요.', 'refused': True})
+                emit('answer', {'text': '오프라인 재생 모드입니다. 미리 받아 둔 질문만 보여 드릴 수 있습니다.', 'refused': True})
                 emit('done', {'seconds': el()}); return log
             time.sleep(0.8); raw, j = tr['intent_raw'], tr['intent_json']
         log['intent_json'] = j
@@ -246,7 +261,7 @@ class H(BaseHTTPRequestHandler):
         if u.path in ('/', '/index.html'):
             return self.send(200, open(os.path.join(DEMO, 'index.html'), encoding='utf-8').read(), 'text/html; charset=utf-8')
         if u.path == '/api/config':
-            return self.send(200, json.dumps({'mode': 'live' if ENGINE.P else 'replay', 'examples': ENGINE.examples(), 'dams': DAMS,
+            return self.send(200, json.dumps({'mode': 'live' if ENGINE.P else 'replay', 'examples': ENGINE.examples(), 'dams': DAMS, 'scope': ENGINE.scope,
                                               'latest': ENGINE.latest.get('1003110')}, ensure_ascii=False), 'application/json')
         if u.path == '/api/source':
             return self.send(200, json.dumps(ENGINE.src.get(qs.get('id', [''])[0]), ensure_ascii=False), 'application/json')
