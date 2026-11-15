@@ -123,6 +123,8 @@ def summary(res):
         s.append('운영 시각 측정값 %d건' % len(res['state_at_operations']))
     if 'state_period' in res:
         s.append('기간 측정값 %d행' % len(res['state_period']))
+    if 'state_period_summary' in res:
+        s.append('기간 측정값 요약(행이 많아 처음·끝·최대·최소만)')
     if 'evidence' in res:
         s.append('출처 %d건' % len({e['ev'] for v in res['evidence'].values() for e in v}))
     return s
@@ -156,6 +158,13 @@ class Engine:
                         continue
                     rf = f.replace('_trace.json', '_retrieval.json')
                     tr['_res'] = json.load(open(rf, encoding='utf-8')) if os.path.exists(rf) else {}
+                    self.replay.setdefault(self.key(tr['question']), tr)
+                for f in sorted(glob.glob(os.path.join(d, 'q[0-9]*.json'))):  # 82문항 실행 기록(질문마다 json 하나)
+                    tr = json.load(open(f, encoding='utf-8'))
+                    if not tr.get('answer') or not tr.get('bundle'):
+                        continue
+                    tr['_items'] = [tr['result']] if isinstance(tr.get('result'), str) else []
+                    tr['_res'] = {'status': 'ok'}
                     self.replay.setdefault(self.key(tr['question']), tr)
             self.P = None
             ms = load('ms', 'measurement_store.py')
@@ -202,7 +211,7 @@ class Engine:
             emit('search', {'items': [], 'seconds': el()})
             emit('answer', {'text': guide(res.get('reason', '')), 'refused': True})
             emit('done', {'seconds': el()}); return log
-        emit('search', {'items': summary(res), 'seconds': el()})
+        emit('search', {'items': summary(res) or (tr.get('_items', []) if not self.P else []), 'seconds': el()})
         emit('stage', {'key': 'bundle'})
         bundle = self.P.r10.build(res, q) if self.P else tr['bundle']
         log['bundle'] = bundle
@@ -212,6 +221,7 @@ class Engine:
             ans = self.P.answer_llm(q, bundle)
         else:
             time.sleep(1.2); ans = tr['answer']
+        ans = re.sub(r'\A\s*■ 질문:[^\n]*\n+', '', ans or '')  # 답변이 근거 묶음의 머리글을 따라 쓴 줄은 화면에서 뺀다
         log['answer'] = ans
         emit('answer', {'text': ans})
         log['seconds'] = el()
