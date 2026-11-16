@@ -73,7 +73,7 @@ class Holder { // 슬라이드와 레이아웃이 함께 쓰는 도형 목록
 
 class Pres {
   constructor() { this.layout = 'LAYOUT_WIDE'; this.theme = {}; this.slides = []; this.masters = {}; this.mediaFiles = []; this.title = '';
-    this.ShapeType = { rect: 'rect', roundRect: 'roundRect', line: 'line' }; }
+    this.ShapeType = { rect: 'rect', roundRect: 'roundRect', line: 'line', ellipse: 'ellipse', can: 'can' }; }
   _media(p) { let i = this.mediaFiles.indexOf(p); if (i < 0) { this.mediaFiles.push(p); i = this.mediaFiles.length - 1; } return 'image' + (i + 1) + path.extname(p).toLowerCase(); }
   addSection() {}
   defineSlideMaster(d) {
