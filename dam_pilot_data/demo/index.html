@@ -72,6 +72,8 @@ form button:disabled{background:#9aa6b5;cursor:default}
 #drawer .cap{font-size:12.5px;color:var(--sub);margin-top:6px}
 #drawer pre{white-space:pre;overflow:auto;font-size:11.5px;background:#f7f7f5;border:1px solid var(--line);border-radius:8px;padding:8px;line-height:1.35}
 @media (max-width:860px){.app{grid-template-columns:1fr}aside{display:none}#log{padding:16px}form{padding:12px 16px}}
+.ans h4.k{color:#222;margin:14px 0 4px}
+.ans h5{font-size:14px;margin:10px 0 2px;font-weight:700;color:#333}
 </style>
 </head>
 <body>
@@ -122,10 +124,13 @@ $('#f').onsubmit=e=>{e.preventDefault();const q=$('#q').value.trim();if(q)ask(q)
 function chipify(t){return esc(t).replace(/\[((APR|OPR|MEA|CRI|EVI|HMS|DAM):[^\]\s]+)\]/g,(m,id,k)=>'<span class="chip '+k+'" data-id="'+id+'">'+id+'</span>')}
 function renderAns(t){
   return t.split('\n').map(l=>{
-    const s=l.replace(/\*\*/g,'').trim();
+    let s=l.replace(/\*\*/g,'').trim();
+    if(!s||/^-{3,}$/.test(s)||/^■/.test(s))return '';           // 빈 줄, 구분선, 근거 묶음 머리글을 따라 쓴 줄은 뺀다
+    const h=s.match(/^(#{1,6})\s*(.*)$/);                         // 마크다운 제목(#, ##, ###)
+    if(h)s=h[2].trim();
     if(/^근거\s*:?$/.test(s))return '<h4 class="g">근거</h4>';
     if(/^판단\s*:?$/.test(s))return '<h4 class="j">판단</h4>';
-    if(!s)return '';
+    if(h)return (h[1].length<=2?'<h4 class="k">':'<h5>')+chipify(s)+(h[1].length<=2?'</h4>':'</h5>');
     return '<p>'+chipify(s)+'</p>';
   }).join('');
 }
