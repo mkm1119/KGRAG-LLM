@@ -92,7 +92,7 @@ const doc = new Document({
     sec('확인이 필요한 사항'),
     dot('서울 출발 시간 (14:00 도착 기준)'),
     dot('11. 27(금) 오전 후속 회의의 진행 여부와 시간 (발주처)'),
-    dot('11. 26(목) 숙박 기준 객실 요금 (아래 요금은 11. 25 숙박으로 조회한 값)'),
+    dot('11. 26(목) 숙박 기준 객실 요금 (위 요금은 11. 25 숙박으로 조회한 값)'),
   ] }],
 });
 Packer.toBuffer(doc).then(b => { fs.writeFileSync(process.argv[2], b); console.log('saved', process.argv[2], TOTAL); });
