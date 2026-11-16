@@ -25,7 +25,7 @@ const table = new Table({ width: { size: W, type: WidthType.DXA }, columnWidths:
   row([H('출장 일정', C[1], { rows: 2 }), V('26.11.25(수)', C[2]), V(['서울 출발 (11.25. ○○:○○)', '춘천 도착 (11.25. ○○:○○)', '시연 준비 점검', '숙박 (춘천시)'], C[3] + C[4] + C[5], { span: 3 })]),
   row([V('26.11.26(목)', C[2]), V(['한강수력본부 도착 (11.26. ○○:○○)', '용역 수행 결과 시연', '발주처 실무 협의', '춘천 출발 (11.26. ○○:○○)', '서울 도착 (11.26. ○○:○○)'], C[3] + C[4] + C[5], { span: 3 })]),
   row([H('장   소', C[1]), V(PLACE + ' (강원특별자치도 춘천시 신북읍 영서로)', W - C[0] - C[1], { span: 4 })]),
-  row([H('참 석 자', C[1]), V('신주영, 문경민, 김장호, ○○○', W - C[0] - C[1], { span: 4 })]),
+  row([H('참 석 자', C[1]), V('신주영, 문경민, 김장호, 황솔비', W - C[0] - C[1], { span: 4 })]),
   row([cell([p('국내출장계획서를 상기와 같이 제출합니다.', { align: AlignmentType.CENTER, bold: true, before: 200 }), p('2026. 11. ○○.', { align: AlignmentType.CENTER, before: 120 }),
     p('연구책임자 : 신 주 영   (인)', { align: AlignmentType.RIGHT, bold: true, before: 120, after: 200 })], W, { span: 6 })]),
 ] });
