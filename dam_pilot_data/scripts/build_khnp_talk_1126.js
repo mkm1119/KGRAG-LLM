@@ -129,23 +129,29 @@ pres.addSection({ title: 'Ⅰ. 연구 프레임워크' });
     T(s, c[1], { x: 1.8, y, w: 2.6, h: 0.58, fontSize: 15.5, bold: true, color: NAVY, valign: 'middle' });
     T(s, c[2], { x: 3.99, y, w: [8.2, 8.6, 8.2, 8.2, 8.2, 8.88][i], h: 0.58, fontSize: 13.5, valign: 'middle' }); });   // 위치와 폭은 사용자가 조정한 값
 }
-// 5. CQ에서 Class, 그 다음 Class 사이의 관계 (두 단계를 나눠서 보여 준다)
+// 5. CQ 원문에서 Class와 관계를 뽑는 모습. 파란 글씨가 Class가 되는 대상, 주황 글씨가 관계가 되는 표현
 {
-  const s = add('Ⅰ. 연구 프레임워크'); head(s, 'Ⅰ. 연구 프레임워크', 'CQ에서 뽑은 Class와 관계', 'CQ가 묻는 대상을 Class로 추출하고, 추출한 Class 사이를 관계로 연결');
-  T(s, '① CQ가 묻는 대상 → Class', { x: 0.55, y: 1.78, w: 5.9, h: 0.34, fontSize: 15, bold: true, color: NAVY });
-  T(s, '② Class 사이를 잇는 관계   ( Class — 관계 → Class )', { x: 6.75, y: 1.78, w: 6.0, h: 0.34, fontSize: 15, bold: true, color: NAVY });
-  const cq = [['CQ1', '현재 수문·기상 상태', '수문·기상 상태', C_HMS], ['CQ2', '과거 수문·기상 상태', '수문·기상 상태', C_HMS], ['CQ3', '과거 운영행위', '운영행위', C_OPR], ['CQ4', '과거 방류 승인', '방류 승인', C_APR], ['CQ5', '현재 운영기준', '운영기준', C_CRI], ['CQ6', '공식 근거', '근거', C_EVI]];
-  cq.forEach((r, i) => { const y = 2.18 + i * 0.66;
-    box(s, 0.55, y, 5.9, 0.56, { fill: PALE, line: LINE }); chip(s, 0.7, y + 0.11, 0.85, r[0], { fs: 12 });
-    T(s, r[1], { x: 1.7, y, w: 2.3, h: 0.56, fontSize: 15, valign: 'middle' });
-    line(s, [3.95, y + 0.28], [4.45, y + 0.28], null, { color: GRAY, gap: 0 }); node(s, 4.5, y + 0.07, 1.85, 0.42, r[2], null, { fs: 13.5, fill: r[3] }); });
-  box(s, 0.55, 6.14, 5.9, 0.56, { fill: PALE, line: LINE }); T(s, '모든 CQ의 대상', { x: 0.7, y: 6.14, w: 3.2, h: 0.56, fontSize: 15, valign: 'middle', bold: true, color: NAVY });
-  line(s, [3.95, 6.42], [4.45, 6.42], null, { color: GRAY, gap: 0 }); node(s, 4.5, 6.21, 1.85, 0.42, '댐', null, { fs: 13.5 });
-  const tr = [['댐', NAVY, '상태를 가짐', '수문·기상 상태', C_HMS], ['운영행위', C_OPR, '수행됨', '댐', NAVY], ['방류 승인', C_APR, '대상', '댐', NAVY], ['방류 승인', C_APR, '허가함', '운영행위', C_OPR], ['운영기준', C_CRI, '적용됨', '댐', NAVY], ['상태, 운영행위,\n승인, 기준', GRAY, '근거를 둠', '근거', C_EVI]];
-  tr.forEach((r, i) => { const y = 2.18 + i * 0.76;
-    box(s, 6.75, y, 6.03, 0.66, { fill: SKY });
-    const a = node(s, 6.93, y + 0.08, 2.05, 0.5, r[0], null, { fs: r[0].includes('\n') ? 11.5 : 14.5, fill: r[1] }), b = node(s, 10.55, y + 0.08, 2.05, 0.5, r[3], null, { fs: 14.5, fill: r[4] });
-    link(s, a, b, r[2], { lw: 1.5, fs: 13.5, off: 0.17 }); });
+  const s = add('Ⅰ. 연구 프레임워크'); head(s, 'Ⅰ. 연구 프레임워크', 'CQ에서 뽑은 Class와 관계', 'CQ 문장이 묻는 대상을 Class로, 대상을 잇는 표현을 관계로 추출');
+  s.addText([{ text: 'CQ   ', options: { bold: true, color: GRAY } }, { text: '파란 글씨', options: { bold: true, color: BLUE } }, { text: ' Class가 되는 대상    ', options: { color: GRAY } }, { text: '주황 글씨', options: { bold: true, color: ORANGE } }, { text: ' 관계가 되는 표현', options: { color: GRAY } }], { x: 0.55, y: 1.78, w: 7.0, h: 0.34, fontFace: F, fontSize: 13, margin: 0, isTextBox: true, valign: 'middle' });
+  T(s, '뽑아낸 Class와 관계', { x: 7.75, y: 1.78, w: 5.0, h: 0.34, fontSize: 13, bold: true, color: GRAY, valign: 'middle' });
+  const rows = [
+    ['CQ1', [['대상 '], ['댐', 'c'], ['의', 'r'], [' 현재 또는 기준시점의 강우, 수위, 유입량, 방류량 등 '], ['수문·기상 상태', 'c'], ['는 무엇인가?']], [['댐', NAVY, '상태를 가짐', '수문·기상 상태', C_HMS]]],
+    ['CQ2', [['선택된 과거 시점 또는 사례에서 대상 '], ['댐', 'c'], ['의', 'r'], [' 강우, 수위, 유입량, 방류량 등 '], ['수문·기상 상태', 'c'], ['는 어떠했는가?']], [['댐', NAVY, '상태를 가짐', '수문·기상 상태', C_HMS]]],
+    ['CQ3', [['해당 과거 시점 또는 사례에서 실제로 '], ['수행된', 'r'], [' '], ['댐', 'c'], [' '], ['운영행위', 'c'], ['는 무엇이었는가?']], [['운영행위', C_OPR, '수행됨', '댐', NAVY]]],
+    ['CQ4', [['해당 과거 시점 또는 사례에서 어떤 '], ['방류 승인', 'c'], ['이 있었으며, 그 승인내용은 무엇인가?']], [['방류 승인', C_APR, '대상', '댐', NAVY], ['방류 승인', C_APR, '허가함', '운영행위', C_OPR]], '방류 승인은 방류(운영행위)에 대한 승인이므로 운영행위와 연결'],
+    ['CQ5', [['현재 대상 '], ['댐', 'c'], ['에 '], ['적용되는', 'r'], [' '], ['운영기준', 'c'], ['은 무엇이며, 현재 운영 판단과 관련된 기준값은 무엇인가?']], [['운영기준', C_CRI, '적용됨', '댐', NAVY]]],
+    ['CQ6', [['각 수문·기상 상태, 운영행위, 승인내용 및 운영기준을 '], ['확인할 수 있는', 'r'], [' 공식 자료 또는 '], ['근거문서', 'c'], ['는 무엇인가?']], [['상태, 운영행위,\n승인, 기준', GRAY, '근거를 둠', '근거', C_EVI]]],
+  ];
+  let y = 2.16;
+  rows.forEach(r => { const h = r[2].length > 1 ? 1.08 : 0.64;
+    box(s, 0.55, y, 7.05, h, { fill: PALE, line: LINE }); chip(s, 0.7, y + h / 2 - 0.17, 0.8, r[0], { fs: 12 });
+    s.addText(r[1].map(p => ({ text: p[0], options: { color: p[1] === 'c' ? BLUE : p[1] === 'r' ? ORANGE : INK, bold: !!p[1] } })), { x: 1.65, y, w: 5.85, h, fontFace: F, fontSize: 13, valign: 'middle', margin: 0, isTextBox: true });
+    box(s, 7.75, y, 5.03, h, { fill: SKY });
+    r[2].forEach((t, k) => { const ty = y + 0.08 + k * 0.42, nh = r[2].length > 1 ? 0.36 : 0.48;
+      const a = node(s, 7.9, ty, 1.75, nh, t[0], null, { fs: t[0].includes('\n') ? 10.5 : 13, fill: t[1] }), b = node(s, 10.88, ty, 1.75, nh, t[3], null, { fs: 13, fill: t[4] });
+      link(s, a, b, t[2], { lw: 1.2, fs: 12, off: 0.15 }); });
+    if (r[3]) T(s, r[3], { x: 7.9, y: y + h - 0.26, w: 4.75, h: 0.22, fontSize: 10, color: GRAY, valign: 'middle' });
+    y += h + 0.08; });
 }
 // 6. 우리 온톨로지 (그림으로 전부)
 {
