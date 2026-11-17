@@ -69,7 +69,7 @@ pres.addSection({ title: '표지' });
 {
   const s = pres.addSlide({ sectionTitle: '표지' }); s.background = { color: WHITE };
   s.addImage({ path: KHNP, x: 7.73, y: 0.18, w: 3.27, h: 0.47 }); s.addImage({ path: KMU, x: 11.1, y: 0.03, w: 2.21, h: 0.74 });
-  s.addImage({ path: COVER, x: 0, y: 0.9, w: 5.2, h: 6.6 });   // 댐과 지식그래프를 그린 그림(fig/cover_dam.svg). 사진으로 바꿀 때는 이 자리에 넣는다
+  s.addImage({ path: COVER, x: 0, y: 0.915, w: 5.2, h: 6.6 });   // 댐과 지식그래프를 그린 그림(fig/cover_dam.svg). 사진으로 바꿀 때는 이 자리에 넣는다
   T(s, '수행 결과 발표', { x: 6.0, y: 2.55, w: 6.8, h: 0.35, fontSize: 14, color: BLUE, bold: true, align: 'right' });
   T(s, '댐 운영 의사결정\n프레임워크 구축 자문 용역', { x: 6.0, y: 2.95, w: 6.8, h: 1.5, fontSize: 34, color: NAVY, bold: true, align: 'right' });
   T(s, '지식그래프 기반 질의응답 구조와 시연', { x: 6.0, y: 4.5, w: 6.8, h: 0.4, fontSize: 16, color: GRAY, align: 'right' });
@@ -127,7 +127,7 @@ pres.addSection({ title: 'Ⅰ. 연구 프레임워크' });
   cq.forEach((c, i) => { const y = 2.85 + i * 0.66;
     box(s, 0.55, y, 12.23, 0.58, { fill: i % 2 ? PALE : SKY }); chip(s, 0.75, y + 0.12, 0.85, c[0]);
     T(s, c[1], { x: 1.8, y, w: 2.6, h: 0.58, fontSize: 15.5, bold: true, color: NAVY, valign: 'middle' });
-    T(s, c[2], { x: 4.45, y, w: 8.2, h: 0.58, fontSize: 13.5, valign: 'middle' }); });
+    T(s, c[2], { x: 3.99, y, w: [8.2, 8.6, 8.2, 8.2, 8.2, 8.88][i], h: 0.58, fontSize: 13.5, valign: 'middle' }); });   // 위치와 폭은 사용자가 조정한 값
 }
 // 5. CQ에서 Class, 그 다음 Class 사이의 관계 (두 단계를 나눠서 보여 준다)
 {
