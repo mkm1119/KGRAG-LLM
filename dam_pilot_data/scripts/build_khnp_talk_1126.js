@@ -1,8 +1,8 @@
 // 11/26 한강수력본부 발표자료 초안(pptx). 구성: 구조(온톨로지 → CQ → Class·속성·관계 → KG → 자료 → 외부 저장소 → RAG) → 시연 범위 → 시연 영상 → 한계와 향후 방향.
 // 모양은 7월 기술 세미나 자료(로고 위치, 남색·파랑, KoPubWorld돋움체)를 따른다. 숫자와 예시 값은 03_normalized의 KG(kgv4), 승인 기록, 측정 저장소에서 가져온 값이다.
-// 사용: node build_khnp_talk_1126.js <출력.pptx> <khnp 로고.jpg> <kmu 로고.jpg> <KG 전체 그림.png>
+// 사용: node build_khnp_talk_1126.js <출력.pptx> <khnp 로고.jpg> <kmu 로고.jpg> <KG 전체 그림.png> <표지 그림.png>
 let pptxgen; try { pptxgen = require('pptxgenjs'); } catch (e) { pptxgen = require('./mini_pptx.js'); }  // pptxgenjs가 없으면 같은 폴더의 대체 모듈을 쓴다
-const [OUT, KHNP, KMU, KGPIC] = process.argv.slice(2);
+const [OUT, KHNP, KMU, KGPIC, COVER] = process.argv.slice(2);
 const pres = new pptxgen();
 pres.layout = 'LAYOUT_WIDE'; // 13.333 x 7.5
 pres.title = '댐 운영 의사결정 프레임워크 구축 자문 용역 - 지식그래프 기반 질의응답 구조와 시연';
@@ -55,10 +55,10 @@ function line(s, p, q, label, o = {}) {
 const link = (s, a, b, label, o) => line(s, edge(a, b), edge(b, a), label, o);
 const chip = (s, x, y, w, text, o = {}) => { box(s, x, y, w, o.h || 0.34, { fill: o.fill || BLUE, r: (o.h || 0.34) / 2 }); T(s, text, { x, y, w, h: o.h || 0.34, fontSize: o.fs || 12, bold: true, color: o.color || WHITE, align: 'center', valign: 'middle' }); };
 // 작은 표(원본 자료의 모양을 보여 주는 용도)
-function mini(s, x, y, widths, headRow, rows, o = {}) {
-  const hh = o.hh || 0.36, rh = o.rh || 0.36, fs = o.fs || 12; let cx = x;
+function mini(s, x, y, widths, headRow, rows, o = {}) {   // hl: 색칠할 행 번호(들), cfs: 열마다 다른 글자 크기
+  const hh = o.hh || 0.36, rh = o.rh || 0.36, fs = o.fs || 12, hls = [].concat(o.hl ?? []); let cx = x;
   widths.forEach((w, i) => { rect(s, cx, y, w, hh, 'E5E7EB', 'B6BCC6'); T(s, headRow[i], { x: cx, y, w, h: hh, fontSize: fs, bold: true, align: 'center', valign: 'middle' });
-    rows.forEach((r, k) => { const hl = o.hl === k; rect(s, cx, y + hh + k * rh, w, rh, hl ? 'FFF4D6' : WHITE, 'B6BCC6'); T(s, r[i], { x: cx, y: y + hh + k * rh, w, h: rh, fontSize: fs, align: 'center', valign: 'middle', bold: hl }); });
+    rows.forEach((r, k) => { const hl = hls.includes(k); rect(s, cx, y + hh + k * rh, w, rh, hl ? 'FFF4D6' : WHITE, 'B6BCC6'); T(s, r[i], { x: cx + 0.03, y: y + hh + k * rh, w: w - 0.06, h: rh, fontSize: (o.cfs && o.cfs[i]) || fs, align: 'center', valign: 'middle', bold: hl }); });
     cx += w; });
   return { x, y, w: widths.reduce((a, b) => a + b, 0), h: hh + rows.length * rh };
 }
@@ -69,9 +69,7 @@ pres.addSection({ title: '표지' });
 {
   const s = pres.addSlide({ sectionTitle: '표지' }); s.background = { color: WHITE };
   s.addImage({ path: KHNP, x: 7.73, y: 0.18, w: 3.27, h: 0.47 }); s.addImage({ path: KMU, x: 11.1, y: 0.03, w: 2.21, h: 0.74 });
-  box(s, 0, 0.9, 5.2, 6.6, { fill: NAVY, r: 0 });
-  T(s, 'Knowledge Graph', { x: 0.6, y: 3.0, w: 4.2, h: 0.5, fontSize: 22, color: '9DBEDD', bold: true });
-  T(s, '+ RAG + LLM', { x: 0.6, y: 3.5, w: 4.2, h: 0.5, fontSize: 22, color: WHITE, bold: true });
+  s.addImage({ path: COVER, x: 0, y: 0.9, w: 5.2, h: 6.6 });   // 댐과 지식그래프를 그린 그림(fig/cover_dam.svg). 사진으로 바꿀 때는 이 자리에 넣는다
   T(s, '수행 결과 발표', { x: 6.0, y: 2.55, w: 6.8, h: 0.35, fontSize: 14, color: BLUE, bold: true, align: 'right' });
   T(s, '댐 운영 의사결정\n프레임워크 구축 자문 용역', { x: 6.0, y: 2.95, w: 6.8, h: 1.5, fontSize: 34, color: NAVY, bold: true, align: 'right' });
   T(s, '지식그래프 기반 질의응답 구조와 시연', { x: 6.0, y: 4.5, w: 6.8, h: 0.4, fontSize: 16, color: GRAY, align: 'right' });
@@ -84,8 +82,8 @@ pres.addSection({ title: '표지' });
 // ================================================= 2. 순서
 pres.addSection({ title: '순서' });
 {
-  const s = add('순서'); head(s, '발표 순서', '오늘 말씀드릴 내용', '구조를 간단히 설명드리고, 시연 영상을 보여 드립니다');
-  const items = [['Ⅰ', '만든 구조', '온톨로지와 지식그래프로\n자료를 잇고, 근거를 찾아 답하는 구조'], ['Ⅱ', '시연', '정한 범위의 질문에\n근거와 출처를 붙여 답하는 모습'], ['Ⅲ', '한계와 향후 방향', '지금 구조의 한계와\n다음 단계']];
+  const s = add('순서'); head(s, '발표 순서', '오늘 말씀드릴 내용', '연구 프레임워크를 간단히 설명드리고, 시연 테스트 영상을 보여 드립니다');
+  const items = [['Ⅰ', '연구 프레임워크', '온톨로지와 지식그래프로\n자료를 잇고, 근거를 찾아 답하는 구조'], ['Ⅱ', '시연 테스트', '정한 범위의 질문에\n근거와 출처를 붙여 답하는 모습'], ['Ⅲ', '한계와 향후 방향', '지금 구조의 한계와\n다음 단계']];
   items.forEach((it, i) => { const x = 0.55 + i * 4.18;
     box(s, x, 2.0, 3.9, 4.5, { fill: i === 0 ? NAVY : SKY });
     T(s, it[0], { x: x + 0.4, y: 2.45, w: 1, h: 0.8, fontSize: 40, bold: true, color: i === 0 ? '9DBEDD' : BLUE });
@@ -95,10 +93,10 @@ pres.addSection({ title: '순서' });
 }
 
 // ================================================= Ⅰ. 구조
-pres.addSection({ title: 'Ⅰ. 만든 구조' });
+pres.addSection({ title: 'Ⅰ. 연구 프레임워크' });
 // 3. 온톨로지: 구성요소 세 가지를 한 그림에서
 {
-  const s = add('Ⅰ. 만든 구조'); head(s, 'Ⅰ. 만든 구조', '온톨로지란', '어떤 분야에 무엇이 있고, 각각 어떤 특징을 가지며, 서로 어떻게 이어지는지를 정해 둔 설계도');
+  const s = add('Ⅰ. 연구 프레임워크'); head(s, 'Ⅰ. 연구 프레임워크', '온톨로지란', '어떤 분야에 무엇이 있고, 각각 어떤 특징을 가지며, 서로 어떻게 이어지는지를 정해 둔 설계도');
   const comp = [['Class', NAVY, '다루는 대상의 종류', '예: 댐, 방류 승인, 운영행위'], ['속성', C_HMS, 'Class를 설명하는 항목', '예: 방류 승인의 승인일, 승인 내용'], ['관계', ORANGE, 'Class와 Class를 잇는 선', '예: 방류 승인이 운영행위를 허가함']];
   T(s, '온톨로지의 구성요소', { x: 0.55, y: 1.9, w: 4.0, h: 0.35, fontSize: 14, bold: true, color: GRAY });
   comp.forEach((c, i) => { const y = 2.3 + i * 1.47;
@@ -109,133 +107,140 @@ pres.addSection({ title: 'Ⅰ. 만든 구조' });
   T(s, '예: 방류 승인 기록을 온톨로지로 나타내면', { x: 4.95, y: 1.9, w: 7.8, h: 0.35, fontSize: 14, bold: true, color: GRAY });
   const A = node(s, 5.35, 2.75, 2.5, 0.85, '방류 승인'), B = node(s, 9.85, 2.75, 2.5, 0.85, '운영행위'), D = node(s, 7.6, 5.1, 2.5, 0.85, '댐');
   const prop = (x, y, t) => { box(s, x, y, 2.5, 0.62, { fill: WHITE, line: C_HMS }); T(s, t, { x, y, w: 2.5, h: 0.62, fontSize: 12.5, color: INK, align: 'center', valign: 'middle' }); };
-  prop(5.35, 3.6, '승인일, 승인 내용'); prop(9.85, 3.6, '종류, 시각'); prop(7.6, 5.95, '이름, 종류');
+  prop(5.35, 3.6, '        승인일, 승인 내용'); prop(9.85, 3.6, '종류, 시각'); prop(7.6, 5.95, '이름, 종류');
   link(s, A, B, '허가함', { lw: 1.0, fs: 13 });
   line(s, [6.6, 4.22], [7.9, 5.1], '대상', { lw: 0.8, fs: 13, side: -1, off: 0.3 }); line(s, [11.1, 4.22], [9.8, 5.1], '수행됨', { lw: 1.0, fs: 13, off: 0.4 });
-  chip(s, 5.35, 2.37, 0.85, 'Class', { fill: NAVY, fs: 11, h: 0.3 }); chip(s, 5.35, 4.3, 0.75, '속성', { fill: C_HMS, fs: 11, h: 0.3 }); chip(s, 8.5, 2.5, 0.75, '관계', { fill: ORANGE, fs: 11, h: 0.3 });
+  chip(s, 5.35, 2.37, 0.85, 'Class', { fill: NAVY, fs: 11, h: 0.3 }); chip(s, 5.43, 3.76, 0.62, '속성', { fill: C_HMS, fs: 11, h: 0.3 }); chip(s, 8.5, 2.5, 0.75, '관계', { fill: ORANGE, fs: 11, h: 0.3 });
 }
-// 4. CQ
+// 4. CQ (랩미팅 자료의 CQ 원문)
 {
-  const s = add('Ⅰ. 만든 구조'); head(s, 'Ⅰ. 만든 구조', '범위를 정하는 방법: CQ', '온톨로지는 한 번에 모든 것을 담지 않는다. 먼저 답해야 할 질문을 정하고, 그 질문에 필요한 만큼만 만든다');
-  box(s, 0.55, 1.9, 12.23, 1.05, { fill: NAVY });
-  T(s, [{ text: 'CQ (Competency Question)', options: { bold: true, color: WHITE, fontSize: 18, breakLine: true } }, { text: '온톨로지가 답할 수 있어야 하는 질문.  만들기 전에 먼저 정하고, 다 만든 뒤에는 이 질문에 답이 되는지로 확인한다', options: { color: 'DCE9F7', fontSize: 14 } }],
-    { x: 0.85, y: 1.9, w: 11.7, h: 1.05, valign: 'middle', lineSpacingMultiple: 1.2 });
-  const cq = [['CQ1', '댐의 현재 수문 상태는?'], ['CQ2', '과거 어느 시점의 수문 상태는?'], ['CQ3', '과거에 어떤 방류 조작이 있었나?'], ['CQ4', '과거에 어떤 방류 승인이 있었나?'], ['CQ5', '댐에 적용되는 운영기준은?'], ['CQ6', '위 내용의 공식 근거는?']];
-  cq.forEach((c, i) => { const x = 0.55 + (i % 2) * 6.2, y = 3.15 + Math.floor(i / 2) * 0.93;
-    box(s, x, y, 6.03, 0.8, { fill: SKY }); chip(s, x + 0.25, y + 0.23, 0.95, c[0]);
-    T(s, c[1], { x: x + 1.45, y, w: 4.4, h: 0.8, fontSize: 17, bold: true, color: NAVY, valign: 'middle' }); });
-  box(s, 0.55, 5.98, 12.23, 0.78, { fill: PALE, line: LINE });
-  T(s, [{ text: '이번 과업의 출발 범위  ', options: { bold: true, color: BLUE } }, { text: '댐 운영 기록을 조회하는 질문 6개로 시작했다. 실무 검토를 거쳐 질문을 더하면 범위가 넓어진다' }], { x: 0.85, y: 5.98, w: 11.7, h: 0.78, fontSize: 15, valign: 'middle' });
+  const s = add('Ⅰ. 연구 프레임워크'); head(s, 'Ⅰ. 연구 프레임워크', '온톨로지 구축의 첫 단계: CQ', '온톨로지는 모든 것을 담지 않는다. 먼저 답해야 할 질문을 정하고, 그 질문에 필요한 만큼만 만든다');
+  box(s, 0.55, 1.85, 12.23, 0.85, { fill: NAVY });
+  T(s, [{ text: 'CQ (Competency Question)  ', options: { bold: true, color: WHITE, fontSize: 18 } }, { text: '온톨로지가 답할 수 있어야 하는 질문.  만들기 전에 정하고, 만든 뒤에는 이 질문에 답이 되는지로 확인한다', options: { color: 'DCE9F7', fontSize: 12.5 } }],
+    { x: 0.85, y: 1.85, w: 11.7, h: 0.85, valign: 'middle' });
+  const cq = [['CQ1', '현재 수문·기상 상태', '대상 댐의 현재 또는 기준시점의 강우, 수위, 유입량, 방류량 등 수문·기상 상태는 무엇인가?'],
+    ['CQ2', '과거 수문·기상 상태', '선택된 과거 시점 또는 사례에서 대상 댐의 강우, 수위, 유입량, 방류량 등 수문·기상 상태는 어떠했는가?'],
+    ['CQ3', '과거 운영행위', '해당 과거 시점 또는 사례에서 실제로 수행된 댐 운영행위는 무엇이었는가?'],
+    ['CQ4', '과거 방류 승인', '해당 과거 시점 또는 사례에서 어떤 방류 승인이 있었으며, 그 승인내용은 무엇인가?'],
+    ['CQ5', '현재 운영기준', '현재 대상 댐에 적용되는 운영기준은 무엇이며, 현재 운영 판단과 관련된 기준값은 무엇인가?'],
+    ['CQ6', '공식 근거', '각 수문·기상 상태, 운영행위, 승인내용 및 운영기준을 확인할 수 있는 공식 자료 또는 근거문서는 무엇인가?']];
+  cq.forEach((c, i) => { const y = 2.85 + i * 0.66;
+    box(s, 0.55, y, 12.23, 0.58, { fill: i % 2 ? PALE : SKY }); chip(s, 0.75, y + 0.12, 0.85, c[0]);
+    T(s, c[1], { x: 1.8, y, w: 2.6, h: 0.58, fontSize: 15.5, bold: true, color: NAVY, valign: 'middle' });
+    T(s, c[2], { x: 4.45, y, w: 8.2, h: 0.58, fontSize: 13.5, valign: 'middle' }); });
 }
 // 5. CQ에서 Class와 관계 (트리플)
 {
-  const s = add('Ⅰ. 만든 구조'); head(s, 'Ⅰ. 만든 구조', 'CQ에서 Class와 관계를 뽑는다', '질문에 나오는 대상이 Class가 되고, 대상 사이의 연결이 관계가 된다');
-  T(s, 'CQ', { x: 0.55, y: 1.85, w: 5.5, h: 0.3, fontSize: 13, bold: true, color: GRAY });
-  T(s, '뽑아낸 Class와 관계   ( Class — 관계 → Class )', { x: 6.35, y: 1.85, w: 6.4, h: 0.3, fontSize: 13, bold: true, color: GRAY });
+  const s = add('Ⅰ. 연구 프레임워크'); head(s, 'Ⅰ. 연구 프레임워크', 'CQ에서 뽑은 Class와 관계', '질문이 묻는 대상이 Class가 되고, 답하려면 이어져야 하는 대상 사이에 관계를 둔다');
+  T(s, 'CQ', { x: 0.55, y: 1.78, w: 5.5, h: 0.34, fontSize: 15, bold: true, color: GRAY });
+  T(s, '뽑아낸 Class와 관계   ( Class — 관계 → Class )', { x: 6.35, y: 1.78, w: 6.4, h: 0.34, fontSize: 15, bold: true, color: GRAY });
   const rows = [
-    ['CQ1·2', [['댐', 'c'], ['의 현재·과거 '], ['수문 상태', 'c'], ['는?']], '댐은 수문·기상 상태를 가진다', '댐', '상태를 가짐', '수문·기상 상태'],
-    ['CQ3', [['댐', 'c'], ['에서 과거에 어떤 '], ['방류 조작', 'c'], ['이 있었나?']], '운영행위는 댐에서 수행된다', '운영행위', '수행됨', '댐'],
-    ['CQ4', [['과거에 어떤 '], ['방류 승인', 'c'], ['이 있었나?']], '방류 승인은 운영행위를 허가한다', '방류 승인', '허가함', '운영행위'],
-    ['CQ5', [['댐', 'c'], ['에 적용되는 '], ['운영기준', 'c'], ['은?']], '운영기준은 댐에 적용된다', '운영기준', '적용됨', '댐'],
-    ['CQ6', [['위 내용의 공식 '], ['근거', 'c'], ['는?']], '방류 승인은 근거를 둔다', '방류 승인', '근거를 둠', '근거'],
+    ['CQ1·2', [['댐', 'c'], ['의 현재·과거 '], ['수문·기상 상태', 'c'], ['는?']], '댐', '상태를 가짐', '수문·기상 상태'],
+    ['CQ3', [['과거에 '], ['댐', 'c'], ['에서 수행된 '], ['운영행위', 'c'], ['는?']], '운영행위', '수행됨', '댐'],
+    ['CQ4', [['과거에 '], ['댐', 'c'], ['에 어떤 '], ['방류 승인', 'c'], ['이 있었나?']], '방류 승인', '대상', '댐'],
+    ['CQ3+4', [['같은 사례의 '], ['운영행위', 'c'], ['와 '], ['방류 승인', 'c'], ['을 함께 본다']], '방류 승인', '허가함', '운영행위'],
+    ['CQ5', [['댐', 'c'], ['에 적용되는 '], ['운영기준', 'c'], ['과 기준값은?']], '운영기준', '적용됨', '댐'],
+    ['CQ6', [['상태·운영행위·승인·기준의 공식 '], ['근거', 'c'], ['는?']], '상태, 운영행위,\n승인, 기준', '근거를 둠', '근거'],
   ];
-  rows.forEach((r, i) => { const y = 2.2 + i * 0.92;
-    box(s, 0.55, y, 5.55, 0.8, { fill: PALE, line: LINE }); chip(s, 0.7, y + 0.23, 0.95, r[0], { fs: 11.5 });
-    s.addText(r[1].map(p => ({ text: p[0], options: { color: p[1] ? BLUE : INK, bold: !!p[1] } })), { x: 1.8, y: y + 0.06, w: 4.2, h: 0.4, fontFace: F, fontSize: 15.5, valign: 'middle', margin: 0, isTextBox: true });
-    T(s, '→ ' + r[2], { x: 1.8, y: y + 0.44, w: 4.2, h: 0.3, fontSize: 12, color: ORANGE, bold: true, valign: 'middle' });
-    box(s, 6.35, y, 6.43, 0.8, { fill: SKY });
-    const a = node(s, 6.55, y + 0.12, 2.15, 0.56, r[3], null, { fs: 14 }), b = node(s, 10.43, y + 0.12, 2.15, 0.56, r[5], null, { fs: 14 });
-    link(s, a, b, r[4], { lw: 1.5, fs: 12.5, off: 0.17 }); });
+  rows.forEach((r, i) => { const y = 2.18 + i * 0.78;
+    box(s, 0.55, y, 5.55, 0.68, { fill: PALE, line: LINE }); chip(s, 0.7, y + 0.17, 1.0, r[0], { fs: 12, fill: r[0] === 'CQ3+4' ? ORANGE : BLUE });
+    s.addText(r[1].map(p => ({ text: p[0], options: { color: p[1] ? BLUE : INK, bold: !!p[1] } })), { x: 1.85, y, w: 4.22, h: 0.68, fontFace: F, fontSize: 14, valign: 'middle', margin: 0, isTextBox: true });
+    box(s, 6.35, y, 6.43, 0.68, { fill: SKY });
+    const a = node(s, 6.55, y + 0.08, 2.15, 0.52, r[2], null, { fs: r[2].includes('\n') ? 11.5 : 15 }), b = node(s, 10.43, y + 0.08, 2.15, 0.52, r[4], null, { fs: 15 });
+    link(s, a, b, r[3], { lw: 1.5, fs: 14, off: 0.17 }); });
 }
 // 6. 우리 온톨로지 (그림으로 전부)
 {
-  const s = add('Ⅰ. 만든 구조'); head(s, 'Ⅰ. 만든 구조', '이렇게 만든 온톨로지', 'Class 6개가 관계로 이어진 모습');
+  const s = add('Ⅰ. 연구 프레임워크'); head(s, 'Ⅰ. 연구 프레임워크', '이렇게 만든 온톨로지', 'Class 6개와 관계 9개의 구조도');
   const W = 2.65, H = 1.0;
   const dam = node(s, 5.34, 1.85, W, H, '댐', '이름, 종류');
   const cri = node(s, 0.6, 3.6, W, H, '운영기준', '종류, 값, 단위', { fill: C_CRI });
   const apr = node(s, 3.76, 3.6, W, H, '방류 승인', '승인일, 승인 내용', { fill: C_APR });
   const opr = node(s, 6.92, 3.6, W, H, '운영행위', '종류, 시각', { fill: C_OPR });
   const hms = node(s, 10.08, 3.6, W, H, '수문·기상 상태', '항목, 관측소 코드', { fill: C_HMS });
-  const evi = node(s, 5.34, 5.55, W, H, '근거', '제목, 종류, 위치', { fill: C_EVI });
+  const evi = node(s, 5.34, 5.4, W, H, '근거', '제목, 종류, 위치', { fill: C_EVI });
   link(s, cri, dam, '적용됨', { lw: 0.9 }); link(s, apr, dam, '대상', { lw: 0.7, off: 0.28 }); link(s, opr, dam, '수행됨', { lw: 0.9, off: 0.33, side: -1 }); link(s, dam, hms, '상태를 가짐', { lw: 1.3 });
-  link(s, apr, opr, '허가함', { lw: 0.9, off: 0.18 });
+  link(s, apr, opr, '허가함', { lw: 0.5, off: 0.17, fs: 10.5 });
   link(s, cri, evi, '근거를 둠', { lw: 1.1, side: -1, off: 0.22 }); link(s, apr, evi, null); link(s, opr, evi, null); link(s, hms, evi, '근거를 둠', { lw: 1.1, side: -1, off: 0.22 });
-  // 범례 (그림으로)
-  box(s, 0.6, 5.5, 3.3, 1.2, { fill: PALE, line: LINE });
-  box(s, 0.78, 5.66, 0.75, 0.4, { fill: NAVY }); T(s, 'Class', { x: 1.65, y: 5.66, w: 1.2, h: 0.4, fontSize: 12, valign: 'middle' });
-  T(s, '작은 글씨', { x: 0.78, y: 6.18, w: 0.8, h: 0.35, fontSize: 9.5, color: GRAY, valign: 'middle' }); T(s, '속성', { x: 1.65, y: 6.18, w: 0.8, h: 0.35, fontSize: 12, valign: 'middle' });
-  line(s, [2.55, 5.86], [3.2, 5.86], null, { gap: 0 }); T(s, '관계', { x: 3.25, y: 5.66, w: 0.6, h: 0.4, fontSize: 12, valign: 'middle' });
+  T(s, '상자는 Class, 상자 안의 작은 글씨는 속성, 화살표는 관계를 나타낸다', { x: 0.55, y: 6.6, w: 12.23, h: 0.35, fontSize: 14, color: GRAY, align: 'center' });
 }
 // 7. KG
 {
-  const s = add('Ⅰ. 만든 구조'); head(s, 'Ⅰ. 만든 구조', '지식그래프(KG)란', '온톨로지라는 틀에 실제 자료를 채워 넣은 것');
-  T(s, '온톨로지 (틀)', { x: 0.55, y: 1.9, w: 5.4, h: 0.4, fontSize: 16, bold: true, color: GRAY, align: 'center' });
-  box(s, 0.55, 2.35, 5.4, 3.6, { fill: PALE, line: LINE });
-  const a1 = node(s, 0.9, 2.95, 1.95, 0.9, '방류 승인', null, { fill: WHITE, line: BLUE, color: BLUE }), b1 = node(s, 3.65, 2.95, 1.95, 0.9, '운영행위', null, { fill: WHITE, line: BLUE, color: BLUE }), d1 = node(s, 2.27, 4.6, 1.95, 0.9, '댐', null, { fill: WHITE, line: BLUE, color: BLUE });
+  const s = add('Ⅰ. 연구 프레임워크'); head(s, 'Ⅰ. 연구 프레임워크', '지식그래프(KG)란', '온톨로지라는 틀에 실제 자료를 채워 넣은 것');
+  T(s, '온톨로지  (Class와 관계)', { x: 0.55, y: 1.85, w: 5.4, h: 0.4, fontSize: 16, bold: true, color: GRAY, align: 'center' });
+  box(s, 0.55, 2.3, 5.4, 3.7, { fill: PALE, line: LINE });
+  const a1 = node(s, 0.9, 3.0, 1.95, 0.9, '방류 승인', null, { fill: WHITE, line: BLUE, color: BLUE }), b1 = node(s, 3.65, 3.0, 1.95, 0.9, '운영행위', null, { fill: WHITE, line: BLUE, color: BLUE }), d1 = node(s, 2.27, 4.7, 1.95, 0.9, '댐', null, { fill: WHITE, line: BLUE, color: BLUE });
   link(s, a1, b1, '허가함', { lw: 0.8, off: 0.18 }); link(s, b1, d1, '수행됨', { lw: 0.8, side: -1, off: 0.35 }); link(s, a1, d1, '대상', { lw: 0.6, off: 0.3 });
+  chip(s, 0.9, 2.55, 0.8, 'Class', { fill: BLUE, fs: 11.5, h: 0.32 });
   line(s, [6.1, 4.15], [7.25, 4.15], null, { color: NAVY, width: 3, gap: 0 }); T(s, '실제 자료를\n채움', { x: 5.95, y: 4.3, w: 1.45, h: 0.6, fontSize: 12, color: NAVY, bold: true, align: 'center' });
-  T(s, '지식그래프 (실제 값)', { x: 7.4, y: 1.9, w: 5.4, h: 0.4, fontSize: 16, bold: true, color: NAVY, align: 'center' });
-  box(s, 7.4, 2.35, 5.4, 3.6, { fill: SKY, line: SKY2 });
-  const a2 = node(s, 7.65, 2.85, 2.2, 1.1, '승인 3412', '2020-08-02\n승인량 3000㎥/s', { fs: 14, fs2: 10 }), b2 = node(s, 10.35, 2.85, 2.2, 1.1, '방류', '2020-08-02 18:00', { fs: 14, fs2: 10 }), d2 = node(s, 9.0, 4.6, 2.2, 1.0, '충주댐', '다목적댐', { fs: 14, fs2: 10 });
-  link(s, a2, b2, null); link(s, b2, d2, null); link(s, a2, d2, null);
-  box(s, 0.55, 6.12, 12.23, 0.62, { fill: NAVY });
-  T(s, 'Entity: Class에 실제 값이 들어간 하나하나 (예: 충주댐, 승인 3412)', { x: 0.55, y: 6.12, w: 12.23, h: 0.62, fontSize: 15, bold: true, color: WHITE, align: 'center', valign: 'middle' });
+  T(s, '지식그래프  (Entity와 관계)', { x: 7.4, y: 1.85, w: 5.4, h: 0.4, fontSize: 16, bold: true, color: NAVY, align: 'center' });
+  box(s, 7.4, 2.3, 5.4, 3.7, { fill: SKY, line: SKY2 });
+  const a2 = node(s, 7.65, 2.95, 2.2, 1.05, '승인 3412', '2020-08-02\n승인량 3000㎥/s', { fs: 14, fs2: 10 }), b2 = node(s, 10.35, 2.95, 2.2, 1.05, '방류', '2020-08-02 18:00', { fs: 14, fs2: 10 }), d2 = node(s, 9.0, 4.7, 2.2, 0.95, '충주댐', '다목적댐', { fs: 14, fs2: 10 });
+  link(s, a2, b2, '허가함', { lw: 0.8, off: 0.7 }); link(s, b2, d2, '수행됨', { lw: 0.8, side: -1, off: 0.35 }); link(s, a2, d2, '대상', { lw: 0.6, off: 0.3 });
+  chip(s, 7.65, 2.5, 0.85, 'Entity', { fill: NAVY, fs: 11.5, h: 0.32 });
+  box(s, 0.55, 6.15, 12.23, 0.62, { fill: NAVY });
+  T(s, 'Entity: Class에 실제 자료가 들어간 하나하나.   방류 승인(Class) → 승인 3412(Entity),   댐(Class) → 충주댐(Entity)', { x: 0.55, y: 6.15, w: 12.23, h: 0.62, fontSize: 15, bold: true, color: WHITE, align: 'center', valign: 'middle' });
 }
-// 8. 자료 (원본 표의 모양을 보여 줌)
+// 8. 자료 (원본의 모양 그대로)
 {
-  const s = add('Ⅰ. 만든 구조'); head(s, 'Ⅰ. 만든 구조', 'KG에 채운 실제 자료', 'K-water 댐 4개(충주댐, 소양강댐, 횡성댐, 광동댐)의 공개 자료 세 종류');
-  const col = [[0.55, '시간 측정값', 'K-water 공개 자료', '댐 지점에서 1시간마다 잰 값 6가지', '6개 항목 · 2010~2026년 · 약 87만 행'], [4.73, '방류 승인 기록', '한강홍수통제소 공개 자료', '언제, 얼마의 방류를 승인했는지', '댐 4개 · 2010~2021년 · 80건'], [8.91, '운영 규정', '댐과 보 등의 연계운영규정 별표 3', '댐별 홍수기 제한수위', '충주댐, 소양강댐, 횡성댐 · 3건']];
-  col.forEach(c => { box(s, c[0], 1.9, 3.87, 4.85, { fill: SKY }); box(s, c[0], 1.9, 3.87, 0.95, { fill: NAVY });
-    T(s, c[1], { x: c[0] + 0.25, y: 1.98, w: 3.4, h: 0.45, fontSize: 19, bold: true, color: WHITE }); T(s, c[2], { x: c[0] + 0.25, y: 2.43, w: 3.4, h: 0.32, fontSize: 11.5, color: 'CFE0F2' });
-    T(s, c[3], { x: c[0] + 0.25, y: 3.02, w: 3.4, h: 0.35, fontSize: 14, bold: true, color: NAVY });
-    T(s, c[4], { x: c[0] + 0.25, y: 6.25, w: 3.4, h: 0.32, fontSize: 12, color: GRAY }); });
-  mini(s, 0.75, 3.5, [1.0, 0.8, 0.85, 0.82], ['시각', '수위', '유입량', '총방류량'], [['17:00', '139.37', '4693.7', '707.3'], ['18:00', '139.55', '4945.2', '707.1'], ['19:00', '139.69', '4015.5', '707.5']], { fs: 12, rh: 0.4, hh: 0.4 });
-  T(s, '충주댐 2020-08-02  (EL.m, CMS)', { x: 0.75, y: 5.2, w: 3.5, h: 0.3, fontSize: 11, color: GRAY });
-  T(s, '+ 저수량, 강우량, 저수율', { x: 0.75, y: 5.5, w: 3.5, h: 0.3, fontSize: 11, color: GRAY });
-  mini(s, 4.93, 3.5, [1.15, 1.25, 1.07], ['승인일', '방류 시작', '승인 방류량'], [['2020-08-02', '08-02 18:00', '3000'], ['2020-08-06', '08-02 18:00', '7000'], ['2020-08-12', '08-06 06:00', '7000']], { fs: 12, rh: 0.4, hh: 0.4 });
-  T(s, '충주댐 2020년 8월  (㎥/s)', { x: 4.93, y: 5.2, w: 3.5, h: 0.3, fontSize: 11, color: GRAY });
-  T(s, '+ 비고 (기간·방류량 변경 내용 등)', { x: 4.93, y: 5.5, w: 3.5, h: 0.3, fontSize: 11, color: GRAY });
-  mini(s, 9.11, 3.5, [1.6, 1.87], ['댐', '홍수기 제한수위'], [['소양강댐', '190.3'], ['충주댐', '138.0'], ['횡성댐', '178.2']], { fs: 12, rh: 0.4, hh: 0.4 });
-  T(s, '단위 EL.m', { x: 9.11, y: 5.2, w: 3.5, h: 0.3, fontSize: 11, color: GRAY });
+  const s = add('Ⅰ. 연구 프레임워크'); head(s, 'Ⅰ. 연구 프레임워크', 'KG에 채운 실제 자료', 'K-water 댐 4개(충주댐, 소양강댐, 횡성댐, 광동댐)의 공개 자료 세 종류');
+  const lab = (x, y, a, b) => s.addText([{ text: a, options: { bold: true, color: NAVY, fontSize: 16 } }, { text: '   ' + b, options: { color: GRAY, fontSize: 12 } }], { x, y, w: 7.6, h: 0.36, fontFace: F, margin: 0, isTextBox: true, valign: 'middle' });
+  lab(0.55, 1.8, '시간 측정값', 'K-water 공개 자료 (표 형식)');
+  mini(s, 0.55, 2.2, [1.6, 0.95, 1.05, 0.95, 1.05, 1.05, 0.95], ['시각', '수위\n(EL.m)', '저수량\n(백만㎥)', '강우량\n(mm)', '유입량\n(㎥/s)', '총방류량\n(㎥/s)', '저수율\n(%)'],
+    [['2020-08-02 17:00', '139.37', '2111.215', '0.711', '4693.654', '707.265', '76.8'], ['2020-08-02 18:00', '139.55', '2126.472', '1.901', '4945.201', '707.145', '77.3'], ['2020-08-02 19:00', '139.69', '2138.381', '0.273', '4015.509', '707.453', '77.8']], { fs: 11.5, hh: 0.5, rh: 0.34 });
+  T(s, '충주댐 예시.  1시간마다 6개 항목, 2010~2026년, 약 87만 행', { x: 0.55, y: 3.76, w: 7.6, h: 0.3, fontSize: 12.5, color: INK });
+  lab(0.55, 4.2, '방류 승인 기록', '한강홍수통제소 공개 자료 (표 형식)');
+  mini(s, 0.55, 4.6, [0.75, 0.75, 1.1, 1.2, 0.85, 2.95], ['순차번호', '관측소명', '승인년월일시분', '방류시작시간', '접수방류량', '비고'],
+    [['3412', '충주', '2020-08-02', '2020-08-02 18:00', '3000', ''], ['3519', '충주', '2020-08-06', '2020-08-02 18:00', '7000', '방류기간 (당초) 08/02 18:00 ~ 08/12 18:00 (변경) 08/02 18:00 ~ 08/16 24:00 방류량(당초) 3000㎥/s(변경) 7000㎥/s'], ['3647', '충주', '2020-08-12', '2020-08-06 06:00', '7000', '수문방류 변경승인(방류기간연장) 최대방류량내 탄력적 방류 …']], { fs: 11, hh: 0.36, rh: 0.52, cfs: { 5: 9.5 } });
+  T(s, '충주댐 2020년 8월 예시.  댐 4개, 2010~2021년, 80건.  비고는 사람이 쓴 문장이다', { x: 0.55, y: 6.56, w: 7.6, h: 0.3, fontSize: 12.5, color: INK });
+  lab(8.5, 1.8, '운영 규정', '규정 문서 (표가 아닌 글)');
+  box(s, 8.5, 2.2, 4.28, 4.28, { fill: WHITE, line: 'B6BCC6', r: 0.02 });
+  T(s, '댐과 보 등의 연계운영규정', { x: 8.7, y: 2.3, w: 3.9, h: 0.3, fontSize: 11, color: GRAY });
+  T(s, '[별표 3] 댐의 홍수기 제한수위(제6조)', { x: 8.7, y: 2.6, w: 3.9, h: 0.34, fontSize: 13, bold: true });
+  mini(s, 8.7, 3.05, [0.75, 1.05, 0.95, 1.13], ['구분', '댐 종류', '댐명', '홍수기\n제한수위(EL.m)'], [['한강\n수계', '다목적댐', '소양강댐', '190.3'], ['', '', '충주댐', '138.0'], ['', '', '횡성댐', '178.2'], ['', '수력발전댐', '화천댐', '175.0'], ['', '', '춘천댐', '102.0'], ['', '', '…', '…']], { fs: 11, hh: 0.5, rh: 0.4, hl: [0, 1, 2] });
+  T(s, '색칠한 3행(K-water 댐)의 값을 사용.  3건', { x: 8.5, y: 6.56, w: 4.28, h: 0.3, fontSize: 12.5, color: INK });
 }
-// 9. 자료가 KG가 되는 과정 (세 자료 → Class 6개)
+// 9. 자료가 KG가 되는 과정: 승인 기록 한 행의 열이 어느 Entity·속성으로 들어가는지. 열은 KG에 쓰는 6개만, 그림에 맞춰 순서를 바꿔 세로로 놓았다
 {
-  const s = add('Ⅰ. 만든 구조'); head(s, 'Ⅰ. 만든 구조', '자료가 KG가 되는 과정', '원본 자료의 칸이 온톨로지의 Class 자리에 들어간다');
-  T(s, '원본 자료', { x: 0.55, y: 1.82, w: 5.9, h: 0.3, fontSize: 13, bold: true, color: GRAY }); T(s, 'KG  (Class에 값이 들어간 모습)', { x: 8.35, y: 1.82, w: 4.4, h: 0.3, fontSize: 13, bold: true, color: GRAY });
-  // 자료 1: 방류 승인 기록 (비고가 있는 행)
-  T(s, '방류 승인 기록', { x: 0.55, y: 2.15, w: 4, h: 0.28, fontSize: 12.5, bold: true, color: NAVY });
-  const t1 = mini(s, 0.55, 2.45, [0.95, 0.85, 1.25, 1.75, 1.1], ['순차번호', '관측소', '승인일', '방류 시작', '방류량'], [['2755', '충주', '2017-08-24', '2017-08-25 14:00', '2000']], { fs: 11.5, hh: 0.32, rh: 0.36 });
-  rect(s, 0.55, 3.13, 0.95, 0.42, 'E5E7EB', 'B6BCC6'); T(s, '비고', { x: 0.55, y: 3.13, w: 0.95, h: 0.42, fontSize: 11.5, bold: true, align: 'center', valign: 'middle' });
-  rect(s, 1.5, 3.13, 4.95, 0.42, WHITE, 'B6BCC6'); T(s, '최대 2000㎥/s 이내 탄력적방류(초기 1500㎥/s 이내 방류)', { x: 1.56, y: 3.13, w: 4.85, h: 0.42, fontSize: 11, valign: 'middle' });
-  // 자료 2: 규정
-  T(s, '연계운영규정 별표 3', { x: 0.55, y: 4.0, w: 4, h: 0.28, fontSize: 12.5, bold: true, color: NAVY });
-  const t2 = mini(s, 0.55, 4.3, [1.2, 1.6, 2.0], ['수계', '댐명', '홍수기 제한수위'], [['한강', '충주댐', '138.0 EL.m']], { fs: 11.5, hh: 0.32, rh: 0.36 });
-  // 자료 3: 측정값
-  T(s, '시간 측정값', { x: 0.55, y: 5.35, w: 4, h: 0.28, fontSize: 12.5, bold: true, color: NAVY });
-  const t3 = mini(s, 0.55, 5.65, [1.35, 1.75, 0.95, 0.95, 0.9], ['관측소 코드', '시각', '수위', '유입량', '…'], [['1003110', '2020-08-02 18:00', '139.55', '4945.2', '…']], { fs: 11.5, hh: 0.32, rh: 0.36 });
-  // Class 6개
-  const cls = [['댐', NAVY, '충주댐'], ['방류 승인', C_APR, '승인 2755 · 2017-08-24 · 2000㎥/s'], ['운영행위', C_OPR, '초기방류, 탄력적 방류 · 2017-08-25 14:00'], ['근거', C_EVI, '승인 기록 2755번 행 · 규정 별표 3'], ['운영기준', C_CRI, '홍수기 제한수위 138.0 EL.m'], ['수문·기상 상태', C_HMS, '수위 등 6개 항목 · 관측소 코드 1003110']];
-  const R = cls.map((c, i) => { const y = 2.15 + i * 0.76; box(s, 8.35, y, 4.43, 0.64, { fill: WHITE, line: c[1], lw: 1.25 }); box(s, 8.35, y, 1.55, 0.64, { fill: c[1] });
-    T(s, c[0], { x: 8.35, y, w: 1.55, h: 0.64, fontSize: 12.5, bold: true, color: WHITE, align: 'center', valign: 'middle' }); T(s, c[2], { x: 10.0, y, w: 2.72, h: 0.64, fontSize: 11, valign: 'middle' }); return [8.35, y + 0.32]; });
-  const from1 = [6.5, 3.0], from2 = [5.4, 4.64], from3 = [6.5, 5.99];
-  [0, 1, 2, 3].forEach(i => line(s, from1, R[i], null, { color: GRAY, width: 1.5 }));
-  line(s, from2, R[3], null, { color: GRAY, width: 1.5 }); line(s, from2, R[4], null, { color: GRAY, width: 1.5 }); line(s, from3, R[5], null, { color: GRAY, width: 1.5 });
-  T(s, '비고의 "초기방류", "탄력적 방류"가 운영행위가 된다.  측정값 자체는 KG에 넣지 않고 측정 저장소에 둔다(다음 장)', { x: 0.55, y: 6.68, w: 12.2, h: 0.3, fontSize: 12, color: GRAY });
+  const s = add('Ⅰ. 연구 프레임워크'); head(s, 'Ⅰ. 연구 프레임워크', '자료가 KG가 되는 과정', '방류 승인 기록 한 행(충주댐, 순차번호 2755)이 Entity와 관계가 되는 모습');
+  T(s, '원본 한 행  (열 이름 | 값)', { x: 0.55, y: 1.8, w: 4.75, h: 0.32, fontSize: 14, bold: true, color: GRAY });
+  T(s, 'KG  (Entity와 관계)', { x: 6.9, y: 1.8, w: 3.2, h: 0.32, fontSize: 14, bold: true, color: GRAY });
+  const f = [['관측소명', '충주', 0.5], ['순차번호', '2755', 0.5], ['승인년월일시분', '2017-08-24', 0.5], ['접수방류량', '2000', 0.5], ['방류시작시간', '2017-08-25 14:00', 0.5], ['비고', '최대 2000㎥/s(발전방류 포함)이내 탄력적방류(초기 1500 ㎥/s이내 방류)', 0.75]];
+  let y = 2.2; const FY = f.map(r => { rect(s, 0.55, y, 1.6, r[2], 'E5E7EB', 'B6BCC6'); T(s, r[0], { x: 0.55, y, w: 1.6, h: r[2], fontSize: 12.5, bold: true, align: 'center', valign: 'middle' });
+    rect(s, 2.15, y, 3.15, r[2], WHITE, 'B6BCC6'); T(s, r[1], { x: 2.25, y, w: 2.95, h: r[2], fontSize: r[1].length > 20 ? 11 : 13, valign: 'middle' }); const c = y + r[2] / 2; y += r[2]; return c; });
+  // Entity
+  const dam = node(s, 10.3, 1.95, 2.45, 0.75, '충주댐', '댐', { fs: 15, fs2: 10.5 });
+  const apr = node(s, 6.9, 2.9, 2.5, 1.35, '승인 2755', '승인일 2017-08-24\n방류시작 2017-08-25 14:00\n접수방류량 2000㎥/s', { fill: C_APR, fs: 15, fs2: 10.5 });
+  box(s, 10.2, 3.75, 2.65, 2.0, { fill: 'F1ECF7', line: C_OPR });
+  const op1 = node(s, 10.3, 3.85, 2.45, 0.85, '초기방류', '2017-08-25 14:00', { fill: C_OPR, fs: 14, fs2: 10.5 }), op2 = node(s, 10.3, 4.8, 2.45, 0.85, '탄력적 방류', '2017-08-25 14:00', { fill: C_OPR, fs: 14, fs2: 10.5 });
+  const evi = node(s, 6.9, 5.65, 2.5, 0.78, '근거', '승인 기록 순차번호 2755', { fill: C_EVI, fs: 15, fs2: 10.5 });
+  // 열 → Entity (점선)
+  const fa = (i, q, label, o) => line(s, [5.3, FY[i]], q, label, Object.assign({ color: GRAY, width: 1.25, dash: true, gap: 0.05, lc: GRAY, fs: 10.5, lw: 1.2, off: 0.14 }, o));
+  fa(0, [10.3, 2.3], '이름', { t: 0.86 }); fa(1, [6.9, 3.1]); fa(2, [6.9, 3.45]); fa(3, [6.9, 3.85]); fa(4, [6.9, 4.12]);
+  fa(4, [10.2, 4.55], '시각', { t: 0.62 }); fa(5, [10.2, 5.2], '종류', { t: 0.86 });
+  line(s, [5.3, 5.45], [6.9, 6.05], '행의 위치', { color: GRAY, width: 1.25, dash: true, gap: 0.05, lc: GRAY, fs: 10.5, lw: 1.2, off: 0.2, side: -1 });
+  // 관계 (실선)
+  line(s, [9.4, 3.15], [10.3, 2.5], '대상', { lw: 0.6, fs: 12, off: 0.2 }); line(s, [9.4, 3.9], [10.2, 4.2], '허가함', { lw: 0.8, fs: 12, off: 0.22, side: -1 });
+  line(s, [11.52, 3.75], [11.52, 2.7], '수행됨', { lw: 0.8, fs: 12, off: 0.45 });
+  line(s, [8.15, 4.25], [8.15, 5.65], '근거를 둠', { lw: 1.0, fs: 12, off: 0.55, side: -1, t: 0.72 }); line(s, [10.2, 5.6], [9.4, 6.0], null);
+  T(s, [{ text: '┅▶ ', options: { color: GRAY, bold: true } }, { text: '열의 값이 들어가는 곳      ' }, { text: '━▶ ', options: { color: BLUE, bold: true } }, { text: '관계' }], { x: 8.3, y: 1.42, w: 4.48, h: 0.3, fontSize: 10.5, color: GRAY, align: 'right' });
+  T(s, '같은 방식으로 규정 별표 3의 댐명·제한수위는 운영기준이, 측정값의 관측소 코드·항목은 수문·기상 상태가 된다.  측정값 자체는 KG에 넣지 않는다(다음 장)', { x: 0.55, y: 6.62, w: 12.23, h: 0.32, fontSize: 11.5, color: INK });
 }
 // 10. 외부 저장소
 {
-  const s = add('Ⅰ. 만든 구조'); head(s, 'Ⅰ. 만든 구조', '외부 저장소', '양이 많은 측정값과 긴 규정 원문은 KG 밖에 두고, KG에는 찾아갈 열쇠만 둔다');
+  const s = add('Ⅰ. 연구 프레임워크'); head(s, 'Ⅰ. 연구 프레임워크', '외부 저장소', '양이 많은 측정값과 긴 규정 원문은 KG 밖에 두고, KG에는 찾아갈 열쇠만 둔다');
   box(s, 0.55, 1.9, 4.75, 4.85, { fill: SKY }); T(s, '지식그래프 (KG)', { x: 0.8, y: 2.02, w: 4.2, h: 0.4, fontSize: 16, bold: true, color: NAVY });
   const dam = node(s, 0.8, 2.75, 1.6, 0.9, '충주댐', null, { fs: 15 }), hms = node(s, 2.9, 2.75, 2.15, 0.9, '수위', '열쇠: 관측소 코드 1003110', { fill: C_HMS, fs: 15, fs2: 10 });
   const cri = node(s, 0.8, 4.95, 1.6, 0.9, '제한수위', '138.0 EL.m', { fill: C_CRI, fs: 15, fs2: 10 }), evi = node(s, 2.9, 4.95, 2.15, 0.9, '근거', '열쇠: 별표 3', { fill: C_EVI, fs: 15, fs2: 10 });
   link(s, dam, hms, null); link(s, cri, dam, null); link(s, cri, evi, null);
-  // 측정 저장소
+  // 측정 저장소: 열쇠는 관측소 코드 하나. 시각은 질문에서 뽑아 그 행을 읽는다
   s.addShape(pres.ShapeType.can, { x: 7.3, y: 2.05, w: 1.5, h: 1.75, fill: { color: C_HMS }, line: { color: C_HMS, width: 0.75 } });
   T(s, '측정\n저장소', { x: 7.3, y: 2.55, w: 1.5, h: 1.0, fontSize: 15, bold: true, color: WHITE, align: 'center', valign: 'middle' });
-  mini(s, 9.1, 2.1, [1.75, 0.95, 0.98], ['시각', '수위', '유입량'], [['2020-08-02 17:00', '139.37', '4693.7'], ['2020-08-02 18:00', '139.55', '4945.2'], ['2020-08-02 19:00', '139.69', '4015.5']], { fs: 11.5, hh: 0.34, rh: 0.36, hl: 1 });
-  T(s, '시간 측정값 약 87만 행', { x: 9.1, y: 3.6, w: 3.7, h: 0.3, fontSize: 12, color: GRAY });
+  mini(s, 9.1, 2.1, [1.0, 1.4, 0.6, 0.68], ['관측소 코드', '시각', '수위', '유입량'], [['1003110', '2020-08-02 17:00', '139.37', '4693.7'], ['1003110', '2020-08-02 18:00', '139.55', '4945.2'], ['1003110', '2020-08-02 19:00', '139.69', '4015.5']], { fs: 10.5, hh: 0.34, rh: 0.36, hl: 1 });
   line(s, [5.05, 3.2], [7.3, 3.0], null, { color: C_HMS });
-  T(s, '관측소 코드와 시각으로 찾음', { x: 5.2, y: 2.55, w: 2.0, h: 0.5, fontSize: 11.5, bold: true, color: C_HMS, align: 'center', valign: 'bottom' });
+  T(s, '① 관측소 코드로\n그 댐의 측정값을 찾음', { x: 5.15, y: 2.35, w: 2.1, h: 0.6, fontSize: 11.5, bold: true, color: C_HMS, align: 'center', valign: 'bottom' });
+  T(s, '② 질문에서 뽑은 시각의 행을 읽음', { x: 9.1, y: 3.58, w: 3.7, h: 0.3, fontSize: 11.5, bold: true, color: C_HMS });
+  T(s, '(예: "2020년 8월 2일 18시 충주댐 수위는?")', { x: 9.1, y: 3.86, w: 3.7, h: 0.28, fontSize: 10.5, color: GRAY });
   // 문서 저장소
   s.addShape(pres.ShapeType.can, { x: 7.3, y: 4.45, w: 1.5, h: 1.75, fill: { color: C_EVI }, line: { color: C_EVI, width: 0.75 } });
   T(s, '문서\n저장소', { x: 7.3, y: 4.95, w: 1.5, h: 1.0, fontSize: 15, bold: true, color: WHITE, align: 'center', valign: 'middle' });
@@ -245,20 +250,34 @@ pres.addSection({ title: 'Ⅰ. 만든 구조' });
   line(s, [5.05, 5.4], [7.3, 5.4], null, { color: C_EVI });
   T(s, '문서 위치로 찾음', { x: 5.2, y: 4.95, w: 2.0, h: 0.35, fontSize: 11.5, bold: true, color: GRAY, align: 'center', valign: 'bottom' });
 }
-// 11. 완성된 KG (전체 그림)
+// 11. 완성된 KG: 충주댐 예시 (kgv4의 충주댐 Entity. 승인과 운영행위는 2020년 8월분)
 {
-  const s = add('Ⅰ. 만든 구조'); head(s, 'Ⅰ. 만든 구조', '완성된 KG', '댐 4개의 Entity와 관계 전체. 점 하나가 Entity, 선 하나가 관계다');
-  s.addImage({ path: KGPIC, x: 0.55, y: 1.75, w: 12.23, h: 3.575 });
-  const lg = [['댐', NAVY, 4], ['수문·기상 상태', C_HMS, 24], ['운영기준', C_CRI, 3], ['방류 승인', C_APR, 80], ['운영행위', C_OPR, 68], ['근거', '9AA5B1', 85]];
-  box(s, 0.55, 5.5, 12.23, 1.25, { fill: PALE, line: LINE });
-  lg.forEach((l, i) => { const x = 0.85 + i * 1.98;
-    s.addShape(pres.ShapeType.ellipse, { x, y: 5.72, w: 0.26, h: 0.26, fill: { color: l[1] }, line: { color: l[1], width: 0.5 } });
-    T(s, l[0], { x: x + 0.36, y: 5.67, w: 1.6, h: 0.36, fontSize: 13, bold: true, color: NAVY, valign: 'middle' }); T(s, l[2] + '개', { x: x + 0.36, y: 6.03, w: 1.6, h: 0.3, fontSize: 12, color: GRAY }); });
-  T(s, 'Entity 264개, 관계 418개.  가운데 큰 점이 댐이고, 바깥으로 갈수록 방류 승인 → 운영행위 → 근거 순서로 이어진다', { x: 0.85, y: 6.38, w: 11.7, h: 0.3, fontSize: 11.5, color: GRAY });
+  const s = add('Ⅰ. 연구 프레임워크'); head(s, 'Ⅰ. 연구 프레임워크', '완성된 KG: 충주댐 예시', '충주댐에 이어진 Entity와 관계 (방류 승인과 운영행위는 2020년 8월분만 표시)');
+  const dam = node(s, 5.5, 3.5, 2.2, 0.95, '충주댐', '다목적댐', { fs: 18, fs2: 11 });
+  // 수문·기상 상태 6개
+  box(s, 0.55, 1.8, 2.5, 3.72, { fill: 'EAF6F4', line: C_HMS });
+  T(s, '수문·기상 상태 · 관측소 코드 1003110', { x: 0.55, y: 1.84, w: 2.5, h: 0.28, fontSize: 9.5, bold: true, color: C_HMS, align: 'center', valign: 'middle' });
+  const H = ['수위', '저수량', '강우량', '유입량', '총방류량', '저수율'].map((v, i) => node(s, 0.8, 2.17 + i * 0.55, 2.0, 0.45, v, null, { fill: C_HMS, fs: 13 }));
+  H.forEach((h, i) => line(s, [5.5, 3.72 + i * 0.1], [2.8, h.y + 0.225], i === 0 ? '상태를 가짐' : null, { color: C_HMS, width: 1.5, lw: 1.2, fs: 12, off: 0.3, t: 0.3 }));
+  const ek = node(s, 0.55, 5.85, 2.5, 0.7, '근거', 'K-water 수문 시간자료', { fill: C_EVI, fs: 13, fs2: 10 });
+  line(s, [1.8, 5.52], [1.8, 5.85], null, { color: C_EVI, gap: 0.03 }); T(s, '근거를 둠', { x: 1.95, y: 5.54, w: 1.1, h: 0.28, fontSize: 11, bold: true, color: ORANGE, valign: 'middle' });
+  // 운영기준
+  const cri = node(s, 5.35, 1.85, 2.5, 0.8, '홍수기 제한수위', '138.0 EL.m', { fill: C_CRI, fs: 14, fs2: 11 });
+  const el = node(s, 9.3, 1.85, 3.45, 0.8, '근거', '댐과 보 등의 연계운영규정 별표 3', { fill: C_EVI, fs: 13, fs2: 10 });
+  link(s, cri, dam, '적용됨', { lw: 0.9, fs: 12, off: 0.45 }); link(s, cri, el, '근거를 둠', { lw: 1.1, fs: 12, off: 0.18 });
+  // 방류 승인 3건, 운영행위 1개
+  const A = [['승인 3647', '2020-08-12 · 7000㎥/s', '3647'], ['승인 3519', '2020-08-06 · 7000㎥/s', '3519'], ['승인 3412', '2020-08-02 · 3000㎥/s', '3412']].map((a, i) => {
+    const y = 2.95 + i * 0.95, ap = node(s, 8.5, y, 2.15, 0.75, a[0], a[1], { fill: C_APR, fs: 13.5, fs2: 10 }), ev = node(s, 11.2, y, 1.55, 0.75, '근거', '순차번호 ' + a[2], { fill: C_EVI, fs: 12.5, fs2: 9.5 });
+    line(s, [8.5, y + 0.375], [7.7, 3.8 + i * 0.17], i === 0 ? '대상' : null, { lw: 0.6, fs: 12, off: 0.2 }); link(s, ap, ev, null, { color: C_EVI }); return [ap, ev]; });
+  const op = node(s, 5.5, 5.5, 2.2, 0.85, '방류', '2020-08-02 18:00', { fill: C_OPR, fs: 14, fs2: 10.5 });
+  link(s, op, dam, '수행됨', { lw: 0.9, fs: 12, off: 0.48 });
+  line(s, [8.5, 5.4], [7.7, 5.75], '허가함', { lw: 0.9, fs: 12, off: 0.22, side: -1 });
+  line(s, [7.7, 6.1], [11.9, 5.6], null, { color: C_EVI });
+  T(s, '충주댐 전체: 방류 승인 15건, 운영행위 14개.     KG 전체(댐 4개): Entity 264개, 관계 418개', { x: 3.3, y: 6.62, w: 9.48, h: 0.32, fontSize: 13, bold: true, color: NAVY, align: 'right' });
 }
 // 12. RAG
 {
-  const s = add('Ⅰ. 만든 구조'); head(s, 'Ⅰ. 만든 구조', 'KG는 RAG로 LLM에 쓰인다', null);
+  const s = add('Ⅰ. 연구 프레임워크'); head(s, 'Ⅰ. 연구 프레임워크', 'KG는 RAG로 LLM에 쓰인다', null);
   box(s, 0.55, 1.4, 12.23, 0.95, { fill: NAVY });
   T(s, [{ text: 'RAG (Retrieval-Augmented Generation, 검색 증강 생성)', options: { bold: true, color: WHITE, fontSize: 17, breakLine: true } }, { text: 'LLM이 답하기 전에 관련 근거를 먼저 찾아서 질문과 함께 주는 방식. LLM은 받은 근거 안에서만 답을 쓴다', options: { color: 'DCE9F7', fontSize: 13.5 } }],
     { x: 0.85, y: 1.4, w: 11.7, h: 0.95, valign: 'middle', lineSpacingMultiple: 1.2 });
@@ -273,10 +292,10 @@ pres.addSection({ title: 'Ⅰ. 만든 구조' });
 }
 
 // ================================================= Ⅱ. 시연
-pres.addSection({ title: 'Ⅱ. 시연' });
+pres.addSection({ title: 'Ⅱ. 시연 테스트' });
 // 13. 시연 범위
 {
-  const s = add('Ⅱ. 시연'); head(s, 'Ⅱ. 시연', '시연에서 보여 드릴 질문', '정한 범위(CQ) 안의 질문에 답하고, 범위 밖의 질문에는 답하지 않는다');
+  const s = add('Ⅱ. 시연 테스트'); head(s, 'Ⅱ. 시연 테스트', '시연에서 보여 드릴 질문', '정한 범위(CQ) 안의 질문에 답하고, 범위 밖의 질문에는 답하지 않는다');
   const q = [['CQ1', '충주댐 지금 상황 알려줘'], ['CQ2', '2020년 8월 2일 18시 충주댐 수위는?'], ['CQ3', '2011년 7월 충주댐 방류 조작 기록 알려줘'], ['CQ4', '2020년 8월 충주댐 방류 승인이 어떻게 바뀌었는지 정리해줘'], ['CQ5', '충주댐 홍수기 제한수위는 얼마야?'], ['CQ6', '충주댐 제한수위 근거 규정이 뭐야?']];
   q.forEach((c, i) => { const y = 1.9 + i * 0.54; if (i % 2 === 0) rect(s, 0.55, y, 7.6, 0.54, PALE);
     chip(s, 0.7, y + 0.1, 0.85, c[0], { fs: 11 }); T(s, c[1], { x: 1.75, y, w: 6.3, h: 0.54, fontSize: 14.5, valign: 'middle' }); });
@@ -293,7 +312,7 @@ pres.addSection({ title: 'Ⅱ. 시연' });
 }
 // 14. 시연 영상
 {
-  const s = add('Ⅱ. 시연'); head(s, 'Ⅱ. 시연', '시연 영상', null);
+  const s = add('Ⅱ. 시연 테스트'); head(s, 'Ⅱ. 시연 테스트', '시연 영상', null);
   box(s, 1.9, 1.6, 9.55, 5.2, { fill: '1F2937', r: 0.05 });
   T(s, '시연 영상 넣는 자리', { x: 1.9, y: 3.7, w: 9.55, h: 0.6, fontSize: 24, bold: true, color: WHITE, align: 'center' });
   T(s, '삽입 > 비디오 > 이 디바이스 (파일로 넣어 인터넷 없이 재생)', { x: 1.9, y: 4.4, w: 9.55, h: 0.4, fontSize: 14, color: '9CA3AF', align: 'center' });

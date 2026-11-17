@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 660" width="1040" height="1320">
+<defs>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#002A52"/><stop offset="1" stop-color="#0A5A9C"/></linearGradient>
+<linearGradient id="wat" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2F8FD6"/><stop offset="1" stop-color="#0B4F8C"/></linearGradient>
+<linearGradient id="con" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#E8EEF4"/><stop offset="1" stop-color="#AEBDCC"/></linearGradient>
+</defs>
+<rect width="520" height="660" fill="url(#sky)"/>
+<!-- 산 -->
+<path d="M0 330 L70 250 L130 300 L210 215 L300 310 L360 265 L430 320 L520 255 L520 660 L0 660Z" fill="#06406F"/>
+<path d="M0 370 L90 310 L170 355 L250 300 L340 365 L420 325 L520 372 L520 660 L0 660Z" fill="#0A4C82"/>
+<!-- 저수지(상류) -->
+<path d="M0 392 L330 392 L330 660 L0 660Z" fill="url(#wat)"/>
+<g stroke="#BFE0F7" stroke-width="2" fill="none" opacity=".55">
+<path d="M20 420 q15 -8 30 0 t30 0 t30 0"/><path d="M150 452 q15 -8 30 0 t30 0 t30 0"/><path d="M40 492 q15 -8 30 0 t30 0 t30 0"/><path d="M190 522 q15 -8 30 0 t30 0"/>
+</g>
+<!-- 댐 본체 -->
+<path d="M318 372 L372 372 L452 620 L318 620Z" fill="url(#con)"/>
+<rect x="308" y="362" width="74" height="12" fill="#F4F7FA"/>
+<g fill="#0A4C82"><rect x="330" y="398" width="20" height="30" rx="2"/><rect x="330" y="442" width="20" height="30" rx="2"/><rect x="330" y="486" width="20" height="30" rx="2"/></g>
+<!-- 방류수 -->
+<path d="M352 410 Q420 440 448 610 L470 620 Q430 430 352 400Z" fill="#DDF0FC" opacity=".9"/>
+<path d="M352 455 Q400 480 430 612 L446 618 Q410 470 352 446Z" fill="#DDF0FC" opacity=".75"/>
+<!-- 하류 -->
+<path d="M318 612 L520 612 L520 660 L318 660Z" fill="#2F8FD6"/>
+<!-- 그래프(지식그래프를 뜻하는 점과 선) -->
+<g stroke="#9DBEDD" stroke-width="2.2" opacity=".95">
+<line x1="150" y1="130" x2="70" y2="80"/><line x1="150" y1="130" x2="250" y2="70"/><line x1="150" y1="130" x2="90" y2="200"/><line x1="150" y1="130" x2="260" y2="170"/><line x1="250" y1="70" x2="350" y2="110"/><line x1="260" y1="170" x2="350" y2="110"/><line x1="350" y1="110" x2="440" y2="70"/><line x1="350" y1="110" x2="430" y2="180"/><line x1="260" y1="170" x2="345" y2="368"/>
+</g>
+<g>
+<circle cx="150" cy="130" r="17" fill="#FFFFFF"/><circle cx="70" cy="80" r="10" fill="#2E9E8F"/><circle cx="250" cy="70" r="11" fill="#5BA8E6"/><circle cx="90" cy="200" r="10" fill="#C55A11"/><circle cx="260" cy="170" r="12" fill="#5BA8E6"/><circle cx="350" cy="110" r="13" fill="#B49AD6"/><circle cx="440" cy="70" r="9" fill="#C9D3DE"/><circle cx="430" cy="180" r="9" fill="#C9D3DE"/>
+</g>
+</svg>
