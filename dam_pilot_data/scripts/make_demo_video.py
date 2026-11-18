@@ -10,6 +10,10 @@ def run(*a): subprocess.run(['ffmpeg', '-v', 'error', '-y', *a], check=True)
 def grab(t, name):
     p = os.path.join(W, name); run('-ss', str(t), '-i', SRC, '-frames:v', '1', p)
     return Image.open(p).convert('RGB').crop((0, TOP, CW, TOP + CH))
+def grab_clean(times, name, how='median'):                     # 같은 화면의 여러 시점을 겹쳐 중앙값을 취하면 움직이는 마우스 커서가 지워진다
+    import numpy as np
+    arr = np.stack([np.asarray(grab(t, '%s_%d.png' % (name, i))) for i, t in enumerate(times)])
+    return Image.fromarray((np.max(arr, axis=0) if how == 'max' else np.median(arr, axis=0)).astype('uint8'))   # 밝은 바탕에서는 max가 커서의 검은 테두리까지 지운다
 def strip(img, cap, tag=None):                    # 1920x1080 화면 = 내용 + 자막 띠
     fr = Image.new('RGB', (CW, 1080), NAVY); fr.paste(img, (0, 0)); d = ImageDraw.Draw(fr)
     f = F(40); w = d.textlength(cap, font=f); d.text(((CW - w) / 2 + (60 if tag else 0), CH + 40), cap, font=f, fill='white')
@@ -38,7 +42,8 @@ def clip(t1, t2, cap, name, speed=1, tag=None):
     run('-ss', str(t1), '-to', str(t2), '-i', SRC, '-i', p, '-filter_complex', f'[0:v]crop={CW}:{CH}:0:{TOP},setpts=PTS/{speed},pad={CW}:1080:0:0[v];[v][1:v]overlay=0:0,fps=30[o]', '-map', '[o]', '-an', '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-crf', '20', '-preset', 'veryfast', o); segs.append(o)
 
 # ---- 1. 화면 안내 (왼쪽 칸)
-a, b = grab(3, 'k03.png'), grab(12, 'k12.png')
+a, b = grab_clean([1.0, 4.6, 5.4, 6.2, 7.0, 7.8, 8.3], 'k03'), grab_clean([10.6, 11.2, 11.8, 12.4, 13, 13.6, 14.2], 'k12')
+a.paste(a.getpixel((620, 254)), (465, 220, 535, 295))   # 처음 8초 동안 커서가 거의 움직이지 않아 남는 자국은 빈 바탕색으로 덮는다
 fr = a.copy(); box(ImageDraw.Draw(fr), (6, 8, 330, 940), '답변 범위 안내', 'right'); still(strip(fr, '화면 왼쪽: 답변할 수 있는 범위와 사용한 자료를 안내', '화면 안내'), 4, 'i1')
 z, s = zoom(a, 0, 10, 873); fr = z.copy(); box(ImageDraw.Draw(fr), zb((14, 142, 306, 438), 0, 10, s), '답변 범위'); still(strip(fr, '답변 범위: 수문 상태, 방류 승인, 운영행위, 운영기준, 근거', '화면 안내'), 5, 'i2')
 z, s = zoom(a, 0, 425, 873); fr = z.copy(); box(ImageDraw.Draw(fr), zb((14, 450, 306, 712), 0, 425, s), '댐별 자료'); still(strip(fr, '댐별 자료: K-water 댐 4개의 측정값, 승인, 운영행위, 제한수위', '화면 안내'), 5, 'i3')
@@ -48,7 +53,7 @@ fr = z.copy(); box(ImageDraw.Draw(fr), zb((14, 762, 324, 930), 0, 516, s), '알�
 clip(14.0, 21.0, '질문 1  현재 수문·기상 상태 (CQ1)', 'q1a', 1, '시연')
 clip(21.0, 54.5, '답변 생성 중 (8배속)', 'q1b', 8, '시연')
 clip(54.5, 57.5, '답변 완료: 근거, 판단, 출처 번호가 함께 표시됨', 'q1b2', 1, '시연')
-c = grab(57.5, 'k57.png'); X0, Y0 = 350, 85; z, s = zoom(c, X0, Y0, 1325)
+c = grab_clean([54.8, 55.4, 56, 56.6, 57.2, 57.8, 58.4], 'k57'); X0, Y0 = 350, 85; z, s = zoom(c, X0, Y0, 1325)
 def q(bx, label, cap, name, sec=5, side='right'):
     fr = z.copy(); box(ImageDraw.Draw(fr), zb(bx, X0, Y0, s), label, side); still(strip(fr, cap, '답변 보기'), sec, name)
 q((368, 97, 838, 135), '진행 단계', '질문 해석 → KG·저장소 검색 → 근거 정리 → 답변 작성 순서로 진행', 'q1c1')
@@ -57,8 +62,8 @@ q((362, 224, 860, 460), '근거', '근거: KG와 저장소에서 찾은 값. 값
 q((362, 462, 1262, 678), None, '판단: 근거를 정리한 문장. 자료에 없는 내용은 "자료에 없음"으로 표시', 'q1c4')
 q((664, 256, 838, 286), '출처 번호', '출처 번호를 누르면 원본 값을 확인할 수 있음', 'q1c5', 4)
 clip(57.8, 60.0, '출처 번호를 누름', 'q1d', 1, '시연')
-c = grab(61, 'k61.png'); z, s = zoom(c, 640, 0, 1280); fr = z.copy(); box(ImageDraw.Draw(fr), zb((1372, 4, 1908, 340), 640, 0, s), '원본 값', 'left')
-still(strip(fr, '측정 저장소의 원본 행: 관측소 코드 1003110, 2026-09-28 23:00', '원본 확인'), 6, 'q1e')
+c = grab_clean([59.8, 60.2, 60.6, 61, 61.4, 61.8, 62.2, 62.6], 'k61'); z, s = zoom(c, 640, 0, 1280); fr = z.copy(); box(ImageDraw.Draw(fr), zb((1372, 4, 1908, 340), 640, 0, s), '원본 값', 'left')
+still(strip(fr, '측정 저장소의 원본 행 (관측소 코드 1003110, 시각 2026-09-28 23:00)', '원본 확인'), 6, 'q1e')
 clip(61.5, 64.5, '원본 창을 닫고 다음 질문으로', 'q1f', 1, '시연')
 # ---- 3. 나머지 질문: 질문마다 자막 한 줄, 답을 기다리는 구간(질문 버튼이 꺼져 있는 구간)은 8배속
 clip(64.5, 71.0, 'LLM에 전달한 근거 묶음도 펼쳐서 확인 가능', 'q1g', 1, '시연')
