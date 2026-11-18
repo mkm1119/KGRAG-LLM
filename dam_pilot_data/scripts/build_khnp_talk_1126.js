@@ -211,24 +211,24 @@ pres.addSection({ title: 'Ⅰ. 연구 프레임워크' });
   T(s, '원본 한 행', { x: 0.55, y: 1.78, w: 1.2, h: 0.3, fontSize: 14, bold: true, color: GRAY });
   T(s, '순차번호: 원본 자료에서 승인 기록 한 건(한 행)마다 붙은 고유 번호.  이 번호로 승인 한 건 한 건을 구분', { x: 1.75, y: 1.78, w: 11.0, h: 0.3, fontSize: 12, color: INK, valign: 'middle' });
   mini(s, 0.55, 2.1, [1.0, 1.0, 1.55, 1.85, 1.2, 5.63], ['순차번호', '관측소명', '승인년월일시분', '방류시작시간', '접수방류량', '비고'], [['2755', '충주', '2017-08-24', '2017-08-25 14:00', '2000', '최대 2000㎥/s(발전방류 포함)이내 탄력적방류(초기 1500 ㎥/s이내 방류)']], { fs: 12, hh: 0.36, rh: 0.44 });
-  T(s, 'KG', { x: 0.55, y: 3.3, w: 0.6, h: 0.3, fontSize: 14, bold: true, color: GRAY });
-  const dam = node(s, 1.35, 3.95, 1.6, 0.8, '충주댐', '댐', { fs: 15, fs2: 10.5 });
-  const apr = node(s, 3.45, 3.95, 3.3, 1.1, '승인 2755', '승인일 2017-08-24\n방류시작 2017-08-25 14:00 · 2000㎥/s', { fill: C_APR, fs: 15, fs2: 10.5 });
-  const opr = node(s, 8.5, 3.95, 3.4, 1.1, '초기방류 · 탄력적 방류', '운영행위 2개 · 시각 2017-08-25 14:00', { fill: C_OPR, fs: 15, fs2: 10.5 });
-  const evi = node(s, 0.55, 5.75, 2.4, 0.8, '근거', '승인 기록 순차번호 2755', { fill: C_EVI, fs: 15, fs2: 10.5 });
-  // 열 → Entity (점선)
-  const col = (x1, x2, y2, label, o) => line(s, [x1, 2.92], [x2, y2], label, Object.assign({ color: GRAY, width: 1.25, dash: true, gap: 0.04, lc: GRAY, fs: 10.5, lw: 1.3, off: 0.14 }, o));
-  col(0.9, 0.9, 5.75); col(2.05, 2.05, 3.95, '이름', { off: 0.32, t: 0.5 }); col(3.9, 3.9, 3.95, '승인일', { off: 0.38, t: 0.5 }); col(5.0, 5.0, 3.95); col(6.4, 6.4, 3.95);
-  col(5.6, 8.7, 3.95, '시각', { t: 0.6 }); col(9.96, 9.96, 3.95, '비고의 문구 → 종류', { off: 0.95, t: 0.5, lw: 1.8 });
-  T(s, '행의 위치', { x: 0.98, y: 5.3, w: 1.0, h: 0.3, fontSize: 10.5, bold: true, color: GRAY, valign: 'middle' });
+  T(s, 'KG', { x: 0.2, y: 3.95, w: 0.6, h: 0.3, fontSize: 14, bold: true, color: GRAY });
+  const dam = node(s, 1.4, 3.8, 1.6, 0.8, '충주댐', '댐', { fs: 15, fs2: 10.5 });
+  const apr = node(s, 3.45, 3.8, 3.3, 1.1, '승인 2755', '승인일 2017-08-24\n방류시작 2017-08-25 14:00 · 2000㎥/s', { fill: C_APR, fs: 15, fs2: 10.5 });
+  const opr = node(s, 8.5, 3.8, 3.4, 1.1, '초기방류 · 탄력적 방류', '운영행위 2개\n시각 = 방류시작시간 2017-08-25 14:00', { fill: C_OPR, fs: 15, fs2: 10 });
+  const evi = node(s, 3.9, 5.4, 2.4, 0.65, '근거', '승인 기록 순차번호 2755', { fill: C_EVI, fs: 14, fs2: 10 });
+  // 열 → Entity (점선). 선이 서로 겹치지 않게 모두 곧게 내리고, 순차번호만 꺾어서 근거로 보낸다
+  const DS = { color: GRAY, width: 1.25, dash: true };
+  const col = (x, label) => { line(s, [x, 2.92], [x, 3.8], null, Object.assign({ gap: 0.04 }, DS)); if (label) T(s, label, { x: x + 0.08, y: 3.2, w: 1.9, h: 0.3, fontSize: 10.5, bold: true, color: GRAY, valign: 'middle' }); };
+  col(2.05, '이름'); col(3.9, '승인일'); col(5.0, '방류시작'); col(6.4, '방류량'); col(9.96, '비고의 문구 → 종류');
+  line(s, [0.9, 2.96], [0.9, 5.72], null, Object.assign({ gap: 0, noArrow: true }, DS)); line(s, [0.9, 5.72], [3.9, 5.72], null, Object.assign({ gap: 0.02 }, DS));
+  T(s, '근거의 위치', { x: 0.98, y: 5.4, w: 1.1, h: 0.3, fontSize: 10.5, bold: true, color: GRAY, valign: 'middle' });
   // 관계 (실선)
-  line(s, [3.45, 4.35], [2.95, 4.35], null, { gap: 0.03 }); T(s, '대상', { x: 2.85, y: 4.42, w: 0.7, h: 0.3, fontSize: 12, bold: true, color: ORANGE, align: 'center' });
-  line(s, [6.75, 4.5], [8.5, 4.5], '허가함', { lw: 0.9, fs: 12, off: 0.18 });
-  line(s, [10.2, 5.05], [10.2, 5.4], null, { noArrow: true, gap: 0 }); line(s, [10.2, 5.4], [2.4, 5.4], null, { noArrow: true, gap: 0 }); line(s, [2.4, 5.4], [2.4, 4.75], null, { gap: 0.03 });
-  T(s, '수행됨', { x: 7.0, y: 5.42, w: 1.0, h: 0.3, fontSize: 12, bold: true, color: ORANGE, align: 'center' });
-  line(s, [3.9, 5.05], [2.95, 6.0], null, { gap: 0.04 }); T(s, '근거를 둠', { x: 3.55, y: 5.62, w: 1.1, h: 0.3, fontSize: 12, bold: true, color: ORANGE });
-  box(s, 5.3, 5.95, 7.48, 0.6, { fill: PALE, line: LINE });
-  s.addText([{ text: '┅▶ ', options: { color: GRAY, bold: true } }, { text: '열의 값이 Entity에 들어감      ' }, { text: '━▶ ', options: { color: BLUE, bold: true } }, { text: 'Entity 사이의 관계      운영행위의 근거도 같은 승인 기록' }], { x: 5.5, y: 5.95, w: 7.2, h: 0.6, fontFace: F, fontSize: 11.5, color: INK, valign: 'middle', margin: 0, isTextBox: true });
+  line(s, [3.45, 4.25], [3.0, 4.25], null, { gap: 0.03 }); T(s, '대상', { x: 2.95, y: 3.9, w: 0.55, h: 0.28, fontSize: 11, bold: true, color: ORANGE, align: 'center' });
+  line(s, [6.75, 4.35], [8.5, 4.35], '허가함', { lw: 0.9, fs: 12, off: 0.18 });
+  line(s, [5.1, 4.9], [5.1, 5.4], null, { gap: 0.03 }); T(s, '근거를 둠', { x: 5.2, y: 5.0, w: 1.1, h: 0.3, fontSize: 12, bold: true, color: ORANGE, valign: 'middle' });
+  line(s, [10.2, 4.9], [10.2, 6.35], null, { noArrow: true, gap: 0 }); line(s, [10.2, 6.35], [2.2, 6.35], null, { noArrow: true, gap: 0 }); line(s, [2.2, 6.35], [2.2, 4.6], null, { gap: 0.02 });
+  T(s, '수행됨', { x: 7.6, y: 6.03, w: 1.0, h: 0.3, fontSize: 12, bold: true, color: ORANGE, align: 'center' });
+  s.addText([{ text: '┅▶ ', options: { color: GRAY, bold: true } }, { text: '열의 값이 Entity에 들어감      ' }, { text: '━▶ ', options: { color: BLUE, bold: true } }, { text: 'Entity 사이의 관계      운영행위의 근거도 같은 승인 기록' }], { x: 5.3, y: 6.6, w: 7.48, h: 0.32, fontFace: F, fontSize: 11, color: GRAY, align: 'right', valign: 'middle', margin: 0, isTextBox: true });
 }
 // 10. 외부 저장소
 {
