@@ -293,6 +293,29 @@ pres.addSection({ title: 'Ⅰ. 연구 프레임워크' });
   const q2 = node(s, 0.9, 5.36, 1.9, 0.9, '질문', null, { fill: WHITE, line: BLUE, color: NAVY }), k2 = node(s, 3.6, 5.16, 2.9, 1.3, 'KG와 저장소에서\n근거 찾기', null, { fill: BLUE, fs: 15 }), l2 = node(s, 7.3, 5.36, 2.0, 0.9, 'LLM', '질문 + 근거', { fill: NAVY, fs2: 11 }), a2 = node(s, 10.1, 5.16, 2.4, 1.3, '답변', '근거와 출처 번호가\n함께 나옴', { fill: WHITE, line: BLUE, color: NAVY, color2: BLUE, fs2: 12 });
   link(s, q2, k2, null); link(s, k2, l2, null); link(s, l2, a2, null);
 }
+// 12-2. 최종 프레임워크: 구축(자료 → 온톨로지 → KG·저장소)과 질의응답(질문 → 해석 → 근거 조회 → 정리 → 답변)을 한 장에
+{
+  const s = add('Ⅰ. 연구 프레임워크'); head(s, 'Ⅰ. 연구 프레임워크', '최종 프레임워크', '자료를 온톨로지에 맞춰 KG와 저장소로 구축하고, 질문이 오면 근거를 조회하여 답변');
+  const band = (y, h, t) => { box(s, 0.55, y, 12.23, h, { fill: PALE, line: LINE }); box(s, 0.55, y, 0.85, h, { fill: SKY2 }); T(s, t, { x: 0.55, y, w: 0.85, h, fontSize: 14, bold: true, color: NAVY, align: 'center', valign: 'middle' }); };
+  band(1.85, 1.95, '구축'); band(4.5, 1.95, '질의\n응답');
+  const src = node(s, 1.65, 2.3, 2.55, 1.05, '공개 자료 3종', '시간 측정값 · 방류 승인 기록\n운영 규정', { fill: WHITE, line: GRAY, color: INK, color2: GRAY, fs: 15, fs2: 10.5 });
+  const ont = node(s, 4.75, 2.3, 2.3, 1.05, '온톨로지', 'Class 6개, 관계 9개', { fs: 16, fs2: 10.5 });
+  const kg = node(s, 7.6, 2.3, 2.2, 1.05, '지식그래프 (KG)', 'Entity 264개, 관계 418개', { fill: BLUE, fs: 15, fs2: 10.5 });
+  const st = node(s, 10.35, 2.3, 2.3, 1.05, '외부 저장소', '측정값 약 87만 행 · 규정 원문', { fill: C_HMS, fs: 15, fs2: 10.5 });
+  link(s, src, ont, null); link(s, ont, kg, null); link(s, kg, st, '열쇠', { lw: 0.6, fs: 11, off: 0.17 });
+  const W1 = 1.75, G = 0.27; let x = 1.65;
+  const q = node(s, x, 4.95, 1.3, 1.05, '질문', null, { fill: WHITE, line: BLUE, color: NAVY, fs: 16 }); x += 1.3 + G;
+  const st4 = [['① 질문 해석', 'CQ, 댐, 기간 분류', NAVY, 'LLM'], ['② 근거 조회', 'KG 경로와 저장소', BLUE, '코드'], ['③ 근거 정리', '출처 번호 부여', BLUE, '코드'], ['④ 답변 작성', '받은 근거 안에서만 작성', NAVY, 'LLM']].map(t => {
+    const n = node(s, x, 4.95, W1, 1.05, t[0], t[1], { fill: t[2], fs: 15, fs2: 10.5 }); chip(s, x + 0.08, 4.66, 0.62, t[3], { fill: t[3] === 'LLM' ? ORANGE : GRAY, fs: 10.5, h: 0.26 }); x += W1 + G; return n; });
+  const ans = node(s, x, 4.95, 12.65 - x, 1.05, '답변', '근거 · 판단\n출처 번호', { fill: WHITE, line: BLUE, color: NAVY, color2: BLUE, fs: 16, fs2: 10.5 });
+  [q, ...st4, ans].reduce((a, b) => { link(s, a, b, null, { gap: 0.03 }); return b; });
+  // KG와 저장소 → ② 근거 조회 (꺾은 선)
+  const cx = st4[1].x + W1 / 2, L = { color: C_HMS, width: 2.25 };
+  line(s, [8.7, 3.35], [8.7, 4.12], null, Object.assign({ noArrow: true, gap: 0 }, L)); line(s, [11.5, 3.35], [11.5, 4.12], null, Object.assign({ noArrow: true, gap: 0 }, L));
+  line(s, [11.5, 4.12], [cx, 4.12], null, Object.assign({ noArrow: true, gap: 0 }, L)); line(s, [cx, 4.12], [cx, 4.95], null, Object.assign({ gap: 0.03 }, L));
+  T(s, '근거', { x: cx + 0.1, y: 4.16, w: 0.8, h: 0.28, fontSize: 11.5, bold: true, color: C_HMS, valign: 'middle' });
+  T(s, 'LLM은 질문 해석과 답변 작성만 담당하고, 근거를 찾고 정리하는 일은 정해 둔 코드가 수행', { x: 0.55, y: 6.6, w: 12.23, h: 0.35, fontSize: 14, bold: true, color: NAVY, align: 'center', valign: 'middle' });
+}
 
 // ================================================= Ⅱ. 시연
 pres.addSection({ title: 'Ⅱ. 시연 테스트' });
