@@ -1,4 +1,4 @@
-# 시연 영상 후처리(1차: 화면 안내 + 첫 질문). 사용: python3 make.py <원본.mp4> <작업 폴더> <출력.mp4>
+# 시연 영상 후처리(화면 안내 + 첫 질문 설명 + 나머지 질문). 사용: python3 make.py <원본.mp4> <작업 폴더> <출력.mp4>
 import sys, os, subprocess, math
 from PIL import Image, ImageDraw, ImageFont
 SRC, W, OUT = sys.argv[1:4]
@@ -47,6 +47,7 @@ fr = z.copy(); box(ImageDraw.Draw(fr), zb((14, 762, 324, 930), 0, 516, s), '알�
 # ---- 2. 첫 질문
 clip(14.0, 21.0, '질문 1  현재 수문·기상 상태 (CQ1)', 'q1a', 1, '시연')
 clip(21.0, 54.5, '답변 생성 중 (8배속)', 'q1b', 8, '시연')
+clip(54.5, 57.5, '답변 완료: 근거, 판단, 출처 번호가 함께 표시됨', 'q1b2', 1, '시연')
 c = grab(57.5, 'k57.png'); X0, Y0 = 350, 85; z, s = zoom(c, X0, Y0, 1325)
 def q(bx, label, cap, name, sec=5, side='right'):
     fr = z.copy(); box(ImageDraw.Draw(fr), zb(bx, X0, Y0, s), label, side); still(strip(fr, cap, '답변 보기'), sec, name)
@@ -59,5 +60,16 @@ clip(57.8, 60.0, '출처 번호를 누름', 'q1d', 1, '시연')
 c = grab(61, 'k61.png'); z, s = zoom(c, 640, 0, 1280); fr = z.copy(); box(ImageDraw.Draw(fr), zb((1372, 4, 1908, 340), 640, 0, s), '원본 값', 'left')
 still(strip(fr, '측정 저장소의 원본 행: 관측소 코드 1003110, 2026-09-28 23:00', '원본 확인'), 6, 'q1e')
 clip(61.5, 64.5, '원본 창을 닫고 다음 질문으로', 'q1f', 1, '시연')
+# ---- 3. 나머지 질문: 질문마다 자막 한 줄, 답을 기다리는 구간(질문 버튼이 꺼져 있는 구간)은 8배속
+clip(64.5, 71.0, 'LLM에 전달한 근거 묶음도 펼쳐서 확인 가능', 'q1g', 1, '시연')
+QS = [(75.0, 85.0, '질문 2  과거 수문·기상 상태 (CQ2)'), (93.0, 122.0, '질문 3  과거 운영행위 (CQ3)'), (130.0, 159.0, '질문 4  과거 방류 승인 (CQ4)'), (172.5, 182.5, '질문 5  현재 운영기준 (CQ5)'),
+      (198.5, 213.0, '질문 6  공식 근거 (CQ6)'), (226.5, 254.0, '질문 7  현재 상태와 운영기준을 함께 확인 (CQ1 + CQ5)'), (271.0, 308.5, '질문 8  운영행위를 찾고 그 시점의 상태를 확인 (CQ3 → CQ2)'), (324.5, 325.5, '범위 밖 질문  다른 댐(남강댐)에는 답하지 않음')]
+END = 331.0; t = 71.0
+for k, (s1, d1, cap) in enumerate(QS):
+    nxt = QS[k + 1][0] - 4 if k + 1 < len(QS) else END
+    clip(t, s1, cap, 'r%da' % k, 1, '시연')                        # 질문 입력
+    if d1 - s1 > 5: clip(s1, d1, cap + '   ·   답변 생성 중 (8배속)', 'r%db' % k, 8, '시연')
+    else: clip(s1, d1, cap, 'r%db' % k, 1, '시연')
+    clip(d1, nxt, cap, 'r%dc' % k, 1, '시연'); t = nxt              # 답변과 출처 확인
 lst = os.path.join(W, 'list.txt'); open(lst, 'w').write(''.join("file '%s'\n" % os.path.abspath(x) for x in segs))
 run('-f', 'concat', '-safe', '0', '-i', lst, '-c', 'copy', OUT); print('ok', len(segs))
