@@ -2,6 +2,8 @@
 import sys, os, subprocess, math
 from PIL import Image, ImageDraw, ImageFont
 SRC, W, OUT = sys.argv[1:4]
+# 넷째 인자(선택): 움직이는 마우스를 지운 원본. 만드는 법: ffmpeg -i 원본.mp4 -vf "fps=30,tmedian=radius=30" -an 결과.mp4  (앞 1초가 빠지므로 시각을 1초 당겨 쓴다)
+SRC2, OFF = (sys.argv[4], 1.0) if len(sys.argv) > 4 else (SRC, 0.0)
 FONT = '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc'
 F = lambda s: ImageFont.truetype(FONT, s)
 TOP, CH, CW, STRIP = 86, 946, 1920, 134          # 브라우저 탭·주소창 86px를 잘라내고 아래 134px에 자막
@@ -39,7 +41,7 @@ def still(fr, sec, name):
 def clip(t1, t2, cap, name, speed=1, tag=None):
     ov = Image.new('RGBA', (CW, 1080), (0, 0, 0, 0)); st = strip(Image.new('RGB', (CW, CH)), cap, tag).crop((0, CH, CW, 1080)); ov.paste(st, (0, CH)); p = os.path.join(W, name + '_ov.png'); ov.save(p)
     o = os.path.join(W, name + '.mp4')
-    run('-ss', str(t1), '-to', str(t2), '-i', SRC, '-i', p, '-filter_complex', f'[0:v]crop={CW}:{CH}:0:{TOP},setpts=PTS/{speed},pad={CW}:1080:0:0[v];[v][1:v]overlay=0:0,fps=30[o]', '-map', '[o]', '-an', '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-crf', '20', '-preset', 'veryfast', o); segs.append(o)
+    run('-ss', str(max(0, t1 - OFF)), '-to', str(t2 - OFF), '-i', SRC2, '-i', p, '-filter_complex', f'[0:v]crop={CW}:{CH}:0:{TOP},setpts=PTS/{speed},pad={CW}:1080:0:0[v];[v][1:v]overlay=0:0,fps=30[o]', '-map', '[o]', '-an', '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-crf', '20', '-preset', 'veryfast', o); segs.append(o)
 
 # ---- 1. 화면 안내 (왼쪽 칸)
 a, b = grab_clean([1.0, 4.6, 5.4, 6.2, 7.0, 7.8, 8.3], 'k03'), grab_clean([10.6, 11.2, 11.8, 12.4, 13, 13.6, 14.2], 'k12')
