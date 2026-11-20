@@ -9,7 +9,9 @@
 """
 import json, os, re, struct, sys, zlib
 
-FONT_TTC = '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc'
+FONT_TTC = os.environ.get('PR_FONT', '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc')   # 메모 글꼴(TrueType 윤곽이 있는 ttf/ttc)
+TINT = float(os.environ.get('PR_TINT', '0.30'))          # 형광펜 진하기(0~1). 클수록 진하다
+MEMO_SIZE = float(os.environ.get('PR_MEMO_SIZE', '8.6'))  # 메모 글자 크기(pt). 쪽에 안 들어가면 0.4씩 줄인다
 TRANS_W, MEMO_W = 400.0, 300.0          # 해석 칸, 메모 칸 너비(pt)
 PAD = 14.0
 
@@ -373,7 +375,7 @@ def main(src, tjson, dst, mode='review'):
         TW = (MEMO_W if memo else TRANS_W) - 2 * PAD
         WR = (lambda t, sz, w: wrap_ind(font, t, sz, w)) if memo else (lambda t, sz, w: [(0, l) for l in wrap(font, t, sz, w)])
         GAP = 9.0 if style2 else 0.0                  # 메모와 메모 사이 간격
-        for size in ((8.6, 8.2, 7.8, 7.4, 7.0, 6.6, 6.2, 5.8) if style2 else (7.6, 7.2, 6.8, 6.4, 6.0, 5.6, 5.2, 4.8)):
+        for size in (tuple(MEMO_SIZE - 0.4 * i for i in range(int((MEMO_SIZE - 5.8) / 0.4) + 1)) if style2 else (7.6, 7.2, 6.8, 6.4, 6.0, 5.6, 5.2, 4.8)):
             lead_size = size - 0.8; lh = size * 1.38
             blocks = []
             for e in entries:
@@ -407,7 +409,7 @@ def main(src, tjson, dst, mode='review'):
             col = {'h': b'0.12 0.23 0.37', 'l': b'0.45 0.45 0.5', 'k': b'0.1 0.1 0.1'}[kind]
             if nb and nb[0] and style2:
                 r_, g_, b_ = COLORS[(nb[0] - 1) % len(COLORS)]
-                tint = tuple(1 - 0.30 * (1 - v) for v in (r_, g_, b_))
+                tint = tuple(1 - TINT * (1 - v) for v in (r_, g_, b_))
                 yy = y
                 for dx, line in L:
                     yy -= s * 1.38
@@ -425,7 +427,7 @@ def main(src, tjson, dst, mode='review'):
             if not e.get('_n'):
                 continue
             r_, g_, b_ = COLORS[(e['_n'] - 1) % len(COLORS)]
-            tint = tuple(1 - 0.30 * (1 - v) for v in (r_, g_, b_))
+            tint = tuple(1 - TINT * (1 - v) for v in (r_, g_, b_))
             spans = []                         # 문장 단위 표시: (시작, 끝)
             for a in e['anchors']:
                 if a.startswith('S:'):
