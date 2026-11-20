@@ -59,8 +59,10 @@ N(9, '방법론의 기본 생각',
 N(9, '그림 1: 전체 작업 흐름',
   '- 1단계 전문가의 초기 온톨로지 → 2단계 CQ로 LLM 확장 → 3단계 권위 있는 문서로 스키마 보강 → 4단계 뉴스 기사로 인스턴스 채우기 → (5단계 사례 연구)\n- 본문은 "네 개의 주요 단계"라 하지만 3.5절에 5단계가 있다')
 
+N(9, '1단계의 출발',
+  '- 사업 요구사항 검토와 이해관계자 면담으로 시작 (홍수 위험 소통, 재난 관리, 취약 지역사회의 회복력에 초점)\n- 이 분석을 바탕으로 씨앗 온톨로지를 개발')
 N(10, '1단계: 전문가의 초기 온톨로지',
-  '- 사업 요구사항 검토와 이해관계자 면담으로 시작\n- 최상위 클래스 여섯 개: 홍수의 유형, 홍수 단계, 영향, 사회경제적 취약 요인, 환경 맥락, 지역사회 회복력 대책\n- LLM으로 클래스마다 레이블과 설명을 생성 (설명은 뒤에서 임베딩 비교에 쓰임)\n- 이 단계의 결과는 클래스 계층뿐이고 속성은 아직 없다',
+  '- 최상위 클래스 여섯 개: 홍수의 유형, 홍수 단계, 영향, 사회경제적 취약 요인, 환경 맥락, 지역사회 회복력 대책\n- LLM으로 클래스마다 레이블과 설명을 생성 (설명은 뒤에서 임베딩 비교에 쓰임)\n- 이 단계의 결과는 클래스 계층뿐이고 속성은 아직 없다',
   'At the end of Stage 1, the ontology primarily consisted', 'LLMs were then utilized to generate')
 N(10, '2단계: CQ 생성과 70/30 분할',
   '- 씨앗 온톨로지를 맥락으로 주고 GPT-4o로 CQ를 생성\n- 사람이 검토하여 품질이 높은 40개만 남김\n- 70%는 온톨로지 확장에, 30%는 최종 온톨로지 평가에만 쓰도록 분리\n- 원문에 "51개의 그룹으로 나눴다"고 되어 있으나 뜻이 불분명하다. 뒤의 평가에서 시험용은 12개(40의 30%)다',
@@ -166,6 +168,67 @@ N(25, '결론',
   'This research demonstrates that a semi-automated')
 N(25, '[종합: 우리 연구에 가져올 것과 주의할 것]',
   '- 가져올 것 1: CQ를 확장용 70%와 평가용 30%로 나누고, 평가용은 구축에 쓰지 않는다\n- 가져올 것 2: 평가는 "CQ의 개념이 온톨로지에 있는가"로 한다. 빠진 개념은 다음 확장의 입력으로 쓴다\n- 가져올 것 3: LLM이 제안한 클래스와 관계는 사람이 계층 위치와 정의역·치역을 확인한다 (표 3의 오류 유형)\n- 주의 1: 이 논문의 CQ는 LLM이 만들고 연구진이 골랐다. 실무자 검토가 없다. 우리가 실무자 설문을 넣는 것은 이 논문에 없는 보완이다\n- 주의 2: 임베딩 유사도와 임계값에 따라 범위가 100%에서 0%까지 달라진다. 우리는 CQ가 적으므로 사람이 직접 대조한다\n- 주의 3: 평가자가 구축에 참여한 사람들이다\n- 주의 4: KG는 표본으로만 만들었고 검증하지 않았다. KG 검증의 근거로는 쓸 수 없다')
+
+
+# ------------------------------------------------------------------ 형광펜 위치
+# 메모의 항목마다 근거가 되는 원문 문장을 모두 적는다. 'L:' 그림·표 제목(문단 끝까지), 'R:' 표의 한 행, 'RA:' 그 문구가 든 행 모두, 'WA:' 표의 칸에 든 말 모두, 나머지는 문장 단위.
+# 제목이 [대괄호]인 메모는 원문에 없는 우리 쪽 정리여서 형광펜이 없다(원문 문장을 직접 받는 경우만 예외).
+A = {
+ (1, '연구 목적'): ['Flash floods are increasingly frequent and severe', 'This research aims to enhance flood risk', 'We introduce a semi-automated, human-in-the-loop'],
+ (1, '결과 요약 (초록)'): ['Evaluation results are twofold', '(1) Technical metrics confirm', '(2) A proof-of-concept case study demonstrates', 'Consequently, this research delivers two key contributions'],
+ (1, '연구 배경'): ['Flash floods are occurring with greater frequency', 'However, flood risk communication often fails', 'Public alerts are frequently too generic', 'This communication failure stems from', 'Local responders, relief agencies'],
+ (2, '기존 연구의 한계 (두 가지)'): ['However, while several flood and disaster ontologies exist', 'First, many existing models', 'For example, ontologies like the Ontology for Flood Process', 'Second, their construction often relies', 'Together, these findings reveal', 'Second, the need for an ontology specifically designed'],
+ (2, '연구 방법의 개요'): ['To address this dual gap', 'The first phase focuses on ontology construction', 'It begins with domain experts defining', 'This ontology is then iteratively refined', 'The second phase demonstrates', 'To achieve this, we conduct a proof', 'This process involves a comparative'],
+ (3, '온톨로지와 지식그래프의 정의'): ['An ontology specifies the formal vocabulary', 'A knowledge graph, in turn, instantiates', 'Practitioner guides such as Ontology Development', 'In this paper, we interpret the referenced'],
+ (3, '기존 홍수 온톨로지의 흐름'): ['Early efforts focused', 'Recent ontologies expand their scope', 'The latest contributions, such as Du', 'Nevertheless, as shown in Table 1', 'Where AI is applied', 'In the critical domain of flooding'],
+ (5, '형식성과 실용성의 균형'): ['Most disaster and flood ontologies adopt', 'On Guarino', 'However, Greater formal rigor'],
+ (5, '소통에서 온톨로지의 역할'): ['Agencies may label the same phenomenon', 'Ontologies address fragmentation by', 'Closest to this perspective, Sermet and Demir', 'Their ontology, however, is manually engineered'],
+ (6, 'LLM을 쓴 온톨로지 구축 연구'): ['In recent years, large language models have begun', 'LLMs can rapidly process', 'Once provided with a well-designed', 'Systems such as OntoGenix use LLMs', 'Other efforts automate knowledge acquisition', 'However, the risk of hallucinations'],
+ (6, '사람과 AI의 분업'): ['Collectively, these studies suggest'],
+ (9, '기존 연구의 남은 문제'): ['Benson et al. report that large language', 'Li et al.’s systematic review goes further', 'To address this gap, our methodology adopts'],
+ (9, '방법론의 기본 생각'): ['The proposed ontology-engineering strategy follows', 'Nevertheless, human intervention for verification'],
+ (9, '그림 1: 전체 작업 흐름'): ['Figure 1 shows the workflow of this semi-automated', 'L:Figure 1. Workflow of the proposed'],
+ (9, '1단계의 출발'): ['This research began by closely examining', 'Guided by insights derived from this initial analysis'],
+ (10, '1단계: 전문가의 초기 온톨로지'): ['classes represent six key narrative pillars', 'Types of Floods, Flood Phases, Impacts', 'LLMs were then utilized to generate', 'These labels facilitate human readability', 'At the end of Stage 1, the ontology primarily consisted'],
+ (10, '2단계: CQ 생성과 70/30 분할'): ['Using the seed ontology as the foundational context', 'Following this automated generation', 'To facilitate subsequent'],
+ (10, '2단계: CQ에서 개체 추출과 중복 제거'): ['The 70% group of CQs was used', 'This was accomplished using the GPT-4o model', 'The model was tasked with identifying', 'First, an automated filtering process', 'It removed new candidates with a high degree'],
+ (11, '2단계: 사람 검토와 계층 배치'): ['Second, the remaining candidates underwent', 'Once the set of new entities was validated', 'These structural suggestions underwent', 'The integration of these fully-approved entities'],
+ (11, '3단계: 권위 있는 문서로 스키마 보강'): ['The first category included federal', 'The second category comprised', 'To ensure LLMs could accurately', 'Leveraging LLMs, we subsequently identified', 'By following a structured chain-of', 'Given that the scraped news articles', 'In contrast, the knowledge extracted from', 'Consequently, we divided these extracted entities', 'The conceptual knowledge was integrated', '(i) removing duplicates via embedding'],
+ (11, '거부된 후보의 비율'): ['This hybrid process proved to be highly selective', 'Table 3 shows representative examples'],
+ (12, '표 3: 거부된 후보의 예'): ['L:Table 3. Examples of LLM-generated', 'WA:Hallucination/Logical Error', 'WA:Ambiguity', 'WA:Semantic Drift'],
+ (12, '4단계: 인스턴스 채우기 (KG)'): ['Although the primary focus of this paper is the construction', 'A targeted web scraper collects', 'The unstructured text is processed by a custom pipeline'],
+ (13, '4단계: 관계 추론과 적재'): ['The resulting set of candidate entities is then refined', 'Subsequently, another LLM agent', 'Thus, the existence of a valid ontological relationship', 'A relationship is created in the knowledge graph', 'The fully curated nodes and edges'],
+ (14, '5단계: 사례 연구'): ['We selected an authentic Flash Flood Warning', 'A systematic analysis of this baseline message', 'First, it suffers from a lack of geographic specificity', 'Second, the impact assessment is vague', 'Third, the call to action is generic', 'Fourth, the one-size-fits-all message', 'This process is not a fully', 'This is achieved by leveraging'],
+ (16, '방법론의 일반화'): ['of the four-stage workflow, expert-driven schema', 'Applying this methodology to a different disaster requires'],
+ (16, '평가의 구성'): ['First, we assessed the schema', 'Second, to examine the comprehensiveness', 'This evaluation involved applying the remaining 30%', 'If the ontology could successfully'],
+ (16, '구조 지표의 정의'): ['To rigorously evaluate the structural quality', 'RR measures the proportion', 'Specifically, it is calculated as the ratio', 'Inheritance Richness (IR) evaluates', 'IR is defined as the average', 'Furthermore, the total number of axioms', 'where P is the number of object properties', 'where C is the total number of classes'],
+ (17, '구조 평가 결과 (표 4)'): ['Utilizing LLMs for ontology construction', 'Moreover, our ontology contains a large number of axioms', 'However, despite having a substantial class count', 'L:Table 4. Comparison of ontology structural', 'R:FDSO 114', 'R:DMDO 12', 'R:OntoCity 17', 'R:Our Ontology 473'],
+ (17, '개념 범위 평가의 방법'): ['Concept coverage is a descriptive measure', '“Are the concepts in the CQs adequately covered', 'One method to assess concept coverage', 'However, this approach would', 'To address this, we use vector embeddings', 'For this evaluation, we will be using', 'The evaluation is conducted on a CQ test set'],
+ (17, 'CQ에서 개념 추출'): ['The first step involves extracting concepts', 'Figure 6 illustrates the designed prompt', 'Interestingly, we found that the model occasionally', 'However, including these non-explicit concepts', 'But it does also carry the risk'],
+ (18, '추출한 개념의 사람 검증'): ['To ensure the LLM concept extraction achieved good coverage', 'The quiz presented each evaluator', 'Evaluators could mark concepts'],
+ (19, '사람 검증의 결과'): ['The results were processed using a majority voting system', 'This validation process demonstrated', 'The human validation resulted in a refined concept set'],
+ (19, '유형 1 비교: CQ 개념 대 온톨로지 레이블'): ['Once all concepts are validated for each CQ', 'We also embed the ontology labels', 'We then measure the distance between each CQ', 'Because we are uncertain about the optimal', 'We call this our Type 1 comparison', 'While we intuitively recognize', 'For instance, if we set the threshold at 0.6', 'This example also highlights the need', 'For example, “Community” appears at depth one'],
+ (20, '유형 2 비교: CQ 개념 대 온톨로지 설명'): ['A significant issue with embedding single-word concepts', 'Second, homonyms, words with the same spelling', 'Consider “She made a deposit', 'Both use the word', 'To combat this, we embed the ontology label', 'This means we look for matches'],
+ (21, '유형 3, 4 비교'): ['We also embed the ontology label along with its description', 'We refer to this as type 3', 'In Figure 14, we embed the question', 'This approach utilizes the available context', 'L:Figure 13. Threshold Analysis', 'L:Figure 14. Threshold Analysis'],
+ (23, '표 6: 임계값별 범위'): ['L:Table 6. Coverage analysis by comparison', 'RA:0.3 7/7 5/5 6/6', 'R:92.4% 12/12', 'R:62.1% 12/12', 'R:59.1% 12/12', 'R:75.8% 12/12', 'R:36.4% 12/12', 'R:31.8% 12/12', 'R:45.5% 12/12', 'R:0.3 Y Y', 'R:0.5 Y Y', 'R:25.0% 3/12', 'At the lowest cutoff', 'At τ = 0.5, coverage rates stand at', 'The unweighted average coverage across', 'However, raising the threshold incrementally', 'Further increasing the threshold'],
+ (23, '분석: 임계값의 선택'): ['Taken together, these trends underscore', 'Some of the false negatives'],
+ (24, '개념 범위 평가의 한계 (저자 스스로 밝힘)'): ['The concept coverage evaluation is not a perfect reflection', 'We could achieve 100% concept coverage', 'It is still important to know'],
+ (24, '[우리 연구와의 관계]'): ['This evaluation also reveals areas for improvement', 'The more questions we ask'],
+ (24, '논의: 구조의 해석'): ['This outcome reflects', 'In contrast, our ontology is purpose-built', 'This design choice involves a trade-off', 'Nonetheless, we acknowledge this as a'],
+ (25, '방법론의 효과에 대한 주장'): ['Our four-stage, human-in-the-loop methodology', 'By combining expert-led schema formulation', 'The effectiveness of this approach is evidenced', 'Our hybrid verification protocol'],
+ (25, '한계 (저자가 밝힘)'): ['The evaluation presented is primarily structural', 'A crucial next step is to conduct', 'Second, as noted, the ontology', 'Finally, the framework has not yet been field-tested'],
+ (25, '결론'): ['This research demonstrates that a semi-automated', 'By strategically combining human exper'],
+}
+seen = set()
+for p in M:
+    for e in M[p]:
+        k = (int(p), e['lead'][1:])
+        if k in A:
+            e['anchors'] = [a[2:] if a.startswith('L:') else a if a.startswith(('R:', 'RA:', 'WA:')) else 'S:' + a for a in A[k]]; seen.add(k)
+        else:
+            assert e['lead'].startswith('#['), k          # 형광펜이 없는 것은 [우리 쪽 정리]뿐
+            e['anchors'] = []
+assert seen == set(A), set(A) - seen
 
 json.dump(M, open(sys.argv[1], 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 if len(sys.argv) > 2:
