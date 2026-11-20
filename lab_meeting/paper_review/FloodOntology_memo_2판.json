@@ -132,6 +132,13 @@
    ]
   },
   {
+   "lead": "#그림 2",
+   "ko": "- 전문가가 만든 초기 온톨로지의 구조",
+   "anchors": [
+    "Figure 2. Initial ontology produced"
+   ]
+  },
+  {
    "lead": "#2단계",
    "ko": "- 씨앗 온톨로지를 맥락으로 주고 GPT-4o로 CQ를 생성\n- 사람이 검토하여 품질이 높은 40개만 남김\n- 70%는 온톨로지 확장에, 30%는 최종 온톨로지 평가에만 쓰도록 분리\n- 원문에 \"51개의 그룹으로 나눴다\"고 되어 있으나 뜻이 불분명하다. 뒤의 평가에서 시험용은 12개(40의 30%)다\n- 70%의 CQ에서 GPT-4o(온도 0.1)로 클래스와 관계를 추출\n- 검증 1: 임베딩(text-embedding-3-large)으로 기존 개체 설명과의 코사인 유사도를 계산해 0.7 넘는 후보를 제거\n- 0.7은 실험으로 정한 값",
    "anchors": [
@@ -184,6 +191,13 @@
  ],
  "12": [
   {
+   "lead": "#그림 3",
+   "ko": "- 확장한 온톨로지에서 가지 하나를 끝까지 펼친 예 (홍수 단계 → 홍수 전 대비 → 경보 시간)",
+   "anchors": [
+    "Figure 3. This expanded ontology"
+   ]
+  },
+  {
    "lead": "#표3",
    "ko": "- 환각/논리 오류: 나이 → 성별 → 인종을 상하위로 이은 계층, 해안 홍수의 하위 클래스로 통계 지표(1% 홍수위)를 둔 것\n- 모호함: 거의 같은 이름의 Community가 온톨로지의 두 곳에 생김\n- 의미 표류: 너무 넓은 \"지리\", 너무 특수한 \"코나 폭풍\"\n- LLM이 틀리는 방식을 구체적으로 보여 준다. 우리가 온톨로지를 확장할 때 사람이 확인할 항목의 참고가 된다",
    "anchors": [
@@ -213,6 +227,13 @@
     "S:Thus, the existence of a valid ontological relationship",
     "S:A relationship is created in the knowledge graph",
     "S:The fully curated nodes and edges"
+   ]
+  },
+  {
+   "lead": "#그림 4",
+   "ko": "- 온톨로지와 KG를 전체에서 세부로 좁혀 가며 보인 그림 (전체 KG → 지역사회 인식 활동 → 경보 시스템)",
+   "anchors": [
+    "Figure 4. Progressive visualization"
    ]
   }
  ],
@@ -308,12 +329,33 @@
  ],
  "18": [
   {
+   "lead": "#그림 6",
+   "ko": "- CQ에서 개념을 추출하는 데 쓴 프롬프트",
+   "anchors": [
+    "Figure 6. Prompt used for extracting"
+   ]
+  },
+  {
+   "lead": "#그림 7",
+   "ko": "- 질문에 직접 적히지 않은 개념(\"Flood management\")이 추출된 예",
+   "anchors": [
+    "Figure 7. Question"
+   ]
+  },
+  {
    "lead": "#추출한 개념의 사람 검증",
    "ko": "- 평가자 3명이 CQ 12개에서 추출된 개념 56개를 \"좋음/나쁨\"으로 평가하고 빠진 개념을 제안\n- 평가자는 이 온톨로지 구축에 참여한 사람들이다. 독립된 평가자가 아니다",
    "anchors": [
     "S:To ensure the LLM concept extraction achieved good coverage",
     "S:The quiz presented each evaluator",
     "S:Evaluators could mark concepts"
+   ]
+  },
+  {
+   "lead": "#그림 8",
+   "ko": "- 추출한 개념을 사람이 평가하는 화면",
+   "anchors": [
+    "Figure 8. Human validation"
    ]
   }
  ],
@@ -341,9 +383,30 @@
     "S:This example also highlights the need",
     "S:For example, “Community” appears at depth one"
    ]
+  },
+  {
+   "lead": "#그림 9",
+   "ko": "- 유형 1의 임계값별 통과 개념 수와 통과율",
+   "anchors": [
+    "Figure 9. Threshold analysis"
+   ]
   }
  ],
  "20": [
+  {
+   "lead": "#그림 10",
+   "ko": "- 시험 질문 40의 개념과 온톨로지 레이블의 유사도를 방사형으로 보인 그림",
+   "anchors": [
+    "Figure 10. Cosine similarity visual"
+   ]
+  },
+  {
+   "lead": "#그림 11",
+   "ko": "- 같은 개념(\"Communities\")에 유사도 점수가 다르게 나온 예",
+   "anchors": [
+    "Figure 11. Example of concept matching"
+   ]
+  },
   {
    "lead": "#유형 2 비교",
    "ko": "- 한 낱말만 임베딩하면 맥락이 사라진다 (동형이의어 \"bank\"의 예)\n- 그래서 온톨로지 레이블의 설명을 임베딩해 CQ 개념과 비교",
@@ -359,14 +422,33 @@
  ],
  "21": [
   {
+   "lead": "#그림 12",
+   "ko": "- 유형 2의 임계값별 통과 개념 수와 통과율",
+   "anchors": [
+    "Figure 12. Threshold analysis"
+   ]
+  },
+  {
    "lead": "#유형 3, 4 비교",
    "ko": "- 유형 3: CQ 개념 대 \"레이블: 설명\"\n- 유형 4: CQ 질문 전체 대 \"레이블: 설명\" (개념 추출 단계를 건너뜀)\n- 그림 13, 14의 제목은 본문·표 6의 정의와 맞지 않는다",
    "anchors": [
     "S:We also embed the ontology label along with its description",
     "S:We refer to this as type 3",
     "S:In Figure 14, we embed the question",
-    "S:This approach utilizes the available context",
-    "Figure 13. Threshold Analysis",
+    "S:This approach utilizes the available context"
+   ]
+  },
+  {
+   "lead": "#그림 13",
+   "ko": "- 유형 3의 임계값별 통과 개념 수와 통과율",
+   "anchors": [
+    "Figure 13. Threshold Analysis"
+   ]
+  },
+  {
+   "lead": "#그림 14",
+   "ko": "- 유형 4의 임계값별 통과 질문 수와 통과율",
+   "anchors": [
     "Figure 14. Threshold Analysis"
    ]
   }
@@ -458,6 +540,15 @@
    "lead": "#[정리: 우리 연구에 대어 본 것]",
    "ko": "- CQ는 LLM이 만들고 연구진이 골랐다. 실무자 검토가 없다\n- 30% 평가는 CQ에 답이 나오는지가 아니라, CQ의 개념이 온톨로지에 있는지를 본다\n- 임계값에 따라 결과가 100%에서 0%까지 달라진다\n- KG는 표본으로만 만들었고 검증하지 않았다",
    "anchors": []
+  }
+ ],
+ "15": [
+  {
+   "lead": "#그림 5",
+   "ko": "- 원래의 NWS 경보(왼쪽)와 온톨로지로 고쳐 쓴 경보(오른쪽)의 비교. 번호는 네 가지 개선점",
+   "anchors": [
+    "Figure 5. Numbered highlights"
+   ]
   }
  ]
 }

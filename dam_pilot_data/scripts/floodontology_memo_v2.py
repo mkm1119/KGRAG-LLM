@@ -134,7 +134,7 @@ N(20, '유형 2 비교',
 
 N(21, '유형 3, 4 비교',
   ['유형 3: CQ 개념 대 "레이블: 설명"', '유형 4: CQ 질문 전체 대 "레이블: 설명" (개념 추출 단계를 건너뜀)', '그림 13, 14의 제목은 본문·표 6의 정의와 맞지 않는다'],
-  ['We also embed the ontology label along with its description', 'We refer to this as type 3', 'In Figure 14, we embed the question', 'This approach utilizes the available context', 'L:Figure 13. Threshold Analysis', 'L:Figure 14. Threshold Analysis'])
+  ['We also embed the ontology label along with its description', 'We refer to this as type 3', 'In Figure 14, we embed the question', 'This approach utilizes the available context'])
 
 N(23, '표6',
   ['시험 질문 12개, 개념 66개', '임계값 0.3: 네 유형 모두 100%', '임계값 0.5: 유형 1 92.4%, 유형 2 62.1%, 유형 3 59.1%, 유형 4 100% (평균 78.4%)', '임계값 0.6: 75.8%, 36.4%, 31.8%, 25.0%', '임계값 0.7: 유형 1 45.5%, 나머지는 한 자릿수 이하',
@@ -164,6 +164,29 @@ N(25, '결론',
   ['This research demonstrates that a semi-automated', 'By strategically combining human exper'])
 N(25, '[정리: 우리 연구에 대어 본 것]',
   ['CQ는 LLM이 만들고 연구진이 골랐다. 실무자 검토가 없다', '30% 평가는 CQ에 답이 나오는지가 아니라, CQ의 개념이 온톨로지에 있는지를 본다', '임계값에 따라 결과가 100%에서 0%까지 달라진다', 'KG는 표본으로만 만들었고 검증하지 않았다'], [])
+
+
+# ------------------------------------------------------------------ 그림: 무슨 그림인지만 한 줄로
+def F(page, pos, n, text, caption):
+    """pos: 그 쪽 메모 목록에서 넣을 자리(원문에서 그림이 나오는 순서에 맞춘다). None이면 맨 뒤."""
+    e = {'lead': '#그림 %d' % n, 'ko': '- ' + text, 'anchors': [caption]}
+    L = M.setdefault(str(page), [])
+    L.insert(len(L) if pos is None else pos, e)
+
+
+F(10, 1, 2, '전문가가 만든 초기 온톨로지의 구조', 'Figure 2. Initial ontology produced')
+F(12, 0, 3, '확장한 온톨로지에서 가지 하나를 끝까지 펼친 예 (홍수 단계 → 홍수 전 대비 → 경보 시간)', 'Figure 3. This expanded ontology')
+F(13, None, 4, '온톨로지와 KG를 전체에서 세부로 좁혀 가며 보인 그림 (전체 KG → 지역사회 인식 활동 → 경보 시스템)', 'Figure 4. Progressive visualization')
+F(15, None, 5, '원래의 NWS 경보(왼쪽)와 온톨로지로 고쳐 쓴 경보(오른쪽)의 비교. 번호는 네 가지 개선점', 'Figure 5. Numbered highlights')
+F(18, 0, 6, 'CQ에서 개념을 추출하는 데 쓴 프롬프트', 'Figure 6. Prompt used for extracting')
+F(18, 1, 7, '질문에 직접 적히지 않은 개념("Flood management")이 추출된 예', 'Figure 7. Question')
+F(18, None, 8, '추출한 개념을 사람이 평가하는 화면', 'Figure 8. Human validation')
+F(19, None, 9, '유형 1의 임계값별 통과 개념 수와 통과율', 'Figure 9. Threshold analysis')
+F(20, 0, 10, '시험 질문 40의 개념과 온톨로지 레이블의 유사도를 방사형으로 보인 그림', 'Figure 10. Cosine similarity visual')
+F(20, 1, 11, '같은 개념("Communities")에 유사도 점수가 다르게 나온 예', 'Figure 11. Example of concept matching')
+F(21, 0, 12, '유형 2의 임계값별 통과 개념 수와 통과율', 'Figure 12. Threshold analysis')
+F(21, None, 13, '유형 3의 임계값별 통과 개념 수와 통과율', 'Figure 13. Threshold Analysis')
+F(21, None, 14, '유형 4의 임계값별 통과 질문 수와 통과율', 'Figure 14. Threshold Analysis')
 
 json.dump(M, open(sys.argv[1], 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 if len(sys.argv) > 2:
