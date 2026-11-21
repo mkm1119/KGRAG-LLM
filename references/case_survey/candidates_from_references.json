@@ -1,0 +1,4533 @@
+[
+{
+"by": [
+39,
+42
+],
+"tags": [
+"도메인 LLM",
+"지식그래프"
+],
+"ref": "Authorized licensed use limited to: Kookmin University. Downloaded on August 31,2026 at 11:23:28 UTC from IEEE Xplore. Restrictions apply. YANG et al.: OKG-LLM: ALIGNING OKG WITH OBSERVATION DATA VIA LLMS FOR GLOBAL SEA SURFACE TEMPERATURE PREDICTION 3021"
+},
+{
+"by": [
+37,
+39
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Ban, T., Chen, L., Wang, X., and Chen, H. (2023). From query tools to causal architects: Harnessing large language models for advanced causal discovery from data."
+},
+{
+"by": [
+37,
+39
+],
+"tags": [
+"RAG·QA"
+],
+"ref": "Es, S., James, J., Espinosa-Anke, L., and Schockaert, S. (2023). Ragas: Automated evaluation of retrieval augmented generation. arXiv preprint arXiv:2309.15217."
+},
+{
+"by": [
+37,
+39
+],
+"tags": [
+"RAG·QA",
+"도메인 LLM"
+],
+"ref": "Gao, Y., Xiong, Y., Gao, X., Jia, K., Pan, J., Bi, Y., Dai, Y., Sun, J., and Wang, H. (2023). Retrievalaugmented generation for large language models: A survey. arXiv preprint arXiv:2312.10997."
+},
+{
+"by": [
+15,
+25
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Jason Wei, Xuezhi Wang, Dale Schuurmans, Maarten Bosma, et al. Chain-of-thought prompting elicits reasoning in large language models. 2022."
+},
+{
+"by": [
+38,
+40
+],
+"tags": [
+"지식그래프"
+],
+"ref": "L. Xia, Y. Liang, J. Leng, P. Zheng, Maintenance planning recommendation of complex industrial equipment based on knowledge graph and graph neural network, Reliability Engineering & System Safety (2023)."
+},
+{
+"by": [
+45,
+50
+],
+"tags": [
+"지식그래프"
+],
+"ref": "Yang Y, Zhu Y, Jian P. Application of Knowledge Graph in Water Conservancy Education Resource Organization under the Background of Big Data. Electronics. 2022;11(23):3913. https://doi. org/10.3390/electronics11233913"
+},
+{
+"by": [
+8,
+36
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Zajac, M.; Kulawiak, C.; Li, S.; Erickson, C.; Hubbell, N.; Gong, J. Unifying Flood-Risk Communication: Empowering Community Leaders Through AI-Enhanced, Contextualized Storytelling. Hydrology 2025, 12, 204. [CrossRef]"
+},
+{
+"by": [
+15
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "*논문접수:2024.10.16. *심사개시:2024.10.22. *논문수정:없 음 *게재확정:2024.10.29. 대규모 언어 모델(LLM)을 활용한 고소장 자동작성 연구 213"
+},
+{
+"by": [
+43
+],
+"tags": [
+"지식그래프"
+],
+"ref": "// Wang H, Zhang F, Wang J, Zhao M, Li W, Xie X, Guo M, et al. RippleNet: 2019;110:211–21. propagating user preferences on the knowledge graph for recommender systems."
+},
+{
+"by": [
+11
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "10.1002/nme.1620170218. \\[4\\] N. Adamo, N. Al-Ansari, V. Sissakian, J. Laue, S. Knutsson, Dam safety and"
+},
+{
+"by": [
+33
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "<참고문헌> 11. Romero, O. J., Zimmerman, J., Steinfeld, A., & Tomasic, A. (2023). Synergistic integration of large language models and cognitive architectures for robust ai: An exploratory [국내 문헌] analysis. In Proceedings of the AAAI Symposium Series, 2(1), 396-405."
+},
+{
+"by": [
+9
+],
+"tags": [
+"RAG·QA",
+"도메인 LLM",
+"홍수·수자원"
+],
+"ref": "A. Balaguer et al., \"RAG vs fine-tuning: Pipelines, Available: https://aclanthology.org/2024.eacl-demo.16/. trade offs, and a case study on agriculture,\" arXiv e- [Accessed: Dec. 24, 2025]. prints, 2024. [Online]. Available: https://arxiv.org/abs/2401.08406. [Accessed: [28] K. Vickneswaran et al., \"WaterCopilot: a water Jun. 20, 2025]. management AI virtual assistant for the Limpopo River Basin Digital Twin -- user guide V0 202410,\""
+},
+{
+"by": [
+39
+],
+"tags": [
+"지식그래프"
+],
+"ref": "A. Bosselut, H. Rashkin, M. Sap, C. Malaviya, A. Celikyilmaz, and Y. Choi, “Comet: Commonsense transformers for automatic knowledge graph construction,” arXiv preprint arXiv:1906.05317, 2019."
+},
+{
+"by": [
+32
+],
+"tags": [
+"온톨로지"
+],
+"ref": "A. C. Boury-Brisset, “Ontological approach to military https://doi.org/10.1145/3581783.3612266 knowledge modeling and management,” In Symposium [20] T. E. Kalaycı, B. Bricelj, M. Lah, F. Pichler, M. K. on Military Data and Information Fusion, 2003. Scharrer, and J. Rubeša-Zrim, “A knowledge https://people.computing.clemson.edu~jmarty/projects/low graph-based data integration framework applied to LatencyNetworking/papers/OntologiesForReusableData/ battery data management,” Sustainability, Vol. 13, No. OntologicalApproachToMilitaryInfoCentricSystems.pdf 3, 1583, 2021."
+},
+{
+"by": [
+42
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "A. Liu et al., “Deepseek-V3 technical report,” 2024, arXiv:2412.19437. [35] S. Wang et al., “LLM4HRS: LLM-based spatiotemporal imputation model"
+},
+{
+"by": [
+8
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Abdel-Mooty, M.N.; El-Dakhakhni, W.; Coulibaly, P. Data-driven community flood resilience prediction. Water 2022, 14, 2120. [CrossRef]"
+},
+{
+"by": [
+16
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Abdin, Aneja, et al. \"Phi-4 Technical Report.\" arXiv preprint arXiv:2412.08905 (2024). She conducted natural language processing and LLM research."
+},
+{
+"by": [
+36
+],
+"tags": [
+"도메인 LLM",
+"온톨로지",
+"지식그래프"
+],
+"ref": "Abolhasani, M.S.; Pan, R. OntoKGen: A Genuine Ontology and Knowledge Graph Generator Using Large Language Model. In Proceedings of the Annual Reliability & Maintainability Symposium (RAMS), Destin, FL, USA, 27–30 January 2025; pp. 20–25."
+},
+{
+"by": [
+46
+],
+"tags": [
+"도메인 LLM",
+"지식그래프"
+],
+"ref": "Adv. Eng. Inform. 74 (2026) 104646, https://doi.org/10.1016/j.aei.2026.104646. planning based on knowledge graph constructed by integrating LLMs and SLMs,"
+},
+{
+"by": [
+36
+],
+"tags": [
+"도메인 LLM",
+"온톨로지"
+],
+"ref": "Aggarwal, T.; Salatino, A.; Osborne, F.; Motta, E. Large Language Models for Scholarly Ontology Generation: An Extensive Analysis in the Engineering Field. Inf. Process. Manag. 2024, submitted. [CrossRef]"
+},
+{
+"by": [
+33
+],
+"tags": [
+"도메인 LLM",
+"지식그래프"
+],
+"ref": "Agrawal, G., Kumarage, T., Alghami, Z., & Liu, H. (2023). generation. arXiv preprint arXiv:2107.02137. Can knowledge graphs reduce hallucinations in LLMs? A survey. arXiv preprint arXiv:2311.07914. 14. Wang, H., & Shu, K. (2023). Explainable claim verification via knowledge-grounded reasoning with large language"
+},
+{
+"by": [
+36
+],
+"tags": [
+"온톨로지",
+"홍수·수자원"
+],
+"ref": "Agresta, A.; Fattoruso, G.; Pollino, M.; Pasanisi, F.; Tebano, C.; De Vito, S.; Di Francia, G. An Ontology Framework for Flooding Forecasting. In Proceedings of the 14th International Conference on Computational Science and Its Applications (ICCSA 2014), University of Minho, Campus de Azurém, Guimarães, Portugal, 30 June–3 July 2014; Lecture Notes in Computer Science, Volume 8582; Springer International Publishing: Cham, Switzerland, 2014; pp. 417–428."
+},
+{
+"by": [
+44
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "Ahmadianfar, I.; Kheyrandish, A.; Jamei, M.; Gharabaghi, B. Optimizing operating rules for multi-reservoir hydropower generation systems: An adaptive hybrid differential evolution algorithm. Renew. Energy 2021, 167, 774–790. [CrossRef]"
+},
+{
+"by": [
+44
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Akbari, R.; Hessami-Kermani, M.-R.; Shojaee, S. Flood routing: Improving outflow using a new non-linear Muskingum model with four variable parameters coupled with PSO-GA algorithm. Water Resour. Manag. 2020, 34, 3291–3316. [CrossRef]"
+},
+{
+"by": [
+43
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "Akhenak A, Duviella E, Bako L, Lecoeuche S. Online fault diagnosis using recursive knowledge for safe operation of cable crane. China Saf Sci J 2024;34(3):93–100. subspace identification: application to a dam-gallery open channel system. Control"
+},
+{
+"by": [
+23
+],
+"tags": [
+"RAG·QA",
+"도메인 LLM"
+],
+"ref": "Alghisi, S., Rizzoli, M., Roccabruna, G., Mousavi, S. M. & Riccardi, G. Correspondence and requests for materials should be addressed to J. Should we ﬁne-tune or RAG? Evaluating different techniques to Guangming Xu or How Yong Ng. adapt LLMs for dialogue. arXiv preprint arXiv:2406.06399, https://doi. org/10.48550/arXiv.2406.06399 (2024). Reprints and permissions information is available at"
+},
+{
+"by": [
+36
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Alirezaie, M.; Khameneh, A.M.; Nagel, T.; Pileggi, S.F. An Ontology-Based Reasoning Framework for Querying Satellite Images for Disaster Monitoring. Sensors 2017, 17, 2545. [CrossRef] [PubMed]"
+},
+{
+"by": [
+8
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Alobid, M.; Chellai, F.; Szűcs, I. Trends and drivers of flood occurrence in Germany: A time series analysis of temperature, precipitation, and river discharge. Water 2024, 16, 2589. [CrossRef]"
+},
+{
+"by": [
+21
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Andreas Köpf, Yannic Kilcher, Dimitri von Rütte, Sotiris Anagnostidis, Zhi Rui Tam, Keith Stevens, Abdullah Barhoum, Duc Minh Nguyen, Oliver Stanley, Richárd Nagyfi, Shahul ES, Sameer Suri, David Alexandrovich Glushkov, Arnav Varma Dantuluri, Andrew Maguire, Christoph Schuhmann, Huu Nguyen, and Alexander Julian Mattick. 2023. OpenAssistant Conversations - Democratizing Large Language Model Alignment. In Thirty-seventh Conference on Neural Information Processing Systems Datasets and Benchmarks Track."
+},
+{
+"by": [
+50
+],
+"tags": [
+"지식그래프"
+],
+"ref": "Angeruma W, Siriguleng W, Sichentu S. A review of research on knowledge graph completion. Computer Science and Exploration. 2025;1–23."
+},
+{
+"by": [
+40
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Antunes, G.; Bakhshandeh, M.; Mayer, R.; Borbinha, J.; Caetano, A. Using Ontologies for Enterprise Architecture Integration and Analysis. Complex Syst. Inform. Model. Q. 2014, 1, 1–23. [CrossRef] Appl. Sci. 2024, 14, 1220 26 of 26"
+},
+{
+"by": [
+8
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Anuruddhika, M.L.P.; Perera, K.K.K.R.; Premarathna, L.P.N.D.; Hansameenu, W.P.T.; Weerasinghe, V.P.A. A review of river flood models: Methods and applications for forecasting and simulation. Ceylon J. Sci. 2025, 54, 317–338. [CrossRef]"
+},
+{
+"by": [
+25
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Asaf Yehudai, Lilach Eden, et al. Survey on evaluation of llm-based agents. arXiv preprint arXiv:2503.16416, 2025."
+},
+{
+"by": [
+36
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Asim, M.N.; Wasim, M.; Khan, M.U.G.; Mahmood, W.; Abbasi, H.M. A Survey of Ontology Learning Techniques and Applications. Database 2018, 2018, bay101. [CrossRef]"
+},
+{
+"by": [
+11
+],
+"tags": [
+"RAG·QA"
+],
+"ref": "Augmented Iterative Ranking for Knowledge Base Question Answering, in: S. Portland, Oregon, USA, (2011) pp. 551–560. https://aclanthology.org/P11-1056."
+},
+{
+"by": [
+47
+],
+"tags": [
+"온톨로지"
+],
+"ref": "B. Motik, P.F. Patel-Schneider, B. Parsia, C. Bock, A. Fokoue, P. Haase, R. Hoekstra, IEEE, Zhuhai, China, 2021, pp. 331–335, https://doi.org/10.1109/ I. Horrocks, A. Ruttenberg, U. Sattler, OWL 2 Web Ontology Language: Structural ICPECA51329.2021.9362563. Specification and Functional-Style Syntax, W3C Recommendation, Available at, [34] M. Uschold, M. Gruninger, Ontologies: principles, methods and applications, https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.477.969&rep=rep Knowl. Eng. Rev. 11 (2) (1996) 93–136, https://doi.org/10.1017/ 1&type=pdf, 2009. S0269888900007797."
+},
+{
+"by": [
+41
+],
+"tags": [
+"RAG·QA"
+],
+"ref": "BARNETT S, KURNIAWAN S, THUDUMU S, et al. Seven failure points when engineering a retrieval augmented generation system[C]//Proceedings of the 2024 IEEE/ACM Conference on AI Engineering: Software Engineering for AI (CAIN). Lisbon: ACM, 2024: 45–54. DOI: 10.1145/3644815.3644945."
+},
+{
+"by": [
+41
+],
+"tags": [
+"RAG·QA",
+"도메인 LLM",
+"지식그래프"
+],
+"ref": "BARRON R C, GRANTCHAROV V, WANNA S, et al. Domain-specific retrieval-augmented generation using vector stores, knowledge graphs, and tensor factorization[C]//Proceedings of the 23rd IEEE International Conference on Machine Learning and Applications (ICMLA). Miami: IEEE, 2024: 1669–1676. DOI: 10.1109/ICMLA61862.2024.00258."
+},
+{
+"by": [
+36
+],
+"tags": [
+"도메인 LLM",
+"온톨로지"
+],
+"ref": "Babaei Giglou, H.; D’Souza, J.; Auer, S. LLMs4OL: Large Language Models for Ontology Learning. In Proceedings of the 22nd International Semantic Web Conference, Athens, Greece, 6–10 November 2023; Proceedings, Part II."
+},
+{
+"by": [
+33
+],
+"tags": [
+"RAG·QA",
+"지식그래프"
+],
+"ref": "Baek, J., Aji, A. F., & Saffari, A. (2023). Knowledgemodels. arXiv preprint arXiv:2310.05253. augmented language model prompting for zero-shot knowledge graph question answering. arXiv preprint 15. Wang, H., Zhang, F., Zhao, M., Li, W., Xie, X., & Guo, arXiv:2306.04136. M. (2019). Multi-task feature learning for knowledge graph enhanced recommendation. In Proceedings of the"
+},
+{
+"by": [
+37
+],
+"tags": [
+"RAG·QA",
+"지식그래프"
+],
+"ref": "Baek, J., Aji, A. F., and Saffari, A. (2023). Knowledge-augmented language model prompting for zero-shot knowledge graph question answering. arXiv preprint arXiv:2306.04136."
+},
+{
+"by": [
+36
+],
+"tags": [
+"도메인 LLM",
+"온톨로지",
+"지식그래프"
+],
+"ref": "Bakker, R.M.; Di Scala, D.L.; de Boer, M.H.T. Ontology Learning from Text: An Analysis on LLM Performance. In Proceedings of the NLP4KGC: 3rd International Workshop on Natural Language Processing for Knowledge Graph Creation, in conjunction with SEMANTiCS 2024 Conference, Amsterdam, The Netherlands, 17–19 September 2024; CEUR Workshop Proceedings: Aachen, Germany, 2024."
+},
+{
+"by": [
+43
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "Baudrit C, Taillandier F, Curt C, Hoang Q, Sbartai Z, Breysse D. Graph based gravity dams with penetrating cracks based on detection and monitoring data: A knowledge models for capitalizing, predicting and learning: A proof of concept case study. Struct Control Health Monit 2018;25(4):e2127. applied to the dam systems. Adv Eng Inform 2022;52:101551."
+},
+{
+"by": [
+8
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Bayat, M.; Tavakkoli, O. Application of machine learning in flood forecasting. Future Technol. 2022, 1, 1–6. [CrossRef]"
+},
+{
+"by": [
+36
+],
+"tags": [
+"도메인 LLM",
+"온톨로지"
+],
+"ref": "Benson, C.-B.; Sculley, A.; Liebers, A.; Beverley, J. My Ontologist: Evaluating BFO-Based AI for Definition Support. In Proceedings of the Workshop on the Convergence of Large Language Models and Ontologies, 14th International Conference on Formal Ontology in Information Systems (FOIS 2024), Enschede, The Netherlands, 2024; pp. 1–10."
+},
+{
+"by": [
+8
+],
+"tags": [
+"도메인 LLM",
+"홍수·수자원"
+],
+"ref": "Bhatti, M. Using Large Language Models for Early Flood Analysis: A Case Study. Master’s Thesis, Lappeenranta–Lahti University of Technology, Lappeenranta, Finland, 2024. LUTPub. Available online: https://lutpub.lut.fi/bitstream/handle/10024/167888 /mastersthesis%20bhatti%20maaz.pdf (accessed on 25 August 2025)."
+},
+{
+"by": [
+33
+],
+"tags": [
+"지식그래프"
+],
+"ref": "Bratanic, T. (2023). Knowledge graph-based chatbot with GPT-3 and Neo4j. Medium, https://medium.com/neo4j/ knowledge-graph-based-chatbot-with-gpt-3-andneo4j-c4ebbd325ed"
+},
+{
+"by": [
+36
+],
+"tags": [
+"온톨로지",
+"홍수·수자원"
+],
+"ref": "Bu Daher, J.; Huygue, T.; Stolf, P.; Hernandez, N. An ontology and a reasoning approach for evacuation in flood disaster response. In Proceedings of the 17th International Conference on Knowledge Management (IKCM 2022), Potsdam, Germany, 23–24 June 2022; pp 117–131."
+},
+{
+"by": [
+38
+],
+"tags": [
+"도메인 LLM",
+"지식그래프"
+],
+"ref": "C. Li, X. Yang, S. Luo, M. Song, W. Li, Towards domain-specific knowledge graph construction for flight control aided maintenance, Applied Sciences (2022)."
+},
+{
+"by": [
+9
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "C. Ling et al., \"Domain specialization as the key to Schockaert, “RAGAs: Automated evaluation of retrieval make large language models disruptive: A comprehensive augmented generation,” in Proc. 18th Conf. Eur. Chapter survey,\" arXiv preprint arXiv:2305.18703, 2023. Assoc. Comput. Linguistics: Syst. Demonstrations (EACL), St. Julians, Malta, 2024, pp. 150–158. [Online]."
+},
+{
+"by": [
+47
+],
+"tags": [
+"온톨로지"
+],
+"ref": "C. Martinez-Cruz, I.J. Blanco, M.A. Vila, Ontologies versus relational databases: are Available at, http://d2rq.org, 2012. they so different? A comparison, Artif. Intell. Rev. 38 (4) (2012) 271–290, https:// [49] SPARQL 1.1 query language, W3C Rcommendation, W3C, Available at, https: doi.org/10.1007/s10462-011-9251-9. //www.w3.org/TR/2013/REC-sparql11-query-20130321/, 2013. accessed"
+},
+{
+"by": [
+9
+],
+"tags": [
+"도메인 LLM",
+"홍수·수자원"
+],
+"ref": "C. Raffel, N. Shazeer, A. Roberts, K. Lee, S. Narang, \"IWMS-LLM: An intelligent water resources M. Matena, Y. Zhou, W. Li, and P. J. Liu, \"Exploring the management system based on large language models,\" J. limits of transfer learning with a unified text-to-text Hydroinform., vol. 27, no. 11, pp. 1685–1705, Nov. 2025. transformer,\" J. Mach. Learn. Res., vol. 21, no. 140, pp. [Online]. Available: 1–67, 2020. https://doi.org/10.2166/hydro.2025.130. [Accessed: Dec. 30, 2025]."
+},
+{
+"by": [
+41
+],
+"tags": [
+"RAG·QA",
+"지식그래프"
+],
+"ref": "CAI Y, GUO Z, PEI Y, et al. SimGRAG: Leveraging similar subgraphs for knowledge graphs driven retrieval-augmented generation[C]// Findings of the Association for Computational Linguistics: ACL 2025. Bangkok: ACL, 2025: 163–175."
+},
+{
+"by": [
+45
+],
+"tags": [
+"지식그래프"
+],
+"ref": "CHEN S, JI Q, CHEN Y, et al. Research progress of smart water conservancy based on knowledge graph. J Hohai Univ (Natural Sciences). 2023;51(3):143–53. https://doi.org/10.3876/j. issn.1000-1980.2023.03.019"
+},
+{
+"by": [
+50
+],
+"tags": [
+"도메인 LLM",
+"지식그래프"
+],
+"ref": "Cao R, Liu L, Yu Y. A review of research on large language models integrating knowledge graphs. Computer Application Research. 2024;1–14. https://doi.org/10.19734/j.issn.1001-3695.2024.12.0532"
+},
+{
+"by": [
+36
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Castro, A.; Pinto, J.; Reino, L.; Pipek, P.; Capinha, C. Large language models overcome the challenges of unstructured text data in ecology. Ecol. Inform. 2024, 82, 102742. [CrossRef]"
+},
+{
+"by": [
+26
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Chang Y, Wang X, Wang J, et al (2024) A survey on evaluation of large language models. ACM transactions on intelligent systems and technology 15(3):1–45"
+},
+{
+"by": [
+44
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Chang, J.; Bai, T.; Huang, Q.; Yang, D.-W. Optimization of water resources utilization by PSO-GA. Water Resour. Manag. 2013, 27, 3525–3540. [CrossRef]"
+},
+{
+"by": [
+50
+],
+"tags": [
+"지식그래프"
+],
+"ref": "Chen Y, Lu G, Wang K, Chen S, Duan C. Knowledge graph for safety management standards of water conservancy construction engineering. Automation in Construction. 2024;168:105873. https://doi.org/10.1016/j.autcon.2024.105873"
+},
+{
+"by": [
+43
+],
+"tags": [
+"지식그래프"
+],
+"ref": "Chen Y, Lu G, Wang K, et al. Knowledge graph for safety management standards of 10.1177/147592172412959. water conservancy construction engineering. Autom Constr 2024;168:105873."
+},
+{
+"by": [
+50
+],
+"tags": [
+"지식그래프"
+],
+"ref": "Chen Yaokun Research on Automatic Compliance Review of Structural Models Based on Knowledge Graph Chongqing University, 2023."
+},
+{
+"by": [
+44
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "Cheng, C.-T.; Wang, W.-C.; Xu, D.-M.; Chau, K.W. Optimizing hydropower reservoir operation using hybrid genetic algorithm and chaos. Water Resour. Manag. 2008, 22, 895–909. [CrossRef]"
+},
+{
+"by": [
+43
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "Chigare P, Wayal A. Dam overtopping risk analysis modeling. Int J Innov Res Sci performance of arch dams with cracks. Reliab Eng Syst Saf 2025;264:111377. Eng 2013;2(6):455–62."
+},
+{
+"by": [
+26
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Choudhary SK, Mondal A (2025) Impact of large language models (llms) and artificial intelligence (ai) on renewable and sustainable energy. In: Large Language Models for Sustainable Urban Development. Springer, p 3–43"
+},
+{
+"by": [
+26
+],
+"tags": [
+"RAG·QA"
+],
+"ref": "Clark P, Cowhey I, Etzioni O, et al (2018) Think you have solved question answering? try arc, the ai2 reasoning challenge. arXiv preprint arXiv:180305457"
+},
+{
+"by": [
+8
+],
+"tags": [
+"RAG·QA",
+"도메인 LLM",
+"홍수·수자원"
+],
+"ref": "Colverd, G.; Darm, P.; Silverberg, L.; Kasmanoff, N. FloodBrain: Flood disaster reporting by web-based retrieval augmented generation with an LLM. arXiv 2023, arXiv:2311.02597. [CrossRef]"
+},
+{
+"by": [
+8
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Copernicus Climate Change Service. Climate Projections for Flood Risk in Europe. 2022. Available online: https://climate.copernicus.eu (accessed on 25 August 2025)."
+},
+{
+"by": [
+13
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Cui C, Ma Y, Cao X, Ye W, Zhou Y, Liang K, et al. A Survey on Multimodal Large Language Models for Autonomous Driving. In: 2024 IEEE/CVF Winter Conference on Applications of Computer Vision Workshops (WACVW). 2024. 958–79. https://doi.org/10.1109/wacvw60836.2024.00106"
+},
+{
+"by": [
+39
+],
+"tags": [
+"RAG·QA",
+"지식그래프"
+],
+"ref": "D. Edge, H. Trinh, N. Cheng, J. Bradley, A. Chao, A. Mody, S. Truitt, and J. Larson, “From local to global: A graph rag approach to queryfocused summarization,” arXiv preprint arXiv:2404.16130, 2024."
+},
+{
+"by": [
+20
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "D. Thulke, Y. Gao, P. Pelser, R. Brune, R. Jalota, F. Fok, et al., Climategpt: to­ [47] Y. Huang, L. Guo, W. Guo, Z. Tao, Y. Lv, Z. Sun, et al., EnviroExam: bench­ wards Ai Synthesizing Interdisciplinary Research on Climate Change, 2024. marking environmental science knowledge of large language models, ArXiv URL Httpsarxiv Orgabs240109646 n.d. Prepr ArXiv240511265 (2024)."
+},
+{
+"by": [
+46
+],
+"tags": [
+"RAG·QA",
+"댐·저수지",
+"도메인 LLM",
+"지식그래프"
+],
+"ref": "D. Zhang, G. Ma, T. Qu, X. Wang, W. Zhou, X. Wang, A knowledge graph-enhanced rcim.2024.102900. large language model for question answering of hydraulic structure safety [44] Inf. Process. Manag. 62 (2025) 104129, https://doi.org/10.1016/j. management, Adv. Eng. Inform. 66 (2025) 103468, https://doi.org/10.1016/j. ipm.2025.104129. aei.2025.103468. [45] X. Liao, C. Chen, Z. Wang, Y. Liu, T. Wang, L. Cheng, Large language model assisted"
+},
+{
+"by": [
+47
+],
+"tags": [
+"온톨로지"
+],
+"ref": "D.L. McGuinness, F. Van Harmelen, OWL Web Ontology Language Overview, W3C business process under the new system base on IDEF5/owl, in: 2021 IEEE Recommendation, Available at, http://www.w3.org/TR/owl-features, 2004. International Conference on Power Electronics, Computer Applications (ICPECA),"
+},
+{
+"by": [
+46
+],
+"tags": [
+"지식그래프"
+],
+"ref": "D.W. Otter, J.R. Medina, J.K. Kalita, A survey of the usages of deep learning for specialized word embeddings for health-domain named-entity recognition, natural language processing, IEEE Trans. Neural Netw. Learn. Syst. 32 (2021) J. Biomed. Inform. 76 (2017) 102–109, https://doi.org/10.1016/j. 604–624, https://doi.org/10.1109/TNNLS.2020.2979670. jbi.2017.11.007."
+},
+{
+"by": [
+41
+],
+"tags": [
+"RAG·QA"
+],
+"ref": "DONG Y, WANG S, ZHENG H, et al. Advanced RAG models with graph structures: Optimizing complex knowledge reasoning and text generation[C]//Proceedings of the 2024 International Symposium on Computer Engineering and Information Communication (ISCEIC). Nanjing: IEEE, 2024: 233–240. DOI: 10.1109/ISCEIC63613.2024.10810209."
+},
+{
+"by": [
+37
+],
+"tags": [
+"RAG·QA"
+],
+"ref": "Dang, H. T. (2006). Duc 2005: Evaluation of question-focused summarization systems. In Proceedings of the Workshop on Task-Focused Summarization and Question Answering, pages 48–55."
+},
+{
+"by": [
+36
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "David, A.O.; Ndambuki, J.M.; Muloiwa, M.; Kupolati, W.K.; Snyman, J. A Review of the Application of Artificial Intelligence in Climate Change-Induced Flooding—Susceptibility and Management Techniques. CivilEng 2024, 5, 1185–1198. [CrossRef]"
+},
+{
+"by": [
+40
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Debbech, S.; Dutilleul, S.C.; Bon, P. An Ontological Approach to Support Dysfunctional Analysis for Railway Systems Design. J. Univers. Comput. Sci. 2020, 26, 549–582. [CrossRef]"
+},
+{
+"by": [
+16
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "DeepSeek-AI, Guo, et al. \"DeepSeek-R1: Incentivizing Reasoning Hyeong-Seok Kim received the B.S. degrees Capability in LLMs via Reinforcement Learning.\" arXiv preprint in Mechanical Engineering from Kongju arXiv:2501.12948 (2025). National University, korea, in 2002, and M.S degrees in Web Multimedia from Kongju"
+},
+{
+"by": [
+32
+],
+"tags": [
+"온톨로지",
+"지식그래프"
+],
+"ref": "DoDAF Formal Ontology, Chief Information Officer, Zhu, “TIVA-KG: A multimodal knowledge graph with U.S. Department of Defense. text, image, video and audio,” In Proceedings of the https://dodcio.defense.gov/Library/DoD-Architecture-Fra 31st ACM International Conference on Multimedia, pp. mework/dodaf20_ontology1/ 2391-2399, 2023."
+},
+{
+"by": [
+45
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Dtissibe FY, Ari AAA, Abboubakar H, Njoya AN, Mohamadou A, Thiare O. A comparative study of Machine Learning and Deep Learning methods for flood forecasting in the Far-North region, Cameroon. Scientific African. 2024;23:e02053. https://doi.org/10.1016/j.sciaf.2023.e02053"
+},
+{
+"by": [
+44
+],
+"tags": [
+"댐·저수지",
+"홍수·수자원"
+],
+"ref": "Du, H.; Xia, J.; Zeng, S.; Tu, Y. Climate change and multi-reservoirs impacts on extreme flood: nonstationary regional frequency analysis and uncertainty estimation. Water Resour. Manag. 2024, 38, 951–965. [CrossRef]"
+},
+{
+"by": [
+36
+],
+"tags": [
+"온톨로지",
+"지식그래프",
+"홍수·수자원"
+],
+"ref": "Du, W.; Liu, C.; Xia, Q.; Wen, M.; Hu, Y. OFPO & KGFPO: Ontology and knowledge graph for flood process observation. Environ. Model. Softw. 2025, 185, 106317. [CrossRef]"
+},
+{
+"by": [
+36
+],
+"tags": [
+"온톨로지",
+"홍수·수자원"
+],
+"ref": "Dutta, B.; Sinha, P.K. An ontological data model to support urban flood disaster response. J. Inf. Sci. 2023, 49, 1–22. [CrossRef]"
+},
+{
+"by": [
+38
+],
+"tags": [
+"온톨로지"
+],
+"ref": "E. Bouillet, M. Feblowitz, Z. Liu, A. Ranganathan, A. Riabov, A knowledge engineering and planning framework based on owl ontologies, 2007."
+},
+{
+"by": [
+41
+],
+"tags": [
+"도메인 LLM",
+"지식그래프"
+],
+"ref": "EMONET V, BOLLEMAN J, DUVAUD S, et al. LLM-based SPARQL query generation from natural language over federated knowledge graphs[C]//Proceedings of the 1st Workshop on Federated Knowledge Graphs (FedKG 2025). Aachen: CEUR-WS, 2025: 12–24. 1082 石油科学通报 2025 年 10 月 第 10 卷第 5 期"
+},
+{
+"by": [
+25
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Edward J. Hu, Yelong Shen, Phillip Wallis, Zeyuan Allen-Zhu, Yuanzhi Li, Shean Wang, Lu Wang, and Weizhu Chen. Lora: Low-rank adaptation of large language models. arXiv preprint arXiv:2106.09685, 2021."
+},
+{
+"by": [
+36
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Elmhadhbi, L.; Ghedira, C.; Bouaziz, R. An Ontological Approach to Enhancing Information Sharing in Disaster Response. Information 2021, 12, 432. [CrossRef]"
+},
+{
+"by": [
+36
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Elmhadhbi, L.; Karray, M.-H.; Archimède, B.; Otte, J.; Smith, B. A modular ontology for semantically enhanced interoperability in operational disaster response. In Proceedings of the 16th International Conference on Information Systems for Crisis Response and Management—ISCRAM 2019, Valencia, Spain, 19–22 May 2019."
+},
+{
+"by": [
+40
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Emmanouilidis, C.; Gregori, M.; Al-Shdifat, A. Context Ontology Development for Connected Maintenance Services. IFACPapersOnLine 2020, 53, 10923–10928. [CrossRef]"
+},
+{
+"by": [
+46
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Eng. Fail. Anal. 167 (2025) 108903, https://doi.org/10.1016/j. [27] X. Bai, S. He, Y. Li, Y. Xie, X. Zhang, W. Du, J.-R. Li, Construction of a knowledge engfailanal.2024.108903. graph for framework material enabled by large language models and its"
+},
+{
+"by": [
+8
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "European Commission Joint Research Centre. Europe Floods: New Tool to Estimate Water Depth and Extent. JRC News and Updates 2024. Available online: https://joint-research-centre.ec.europa.eu/jrc-news-and-updates/europe-floods-new-toolestimate-water-depth-and-extent-2024-09-20_en (accessed on 25 August 2025)."
+},
+{
+"by": [
+8
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "European Parliament. Directive 2007/60/EC on the Assessment and Management of Flood Risks. 2020. Available online: https://eur-lex.europa.eu (accessed on 25 August 2025)."
+},
+{
+"by": [
+46
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "F. Ali, S. El-Sappagh, S.M.R. Islam, A. Ali, M. Attique, M. Imran, K.-S. Kwak, An J. Manuf. Syst. 84 (2026) 1–19, https://doi.org/10.1016/j.jmsy.2025.11.016. intelligent healthcare monitoring framework using wearable sensors and social [60] W. Dou, D. Shen, X. Zhou, Y. Kou, T. Nie, H. Cui, G. Yu, Weakly-supervised entity networking data, Future Gener, Comput. Syst. 114 (2021) 23–43, https://doi.org/ matching via LLM-guided data augmentation and knowledge transfer, Knowl.10.1016/j.future.2020.07.047. Based Syst. 335 (2026) 115238, https://doi.org/10.1016/j.knosys.2025.115238."
+},
+{
+"by": [
+44
+],
+"tags": [
+"댐·저수지",
+"홍수·수자원"
+],
+"ref": "Fan, Z.-W.; Zhang, M.; Su, Y.-L. Flood risk control of dams and dykes in middle reach of Huaihe River. Water Sci. Eng. 2014, 7, 17–31. [CrossRef]"
+},
+{
+"by": [
+36
+],
+"tags": [
+"도메인 LLM",
+"온톨로지"
+],
+"ref": "Fathallah, N.; Das, A.; De Giorgis, S.; Poltronieri, A.; Haase, P.; Kovriguina, L. NeOn-GPT: A Large Language Model-Powered Pipeline for Ontology Learning. In Proceedings of the Semantic Web: ESWC 2024 Satellite Events, Hersonissos, Crete, Greece, 26–30 May 2024; Meroño Peñuela, A., Corcho, O., Groth, P., Simperl, E., Tamma, V., Nuzzolese, A.G., Poveda-Villalón, M., Sabou, M., Presutti, V., Celino, I., Eds.; Lecture Notes in Computer Science; Springer: Cham, Switzerland, 2025; Volume 15344, pp. 36–50. Water 2025, 17, 2801 31 of 31"
+},
+{
+"by": [
+45
+],
+"tags": [
+"지식그래프"
+],
+"ref": "Feng J, Hang T, Chen J, et al. Research status of domain knowledge graph and its application in water conservancy. J Hohai Univ (Nat Sci). 2021;49(1):26–34. https://doi.org/10.3876/j. issn.1000-1980.2021.01.005"
+},
+{
+"by": [
+13
+],
+"tags": [
+"지식그래프"
+],
+"ref": "Feng Z. Research on the construction and retrieval application of multimodal knowledge graph for Dai ethnic culture. Yunnan Normal University. 2024."
+},
+{
+"by": [
+44
+],
+"tags": [
+"도메인 LLM",
+"지식그래프"
+],
+"ref": "Feng, J.; Chang, Y.; Lu, J.; Tang, H.; Lv, H.; Qiu, Y. Construction and Application of Knowledge Graph for Water Engineering Scheduling Based on Large Language Model. J. Front. Comput. Sci. Technol. 2023, 18, 1637–1647. [CrossRef]"
+},
+{
+"by": [
+44
+],
+"tags": [
+"지식그래프"
+],
+"ref": "Feng, J.; Xu, X.; Lu, J. Construction and application of water conservancy information knowledge graph. Comput. Mod. 2019, 9, 35. [CrossRef]"
+},
+{
+"by": [
+33
+],
+"tags": [
+"지식그래프"
+],
+"ref": "Feng, Q., He, D., Liu, Z., Wang, H., & Choo, K. K. R. (2020). SecureNLP: A system for multi-party privacy-preserving World Wide Web Conference, 2000-2010. natural language processing. IEEE Transactions on 16. Xiong, C., Power, R., & Callan, J. (2017). Explicit semantic Information Forensics and Security, 15, 3709-3721. ranking for academic search via knowledge graph embedding. In Proceedings of the 26th International"
+},
+{
+"by": [
+37
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Feng, Z., Feng, X., Zhao, D., Yang, M., and Qin, B. (2023). Retrieval-generation synergy augmented large language models. arXiv preprint arXiv:2310.05149."
+},
+{
+"by": [
+37
+],
+"tags": [
+"지식그래프"
+],
+"ref": "Figure 3: How the entity references detected in the HotPotQA dataset (Yang et al., 2018) varies with chunk size and self-reflection iterations for our generic entity extraction prompt with gpt-4-turbo."
+},
+{
+"by": [
+40
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Fox, M.; Grüninger, M. Ontologies for Enterprise Modelling. In Enterprise Engineering and Integration: Building International Consensus Proceedings of ICEIMT ’97, International Conference on Enterprise Integration and Modeling Technology, Torino, Italy, 28–30 October 1997; Springer: Berlin/Heidelberg, Germany, 1997. [CrossRef]"
+},
+{
+"by": [
+24
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Funding This project was funded by the National Oceanic and Atmospheric Administration (NOAA) via a cooperative agreement with the University of Alabama (NA22NWS4320003) awarded to the Cooperative Institute for Research to Operations in Hydrology (CIROH)."
+},
+{
+"by": [
+36
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Funk, M.; Hosemann, S.; Jung, J.C.; Lutz, C. Towards Ontology Construction with Language Models. arXiv 2023, arXiv:2309.09898. [CrossRef]"
+},
+{
+"by": [
+32
+],
+"tags": [
+"온톨로지"
+],
+"ref": "G. De Giacomo, D. Lembo, M. Lenzerini, A. Poggi, Ontology - Application example of Air Force Logistics and R. Rosati, “Using Ontologies for Semantic Data Situation Management System,” Journal of intelligence Integration,” A Comprehensive Guide Through the and information systems, Vol. 25, No. 2, pp. 77-97, Italian Database Research Over the Last 25 Years, pp. 2019. 187-202, 2018. https://doi.org/10.13088/jiis.2019.25.2.077 https://doi.org/10.1007/978-3-319-61893-7_11 [19] X. Wang, B. Meng, H. Chen, Y. Meng, K. Lv, and W."
+},
+{
+"by": [
+47
+],
+"tags": [
+"온톨로지"
+],
+"ref": "G. Ren, H. Li, S. Liu, J. Goonetillake, A. Khudhair, S. Arthur, Aligning BIM and [40] H. Neuhaus, M. Compton, The semantic sensor network ontology, in: AGILE ontology for information retrieve and reasoning in value for money assessment, Workshop on Challenges in Geospatial Data Harmonisation, Hannover, Germany, Autom. Constr. 124 (2021), 103565, https://doi.org/10.1016/j. 2009, pp. 1–33. Available at, https://pdfs.semanticscholar.org/a657/156 autcon.2021.103565. a4bbe436c33734e8a00755e2a8a287ca2.pdf. accessed September 11, 2022."
+},
+{
+"by": [
+4
+],
+"tags": [
+"RAG·QA"
+],
+"ref": "G.-W. Yi and S. K. Kim, “Design of a Question-Answering System 있는 응답을 제공함으로써, 대학 구성원들의 정보 접근성 Based on RAG Model for Domestic Companies,” Journal of The 을 크게 향상시키는 효과를 보였다. 특히 표가 포함된 복 Korea Society of Computer and Information, vol. 29, no. 7, pp. 합 문서에서도 일정 수준 이상의 구조 이해 능력을 보였다 81–88, Jul. 2024. DOI: 10.9708/jksci.2024.29.07.081. 는 점에서 의미 있는 성과로 평가된다. 그러나 일부 복잡 [10] LangChain, “LangChain Documentation: Introduction,” https://"
+},
+{
+"by": [
+41
+],
+"tags": [
+"RAG·QA",
+"도메인 LLM"
+],
+"ref": "GUO K, DIEFENBACH D, GOURRU A, et al. Fine-tuning strategies for domain specific question answering under low annotation budget constraints[C]//2023 IEEE 35th International Conference on Tools with Artificial Intelligence (ICTAI). Atlanta, GA, USA: IEEE, 2023: 166–171. DOI: 10.1109/ICTAI59109.2023.00032."
+},
+{
+"by": [
+44
+],
+"tags": [
+"지식그래프"
+],
+"ref": "Gao, R.; Dong, Z.; Wang, Y.; Cui, Z.; Ye, M.; Dong, B.; Lu, Y.; Wang, X.; Song, Y.; Yan, S. Intelligent Cotton Pest and Disease Detection: Edge Computing Solutions with Transformer Technology and Knowledge Graphs. Agriculture 2024, 14, 247. [CrossRef]"
+},
+{
+"by": [
+36
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Ghidalia, S.; Labbani Narsis, O.; Bertaux, A.; Nicolle, C. Combining Machine Learning and Ontology: A Systematic Literature Review. arXiv 2024, arXiv:2401.07744. [CrossRef]"
+},
+{
+"by": [
+40
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Gocev, I.; Grimm, S.; Runkler, T.A. Explanation of Action Plans Through Ontologies. In Proceedings of the on the Move to Meaningful Internet Systems, OTM 2018 Conferences, Valletta, Malta, 22–26 October 2018; Springer International Publishing: Berlin/Heidelberg, Germany, 2018."
+},
+{
+"by": [
+43
+],
+"tags": [
+"댐·저수지",
+"지식그래프"
+],
+"ref": "Gong S, Sun F, Huang W, Chen K, Shen H. Intelligent monitoring and early warning methodology for rapid identification of slab damage in concrete face rockfill dams. method for dam safety based on knowledge graph. Adv Eng Sci 2024;56(3):32–40. Comput-Aided Civ Infrastruct Eng 2025;40(29):5596–624."
+},
+{
+"by": [
+36
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Gruber, T.R. A Translational Approach to Portable Ontology Specifications. Knowl. Acquis. 1993, in press."
+},
+{
+"by": [
+43
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Gu Y, Wang C, Liu Y, Zhou R. An ontology-based multi-hazard coupling accidents Mumtaz S. Efficient and secured swarm pattern multi-UAV communication. IEEE simulation and deduction system for underground utility tunnel - A case study of Trans Veh Technol 2021;70(7):7050–8. earthquake-induced disaster chain. Reliab Eng Syst Saf 2025;253:110559."
+},
+{
+"by": [
+45
+],
+"tags": [
+"도메인 LLM",
+"지식그래프"
+],
+"ref": "Guan X, Liu Y, Lin H, Lu Y, He B, Han X, et al. Mitigating Large Language Model Hallucinations via Autonomous Knowledge Graph-Based Retrofitting. AAAI. 2024;38(16):18126–34. https://doi. org/10.1609/aaai.v38i16.29770"
+},
+{
+"by": [
+36
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Guarino, N. Formal Ontology and Information Systems. In Proceedings of the Formal Ontology in Information Systems (FOIS’98), Trento, Italy, 6–8 June 1998; pp. 3–15."
+},
+{
+"by": [
+36
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Guarino, N.; Oberle, D.; Staab, S. What Is an Ontology? In Handbook on Ontologies; Staab, S., Studer, R., Eds.; Springer: Berlin, Germany, 2009; pp. 1–17."
+},
+{
+"by": [
+26
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Guha N, Nyarko J, Ho D, et al (2023) Legalbench: A collaboratively built benchmark for measuring legal reasoning in large language models. Advances in neural information processing systems 36:44123–44279"
+},
+{
+"by": [
+23
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Guo, J., Li, N. & Xu, M. Environmental large language model Evaluation http://www.nature.com/reprints (ELLE) dataset: A Benchmark for Evaluating Generative AI applications in Eco-environment Domain. arXiv, arXiv:2501.06277 (2025). Publisher’s note Springer Nature remains neutral with regard to"
+},
+{
+"by": [
+8
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Gupta, H.V.; Kling, H.; Yilmaz, K.K.; Martinez, G.F. Decomposition of the mean squared error and NSE performance criteria: Implications for improving hydrological modelling. J. Hydrol. 2009, 377, 80–91. [CrossRef]"
+},
+{
+"by": [
+9
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "H. L. Walker et al., \"Reliability of medical language model for hydrology,\" J. Hydroinform., vol. 27, information provided by ChatGPT: assessment against no. 10, pp. 1652–1666, Sep. 2025. [Online]. Available: clinical guidelines and patient information quality https://doi.org/10.2166/hydro.2025.100. [Accessed: Dec. instrument,\" J. Med. Internet Res., vol. 25, p. e47479, 30, 2025]. 2023."
+},
+{
+"by": [
+38
+],
+"tags": [
+"온톨로지"
+],
+"ref": "H. Louadah, E. Papadakis, L. McCluskey, G. Tucker, P. Hughes, A. Bevan, Translating ontological knowledge to pddl to do planning in train depot management operations, in: 36th Workshop of the UK Planning and Scheduling Special Interest Group, 2021."
+},
+{
+"by": [
+42
+],
+"tags": [
+"지식그래프"
+],
+"ref": "H. Peng, W. Li, C. Jin, H. Yang, and J. Guan, “MuSTC: A multi-stage [44] B. Xue and L. Zou, “Knowledge graph quality management: A comprehenspatio–temporal clustering method for uncovering the regionality of global sive survey,” IEEE Trans. Knowl. Data Eng., vol. 35, no. 5, pp. 4969–4988, SST,” Atmosphere, vol. 14, no. 9, 2023, Art. no. 1358. May 2023."
+},
+{
+"by": [
+41
+],
+"tags": [
+"RAG·QA",
+"지식그래프"
+],
+"ref": "HAMZA A, ABDULLAH, AHN Y H, et al. LLaVA needs more knowledge: Retrieval augmented natural language generation with knowledge graph for explaining thoracic pathologies[C]//Proceedings of the AAAI Conference on Artificial Intelligence. Philadelphia: AAAI Press, 2025: 5678–5686"
+},
+{
+"by": [
+50
+],
+"tags": [
+"RAG·QA"
+],
+"ref": "Haiyu R, Jianping L, Jian W. A review of research on intelligent question answering systems based on big language models. Computer Engineering and Applications, 1-24 [2020-03-30]."
+},
+{
+"by": [
+44
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "Hakimi-Asiabar, M.; Ghodsypour, S.H.; Kerachian, R. Deriving operating policies for multi-objective reservoir systems: Application of self-learning genetic algorithm. Appl. Soft Comput. 2010, 10, 1151–1163. [CrossRef]"
+},
+{
+"by": [
+33
+],
+"tags": [
+"지식그래프"
+],
+"ref": "Hao, S., Tan, B., Tang, K., Ni, B., Shao, X., Zhang, H., ... & Hu, Z. (2022). BertNet: Harvesting knowledge Conference on World Wide Web, 1271-1279. graphs with arbitrary relations from pretrained language 17. Yang, Y., Cao, Z., Zhao, P., Zeng, D. D., Zhang, Q., models. arXiv preprint arXiv:2206.14268. & Luo, Y. (2021). Constructing public health evidence knowledge graph for decision-making support from"
+},
+{
+"by": [
+36
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Hao, S.; Wang, W.; Ma, Q.; Li, C.; Wen, L.; Tian, J.; Liu, C. Analysis on the Disaster Mechanism of the “8.12” Flash Flood in the Liulin River Basin. Water 2022, 14, 2017. [CrossRef]"
+},
+{
+"by": [
+44
+],
+"tags": [
+"지식그래프"
+],
+"ref": "He, L.; Ye, W.; Wang, Y.X.; Feng, H.S.; Chen, B.X.; Liang, D.Z. Using knowledge graph and RippleNet algorithms to fulfill smart recommendation of water use policies during shale resources development. J. Hydrol. 2023, 617, 128970. [CrossRef]"
+},
+{
+"by": [
+37
+],
+"tags": [
+"RAG·QA"
+],
+"ref": "He, X., Tian, Y., Sun, Y., Chawla, N. V., Laurent, T., LeCun, Y., Bresson, X., and Hooi, B. (2024). G-retriever: Retrieval-augmented generation for textual graph understanding and question answering. arXiv preprint arXiv:2402.07630."
+},
+{
+"by": [
+43
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Hoaihongthong S, Kwiecien K. Development of ontology for knowledge of diagnosis for rolling element bearing under data privacy. Reliab Eng Syst Saf 2025; traditions common culture of countries in the Greater Mekong Subregion. 264:111454. Informatics 2022;9(3):58."
+},
+{
+"by": [
+36
+],
+"tags": [
+"지식그래프",
+"홍수·수자원"
+],
+"ref": "Hofmeister, M.; Bai, J.; Brownbridge, G.; Mosbach, S.; Lee, K.F.; Farazi, F.; Hillman, M.; Agarwal, M.; Ganguly, S.; Akroyd, J.; et al. Semantic agent framework for automated flood assessment using dynamic knowledge graphs. Data-Centric Eng. 2024, 5, e14. [CrossRef]"
+},
+{
+"by": [
+50
+],
+"tags": [
+"지식그래프"
+],
+"ref": "Hu H, Xuefeng X, Qitao Z. Emotion triplet extraction method using multi feature weighted graph convolutional network. Journal of Hunan University (Natural Science Edition), 2024;51(12):165–75."
+},
+{
+"by": [
+17
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Hu, E.J.; Shen, Y.; Wallis, P.; Li, Y.; Gu, J.; Ma, Y.; Makhzani, A.; Le, Q.; Liu, Z.; Wang, X. LoRA: Low-Rank Adaptation of Large Language Models. arXiv 2021. [CrossRef]"
+},
+{
+"by": [
+44
+],
+"tags": [
+"댐·저수지",
+"홍수·수자원"
+],
+"ref": "Hu, W.-W.; Wang, G.-X.; Deng, W.; Li, S.-N. The influence of dams on ecohydrological conditions in the Huaihe River basin, China. Ecol. Eng. 2008, 33, 233–241. [CrossRef]"
+},
+{
+"by": [
+26
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Huang J, Chang KCC (2023) Towards reasoning in large language models: A survey. In: Findings of the Association for Computational Linguistics: ACL 2023, pp 1049–1065"
+},
+{
+"by": [
+23
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Huang, H., Qu, Y., Liu, J., Yang, M. & Zhao, T. J. An empirical study of Supplementary information The online version contains llm-as-a-judge for llm evaluation: Fine-tuned judge models are task- supplementary material available at speciﬁc classiﬁers. arXiv:2403.02839, https://doi.org/10.48550/ https://doi.org/10.1038/s41545-025-00509-8. arXiv.2403.02839 (2024)."
+},
+{
+"by": [
+37
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Huang, J., Chen, X., Mishra, S., Zheng, H. S., Yu, A. W., Song, X., and Zhou, D. (2023). Large language models cannot self-correct reasoning yet. arXiv preprint arXiv:2310.01798."
+},
+{
+"by": [
+36
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Huang, L.; Yu, W.; Ma, W.; Zhong, W.; Feng, Z.; Wang, H.; Liu, T. A survey on hallucination in large language models: Principles, taxonomy, challenges, and open questions. ACM Trans. Inf. Syst. 2025, 43, 42. [CrossRef]"
+},
+{
+"by": [
+38
+],
+"tags": [
+"온톨로지"
+],
+"ref": "I. Gocev, S. Grimm, T. A. Runkler, Explanation of action plans through ontologies, in: On the Move to Meaningful Internet Systems. OTM 2018 Conferences, Springer International Publishing, 2018."
+},
+{
+"by": [
+8
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "INSPIRE Directive. Building Metadata Standards for Flood Risk Modeling. 2021. Available online: https://inspire.ec.europa.eu (accessed on 25 August 2025)."
+},
+{
+"by": [
+43
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "Ingles O. A short study of dam failures in Australia, 1857-1983. Civ Eng Syst 1984; algorithm based on adversarial learning and image fusion. Autom Constr 2025;178: 1(4):190–4. 106423."
+},
+{
+"by": [
+9
+],
+"tags": [
+"도메인 LLM",
+"홍수·수자원"
+],
+"ref": "J. Devlin, M.-W. Chang, K. Lee, and K. Toutanova, Computing Systems, New York, NY, USA, 2024, pp. 1\"BERT: Pre-training of deep bidirectional transformers 10. for language understanding,\" in Proc. 2019 Conf. North Amer. Chapter Assoc. Comput. Linguistics: Human Lang. [22] V. Pursnani, C. E. Ramirez, M. Y. Sermet, and I. Technol. (NAACL-HLT), 2019, pp. 4171–4186. [Online]. Demir, \"HydroSuite-AI: Facilitating Hydrological Available: https://arxiv.org/abs/1810.04805. [Accessed: Research with LLM-Driven Code Assistance,\" 2024. Jun. 20, 2025]."
+},
+{
+"by": [
+51
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "J. Fernandez, C. Na, V. Tiwari, Y. Bisk, S. Luccioni, and E. Strubell, Trends in LLM Benchmarking,” in 2024 IEEE International Conference “Energy Considerations of Large Language Model Inference and Ef- on Big Data (BigData), pp. 8805–8807, IEEE, 2024. ficiency Optimizations,” arXiv.org, 2025. [Online]. Available: https: [61] D. Rein et al., “GPQA: A Graduate-Level Google//arxiv.org/abs/2504.17674. [Accessed: May 06, 2025]. Proof Q&A Benchmark,” arXiv, 2023. [Online]. Available:"
+},
+{
+"by": [
+2
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "J. Ham, Y. J. Choe, K. Park, I. Choi, and H. Soh, \"KorNLI 의 답변 정확성과 신뢰성을 더욱 높이는 방향으로 연구를 and KorSTS: New Benchmark Datasets for Korean Natural 진행하고자 한다. Language Understanding,\" Findings of the Association for 또한, 본 시스템을 실제 기업에 적용하기 위해서는 대규 Computational Linguistics: EMNLP 2020, pp. 422-430, 모 데이터 처리, 데이터베이스 관리 등 효율적인 유지보수 November 2020. DOI: 10.18653/v1/2020.findings-emnlp.39 방안 마련을 위한 추가적인 연구가 필요하겠다. [12] MongoDB, Inc., MongoDB, \"https://www.mongodb.com/ko-kr/ what-is-mongodb\""
+},
+{
+"by": [
+51
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "J. Kim et al., “An Inquiry into Datacenter TCO for LLM Inference [59] LiveBench Team, “LiveBench: A Challenging, Contamination-Free with FP8,” arXiv.org, 2025. [Online]. Available: https://arxiv.org/abs/ LLM Benchmark,” https://livebench.ai/, 2024. 2502.01070. [Accessed: Aug. 28, 2025]. [60] A. P. Desai, R. Prajapati, T. Ravi, M. Luqman, and P. Yadav, “Emerging"
+},
+{
+"by": [
+32
+],
+"tags": [
+"온톨로지"
+],
+"ref": "J. Lee, Y. Kim, H. Shin, and K. Song, “A Study on Architecture, Vol. 8, No. 1, pp. 25-35, 2011. Ontology Based Knowledge Representation Method https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSe with the Alzheimer Disease Related Articles,” Journal reArtiView.kci?sereArticleSearchBean.artiId=ART00154 of Internet Computing and Services, Vol. 15, No. 3, 2170 pp. 125-135, 2014. [18] W. Jo, and H. Kim, “Construction and Application of https://doi.org/10.7472/jksii.2014.15.3.125 Intelligent Decision Support System through Defense"
+},
+{
+"by": [
+46
+],
+"tags": [
+"댐·저수지",
+"지식그래프"
+],
+"ref": "J. Wang, Z. Zhang, Y. Huang, H. Hu, Proactive dispatch of rail maintenance [29] Y. Yang, P. Xiang, D. Wang, Knowledge graph and mitigation measures equipment under weather-induced disruptions: an optimization framework recommendation for safety hazards in large-scale hydropower projects using integrating machine learning-driven risk assessment, Adv. Eng. Inform. 69 (2026) diverse heterogeneous inspection data, Autom. Constr. 178 (2025) 106419, 103990, https://doi.org/10.1016/j.aei.2025.103990. https://doi.org/10.1016/j.autcon.2025.106419."
+},
+{
+"by": [
+46
+],
+"tags": [
+"도메인 LLM",
+"지식그래프"
+],
+"ref": "J. Wei, X. Wang, D. Schuurmans, M. Bosma, B. Ichter, F. Xia, E. Chi, Q. Le, D. Zhou, [41] Z. Zhang, X. Yang, L. Sun, Y. Sun, J. Kang, Research on constructing and reasoning Chain-of-thought prompting elicits reasoning in large language models, (2023). the collision knowledge graph of autonomous navigation ship based on enhanced https://doi.org/10.48550/arXiv.2201.11903. BERT model, Expert Syst. Appl. 278 (2025) 127429, https://doi.org/10.1016/j."
+},
+{
+"by": [
+51
+],
+"tags": [
+"댐·저수지",
+"도메인 LLM"
+],
+"ref": "J. Zhao et al., “Accelerating Serverless LLM Inference with Material- graphics-cards/50-series/rtx-5090/. ization (Medusa),” SoCC, 2025. doi: 10.1145/3669940.3707285. [58] NVIDIA, “NVIDIA A100 Tensor Core GPU Architecture: Un[31] E. Erdil, “Inference Economics of Language Models,” arXiv.org, 2025. precedented Acceleration at Every Scale,” NVIDIA White Paper, [Online]. Available: https://arxiv.org/abs/2506.04645. [Accessed: Aug. 2020. [Online]. Available: https://images.nvidia.com/aem-dam/en-zz/ 28, 2025]. Solutions/data-center/nvidia-ampere-architecture-whitepaper.pdf."
+},
+{
+"by": [
+46
+],
+"tags": [
+"도메인 LLM",
+"지식그래프"
+],
+"ref": "J. Zhou, T. Lu, S. Mishra, S. Brahma, S. Basu, Y. Luan, D. Zhou, L. Hou, Instruction- [40] Y. Ding, F. Zhu, H. Li, A.K. Parlikad, M. Xie, A failure knowledge graph learning following evaluation for large language models, (2023). https://doi.org/ framework for offshore wind turbines with incomplete knowledge, Renew. Sustain. 10.48550/arXiv.2311.07911. Energy Rev. 215 (2025) 115561, https://doi.org/10.1016/j.rser.2025.115561."
+},
+{
+"by": [
+46
+],
+"tags": [
+"도메인 LLM",
+"지식그래프"
+],
+"ref": "J. Zhou, Z. Ma, Named entity recognition for construction documents based on data with aggregates: Comparing NoSQL, RDF and relational data stores, Int. J. Inf. fine-tuning of large language models with low-quality datasets, Autom. Constr. 174 Manag. 54 (2020) 102089, https://doi.org/10.1016/j.ijinfomgt.2020.102089. (2025) 106151, https://doi.org/10.1016/j.autcon.2025.106151. [59] Y. Ma, S. Zheng, Z. Yang, P. Zheng, J. Leng, J. Hong, Aircraft assembly process"
+},
+{
+"by": [
+20
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "J.-J. Zhu, J. Jiang, M. Yang, Z.J. Ren, ChatGPT and environmental research, llm-as-a-judge with mt-bench and chatbot arena, Adv. Neural Inf. Process. Environ. Sci. Technol. 57 (2023) 17667. Syst. 36 (2023) 46595–46623."
+},
+{
+"by": [
+20
+],
+"tags": [
+"RAG·QA"
+],
+"ref": "J.-J. Zhu, M. Yang, J. Jiang, Y. Bai, D. Chen, Z.J. Ren, Enabling GPTs for expert- [44] C.-Y. Lin, Rouge: a package for automatic evaluation of summaries, Text level environmental engineering question answering, Environ. Sci. Technol. Summ. Branches Out (2004) 74–81. Lett. (2024), https://doi.org/10.1021/acs.estlett.4c00665. [45] L. Zheng, W.-L. Chiang, Y. Sheng, S. Zhuang, Z. Wu, Y. Zhuang, et al., Judging"
+},
+{
+"by": [
+39
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "J.-Y. Yao, K.-P. Ning, Z.-H. Liu, M.-N. Ning, and L. Yuan, “Llm lies: Hallucinations are not bugs, but features as adversarial examples,” arXiv preprint arXiv:2310.01469, 2023."
+},
+{
+"by": [
+41
+],
+"tags": [
+"지식그래프"
+],
+"ref": "JIANG P, XIAO C, JIANG M, et al. Reasoning-enhanced healthcare predictions with knowledge graph community retrieval[C]// Proceedings of the International Conference on Learning Representations (ICLR 2025). Singapore: ICLR, 2025."
+},
+{
+"by": [
+21
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Jason Wei, Maarten Bosma, Vincent Y. Zhao, Kelvin Guu, Adams Wei Yu, Brian Lester, Nan Du, Andrew M. Dai, and Quoc V. Le. 2022a. Finetuned Language Models are Zero-Shot Learners. In The Tenth International Conference on Learning Representations, ICLR 2022, Virtual Event, April 25-29, 2022. OpenReview.net."
+},
+{
+"by": [
+21
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Jason Wei, Yi Tay, Rishi Bommasani, Colin Raffel, Barret Zoph, Sebastian Borgeaud, Dani Yogatama, Maarten Bosma, Denny Zhou, Donald Metzler, et al. 2022b. Emergent abilities of large language models. ArXiv preprint, abs/2206.07682."
+},
+{
+"by": [
+26
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "Jeroen C, Pettersen J, Hyysalo K (2024) Enhancing hydropower management through artificial intelligence: Insights from norway’s experience. International Journal of Artificial Intelligence 11(1):1–11"
+},
+{
+"by": [
+45
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Jhong YD, Chen CS, Jhong BC, Tsai CH, Yang SY. Optimization of LSTM parameters for flash flood forecasting using genetic algorithm. Water Resour Manage. 2024:1–24."
+},
+{
+"by": [
+45
+],
+"tags": [
+"지식그래프"
+],
+"ref": "Ji S, Pan S, Cambria E, Marttinen P, Yu PS. A Survey on Knowledge Graphs: Representation, Acquisition, and Applications. IEEE Trans Neural Netw Learn Syst. 2022;33(2):494–514. https://doi. org/10.1109/TNNLS.2021.3070843 PMID: 33900922."
+},
+{
+"by": [
+44
+],
+"tags": [
+"댐·저수지",
+"홍수·수자원"
+],
+"ref": "Jia, D.; Zhang, T.; Wu, L.; Su, X.; Bai, T.; Huang, Q. Multi-objective cooperative optimization of reservoir scheduling and water resources allocation for inter-basin water transfer project based on multi-stage coupling model. J. Hydrol. 2024, 630, 130673. [CrossRef]"
+},
+{
+"by": [
+50
+],
+"tags": [
+"지식그래프"
+],
+"ref": "Jiang S, Yang J, Xie J, Xu X, Dou Y, Jing L. Product innovation design approach driven by implicit relationship completion via patent knowledge graph. Advanced Engineering Informatics. 2024;61:102530. https://doi.org/10.1016/j.aei.2024.102530"
+},
+{
+"by": [
+13
+],
+"tags": [
+"지식그래프"
+],
+"ref": "Jiang Y. Research on Chinese entity relation extraction based on rule matching and neural network learning. Hefei University of Technology. 2019."
+},
+{
+"by": [
+15
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Joana Riberiro De Faria 외, “Automatic information extraction from Employment Tribunal judgements using Large Language Models”, SSRN, 2024."
+},
+{
+"by": [
+25
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Junyu Luo, Weizhi Zhang, Ye Yuan, et al. Large language model agent: A survey on methodology, applications and challenges. arXiv preprint arXiv:2503.21460, 2025."
+},
+{
+"by": [
+47
+],
+"tags": [
+"온톨로지"
+],
+"ref": "K. Farghaly, R.K. Soman, W. Collinge, M.H. Mosleh, P. Manu, C.M. Cheung, at, http://www.fb10.uni-bremen.de/anglistik/langpro/kpml/um89/UM89-penm Construction safety ontology development and alignment with industry foundation an.pdf. accessed September 11, 2022. classes (IFC), J. Informat. Technol. Construct. 27 (2022) 94–108, https://doi.org/ [37] M.F. López, A. Gómez-Pérez, J.P. Sierra, A.P. Sierra, Building a chemical ontology 10.36680/j.itcon.2022.005. using methontology and the ontology design environment, IEEE Intell. Syst."
+},
+{
+"by": [
+51
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "K. Team et al., “Kimi K2: Open Agentic Intelligence,” arXiv.org, 2025. Evaluation of Large Language Models for Code,” arXiv, 2024. [Online]. [Online]. Available: https://arxiv.org/abs/2507.20534. [Accessed: Aug. Available: https://arxiv.org/abs/2403.07974. 08, 2025]."
+},
+{
+"by": [
+41
+],
+"tags": [
+"지식그래프"
+],
+"ref": "KERRE D, LAURENT A, MAUSSANG K, et al. Semantic enrichment of the quantum cascade laser properties in text: A knowledge graph generation approach[C]//Proceedings of the 1st Workshop on Quantum Knowledge Graphs (QKG 2025). Aachen: CEUR-WS, 2025: 56–67. (CEUR Workshop Proceedings, vol. 4020)."
+},
+{
+"by": [
+17
+],
+"tags": [
+"도메인 LLM",
+"홍수·수자원"
+],
+"ref": "Kadiyala, L.A.; Mermer, O.; Samuel, D.J.; Zhang, Y.; Wang, M.; Liu, Y.; He, J.; Yang, X.; Zhao, H.; Kumar, A. The Implementation of Multimodal Large Language Models for Hydrological Applications: A Comparative Study of GPT-4 Vision, Gemini, LLaVa, and Multimodal-GPT. Hydrology 2024, 11, 148. [CrossRef]"
+},
+{
+"by": [
+36
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Karanjit, R.; Samadi, V.; Hughes, A.; Murray-Tuite, P.; Stephens, K. Converging human intelligence with AI systems to advance flood evacuation decision making. Nat. Hazards Earth Syst. Sci. Discuss. 2024, in review."
+},
+{
+"by": [
+36
+],
+"tags": [
+"온톨로지",
+"홍수·수자원"
+],
+"ref": "Khantong, S.; Sharif, M.N.A.; Mahmood, A.K. An ontology for sharing and managing information in disaster response: An illustrative case study of flood evacuation. Int. Rev. Appl. Sci. Eng. 2020, 11, 22–33. [CrossRef]"
+},
+{
+"by": [
+8
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Knoben, W.J.M.; Freer, J.E.; Woods, R.A. Technical note: Inherent benchmark or not? Comparing Nash–Sutcliffe and Kling–Gupta efficiency scores. Hydrol. Earth Syst. Sci. 2019, 23, 4323–4331. [CrossRef]"
+},
+{
+"by": [
+13
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Kojima T, Gu S, Reid M, Matsuo Y, Iwasawa Y. Large language models are zero-shot reasoners. Advances in Neural Information Processing Systems. 2022;35:22199–213."
+},
+{
+"by": [
+36
+],
+"tags": [
+"도메인 LLM",
+"온톨로지",
+"지식그래프"
+],
+"ref": "Kommineni, V.K.; König-Ries, B.; Samuel, S. From human experts to machines: An LLM-supported approach to ontology and knowledge graph construction. arXiv 2024, arXiv:2403.08345."
+},
+{
+"by": [
+31
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Krütli, D. and Hanne, T., 2025, Augmenting LLMs to construction processes, Energy and Buildings, Vol. securely retrieve information for construction and 255: 115880. facility management, Information, Vol. 16, No. 2: 76. 20. Sui, Y., et al., 2024, Table meets LLM: Can large"
+},
+{
+"by": [
+8
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Kuhaneswaran, B.; Sorwar, G.; Alaei, A.R.; Tong, F. Evolution of data-driven flood forecasting: Trends, technologies, and gaps—A systematic mapping study. Water 2025, 17, 2281. [CrossRef]"
+},
+{
+"by": [
+8
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Kundzewicz, K.; Seneviratne, S.; Handmer, J.; Peduzzi, P.; Mechler, R.; Bouwer, L.M.; Arnell, N.; Muir-Wood, R.; Brakenridge, G.R.; Kron, W.; et al. Flood risk and climate change—Global and regional perspectives. Hydrol. Sci. J. 2014, 59, 1–28. [CrossRef]"
+},
+{
+"by": [
+36
+],
+"tags": [
+"온톨로지",
+"홍수·수자원"
+],
+"ref": "Kurte, K.R.; Durbha, S.S. Spatio-Temporal Ontology for Change Analysis of Flood Affected Areas Using Remote Sensing Images. In Proceedings of the 10th International Conference on Formal Ontology in Information Systems (FOIS 2016), Annecy, France, 6–10 July 2016; Paper ONTO-COMP-D2."
+},
+{
+"by": [
+46
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "L. Huang, W. Yu, W. Ma, W. Zhong, Z. Feng, H. Wang, Q. Chen, W. Peng, X. Feng, [57] E.J. Hu, Y. Shen, P. Wallis, Z. Allen-Zhu, Y. Li, S. Wang, L. Wang, W. Chen, LoRA: B. Qin, T. Liu, A survey on hallucination in large language models: Principles, Low-rank adaptation of large language models, (2021). https://doi.org/10.48550/ taxonomy, challenges, and open questions, ACM Trans. Inf. Syst. 43 (2025) 1–55, arXiv.2106.09685. https://doi.org/10.1145/3703155. [58] F. Ravat, J. Song, O. Teste, C. Trojahn, Efficient querying of multidimensional RDF"
+},
+{
+"by": [
+47
+],
+"tags": [
+"온톨로지"
+],
+"ref": "L. Jiang, J. Shi, C. Wang, Multi-ontology fusion and rule development to facilitate autcon.2016.05.003. automated code compliance checking using BIM and rule-based reasoning, Adv. [47] C. Bizer, A. Seaborne, D2RQ-treating non-RDF databases as virtual RDF graphs, in: Eng. Inform. 51 (2022), 101449, https://doi.org/10.1016/j.aei.2021.101449. Proceedings of the 3rd International Semantic Web Conference (ISWC2004),"
+},
+{
+"by": [
+46
+],
+"tags": [
+"댐·저수지",
+"도메인 LLM",
+"온톨로지",
+"지식그래프"
+],
+"ref": "L. Pei, Y. Li, X. Lu, J. Zhou, Y. Li, Ontology - and data-driven defect diagnosis with 104042, https://doi.org/10.1016/j.ipm.2024.104042. knowledge graphs and causal reasoning: Application to the risk management of [51] G. Ciatto, A. Agiollo, M. Magnini, A. Omicini, Large language models as oracles for gravity dams, Reliab. Eng. Syst. Saf. 270 (2026) 112224, https://doi.org/10.1016/ instantiating ontologies with domain-specific knowledge, Knowl.-Based Syst. 310 j.ress.2026.112224. (2025) 112940, https://doi.org/10.1016/j.knosys.2024.112940."
+},
+{
+"by": [
+20
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "L. Wang, Y. Mao, L. Wang, Y. Sun, J. Song, Y. Zhang, Suitability of GPT-4o as an adaptation of large language models, ArXiv Prepr ArXiv210609685 (2021). evaluator of cardiopulmonary resuscitation skills examinations, Resuscita­ [56] Y. Zheng, R. Zhang, J. Zhang, Y. Ye, Z. Luo, Z. Feng, et al., LlamaFactory: uniﬁed tion (2024) 110404. efﬁcient ﬁne-tuning of 100+ language models, in: Proc. 62nd Annu. Meet."
+},
+{
+"by": [
+41
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "LIU H, YIN H, LUO Z, et al. Integrating chemistry knowledge in large language models via prompt engineering[J]. Synth. Syst. Biotechnol., 2025, 10(1). DOI: 10.1016/j. synbio.2024.07.004."
+},
+{
+"by": [
+46
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "LLM-based framework for bearing fault diagnosis, Mech. Syst. Signal Process. 224 eswa.2025.127429. (2025) 112127, https://doi.org/10.1016/j.ymssp.2024.112127. [42] Y. Hu, H. Wang, J. Chen, C. Zhang, M. Ren, M. Dong, H. Zhang, Z. Hu, X. Dong,"
+},
+{
+"by": [
+17
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Le, X.H.; Ho, H.V.; Lee, G.; Wang, S.; Li, J.; Chen, Y. Application of Long Short-Term Memory (LSTM) Neural Network for Flood Forecasting. Water 2019, 11, 1387. [CrossRef]"
+},
+{
+"by": [
+13
+],
+"tags": [
+"RAG·QA"
+],
+"ref": "Lee M, Zhu Q, Mavromatis C, Han Z, Adeshina S, Ioannidis V. Agent-G: An Agentic Framework for Graph Retrieval Augmented Generation. 2024. https://openreview.net/forum?id=g2C947jjjQ"
+},
+{
+"by": [
+31
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Lee, E., 2024, Structural prior incorporated table language models understand structured table data? structure recognition and understanding, Ph. D. A benchmark and empirical study, Proc. of the 17th Dissertation, Seoul National University, Republic of ACM International Conference on Web Search and Korea. Data Mining, ACM, Mérida, Mexico, pp. 645-654."
+},
+{
+"by": [
+26
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Li H, Chen J, Yang J, et al (2025) Legalagentbench: Evaluating llm agents in legal domain. In: Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), pp 2322–2344"
+},
+{
+"by": [
+26
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Li J, Deng Y, Sun Q, et al (2024) Benchmarking large language models in evidence-based medicine. IEEE Journal of Biomedical and Health Informatics"
+},
+{
+"by": [
+43
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "Li X, Li Y, Lu X, Wang Y, Zhang H, Zhang P. An online anomaly recognition and concrete dams via improved YOLOv5 and knowledge distillation. J Civ Struct early warning model for dam safety monitoring data. Struct Health Monit 2020;19 Health Monit 2023;13:1333–49. (3):796–809."
+},
+{
+"by": [
+43
+],
+"tags": [
+"댐·저수지",
+"지식그래프"
+],
+"ref": "Li X, Li Y, Lu X, Wang Y, Zhang H, Zhang P. An online anomaly recognition and knowledge graph construction method enhanced by the fault log corpus analysis early warning model for dam safety monitoring data. Struct Health Monit 2020;19 and semi-supervised learning. Reliab Eng Syst Saf 2025;260:111021. (3):796–809."
+},
+{
+"by": [
+43
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "Li Y, Shen D, Pei L, Lu X, Li Y, Huang H. Online intelligent perception, detection, generation of emergency plans for water conservancy projects. IEEE Access 2023; and application of safety monitoring data: taking the right bank slope of PB Dam as 11:84414–29. an example. Structural Health Monitoring. OnlineFirst 2024. https://doi.org/"
+},
+{
+"by": [
+26
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Li Y, Wang S, Ding H, et al (2023) Large language models in finance: A survey. In: Proceedings of the fourth ACM international conference on AI in finance, pp 374–382"
+},
+{
+"by": [
+33
+],
+"tags": [
+"지식그래프"
+],
+"ref": "Li, C. Y., Liang, X., Hu, Z., & Xing, E. P. (2019). COVID-19 literature of modelling study. Journal of Safety Knowledge-driven encode, retrieve, paraphrase for Science and Resilience, 2(3), 146-156. medical image report generation. In Proceedings of the AAAI Conference on Artificial Intelligence, 33(1), 18. Yao, L., Mao, C., & Luo, Y. (2019). KG-BERT: BERT 6666-6673. for knowledge graph completion. arXiv preprint"
+},
+{
+"by": [
+17
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Li, G.; Hammoud, H.; Itani, H.; Zhang, Y.; Wu, S.; Chen, H.; Liu, Y.; Yang, J.; Huang, X.; Li, Y. CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society. arXiv 2023. [CrossRef]"
+},
+{
+"by": [
+36
+],
+"tags": [
+"도메인 LLM",
+"온톨로지"
+],
+"ref": "Li, J.; Garijo, D.; Poveda-Villalón, M. Large Language Models for Ontology Engineering: A Systematic Literature Review. Semant. Web J. 2025, submitted."
+},
+{
+"by": [
+44
+],
+"tags": [
+"댐·저수지",
+"홍수·수자원"
+],
+"ref": "Li, J.; Zhong, P.-A.; Wang, Y.; Liu, Y.; Zheng, J.; Yang, M.; Liu, W. Dynamic Self-Adaptive Modeling for Real-Time Flood Control Operation of Multi-Reservoir Systems. Water 2022, 14, 3740. [CrossRef]"
+},
+{
+"by": [
+36
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Li, N.; Bailleux, T.; Bouraoui, Z.; Schockaert, S. Ontology Completion with Natural Language Inference and Concept Embeddings: An Analysis. arXiv 2024, arXiv:2403.17216. [CrossRef]"
+},
+{
+"by": [
+33
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Li, T., Sahu, A. K., Talwalkar, A., & Smith, V. (2020). arXiv:1909.03193. Federated learning: Challenges, methods, and future 19. Yao, Y., Duan, J., Xu, K., Cai, Y., Sun, Z., & Zhang, directions. IEEE Signal Processing Magazine, 37(3), 50-60. Y. (2024), A survey on large language model (LLM) security and privacy: The good, the bad, and the ugly."
+},
+{
+"by": [
+8
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Li, W.; Liu, C.; Xu, Y.; Niu, C.; Li, R.; Li, M.; Hu, C.; Tian, L. An interpretable hybrid deep learning model for flood forecasting based on Transformer and LSTM. J. Hydrol. Reg. Stud. 2024, 54, 101873. [CrossRef]"
+},
+{
+"by": [
+44
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Li, X.; Cheng, G.; Lin, H.; Cai, X.; Fang, M.; Ge, Y.; Hu, X.; Chen, M.; Li, W. Watershed system model: The essentials to model complex human-nature system at the river basin scale. J. Geophys. Res. Atmos. 2018, 123, 3019–3034. [CrossRef]"
+},
+{
+"by": [
+23
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Liang, L. et al. Kag: Boosting llms in professional domains via Acknowledgements knowledge augmented generation. arXiv preprint, (2024). We thank for the support from Dr. Liang Wen. We also thank the supported"
+},
+{
+"by": [
+8
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Lin, C.A. Flood risk management via risk communication, cognitive appraisal, collective efficacy, and community action. Sustainability 2023, 15, 14191. [CrossRef]"
+},
+{
+"by": [
+11
+],
+"tags": [
+"지식그래프"
+],
+"ref": "Linguist. Vol. 1, Association for Computational Linguistics, Dublin, Ireland, 2022: framework for relational triple extraction, in: Proc. Fifteenth ACM Int. Conf. Web"
+},
+{
+"by": [
+36
+],
+"tags": [
+"도메인 LLM",
+"온톨로지"
+],
+"ref": "Lippolis, A.S.; Saeedizade, M.J.; Keskisärkkä, R.; Zuppiroli, S.; Ceriani, M.; Gangemi, A.; Blomqvist, E.; Nuzzolese, A.G. Ontology Generation Using Large Language Models. arXiv 2025, arXiv:2503.05388. [CrossRef]"
+},
+{
+"by": [
+13
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "Liu X, Lu H, Li H, Huai X, Chen X. A knowledge-driven approach for intelligent generation of hydraulic engineering contingency plans: A case study of the Middle Route of South-to-North Water Diversion Project. J Hydraulic Eng. 2023;54(06):666–76. https://doi.org/10.13243/j.cnki.slxb.20220994"
+},
+{
+"by": [
+50
+],
+"tags": [
+"댐·저수지",
+"지식그래프"
+],
+"ref": "Liu X, Lu H, Li H. Intelligent generation method of emergency plan for hydraulic engineering based on knowledge graph – take the South-to-North Water Diversion Project as an example. LHB. 2022;108(1). https://doi.org/10.1080/27678490.2022.2153629"
+},
+{
+"by": [
+13
+],
+"tags": [
+"RAG·QA",
+"도메인 LLM"
+],
+"ref": "Liu X, Yun J, Li B, Shi X, Zhang Y. A Survey of Retrieval-Augmented Generation based Large Language Model. Computer Engineering and Applications. 2025;:1–31."
+},
+{
+"by": [
+50
+],
+"tags": [
+"댐·저수지",
+"지식그래프"
+],
+"ref": "Liu Y, Tian J, Liu X, Tao T, Ren Z, Wang X, et al. Research on a knowledge graph embedding method based on improved convolutional neural networks for hydraulic engineering. Electronics. 2023;12(14):3099. https://doi.org/10.3390/electronics12143099"
+},
+{
+"by": [
+23
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Liu, W. et al. DrBioRight 2.0: An LLM-powered bioinformatics chatbot use is not permitted by statutory regulation or exceeds the permitted use, for large-scale cancer functional proteomics analysis. Nat. Commun. you will need to obtain permission directly from the copyright holder. To 16, 2256 (2025). view a copy of this licence, visit http://creativecommons.org/licenses/by42. Hu, M. et al. Evaluation of large language models for discovery of gene nc-nd/4.0/. set function. Nat. Methods 22, 82–91 (2025)."
+},
+{
+"by": [
+17
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Liu, X.; Ji, K.; Fu, Y.; Zhang, H.; Liu, Y.; Liu, Z.; Zhang, Y.; Zhao, W.; Yang, Y.; Wang, L. P-Tuning v2: Prompt Tuning Can Be Comparable to Fine-Tuning Universally Across Scales and Tasks. arXiv 2021. [CrossRef]"
+},
+{
+"by": [
+36
+],
+"tags": [
+"도메인 LLM",
+"온톨로지"
+],
+"ref": "Lo, A.; Jiang, A.Q.; Li, W.; Jamnik, M. End-to-End Ontology Learning with Large Language Models. In Proceedings of the 38th Conference on Neural Information Processing Systems (NeurIPS 2024), Vancouver, BC, Canada, 10–15 December 2024; NeurIPS Foundation: Vancouver, BC, Canada, 2024."
+},
+{
+"by": [
+36
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Lokala, U.; Lamy, F.; Daniulaityte, R.; Gaur, M.; Gyrard, A.; Thirunarayan, K.; Kursuncu, U.; Sheth, A. Drug Abuse Ontology to Harness Web-Based Data for Substance Use Epidemiology Research: Ontology Development Study. JMIR Public Health Surveill. 2022, 8, e24938. [CrossRef]"
+},
+{
+"by": [
+40
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Louadah, H.; Papadakis, E.; McCluskey, L.; Tucker, G.; Hughes, P.; Bevan, A. Translating ontological knowledge to PDDL to do Planning in Train Depot Management Operations. In Proceedings of the 36th Workshop of the UK Planning and Scheduling Special Interest Group, Online, 20 December 2021."
+},
+{
+"by": [
+23
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Lu, W., Luu, R. K. & Buehler, M. J. Fine-tuning large language models for regarding the manuscript's content and structure. domain adaptation: exploration of training strategies, scaling, model merging and synergistic capabilities. npj Comput. Mater. 11, 84 (2025). Competing interests"
+},
+{
+"by": [
+45
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Lubczynski MW, Leblanc M, Batelaan O. Remote sensing and hydrogeophysics give a new impetus to integrated hydrological models: A review. J Hydrol. 2024;633:130901. https://doi.org/10.1016/j. jhydrol.2024.130901"
+},
+{
+"by": [
+39
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "M. A. K. Ayoub, Z. Su, and Q. Li, “A case study of enhancing sparse retrieval using llms,” in Companion Proceedings of the ACM on Web Conference 2024, 2024, pp. 1609–1615."
+},
+{
+"by": [
+23
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "M. Bran, A. et al. Augmenting large language models with chemistry © The Author(s) 2025 tools. Nat. Mach. Intell. 6, 525–535 (2024)."
+},
+{
+"by": [
+32
+],
+"tags": [
+"온톨로지"
+],
+"ref": "M. Chmielewski, “Ontology applications for achieving https://doi.org/10.3390/su13031583 situation awareness in military decision support [21] C. Ramonell, R. Chacón, and H. Posada, “Knowledge systems,” In Computational Collective Intelligence. graph-based data integration system for digital twins of Semantic Web, Social Networks and Multiagent built assets,” Automation in Construction, Vol. 156, Systems (ICCCI), pp. 528-539, 2009. 105109, 2023. https://doi.org/10.1007/978-3-642-04441-0_46 https://doi.org/10.1016/j.autcon.2023.105109"
+},
+{
+"by": [
+38
+],
+"tags": [
+"온톨로지"
+],
+"ref": "M. Cioffi, S. G. Thompson, Planning with the semantic web by fusing ontologies and planning domain definitions, in: Research and Development in Intelligent Systems XXIII, Proceedings of AI, Springer, 2006."
+},
+{
+"by": [
+9
+],
+"tags": [
+"도메인 LLM",
+"홍수·수자원"
+],
+"ref": "M. Du, F. He, N. Zou, D. Tao, and X. Hu, “Shortcut learning of large language models in natural language [24] A. Researcher et al., \"Improved flood management understanding,” Commun. ACM, vol. 67, no. 1, pp. 110– and risk communication through large language models,\" 120, Jan. 2024. [Online]. Res. Gate Tech. Rep., Nov. 2025. [Online]. Available: Available: https://doi.org/10.1145/3596490. [Accessed: https://www.researchgate.net/publication/397538271. Jun. 20, 2025]. [Accessed: Dec. 30, 2025]."
+},
+{
+"by": [
+42
+],
+"tags": [
+"지식그래프"
+],
+"ref": "M. Jin, Y. Zheng, Y.-F. Li, S. Chen, B. Yang, and S. Pan, “Multivariate language models perform better in knowledge graph completion,” in Proc. time series forecasting with dynamic graph neural ODEs,” IEEE Trans. 32nd ACM Int. Conf. Multimedia, 2024, pp. 233–242. Knowl. Data Eng., vol. 35, no. 9, pp. 9168–9180, Sep. 2023. [54] A. Das, W. Kong, R. Sen, and Y. Zhou, “A decoder-only foundation model"
+},
+{
+"by": [
+20
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "M. Kipp, From GPT-3.5 to GPT-4.o: a leap in AI's medical exam performance, 102480. Information 15 (2024), https://doi.org/10.3390/info15090543. [54] R. Vavekanand, K. Sam, Llama 3.1: an In-Depth Analysis of the Next[34] Z. Sun, J. Yang, N. Zhang, H. Wu, C. Li, GPT-4o is more like a real person: Generation Large Language Model, 2024. potentials in surgical oncology, Int. J. Surg. (2024) 10–1097. [55] E.J. Hu, Y. Shen, P. Wallis, Z. Allen-Zhu, Y. Li, S. Wang, et al., Lora: low-rank"
+},
+{
+"by": [
+47
+],
+"tags": [
+"온톨로지"
+],
+"ref": "M. O’Shea, J. Murphy, Design of a BIM integrated structural health monitoring (1991) 107–120, https://doi.org/10.1287/ijoc.3.2.107. system for a historic offshore lighthouse, Buildings 10 (7) (2020) 131, https://doi. [29] A. Pili, Bim process, Ontologies and interchange platform for cultural architectural org/10.3390/buildings10070131. heritage management: State of art and development perspectives, in: The"
+},
+{
+"by": [
+32
+],
+"tags": [
+"온톨로지",
+"지식그래프"
+],
+"ref": "M. Ra, D. Yoo, and S. No, “Construction and [22] R. Hu, “US Air Force Target Knowledge Graph applicability of military ontology for semantic data Construction Based on Multi-source Intelligence processing,” In Proceedings of the 3rd International Analysis,” In Data Processing Techniques and Conference on Web Intelligence, Mining and Applications for Cyber-Physical Systems (DPTA 2019), Semantics, pp. 1-7, 2013. pp. 323-333, 2020. https://doi.org/10.1145/2479787.2479791 https://doi.org/10.1007/978-981-15-1468-5_41"
+},
+{
+"by": [
+46
+],
+"tags": [
+"도메인 LLM",
+"온톨로지",
+"지식그래프"
+],
+"ref": "M. Shim, H. Choi, H. Koo, K. Um, K.-H. Lee, S. Lee, OmEGa(Ω): Ontology-based [35] T. Chen, R. Xu, Y. He, X. Wang, Improving sentiment analysis via sentence type information extraction framework for constructing task-centric knowledge graph classification using BiLSTM-CRF and CNN, Expert Syst. Appl. 72 (2017) 221–230, from manufacturing documents with large language model, Adv. Eng. Inform. 64 https://doi.org/10.1016/j.eswa.2016.10.065. (2025) 103001, https://doi.org/10.1016/j.aei.2024.103001. [36] Q. Li, L. Li, W. Wang, Q. Li, J. Zhong, A comprehensive exploration of semantic"
+},
+{
+"by": [
+47
+],
+"tags": [
+"온톨로지"
+],
+"ref": "M. Sir, Z. Bradac, P. Fiedler, Ontology versus database, IFAC-PapersOnLine 48 (4) September 11, 2022. (2015) 220–225, https://doi.org/10.1016/j.ifacol.2015.07.036. [50] SPARQL 1.1 overview, W3C Rcommendation, W3C, Available at, http://www.w3. org/TR/2013/REC-sparql11-overview-20130321/, 2013. accessed September 11, 2022."
+},
+{
+"by": [
+39
+],
+"tags": [
+"도메인 LLM",
+"지식그래프"
+],
+"ref": "M. Trajanoska, R. Stojanov, and D. Trajanov, “Enhancing knowledge graph construction using large language models,” arXiv preprint arXiv:2305.04676, 2023."
+},
+{
+"by": [
+47
+],
+"tags": [
+"온톨로지"
+],
+"ref": "M. Valinejadshoubi, A. Bagchi, O. Moselhi, Development of a BIM-based data International Archives of the Photogrammetry, Remote Sensing and Spatial management system for structural health monitoring with application to modular Information Sciences XLII-2/W11, 2019, pp. 969–973, https://doi.org/10.5194/ buildings: case study, J. Comput. Civ. Eng. 33 (3) (2019) 05019003, https://doi. isprs-archives-XLII-2-W11-969-2019. org/10.1061/(ASCE)CP.1943-5487.0000826. [30] M. Horridge, S. Bechhofer, The owl api: a java api for owl ontologies, Semantic"
+},
+{
+"by": [
+41
+],
+"tags": [
+"지식그래프"
+],
+"ref": "MAHALINGAM A, GANDE V K, CHADHA A, et al. SKETCH: Structured knowledge enhanced text comprehension for holistic retrieval[C]//Proceedings of the 1st Workshop on Generative AI for Knowledge Graphs (GenAI-K 2025). Bangkok: ACL, 2025: 10–22."
+},
+{
+"by": [
+36
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "MacKinnon, J.; Heldsinger, N.; Peddle, S. A Community Guide to Effective Flood Risk Communication; Partners for Action: Waterloo, ON, Canada, 2018. Water 2025, 17, 2801 30 of 31"
+},
+{
+"by": [
+49
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "Management in Australia, IEEE Access 12 (2024) 41829–41851, https://doi.org/ approach for collision warning systems in concrete dam construction, Saf. Sci. 51"
+},
+{
+"by": [
+44
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "Marcelino, C.; Leite, G.; Delgado, C.; de Oliveira, L.; Wanner, E.; Jiménez-Fernández, S.; Salcedo-Sanz, S. An efficient multiobjective evolutionary approach for solving the operation of multi-reservoir system scheduling in hydro-power plants. Expert Syst. Appl. 2021, 185, 115638. [CrossRef] Electronics 2024, 13, 2283 24 of 24"
+},
+{
+"by": [
+40
+],
+"tags": [
+"온톨로지"
+],
+"ref": "McCluskey, L.; Louadah, H.; Papadakis, E.; Tucker, G.; Hughes, P.; Bevan, A. Knowledge Engineering for Planning and Scheduling in the Context of Ontological Engineering: An Application in Railway Rolling Stock Maintenance. In Proceedings of the ICAPS, Guangzhou, China, 2–13 August 2021."
+},
+{
+"by": [
+40
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Medina-Oliva, G.; Voisin, A.; Monnin, M.; Leger, J.B. Predictive diagnosis based on a fleet-wide ontology approach. Knowl.-Based Syst. 2014, 68, 40–57. [CrossRef]"
+},
+{
+"by": [
+36
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Merz, B.; Vorogushyn, S.; Uhlemann, S.; Viglione, A.; Blöschl, G. Understanding Heavy Tails of Flood Peak Distributions. Water Resour. Res. 2022, 58, e2021WR030506. [CrossRef]"
+},
+{
+"by": [
+20
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Meta, Llama 3.1: A Multilingual Large Language Model Pretrained and Fine- 1.5 Flash, 2024. Tuned with Instructions, 2024. [59] N. Ding, Y. Qin, G. Yang, F. Wei, Z. Yang, Y. Su, et al., Parameter-efﬁcient ﬁne-"
+},
+{
+"by": [
+17
+],
+"tags": [
+"도메인 LLM",
+"홍수·수자원"
+],
+"ref": "Miao, C.; Hu, J.; Moradkhani, H.; Li, J.; Zhang, R.; Zhao, L.; Wang, Y.; Chen, Y.; Liu, X.; Zhou, Y. Hydrological Research Evolution: A Large Language Model-Based Analysis of 310,000 Studies Published Globally Between 1980 and 2023. Water Resour. Res. 2024, 60, e2024WR038077. [CrossRef]"
+},
+{
+"by": [
+37
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Microsoft (2023). The impact of large language models on scientific discovery: a preliminary study using gpt-4."
+},
+{
+"by": [
+51
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Microsoft, “Provisioned Throughput Units — Azure OpenAI,” 2025. [55] Google, “Gemini Developer API Pricing,” Google AI for Developers, Available: https://learn.microsoft.com/azure/ai-foundry/openai/how-to/ 2025. [Online]. Available: https://ai.google.dev/gemini-api/docs/pricing provisioned-throughput-onboarding. [56] J. Kim et al., “An Inquiry into Datacenter TCO for LLM Inference"
+},
+{
+"by": [
+8
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Ming, X.; Liang, Q.; Xia, X.; Li, D.; Fowler, H.J. Real-time flood forecasting based on a high-performance 2-D hydrodynamic model and numerical weather predictions. Water Resour. Res. 2020, 56, e2019WR025583. [CrossRef]"
+},
+{
+"by": [
+26
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Mirza A, Alampara N, Kunchapu S, et al (2025) A framework for evaluating the chemical knowledge and reasoning abilities of large language models against the expertise of chemists. Nature Chemistry 17(7):1027–1034"
+},
+{
+"by": [
+44
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "Moeini, R.; Soghrati, F. Optimum outflow determination of the multi-reservoir system using constrained improved artificial bee colony algorithm. Soft Comput. 2020, 24, 10739–10754. [CrossRef]"
+},
+{
+"by": [
+8
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Moishin, M.; Deo, R.C.; Prasad, R.; Raj, N.; Abdulla, S. Designing deep-based learning flood forecast model with ConvLSTM hybrid algorithm. IEEE Access 2021, 9, 50982–50993. [CrossRef]"
+},
+{
+"by": [
+40
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Montero Jiménez, J.J.; Vingerhoeds, R.; Grabot, B.; Schwartz, S. An ontology model for maintenance strategy selection and assessment. J. Intell. Manuf. 2023, 34, 1369–1387. [CrossRef]"
+},
+{
+"by": [
+17
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Mosavi, A.; Ozturk, P.; Chau, K. Flood Prediction Using Machine Learning Models: Literature Review. Water 2018, 10, 1536. [CrossRef]"
+},
+{
+"by": [
+33
+],
+"tags": [
+"도메인 LLM",
+"지식그래프"
+],
+"ref": "Mothersbaugh, D. L., Foxx, W. K., Beatty, S. E., & Wang, ai: A comprehensive review and solution architecture S. (2012). Disclosure Antecedents in an Online Service for explainable, privacy-aware systems using llms and Context: The Role of Sensitivity of Information. Journal knowledge graph. arXiv preprint arXiv:2308.13534. of Service Research, 15(1), 76-98."
+},
+{
+"by": [
+45
+],
+"tags": [
+"온톨로지",
+"홍수·수자원"
+],
+"ref": "Mughal MH, Shaikh ZA, Khand ZH, Rajput A, Akhtar F. A Systematic Review of Ontology-Based River Streamflow and Flood Data Management Challenges. QUEST Res J. 2021;19(1):40–50. https://doi. org/10.52584/qrj.1901.06"
+},
+{
+"by": [
+36
+],
+"tags": [
+"온톨로지",
+"홍수·수자원"
+],
+"ref": "Mughal, M.H.; Shaikh, Z.A.; Wagan, A.I.; Khand, Z.H.; Hassan, S. ORFFM: An Ontology-Based Semantic Model of River Flow and Flood Mitigation. IEEE Access 2021, 9, 44003–44029. [CrossRef]"
+},
+{
+"by": [
+39
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "N. McKenna, T. Li, L. Cheng, M. J. Hosseini, M. Johnson, and M. Steedman, “Sources of hallucination by large language models on inference tasks,” arXiv preprint arXiv:2305.14552, 2023."
+},
+{
+"by": [
+43
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "Nahar T, Rahman M, Kim D. Drift damage limit estimation based on cracks of Int Water Power Dam Constr 1989;41(4):30–4. concrete gravity dam considering dam-foundation interaction. J Struct Integr"
+},
+{
+"by": [
+11
+],
+"tags": [
+"온톨로지",
+"지식그래프"
+],
+"ref": "Named entity recognition for extracting concept in ontology building on Indonesian language using end-to-end bidirectional long short term memory, Expert Syst. Appl. 176 (2021) 114856, https://doi.org/10.1016/j. eswa.2021.114856. \\[27\\] Y. An, X. Xia, X. Chen, F. Wu, J. Wang, Chinese clinical named entity recognition"
+},
+{
+"by": [
+31
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Narayanan, P. P. and Iyer, A. P. N., 2024, HySem: language models, Developments in the Built EnvironA context length optimized LLM pipeline for unstruc- ment, Vol. 20: 100549. tured tabular extraction, arXiv preprint, arXiv:2408. 09434."
+},
+{
+"by": [
+36
+],
+"tags": [
+"RAG·QA",
+"온톨로지"
+],
+"ref": "Nayyeri, M.; Yogi, A.A.; Fathallah, N.; Thapa, R.B.; Tautenhahn, H.-M.; Schnurpel, A.; Staab, S. Retrieval-Augmented Generation of Ontologies from Relational Databases. arXiv 2025, arXiv:2506.01232. [CrossRef]"
+},
+{
+"by": [
+37
+],
+"tags": [
+"RAG·QA",
+"도메인 LLM",
+"지식그래프"
+],
+"ref": "NebulaGraph (2024). Nebulagraph launches industry-first graph rag: Retrieval-augmented generation with llm based on knowledge graphs. https://www.nebula-graph.io/posts/graph-RAG."
+},
+{
+"by": [
+37
+],
+"tags": [
+"지식그래프"
+],
+"ref": "Neo4J (2024). Get started with graphrag: Neo4j’s ecosystem tools. https://neo4j.com/developerblog/graphrag-ecosystem-tools/."
+},
+{
+"by": [
+37
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Ni, J., Shi, M., Stammbach, D., Sachan, M., Ash, E., and Leippold, M. (2024). AFaCTA: Assisting the annotation of factual claim detection with reliable LLM annotators. In Ku, L.-W., Martins, A., and Srikumar, V., editors, Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), pages 1890–1912, Bangkok, Thailand. Association for Computational Linguistics."
+},
+{
+"by": [
+36
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Noy, N.F.; McGuinness, D.L. Ontology Development 101: A Guide to Creating Your First Ontology; Technical Report KSL-01-05; Stanford Knowledge Systems Laboratory: Stanford, CA, USA, 2001."
+},
+{
+"by": [
+41
+],
+"tags": [
+"도메인 LLM",
+"지식그래프"
+],
+"ref": "OTAL H T, FARAONE S V, CANBAZ M A. A new perspective on ADHD research: Knowledge graph construction with LLMs and network based insights[C]//COMPLEX NETWORKS 2024: The 13th International Conference on Complex Networks and Their Applications. Cham: Springer, 2024: 337–349. (Lecture Notes in Computer Science, vol. 14695). DOI: 10.1007/978-3-031-824272_28."
+},
+{
+"by": [
+40
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Ontology Smart-Rail. Available online: https://ontology.tno.nl/smart-rail/ (accessed on 12 December 2023)."
+},
+{
+"by": [
+20
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "OpenAI, GPT-4o, OpenAI's New Flagship Model that Can Reason across Audio, [53] H. Huang, B. Xu, X. Liang, K. Chen, M. Yang, T. Zhao, et al., Multi-view fusion Vision, and Text in Real Time, 2024. for instruction mining of large language model, Inf. Fusion 110 (2024)"
+},
+{
+"by": [
+21
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Overview ClimateGPT was continuously pre-trained on a dataset of 4.2B climate-specific tokens. The fromscratch models were trained on 300B tokens. All models were instruction fine-tuned on a dataset consisting of public IFT data as well as IFT data collected in cooperation with climate experts during the project. Data Freshness The pretraining data contains documents up to October 2023."
+},
+{
+"by": [
+38
+],
+"tags": [
+"온톨로지"
+],
+"ref": "P. Bonasso, M. Boddy, D. Kortenkamp, S. Bell, Ontological models to support planning operations, in: Proceedings of 8 th International Workshop on Planning and Scheduling for Space, 2013."
+},
+{
+"by": [
+46
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "P. Bu, Y. Li, W. Tang, X. Chen, B. Li, Semi-quantitative risk analysis of high application, npj Comput. Mater. 11 (2025) 51, https://doi.org/10.1038/s41524concrete face rockfill dams under seismic action, Structures 45 (2022) 685–694, 025-01540-6. https://doi.org/10.1016/j.istruc.2022.09.013. [28] Y. Huang, Z. Zhang, H. Hu, Risk propagation mechanisms in railway systems under"
+},
+{
+"by": [
+47
+],
+"tags": [
+"온톨로지"
+],
+"ref": "P. Hitzler, M. Krötzsch, B. Parsia, P.F. Patel-Schneider, S. Rudolph, OWL 2 Web Collaborative Enterprises (WET ICE’95), IEEE, West Virginia, USA, 1995, Ontology Language Primer (Second Edition), W3C Recommendation, Available at, pp. 105–116, https://doi.org/10.1109/ENABL.1995.484554. https://www.w3.org/TR/owl2-primer, 2012. [33] L. Li, P. Gu, W. Wang, Ontology modeling of army equipment maintenance support"
+},
+{
+"by": [
+47
+],
+"tags": [
+"온톨로지"
+],
+"ref": "P. Pauwels, T. Krijnen, W. Terkaj, J. Beetz, Enhancing the ifcOWL ontology with an https://doi.org/10.1016/j.rcim.2020.101956. alternative representation for geometric data, Autom. Constr. 80 (2017) 77–94, [32] H.M. Kim, M.S. Fox, M. Gruninger, An ontology of quality for enterprise modelling, https://doi.org/10.1016/j.autcon.2017.03.001. in: Proceedings 4th IEEE Workshop on Enabling Technologies: Infrastructure for"
+},
+{
+"by": [
+47
+],
+"tags": [
+"온톨로지"
+],
+"ref": "P. Pauwels, W. Terkaj, EXPRESS to OWL for construction industry: towards a [36] J.A. Bateman, R.T. Kasper, J.D. Moore, R.A. Whitney, A general organization of recommendable and usable ifcOWL ontology, Autom. Constr. 63 (2016) 100–133, knowledge for natural language processing: the penman upper model, in: Technical https://doi.org/10.1016/j.autcon.2015.12.003. Report, USC/Information Sciences Institute, Marina del Rey, CA, 1990. Available"
+},
+{
+"by": [
+45
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "PLOS ONE | https://doi.org/10.1371/journal.pone.0318644 March 13, 2025 20 / 22 PLOS ONE Exploring a long short-term memory for mountain flood forecasting"
+},
+{
+"by": [
+45
+],
+"tags": [
+"도메인 LLM",
+"지식그래프"
+],
+"ref": "Pan S, Luo L, Wang Y, Chen C, Wang J, Wu X. Unifying large language models and knowledge graphs: A roadmap. IEEE Trans Knowl Data Eng. 2024;36(7):3580–99."
+},
+{
+"by": [
+40
+],
+"tags": [
+"온톨로지",
+"지식그래프"
+],
+"ref": "Papadakis, E.; McCluskey, L.; Louadah, H.; Tucker, G. Ontology-guided Knowledge Graph Construction to Support Scheduling in a Train Maintenance Depot. In Proceedings of the PLATO, ICAPS2023, Prague, Czech Republic, 8–13 July 2023."
+},
+{
+"by": [
+25
+],
+"tags": [
+"RAG·QA"
+],
+"ref": "Patrick Lewis, Ethan Perez, Aleksandra Piktus, Fabio Petroni, Vladimir Karpukhin, et al. Retrieval-augmented generation for knowledge-intensive nlp tasks. In NeurIPS, 2020."
+},
+{
+"by": [
+43
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "Peng M, Gan L, Zhong Q, Yang G, Deng G, Cao Z, Shi Z. Time-dependent system using Bayesian networks. Reliab Eng Syst Saf 2022;218:108178. reliability analysis of a high concrete-faced rockfill dam by integrating multi[37] Li Y. Research on structural defect identification method for concrete gravity dams source monitoring information. Reliab Eng Syst Saf 2025;262:111251. based on knowledge reasoning. Sichuan University; 2025. Master's thesis."
+},
+{
+"by": [
+23
+],
+"tags": [
+"RAG·QA",
+"도메인 LLM"
+],
+"ref": "Phan, H. et al. Rag vs. Long context: Examining frontier large language 45. Zhou, Y. et al. On the opportunities of green computing: A survey. models for environmental review document comprehension. arXiv arXiv preprint arXiv:2311.00447, https://doi.org/10.48550/arXiv. preprint arXiv:2407.07321, https://doi.org/10.48550/arXiv.2407. 2311.00447 (2023). 07321 (2024). 46. Nie, Q. & Liu, T. Large language models: Tools for new environmental"
+},
+{
+"by": [
+8
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Protégé: Stanford University. Protégé: The Open-Source Ontology Editor and Framework for Building Intelligent Systems. 2023. Available online: https://protege.stanford.edu/ (accessed on 25 October 2025)."
+},
+{
+"by": [
+45
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Puttinaovarat S, Horkaew P. Flood Forecasting System Based on Integrated Big and Crowdsource Data by Using Machine Learning Techniques. IEEE Access. 2020;8:5885–905. https://doi.org/10.1109/ access.2019.2963819"
+},
+{
+"by": [
+50
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Qian F, Cheng J, Xia R. Preliminary exploration on the construction ideas, framework and application scenarios of water conservancy large-scale models. China Water Resources. 2024;09:9–19."
+},
+{
+"by": [
+42
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "REFERENCES VI. CONCLUSION [1] K. Bi, L. Xie, H. Zhang, X. Chen, X. Gu, and Q. Tian, “Accurate medium-range global weather forecasting with 3D neural networks,” This paper proposes OKG-LLM, a novel framework that Nature, vol. 619, no. 7970, pp. 533–538, 2023. advances SST prediction by systematically integrating domain [2] Q. Ma et al., “A survey on time-series pre-trained models,” IEEE Trans. knowledge and observational data. The key innovation lies in Knowl. Data Eng., vol. 36, no. 12, pp. 7536–7555, Dec. 2024."
+},
+{
+"by": [
+16
+],
+"tags": [
+"RAG·QA"
+],
+"ref": "REFERENCES 본 연구는 전장 상황 분석을 위한 검색 증강 생성(RAG) 시스템에 특화된 소형 대규모 언어 모델(sLLM)의 안전성 [1] S. Lin, J. Hilton, and O. Evans “TruthfulQA: Measuring How 과 유용성을 동시에 향상시키기 위한 선호도 정렬 기법을 Models Mimic Human Falsehoods”, arXiv preprint arXiv:2109. 07958 (2021). 제안하였다. 특히 군사 도메인에 적합한 안전성 개념을 환"
+},
+{
+"by": [
+41
+],
+"tags": [
+"RAG·QA"
+],
+"ref": "ROY R S, HINZE C, SCHLOTTHAUER J, et al. RAGONITE: Iterative retrieval on induced databases and verbalized RDF for conversational QA over KGs with RAG[C]//Proceedings of BTW 2025 Workshops. Bonn: Gesellschaft für Informatik, 2025: 45–56."
+},
+{
+"by": [
+8
+],
+"tags": [
+"RAG·QA"
+],
+"ref": "Rai, A. Retrieval-augmented generation: Trends, architectures, and use cases. Int. J. Nov. Res. Dev. 2025, 10, 195–210."
+},
+{
+"by": [
+37
+],
+"tags": [
+"RAG·QA"
+],
+"ref": "Ram, O., Levine, Y., Dalmedigos, I., Muhlgay, D., Shashua, A., Leyton-Brown, K., and Shoham, Y. (2023). In-context retrieval-augmented language models. Transactions of the Association for Computational Linguistics, 11:1316–1331."
+},
+{
+"by": [
+26
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Ramos MC, Collison CJ, White AD (2025) A review of large language models and autonomous agents in chemistry. Chemical science"
+},
+{
+"by": [
+44
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "Ramírez, R.M.; Juárez, M.L.A.; Mora, R.D.; Morales, L.D.P.; Mariles, A.F.; Reséndiz, A.M.; Elizondo, E.C.; Paredes, R.B.C. Operation policies through dynamic programming and genetic algorithms, for a reservoir with irrigation and water supply uses. Water Resour. Manag. 2021, 35, 1573–1586. [CrossRef]"
+},
+{
+"by": [
+37
+],
+"tags": [
+"RAG·QA"
+],
+"ref": "Ranade, P. and Joshi, A. (2023). Fabula: Intelligence report generation using retrieval-augmented narrative construction. arXiv preprint arXiv:2310.13848."
+},
+{
+"by": [
+17
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Ray, P.P. Leveraging Deep Learning and Language Models in Revolutionizing Water Resource Management, Research, and Policy Making: A Case for ChatGPT. ACS EST Water 2023, 3, 1984–1986. [CrossRef]"
+},
+{
+"by": [
+43
+],
+"tags": [
+"지식그래프"
+],
+"ref": "References [27] Duan H, Han K, Zhao H, Jiang Y, Li H, Mao W. Research on water conservancy comprehensive knowledge graph construction. J Hydraul Eng 2021;52(08): 948–58."
+},
+{
+"by": [
+47
+],
+"tags": [
+"댐·저수지",
+"온톨로지"
+],
+"ref": "References sensors and structures, and structures, solving the information island problem. Extracting context information from the BIM environment and [1] X. Shu, T. Bao, Y. Li, K. Zhang, B. Wu, Dam safety evaluation based on intervalmapping it using a virtual RDF graph reduces the ontology modeling valued intuitionistic fuzzy sets and evidence theory, Sensors 20 (9) (2020) 2648, time and improves the working efficiency. Indeed, we demonstrate that https://doi.org/10.1177/14759217221117478."
+},
+{
+"by": [
+44
+],
+"tags": [
+"댐·저수지",
+"홍수·수자원"
+],
+"ref": "Ren, M.; Zhang, Q.; Yang, Y.; Wang, G.; Xu, W.; Zhao, L. Research and application of reservoir flood control optimal operation based on improved genetic algorithm. Water 2022, 14, 1272. [CrossRef]"
+},
+{
+"by": [
+45
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Renteria - Mena JB, Plaza D, Giraldo E. Multivariate Hydrologycal Modelling based on Long Short Term Memory Networks for Water Level Forecasting. 2024. https://doi.org/10.20944/preprints202404.0260.v1"
+},
+{
+"by": [
+23
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Rillig, M. C., Ågerstrand, M., Bi, M., Gould, K. A. & Sauerland, U. J. E. S. material in this article are included in the article’s Creative Commons Risks and beneﬁts of large language models for the environment. licence, unless indicated otherwise in a credit line to the material. If material Environ. Sci. Technol. 57, 3464–3466 (2023). is not included in the article’s Creative Commons licence and your intended"
+},
+{
+"by": [
+36
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Rollason, E.; Bracken, L.J.; Hardy, R.J.; Large, A.R.G. Rethinking flood risk communication. Nat. Hazards 2018, 92, 1665–1686. [CrossRef]"
+},
+{
+"by": [
+46
+],
+"tags": [
+"지식그래프"
+],
+"ref": "S. Fu, Q. Tang, M. Zhang, B. Han, Z. Wu, W. Mao, A data-driven framework for risk [31] D. Hanisch, K. Fundel, H.-T. Mevissen, R. Zimmer, J. Fluck, ProMiner: Rule-based and resilience analysis in maritime transportation systems: a case study of domino protein and gene entity recognition, BMC Bioinf. 6 (2005) S14, https://doi.org/ effect accidents in arctic waters, Reliab. Eng. Syst. Saf. 260 (2025) 111049, https:// 10.1186/1471-2105-6-S1-S14. doi.org/10.1016/j.ress.2025.111049. [32] S. Zhang, N. Elhadad, Unsupervised biomedical named entity recognition:"
+},
+{
+"by": [
+4
+],
+"tags": [
+"RAG·QA"
+],
+"ref": "S. Gang, “Case Study: Samsung SDS Uses Retrieval Augmented 정확한 정보가 제공될 가능성도 확인되었다. Generation for Kubernetes Troubleshooting,” Samsung SDS Blog, 향후 연구에서는 생성된 응답의 사실성뿐 아니라 그 근 Nov. 18, 2024. https://tech.samsungsds.com/insights/SKE-GPT거 문서의 정확성과 최신성을 동시에 검증할 수 있는 체계 Kubernetes-RAG. 적인 검증 메커니즘의 도입이 필요함을 확인하였다. [13] LangChain, “LangGraph,” https://www.langchain.com/langgraph."
+},
+{
+"by": [
+46
+],
+"tags": [
+"지식그래프"
+],
+"ref": "S. Ji, S. Pan, E. Cambria, P. Marttinen, P.S. Yu, A survey on knowledge graphs: recognition, J. Biomed. Inform. 70 (2017) 85–91, https://doi.org/10.1016/j. Representation, acquisition and applications, IEEE Trans. Neural Netw. Learn. Syst. jbi.2017.05.002. 33 (2022) 494–514, https://doi.org/10.1109/TNNLS.2021.3070843. [34] I. Jauregi Unanue, E. Zare Borzeshi, M. Piccardi, Recurrent neural networks with"
+},
+{
+"by": [
+47
+],
+"tags": [
+"온톨로지"
+],
+"ref": "S. Jiang, N. Wang, J. Wu, Combining BIM and ontology to facilitate intelligent performance assessment using linked data and cross-domain semantic reasoning, green building evaluation, J. Comput. Civ. Eng. 32 (5) (2018), https://doi.org/ Autom. Constr. 124 (2021), 103580, https://doi.org/10.1016/j. 10.1061/(asce)cp.1943-5487.0000786. autcon.2021.103580."
+},
+{
+"by": [
+11
+],
+"tags": [
+"RAG·QA"
+],
+"ref": "S. Nanayakkara, Improving the domain adaptation of retrieval augmented https://doi.org/10.1109/TKDE.2017.2754499."
+},
+{
+"by": [
+39
+],
+"tags": [
+"지식그래프"
+],
+"ref": "S. Purohit, N. Van, and G. Chin, “Semantic property graph for scalable knowledge graph analytics,” in 2021 IEEE International Conference on Big Data (Big Data), 2021, pp. 2672–2677."
+},
+{
+"by": [
+9
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "S. Soman and R. HG, \"Observations on LLMs for https://doi.org/10.3390/w17223260. [Accessed: Dec. 31, telecom domain: capabilities and limitations,\" in Proc. 2025]. Third Int. Conf. AI-ML Syst., New York, NY, USA, 2023, pp. 1-5. [26] D. Kizilkaya, Y. Sermet, and I. Demir, \"Towards HydroLLM: Approaches for building a domain-specific"
+},
+{
+"by": [
+42
+],
+"tags": [
+"지식그래프"
+],
+"ref": "S. Wang et al., “TimeMixer++: A general time series pattern machine for [57] Z. Sun, Z.-H. Deng, J.-Y. Nie, and J. Tang, “Rotate: Knowledge graph universal predictive analysis,” in Proc. Int. Conf. Learn. Representations, embedding by relational rotation in complex space,” Int. Conf. Learn. pp. 1–38, 2025. Representations, pp. 1–18, 2019."
+},
+{
+"by": [
+20
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "S. Zhang, L. Dong, X. Li, S. Zhang, X. Sun, S. Wang, et al., Instruction tuning for of their hallucinations, Crit. Care 27 (2023) 120. large language models: a survey, ArXiv Prepr ArXiv230810792 (2023). [51] S. Tonmoy, S. Zaman, V. Jain, A. Rani, V. Rawte, A. Chadha, et al.,"
+},
+{
+"by": [
+41
+],
+"tags": [
+"RAG·QA"
+],
+"ref": "SHAHUL E S, JAMES J, ESPINOSA ANKE L, SCHOCKAERT S. RAGAs: Automated evaluation of retrieval augmented generation[C]//Proceedings of the 18th Conference of the European Chapter of the Association for Computational Linguistics (EACL 2024): System Demonstrations. St. Julians: ACL, 2024: 150–158."
+},
+{
+"by": [
+41
+],
+"tags": [
+"RAG·QA"
+],
+"ref": "SHEN Z, DIAO C, VOUGIOUKLIS P, et al. GeAR: Graph-enhanced agent for retrieval-augmented generation[C]//Findings of the Association for Computational Linguistics: ACL 2025. Bangkok: ACL, 2025: 7201–7213."
+},
+{
+"by": [
+41
+],
+"tags": [
+"RAG·QA"
+],
+"ref": "SRINIVAS S S, DAS A, GUPTA S, et al. Accelerating manufacturing scale-up from material discovery using agentic web navigation and retrieval-augmented AI for process engineering schematics design[C]//Proceedings of the First MARW Workshop at AAAI 2025. Philadelphia: AAAI, 2025."
+},
+{
+"by": [
+44
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "Saab, S.M.; Othman, F.B.; Tan, C.G.; Allawi, M.F.; El-Shafie, A. Review on generating optimal operation for dam and reservoir water system: Simulation models and optimization algorithms. Appl. Water Sci. 2022, 12, 73. [CrossRef]"
+},
+{
+"by": [
+40
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Saalmann, P.; Zuccolotto, M.; Silva, T.R.d.; Wagner, C.; Giacomolli, A.; Hellingrath, B.; Pereira, C.E. Application Potentials for an Ontology-based Integration of Intelligent Maintenance Systems and Spare Parts Supply Chain Planning. Procedia CIRP 2016, 41, 270–275. [CrossRef]"
+},
+{
+"by": [
+37
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Salminen, J., Liu, C., Pian, W., Chi, J., Häyhänen, E., and Jansen, B. J. (2024). Deus ex machina and personas from large language models: Investigating the composition of ai-generated persona descriptions. In Proceedings of the CHI Conference on Human Factors in Computing Systems, pages 1–20."
+},
+{
+"by": [
+44
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "SeethaRam, K.V. Three level rule curve for optimum operation of a multipurpose reservoir using genetic algorithms. Water Resour. Manag. 2021, 35, 353–368. [CrossRef]"
+},
+{
+"by": [
+36
+],
+"tags": [
+"온톨로지",
+"홍수·수자원"
+],
+"ref": "Sermet, Y.; Demir, I. Towards an information centric flood ontology for information management and communication. Earth Sci. Inform. 2019, 12, 541–551. [CrossRef]"
+},
+{
+"by": [
+43
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "Shams G, Rivard P, Moradian O. Tensile strength and failure behavior of rock[33] Zhang L, Peng M, Chang D. Dam failure mechanisms and risk assessment. mortar interfaces: Direct and indirect measurements. J Rock Mech Geotech Eng Singapore: John Wiley & Singapore Pte., Ltd.; 2016. 2024;16(1):41–55."
+},
+{
+"by": [
+44
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "Shang, L.; Shang, Y.; Hu, L.; Li, J. Performance of genetic algorithms with different selection operators for solving short-term optimized reservoir scheduling problem. Soft Comput. 2020, 24, 6771–6785. [CrossRef]"
+},
+{
+"by": [
+37
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Shao, Z., Gong, Y., Shen, Y., Huang, M., Duan, N., and Chen, W. (2023). Enhancing retrievalaugmented large language models with iterative retrieval-generation synergy. arXiv preprint arXiv:2305.15294."
+},
+{
+"by": [
+13
+],
+"tags": [
+"지식그래프",
+"홍수·수자원"
+],
+"ref": "Shen W, Zhong Y, Wang J, Zheng Z, Ma A. Construction and application of flood disaster knowledge graph based on multi-modal data. Geomatics and Information Science of Wuhan University. 2023;48(12):2009–18. https://doi.org/10.13203/j.whugis20220509"
+},
+{
+"by": [
+44
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Sheng, D.; Lou, Y.; Sun, F.; Xie, J.; Yu, Y. Reengineering and its reliability: An analysis of water projects and watershed management under a digital twin scheme in China. Water 2023, 15, 3203. [CrossRef]"
+},
+{
+"by": [
+21
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Shijie Wu, Ozan Irsoy, Steven Lu, Vadim Dabravolski, Mark Dredze, Sebastian Gehrmann, Prabhanjan Kambadur, David Rosenberg, and Gideon Mann. 2023. BloombergGPT: A Large Language Model for Finance. ArXiv preprint: https://arxiv. org/pdf/2303.17564."
+},
+{
+"by": [
+36
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Shukla, D.; Azad, H.K.; Abhishek, K.; Shitharth, S. Disaster management ontology—An ontological approach to disaster management automation. Sci. Rep. 2023, 13, 8091."
+},
+{
+"by": [
+25
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Shuo Ren, Pu Jian, et al. Towards scientific intelligence: A survey of llm-based scientific agents. arXiv preprint arXiv:2503.??? (preprint), 2025."
+},
+{
+"by": [
+26
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Siino M, Falco M, Croce D, et al (2025) Exploring llms applications in law: A literature review on current legal nlp approaches. IEEE Access"
+},
+{
+"by": [
+40
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Silva, T.R.d.; Pereira, C.E. Building an Ontology for Intelligent Maintenance Systems and Spare Parts Supply Chain Integration. IFAC Proc. Vol. 2014, 47, 7843–7848. [CrossRef]"
+},
+{
+"by": [
+13
+],
+"tags": [
+"RAG·QA"
+],
+"ref": "Singh A, Ehtesham A, Kumar S, Khoei T. Agentic Retrieval-Augmented Generation: A Survey on Agentic RAG. arXiv preprint. 2025. https://doi. org/10.48550/arXiv.2501.09136"
+},
+{
+"by": [
+8
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Singh, S.; Mishra, K.; Chavan, R.; Tiwari, H.L. Advancements and Challenges in Hydrological Modeling: A Comprehensive Review. In Hydrology and Hydrologic Modelling; Pandey, M., Umamahesh, N., Das, J., Pu, J.H., Eds.; Lecture Notes in Civil Engineering; Springer: Singapore, 2025; Volume 410, pp. 1–25. [CrossRef]"
+},
+{
+"by": [
+33
+],
+"tags": [
+"지식그래프"
+],
+"ref": "Singhal, A. (2012). Introducing the Knowledge Graph: things, not strings. https://blog.google/products/search /introducing-knowledge-graph-things-not/"
+},
+{
+"by": [
+36
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Stephens, K.K.; Blessing, R.; Tasuji, T.; McGlone, M.S.; Stearns, L.N.; Lee, Y.; Brody, S.D. Investigating ways to better communicate flood risk: The tight coupling of perceived flood map usability and accuracy. Environ. Hazards 2024, 23, 92–111. [CrossRef]"
+},
+{
+"by": [
+50
+],
+"tags": [
+"지식그래프"
+],
+"ref": "Sun J, Wang J, Ding G. Spectrum knowledge graph: An intelligent engine for future spectrum management. Journal of Communications. 2021;42(05):1–12."
+},
+{
+"by": [
+20
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "T. Zhang, F. Ladhak, E. Durmus, P. Liang, K. McKeown, T.B. Hashimoto, Assoc. Comput. Linguist. Vol. 3 Syst. Demonstr., Association for Computa­ Benchmarking large language models for news summarization, Trans. Assoc. tional Linguistics, Bangkok, Thailand, 2024. Comput. Linguist 12 (2024) 39–57. [57] S.M. Jain, Hugging face. Introd. Transform. NLP Hugging Face Libr. Models"
+},
+{
+"by": [
+42
+],
+"tags": [
+"지식그래프"
+],
+"ref": "T. Zhou, Z. Ma, Q. Wen, X. Wang, L. Sun, and R. Jin, “FEDformer: [56] T. Dettmers, P. Minervini, P. Stenetorp, and S. Riedel, “Convolutional 2D Frequency enhanced decomposed transformer for long-term series fore- knowledge graph embeddings,” in Proc. AAAI Conf. Artif. Intell., 2018, casting,” in Proc. Int. Conf. Mach. Learn., 2022, pp. 27268–27286. pp. 1811–1818."
+},
+{
+"by": [
+46
+],
+"tags": [
+"온톨로지",
+"지식그래프"
+],
+"ref": "T.R. Gruber, A translation approach to portable ontology specifications, Knowl. Construction and application of conditional event-based knowledge graphs for Acquis. 5 (1993) 199–220, https://doi.org/10.1006/knac.1993.1008. electric power standards, Expert Syst. Appl. 297 (2026) 129291, https://doi.org/"
+},
+{
+"by": [
+41
+],
+"tags": [
+"RAG·QA",
+"지식그래프"
+],
+"ref": "TANG X, LI J, DU N, et al. Adapting to non-stationary environments: Multi-armed bandit enhanced retrieval-augmented generation on knowledge graphs[C]//Proceedings of the AAAI Conference on Artificial Intelligence. Philadelphia: AAAI Press, 2025: 3352–3360."
+},
+{
+"by": [
+21
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Takeshi Kojima, Shixiang Shane Gu, Machel Reid, Yutaka Matsuo, and Yusuke Iwasawa. 2022. Large language models are zero-shot reasoners. Advances in neural information processing systems, 35:22199–22213."
+},
+{
+"by": [
+36
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Tartir, S.; Arpinar, I.B.; Moore, M.; Sheth, A.; Aleman-Meza, B. OntoQA: Metric-Based Ontology Quality Analysis. In Proceedings of the IEEE Workshop on Evaluation of Ontologies for the Web (EON), Houston, TX, USA, 27 November 2005."
+},
+{
+"by": [
+49
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "The National Natural Science Foundation of China (Grant No. 52209163, 52479127, 52079073), Open Fund of Hubei Key Laboratory of Construction and Management in Hydropower Engineering (Grant no. 2023KSD09) and Hubei Provincial Natural Science Foundation Inno- vation and Development Joint Fund Project (Grant No. 2024AFD153) supported this work. The conclusions herein are those of the authors and do not necessarily reflect the views of the sponsoring agencies."
+},
+{
+"by": [
+27
+],
+"tags": [
+"RAG·QA",
+"도메인 LLM",
+"지식그래프"
+],
+"ref": "The reasoning advantage of the proposed method stems from the KG. The foundation for constructing a KG lies in triples. In Chen et al.’s (2024) research, the intelligent recognition algorithm for entities and relationships was trained primarily based on manually labeled triples. The limitation of this method is the large amount Fig. 9. Scores of LLM, LLM+RAG, LLM+KG, and LLM+RAG+KG. of manual labeling required. To train an accurate text recognition Copyright ASCE; all rights reserved, including rights for text and data mining and training of artificial intelligence or similar technologies."
+},
+{
+"by": [
+8
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Thieken, A.H.; Kienzler, S.; Kreibich, H.; Kuhlicke, C.; Kunz, M.; Mühr, B.; Müller, M.; Otto, A.; Petrow, T.; Pisi, S.; et al. Review of the flood risk management system in Germany after the major flood in 2013. Ecol. Soc. 2016, 21. Available online: http://www.jstor.org/stable/26270411 (accessed on 25 August 2025). [CrossRef]"
+},
+{
+"by": [
+13
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "Tian D, Shen Y, Li M, Han S. Intelligent data mining approach of text entity knowledge from construction documents of concrete dams. J Hydroelectric Engineering. 2021;40(06):139–51."
+},
+{
+"by": [
+16
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Touvron, Martin, et al. \"Llama 2: Open Foundation and Fine-Tuned 턴 상호작용 환경에 대한 확장, 그리고 보다 정교한 안전 Chat Models,\" arXiv preprint arXiv:2307.09288 (2023). 성 평가 지표 도입을 통해 연구의 범위를 확대할 수 있을 [8] Dai, Pan, et al. \"Safe RLHF: Safe Reinforcement Learning from 것이다. Human Feedback,\" ICLR, Vienna, Austria, Apr, 2024."
+},
+{
+"by": [
+21
+],
+"tags": [
+"댐·저수지",
+"도메인 LLM"
+],
+"ref": "Training Factors We used a fork of the Megatron-LLM Repository by the EPFL LLM Team (http://github.com/ epfLLM/Megatron-LLM). A cluster provided by MLFoundry was used for pre-training, instruction fine-tuning and evaluation. Carbon Footprint Pre-training utilized a cumulative 31,059 GPU hours of computation on hardware of type H100 SXM (including CPU TDP of 775W). The cluster for training and evaluation was powered using 100% hydropower (24g CO2 eq/KWh (Schloemer et al., 2014)) which resulted in the emission of 577.7kg CO2 eq."
+},
+{
+"by": [
+36
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Tsaneva, S.; Sabou, M. Enhancing Human-in-the-Loop Ontology Curation Results through Task Design. ACM J. Data Inf. Qual. 2024, 16, 4. [CrossRef]"
+},
+{
+"by": [
+40
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Umiliacchi, P.; Lane, D.; Romano, F. Predictive maintenance of railway subsystems using an Ontology based modelling approach. In Proceedings of the 9th World Conference on Railway Research, Lille, France, 22–26 May 2011."
+},
+{
+"by": [
+43
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Uschold M, Gruninger M. Ontologies: principles, methods and applications. Knowl 2025:111637. https://doi.org/10.1016/j.ress.2025.111637. Online. Eng Rev 1996;11(2):93–136."
+},
+{
+"by": [
+39
+],
+"tags": [
+"RAG·QA"
+],
+"ref": "V. Karpukhin, B. Oğuz, S. Min, P. Lewis, L. Wu, S. Edunov, D. Chen, and W.-t. Yih, “Dense passage retrieval for open-domain question answering,” arXiv preprint arXiv:2004.04906, 2020."
+},
+{
+"by": [
+36
+],
+"tags": [
+"도메인 LLM",
+"온톨로지"
+],
+"ref": "Val-Calvo, M.; Egaña-Aranguren, M.; Mulero-Hernández, J.; Almagro-Hernández, I.; Deshmukh, P.; Bernabé-Díaz, J. A.; EspinozaArias, P.; Sánchez-Fernández, J. L.; Mueller, J.; Fernández-Breis, G. T. OntoGenix: Leveraging Large Language Models for enhanced ontology engineering from datasets. Inf. Process. Manag. 2025, 62, 104042. [CrossRef]"
+},
+{
+"by": [
+40
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Vehicle Ontology. Available online: http://ontology.eil.utoronto.ca/icity/Vehicle/1.2/ (accessed on 12 December 2023)."
+},
+{
+"by": [
+40
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Verstichel, S.; Van Hoecke, S.; Strobbe, M.; Van den Berghe, S.; De Turck, F.; Dhoedt, B.; Demeester, P.; Vermeulen, F. Ontologydriven middleware for next-generation train backbones. Sci. Comput. Program. 2007, 66, 4–24. [CrossRef]"
+},
+{
+"by": [
+45
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Vidya S, Gayathri S, Dilsha M, Krithika S. Rainfall based flood prediction in Kerala using machine learning. Int J Intell Syst Appl Eng. 2024;12(16s):141–4."
+},
+{
+"by": [
+8
+],
+"tags": [
+"댐·저수지",
+"홍수·수자원"
+],
+"ref": "Vishwakarma, V.; Thawait, A.K. A review of flood estimation methods: Advancements and challenges. In Flood Forecasting and Hydraulic Structures; Springer: Singapore, 2025; pp. 263–274."
+},
+{
+"by": [
+26
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Vogel RM, Lall U, Cai X, et al (2015) Hydrology: The interdisciplinary science of water. Water Resources Research 51(6):4409–4430"
+},
+{
+"by": [
+47
+],
+"tags": [
+"온톨로지"
+],
+"ref": "W.H. Collinge, K. Farghaly, M.H. Mosleh, P. Manu, C.M. Cheung, C.A. Osorio- retrieving online BIM resources based on industry foundation classes, Autom. Sandoval, BIM-based construction safety risk library, Autom. Constr. 141 (2022), Constr. 56 (2015) 14–25, https://doi.org/10.1016/j.autcon.2015.04.006. 104391, https://doi.org/10.1016/j.autcon.2022.104391. [44] S.-K. Lee, K.-R. Kim, J.-H. Yu, BIM and ontology-based approach for building cost"
+},
+{
+"by": [
+46
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "W.X. Zhao, K. Zhou, J. Li, T. Tang, X. Wang, Y. Hou, Y. Min, B. Zhang, J. Zhang, Z. 10.1016/j.knosys.2020.105842. Dong, Y. Du, C. Yang, Y. Chen, Z. Chen, J. Jiang, R. Ren, Y. Li, X. Tang, Z. Liu, P. [38] A. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit, L. Jones, A.N. Gomez, L. Kaiser, I. Liu, J.-Y. Nie, J.-R. Wen, A survey of large language models, (2025). https://doi. Polosukhin, Attention is all you need, (2023). https://doi.org/10.48550/ org/10.48550/arXiv.2303.18223. arXiv.1706.03762."
+},
+{
+"by": [
+41
+],
+"tags": [
+"RAG·QA",
+"도메인 LLM",
+"지식그래프"
+],
+"ref": "WU J, ZHU J, QI Y, et al. Medical Graph RAG: Towards safe medical large language model via graph retrieval-augmented generation[C]//Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (ACL 2025). Bangkok: ACL, 2025: 1381–1395."
+},
+{
+"by": [
+41
+],
+"tags": [
+"RAG·QA",
+"지식그래프"
+],
+"ref": "WU Y, HUANG Y, HU N, et al. CoTKR: Chain-of-thought enhanced knowledge rewriting for complex knowledge graph question answering[C]//Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing (EMNLP 2024). Miami: ACL, 2024: 3501–3520. DOI: 10.18653/v1/2024. emnlp-main.205."
+},
+{
+"by": [
+26
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Wang A, Pruksachatkun Y, Nangia N, et al (2019) Superglue: A stickier benchmark for general-purpose language understanding systems. Advances in neural"
+},
+{
+"by": [
+26
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Wang A, Singh A, Michael J, et al (2018) Glue: A multi-task benchmark and analysis platform for natural language understanding. In: Proceedings of the 2018 EMNLP workshop BlackboxNLP: Analyzing and interpreting neural networks for NLP, pp 353–355"
+},
+{
+"by": [
+50
+],
+"tags": [
+"지식그래프"
+],
+"ref": "Wang Jiali Automated Compliance Review and Design Optimization of BIM Models Based on NLP and Knowledge Graph. Southeast University, 2023."
+},
+{
+"by": [
+45
+],
+"tags": [
+"지식그래프"
+],
+"ref": "Wang L, Liu X, Liu Y, Li H, Liu J, Yang L. Knowledge Graph-Based Method for Intelligent Generation of Emergency Plans for Water Conservancy Projects. IEEE Access. 2023;11:84414–29. https://doi. org/10.1109/access.2023.3302399"
+},
+{
+"by": [
+13
+],
+"tags": [
+"지식그래프"
+],
+"ref": "Wang L, Liu X, Liu Y, Li H, Liu J, Yang L. Multimodal knowledge graph construction for risk identification in water diversion projects. J Hydrol. 2024;635:131155. https://doi.org/10.1016/j.jhydrol.2024.131155"
+},
+{
+"by": [
+45
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Wang L, Ma C, Feng X, Zhang Z, Yang H, Zhang J, et al. A survey on large language model based autonomous agents. Front Comput Sci. 2024;18(6). https://doi.org/10.1007/s11704-024-40231-1"
+},
+{
+"by": [
+45
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Wang S, Wang J. Research on prediction model of mountain flood level in small watershed based on deep learning. 2022 4th International Conference on Intelligent Control, Measurement and Signal Processing (ICMSP). 2022;1024–7. https://doi.org/10.1109/icmsp55950.2022.9859047"
+},
+{
+"by": [
+45
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Wang S, Xu O. Uncertainty Forecasting Model for Mountain Flood Based on Bayesian Deep Learning. IEEE Access. 2024;12:47830–41. https://doi.org/10.1109/access.2024.3384066"
+},
+{
+"by": [
+8
+],
+"tags": [
+"RAG·QA",
+"도메인 LLM",
+"홍수·수자원"
+],
+"ref": "Wang, G.; Liu, Y.; Liu, S.; Zhang, L.; Yang, L. REMFLOW: RAG-enhanced multi-factor rainfall flooding warning in sponge airports via large language model. Int. J. Mach. Learn. Cybern. 2025, 16, 5235–5255. [CrossRef]"
+},
+{
+"by": [
+17
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Wang, G.; Xie, Y.; Jiang, Y.; Zhang, H.; Li, Y.; Chen, X.; Sun, X.; Liu, J.; Huang, R.; Yang, Y. Voyager: An Open-Ended Embodied Agent with Large Language Models. arXiv 2023. [CrossRef]"
+},
+{
+"by": [
+44
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Wang, S.; Wang, Y.; Wang, Y.; Wang, Z. Comparison of multi-objective evolutionary algorithms applied to watershed management problem. J. Environ. Manag. 2022, 324, 116255. [CrossRef] [PubMed]"
+},
+{
+"by": [
+8
+],
+"tags": [
+"RAG·QA"
+],
+"ref": "Wang, X.; Wang, Z.; Gao, X.; Zhang, F.; Wu, Y.; Xu, Z.; Shi, T.; Wang, Z.; Li, S.; Qian, Q.; et al. Searching for best practices in retrieval-augmented generation. In Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing; Association for Computational Linguistics: Stroudsburg, PA, USA, 2024; pp. 17716–17736. [CrossRef]"
+},
+{
+"by": [
+44
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "Wang, X.; Zhou, J.; Ouyang, S.; Li, C. Research on joint impoundment dispatching model for cascade reservoir. Water Resour. Manag. 2014, 28, 5527–5542. [CrossRef]"
+},
+{
+"by": [
+8
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Wang, Y.; Marsooli, R. Physical Instability of Individuals Exposed to Storm-Induced Coastal Flooding: Vulnerability of New Yorkers During Hurricane Sandy. Water Resour. Res. 2021, 57, e2020WR028616. [CrossRef]"
+},
+{
+"by": [
+26
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Wei J, Wang X, Schuurmans D, et al (2022) Chain-of-thought prompting elicits reasoning in large language models. Advances in neural information processing systems 35:24824–24837"
+},
+{
+"by": [
+23
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Weng, B. J. A. Navigating the landscape of large language models: A the initial draft of the manuscript. G.W., Z.L., H.Z., and R.T. each contributed comprehensive review and analysis of paradigms and ﬁne-tuning to writing different sections of the draft. G.X. played a key role in amending strategies, abs/2404.09022 (2024). the manuscript. H.Y.N. initiated the review topic, offered strategic direction"
+},
+{
+"by": [
+15
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Wonseok Hwang 외, “A Multi-Task Benchmark for Korean Legal Language Understanding and Judgement Prediction”, NeurIPS, Vol. 35, 2022. 대규모 언어 모델(LLM)을 활용한 고소장 자동작성 연구 211"
+},
+{
+"by": [
+8
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "World Bank Tokyo Development Learning Center. Urban Flood Management in a Changing Climate: Global and Japanese Insights. 2025. Available online: https://www.worldbank.org (accessed on 25 August 2025)."
+},
+{
+"by": [
+26
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Wu S, Irsoy O, Lu S, et al (2023) Bloomberggpt: A large language model for finance. arXiv preprint arXiv:230317564"
+},
+{
+"by": [
+43
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "Wu X, Zheng D, Chen X, Liu Y, Qiu J, Jiang H. Gravity dam displacement dam-foundation system using Monte Carlo simulation. Appl Soft Comput 2022; monitoring using in situ strain and deep learning. Comput-Aided Civ Infrastruct 126:109229. Eng 2024;40(3):348–68."
+},
+{
+"by": [
+17
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Wu, Q.; Bansal, G.; Zhang, J.; Wang, H.; Liu, X.; Yang, Y.; Chen, X. AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation Framework. arXiv 2023. [CrossRef]"
+},
+{
+"by": [
+17
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Wu, Z.; Wang, Z.; Xu, X.; Zhang, Y.; Liu, Y.; Chen, J.; Yang, Y.; Zhou, H. Embodied Task Planning with Large Language Models. arXiv 2023. [CrossRef]"
+},
+{
+"by": [
+46
+],
+"tags": [
+"도메인 LLM",
+"온톨로지",
+"지식그래프"
+],
+"ref": "X. Huang, C. Yang, Y. Zhang, S. Lou, L. Kong, H. Zhou, Ontology guided multi-level 10.1016/j.eswa.2025.129291. knowledge graph construction and its applications in blast furnace ironmaking [43] X. Liu, J.A. Erkoyuncu, J.Y.H. Fuh, W.F. Lu, B. Li, Knowledge extraction for process, Adv. Eng. Inform. 62 (2024) 102927, https://doi.org/10.1016/j. additive manufacturing process via named entity recognition with LLMs, Robot. aei.2024.102927. Comput.-Integr. Manuf. 93 (2025) 102900, https://doi.org/10.1016/j."
+},
+{
+"by": [
+46
+],
+"tags": [
+"지식그래프"
+],
+"ref": "X. Huo, Y. Yin, L. Jiao, Y. Zhang, A data-driven and knowledge graph-based [30] O. Etzioni, M. Cafarella, D. Downey, A.-M. Popescu, T. Shaked, S. Soderland, D. analysis of the risk hazard coupling mechanism in subway construction accidents, S. Weld, A. Yates, Unsupervised named-entity extraction from the web: an Reliab. Eng. Syst. Saf. 250 (2024) 110254, https://doi.org/10.1016/j. experimental study, Artif. Intell. 165 (2005) 91–134, https://doi.org/10.1016/j. ress.2024.110254. artint.2005.03.001."
+},
+{
+"by": [
+47
+],
+"tags": [
+"온톨로지"
+],
+"ref": "X. Li, D. Yang, J. Yuan, A. Donkers, X. Liu, BIM-enabled semantic web for [46] D.-Y. Lee, H.-L. Chi, J. Wang, X. Wang, C.-S. Park, A linked data system framework automated safety checks in subway construction, Autom. Constr. 141 (2022), for sharing construction defect information using ontologies and BIM 104454, https://doi.org/10.1016/j.autcon.2022.104454. environments, Autom. Constr. 68 (2016) 102–113, https://doi.org/10.1016/j."
+},
+{
+"by": [
+46
+],
+"tags": [
+"도메인 LLM",
+"지식그래프"
+],
+"ref": "X. Liu, H. Lu, H. Li, Intelligent generation method of emergency plan for hydraulic Ocean Coast. Manag. 272 (2026) 108015, https://doi.org/10.1016/j. engineering based on knowledge graph – take the south-to-north water diversion ocecoaman.2025.108015. project as an example, LHB 108 (2022) 2153629, https://doi.org/10.1080/ [47] M. Monajatipoor, J. Yang, J. Stremmel, M. Emami, F. Mohaghegh, M. 27678490.2022.2153629. Rouhsedaghat, K.-W. Chang, LLMs in biomedicine: A study on clinical named"
+},
+{
+"by": [
+38
+],
+"tags": [
+"지식그래프"
+],
+"ref": "X. Liu, H. Wang, Knowledge graph construction and decision support towards transformer fault maintenance, in: 2021 IEEE 24th International Conference on Computer Supported Cooperative Work in Design (CSCWD), IEEE, 2021."
+},
+{
+"by": [
+41
+],
+"tags": [
+"RAG·QA",
+"지식그래프"
+],
+"ref": "XIONG Y, ZHANG R, LIU Y, et al. When knowledge graph meets retrieval augmented generation for wireless networks: A tutorial and case study[J]. IEEE Wireless Communications, 2025, in press."
+},
+{
+"by": [
+13
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Xi Z, Chen W, Guo X, He W, Ding Y, Hong B, et al. The rise and potential of large language model based agents: a survey. Sci China Inf Sci. 2025;68(2). https://doi.org/10.1007/s11432-024-4222-0"
+},
+{
+"by": [
+25
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Xiaoran Xu and Ravi Sankar. Large language model agents for biomedicine: A comprehensive review. Information, 2025."
+},
+{
+"by": [
+26
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Xie Q, Han W, Zhang X, et al (2023) Pixiu: A comprehensive benchmark, instruction dataset and large language model for finance. Advances in Neural Information Processing Systems 36:33469–33484"
+},
+{
+"by": [
+8
+],
+"tags": [
+"RAG·QA",
+"도메인 LLM"
+],
+"ref": "Xie, Y.; Jiang, B.; Mallick, T.; Bergerson, J.D.; Hutchison, J.K.; Verner, D.R.; Branham, J.; Alexander, M.R.; Ross, R.B.; Feng, Y.; et al. A RAG-based multi-agent LLM system for natural hazard resilience and adaptation. arXiv 2025, arXiv:2504.17200. [CrossRef]"
+},
+{
+"by": [
+26
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Xiong M, Hu Z, Lu X, et al (2023) Can llms express their uncertainty? an empirical evaluation of confidence elicitation in llms. arXiv preprint arXiv:230613063"
+},
+{
+"by": [
+17
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Xiong, H.; Wang, S.; Zhu, Y.; Li, J.; Hu, Y.; Chen, Y.; Wang, H.; Li, L. DoctorGLM: Fine-tuning Your Chinese Doctor is Not a Herculean Task. arXiv 2023. [CrossRef]"
+},
+{
+"by": [
+43
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "Xu J, Yuan C, Gu J, et al. Innovative synthetic data augmentation for dam crack In: Cuzzocrea A, Allan J, Paton N, et al., editors. Cikm’18: Proceedings of the 27th detection, segmentation, and quantification. Structural Health Monitoring-an. Int J ACM International Conference on Information and Knowledge Management. New 2023;22(4):2402–26. York: Assoc Computing Machinery; 2018. p. 417–26."
+},
+{
+"by": [
+43
+],
+"tags": [
+"댐·저수지",
+"지식그래프"
+],
+"ref": "Xu Y, Huang H, Li Y, Zhou J, Lu X, Wang Y. A three-stage online anomaly control based on knowledge graph embedding and topological analysis. Reliab Eng identification model for monitoring data in dams. Struct Health Monit 2022;21(3): Syst Saf 2025;258:110917. 1183–206."
+},
+{
+"by": [
+43
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "Xu Y. Analysis of dam failures and diagnosis of distress for dam rehabilitation. Maint 2024;9(3):2390735. Hong Kong, China: The Hong Kong University of Science and Technology; 2010."
+},
+{
+"by": [
+43
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "Xue J, Huang H, Zhang P, Lu X, Chen J. A data-physics dual-driven full-field method for emergency plans in water diversion projects. J Hydroinformatics 2023; prediction framework for deformation monitoring of high earth-rockfill dams 25(6):2522–40. during the construction period. Comput Geotech 2026;191:197808."
+},
+{
+"by": [
+46
+],
+"tags": [
+"도메인 LLM",
+"지식그래프"
+],
+"ref": "Y. Duan, Y. Tian, S. Ghosh, V. Venugopal, J. Chen, E.A. Olivetti, LLM-empowered relation extraction via pre-trained CNNs, Knowl.-Based Syst. 194 (2020) 105488. literature mining for material substitution studies in sustainable concrete, Resour. https://doi.org/10.1016/j.knosys.2020.105488. Conserv. Recycl. 221 (2025) 108379, https://doi.org/10.1016/j. [37] J. Wang, W. Xu, X. Fu, G. Xu, Y. Wu, ASTRAL: Adversarial trained LSTM-CNN for resconrec.2025.108379. named entity recognition, Knowl.-Based Syst. 197 (2020) 105842. https://doi.org/"
+},
+{
+"by": [
+51
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Y. Fu et al., “ServerlessLLM: Low-Latency Serverless Inference for about-claude/pricing, 2024. Large Language Models,” arXiv.org, 2024. [Online]. Available: https: [54] xAI, “Models and Pricing — xAI Docs,” Docs.x.ai, 2024. [Online]. //arxiv.org/abs/2401.14351. Available: https://docs.x.ai/docs/models"
+},
+{
+"by": [
+46
+],
+"tags": [
+"댐·저수지",
+"지식그래프"
+],
+"ref": "Y. Liu, D. Zheng, E. Cao, X. Wu, Z. Chen, Cracking risk analysis of face slabs in extreme weather: a knowledge graph-based unsupervised causation chain concrete face rockfill dams during the operation period, Structures 40 (2022) approach, Reliab. Eng. Syst. Saf. 260 (2025) 110976, https://doi.org/10.1016/j. 621–632, https://doi.org/10.1016/j.istruc.2022.04.054. ress.2025.110976."
+},
+{
+"by": [
+20
+],
+"tags": [
+"도메인 LLM",
+"홍수·수자원"
+],
+"ref": "Y. Ren, T. Zhang, X. Dong, W. Li, Z. Wang, J. He, et al., WaterGPT: training a [46] X. Wu, P.P. Saraf, G.-G. Lee, E. Latif, N. Liu, X. Zhai, Unveiling scoring pro­ large language model to become a hydrology expert, Water 16 (2024) 3075, cesses: dissecting the differences between llms and human graders in https://doi.org/10.3390/w16213075. automatic scoring, ArXiv Prepr ArXiv240718328 (2024)."
+},
+{
+"by": [
+47
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Y. Shen, M. Xu, Y. Lin, C. Cui, X. Shi, Y. Liu, Safety risk management of [35] G. Schreiber, B. Wielinga, W. Jansweijer, The KACTUS view on the ‘O’word, IJCAI prefabricated building construction based on ontology technology in the BIM Workshop on Basic Ontological Issues in Knowledge Sharing, Citeseer, 1995, environment, Buildings 12 (6) (2022) 765, https://doi.org/10.3390/ pp. 159–168. Available at, https://citeseerx.ist.psu.edu/viewdoc/download?doi buildings12060765. =10.1.1.1.5032&rep=rep1&type=pdf. accessed September 11, 2022."
+},
+{
+"by": [
+51
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Y. Sheng et al., “FlexGen: High-Throughput Generative Inference of [50] Mistral-AI et al., “Magistral,” arXiv.org, 2025. [Online]. Available: https: Large Language Models with a Single GPU,” arXiv.org, 2023. [Online]. //arxiv.org/abs/2506.10910. [Accessed: Aug. 28, 2025]. Available: https://arxiv.org/abs/2303.06865. [Accessed: Aug. 28, 2025]. [51] MistralAI, “mistralai/Magistral-Small-2506 · Hugging Face,” Huggingface.co, 2025. [Online]. Available: https://huggingface.co/mistralai/"
+},
+{
+"by": [
+51
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Y. Wang et al., “MMLU-Pro: A More Robust and Challenging Multi[38] 5 Team et al., “GLM-4.5: Agentic, Reasoning, and Coding (ARC) Task Language Understanding Benchmark,” arXiv, 2024. [Online]. Foundation Models,” arXiv.org, 2025. [Online]. Available: https://arxiv. Available: https://arxiv.org/abs/2406.01574. org/abs/2508.06471. [Accessed: Aug. 28, 2025]. [66] Akshar Prabhu Desai, Ritu Prajapati, Tejasvi Ravi, Mohammad Luqman,"
+},
+{
+"by": [
+36
+],
+"tags": [
+"온톨로지",
+"홍수·수자원"
+],
+"ref": "Yahya, H.; Ramli, R. Ontology for Evacuation Center in Flood Management Domain. In Proceedings of the 2020 8th International Conference on Information Technology and Multimedia (ICIMU 2020), Selangor, Malaysia, 24–25 August 2020; Institute of Electrical and Electronics Engineers (IEEE): Piscataway, NJ, USA, 2020; pp. 288–291."
+},
+{
+"by": [
+8
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Yahyazadeh Shourabi, K.; Niksokhan, M.H.; Nikoo, M.R. Enhancing flood frequency predictions under climate change and uncertainty using machine learning model fusion and wavelet transform. Earth Syst. Environ. 2025. [CrossRef]"
+},
+{
+"by": [
+43
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "Yang H, Chen C, Zhao W, Lu X, Zhang P, Xue J. A novel reliability method for of the risk hazard coupling mechanism in subway construction accidents. Reliab assessing dam slope stability by incorporating intrinsic correlations of rockfill Eng Syst Saf 2024;250:110254. materials. Reliab Eng Syst Saf 2025;259:110961."
+},
+{
+"by": [
+26
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Yang J, Jin H, Tang R, et al (2024) Harnessing the power of llms in practice: A survey on chatgpt and beyond. ACM Transactions on Knowledge Discovery from Data 18(6):1–32"
+},
+{
+"by": [
+45
+],
+"tags": [
+"도메인 LLM",
+"지식그래프"
+],
+"ref": "Yang L, Chen H, Li Z, Ding X, Wu X. Give us the facts: enhancing large language models with knowledge graphs for fact-aware language modeling. IEEE Trans Knowl Data Eng. 2024;36(7):3091–110. https://doi.org/10.1109/tkde.2024.3360454"
+},
+{
+"by": [
+50
+],
+"tags": [
+"RAG·QA",
+"도메인 LLM",
+"지식그래프"
+],
+"ref": "Yang Y, Chen S, Zhu Y, Liu X, Pan S, Wang X. Intelligent question answering for water conservancy project inspection driven by knowledge graph and large language model collaboration. LHB. 2024;110(1). https://doi.org/10.1080/27678490.2024.2397337"
+},
+{
+"by": [
+13
+],
+"tags": [
+"댐·저수지",
+"홍수·수자원"
+],
+"ref": "Yang Y, Zhu Y, Chen S, Liu X, Li H. Application of AI chain integrating crowd intelligence strategy in flood control knowledge inference. J Hydraulic Engineering. 2023;54(09):1122–32. https://doi.org/10.13243/j.cnki.slxb.20230188"
+},
+{
+"by": [
+36
+],
+"tags": [
+"도메인 LLM",
+"온톨로지",
+"지식그래프"
+],
+"ref": "Yang, H.; Liu, Z.; Xiao, L.; Chen, J.; Zhu, R. An LLM Supported Approach to Ontology and Knowledge Graph Construction. In Proceedings of the 2024 IEEE International Conference on Bioinformatics and Biomedicine (BIBM), Lisbon, Portugal, 3–6 December 2024; pp. 5240–5246."
+},
+{
+"by": [
+45
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Yao Z, Wang Z, Wu T. A hybrid data-driven deep learning prediction framework for lake water level based on fusion of meteorological and hydrological multi-source data. Nat Resour Res. 2024;33:163–90."
+},
+{
+"by": [
+45
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Ye Q, Xu H, Ye J, Yan M, Hu A, Liu H, et al. mplug-owl2: Revolutionizing multi-modal large language model with modality collaboration. Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. 2024;13040–51."
+},
+{
+"by": [
+43
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Ye Y, Yang D, Jiang Z, Tong L. Ontology-based semantic models for supply chain monitoring and evaluation of reinforced concrete bridges subject to multiple management. Int J Adv Manuf Technol 2008;37(11-12):1250–60. hazards. Reliab Eng Syst Saf 2024;245:109992."
+},
+{
+"by": [
+8
+],
+"tags": [
+"지식그래프",
+"홍수·수자원"
+],
+"ref": "Ye, F.; Wang, Y.; Xu, D.; Zhang, X.; Jin, G. Designing a knowledge graph system for digital twin to assess urban flood risk. In Web and Big Data; Springer: Singapore, 2024; pp. 191–205. [CrossRef]"
+},
+{
+"by": [
+21
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Yizhong Wang, Hamish Ivison, Pradeep Dasigi, Jack Hessel, Tushar Khot, Khyathi Chandu, David Wadden, Kelsey MacMillan, Noah A. Smith, Iz Beltagy, and Hannaneh Hajishirzi. 2023a. How Far Can Camels Go? Exploring the State of Instruction Tuning on Open Resources. In Thirty-seventh Conference on Neural Information Processing Systems Datasets and Benchmarks Track."
+},
+{
+"by": [
+26
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Yu Y, Yao Z, Li H, et al (2024) Fincon: A synthesized llm multi-agent system with conceptual verbal reinforcement for enhanced financial decision making. Advances in Neural Information Processing Systems 37:137010–137045"
+},
+{
+"by": [
+44
+],
+"tags": [
+"댐·저수지",
+"홍수·수자원"
+],
+"ref": "Yun, X.; Tang, Q.; Wang, J.; Liu, X.; Zhang, Y.; Lu, H.; Wang, Y.; Zhang, L.; Chen, D. Impacts of climate change and reservoir operation on streamflow and flood characteristics in the Lancang-Mekong River Basin. J. Hydrol. 2020, 590, 125472. [CrossRef]"
+},
+{
+"by": [
+17
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Yunxiang, L.; Zihan, L.; Kai, Z.; Liang, Y.; Wang, H.; Chen, J.; Luo, Y.; Zheng, W.; Xu, T.; Zhou, Z. ChatDoctor: A Medical Chat Model Fine-tuned on LLaMA Model Using Medical Domain Knowledge. arXiv 2023. [CrossRef]"
+},
+{
+"by": [
+21
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Yuxia Wang, Haonan Li, Xudong Han, Preslav Nakov, and Timothy Baldwin. 2023b. DoNot-Answer: A Dataset for Evaluating Safeguards in LLMs."
+},
+{
+"by": [
+42
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Z. Bi et al., “OceanGPT: A large language model for ocean science paradigm for time series forecasting,” IEEE Trans. Knowl. Data Eng., tasks,” in Proc. 62nd Annu. Meeting Assoc. Comput. Linguistics, 2024, vol. 36, no. 11, pp. 6851–6864, 2023. pp. 3357–3372. [37] Z. Li et al., “UrbanGPT: Spatio-temporal large language models,” in"
+},
+{
+"by": [
+20
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Z. Bi, N. Zhang, Y. Xue, Y. Ou, D. Ji, G. Zheng, et al., OceanGPT: a large language [48] J. Bulian, M.S. Scha €fer, A. Amini, H. Lam, M. Ciaramita, B. Gaiarin, et al., model for ocean science tasks, ArXiv Prepr ArXiv231002031 (2023). Assessing large language models on climate information, ArXiv Prepr"
+},
+{
+"by": [
+51
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Z. Hao, H. Jiang, S. Jiang, J. Ren, and T. Cao, “Hybrid SLM and LLM [47] R. L. AI et al., “EXAONE 4.0: Unified Large Language Models for Edge-Cloud Collaborative Inference,” EdgeFM 24, Jun. 2024. doi: Integrating Non-reasoning and Reasoning Modes,” arXiv.org, 2025. 10.1145/3662006.3662067. [Online]. Available: https://arxiv.org/abs/2507.11407. [Accessed: Aug."
+},
+{
+"by": [
+47
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Z. Ma, Z. Liu, Ontology- and freeware-based platform for rapid development of BIM estimation, Autom. Constr. 41 (2014) 96–105, https://doi.org/10.1016/j. applications with reasoning support, Autom. Constr. 90 (2018) 1–8, https://doi. autcon.2013.10.020. org/10.1016/j.autcon.2018.02.004. [45] S. Hu, J. Wang, C. Hoare, Y. Li, P. Pauwels, J. O’Donnell, Building energy"
+},
+{
+"by": [
+38
+],
+"tags": [
+"지식그래프"
+],
+"ref": "Z. Ragala, A. Retbi, S. Bennani, Construction and application of knowledge graph for railway rolling stock failure tree, in: 2022 IEEE International Conference on Technology Management, Operations and Decisions (ICTMOD), IEEE, 2022."
+},
+{
+"by": [
+20
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Z. Yin, J. Wang, J. Cao, Z. Shi, D. Liu, M. Li, et al., Lamm: language-assisted language models. Find. Assoc. Comput. Linguist. EMNLP 2024, Association for multi-modal instruction-tuning dataset, framework, and benchmark, Adv. Computational Linguistics, 2024, pp. 7346–7356, https://doi.org/10.18653/ Neural Inf. Process. Syst. 36 (2024). v1/2024.ﬁndings-emnlp.432."
+},
+{
+"by": [
+51
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "ZAI, “zai-org/GLM-4.5 · Hugging Face,” Huggingface.co, Aug. 11, and Pranjul Yadav. Emerging Trends in LLM Benchmarking. In 2024 2025. [Online]. Available: https://huggingface.co/zai-org/GLM-4.5. [Ac- IEEE International Conference on Big Data (BigData), pages 8805– cessed: Aug. 28, 2025]. 8807. IEEE, 2024."
+},
+{
+"by": [
+45
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "Zhang D, Peng Q, Lin J, Wang D, Liu X, Zhuang J. Simulating Reservoir Operation Using a Recurrent Neural Network Algorithm. Water. 2019;11(4):865. https://doi.org/10.3390/w11040865"
+},
+{
+"by": [
+13
+],
+"tags": [
+"댐·저수지",
+"지식그래프",
+"홍수·수자원"
+],
+"ref": "Zhang D, Zhou W, Ma G, Wang X, Liu Y, Wang X. Construction and application of knowledge graph for flood defense and rescue of water infrastructure. Journal of Hydraulic Engineering. 2024;:1–13. https://doi.org/10.13243/j.cnki.slxb.20240268"
+},
+{
+"by": [
+43
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "Zhang F, Lu X, Li Y, Gao Z, Zhang H, Huang H. A self-matching model for online quantitative retrieval method for product defect analysis-related knowledge. Adv anomaly recognition of safety monitoring data in dams. Struct Health Monit 2023; Eng Inform 2022;19(10):10533–49. 22(1):746–73."
+},
+{
+"by": [
+43
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "Zhang F, Lu X, Li Y, Li X, Zhang H. A self-matching model for the online anomaly joint recognition of bridge defect-structural information. Adv Eng Inform 2025;68: recognition of safety monitoring data in dams. Struct Health Monit 2023;22(1): 103674. 746–73."
+},
+{
+"by": [
+50
+],
+"tags": [
+"지식그래프"
+],
+"ref": "Zhang J, Huang X, Gui M. Construction and application of water conservancy knowledge graph for digital twin engineering. People’s Yellow River. 2024;46(04):121–4."
+},
+{
+"by": [
+50
+],
+"tags": [
+"지식그래프"
+],
+"ref": "Zhang L, Hu K, Ma X, Sun X. Combining semantic and structural features for reasoning on patent knowledge graphs. Applied Sciences. 2024;14(15):6807. https://doi.org/10.3390/app14156807"
+},
+{
+"by": [
+43
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Zhang Y, Liu Y, Lei G, Liu S, Liang P. An enhanced information retrieval method for nuclear power plant primary circuit based on a graph neural network. Reliab based on ontology for bridge inspection. Appl Sci 2022;12(20):10599. Eng Syst Saf 2025;261:111151."
+},
+{
+"by": [
+36
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Zhang, B.; Carriero, V.A.; Schreiberhuber, K.; Tsaneva, S.; Sánchez González, L.; Kim, J.; de Berardinis, J. OntoChat: A Framework for Conversational Ontology Engineering Using Language Models. In Proceedings of the 21st European Semantic Web Conference (ESWC 2024), Hersonissos, Crete, Greece, 26–30 May 2024; pp. 102–121."
+},
+{
+"by": [
+18
+],
+"tags": [
+"도메인 LLM",
+"홍수·수자원"
+],
+"ref": "Zhang, Q., Ding, K., Lyv, T., Wang, X., Yin, Q., Zhang, Y., Yu, J., Wang, Y., Li, X., Xiang, Z. & Feng, K. (2025) Scientiﬁc large language models: a survey on biological & chemical domains, ACM Computing Surveys, 57 (6), 1–38. Zhong, L., Lei, H. & Yang, J. (2024) Development of a distributed physics-informed deep learning hydrological model for data-scarce regions, Water Resources Research, 60 (6), e2023WR036333."
+},
+{
+"by": [
+44
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "Zhang, R.; Zhang, S.; Wen, X.; Yue, Z.; Zhou, Y. Optimization of short-term hydropower scheduling with dynamic reservoir capacity based on improved genetic algorithm and parallel computing. J. Hydrol. 2024, 636, 131238. [CrossRef]"
+},
+{
+"by": [
+17
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Zhang, T.; Qin, C.; Li, W.; Liu, Y.; Yang, J.; Zhao, H. Water Body Extraction of the Weihe River Basin Based on MF-SegFormer Applied to Landsat8 OLI Data. Remote Sens. 2023, 15, 4697. [CrossRef]"
+},
+{
+"by": [
+44
+],
+"tags": [
+"지식그래프"
+],
+"ref": "Zhang, Y.; Xiao, H.; Huang, J.-J.; Zhu, C.-F. Implementation of a Smart Water Conservancy System Based on Knowledge Graph and Microservices. Inf. Technol. Water Resour. 2021, 4 , 17–21. [CrossRef]"
+},
+{
+"by": [
+44
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "Zhang, Z.; Geng, S.; He, X.; Zhang, S.; Tian, Y.; Li, H. Application of Improved Particle Swarm Optimization Algorithm in Reservoir Optimal Scheduling. In Proceedings of the 2nd International Conference on Artificial Intelligence, Big Data and Algorithms, CAIBDA 2022, Nanjing, China, 17–19 June 2022; VDE: Berlin, Germany, 2022; pp. 1–4."
+},
+{
+"by": [
+44
+],
+"tags": [
+"댐·저수지",
+"홍수·수자원"
+],
+"ref": "Zhang, Z.; Geng, S.; Jiang, X.; He, X.; Kan, G.; Yu, H.; Zhao, X. Study on Flood Control Optimal Operation of Reservoir Group-Taking Pihe River Basin as an Example. In Proceedings of the 2021 7th International Conference on Hydraulic and Civil Engineering & Smart Water Conservancy and Intelligent Disaster Reduction Forum (ICHCE & SWIDR), Nanjing, China, 6–8 November 2021; pp. 1613–1619. [CrossRef]"
+},
+{
+"by": [
+44
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "Zhang, Z.; Zhang, S.; Wang, Y.; Jiang, Y.; Wang, H. Use of parallel deterministic dynamic programming and hierarchical adaptive genetic algorithm for reservoir operation optimization. Comput. Ind. Eng. 2013, 65, 310–321. [CrossRef]"
+},
+{
+"by": [
+45
+],
+"tags": [
+"지식그래프",
+"홍수·수자원"
+],
+"ref": "Zhao P, Yang Y, Fan G, Tian M. Construction and application of a knowledge graph for flood control and emergency response plans. Proceedings of the International Conference on Algorithms, High Performance Computing, and Artificial Intelligence (AHPCAI 2023). 2023;12941696–708."
+},
+{
+"by": [
+26
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Zhao WX, Zhou K, Li J, et al (2023) A survey of large language models. arXiv preprint arXiv:230318223 1(2)"
+},
+{
+"by": [
+23
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Zheng, L. et al. Judging llm-as-a-judge with mt-bench and chatbot do not have permission under this licence to share adapted material arena. Adv. Neural Inf. Process. Syst. 36, 46595–46623 (2023). derived from this article or parts of it. The images or other third party"
+},
+{
+"by": [
+43
+],
+"tags": [
+"댐·저수지",
+"온톨로지"
+],
+"ref": "Zhou Y, Bao T, Shu X, Li Y, Li Y. BIM and ontology-based knowledge management identification method for dam risk analysis. Math Probl Eng 2020;2020:4103804. for dam safety monitoring. Autom Constr 2023;145:104649."
+},
+{
+"by": [
+45
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Zhou Y, Duan Y, Yao H, Li X, Li S. Incorporating hydrological constraints with deep learning for streamflow prediction. Expert Syst Appl. 2025;259:125379. https://doi.org/10.1016/j.eswa.2024.125379"
+},
+{
+"by": [
+8
+],
+"tags": [
+"홍수·수자원"
+],
+"ref": "Zhou, Q.; Su, J.; Arnbjerg-Nielsen, K.; Ren, Y.; Luo, J.; Ye, Z.; Feng, J. A GIS-based hydrological modeling approach for rapid urban flood hazard assessment. Water 2021, 13, 1483. [CrossRef]"
+},
+{
+"by": [
+13
+],
+"tags": [
+"지식그래프"
+],
+"ref": "Zhu X, Li Z, Wang X, Jiang X, Sun P, Wang X, et al. Multi-Modal Knowledge Graph Construction and Application: A Survey. IEEE Trans Knowl Data Eng. 2024;36(2):715–35. https://doi.org/10.1109/tkde.2022.3224228"
+},
+{
+"by": [
+17
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Zhu, D.; Chen, J.; Shen, X.; Wang, Y.; Zhang, H.; Li, Y.; Gu, J.; Liu, Z.; Wang, X.; Zhou, F. MiniGPT-4: Enhancing Vision-Language Understanding with Advanced Large Language Models. arXiv 2023. [CrossRef]"
+},
+{
+"by": [
+23
+],
+"tags": [
+"RAG·QA"
+],
+"ref": "Zhu, J.-J. et al. Enabling GPTs for expert-level environmental by National Natural Science Foundation of China (52350710204, 42406133), engineering question answering. Environ. Sci. Technol. Lett. 11, and the Ministry of Science and Technology of Guangdong Province 1327–1333 (2024). (2023A1515110786). We thank FigDraw (https://www.ﬁgdraw.com) for"
+},
+{
+"by": [
+33
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Zhu, K., Wang, J., Zhou, J., Wang, Z., Chen, H., Wang, Y., Yang, L., Ye, W., Gong, N. Z., Zhang, Y., & Xie, X. (2023). Promptbench: Towards evaluating the robustness of large language models on adversarial prompts. arXiv preprint arXiv:2306.04528."
+},
+{
+"by": [
+25
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "Zirui Song, Bin Yan, Yuhan Liu, Miao Fang, Mingzhe Li, Rui Yan, and Xiuying Chen. Injecting domainspecific knowledge into large language models: A comprehensive survey. In Findings of the Association for Computational Linguistics: EMNLP 2025, 2025."
+},
+{
+"by": [
+36
+],
+"tags": [
+"온톨로지"
+],
+"ref": "Zulkipli, Z.Z.; Maskat, R.; Teo, N.H.I. A Systematic Literature Review of Automatic Ontology Construction. Indones. J. Electr. Eng. Comput. Sci. 2022, 28, 878–889. [CrossRef]"
+},
+{
+"by": [
+32
+],
+"tags": [
+"온톨로지"
+],
+"ref": "[ 9 ] A. A. Harby, and F. Zulkernine, “From data warehouse Vol. 18 No. 3, pp. 79-89, 2013. to lakehouse: A comparative review,” In 2022 IEEE https://doi.org/10.9708/jksci.2013.18.3.079 International Conference on Big Data (Big Data), pp. [17] D. Han, and C. Jeong, “A Development & Usage 389-395, 2022. Method of MND-EA Ontology based on MND-AF,” https://doi.org/10.1109/BigData55660.2022.10020719 The Journal of Information Technology and"
+},
+{
+"by": [
+49
+],
+"tags": [
+"RAG·QA",
+"도메인 LLM"
+],
+"ref": "\\[11\\] D. Tian, M.C. Li, Q.B. Ren, X.J. Zhang, S. Han, Y. Shen, Intelligent question answering method for construction safety hazard knowledge based on deep semantic mining, Autom. Constr. 145 (2023), https://doi.org/10.1016/j. efficient while ensuring accuracy. Moreover, LLMs can enhance"
+},
+{
+"by": [
+11
+],
+"tags": [
+"댐·저수지",
+"홍수·수자원"
+],
+"ref": "\\[1\\] C. Chu, H. Su, C. Wei, G. You, Semi-quantitative evaluation of levees risk within the context of hydrology uncertainty, J. Hydrol. 617 (2023) 128750, https://doi.org/ 10.1016/j.jhydrol.2022.128750."
+},
+{
+"by": [
+11
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "\\[2\\] Association of State Dam Safety, Dam failures and incidents, (2024). https://"
+},
+{
+"by": [
+49
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "\\[32\\] Y.S. Zhong, S.D. Goodfellow, Domain-specific language models pre-trained on org/10.1016/j.autcon.2021.103699. Article 103699."
+},
+{
+"by": [
+49
+],
+"tags": [
+"지식그래프"
+],
+"ref": "\\[35\\] Y. Zhao, B. Zhang, D. Gao, Construction of petrochemical knowledge graph based cp.1943-5487.0000994. Article 04021030."
+},
+{
+"by": [
+11
+],
+"tags": [
+"RAG·QA"
+],
+"ref": "\\[51\\] L. Cai, M. Wei, S. Zhou, X. Yan, Intelligent question answering in restricted Minneapolis, Minnesota, (2019) pp. 3036–3046. DOI: 10.18653/v1/N19-1308."
+},
+{
+"by": [
+11
+],
+"tags": [
+"온톨로지"
+],
+"ref": "\\[54\\] N. Noy, D. McGuinness, Ontology development 101: A guide to creating your first Long Pap., Association for Computational Linguistics, Baltimore, Maryland, (2014)"
+},
+{
+"by": [
+11
+],
+"tags": [
+"지식그래프"
+],
+"ref": "\\[64\\] D. Sui, X. Zeng, Y. Chen, K. Liu, J. Zhao, Joint entity and relation extraction with manufacturing quality control, Adv. Eng. Inform. 64 (2025) 103007, https://doi."
+},
+{
+"by": [
+49
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "analysis, Adv. Eng. Inform. 47 (2021), https://doi.org/10.1016/j. behaviour analysis on a large-dam construction site, Int. J. Distrib. Sensor Netw. 9"
+},
+{
+"by": [
+49
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "arch dams, Engineering 2 (2016) 350–359, https://doi.org/10.1016/j. management, the workload for annotation would significantly"
+},
+{
+"by": [
+11
+],
+"tags": [
+"지식그래프"
+],
+"ref": "asoc.2022.109029. \\[31\\] Q. Wang, Z. Mao, B. Wang, L. Guo, Knowledge graph embedding: a survey of"
+},
+{
+"by": [
+49
+],
+"tags": [
+"지식그래프"
+],
+"ref": "autcon.2022.104670. Article 104670. the question-answering capabilities of the knowledge graph, making it easier for managers who lack specialized knowledge to utilize the professional knowledge graph."
+},
+{
+"by": [
+11
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "bugs, but features as adversarial examples, ArXiv Prepr. (2024), https://doi.org/ 10.48550/arXiv.2310.01469. \\[17\\] C. Feng, X. Zhang, Z. Fei, Knowledge Solver: Teaching LLMs to search for domain"
+},
+{
+"by": [
+11
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "compliance checking in concrete dam construction: Integrating rule syntax parsing and semantic distance, Adv. Eng. Inform. 60 (2024) 102409, https://doi.org/ 10.1016/j.aei.2024.102409. \\[25\\] R. Mihalcea, P. Tarau, TextRank: Bringing order into text, in: D. Lin, D. Wu (Eds.),"
+},
+{
+"by": [
+49
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "construction claims in hydropower projects, J. Manag. Eng. 39 (2023), https://doi. org/10.1061/jmenea.meeng-5247. Article 04023032. \\[4\\] B. Zhou, J. Li, X.Y. Li, B. Hua, J.S. Bao, Leveraging on causal knowledge for its high accuracy and reliability."
+},
+{
+"by": [
+49
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "dams, Engineering 2 (2016) 498–509, https://doi.org/10.1016/j.eng.2016.04.001. \\[10\\] R.K. Wang, Key technologies in the design and construction of 300 m ultra-high"
+},
+{
+"by": [
+11
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "damsafety.org/dam-failures. (accessed November 20, 2024). \\[3\\] D. Blockley, The Nature of Structural Design and Safety (1981), https://doi.org/"
+},
+{
+"by": [
+49
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "doi.org/10.1016/j.autcon.2024.105316. Article 105316. construction of a concrete face rockfill dam, Struct. Control Hlth. 25 (2018),"
+},
+{
+"by": [
+11
+],
+"tags": [
+"지식그래프"
+],
+"ref": "domains using deep learning and question pair matching, IEEE Access 8 (2020) \\[34\\] Y. Chan, D. Roth, Exploiting syntactico-semantic structures for relation extraction,"
+},
+{
+"by": [
+51
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "edium-scale: Offer balanced performance and cost, [11] H. Touvron et al., “Llama 2: Open Foundation and Fine-Tuned Chat with recovery typically within 6–24 months. Models,” arXiv preprint arXiv:2307.09288, 2023."
+},
+{
+"by": [
+49
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "eng.2016.03.012. increase. Future research could incorporate large language models (LLMs) to assist in annotation, making the process more"
+},
+{
+"by": [
+49
+],
+"tags": [
+"지식그래프"
+],
+"ref": "graphs: investigating the completeness of industrial near miss reports, Saf. Sci. 168 knowledge graph of construction safety standards was con(2023), https://doi.org/10.1016/j.ssci.2023.106305. Article 106305. structed. This graph vividly represents the relationships between entity words in construction safety standards, encapsulating the domain knowledge. This paper provides a theoretical foundation"
+},
+{
+"by": [
+49
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "hydropower engineering construction based on convolutional neural network text classification, Comput. Intellig. Neurosci. 2022 (2022), https://doi.org/10.1155/ 2022/4851615. Article 4851615. \\[13\\] S. Chen, Y. Tian, L.H. Jin, L. Xiang, Estimating the frequency of exposure to uncertain hazards: impact of wind conditions on concrete dam construction, J. Constr. Eng. Manag. 147 (2021), https://doi.org/10.1061/(asce)co.1943- 7862.0001972. Article 04020167."
+},
+{
+"by": [
+49
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "jlp.2022.104736. Article 104736. Enhancing large dam safety using iot technologies: a case of a smart dam, J. Univ."
+},
+{
+"by": [
+11
+],
+"tags": [
+"RAG·QA",
+"도메인 LLM"
+],
+"ref": "knowledge base question answering, J. Web Semant. 74 (2022) 100723, https:// \\[41\\] W. Liao, X. Chu, Y. Wang, TPO: Aligning Large Language Models with Multi-branch"
+},
+{
+"by": [
+11
+],
+"tags": [
+"지식그래프"
+],
+"ref": "knowledge from knowledge graphs, ArXiv Prepr. (2023), https://doi.org/ 10.48550/arXiv.2309.03118. \\[18\\] M. Marzouk, M. Enaba, Text analytics to analyze and monitor construction project contract and correspondence, Autom. Constr. 98 (2019) 265–274, https://doi.org/ 10.1016/j.autcon.2018.11.018. \\[19\\] H. Gadekar, N. Bugalia, Automatic classification of construction safety reports"
+},
+{
+"by": [
+49
+],
+"tags": [
+"온톨로지"
+],
+"ref": "network modeling framework based on ontology and natural language processing, Adv. Eng. Inform. 42 (2019), https://doi.org/10.1016/j.aei.2019.100959. Article 100959. (4) In this paper, data annotation relies primarily on manual label- ing. The involvement of human annotators introduces a certain degree of subjective cognitive bias, which can lead to annotation"
+},
+{
+"by": [
+20
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "of large language models for the environment, Environ. Sci. Technol. 57 with human preferences. Proc. 37th Annu. ACM Symp. User Interface Softw. (2023) 3464. Technol., 2024, pp. 1–14."
+},
+{
+"by": [
+11
+],
+"tags": [
+"온톨로지"
+],
+"ref": "ontology, (2001) pp. 1–25. . pp. 402–412. DOI: 10.3115/v1/P14-1038."
+},
+{
+"by": [
+11
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "process of construction risks in mega hydropower engineering through textual semantics, Adv. Eng. Inform. 62 (2024) 102713, https://doi.org/10.1016/j. aei.2024.102713. \\[12\\] Z. Du, Y. Qian, X. Liu, M. Ding, J. Qiu, Z. Yang, J. Tang, GLM: General language"
+},
+{
+"by": [
+11
+],
+"tags": [
+"RAG·QA",
+"도메인 LLM",
+"지식그래프"
+],
+"ref": "schemes, Hum-Cent. Comput. Info. 9 (2019) 30, https://doi.org/10.1186/s13673- 019-0192-7. \\[7\\] Q. Guo, S. Cao, Z. Yi, A medical question answering system using large language models and knowledge graphs, Int. J. Intell. Syst. 37 (2022) 8548–8564, https:// doi.org/10.1002/int.22955. \\[8\\] E. Zhu, J. Zhang, J. Yan, K. Chen, C. Gao, N-gram MalGAN: Evading machine"
+},
+{
+"by": [
+49
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "scitotenv.2023.167131. Article 167131. \\[2\\] S.R. Zhang, D.J. Hou, C. Wang, F. Pan, L. Yan, Integrating and managing BIM in 3D web-based GIS for hydraulic and hydropower engineering projects, Autom. Constr. 112 (2020), https://doi.org/10.1016/j.autcon.2020.103114. Article 103114. proposed method demonstrates superior performance in safety"
+},
+{
+"by": [
+11
+],
+"tags": [
+"RAG·QA"
+],
+"ref": "selection in question answering, IEEE Access 7 (2019) 26146–26156, https://doi. C. Doran, T. Solorio (Eds.), Proc. 2019 Conf. North Am. Chapter Assoc. Comput."
+},
+{
+"by": [
+11
+],
+"tags": [
+"RAG·QA"
+],
+"ref": "v1/2021.acl-long.486. \\[45\\] J. Alvaro, ´J. Barreda, An advanced retrieval-augmented generation system for"
+},
+{
+"by": [
+41
+],
+"tags": [
+"지식그래프"
+],
+"ref": "和婷婷 , 张强 . 知识图谱在油气勘探开发中的应用现状与发展趋势 [J]. 天然气工业 , 2024, 44(9): 55–67. [HE T T, ZHANG Q. Current applications and development trends of knowledge graphs in oil and gas exploration and development[J]. Nat. Gas Ind., 2024, 44(9): 55–67.]"
+},
+{
+"by": [
+41
+],
+"tags": [
+"댐·저수지"
+],
+"ref": "潘焕泉 , 刘剑桥 , 龚斌 , 等 . 油藏动态分析场景大模型构建与初步应用 [J]. 石油勘探与开发 , 2024, 51(5): 1175–1182. [PAN H Q, LIU J Q, GONG B, et al. Construction and preliminary application of large models for reservoir dynamic analysis scenarios[J]. Petrol. Explor. Dev., 2024, 51(5): 1175–1182.]"
+},
+{
+"by": [
+4
+],
+"tags": [
+"RAG·QA"
+],
+"ref": "다양한 비정형 학사 행정 문서를 효과적으로 처리하고 활 Retrieval-Augmented Generation (RAG) for Generative AI,” The Journal of Korean Association of Computer Education, vol. 28, 용하기 위해 RAG 기반 질의응답 시스템을 설계하였다. 제 no. 2, pp. 69–76, Feb. 2025. DOI: 10.32431/kace.2025.28.2.007. 안된 시스템은 학사 행정 관련 질의에 대해 빠르고 신뢰성"
+},
+{
+"by": [
+2
+],
+"tags": [
+"RAG·QA"
+],
+"ref": "모든 구성요소가 인터넷 등 외부망과 통신이 불필요하도 [7] N. Reimers and I. Gurevych, \"Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks,\" Proceedings of the EMNLP 2019, 록 구성하여 기밀 정보의 유출 가능성을 낮추었다. January 2019. DOI: 10.18653/v1/D19-1410 RAG 구조의 특징에 기인하는 문제지만, 본 논문에서"
+},
+{
+"by": [
+15
+],
+"tags": [
+"도메인 LLM"
+],
+"ref": "본 연구는 대형 언어 모델(LLM)을 활용하여 형사 고소장의 자동화를 실현함으로써 수사관의 업무 효율성을 높이고 수사 과정의 신속성과 정확성을 향상시키는 데 기여하였다. 개발한 고소장 자동화 시스템은 실제 수사 업무에서 다음과 같은 절차로 활용될 수 있다. 우선 법률 전문가가 아닌 일반인이 작성한 부실한 고소장의 범죄사실 내용에도 206 경찰법연구 제22권 제3호(2024)"
+}
+]
