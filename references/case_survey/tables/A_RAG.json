@@ -23,7 +23,7 @@
    "kg_build": "해당 없음",
    "retrieval_type": "희소+벡터",
    "llm_type": "상용 API",
-   "finetune_type": "전체 미세조정",
+   "finetune_type": "임베딩·선호 학습",
    "eval_type": "자동+LLM 평가",
    "study_type": "방법 제안"
   }
@@ -31,7 +31,7 @@
  {
   "id": "02_국내기업용RAGQA",
   "case": "국내 기업용 RAG 질의응답",
-  "source": "Yi·Kim(2024)",
+  "source": "이광우·김수균(2024)",
   "venue": "한국컴퓨터정보학회논문지",
   "venue_type": "학술지",
   "country": "국내",
@@ -89,7 +89,7 @@
  {
   "id": "04_대학학사행정RAGQA",
   "case": "대학 학사행정 RAG 질의응답",
-  "source": "Oh·Kim(2025)",
+  "source": "오재광·김수균(2025)",
   "venue": "한국컴퓨터정보학회논문지",
   "venue_type": "학술지",
   "country": "국내",
@@ -223,7 +223,7 @@
   "tags": {
    "water": "홍수",
    "knowledge_type": "온톨로지+KG",
-   "kg_build": "해당 없음",
+   "kg_build": "방식 미기재",
    "retrieval_type": "그래프 질의",
    "llm_type": "불명",
    "finetune_type": "안 함",
@@ -234,9 +234,9 @@
  {
   "id": "09_WaterCopilot",
   "case": "WaterCopilot",
-  "source": "Vickneswaran 외(연도 미상)",
-  "venue": "-",
-  "venue_type": "기타",
+  "source": "Vickneswaran 외(2026)",
+  "venue": "arXiv:2601.08559",
+  "venue_type": "사전 공개본",
   "country": "해외",
   "domain": "유역 수자원 관리 QA(Limpopo 유역)",
   "data": "정책·보고서 PDF(수 -), 실시간 수문 자료 API, 평가 질문 30개",
@@ -282,7 +282,7 @@
    "water": "홍수",
    "knowledge_type": "없음",
    "kg_build": "해당 없음",
-   "retrieval_type": "없음",
+   "retrieval_type": "규칙 기반",
    "llm_type": "둘 다",
    "finetune_type": "안 함",
    "eval_type": "자동 지표",
@@ -339,7 +339,7 @@
   "tags": {
    "water": "수문·수자원 일반",
    "knowledge_type": "KG",
-   "kg_build": "해당 없음",
+   "kg_build": "방식 미기재",
    "retrieval_type": "그래프+벡터",
    "llm_type": "공개 모델 로컬",
    "finetune_type": "안 함",
@@ -513,7 +513,7 @@
   "tags": {
    "water": "홍수",
    "knowledge_type": "KG",
-   "kg_build": "해당 없음",
+   "kg_build": "방식 미기재",
    "retrieval_type": "그래프+벡터",
    "llm_type": "공개 모델 로컬",
    "finetune_type": "LoRA 계열",
