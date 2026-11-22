@@ -1,0 +1,543 @@
+댐 운영 의사결정 프레임워크 자문 용역
+월간 공정보고 (8월)
+2026. 09. 02
+그림입니다.
+원본 그림의 이름: image1.png
+원본 그림의 크기: 가로 353pixel, 세로 281pixel
+그림입니다.
+원본 그림의 이름: 한수원 로고.jpg
+원본 그림의 크기: 가로 341pixel, 세로 215pixel
+목 차
+Ⅰ. 사업개요 1
+1. 과업배경 및 목적 1
+2. 과업기간 1
+3. 과업 주요내용 2
+4. 수행조직 및 참여인력 4
+Ⅱ. 세부 수행계획표 5
+Ⅲ. 주요 추진현황 6
+Ⅳ. 세부 수행실적 7
+Ⅴ. 부록 9
+Ⅵ. 참고문헌 22
+Ⅰ. 사 업 개 요
+1. 과업배경 및 목적
+□ 용역 사업배경 및 목적
+◦ (추진배경) 댐 운영은 수문 데이터뿐만 아니라 과거 운영경험, 매뉴얼, 관련 법령 등 비정형 데이터에 대한 종합적 판단이 필수적이나, 이를 정형화해 의사결정에 연결하는 모델/시스템이 부재함
+◦ sLLM 기반 스마트 의사결정 체계를 통해 비숙련 운영자를 보조하고, 방류 시점을 정밀 제어하는 수력발전 운영 효율화 기술에 대한 수요가 높음
+◦ (목적) sLLM 기반 댐 운영 의사결정 및 발전 최적화 프레임워크 구축을 위한 기술적 타당성 검토
+2. 과업기간
+□ 총 수행 기간
+◦ 착수일로부터 6개월 : 2026. 07. 23. ~ 2027. 01. 22.
+3. 과업 주요내용
+□ 국내외 기술 트렌드 조사
+◦ 수자원 분야 사례 조사 : 수자원 관리 분야의 RAG, 도메인 특화 LLM, 운영지식 구조화 등 AI·LLM 적용 사례를 조사하고 시사점을 도출
+◦ 국내 운영 여건 조사 : 국내 댐 운영 현장의 업무 절차, 자료 활용 방식, 의사결정 구조, 시스템 운영 환경에 대한 현장 방문 조사를 통해 기술 적용 시 고려사항을 도출
+◦ 적용 기술요소 및 모델 제안 : 지식기반 구성, 수문자료 연계, 운영자 지원체계 등 핵심 기술요소를 도출하고, 이를 구현할 sLLM 모델 및 RAG 아키텍처(안)를 제안
+□ LLM 활용 데이터 파이프라인 조사
+◦ 수집 경로 조사 : 수위·유량·기상·전력 단가 등 주요 데이터의 수집 대상·경로를 조사·비교하여 적정 수집 경로(안) 제시
+◦ 온톨로지·메타데이터 설계방안 조사 : RAG·LLM 활용성 제고를 위한 온톨로지·메타데이터 기반 수집 데이터 전처리 체계 설계방안 조사
+◦ RAG-LLM 통합 파이프라인(안) 제시 : 수집 경로, 전처리 방안, 온톨로지·메타데이터 설계를 종합하여 표준 프롬프트 프레임으로 연계되는 파이프라인(안) 제시
+□ sLLM 후보군 평가 방향
+◦ 후보 모델 조사 : Llama 3·Mistral·Qwen 계열 7~14B급 오픈소스 dense 모델을 온프레미스 배치 가능성·미세조정 효율 기준으로 조사·비교
+◦ 모델 구조 및 특성 검토 : GQA, RoPE, SwiGLU, RMSNorm 등 아키텍처 요소와 장문 처리·한국어 대응·수치문서 해석 특성을 검토하여 댐 운영 분야 적용성을 분석
+◦ 후보군 적용방안 제시 : 장문 운영매뉴얼·규정문서 처리, 수치-텍스트 복합 해석, RAG 결합 시 근거 기반 응답 일관성 등을 중심으로 후보군을 비교하여 적합한 sLLM 및 적용방안(안) 제시
+□ 도메인 특화 성능 향상 전략
+◦ RAG 기반 적용방안 조사 : 모델이 내부 파라미터에만 의존하지 않고 최신 운영 문서·과거 사례를 참조하여 응답할 수 있도록 RAG 기반 도메인 특화 적용방안 조사
+◦ 경량 미세조정 방식 검토 : 전체 파라미터 재학습(full fine-tuning) 대비 제한된 도메인 데이터·온프레미스 자원 환경에 적합한 PEFT(LoRA·QLoRA·DoRA) 중심 성능 향상 방안 검토
+◦ 성능 향상 전략 제시 : 검색·프롬프트 구성·응답 생성 모듈을 연계한 구조와 검증 모듈·경량 앙상블 결합 방식을 검토하여 근거 기반 응답 정확도·의사결정 신뢰성을 높이는 전략(안) 제시
+4. 수행조직 및 참여인력
+□ 수행조직
+수행 조직도
+순번
+구분
+성명
+전공분야
+학위
+참여기간
+담당업무
+1
+책임연구원
+신주영
+수공학
+박사
+2026.7.23.~2027.1.22.
+용역 총괄, 댐 운영 의사결정 및 수자원 분야 기술 검토
+2
+연구원
+김장호
+인공지능
+박사
+2026.7.23.~2027.1.22.
+sLLM 후보군 평가, 모델 구조·특성 검토
+3
+연구보조원1
+문경민
+수공학
+학사
+2026.7.23.~2027.1.22.
+데이터 파이프라인·온톨로지 조사 지원
+4
+연구보조원2
+황솔희
+인공지능
+학사
+2026.7.23.~2027.1.22.
+sLLM 후보모델 조사·비교 지원
+□ 참여인력
+Ⅱ. 세부 수행계획표
+사각형입니다.수행내용(Activity)
+착수 후(6개월)
++1
++2
++3
++4
++5
++6
+'26.8
+'26.9
+'26.10
+'26.11
+'26.12
+'27.1
+1. 국내외 기술 트렌드 조사
+1.1 수자원 분야 사례 조사
+1.2 국내 운영 여건 조사
+1.3 적용 기술요소 및 모델 제안
+2. LLM 활용 데이터 파이프라인 조사
+2.1 수집 경로 조사
+2.2 온톨로지·메타데이터 설계방안 조사
+2.3 RAG-LLM 통합 파이프라인(안) 제시
+3. sLLM 후보군 평가 방향
+3.1 후보 모델 조사
+3.2 모델 구조 및 특성 검토
+3.3 후보군 적용방안 제시
+4. 도메인 특화 성능 향상 전략
+4.1 RAG 기반 적용방안 조사
+4.2 경량 미세조정 방식 검토
+4.3 성능 향상 전략 제시
+5. 최종 보고서 작성
+(1) 최종 보고서 작성
+Ⅲ. 주요 추진현황
+’26년 8월 실적
+’26년 9월 계획
+1. 국내외 기술 트렌드 조사
+&lt;수자원 분야 사례 조사&gt;
+수자원 관리 분야뿐 아니라 도메인 특화 기술(RAG·도메인특화 LLM·온톨로지·지식그래프)이 검증된 타 산업 분야까지 조사 범위를 넓혀 국내외 학술문헌·공개 기술자료를 폭넓게 조사
+사례별 아키텍처·성과를 정리하고, 댐 운영 프레임워크 구축 관점의 시사점 도출
+&lt;국내 운영 여건 조사&gt;
+착수보고회의를 통해 본 과제(사전 탐색성 과제)의 성격·방향성과 1단계 목표 수준에 대한 자문위원 의견 수렴
+댐 운영 평가지표, 사내 AI 인프라(하이누리 등) 활용 여부, 데이터 품질 이슈 등 국내 운영여건 관련 쟁점 파악
+&lt;적용기술 요소 및 모델 제안&gt;
+국내외 사례조사·국내 운영여건 조사 결과를 종합하여 핵심 기술요소(지식기반 구성, 수문자료 연계, 운영자 지원체계 등) 도출
+2. LLM 활용 데이터 파이프라인 조사
+&lt;수집경로 조사&gt;
+수위·유량·기상·전력단가 등 주요 데이터의 수집 대상·경로 조사 완료, 적정 수집 경로(안) 도출
+&lt;온톨로지·메타데이터 설계방안 조사&gt;
+RAG·LLM 활용성 제고를 위한 온톨로지·메타데이터 기반 수집 데이터 전처리 체계 설계방안 조사 완료, 설계요소 조사표 작성
+Ⅳ. 세부 수행 실적
+1. 국내외 기술 트렌드 조사
+1.1 수자원 분야 사례 조사
+□ 국내외 AI·LLM 적용사례 조사 및 분석
+◦ 댐·저수지·홍수 등 수자원 분야 직접 적용사례를 중심으로, RAG 기반 질의응답 / 도메인특화 LLM / 운영지식 구조화(온톨로지·지식그래프) 3개 축으로 국내외 사례 조사 (표 1.1~1.3)
+- 댐 안전점검, 저수지 운영, 홍수예측 등에 적용된 국내외 사례 우선 확인
+- 금융·법률·국방·시설안전 등 도메인 특화 기술이 적용된 타 산업 사례까지 함께 조사하여, 축별 적용 양상과 기술적 시사점을 폭넓게 비교 검토 (국내외 학술문헌 및 공개 기술자료 조사)
+1.2 국내 운영 여건 조사
+□ 착수보고회의를 통한 운영여건 조사 착수
+◦ 발주자 및 관계자 참석 착수보고회의 개최 (표 1.4 참석자 및 주요의견)
+- 사전 탐색성 과제로서의 성격 및 1단계 목표 수준에 대한 의견 수렴
+□ 국내 운영여건 관련 주요 쟁점 파악
+◦ 댐 운영 성과 평가지표의 한계 및 대안적 척도 필요성 확인
+- 목표지점 수위 등에 대한 '접근도' 개념의 대안적 척도 검토 필요 (착수보고회 논의)
+◦ 사내 AI 인프라(하이누리 등) 활용 가능성 검토 필요성 확인
+- 한수원 사내 구축·운영 중인 AI 인프라(하이누리 등) 현황 및 연동 가능성 확인 필요 (착수보고회 논의)
+- 자체 인프라 활용 시 보안·데이터 반출 제약 등 고려사항 사전 검토 필요
+◦ 수자원 데이터 품질(결측·오측) 및 정답 데이터 확보 방안 검토 필요
+- 계측 데이터의 결측·오측 발생 현황 및 보정 이력 확인 필요 (착수보고회 논의)
+- 모델 학습·검증에 활용할 정답 데이터(레이블) 확보 방안 및 구축 범위 협의 필요
+◦ 결과 도출 근거(reasoning) 제시가 가능한 구조 설계 필요성 확인
+- 의사결정 지원 결과에 대한 근거(reasoning) 제시 필요성 및 설명가능성(explainability) 확보 방안 논의 (착수보고회 논의)
+- 단순 예측값 제공을 넘어 판단 근거를 함께 제시하는 구조 설계 방향 검토
+Ⅴ. 부록
+1. 국내외 기술 트렌드 조사
+1.1 수자원 분야 사례 조사
+□ 주요 개념 정리
+◦ RAG(검색증강생성)
+- LLM이 답변을 생성하기 전에 외부 지식베이스에서 관련 정보를 검색해 답변의 사실 정확성과 관련성을 높이는 과정이다. 질의 임베딩 → 코사인 유사도 기반 검색 → 재순위화(reranking) → LLM 생성의 4단계로 구성된다 Gao, Y. et al. (2023). Retrieval-Augmented Generation for Large Language Models: A Survey. arXiv:2312.10997 — Li, J. et al., IWMS-LLM, Journal of Hydroinformatics, 27(11), 1685 (2025)에서 재인용.
+. 지식베이스 구축 시점을 기준으로 사전 적재형(batch-ingested)과 실시간 API 호출형(Tool-calling)으로 구분된다.
+◦ LLM / 도메인특화LLM
+- 특정 과학 분야의 전문 어휘·개념·추론 과제를 다루도록 학습되거나 미세조정된 대규모 신경망 언어모델이다 Kizilkaya, D., Sermet, Y., &amp; Demir, I. (2025). Towards HydroLLM: approaches for building a domain-specific language model for hydrology. Journal of Hydroinformatics, 27(10), 1652, Glossary.
+. 모델 용량과 데이터 규모의 정합(capacity-alignment)이 성능에 중요하며, 1.5B~32B 규모 비교 실험에서 8B급 모델이 가장 안정적인 성능을 보인 사례가 확인된다.
+◦ 온톨로지·KG
+- 온톨로지는 도메인의 형식적 어휘·스키마를 규정해 개념과 관계를 정의한 것이고, 지식그래프(KG)는 이 스키마를 실제 데이터로 채워 구체화한 것이다 Gruber, T. (1993). A Translation Approach to Portable Ontology Specifications — Li, S. et al., A Semi-Automated Framework for Flood Ontology Construction, Water, 17(19), 2801 (2025)에서 재인용·종합.
+. 온톨로지는 "설계도", KG는 "채워진 그래프"에 해당한다.
+◦ 온프레미스
+- 클라우드·온프레미스·하이브리드 3가지 배포 방식 중 하나로, 완전한 통제와 컴플라이언스 준수가 가능하지만 상당한 초기 투자가 필요한 배포 방식이다. 헬스케어·금융·법률 등 민감한 도메인에서 주로 채택된다 Pan, G., Chodnekar, V., Roy, A., &amp; Wang, H. (2025). A Cost-Benefit Analysis of On-Premise Large Language Model Deployment: Breaking Even with Commercial LLM Services. arXiv:2509.18101.
+.
+표 1.1 RAG 기반 질의응답 사례
+구분
+사례
+출처
+핵심 아키텍처
+주요 성과
+국내
+KAIST 금융 RAG
+김현준 외(2025) [1]
+사전검색(질의확장+마크다운 구조재구성)→검색(금융특화 임베딩 파인튜닝+희소·밀집 하이브리드)→사후처리(재정렬+DPO 최적화)의 3단계 파이프라인
+7개 금융QA 데이터셋(FinDER·FinQABench·FinanceBench 등)에서 NDCG 등 정량지표 기존 대비 유의미하게 향상
+국내
+국내기업용 RAG QA
+이광우·김수균(2024) [2]
+한국어 문장임베딩(ko-sroberta-multitask)으로 부서별 지식DB 구축(MongoDB+ChromaDB), 밀집검색+BM25 하이브리드로 4~8개 후보문단 추출, 폐쇄망(외부망 미연결) 설계
+도메인 특화 질의에는 근거 기반 정확 응답, 일반상식 질의에는 "모른다"고 답해 환각 방지 확인
+국내
+개인정보보호법 RAG 챗봇
+민기단 외(2025) [3]
+RAG 기반 챗봇 설계·구현 및 성능평가
+개인정보보호법 질의응답 서비스로서의 실효성 검증
+국내
+대학 학사행정 RAG QA
+오재광·김수균(2025) [4]
+비정형 학사행정 문서 대상 검색-증강-생성 파이프라인 — 국내기업용 RAG QA(이광우·김수균)의 동일 저자(김수균)가 방법론을 대학 행정 도메인으로 확장한 후속연구
+다양한 비정형 학사 문서를 효율적으로 처리·활용하는 RAG 기반 질의응답 시스템 설계·검증
+해외
+IWMS-LLM
+Li et al.(2025) [5]
+Problem-driven service model(4개 모듈) + 데이터모듈 내 벡터화 파이프라인(적재→청킹→벡터화→Milvus 저장)으로 지식베이스 구축, 질의 임베딩-코사인 유사도 검색으로 RAG QA 서비스 제공
+웨이허 유역 펑자산·스터우허 저수지 홍수 재현 사례로 검증, 시나리오 적응성·시스템 확장성 확보, 비전문가 활용 장벽 완화
+해외
+WaterRAG
+(2026) [6]
+동료심사논문 7,637편 + 기술문헌 11편으로 구성된 선별 DB + 반복개선형 멀티에이전트 RAG
+전문 기술질의 370건 벤치마크에서 정답률 80.5%(GPT-4.1 단독 64.9% 대비 우수), 인용근거 기반 검토보고서 생성
+해외
+수리시설 점검 QA (KG-LLM 협업)
+Yang et al.(2024) [7]
+질의를 5단계로 세분화해 점진적으로 명확화 — KG 기반 최적 명확화 경로 + LLM 의미이해로 어휘 한계·고정 템플릿 의존 완화
+MRR·MAP·Precision·Recall 지표 모두 0.73 이상
+해외
+홍수 위험 커뮤니케이션 RAG+KG
+Ritzau(2025) [8]
+Flood Knowledge Graph로 소셜미디어·수문·기상 데이터를 통합하는 멀티모달 RAG 프레임워크, 전문가 검증·보안 계층 포함
+텍스트 전용 LLM 대비 사실 불일치율 75% 이상 감소, 홍수 제약 대피경로 계획 등에 활용
+해외
+WaterCopilot
+Vickneswaran et al.(2026) [9]
+RAG(정책문서 시맨틱 검색, Azure AI Search) + Tool-calling(실시간 수문 API) 하이브리드, 다국어(영·포르투갈·프랑스어) 지원
+RAGAS 프레임워크 평가 종합점수 0.8043(답변 관련성 0.8571), LRB 디지털트윈과 연동
+해외
+R2RAG-Flood(홍수 피해 나우캐스팅)
+Huang, L. 외(2026) [10]
+추론 중심 지식베이스(구조화 예측변수+텍스트 요약+모델생성 추론경로) 구축 후, 인근 지리적 이웃·대표 클래스 사례의 추론경로를 검색해 컨텍스트로 제공하는 학습 불필요(training-free) RAG
+별도 파라미터 학습 없이 유사 추론경로를 검색·적응시켜 홍수 피해 나우캐스팅 수행, 재학습 부담 없이 적용 가능함을 실증
+해외
+제방 안전관리 QA(LSM-KG)
+Zhang, D., Ma, G., Qu, T. 외(2025) [11]
+안전관리 텍스트 분석으로 온톨로지 설계 → PFKAN(어텐션 결합 분할융합 콜모고로프-아놀드 네트워크)으로 엔티티·관계 공동추출 → 제방안전관리 KG(LSM-KG) 구축 → 질의의도 해석에 투표전략을 적용해 KG에서 지식 검색·LLM 보강
+공학안전관리 분야 최초의 LLM+KG 결합 QA 사례로 보고됨, 위기상황에서의 신속·전문적 의사결정 지원을 목표로 설계
+해외
+수자원 지식 QA 라우팅 시스템
+Han, X., Liu, B., Yang, Z., Tang, W.(2026) [12]
+질의 유형별 라우팅 — 구조화 지식은 템플릿 기반 KG 서브그래프 검색, 문서 기반 질의는 LLM+유사도 랭킹으로 출처 포함 요약 생성, 그 외는 LLM 내재지식으로 응답
+NER F1 91.5%, 엔티티링킹 top-1 정확도 임베딩 단독 대비 7.2%p 향상, 500개 질의 기준 종단간 QA 정확도 86.4%
+해외
+수리시설 리스크 의사결정 생성(멀티모달 KG-RAG)
+Yang, L., Li, Y., Tan, J., Mao, L.(2025) [13]
+이미지(개선된 DenseNet, self-attention+coordinate attention)와 텍스트(BERT-BiLSTM-CRF)에서 각각 리스크 엔티티를 추출해 멀티모달 리스크 KG를 구축하고, 멀티에이전트 agentic RAG로 의사결정안을 생성
+개선 DenseNet이 이미지 인식 정밀도·재현율에서 베이스라인 상회, 멀티모달 KG+agentic RAG 결합이 BERTScore·ROUGE-L에서 우수한 성능
+표 1.2 도메인 특화 LLM 사례
+구분
+사례
+출처
+핵심 아키텍처
+주요 성과
+국내
+금융 도메인 LLM(Mistral 7B)
+정천수(2024) [14]
+Mistral 7B(SLM) 기반, 금융 특화 데이터셋 선정·전처리 + PEFT 파인튜닝, 도메인 특화 어휘 구축
+실제 보험·금융 도메인 LLM 구축 절차와 다양한 금융분야 적용사례 제시, 한계·개선방향 도출
+국내
+고소장 자동작성 LLM
+박지원 외(2024) [15]
+사기 유형(차용·용도/물품)별 정보추출 후 미세조정 모델로 범죄사실 자동생성
+환각 오류 미발생, 차용·용도사기 BLEU 76%·코사인유사도 92%, 물품사기 BLEU 86%·코사인유사도 94%
+국내
+전장상황분석 sLLM
+(2025) [16]
+Teacher Critique 기반 Inference-with-Hint로 DPO 선호도 데이터셋 구축, 안전성을 환각 최소화 관점으로 재정의해 정렬
+SFT 모델 대비 안전성 +24.41%p, 유용성 +3.77%p 향상(β=0.9, epoch=15 최적)
+해외
+WaterGPT
+(2024) [17]
+Qwen2-7B-Instruct 기반, 수문 사전·백과·문헌 데이터로 증분 사전학습(1.1B 토큰) + LoRA SFT
+자체 벤치마크 EvalWater 정확도 83%, 중국어·영어 이중언어 및 이미지·텍스트 멀티모달 지원
+해외
+HydroLLM
+Kizilkaya et al.(2025) [18]
+DeepSeek-Llama 1.5B~32B, 약 8,800개 수문 QA 데이터셋으로 LoRA 미세조정
+8B 모델이 최적 성능(32B는 과적합, 1.5B는 성능 부족 — 모델 크기와 데이터 규모의 정합성 필요성 확인)
+해외
+HydroEmbed
+(2025) [19]
+22.7M 파라미터 경량 임베딩 모델, MultipleNegativesRankingLoss 등으로 미세조정
+RTX 3060에서 단일 질의 인코딩 6ms 미만, GPU 메모리 0.10GB — 자원 제한 환경에서 실시간 RAG 검색에 적합
+해외
+EnvGPT
+(2025) [20]
+8B 모델, LoRA로 기후·수문·생태·토양·에너지 5개 분야 통합
+독립 벤치마크 EnviroExam 정확도 92.06%, 동일 파라미터 Llama-3.1-8B 대비 약 8%p 우위, 9배 큰 Qwen2.5-72B에 필적
+해외
+ClimateGPT / OceanGPT
+ClimateGPT(2024) [21], OceanGPT(2024) [22]
+각각 기후·해양 분야 인접 도메인 특화 LLM 선례
+ClimateGPT-7B가 10배 큰 Llama-2-70B-Chat과 동등 성능; OceanGPT는 최초의 해양 전문 LLM으로 OceanBench 구축
+해외
+WaterGPT 후속(물·하수관리 실무 적용)
+Xu et al.(2025) [23]
+프롬프트 엔지니어링·지식/툴 증강·파인튜닝을 결합해 범용 LLM을 물·하수관리 특화LLM(WaterGPT류)으로 전환하는 방법론
+WaterGPT의 cited-by 목록에서 직접 확인된 후속연구로, 물·하수관리 도메인 특화 LLM 구축의 방법론·데이터셋·벤치마킹 체계를 제시
+해외
+HydroLLM 후속(홍수터 관리 AI 플랫폼)
+Kizilkaya et al.(2026) [24]
+HydroLLM 저자 그룹(Kizilkaya·Sermet·Demir)의 후속연구로, AI-ready 플랫폼의 시스템 요구사항·아키텍처 설계
+HydroLLM의 cited-by 목록에서 직접 확인된 후속연구로, 홍수터 관리 실무에 AI 플랫폼을 도입하기 위한 요구사항·아키텍처 청사진 제시
+해외
+GSI Agent
+Wang(2026) [25]
+그린빗물인프라(투수포장·빗물정원 등) 점검·유지관리 지식 증강 — SFT(GSI 지시문 데이터셋) + RAG(지자체 매뉴얼 기반 내부 지식베이스) + 에이전트 기반 추론 파이프라인 3단계 결합
+GSI 데이터셋 BLEU-4 0.090→0.307로 향상, 일반상식 성능(0.304→0.305)은 유지
+해외
+Hydro-SE Bench(평가)
+Hu et al.(2025) [26]
+수문·수공학(Hydro-SE) 지식 전반의 LLM 역량 평가 — 4,000문항 객관식 벤치마크로 기초개념·공학응용·추론계산 능력 3개 축 평가, 9개 세부분야 커버
+상용 LLM 정확도 0.74~0.80, 소형 LLM 0.41~0.68 — 산업표준·수리구조물 등 도메인 특화 지식에서 취약함을 확인
+해외
+CSKR-LLM-HWCEC(수력·수리 건설안전 추론 LLM)
+Chen, Y., Liu, Q., Nie, B., Luo, X.(2026) [27]
+건설안전 지식추론에 특화된 LLM — RAG·지식그래프(KG) 연계로 추론 근거와 해석가능성을 보강
+ChatGPT-4.0·Qwen 대비 종합성능 약 20~30% 향상, Rouge·Bleu 지표에서 50% 이상의 상대적 우위
+해외
+수리시설 안전리스크 식별 지식강화 LLM
+Liu, X., Zheng, J., Hou, B., Wang, L., Li, H., Chen, C.(2025) [28]
+점검 텍스트에서 리스크를 식별하도록 Chain-of-Thought로 구성한 ChatGLM4 기반 LLM — 식별 결과를 리스크 KG로 구조화해 재활용
+리스크 연쇄전파(risk chain propagation) 양상을 규명해 공사안전에 영향을 미치는 핵심 리스크를 식별
+해외
+수력댐 인허가 규제문서 정보추출 벤치마크
+Yoon, H-J., Ashraf, F., Ruggles, T. A., Singh, D.(2025) [29]
+오픈웨이트 LLM 7종(0.6B~70B)으로 FERC 수력댐 인허가문서에서 17개 구조화 항목(최소방류량, 저수위, 방류능력 등) 추출 성능을 프롬프트 전략별로 비교
+최고 성능 Llama 70B(엄격검증) F1 0.767, 14B 미만 모델은 F1 0.51 수준에서 정체, 소형모델은 재현율은 높으나 정밀도가 낮은 환각 패턴 확인
+표 1.3 운영지식 구조화(온톨로지·지식그래프) 사례
+구분
+사례
+출처
+핵심 아키텍쳐
+주요 성과
+국내
+온톨로지학습기반 KG구축
+류민우·차시호(2022) [30]
+독립적으로 구축된 도메인별 지식서비스 간 의미충돌·중복저장 문제를 온톨로지 학습 기반으로 해소하는 KG 구축 방법
+지식서비스 간 지식 공유·재사용이 가능한 통합 구조 제시
+국내
+시설물안전점검 LLM+디지털트윈
+성지연 외(2025) [31]
+비정형 정기안전점검보고서의 PDF 테이블을 LLM으로 JSON 포맷 변환, 세부 코멘트에서 손상유형평가 추출해 위험도 정량화
+시계열 분석으로 손상 진행 추세 시각화, 디지털트윈 통합 기반 마련
+국내
+국방 지휘통제 온톨로지·KG
+김건영 외(2025) [32]
+지휘통제체계의 정형데이터는 온톨로지로, 문서 등 비정형데이터는 지식그래프로 통합 — 다수 도메인 온톨로지 + 이를 통합하는 상위 온톨로지 구조
+시나리오 검증으로 AI모델 학습용 다출처·멀티모달 데이터의 효과적 통합·확보 가능성 확인
+국내
+LLM 민감정보 유출방지 KG챗봇
+유기동(2024) [33]
+민감정보를 LLM과 분리된 별도 KG에 저장·관리, 자연어 질의를 LLM이 KG 질의문으로 변환 → 그래프 기반 챗봇이 질의 실행·결과 추출
+LLM 사용 중 민감정보 유출 가능성을 최소화하는 구조 제시
+국내
+국방 지휘통제 온톨로지·KG 후속(AI 작전참모 실험)
+지현진·오윤중(2026) [34]
+김건영 외(2025) 국방 지휘통제 온톨로지·KG 연구를 인용해, 실제 생성형 AI(Gemini) 기반 작전참모를 구현·실험
+국방 지휘통제 온톨로지·KG의 cited-by 목록에서 직접 확인된 후속연구로, AI 기반 지휘통제체계의 가능성과 한계를 실증적으로 분석
+국내
+LLM 민감정보 유출방지 KG챗봇 후속(Composite KG GraphRAG)
+유기동(2024) [35]
+원 저자의 후속연구로, 단일 KG 대신 복합 지식그래프(Composite KG) 기반 GraphRAG 구조로 확장
+해당 논문의 cited-by 목록에서 직접 확인된 후속연구로, GraphRAG 결합을 통해 민감정보 Q&amp;A 챗봇의 응답 품질을 개선
+해외
+Flood Ontology
+Li et al.(2025) [36]
+전문가 판단으로 top-level Class 정의 → Seed 온톨로지 구성 → LLM 기반 CQ(Competency Question) 생성 → CQ 역추출로 허용 관계 확정 — 4단계 온톨로지 설계, 전 단계 human-in-the-loop
+반자동 절차로 홍수 도메인 온톨로지 구축을 실증, 위험 커뮤니케이션(risk communication) 적용사례 제시
+해외
+MS GraphRAG
+Edge et al.(2025) [37]
+고정길이+overlap 청킹 → LLM 기반 Entity·관계 추출 → self-reflection(자가 재확인)으로 누락 방지 → 커뮤니티 탐지 기반 계층적 요약(Local-to-Global)
+전역적(global) 질의에서 기존 RAG 대비 포괄성·다양성이 우수함을 실증
+해외
+Train Maintenance KG
+Papadakis et al.(2023) [38]
+표준용어집(Seed) 기준 정규화 — 표현을 character 3-gram TF-IDF로 벡터화 후 HNSW 근사 최근접 이웃 검색, 코사인 유사도 80% 임계값으로 동일개념 판정
+이종 표현(예: "lubricant spray"/"WD-40") 자동 정규화 실증, 정비 일정 스케줄링에 KG 활용
+해외
+GraphAide
+Purohit et al.(2024) [39]
+관계마다 출처(provenance) 속성이 부착된 서브그래프(attributed subgraph) 생성 — 구조 검증 도구로 형식 확인
+그래프 기반 질의응답에서 응답 근거의 출처 역추적(근거 추적성) 확보
+해외
+Train Maintenance KG 후속(가상 정비소)
+Louadah et al.(2024) [40]
+Train Maintenance KG 저자 그룹의 후속연구로, 온톨로지 기반 가상 정비소(virtual depot) 구조로 확장
+Train Maintenance KG의 cited-by 목록에서 직접 확인된 후속연구로, 정비소 운영을 위한 가상 정비소 프레임워크 검증(16회 인용)
+해외
+GraphAide 후속(저류층 지질 QA)
+Liu et al.(2025) [41]
+GraphAide의 서브그래프·출처추적 설계를 인용해 GraphRAG 기반 지질 QA 시스템에 적용
+GraphAide를 본문에서 명시적으로 인용한 후속연구로, 그래프 기반 질의응답을 실제 지질 데이터 도메인에 적용해 검증
+해외
+OceanGPT 후속(해양 KG 결합)
+Yang et al.(2026) [42]
+②축 OceanGPT를 본문에서 명시적으로 인용해, 도메인특화LLM과 해양 지식그래프(KG)를 결합·관측데이터와 정합
+도메인LLM+KG 결합으로 예측 성능 향상 — 도메인LLM과 온톨로지·KG 구조화가 별개가 아니라 상호 결합 가능함을 실증
+해외
+중력댐 결함진단 온톨로지·KG
+Pei et al.(2026) [43]
+결함원인·전개경로·모니터링지표를 아우르는 도메인 온톨로지 구축 → LLM으로 비정형 점검보고서에서 결함 트리플 추출 → RippleNet 기반 양방향 인과추론(경로감쇠계수 적용)
+실제 TZ 중력댐 사례에 적용해 "국부 커튼그라우팅 손상→양압력 이상→국부 균열→구조적 파괴" 등 핵심 결함연쇄를 식별, 숨은 위험요인 역추적까지 실증
+해외
+저수지 운영 스케줄링 KG
+Zhou(2024) [44]
+유역별로 다른 최적화모델을 매번 수동 구성해야 하는 "one watershed, one model" 한계를, 지식그래프 기반 유전알고리즘 자동 구성으로 해소
+피허강 유역에 적용해 계절별 홍수조절·수자원관리 전략을 자동 산출, 다양한 수문조건에서 높은 유연성·효율성 실증
+해외
+산지홍수 예측 KG+LLM+LSTM
+Xu(2025) [45]
+유역 내부 관계·정보구조를 담은 유역 온톨로지·지식그래프(KG)와 LLM을 LSTM 예측모형과 결합
+저장시(Qixi) 저수지·차오둥춘 관측지점 사례에서 표준 LSTM 대비 예측 정확도 3%p 향상, RNN·GRU보다 LSTM 계열이 우수함을 확인
+해외
+댐 결함 온톨로지·지식그래프(DDKG)
+Huang, J. 외(2026) [46]
+댐 개체속성·공간분포·기술제원·안전위해를 아우르는 댐결함온톨로지(DDO) 설계 → 온톨로지 기반 위해분류체계(OHCF: 파인튜닝+온도교란투표+온톨로지 제약 정합성검사+전문가검증) 4단계로 LLM 환각을 억제하며 반자동 확장
+중국 내 결함·위험 댐 22,076건의 안전평가보고서를 마이닝해 DDKG 구축, 전 평가지표 90% 이상 달성
+해외
+댐 안전모니터링 BIM+온톨로지(OntoDSMS)
+Zhou, Y., Bao, T., Shu, X., Li, Y., Li, Y.(2022) [47]
+댐 정보모델(BIM)에서 맥락정보를 추출해 댐안전모니터링시스템(DSMS) 도메인 온톨로지(OntoDSMS)를 구축, IfcOWL과의 의미론적 매핑 + 규칙기반 추론기·SPARQL 질의 구현
+다출처 이기종 모니터링 데이터를 통합, 기존 데이터베이스 대비 검색시간을 효과적으로 단축
+해외
+댐 구조안전 온톨로지 기반 지능형 평가 시스템
+Shu, X., Yang, H.(2025) [48]
+구조부재·센서네트워크·시공간 관계를 온톨로지로 다층 의미표현 → 시공간 변이형 오토인코더 기반 이상탐지 → SWRL·SPARQL로 이상신호와 환경유발요인 간 인과관계를 자동 추론
+이상탐지 정확도 89.1%, 온톨로지 기반 지식색인으로 의미질의 간소화 및 자동 진단추론 실현
+해외
+수리(水利) 건설공사 안전관리기준 KG
+Chen, Y., Lu, G., Wang, K., Chen, S., Duan, C.(2024) [49]
+ALBERT-BiLSTM-CRF로 안전관리기준 텍스트에서 개체를 인식하고 연관규칙으로 관계를 추출해 KG로 구조화
+개체인식 정확도 85% 이상, 안전기준 지식의 신속 질의 및 안전조치 수립 지원을 사례로 검증
+해외
+수리시설 보고서 컴플라이언스 검토 KG
+Ding, Z., Fan, Z., Hao, Y., Wang, T., Du, X., Zhang, X., Zandron, C.(2026) [50]
+BERT-BiLSTM-CRF로 개체 인식 → 문맥자유문법(CFG)으로 논리관계 파싱해 규정조항을 트리플화 → Neo4j+Py2neo로 저장·동적 갱신
+수리시설 보고서의 규정 준수 검토 효율·정확도를 향상, "스마트 수리" 디지털전환에 기술적 지원 제공
+◦ 종합 시사점(댐 운영 프레임워크 구축 관점)
+- 검색증강(RAG) 구조 자체의 필요성 확인 : IWMS-LLM·WaterRAG·수리시설 점검 QA 세 사례 모두 사전 구축된 문헌·지식 DB를 검색하는 사전 적재형 RAG 구조로 전문지식 질의응답의 정확도(WaterRAG 80.5%)와 시스템 활용성을 실질적으로 높였음을 보여줌 — 운영규정·과거사례 등 정적 문서가 많은 댐 운영 도메인에도 사전 적재형 RAG 기반 접근이 필요함을 뒷받침하는 근거임.
+- 7B~8B급 경량 모델의 실효성 : WaterGPT·HydroLLM·EnvGPT 모두 7B~8B급에서 최적 성능을 보임. 다만 HydroLLM의 32B 과적합 사례는 모델 크기를 무조건 키우는 것이 능사가 아님을 보여주므로, 3.3 후보군 적용방안에서 "데이터 규모 대비 적정 모델 크기" 검토가 필요함.
+- 경량 임베딩 모델 병행 고려 : HydroEmbed처럼 22.7M 파라미터의 초경량 임베딩 모델을 별도로 두면 온프레미스·저지연 환경에서 검색 단계의 자원 부담을 크게 줄일 수 있어, 4.1 RAG 기반 적용방안 조사 시 검색기 후보로 추가 검토할 가치가 있음.
+- 온톨로지·KG 구축 방법론의 실행 청사진 확보 : Flood Ontology·MS GraphRAG·Train Maintenance KG·GraphAide 4편이 각기 다른 도메인에서 검증한 "Class 정의→Seed→CQ→허용관계"(온톨로지 설계)와 "청킹→Entity 추출→정규화→관계생성"(KG 구축) 절차는, 운영문서·과거사례처럼 출처가 다양한 자료를 지식그래프로 연결하고 근거를 추적 가능하게 유지하는 작업에 참고할 수 있는 구체적 절차를 제공함. 2.2 온톨로지·메타데이터 설계·2.3 파이프라인(안) 단계에서 이 절차를 그대로 적용해 볼 수 있음.
+- 도메인 범용성 확인 : 금융·법률·국방·시설안전 등 수자원과 무관한 도메인에서도 RAG·도메인특화 LLM·온톨로지/KG 구조가 동일하게 유효하게 작동함이 확인됨 — 이는 특정 산업의 특수성이 아니라 아키텍처 자체의 범용성에서 기인한 결과로 해석되며, 수자원·댐 운영 도메인에도 동일한 아키텍처를 적용할 수 있다는 근거를 뒷받침함.
+1.2 국내 운영 여건 조사
+□ 회의개요
+◦ 목 적 : 「댐 운영 의사결정 프레임워크 자문 용역」 착수보고회의 — 사전 탐색성 과제의 방향성 및 1단계 목표 수준에 대한 관계자 의견 수렴, 국내 댐 운영 여건 및 주요 쟁점 파악
+◦ 일 시: 2026년 07월 31일(금) 13:00 ~ 15:00
+◦ 장 소: 서울 중구 서소문로 50, 센트럴플레이스
+◦ 참석자
+소속
+직책
+성명
+한국수력원자력
+부장
+김태순
+한국수력원자력
+선임전문원
+신홍준
+한국수력원자력
+차장
+안정환
+국민대학교 산학협력단
+교수
+신주영
+국민대학교 산학협력단
+교수
+김장호
+국민대학교 산학협력단
+연구원
+문경민
+자문위원
+주요의견
+조치계획
+신홍준 선임전문원
+ㅇ 본 과제는 사전 탐색성 과제로 정교한 완성형보다 방향성 설정이 우선이며, 산출물은 2단계 본 용역 추진을 위한 기본계획서·RFP·로드맵 수준이면 충분함
+ㅇ 향후 본 용역 단계에서는 한수원 사내 AI 인프라(하이누리) 활용 여부가 쟁점이 될 수 있으므로 대응 논리를 사전에 준비할 필요가 있음
+- 산출물 수준을 2단계 본 용역 착수를 위한 기본계획서·로드맵(안) 수준으로 설정하여 진행하겠음
+- 사내 AI 인프라(하이누리) 현황은 현장조사 시 확인하고 대응방안을 마련하겠음
+김태순 부장
+ㅇ 댐 운영의 성공·실패를 정량적으로 평가하는 것은 본질적으로 불가능하며, 목표지점 수위에 대한 "접근도" 개념(예: 잠수교 수위 12m 기준 통수주의보 등) 정도가 현실적인 대안 척도임
+ㅇ 화천댐-춘천댐처럼 유역 내 댐이 연계 운영되는 사례를 들어 단일 댐이 아닌 유역 전체를 고려한 판단 근거가 필요함
+ㅇ 현재는 정량적 판단기준 없이 실무자 경험에 의존해 의사결정이 이루어지고 있으며, 매년 홍수기 실적을 수작업(엑셀)으로 정리하는 과정부터 자동화할 필요가 있음
+- 1단계는 기존 위오스 결과를 정리·보고하는 수준에서 시작하고, 판단 근거 학습자료가 축적되면 판단이 포함된 단계로 확장하는 단계적 접근으로 진행하겠다고 답변함. 방류 이력(수문 개폐 기록)을 역산해 판단 근거로 활용하는 방향을 로드맵(안)에 반영하겠음
+안정환 차장
+ㅇ 해외사례조사 및 본 과제 전반에 대해, 현 단계에서는 의사결정을 대체하기보다 기존 위오스(WEOS) 등 물리모형이 생성하는 데이터를 깔끔하게 정리·문서화해주는 수준으로 접근하는 것이 중요함
+ㅇ 시스템이 수자원 전문가만 사용할 수 있는 형태가 아니라 비전문가도 접근 가능하도록 설계할 필요가 있음
+ㅇ 학습에 사용할 자료(과거 방류 이력 등)가 적절한지 먼저 평가하는 중간 단계가 필요하며, 규정·과거 운영사례 등을 활용한 평가 체계를 우선 마련할 필요가 있음
+- 1단계 범위를 의사결정 대체가 아닌 정리·문서화 지원 수준으로 설정하겠음
+- 계측 오류로 인한 데이터 불확실성과 모델 자체의 한계(모델 불확실성)를 구분해 접근할 필요가 있으며, 온프레미스 환경의 자원 제약을 고려해 PEFT(LoRA 등) 기반 경량 미세조정과 경량 임베딩 적용이 현실임
+□ 착수보고회 자문위원 주요의견 및 조치계획
+연구용역 착수보고 발표 및 토론
+참석자 서명록
+Ⅵ. 참고문헌
+1. 김현준, 김세종, 송현서, 서현우(2025), "Optimizing Retrieval Strategies for Financial Question Answering Documents in Retrieval-Augmented Generation Systems", ICLR 2025
+2. 이광우, 김수균(2024), "Design of a Question-Answering System based on RAG Model for Domestic Companies", 한국컴퓨터정보학회논문지, Vol. 29, No. 7, p.81
+3. 민기단, 김서현, 장수영, 탁지원, 김형종(2025), "개인정보보호법 질의응답 서비스를 위한 RAG 기반 챗봇의 구현 및 평가", 한국시뮬레이션학회논문지, Vol. 34, No. 4, p.55
+4. 오재광, 김수균(2025), "대학 학사 행정 보조를 위한 RAG 기반 질의응답 시스템 설계", 한국컴퓨터정보학회논문지
+5. Li, J., He, G., Luo, J., Luo, F., Yang, X., Xin, J.(2025), "IWMS-LLM: an intelligent water resources management system based on large language models", Journal of Hydroinformatics, Vol. 27, No. 11, p.1685
+6. WaterRAG(2026), "A Multiagent Retrieval-Augmented Generation Framework to Support Water Industry Transitions to Net-Zero", Environmental Science &amp; Technology
+7. Yang, Y., Chen, S., Zhu, Y., Liu, X., Pan, S., Wang, X.(2024), "Intelligent question answering for water conservancy project inspection driven by knowledge graph and large language model collaboration", LHB Hydroscience Journal, Vol. 110, No. 1
+8. Ritzau, L.(2025), "Improved Flood Management and Risk Communication Through Large Language Models", Algorithms, Vol. 18, No. 11, p.713
+9. Vickneswaran, K., Andarcia, M. G., Retief, H., Dickens, C., Silva, P.(2026), "WaterCopilot: An AI-Driven Virtual Assistant for Water Management", arXiv:2601.08559
+10. Huang, L. 외(2026), "Training-free retrieval-augmented generation with reinforced reasoning for flood damage nowcasting (R2RAG-Flood)", arXiv:2602.10312
+11. Zhang, D., Ma, G., Qu, T. 외(2025), "A knowledge graph-enhanced large language model for question answering of hydraulic structure safety management", Advanced Engineering Informatics, Vol. 66, p.103468
+12. Han, X., Liu, B., Yang, Z., Tang, W.(2026), "Study on the application of knowledge graph and large language model in question answering on water conservancy knowledge field", Earth Science Informatics, Vol. 19, No. 6, p.88
+13. Yang, L., Li, Y., Tan, J., Mao, L.(2025), "Research on risk decision-making generation method for water conservancy project based on multimodal knowledge graph and large language model", PLOS ONE, DOI:10.1371/journal.pone.0330258
+14. 정천수(2024), "도메인 특화 LLM: Mistral 7B를 활용한 금융 업무분야 파인튜닝 및 활용 방법", 지능정보연구, Vol. 30, No. 1, p.93
+15. 박지원, 조은별, 박노섭(2024), "대규모 언어 모델(LLM)을 활용한 고소장 자동작성 연구 -차용·용도, 물품사기를 중심으로-", 경찰법연구, Vol. 22, No. 3, p.179
+16. Preference-Aligned sLLM for Safe and Helpful RAG-Based Battlefield Analysis System(2025), 한국컴퓨터정보학회논문지
+17. WaterGPT(2024), "Training a Large Language Model to Become a Hydrology Expert", Water(MDPI), Vol. 16, No. 21, p.3075
+18. Kizilkaya, D., Sermet, Y., Demir, I.(2025), "Towards HydroLLM: approaches for building a domain-specific language model for hydrology", Journal of Hydroinformatics, Vol. 27, No. 10, p.1652
+19. Domain-Specific Embedding Models for Hydrology and Environmental Sciences(2025), Water Science &amp; Technology(IWA)
+20. Fine-tuning large language models for interdisciplinary environmental challenges(2025), Environmental Science and Ecotechnology
+21. ClimateGPT(2024), "AI for Interdisciplinary Climate Research"
+22. OceanGPT(2024), "A Large Language Model for Ocean Science Tasks", ACL 2024
+23. Xu, B., Wu, G., Li, Z., Xu, G., Zeng, H., Tong, R., Ng, H. Y.(2025), "Towards domain-adapted large language models for water and wastewater management: methods, datasets and benchmarking", npj Clean Water, Vol. 8
+24. Kizilkaya, D., Sermet, Y., Demir, I.(2026), "A Blueprint for Modern Floodplain Management: System Requirements and Architecture for AI-Ready Platforms", EarthArXiv preprint
+25. Wang, S.(2026), "GSI Agent: Domain Knowledge Enhancement for Large Language Models in Green Stormwater Infrastructure", arXiv:2603.15643
+26. Hu, S., Shan, W., Li, Y. 외(2025), "Evaluating Hydro-Science and Engineering Knowledge of Large Language Models", arXiv:2512.03672
+27. Chen, Y., Liu, Q., Nie, B., Luo, X.(2026), "Construction Safety Knowledge Reasoning-Capable Large Language Model for Hydropower and Water Conservancy Engineering", Journal of Construction Engineering and Management, Vol. 152, No. 9
+28. Liu, X., Zheng, J., Hou, B., Wang, L., Li, H., Chen, C.(2025), "Construction of knowledge-enhanced large models for water conservancy project safety risk identification", Journal of Hydroinformatics, Vol. 27, No. 12, p.1819
+29. Yoon, H-J., Ashraf, F., Ruggles, T. A., Singh, D.(2025), "Scaling Open-Weight Large Language Models for Hydropower Regulatory Information Extraction: A Systematic Analysis", arXiv:2511.11821(ORNL)
+30. 류민우, 차시호(2022), "온톨로지 학습 기반 지식 그래프 구축", 컴퓨터교육학회논문지, Vol. 25, No. 1, p.51
+31. 성지연, 나종호, 오윤석, 정유석(2025), "시설물 안전점검보고서의 LLM을 이용한 디지털 트윈 통합용 위험도 정량화 및 시계열 분석", 대한공간정보학회지, Vol. 33, No. 4, p.45
+32. 김건영, 김동규, 손휘승, 손미애(2025), "온톨로지와 지식그래프를 활용한 국방 지휘통제 데이터 통합 방법 연구", 인터넷정보학회논문지, Vol. 26, No. 1, p.193
+33. 유기동(2024), "LLM 사용자의 민감정보 유출 방지를 위한 지식그래프 기반 챗봇", 지식경영연구, Vol. 25, No. 2, p.1
+34. 지현진, 오윤중(2026), "AI 기반 지휘통제체계의 가능성과 한계: 제미나이(Gemini) 기반 작전참모 구현 실험을 중심으로", 국방과 기술
+35. 유기동(2024), "A Chatbot for Q&amp;A of Sensitive Information Applying the Composite Knowledge Graph-based GraphRAG", Journal of Information Technology Services
+36. Li, Erickson, Zajac, Guo, Duan, Gong(2025), "A Semi-Automated Framework for Flood Ontology Construction with an Application in Risk Communication", Water, Vol. 17, No. 19, p.2801
+37. Edge, Trinh, Cheng, Bradley, Chao, Mody 외(2025), "From Local to Global: A GraphRAG Approach to Query-Focused Summarization", Microsoft Research, arXiv:2404.16130
+38. Papadakis, E., McCluskey, T. L., Louadah, H., Tucker, G.(2023), "Ontology-Guided Knowledge Graph Construction to Support Scheduling in a Train Maintenance Depot", PLATO Workshop, ICAPS 2023
+39. Purohit, S., Chin, G., Mackey, P. S., Cottam, J. A.(2024), "GraphAide: Advanced Graph-Assisted Query and Reasoning System", IEEE International Conference on Big Data, arXiv:2411.08041
+40. Louadah, H., Papadakis, E., McCluskey, T. L., Tucker, G.(2024), "Supporting the Management of Rolling Stock Maintenance with an Ontology-Based Virtual Depot", Applied Sciences, Vol. 14, No. 3, p.1220
+41. Liu, Z., Jiang, B., Wang, N., Meng, H., Li, W.(2025), "Reservoir geology question answering system based on GraphRAG", Petroleum Science and Technology
+42. Yang, H., Wang, J., Cao, J., Li, W., Zheng, J.(2026), "OKG-LLM: Aligning ocean knowledge graph with observation data via LLMs for global sea surface temperature prediction", IEEE Transactions on Knowledge and Data Engineering
+43. Pei, L., Li, Y., Lu, X., Zhou, J., Li, Y.(2026), "Ontology- and data-driven defect diagnosis with knowledge graphs and causal reasoning: Application to the risk management of gravity dams", Reliability Engineering &amp; System Safety, Vol. 270, p.112224
+44. Zhou, S.(2024), "Reservoir Optimization Scheduling Driven by Knowledge Graphs", Electronics, Vol. 13, No. 12, p.2283
+45. Xu, O.(2025), "Exploring a long short-term memory for mountain flood forecasting based on watershed-internal knowledge graph and large language model", PLOS ONE, Vol. 20, No. 3, e0318644
+46. Huang, J. 외(2026), "Dam defects ontology and knowledge graph construction from Multi-Source hazard data using large language models", Advanced Engineering Informatics, Vol. 76, p.104987
+47. Zhou, Y., Bao, T., Shu, X., Li, Y., Li, Y.(2022), "BIM and ontology-based knowledge management for dam safety monitoring", Automation in Construction, Vol. 145
+48. Shu, X., Yang, H.(2025), "Ontology-driven intelligent assessment system for dam structural safety based on spatiotemporal anomaly detection framework", Computer-Aided Civil and Infrastructure Engineering, DOI:10.1111/mice.70115
+49. Chen, Y., Lu, G., Wang, K., Chen, S., Duan, C.(2024), "Knowledge graph for safety management standards of water conservancy construction engineering", Automation in Construction, Vol. 168
+50. Ding, Z., Fan, Z., Hao, Y., Wang, T., Du, X., Zhang, X., Zandron, C.(2026), "A knowledge graph construction method for compliance review of water conservancy project reports", PLOS ONE, DOI:10.1371/journal.pone.0339575
