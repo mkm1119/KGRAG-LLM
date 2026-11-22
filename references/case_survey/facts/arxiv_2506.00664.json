@@ -1,0 +1,56 @@
+{
+ "file": "arxiv_2506.00664.txt",
+ "title": "OntoRAG: Enhancing Question-Answering through Automated Ontology Derivation from Unstructured Knowledge Bases",
+ "authors": "Yash Tiwari, Owais Ahmad Lone, Mayukha Pal(교신) (ABB Ability Innovation Center)",
+ "year": "2025",
+ "venue": "arXiv:2506.00664v1 [cs.AI] (2025년 5월 31일). 학술지·학술대회 게재처는 본문에 없음",
+ "venue_type": "사전 공개본",
+ "domain": "전력 보호 계전기(electrical relay) 기술 문서에 대한 질의응답. 비정형 PDF 문서에서 온톨로지를 자동 도출해 검색 증강 생성에 사용",
+ "problem": "벡터 검색 기반 RAG는 여러 문서에 흩어진 정보를 종합하는 전역 이해(global sensemaking) 질문과 다중 홉 추론에 약하고, GraphRAG는 원문서의 온톨로지적 구조(계층·분류·의미 의존)를 보존하지 않고 군집을 만들며 사전 온톨로지를 사람이 만들어야 한다. 온톨로지를 사람 손 없이 자동으로 도출하는 방법을 다룬다.",
+ "data": "ABB 계전기 제품의 비공개 PDF 문서(기술 매뉴얼, 데이터시트, 응용 노트) 말뭉치로 약 100만 토큰이며, 600토큰 청크 1,600개(100토큰 겹침)로 나눴다고 적었다. 제조사 웹사이트와 기술 저장소에서 BeautifulSoup, Scrapy로 PDF를 수집했다. 평가 질문은 Gemini 2.5 Flash로 만든 전역 이해 질문 125개(사용자 5명 × 과업 5개 × 질문 5개).",
+ "method_steps": [
+  "웹 수집: BeautifulSoup와 Scrapy로 제조사 웹사이트와 기술 저장소에서 계전기 PDF 문서를 모은다.",
+  "PDF 파싱: Unstructured 라이브러리로 제목·머리글·본문·표·그림 요소를 나누고, 표는 Unstructured 좌표를 PyMuPDF 좌표로 변환해 여백(세로 100, 가로 20 단위)을 둔 영역을 잘라 LLM으로 처리한다.",
+  "하이브리드 청킹: Title 요소에서 청크를 끊되 최소·최대 길이 한도를 두고, 이웃 문장 임베딩의 코사인 거리로 의미가 가까운 청크를 합치는 의미 청킹을 더한다.",
+  "정보 추출·대응: Gemini 2.5 Flash로 텍스트 정제, 대명사 등 모호성 해소, 개체명 인식, 원자 사실(주어-술어-목적어) 추출, 청크 그래프 JSON 작성, 유사 개체의 전역 표준 개체 대응, 핵심 용어 정의 생성과 임베딩을 수행한다.",
+  "지식그래프 구축: 핵심 요소를 이름 임베딩과 정의 임베딩의 코사인 유사도가 모두 임계값 이상이면 같은 군집으로 묶어(disjoint-set 구조, 배치 처리) 후보 클래스를 만들고, 핵심 요소 간 관계를 클래스 간 간선으로 투영한다.",
+  "온톨로지 생성: Leiden 군집 탐지로 후보 클래스를 공동체(온톨로지 클래스)로 나누고, 공동체 내부 속성·관계를 모아 Gemini 2.5 Flash로 일반화된 클래스 속성을 합성하며, 공동체 간 간선을 클래스 간 관계로 투영한다.",
+  "하위 공동체 탐지를 되풀이해 IS-A / HAS-A 계층 관계를 가진 계층형 온톨로지를 만든다.",
+  "검색·생성: 질의에서 Gemini 2.5 Flash로 핵심 요소를 뽑아 지정한 온톨로지 수준의 클래스 이름·정의 임베딩과 유사도 검색을 하고, 일치한 클래스의 원문 청크를 앞뒤로 넓혀(예: 양쪽 200토큰) 모은 문맥으로 Gemini 2.5 Flash가 답을 생성한다."
+ ],
+ "knowledge_structure": "온톨로지와 지식그래프를 모두 쓴다. 청크에서 뽑은 핵심 요소(개체·개념)를 이름·정의 임베딩 유사도로 군집화한 후보 클래스가 지식그래프의 노드이고, 핵심 요소 간 관계를 클래스에 투영한 것이 방향 간선이다. 이 그래프에 Leiden 군집 탐지를 적용해 공동체를 온톨로지 클래스로 삼고, 공동체 내부 속성을 LLM이 일반화해 클래스 속성으로, 공동체 간 간선을 클래스 관계로 삼는다. 하위 공동체는 집합 포함으로 IS-A, 그 역은 HAS-A 관계로 정의한다. 온톨로지 수준은 O0(루트, 후보 클래스 수준)~O3(하위)이다. 공동체 수 k는 사람이 개입해 정했다. 클래스·관계의 수 등 규모와 OWL 등 표현 형식은 본문에 없음",
+ "retrieval": "온톨로지 기반 검색. 질의의 핵심 요소 이름 임베딩과 질의(정의로 취급) 임베딩을 온톨로지 클래스의 이름·정의 임베딩과 코사인 유사도로 비교해 상위 클래스를 찾고, 그 클래스에 연결된 원문 청크를 문맥 창을 넓혀 가져온다. 임베딩 모델 이름, 벡터 DB·그래프 DB 제품명은 본문에 없음",
+ "llm_used": "Gemini 2.5 Flash(표·그림 추출, 개체·관계 추출, 온톨로지 생성, 질의 핵심 요소 추출, 답 생성, 질문 생성, 평가 판정에 모두 사용). 모델 규모는 본문에 없음",
+ "llm_compared": "다른 LLM과의 비교는 없음. 비교 대상은 방법으로, GraphRAG의 네 공동체 수준(C0–C3)과 의미 검색 기반 벡터 RAG(SS)이다.",
+ "finetuning": "하지 않음(프롬프트와 문맥 내 학습만 사용).",
+ "deployment": "색인에 가상 머신(16GB RAM, Intel Xeon Platinum 8171M CPU @ 2.60GHz)에서 약 300분이 걸렸다고 적었다. LLM은 Gemini 2.5 Flash를 썼다. GPU, 로컬·폐쇄망 운영에 대한 언급은 본문에 없음",
+ "evaluation": "LLM 평가와 자동 지표. Gemini 2.5 Flash를 판정자로 한 일대일 비교로 네 지표(Comprehensiveness, Diversity, Empowerment, Directness)의 승률을 구했고, 질문 125개에 대해 질문당 5회 반복했으며 Wilcoxon 부호 순위 검정(Holm-Bonferroni 보정)의 p값을 붙였다. 주장 기반 지표로 답변당 고유 주장 수 평균(Claimify로 추출)과 주장 군집 수 평균(Scikit-learn 응집 군집화, ROUGE-L 거리)을 계산했다. 질문은 분야 전문가가 관련성을 검증했다. 비교 조건은 O0–O3, C0–C3, SS의 아홉 가지이다. 사람이 답변을 평가하지는 않았다.",
+ "results": [
+  "OntoRAG(O2)의 Comprehensiveness 승률은 벡터 RAG(SS) 대비 88%, GraphRAG 최고 구성(C2) 대비 65%였다.",
+  "Diversity 승률은 SS 대비 86%, C2 대비 62%였다.",
+  "Empowerment 승률은 SS 대비 55%, C2 대비 52%(유의하지 않음)였다.",
+  "Directness에서는 O2가 SS에 밀렸고(본문은 SS가 92%로 뛰어났다고 서술), C2 대비로는 58%였다.",
+  "주장 기반 지표에서 O2는 답변당 주장 35.2개, 군집 14.1개로 C2(34.8개, 13.8개)를 조금 넘었고, SS는 26.5개, 8.0개였다.",
+  "색인 시간은 OntoRAG 300분, GraphRAG 281분으로 OntoRAG가 더 길었다.",
+  "초록은 Comprehensiveness 승률을 SS 대비 85%, GraphRAG 최고 구성 대비 75%로 적어 본문·표의 수치(88%, 65%)와 다르다."
+ ],
+ "limitations": "온톨로지 생성이 계산 집약적이어서 100만 토큰 말뭉치 색인에 300분이 걸려 더 큰 말뭉치나 실시간 응용에는 비현실적이며 운영 환경 준비가 덜 되었다고 밝혔다. 개체 추출·온톨로지 생성·질문 생성에 분야 특화 프롬프트를 써서 다른 분야로 옮기려면 프롬프트를 손봐야 한다. 검색 때 온톨로지 수준별로 유사도 검색을 여러 번 해 부담이 있다. 직접성(Directness)에서는 벡터 RAG가 앞서 국소 검색 전략을 함께 쓰는 것이 필요하다고 했다. 향후 더 효율적인 군집 알고리즘, 적응형 프롬프트, 하이브리드 색인을 과제로 들었다. 본문이 가리키는 부록(프롬프트)은 글 파일에 실려 있지 않다.",
+ "key_figures": [
+  "Fig. 2: Workflow of the OntoRAG pipeline, illustrating the transformation of unstructured PDF documents into a structured ontology through sequential stages.",
+  "Fig. 3: Detailed workflow of the OntoRAG pipeline, with emphasis on the Ontology Creation stage.",
+  "Fig. 4: Line plot comparing comprehensiveness and diversity win rates of OntoRAG (O0–O3) and GraphRAG (C0–C3) across their respective levels, averaged over comparisons with SS.",
+  "Fig. 1: Overview of the Retrieval-Augmented Generation (RAG) process for question-answering, consisting of three main stages: Indexing, Retrieval, and Generation."
+ ],
+ "quotes": [
+  "O2 achieved comprehensiveness win rates of 88% against SS (p ¡ 0.001) and 65% against GraphRAG’s best configuration (C2, p ¡ 0.05)",
+  "with diversity win rates of 86% and 62%, respectively, demonstrating superior global sensemaking",
+  "O2 achieved 35.2 claims and 14.1 clusters per answer, slightly surpassing C2 (34.8 claims, 13.8 clusters)",
+  "SS lagged at 26.5 claims and 8.0 clusters.",
+  "achieving a comprehensiveness win rate of 85% against vector RAG and 75% against GraphRAG’s best configuration",
+  "totaling approximately 1 million tokens, divided into 1600 chunks of 600 tokens each with 100-token overlaps",
+  "we generated 125 sensemaking questions using Gemini 2.5 Flash",
+  "The computational cost of ontology creation (300 minutes) exceeds GraphRAG’s indexing (281 minutes)",
+  "Indexing took approximately 300 minutes on a virtual machine (16GB RAM, Intel Xeon Platinum 8171M CPU @ 2.60GHz)."
+ ],
+ "note_for_dam_operation": "설비 기술 문서(매뉴얼·데이터시트)에서 온톨로지를 자동으로 뽑아 질의응답에 쓴 산업 현장 사례여서 댐 운영 규정·설비 문서에 가장 가까운 유형이다. 표가 많은 PDF의 표 영역을 좌표로 잘라 따로 처리한 점, 제목 요소 기준 청킹, 개체의 이름과 정의를 둘 다 임베딩해 묶은 점은 그대로 참고할 수 있다. 다만 평가가 종합형 질문에 대한 LLM 판정 승률뿐이고 정답 정확도나 사람 평가가 없으며, 구체 사실을 묻는 질문에 해당하는 직접성에서는 일반 벡터 검색이 앞섰다. 댐 운영 질의는 특정 수치·조항을 묻는 경우가 많으므로 온톨로지 기반 검색과 일반 검색을 함께 쓰는 구성이 필요하다는 근거가 된다. 초록과 본문의 수치가 서로 달라 인용할 때 주의해야 하고, 클라우드 모델(Gemini 2.5 Flash)에 전 과정을 의존해 폐쇄망 적용 근거는 없다."
+}

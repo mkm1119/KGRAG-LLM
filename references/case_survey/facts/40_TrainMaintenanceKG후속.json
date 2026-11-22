@@ -1,0 +1,58 @@
+{
+ "file": "40_TrainMaintenanceKG후속.txt",
+ "title": "Supporting the Management of Rolling Stock Maintenance with an Ontology-Based Virtual Depot",
+ "authors": "Hassna Louadah, Emmanuel Papadakis, Thomas Leo McCluskey, Gareth Tucker (University of Huddersfield)",
+ "year": "2024",
+ "venue": "Applied Sciences (Appl. Sci.) 2024, 14, 1220 (MDPI)",
+ "venue_type": "학술지",
+ "domain": "철도 차량(rolling stock) 예방 정비 관리. 정비창을 온톨로지로 표현한 'Virtual Depot'과 단기(3주) 정비 일정 최적화",
+ "problem": "정비창의 일정 계획은 수작업과 서로 떨어진 전산 절차가 섞여 있고, 작업별 필요 공구·자재는 정비 지침서에만 있어 자원 가용성을 반영한 일정 자동화가 어렵다. 온톨로지를 중심으로 자료와 정비 절차를 통합하고, 지침서에서 자동 획득한 지식을 단기 일정 최적화에 연결하는 체계적 방법을 제시한다.",
+ "data": "협력 철도 차량 제작사가 제공한 차량 정비 지침서(VMI, HTML) 246건과 제작사의 산업 어휘집, 익명 처리한 실제 정비창의 장기 일정 표본(3주, 정비 개입 16종). 일정 방법 비교 시나리오는 50편성 차량군·정비 개입 4종. 조기·지연 비용은 실제 값이 없어 가정값 사용",
+ "method_steps": [
+  "1단계(추상 온톨로지 개발): RailML, RSSB RCM 스키마, Smart Rail 온톨로지, Vehicle 온톨로지, QUDV 등 기존 자원과 전문가 지식·정비 지침서를 바탕으로 정비창·차량 온톨로지를 OWL로 작성한다(규칙은 SWRL로 확장 가능).",
+  "2단계(지식 획득): 추상 온톨로지에서 고른 RailMain-KG 스키마에 맞춰 VMI를 XSLT 패턴 매칭으로 주제 구획(제목, 우선순위, 적용 차량, 필요 자원, 안전 경고, 절차)으로 나눈다.",
+  "정규식·구문 매칭으로 작업명·활동 유형·부품 등을 추출하고, 자원 언급은 문자 3-gram tf-idf 벡터와 HNSW 기반 KNN 검색(코사인 유사도, 임계값 80%)으로 산업 어휘집 개념에 연결한다.",
+  "추출 결과를 RDF 트리플로 변환해(RDFLib, 복합 개체는 reification) GraphDB에 올리고 SPARQL로 질의한다.",
+  "3단계(절차 모형): SADT(IDEF0) 활동 도표로 예방 정비 일정 절차(장기·단기·일일 일정, 재일정, 일일 갱신)의 입력·출력·통제·수단을 정리한다.",
+  "4단계(단기 일정): 장기 일정의 기한, 정비창 자원·수용 능력, 차량군 가용성, 조기·지연 허용 범위를 제약으로 하는 혼합 정수 계획(MIP) 모형을 Python DOCPLEX로 작성해 CPLEX로 풀며, 자료는 OWLready2와 SPARQL로 온톨로지에서 가져온다.",
+  "자원 인지 일정: 일정의 각 개입을 구성 작업으로 풀어 Levenshtein 거리 기반 유사도(95% 이상)로 RailMain-KG의 작업에 연결하고, 개입별 SPARQL 질의로 자재 요구량을 집계해 MIP의 제약 (2)(자원 가용성)에 입력한다."
+ ],
+ "knowledge_structure": "온톨로지와 지식그래프를 모두 쓴다. Virtual Depot의 추상 OWL 온톨로지는 분야 개념(차량군, 정비창, 차량, 부품), 시간, 공간(정비 작업 공간), 정비 활동과 자원(공구, 인력, 고정 설비, 부품, 소모품)의 네 측면을 담는다(예: Depot은 Shed를, Shed는 road를 가지며, 자원은 Workers·Materials·Consumables·Tools). 역량 질문(예: 특정 정비 활동에 필요한 자원은 무엇인가)에 답하도록 설계했고, 기존 온톨로지 재사용과 철도 전문가·표준(GMRT2466 등)으로 구축했다. RailMain-KG는 그 일부 스키마(Vehicle, Maintenance Task, Activity type, Component, Requirement, Maintenance Resource, Material, Tool, Quantity, Priority, Safety warning, Maintenance Instructions)를 VMI에서 자동 추출한 인스턴스로 채운 RDF 지식그래프다.",
+ "retrieval": "그래프 질의(SPARQL)를 GraphDB에 올린 RailMain-KG에 수행하고, Python에서는 OWLready2와 SPARQL로 온톨로지 자료를 추출한다. 개체 연결에는 문자 3-gram tf-idf 벡터 + HNSW 기반 KNN(코사인 유사도, 임계값 80%)과 Levenshtein 거리 기반 유사도(95% 이상)를 쓴다. 신경망 임베딩 모델·벡터 DB는 쓰지 않는다.",
+ "llm_used": "사용하지 않음(향후 대형 언어 모델로 템플릿 없는 개체 추출·연결을 할 계획이라고만 밝힘)",
+ "llm_compared": "본문에 없음(비교 대상은 LLM이 아니라 최적화 없는 컴퓨터 기반 일정 방법)",
+ "finetuning": "하지 않음",
+ "deployment": "Python(DOCPLEX)과 상용 해법기 CPLEX, GraphDB, OWLready2를 사용하고, 그래픽 화면은 tkinter를 호출하는 Matlab GUI이다. 하드웨어·폐쇄망 등 운영 환경은 본문에 없음",
+ "evaluation": "사례 연구 방식. (1) 50편성·정비 개입 4종 시나리오에서 MIP 최적화 일정과 수작업을 흉내 낸 최적화 없는 컴퓨터 기반 일정의 정비 비용(조기·지연 벌점 합)을 비교. (2) 실제 장기 일정 표본(3주, 정비 개입 16종)으로 자원 조회 절차(제약 2)를 켠 경우와 끈 경우의 단기 일정을 비교. 지식 추출 품질 평가는 선행 논문(Papadakis et al.)을 참조하라고만 함",
+ "results": [
+  "단순 시나리오에서 최적화 모형의 정비 비용은 32, 최적화 없는 방법은 57이었다.",
+  "최적화 없는 방법은 편성 '11119'의 개입 '1'을 기한 11일 전에 배정했으나 최적화 방법은 4일 전으로 줄였고, 편성 '11101'의 조기 배정도 4일에서 1일로 줄였다.",
+  "자원 조회 결과 자재가 부족한 것으로 나온 시나리오에서 제약 (2)를 첫 3일에 적용하자 편성 '11148'의 개입 '1'이 5월 4일로 하루 늦게 배정되고, 편성 '11145'·'11141'은 자원이 다시 확보되는 5월 10일(기한)에 배정되었다.",
+  "일정 내 작업을 지식그래프 작업에 연결할 때 유사도 95% 이상인 것만 채택했다.",
+  "비용 값이 매우 비슷한 경우 최적해를 얻는 데 1분이 걸려 성능이 떨어진다고 보고했다."
+ ],
+ "limitations": "조기·지연 벌점은 실제 비용이 아닌 가정값이다. 일정 모형이 정비 소요 기간, 여러 차량군·여러 정비 거점, 요일별로 달라지는 가용성 제약을 다루지 못한다. 3주보다 긴 기간에 대한 평가가 필요하다. 예기치 못한 사건(운영상 사유, 고장 수리)에 대응하려면 실시간 입력 연계가 필요하다. 정비 지침서에서 세부 정보를 뽑는 데 현재의 XML 변환과 단순 자연어 처리로는 한계가 있어 대형 언어 모델을 이용한 템플릿 없는 개체 추출·연결을 계획한다. 향후 공간 개념과 예측 정비 지원으로 온톨로지를 확장하고, 열차 이동·예비품 관리 등 다른 절차와 연결하며, 실시간 재일정을 위한 휴리스틱을 개발할 예정이다.",
+ "key_figures": [
+  "Figure 1: Four-phase approach to virtual depot building.",
+  "Figure 2: Simplified abstract ontology.",
+  "Figure 3: RailMain-KG schema.",
+  "Figure 4: Overview of the knowledge acquisition pipeline.",
+  "Figure 7: Rolling stock PM scheduling process diagram.",
+  "Figure 9: Short-term scheduling problem abstraction.",
+  "Figure 11: Short-term scheduling process inputs from ontology and resource retrieval process.",
+  "Figure 12: Scheduling without (left) vs. with (right) resource retrieval process."
+ ],
+ "quotes": [
+  "RailMain-KG is populated with data extracted from 246 Vehicle Maintenance Instructions (VMIs) provided by a collaborating Rolling Stock manufacturer",
+  "the optimisation model showed a lower cost of maintenance, i.e., 32 against 57 without optimisation",
+  "The following scenario includes four maintenance interventions and a fleet of 50 units, where only two units can be received per day",
+  "has scheduled maintenance intervention ’1’ for unit ’11119’ 11 days before the due date",
+  "allow this task to be done much closer to the due date, only 4 days early",
+  "including 16 different maintenance interventions",
+  "maintenance intervention ’1’ for unit ’11148’ is moved to the 4th of May with days before exam value equal to -1 meaning it is scheduled one day late",
+  "which reflect those tasks that conform to at least 95% similarity",
+  "a text sample and a similarity threshold (empirically set to 80%)",
+  "when cost values are very close, the performance decreases when 1 min is required to get the optimal solution"
+ ],
+ "note_for_dam_operation": "온톨로지를 '접착제'로 삼아 문서에서 뽑은 지식그래프(필요 자원·우선순위)를 SPARQL로 조회하고 그 결과를 최적화 모형의 제약으로 넣는 구조는, 댐 운영에서 규정·지침의 제약 조건을 지식그래프로 관리하고 운영 의사결정 모형에 연결하는 구성의 참고 사례가 된다. 추상 온톨로지 → 기관별 지식 채우기 → 업무 절차 도식화(SADT) → 계산 절차 연결의 4단계 방법과, 역량 질문으로 온톨로지 설계 범위를 정한 점도 활용할 만하다. LLM과 질의응답 평가는 없으며, 지식 추출은 양식이 일정한 문서에 맞춘 규칙 기반이라는 한계가 있다."
+}

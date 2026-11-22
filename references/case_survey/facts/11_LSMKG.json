@@ -1,0 +1,62 @@
+{
+ "file": "11_LSMKG.txt",
+ "title": "A knowledge graph-enhanced large language model for question answering of hydraulic structure safety management",
+ "authors": "Dongliang Zhang, Gang Ma, Tongming Qu, Xudong Wang, Wei Zhou, Xiaomao Wang (Wuhan University 등)",
+ "year": "2025",
+ "venue": "Advanced Engineering Informatics 66 (2025) 103468 (Elsevier), https://doi.org/10.1016/j.aei.2025.103468, 2025년 5월 19일 온라인 공개",
+ "venue_type": "학술지",
+ "domain": "수리 구조물 안전 관리 질의응답. 적용 대상은 제방(levee) 안전 관리이며 파이핑, 붕괴, 월류, 균열, 파랑 침식 등 위험 유형과 대응 조치·자재·시공 방법을 다룬다(자료는 중국어).",
+ "problem": "수리 구조물 안전 관리 지식이 기준, 지침서, 논문, 웹 등에 흩어져 있어 위기 때 빨리 찾아 쓰기 어렵고, 범용 LLM은 분야 지식이 부족하며 환각을 일으킨다. 분야 지식그래프를 만들고 질의 의도를 정확히 파악해 그래프에서 지식을 꺼내 LLM 응답을 보강하는 방법을 제안한다.",
+ "data": "산업 기준, 위험 지침서, 학술 논문, 웹(성급 수리학회 공식 계정, Baidu 백과)에서 글을 모아 OCR로 추출하고 문서·문장·단어 수준에서 정제했다. 수리공학 전문가 2명이 개체와 관계를 주석했다(처음 10%는 공동 주석 후 합의, 나머지는 개별 주석과 교차 점검). 관계 범주별 층화 추출로 학습:검증:시험을 3:1:1로 나누고, 중복 제거 뒤 LLM의 동의어 변환으로 자료를 두 배로 늘려 정답 표본 4468개를 얻었다. 의도 파악용으로는 참가자 8명이 만든 질의 중 전문가가 고른 유효 질의 440개를 학습:시험 3:1로 나눴다. 구축된 그래프는 개체 지식 3,516개, 관계 지식 4,121개이다. 원문 문서 수는 본문에 없음.",
+ "method_steps": [
+  "기준, 지침서, 논문, 웹에서 안전 관리 글을 모아 OCR과 다단계 정제로 깨끗한 자료를 만든다.",
+  "Stanford의 '7단계 방법'을 줄인 '4단계 방법'(요구 분석, 재사용, 확장, 구축)으로 분야 온톨로지를 만든다.",
+  "온톨로지에 따라 자료를 주석하고 LLM의 동의어 변환으로 자료를 늘린다.",
+  "BERT 부호화, 특징 분할(관계용·개체용·공유 특징), KAN 기반 특징 융합, 표 채우기(table-filling)와 CNN·CBAM 주의 기제를 쓰는 개체·관계 동시 추출 모델 PFKAN을 학습시킨다.",
+  "PFKAN으로 <머리 개체, 머리 개체 유형, 관계, 꼬리 개체, 꼬리 개체 유형> 5항 지식을 추출해 Neo4j에 넣고 같은 값의 노드를 합쳐 제방 안전 관리 지식그래프(LSM-KG)를 만든다.",
+  "사용자 질의의 의도를 세 가지 방법(규칙 기반, 지도학습 기반(BERT 부호화 + SVM), LLM 기반(PFKAN이 뽑은 개체·유형을 사전 정보로 주고 몇 개 예시와 정규화 대응을 적용))으로 각각 파악한다.",
+  "각 방법의 시험 자료 F1에 비례하는 가중치로 가중 투표를 해 최종 의도(20개 범주 중 하나)를 정한다.",
+  "의도 범주마다 설계한 변환 규칙으로 자연어 질의를 Cypher 질의로 바꿔 그래프에서 분야 지식을 꺼낸다.",
+  "프롬프트에서 그래프의 분야 지식을 우선하고 LLM 자체 지식으로 보충하게 해 답을 생성한다."
+ ],
+ "knowledge_structure": "온톨로지와 지식그래프를 쓴다. 개념(개체 유형)은 20개이다. 기존 연구에서 가져온 9개: Hydraulic structures, Hazards, Definition, Principles, Hazard manifestation, Engineering measures, Hazard level, Supplies, Measure site. 새로 더한 11개: Hazards 관련 Potential cause, Feature와 Engineering measures 관련 Precautions, Characteristics, Machinery, Function, Scope, Methods, Site conditions, Attributes, Requirements. 관계는 18개이다. 가져온 8개: Include, Existence, Definition, Treatment principle, Countermeasure, Corresponds to, Need, Location. 새로 더한 10개: Reason, Identification, Alias, Caution, Characteristic, Application, Function, Encounter, Construct, Require. 온톨로지에는 <머리 개체, 관계, 꼬리 개체> 유형이 23가지 있다. 전문가·연구자 논의로 구축했고 주석·추출 과정에서 계속 고쳤다. 지식은 PFKAN으로 추출해 Neo4j에 저장했으며 개체 3,516개, 관계 4,121개 규모이다.",
+ "retrieval": "그래프 질의 방식이다. 의도 파악 결과(20개 범주)에 따라 규칙으로 자연어 질의를 Cypher로 바꿔 Neo4j에서 지식을 가져온다. 벡터 검색과 임베딩 모델, 벡터 DB는 쓰지 않는다(BERT는 추출 모델과 의도 분류용 부호화에만 사용).",
+ "llm_used": "Qwen2.5-7B(Alibaba의 공개 모델, 매개변수 70억 개, 중국어 지원이 강하다고 적음)를 기반 모델로 썼다.",
+ "llm_compared": "다른 LLM과의 비교는 없음. 지식그래프 보강 전의 같은 Qwen2.5-7B 응답과 비교했다. GPT, LLaMA 등은 배경에서만 언급했다. 추출 모델 비교 대상은 W2NER, BERT_BiLSTM_CRF, BiLSTM_CRF(개체)와 GPLink, PRGC, SPN4RE(관계)이다.",
+ "finetuning": "LLM은 미세조정하지 않음(그래프 검색 보강만 사용, 분야 지식으로 전용 LLM을 미세조정하는 것은 향후 과제로 제시). 추출 모델 PFKAN은 주석 자료로 학습했고(PyTorch 1.13.0, 학습률 3×10^-5, Adam, 200 epoch), 의도 분류용 SVM도 학습했다.",
+ "deployment": "기반 모델이 공개 모델(Qwen2.5-7B)이고 그래프는 Neo4j라는 점만 적혀 있다. 수치 계산은 Wuhan University 슈퍼컴퓨팅 센터에서 했다고 감사의 글에 적었다. 로컬·폐쇄망 운영 여부, GPU 사양은 본문에 없음.",
+ "evaluation": "지식 추출: 시험 자료에서 precision, recall, F1을 쓰고 개체 추출은 W2NER, BERT_BiLSTM_CRF, BiLSTM_CRF와, 관계 추출은 GPLink, PRGC, SPN4RE와 비교했다. 의도 파악: 질의 440개 중 시험분에서 규칙 기반, SVM, LLM, 투표 방식의 F1과 혼동 행렬을 비교했다('other' 범주는 제외). 질의응답: 무작위로 고른 질의 4개(4번은 3번의 확장)에 대해 그래프 보강 전후의 응답을 사례로 견준 정성 비교이며, 정량 지표나 전문가 채점은 없다.",
+ "results": [
+  "PFKAN의 개체 추출 F1은 시험 자료에서 91.27로 BiLSTM_CRF보다 6.11점, 2위인 W2NER보다 3.18점 높다.",
+  "PFKAN의 관계 추출 F1은 89.92로 PRGC보다 4.33점 높다.",
+  "개체 20종 모두 F1이 80을 넘고, 가장 낮은 것은 Potential cause 80.82, Precautions 82.24이다.",
+  "관계 18종 중 F1이 가장 낮은 'Reason'도 80에 가깝다.",
+  "투표 방식의 의도 파악은 precision 0.97, F1 0.95이며, 지도학습 기반과 LLM 기반은 F1이 같고 규칙 기반이 가장 낮다(개별 방식의 F1 수치는 그림에만 있어 본문 글에 없음).",
+  "지식그래프는 개체 지식 3,516개와 관계 지식 4,121개로 구성된다.",
+  "보강 전 Qwen2.5-7B 응답에는 환각이 있었다: '균열'을 '파이핑'의 다른 이름이라고 하거나, 파이핑에 금지된 출구 막기와 그라우팅을 권했다. 보강 후 응답은 안정적이고 구체적인 조치와 수치를 담았다고 저자가 서술했다(사례 4건의 정성 비교)."
+ ],
+ "limitations": "저자는 한계를 구체적으로 나열하지 않고 향후 과제 두 가지를 적었다: (1) 분야 글 자료를 더 모으고 LLM을 결합해 지식 추출 모델을 개선해 적용 범위를 넓히는 것, (2) 응답 구성과 외부 모델에서의 분야 지식 활용을 개선하는 것이며 특히 분야 지식으로 전용 LLM을 미세조정하는 것. 고찰에서는 학습 표본이 적고 개체 길이가 긴 범주(Precautions, Potential cause, Function 등)에서 추출 정밀도가 낮다는 점, 규칙 기반과 LLM 기반 의도 파악이 개체 인식 오류에 영향을 받는다는 점(예: 'gate equipment'를 Machinery로 잘못 인식), 규칙 기반은 질문어 목록이 불완전하다는 점을 밝혔다.",
+ "key_figures": [
+  "Fig. 2. Overall research framework.",
+  "Fig. 3. Hydraulic structure safety management ontology model.",
+  "Fig. 4. Flowchart of proposed PFKAN model.",
+  "Fig. 5. Intent parsing process.",
+  "Fig. 6. Knowledge-based question answering process.",
+  "Fig. 13. Visualization of (a) the structure and (b) the details of LSM-KG (English translation from Chinese).",
+  "Fig. 14. Results of the single intent parsing model and the voting model.",
+  "Fig. 15. Question answering performance before and after KG-enhanced LLM (English translation from Chinese)."
+ ],
+ "quotes": [
+  "the data was doubled using the synonym conversion capability of LLM, and a total of 4468 gold standards were obtained.",
+  "After expert screening, 440 valid queries were obtained and split into training and test sets in a 3:1 ratio",
+  "samples were selected using a stratified sampling method based on relation categories in a 3:1:1 ratio, creating the training, validation, and test datasets.",
+  "the proposed model achieves an F1 score of 91.27, outperforming BiLSTM\\_CRF by 6.11 points and W2NER, the second-best model, by 3.18 points",
+  "the PFKAN model achieves an F1 score of 89.92, outperforming PRGC by 4.33 points",
+  "a total of 3,516 entity knowledge and 4,121 relation knowledge were extracted.",
+  "the precision for intent parsing increases to 0.97, and the F1 score reaches 0.95",
+  "the large language model Qwen2.5-7B was selected as the base model.",
+  "The ontology model constructed in Fig. 3 contains a total of 23 types of < head entity, relation, end entity > triples. By merging similar types, 20 distinct intent categories were obtained.",
+  "Table 4: Precautions 82.24 334 (2.25 %) 21.57; Potential cause 80.82 694 (4.68 %) 14.04"
+ ],
+ "note_for_dam_operation": "(정리자 해석) 댐 운영 질의응답에 가장 가까운 사례이다. 구조물-위험-원인·징후-조치-위치·자재·주의사항으로 이어지는 온톨로지(개념 20개, 관계 18개)는 댐 안전·운영 온톨로지의 뼈대로 참고할 수 있고, 7B급 공개 모델(Qwen2.5-7B)을 미세조정 없이 그래프 검색으로 보강한 구성은 폐쇄망 운영에 맞는다. 질의 의도를 고정된 범주(20개)로 분류한 뒤 범주별 규칙으로 Cypher 질의를 만드는 방식은 LLM이 Cypher를 직접 쓰게 하는 것보다 안정적이며, 규칙·분류기·LLM의 가중 투표로 의도 파악 F1을 0.95까지 올린 점을 참고할 만하다. 주의할 점: 최종 질의응답 품질은 질의 4건의 보강 전후 사례 비교뿐이고 정량 평가나 전문가 채점이 없다. 의도 범주 밖의 질의('other')나 여러 관계를 건너는 복합 질의에 대한 성능도 제시되지 않았다. 자료는 제방에 한정된 중국어 글이며, 4468개 표본은 LLM 동의어 변환으로 두 배로 늘린 수치이다."
+}
