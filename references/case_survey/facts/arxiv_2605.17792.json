@@ -47,7 +47,7 @@
     "Table 4: CREST scalar-multiplier parameters exposed to the agent, their valid ranges, and their physical roles. ..."
   ],
   "quotes": [
-    "We construct 2,576 SFT trajectories by distilling a strong proprietary teacher (GPT-5) on 73 calibration runs across 29 U.S. gauges (excluding the 4 gauges in the test set).",
+    "We construct 2,576 SFT trajectories by distilling a strong proprietary teacher (GPT-5) on 73 calibration runs across 29 U.S. gauges",
     "We use 10 CONUS gauges spanning 539–2401 km2 (selected from the audit pool described in Appendix A) for training",
     "four held-out gauges (ranging from 329 to 40,792 km2) for evaluation",
     "Each calibration run yields, on average, ∼35 such fragments after slicing on tool-call boundaries.",
