@@ -1,0 +1,63 @@
+{
+ "file": "51_온프레미스LLM비용분석.txt",
+ "title": "A Cost-Benefit Analysis of On-Premise Large Language Model Deployment: Breaking Even with Commercial LLM Services",
+ "authors": "Guanzhong Pan, Vishal Chodnekar, Abinas Roy, Haibo Wang",
+ "year": "2025",
+ "venue": "2025 IEEE International Conference on Big Data (BigData), pp. 2234-2239, DOI 10.1109/BIGDATA66926.2025.11400957",
+ "venue_type": "학술대회",
+ "domain": "기업·기관의 LLM 도입 방식 선택(자체 설비에 공개 모델 설치 대 상용 API 구독)에 대한 비용·편익 분석. 특정 산업 분야에 한정하지 않음",
+ "problem": "조직이 공개 가중치 LLM을 자체 설비(온프레미스)에 설치하는 것이 상용 LLM 서비스 구독보다 경제적으로 유리해지는 시점(손익분기점)을 정량적으로 판단할 틀이 없다는 문제를 다룬다.",
+ "data": "Artificial Analysis에서 가져온 공개 벤치마크 점수(GPQA, MATH-500, LiveCodeBench, MMLU-Pro)와 API 가격, GPU 가격·전력 자료를 사용한다. 공개 모델 9종(대형 3, 중형 3, 소형 3)과 상용 모델 5종(GPT-5, Claude-4 Opus, Claude-4 Sonnet, Grok-4, Gemini 2.5 Pro)을 표로 비교한다. 본문은 '54개 배포 시나리오, 공개 모델 9종과 상용 API 6종'이라고 적었으나 표에 실린 상용 모델은 5종이다. 자체 실험 자료(실측 로그 등)는 본문에 없음.",
+ "method_steps": [
+  "상용 LLM의 가격 체계와 자체 설치가 가능한 공개 모델을 조사한다.",
+  "성능 동등성(상위 상용 모델 대비 벤치마크 20% 이내), 설치 가능성, 라이선스 호환성, 커뮤니티 지원의 네 기준으로 공개 모델을 고른다.",
+  "하드웨어 비용을 GPU 대수와 단가의 곱으로 두고, 하루 8시간·월 20일 운영을 가정해 월 전기 요금을 계산한다.",
+  "자체 설치 누적 비용을 하드웨어 비용 + 월 전기 요금 × 개월 수로 정의한다.",
+  "자체 하드웨어의 처리량(tok/sec)으로 월 토큰 생산량을 구하고, 같은 토큰량을 입력:출력 비율로 나눠 API 요금으로 환산한다.",
+  "자체 설치 누적 비용과 API 누적 비용이 같아지는 시점 t*를 손익분기점으로 구한다.",
+  "모델 규모(소·중·대)와 기업 규모(소·중·대)별로 손익분기 결과를 해석하고 도입 판단 틀을 제시한다."
+ ],
+ "knowledge_structure": "사용하지 않음",
+ "retrieval": "본문에 없음(검색 기능을 다루지 않는 비용 분석 논문)",
+ "llm_used": "생성 시스템을 만든 연구가 아니다. 자체 설치 후보로 분석한 공개 모델은 Kimi-K2(1T), GLM-4.5(355B), Qwen3-235B, gpt-oss-120B, GLM-4.5-Air(106B), Llama-3.3-70B, EXAONE 4.0 32B, Qwen3-30B, Magistral Small(24B)이다. 저자가 직접 실행했다는 서술은 본문에 없음",
+ "llm_compared": "GPT-5, Claude-4 Opus, Claude-4 Sonnet, Grok-4, Gemini 2.5 Pro(상용 기준 모델, 가격과 벤치마크 점수만 인용)",
+ "finetuning": "하지 않음",
+ "deployment": "자체 설비 설치를 전제로 한 분석이다. GPU는 NVIDIA RTX 5090-32GB(575 W, $2,000)와 NVIDIA A100-80GB(400 W, $15,000) 두 종을 기준으로 한다. FP8/W8A16 정밀도, 전기 요금 $0.15/kWh, 하루 8시간·월 20일 운영을 가정한다. 소형 모델은 RTX 5090 1대, Llama-3.3-70B는 A100 1대, gpt-oss-120B와 GLM-4.5-Air는 A100 2대, Qwen3-235B는 A100 4대, GLM-4.5는 A100 6대, Kimi-K2는 A100 16대로 잡았다. 추론 최적화 틀(vLLM, TensorRT-LLM, DeepSpeed)은 배경으로 언급만 한다.",
+ "evaluation": "실험 평가가 아니라 공개 벤치마크 수치와 가격 자료를 대입한 계산 분석이다. 지표는 손익분기 개월 수와 상용 모델 대비 평균 성능 차이(%)이다. 실측 검증은 향후 과제로 남겼다.",
+ "results": [
+  "소형 모델(EXAONE 4.0 32B, Qwen3-30B, Magistral Small)은 RTX 5090 1대($2k)로 설치할 수 있고 손익분기가 0.3~3.0개월이다.",
+  "중형 모델의 손익분기는 gpt-oss-120B 3.9~30.9개월, GLM-4.5-Air 4.3~34.0개월, Llama-3.3-70B 2.3~17.8개월이다.",
+  "대형 모델의 손익분기는 Kimi-K2 8.7~69.3개월, GLM-4.5 6.5~51.5개월, Qwen3-235B 4.3~34.0개월이다.",
+  "하드웨어 비용은 Kimi-K2 $240k, GLM-4.5 $90k, Qwen3-235B $60k, gpt-oss-120B와 GLM-4.5-Air $30k, Llama-3.3-70B $15k, 소형 3종 $2k이다.",
+  "처리량과 월 토큰 생산량은 Kimi-K2 800 tok/sec·506.9M, gpt-oss-120B 220 tok/sec·139.4M, EXAONE 4.0 32B 200 tok/sec·126.7M 등이다.",
+  "중형 모델은 A100-80GB 2대($30k)로 돌리면서 정확도 손실이 10% 미만이라고 적었다.",
+  "EXAONE 4.0 32B는 GPT-5 대비 평균 성능 차이 -2.65%에 손익분기 2.26개월, Claude-4 Opus 대비 +5.93%에 0.3개월이다.",
+  "결론에서 소규모는 3개월 이내, 중규모는 6~24개월, 대규모는 2년 이상에 손익분기에 이른다고 정리했다.",
+  "초록·서론에서는 소형은 몇 달, 중형은 2년, 대형은 5년으로 요약하고 월 5천만 토큰 이상 처리하거나 자료 반출 제한이 엄격한 조직에 주로 타당하다고 적었다."
+ ],
+ "limitations": "손익분기 추정값을 실측으로 검증하지 않았고, 총소유비용 모형에 인건비와 유지보수 비용이 들어가 있지 않다. 향후 이 추정의 실증 검증, 인력·유지보수 비용 포함, 혼합(하이브리드) 방식 탐구, 공개·상용 모델의 성능·비용 수렴 추적을 과제로 든다. 모델·하드웨어·가격이 빠르게 바뀌므로 도입은 한 번의 결정이 아니라 계속 최적화할 문제라고 밝힌다.",
+ "key_figures": [
+  "그림은 본문에 없음(표만 있음)",
+  "TABLE I: Performance Benchmarks and API Pricing for Leading LLMs (data from Artificial Analysis [64])",
+  "TABLE II: Comparison of A100-80GB and RTX 5090-32GB GPUs",
+  "TABLE III: Hardware and Capacity Summary for Deployable Open-Source Models (FP8/W8A16 on A100 [58]/RTX 5090 [57], Electricity at $0.15/kWh)",
+  "TABLE IV: Break-Even Analysis Summary for All Model-API Combinations (months) with Amortized Performance Differences"
+ ],
+ "quotes": [
+  "break-even periods typically within a few months for small models, 2 years for medium models and 5 years for larger models",
+  "organizations with extreme high-volume processing requirements (≥50M tokens/month) or strict data residency mandates",
+  "Our analysis across 54 deployment scenarios—covering nine open-source models and six commercial APIs",
+  "run efficiently on two A100-80GB GPUs ($30k), with less than 10% accuracy loss",
+  "sub-30B deployments are feasible on a single consumer-grade RTX 5090 ($2k)",
+  "Assuming business operation of 8 hours/day and 20 days/month",
+  "break-even can occur in as little as 0.3–3 months depending on the commercial baseline",
+  "Small-scale: Break even within 3 months",
+  "Medium-scale: Offer balanced performance and cost, with recovery typically within 6–24 months",
+  "Large-scale: Require longer horizons (often beyond 2 years)",
+  "Here Cinput and Coutput are API prices per million input/output tokens, using a 2:1 ratio typical of real workloads",
+  "EXAONE 4.0 32B 2.26 (-2.65%) 0.3 (+5.93%) 1.4 (+9.45%) 1.4 (-6.43%) 2.06 (-4.48%) 0.3-2.26",
+  "Kimi-K2 69.3 (-6.75%) 8.7 (+1.83%) 44.0 (+5.35%) 44.0 (-10.88%) 63.1 (-8.93%) 8.7-69.3",
+  "Further research should empirically validate these break-even estimates and extend TCO models to include staffing and maintenance"
+ ],
+ "note_for_dam_operation": "댐 운영 자료를 외부로 내보낼 수 없어 폐쇄망 자체 설치를 택할 때 비용 근거로 쓸 수 있다. 30B급 공개 모델(EXAONE 4.0 32B 등)을 GPU 1대로 돌리는 구성이 손익분기가 가장 짧다는 계산을 인용할 수 있으나, 이 수치는 하루 8시간 최대 처리량 가동을 가정하고 인건비·유지보수를 뺀 계산값이며 실측 검증이 없다는 점을 함께 밝혀야 한다. 본문 안에서도 수치가 서로 어긋나는 곳이 있다(상용 API 수 5종 대 6종, 중형 기업 손익분기 3.8~34개월 대 표의 2.3~34.0개월, 대형 투자액 $40k~$190k 대 표의 $60k~$240k)."
+}

@@ -1,0 +1,54 @@
+{
+ "file": "arxiv_2506.21445.txt",
+ "title": "Text2Cypher Across Languages: Evaluating and Finetuning LLMs",
+ "authors": "Makbule Gulcin Ozsoy, William Tai (Neo4j, London)",
+ "year": "2025 (arXiv:2506.21445v2, 2025년 9월 4일)",
+ "venue": "arXiv (cs.CL). 'Submitted to NLPIR 2025'(투고 상태)로 표기됨",
+ "venue_type": "사전 공개본",
+ "domain": "그래프 데이터베이스 질의 생성. 영어가 아닌 언어(스페인어, 튀르키예어) 질문을 Cypher로 바꾸는 다국어 Text2Cypher 과제(특정 산업 분야 아님)",
+ "problem": "자연어를 DB 질의로 바꾸는 연구가 대부분 영어에 집중되어 다른 언어에서의 평가가 부족하다. 기반 모델과 미세조정 모델이 영어·스페인어·튀르키예어 질문에서 Text2Cypher를 얼마나 잘하는지, 프롬프트 번역과 다국어 미세조정이 어떤 영향을 주는지 조사한다.",
+ "data": "공개 Text2Cypher 자료집합(선행 연구 [4])의 영어 질문을 GPT-4o-mini로 스페인어·튀르키예어로 번역해 만든 다국어 자료. 시험 집합은 언어당 4,783건(가리기 관련 문제가 있던 50건 제외). 다국어 학습 집합은 총 약 36,000건(언어당 약 12,000건)이며 세 언어 공통 질문 약 6,750개, 언어 쌍별 공유 약 1,500개, 언어별 고유 약 3,800개로 구성. 비교용 영어 전용 학습 집합은 고유 질문 20,512건. 정답 Cypher와 스키마는 번역하지 않고 영어 그대로 둔다.",
+ "method_steps": [
+  "원본 영어 질문에서 고유 개체명과 따옴표 안 문자열을 자리표시자(예: LOCATION 0, QUOTE 0)로 가린다.",
+  "가린 질문을 GPT-4o-mini로 스페인어와 튀르키예어로 번역한다(자리표시자·숫자·날짜는 번역하지 않도록 지시).",
+  "번역 뒤 자리표시자를 원래 개체명과 따옴표 문자열로 되돌려 세 언어가 뜻이 맞는 질문 묶음을 만든다.",
+  "COMET-KIWI-22로 번역 품질을 측정한다.",
+  "영어 프롬프트를 고정한 채 기반 모델 3종에 세 언어 질문을 넣어 질문 언어의 영향을 평가한다.",
+  "프롬프트도 스페인어·튀르키예어로 번역해 프롬프트 언어의 영향을 평가한다.",
+  "Meta-Llama-3.1-8B-Instruct를 영어 전용 자료와 다국어 자료로 각각 미세조정해 언어별 성능을 비교한다."
+ ],
+ "knowledge_structure": "온톨로지·지식그래프를 새로 구축하지 않는다. 기존 그래프 DB의 스키마(노드, 관계, 속성)를 프롬프트에 넣어 Cypher를 생성하게 하며, 스키마 항목은 모든 실험에서 영어로 유지된다.",
+ "retrieval": "검색 증강이 아니라 질의 생성 방식(자연어→Cypher 후 대상 DB에서 실행)이다. 임베딩 모델·벡터 DB는 사용하지 않음.",
+ "llm_used": "평가한 기반 모델 3종(Unsloth 4비트 양자화본): Gemma-2-9b-it, Meta-Llama-3.1-8B-Instruct, Qwen2.5-7B-Instruct. 미세조정은 Meta-Llama-3.1-8B-Instruct 하나만 했다. 질문과 프롬프트 번역 도구로 GPT-4o-mini를 썼다(Cypher 생성에는 쓰지 않음).",
+ "llm_compared": "기반 모델(미세조정 전) 대 영어 전용 미세조정 모델 대 다국어 미세조정 모델을 서로 비교했다. 그 밖의 비교 전용 모델은 본문에 없음",
+ "finetuning": "미세조정을 했다. Meta-Llama-3.1-8B-Instruct를 Unsloth 기반 환경에서 (1) 영어 전용 20,512건, (2) 다국어 약 36,000건(언어당 약 12,000건)으로 각각 학습했다. LoRA 여부, 순위, 에폭 등 초매개변수는 본문에 없음.",
+ "deployment": "Unsloth의 4비트 양자화 모델(예: unsloth/gemma-2-9b-it-bnb-4bit)을 사용했다고만 적혀 있다. GPU 사양과 실행 환경은 본문에 없음.",
+ "evaluation": "자동 지표 평가. 시험 집합 언어당 4,783건. (1) 번역 기반: 생성 Cypher와 정답 Cypher의 글자 비교, ROUGE-L로 제시. (2) 실행 기반: 두 질의를 대상 DB에서 실행해 결과(사전순 정렬)를 비교, Exact-Match로 제시하며 DB 접근이 가능한 약 50% 부분집합에서만 수행. 지표 계산에 HuggingFace Evaluate 사용. 번역 품질은 COMET-KIWI-22(0~1)로 평가.",
+ "results": [
+  "모든 기반 모델이 영어 질문에서 가장 좋았고 스페인어가 그다음, 튀르키예어가 가장 낮았다(점수 값은 그림으로만 제시되어 글 파일에서 확인 불가).",
+  "번역 품질(COMET-KIWI-22)은 시험 집합에서 튀르키예어 0.7934, 스페인어 0.8062였고, 학습 집합에서 튀르키예어 0.7849, 스페인어 0.7999였다.",
+  "프롬프트를 번역하면 ROUGE-L이 약 1~1.5% 소폭 올랐지만 실행 기반 Exact-Match는 거의 변하지 않았다.",
+  "영어 전용 미세조정은 모든 언어에서 성능을 높였지만 ROUGE-L 기준 영어·스페인어는 약 0.20, 튀르키예어는 약 0.15 올라 언어 간 격차가 남았다.",
+  "다국어 미세조정 모델의 ROUGE-L은 영어 0.86, 스페인어 0.85, 튀르키예어 0.83으로 언어 간 성능이 더 고르게 됐다."
+ ],
+ "limitations": "저자가 한계라는 제목으로 따로 정리하지는 않았다. 본문에서 밝힌 제약: 스키마(노드·관계·속성)가 모든 실험에서 영어로 남아 있었고, 시간·자원 제약으로 미세조정은 모델 하나만 했으며, 실행 기반 평가는 DB 접근이 가능한 약 50%에서만 했다. 향후 과제는 스키마 항목의 현지화, 평가 언어 확대, 미세조정 외의 정렬 방법 탐구이다.",
+ "key_figures": [
+  "Fig. 1: Multiple users access the same database and want to generate a Cypher query for the question \"Which articles mention Acme Inc.?\" However, they may express this question in different languages",
+  "Fig. 2: Performance of models on Text2Cypher when input questions are in English (EN), Spanish (ES) or Turkish (TR).",
+  "Fig. 3: Model performance with/out prompt translation.",
+  "Fig. 4: Comparison of model performance: Foundational model (blue), Fine-tuned model on English-only data (orange), and Fine-tuned model on multilingual data (green)."
+ ],
+ "quotes": [
+  "During translation, 50 samples with masking-related issues were excluded from the test set. Consequently, the final test set contains 4,783 samples per language.",
+  "Our test dataset obtained 0.7934 for Turkish and 0.8062 for Spanish translations.",
+  "we prepared around 36,000 instances in total, distributed evenly across English(EN), Spanish(ES), and Turkish(TR)",
+  "(i) Around 6,750 questions common to all three languages, (ii) Around 1,500 questions shared between each pair of languages",
+  "This resulted in 20,512 unique questions.",
+  "Our multilingual training dataset obtained 0.7849 for Turkish and 0.7999 for Spanish translations.",
+  "improve slightly (by about 1–1.5%). However, Exact-Match scores for execution-based evaluation remain largely unchanged.",
+  "English and Spanish improve by around 0.20, while Turkish improves by approximately 0.15",
+  "ROUGE-L scores reach 0.86 for English, 0.85 for Spanish, and 0.83 for Turkish",
+  "Since only a subset of the dataset (approximately 50%) has active database access"
+ ],
+ "note_for_dam_operation": "한국어 질문으로 영문 라벨의 그래프 DB에 Cypher 질의를 생성하게 하는 경우에 직접 대응하는 근거이다. 튀르키예어는 한국어처럼 교착어이고 어순이 자유로우며 주어 생략이 잦은데, 이런 언어에서 기반 모델의 질의 생성 성능이 영어보다 뚜렷이 낮았다는 결과는 한국어에서도 비슷한 하락을 예상하게 한다(한국어 실험은 이 논문에 없으므로 추정이다). 대응책으로는 프롬프트를 번역하는 것보다 해당 언어 질문을 포함한 자료로 미세조정하는 편이 효과적이었다는 점, 번역으로 학습 자료를 만들 때 고유 개체명과 인용 문자열을 가려 두고 번역하는 절차를 참고할 수 있다. 스키마 이름을 질문 언어로 바꾸는 효과는 실험되지 않았다."
+}

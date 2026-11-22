@@ -1,0 +1,61 @@
+{
+ "file": "44_저수지운영스케줄링KG.txt",
+ "title": "Reservoir Optimization Scheduling Driven by Knowledge Graphs",
+ "authors": "Hailin Tang(교신), Jun Feng, Siyuan Zhou",
+ "year": "2024 (Published: 11 June 2024)",
+ "venue": "Electronics 2024, 13, 2283 (MDPI)",
+ "venue_type": "학술지",
+ "domain": "저수지(댐) 최적 운영 스케줄링. 유역 지식그래프로 유전 알고리즘의 최적화 모형을 자동 구성하고 최적 방류량을 수문 개폐 지시로 바꾼다. 적용 대상은 중국 Pihe River Basin(본문 일부에서는 Huaihe basin으로 표기)의 4개 저수지이다.",
+ "problem": "유역마다 위상 구조와 운영 목표가 달라 최적화 모형과 알고리즘을 유역별로 사람이 다시 만들어야 하는 'one watershed, one model' 한계가 있다. 또 유전 알고리즘이 계산한 방류량은 그대로 운영 제어에 쓸 수 없어 운영자가 수문 개폐 지시로 다시 바꿔야 한다.",
+ "data": "Pihe River Basin의 4개 저수지(MoziTan, Foziling, Bailianya, Xianghongdian)와 Zhengyangguan 단면이 대상이다. 홍수기 단일 목적 실험은 2020년 7월 21일 14:00~23:00의 실시간 자료(각 하도의 구간 유입량, 최상류 저수지 유입량) 10시간분을 썼다. 비홍수기 자료는 없어서 홍수기 자료를 1/50로 줄여 모의했다. 지시 생성 실험에는 Foziling 저수지의 2020년 7월 1일 18:00~7월 2일 03:00 실제 방류 자료를 썼다. 지식그래프 구축에는 수문 자료, 운영 규칙, 과거 운영 기록 등을 모았다고 적혀 있으나 규모(문서 수, 노드·관계 수)는 본문에 없음.",
+ "method_steps": [
+  "저수지 운영 요구에 맞춰 온톨로지 구조를 설계하고, 정형 자료(표·DB)에서는 개체 인식·관계 추출로 삼중항을 만들고 비정형 글에서는 대형 언어 모델로 Cypher 문을 생성해 유역 지식그래프를 구축한다.",
+  "유역 지식그래프를 질의해 최상류 저수지에서 시작해 물 흐름 방향으로 유역을 순회하며 최적화할 매개변수(저수지의 수위 과정 Z·방류 과정 Qr·유입 과정 Ir, 단면의 유량 Q)를 정한다.",
+  "모든 저수지를 단일 저수지 운영 방식으로 두어 수문 제약을 만족하는 개체 하나를 만들고 이를 정해진 개체군 크기(보통 100)만큼 복제해 초기 개체군과 Parameters 사전을 만든다.",
+  "홍수기에는 단일 목적 최적화(교차변이, 적합도 계산, 토너먼트 선택 반복)를, 비홍수기에는 다목적 최적화(개체군 복제, 교차변이, 병합, 빠른 비지배 정렬, 혼잡도 거리 계산, 선택)를 수행한다.",
+  "교차변이 모듈은 지식그래프의 위상 관계를 따라 하류로 순회하면서 하도 추적(Muskingum), 물수지, 수위-유량 제약을 적용해 수위와 유량을 갱신한다.",
+  "종료 조건(반복 횟수 또는 적합도 수준)에 이르면 계절에 맞는 최적 개체를 골라 각 저수지의 준최적 방류 과정을 낸다.",
+  "지시 생성 알고리즘이 지식그래프에서 방류 시설의 선택 가능한 개도와 수위-유량 관계를 조회해 개도 조합을 만들고, 시점마다 최대 유량이 실제 방류량보다 작지 않으면서 차이가 가장 작은 조합을 고른다.",
+  "연속한 두 시점의 개도 조합을 비교해 그 시점에 필요한 개폐 동작(예: b to 0, c to 1)을 만들고 지식그래프를 갱신한다."
+ ],
+ "knowledge_structure": "온톨로지와 지식그래프를 쓴다(유역 지식그래프). 객체 범주는 Reservoir, River Channel, Cross-section, Discharge Structure이다. 속성은 정적 속성, 동적 속성, 함수 관계 3종으로 나눈다. Reservoir의 속성은 Name, Design Water Level(Zd), Flood Season Limiting Water Level(Zfs), Ideal Ecological Flow(Qeco), Real-time Water Level(Zr), Inflow Process(Ir), Water Level–Flow Relationship, Water Level–Volume Relationship이다. River Channel의 속성은 Name, Interval Inflow(∆q), Channel Evolution(ϕ, 시간 지체를 고려한 Muskingum 모형의 계수)이다. Cross-section의 속성은 Limiting Flow(Qfs), Name이고, Discharge Structure의 속성은 Name, Optional Opening Degree(Di), Water Level–Flow Relationship이다. 관계는 단면·저수지 사이의 하류 방향 관계와, 단면·저수지와 하도 사이의 연관(하도가 그 사이에 놓임), 저수지와 여러 방류 시설의 연관이다. 구축은 정형 자료에서 삼중항 추출, 비정형 글에서 온톨로지와 글을 입력으로 LLM이 Cypher 문을 생성하는 방식이다(이 구축 방법의 검증은 선행 연구 [29]에서 했다고 적혀 있다). 알고리즘 수행 중 계산 결과로 지식그래프를 갱신한다.",
+ "retrieval": "RAG식 검색은 쓰지 않는다. 유전 알고리즘과 지시 생성 알고리즘이 지식그래프를 질의하고 위상 관계를 따라 순회한다(그래프 질의·순회). Cypher 문을 생성한다고 적혀 있으나 그래프 DB 제품 이름은 본문에 없음. 임베딩 모델·벡터 DB는 본문에 없음.",
+ "llm_used": "지식그래프 구축 단계에서 비정형 글의 개체·관계를 뽑아 Cypher 문을 만드는 데 '대형 언어 모델 기반 글 분석 기법'을 썼다고만 적혀 있다. 모델 이름과 규모는 본문에 없음. 최적화와 지시 생성 자체에는 LLM을 쓰지 않는다.",
+ "llm_compared": "본문에 없음",
+ "finetuning": "본문에 없음(미세조정 언급 없음)",
+ "deployment": "본문에 없음",
+ "evaluation": "Pihe River Basin 사례 적용으로 평가했다. (1) 홍수기 단일 목적 운영: 4가지 연합 운영 전략(a: Foziling+Xianghongdian, b: Xianghongdian+Foziling+Bailianya, c: Xianghongdian+Foziling+MoziTan, d: 4개 전체)의 Zhengyangguan 단면 첨두 유량과 첨두 저감률 비교. (2) 비홍수기 다목적 운영: 발전량 최대화(f2)와 생태 유량 편차 최소화(f3)의 Pareto front. (3) 지시 생성: 변환된 개도 조합의 최대 유량과 방류량의 차이. 개체군 100개체, 100세대 반복이다. 다른 최적화 알고리즘과의 수치 비교나 LLM 관련 평가는 본문에 없음.",
+ "results": [
+  "홍수기 4가지 전략의 Zhengyangguan 단면 첨두 유량은 각각 5097 m³/s, 5478 m³/s, 5834 m³/s, 5820 m³/s이고, 예측 첨두 유량 대비 첨두 저감은 각각 56%, 53%, 51%, 50%였다.",
+  "네 전략 모두 저수지 수위가 설계 홍수위 이내였다.",
+  "네 전략의 효과가 비슷하여 현 수문 조건에서는 MoziTan, Bailianya 저수지의 연합 운영 참여 여부가 Zhengyangguan 단면 유량에 미치는 영향이 제한적이라고 해석했다.",
+  "비홍수기 100세대 반복 뒤 최종 개체군에서 level 0 Pareto front에 97개체, level 1 Pareto front에 3개체가 있었다.",
+  "Foziling 저수지는 발전 수로(반드시 개방), 방류 수로(0 또는 1), 수문 6개 여수로(7단계 개도)로 개도 조합이 14가지이다.",
+  "유전 알고리즘 방류 과정을 지시로 바꾼 결과 최대 유량과 실제 방류량의 오차는 100 m³/s 이내라고 본문은 적는다(다만 Table 4의 23:00 행은 Outflow 412, Max Flow 522.95로 차이가 100을 넘는다).",
+  "실제 관측 방류 과정을 지시로 바꾼 결과 최대 유량과 실제 방류량의 차이는 최대 107 m³/s, 최소 2 m³/s였다."
+ ],
+ "limitations": "기본 유전 알고리즘은 결과 생성에 무작위성이 있어 네 전략의 우열을 직접 비교하는 것은 엄밀하지 않을 수 있다고 적는다. 비홍수기의 구간 유입량과 상류 저수지 유입량 자료가 없어 홍수기 자료를 1/50로 줄여 모의했다. 유역 위상을 단순화하려고 Xianghongdian, Foziling, MoziTan 저수지 하류에는 별도 단면을 두지 않고 하류 하도의 안전 방류량을 운영 중 최대 방류량으로 두었다. 향후에는 실시간 자료 처리와 인공지능 같은 기술을 통합해 더 견고하고 예측력 있는 수문 모형과 범용 자동 저수지 관리 시스템으로 발전시킬 수 있다고 적는다.",
+ "key_figures": [
+  "Figure 1: Example of the watershed knowledge graph.",
+  "Figure 2: Known parameters.",
+  "Figure 3: Known parameters and parameters to be optimized.",
+  "Figure 4: Genetic algorithm process.",
+  "Figure 5: Example of the crossover mutation. (a) the watershed topology; (b) the process of crossover mutation.",
+  "Figure 6: Schematic map of the Pihe River Basin.",
+  "Figure 7: Watershed knowledge graph of the Pihe River Basin.",
+  "Figure 12: Pareto front."
+ ],
+ "quotes": [
+  "based on the real-time data collected from the Pihe River Basin from 14:00 to 23:00 on 21 July 2020",
+  "the data from the flood season were proportionally reduced by a factor of 50 to simulate hydrological conditions during the non-flood season",
+  "the peak flow rates at the Zhengyangguan section under the four strategies were 5097 m³/s, 5478 m³/s, 5834 m³/s, and 5820 m³/s, respectively",
+  "these scheduling plans achieved peak reductions of 56%, 53%, 51%, and 50%, respectively",
+  "the level 0 Pareto front containing 97 individuals and the level 1 Pareto front containing 3 individuals",
+  "Therefore, there are 14 possible combinations of openness settings for Foziling Reservoir.",
+  "the errors between the maximum flows and the actual outflows are within 100 cubic meters per second",
+  "the maximum difference between the maximum flow and the actual outflow was 107 cubic meters per second, and the minimum difference was only two cubic meters per second",
+  "the predetermined number of populations was set to 100, with each population containing 100 individuals",
+  "using data from the outflows between 18:00 on 1 July 2020, and 03:00 on 2 July 2020"
+ ],
+ "note_for_dam_operation": "댐(저수지) 운영을 직접 다룬 사례로, 저수지·하도·단면·방류 시설을 객체로 두고 속성을 정적(설계 홍수위, 홍수기 제한 수위, 생태 유량)·동적(실시간 수위, 유입 과정)·함수 관계(수위-유량, 수위-저수량, 하도 추적)로 나눈 온톨로지 설계는 댐 운영 지식그래프의 스키마 설계에 바로 참고할 수 있다. 특히 수위-유량 곡선이나 Muskingum 계수 같은 계산 관계를 지식그래프의 속성으로 넣어 알고리즘이 조회해 쓰게 한 점, 방류량을 수문별 개도 조합과 개폐 동작(시점별 지시)으로 바꾸는 절차는 댐 운영 질의응답에서 '현재 수위에서 이 방류량을 내려면 어느 수문을 얼마나 여는가' 같은 질문에 계산 근거를 제공하는 도구로 응용할 수 있다. 다만 이 논문은 질의응답·RAG 연구가 아니고, LLM은 지식그래프 구축에만 쓰였으며 모델 이름과 추출 정확도가 본문에 없다. 유역 이름이 본문 안에서 Pihe River Basin과 Huaihe basin으로 섞여 쓰인다."
+}

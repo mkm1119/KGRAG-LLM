@@ -1,0 +1,61 @@
+{
+ "file": "37_MSGraphRAG.txt",
+ "title": "From Local to Global: A GraphRAG Approach to Query-Focused Summarization",
+ "authors": "Darren Edge, Ha Trinh, Newman Cheng, Joshua Bradley, Alex Chao, Apurva Mody, Steven Truitt, Dasha Metropolitansky, Robert Osazuwa Ness, Jonathan Larson (Microsoft)",
+ "year": "2025 (arXiv:2404.16130v2, 19 Feb 2025)",
+ "venue": "arXiv (cs.CL), 'Preprint. Under review.'",
+ "venue_type": "사전 공개본",
+ "domain": "특정 산업 분야가 아닌 일반 문서 모음(팟캐스트 녹취록, 뉴스 기사)에 대한 질의응답. 말뭉치 전체를 아우르는 전역(global) 의미 파악(sensemaking) 질문 대상",
+ "problem": "벡터 RAG는 일부 문서 조각만 검색하므로 '자료 전체의 주요 주제는 무엇인가' 같은 말뭉치 전체에 대한 질문에 답하지 못하고, 기존 질의 중심 요약(QFS) 방법은 RAG가 다루는 분량으로 확장되지 않는다.",
+ "data": "두 말뭉치(각 약 100만 토큰대). Podcast transcripts: 'Behind the Tech with Kevin Scott' 공개 녹취록, 600토큰 청크 1669개(겹침 100토큰, 약 100만 토큰). News articles: 2013년 9월~2023년 12월 뉴스 기사 벤치마크(Tang and Yang, 2024), 600토큰 청크 3197개(겹침 100토큰, 약 170만 토큰). 평가 질문은 LLM이 생성한 말뭉치당 125개",
+ "method_steps": [
+  "원문 문서를 텍스트 청크로 나눈다(실험에서는 600토큰, 겹침 100토큰).",
+  "LLM이 각 청크에서 개체(이름·유형·설명)와 개체 간 관계(설명·강도), 필요하면 주장(claim)을 추출하며, 분야에 맞춘 few-shot 예시를 쓰고 자기 성찰(self-reflection, 'gleaning')로 빠뜨린 개체를 추가 추출한다.",
+  "추출된 개체·관계 인스턴스를 그래프의 노드와 간선으로 합치고(개체 일치는 정확한 문자열 일치), 설명을 요약하며 관계 중복 횟수를 간선 가중치로 둔다.",
+  "Leiden 커뮤니티 탐지를 계층적으로 적용해 그래프를 더 나눌 수 없는 말단 커뮤니티까지 재귀적으로 분할한다.",
+  "LLM이 각 커뮤니티의 보고서형 요약을 아래에서 위로 생성하며, 상위 커뮤니티는 문맥 창에 맞지 않으면 하위 커뮤니티 요약으로 대체해 요약한다.",
+  "질의 시 선택한 계층의 커뮤니티 요약을 무작위로 섞어 정해진 토큰 크기로 나누고, 각 묶음에서 병렬로 중간 답변과 0~100 유용성 점수를 생성한다(map, 0점은 제외).",
+  "중간 답변을 점수 내림차순으로 문맥 창 한도까지 모아 최종 전역 답변을 생성한다(reduce)."
+ ],
+ "knowledge_structure": "사전 정의된 온톨로지는 쓰지 않고, LLM이 원문에서 추출한 개체 지식그래프를 쓴다. 노드는 개체(기본 프롬프트는 사람·장소·조직 같은 고유 개체 유형, 유형 목록과 few-shot 예시는 분야에 맞게 지정), 간선은 설명과 가중치가 붙은 관계, 부가 정보(covariate)로 개체에 대한 주장(claim)을 둔다. 그래프를 Leiden 알고리즘(graspologic 라이브러리)으로 계층적 커뮤니티로 나누고 커뮤니티별 요약을 미리 생성한다. Podcast 그래프는 노드 8,564개·간선 20,691개, News 그래프는 노드 15,754개·간선 19,520개이다.",
+ "retrieval": "GraphRAG 전역 질의는 임베딩 검색 대신 특정 계층의 모든 커뮤니티 요약에 대한 map-reduce 요약으로 답한다. 비교 기준인 벡터 RAG(SS)는 텍스트 청크를 검색해 토큰 한도까지 문맥에 넣는 방식이다. 임베딩 모델과 벡터 DB·그래프 DB 이름은 본문에 없음(LangChain, LlamaIndex, NebulaGraph, Neo4J용 확장이 있다고만 언급)",
+ "llm_used": "gpt-4-turbo(공개 OpenAI 엔드포인트, 문맥 창 128k 토큰)로 그래프 색인을 생성. 본문은 'GPT-4를 LLM으로 사용'이라 적으며 프롬프트도 GPT-4용으로 설계되었다고 함. 질문 생성·답변 생성·평가(LLM-as-a-judge)에 쓴 LLM의 구체적 모델명은 따로 명시되지 않음",
+ "llm_compared": "LLM 간 비교는 없음. 비교 대상은 방법 조건으로, GraphRAG 4개 커뮤니티 수준(C0~C3), 원문 map-reduce 요약(TS), 벡터 RAG 의미 검색(SS). Llama, Gemini는 배경 설명에서 언급만 함",
+ "finetuning": "하지 않음",
+ "deployment": "가상 머신(16GB RAM, Intel Xeon Platinum 8171M CPU @ 2.60GHz)에서 공개 OpenAI 엔드포인트의 gpt-4-turbo(2M TPM, 10k RPM)를 호출. Podcast 자료 색인에 281분 소요. GPU·폐쇄망 언급 없음. 오픈소스로 공개(github.com/microsoft/graphrag)",
+ "evaluation": "실험 1: LLM이 말뭉치 설명에서 가상 사용자 5명 × 과제 5개 × 질문 5개로 말뭉치당 125개 전역 질문을 생성하고, LLM 평가자가 두 답변을 맞대결로 비교해 승자 또는 무승부를 판정(각 비교 5회 반복 평균). 기준은 Comprehensiveness, Diversity, Empowerment와 통제 기준 Directness. 통계는 Wilcoxon signed-rank 검정과 Holm-Bonferroni 보정. 실험 2: Claimify로 답변에서 사실 주장을 추출해 평균 주장 수(포괄성)와 주장 군집 수(다양성, 1−ROUGE-L 거리의 응집 군집)를 계산. 답변·색인·질의 문맥 창은 8k 토큰으로 고정",
+ "results": [
+  "전역 방식(C0~C3, TS)은 벡터 RAG(SS) 대비 포괄성 승률이 Podcast 72~83%, News 72~80%(p<.001)였다.",
+  "다양성 승률은 벡터 RAG 대비 Podcast 75~82%(p<.001), News 62~71%(p<.01)였다.",
+  "Directness에서는 벡터 RAG가 모든 비교에서 가장 직접적인 답변을 냈고, Empowerment는 결과가 엇갈렸다.",
+  "커뮤니티 요약은 원문 요약(TS) 대비 포괄성 승률이 Podcast 중간 수준 57%(p<.001), News 하위 수준 64%(p<.001)였고, 다양성 승률은 각각 57%(p=.036), 60%(p<.001)였다.",
+  "하위 수준 커뮤니티 요약(C3)은 원문 요약보다 문맥 토큰이 26~33% 적었고, 최상위 수준(C0)은 97% 이상 적었다(질의당 9~43배 적은 토큰).",
+  "실험 2에서 평균 주장 수는 전역 조건이 31.39~34.18개, 벡터 RAG가 25.23개(News)·26.50개(Podcast)로 모든 경우 유의한 차이(p<.05)였다.",
+  "전체 답변에서 중복 제거 후 고유 주장 47,075개가 추출되었고 답변당 평균 31개였다.",
+  "LLM 판정과 주장 기반 지표의 승자 일치율은 포괄성 78%, 다양성 69~70%였다(LLM 판정이 무승부가 아닌 경우에 한함).",
+  "문맥 창 크기 8k·16k·32k·64k 중 8k가 포괄성에서 가장 좋았다(평균 승률 58.1%).",
+  "HotPotQA 표본에서 GPT-4는 청크 크기 600토큰일 때 2400토큰일 때보다 거의 두 배의 개체 참조를 추출했다."
+ ],
+ "limitations": "평가가 약 100만 토큰 규모의 두 말뭉치와 의미 파악형 질문에 한정되어 다른 분야·용도로의 일반화는 추가 연구가 필요하다. 지어낸 내용(fabrication) 비율 비교(예: SelfCheckGPT)가 없다. Empowerment에서는 구체적 사례·인용·출처 제시가 중요해 추출 프롬프트 조정이 필요할 수 있다. 향후 과제로 임베딩 기반 매칭과 결합한 지역(local)·하이브리드 방식, 필요 시점의 커뮤니티 보고서 생성, 계층을 오르내리는 roll-up·drill-down 방식을 든다. 생성 답변이 원자료를 정확히 반영하지 못하면 의사결정에 위험이 있으므로 AI 사용과 오류 가능성을 명시해야 한다고 밝힌다.",
+ "key_figures": [
+  "Figure 1: Graph RAG pipeline using an LLM-derived graph index of source document text.",
+  "Figure 2: Head-to-head win rate percentages of (row condition) over (column condition) across two datasets, four metrics, and 125 questions per comparison (each repeated five times and averaged).",
+  "Figure 3: How the entity references detected in the HotPotQA dataset (Yang et al., 2018) varies with chunk size and self-reflection iterations for our generic entity extraction prompt with gpt-4-turbo.",
+  "Figure 4: Graph communities detected using the Leiden algorithm (Traag et al., 2019) over the MultiHop-RAG (Tang and Yang, 2024) dataset as indexed."
+ ],
+ "quotes": [
+  "This corpus was divided into 1669 × 600-token text chunks, with 100-token overlaps between chunks (∼1 million tokens).",
+  "The corpus is divided into 3197 × 600-token text chunks, with 100-token overlaps between chunks (∼1.7 million tokens).",
+  "we set K = M = N = 5 for a total of 125 test questions per dataset",
+  "a graph consisting of 8,564 nodes and 20,691 edges for the Podcast dataset, and a larger graph of 15,754 nodes and 19,520 edges for the News dataset",
+  "global approaches achieved comprehensiveness win rates between 72-83% (p<.001) for Podcast transcripts and 72-80% (p<.001) for News articles",
+  "diversity win rates ranged from 75-82% (p<.001) and 62-71% (p<.01) respectively",
+  "achieved comprehensiveness win rates of 57% (p<.001) and 64% (p<.001), respectively",
+  "GraphRAG required 26-33% fewer context tokens, while for root-level community summaries (C0), it required over 97% fewer tokens",
+  "we extracted 47,075 unique claims, with an average of 31 claims per answer",
+  "the aggregated LLM label matched the claim-based label in 78% of pairwise comparisons for comprehensiveness and 69-70% for diversity",
+  "took 281 minutes for the Podcast dataset, running on a virtual machine (16GB RAM, Intel(R) Xeon(R) Platinum 8171M CPU @ 2.60GHz)",
+  "the smallest context window size tested (8k) was universally better for all comparisons on comprehensiveness (average win rate of 58.1%)"
+ ],
+ "note_for_dam_operation": "댐 운영 문서 전체를 아우르는 질문(예: 여러 홍수 사례에 공통된 운영상 쟁점)에는 조각 검색형 RAG보다 커뮤니티 요약 기반 전역 요약이 유리하다는 근거로 쓸 수 있다. 반대로 특정 수치·조항을 묻는 직접적인 질문에는 벡터 RAG가 더 직접적인 답을 냈으므로 질문 유형에 따라 방식을 나누는 설계가 필요하다. 색인 비용(100만 토큰에 gpt-4-turbo로 281분)과 사전 정의 온톨로지 없이 LLM 추출 그래프를 쓴다는 점, 정답 없는 질문을 LLM 맞대결 판정과 주장 수로 평가한 방식도 참고할 만하다. 다만 외부 API 사용 사례이므로 폐쇄망 운영에는 그대로 적용되지 않는다."
+}

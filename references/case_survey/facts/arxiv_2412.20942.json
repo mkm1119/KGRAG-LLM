@@ -1,0 +1,50 @@
+{
+ "file": "arxiv_2412.20942.txt",
+ "title": "Ontology-grounded Automatic Knowledge Graph Construction by LLM under Wikidata schema",
+ "authors": "Xiaohan Feng, Xixin Wu, Helen Meng(교신) (Chinese University of Hong Kong)",
+ "year": "2024",
+ "venue": "HI-AI@KDD, Human-Interpretable AI Workshop at the KDD 2024 (2024년 8월 26일, Barcelona). arXiv:2412.20942v1 [cs.AI] (2024년 12월 30일)로도 공개",
+ "venue_type": "학술대회",
+ "domain": "비정형 문서에서 온톨로지와 지식그래프를 자동 구축하는 방법(분야 일반). 평가는 공개 지식그래프 구축 벤치마크로 수행",
+ "problem": "LLM으로 지식그래프를 바로 만들면 통일된 스키마가 없어 사실이 중복·불일치하고, 사전학습에 없던 사내 문서 분야를 충분히 덮지 못하며, 표준 온톨로지와 어긋나 기존 지식베이스와 통합하기 어렵다. 사람 개입을 최소화하면서 해석 가능하고 Wikidata와 호환되는 지식그래프를 만드는 방법을 제안한다.",
+ "data": "평가용 공개 자료 세 가지. Wiki-NRE 시험 자료의 부분집합 1,000건(관계 유형 45개), SciERC 시험 자료 974건(관계 유형 7개), WebNLG의 Semantic Parsing 과제 시험 자료 1,165건(관계 유형 159개). 후보 속성 목록으로 Wikidata 속성 전체(외부 데이터베이스 ID 관련 속성 제외, 자료형을 item, quantity, string, monolingual text, point in time으로 제한)를 썼다.",
+ "method_steps": [
+  "역량 질문(CQ)·답 생성: LLM에 지시문과 예시를 주어 문서만으로 답할 수 있는 역량 질문을 문서당 최대 3개 만들고 문서에 근거해 답하게 한다.",
+  "관계 추출: LLM이 역량 질문에서 속성(관계)을 추출하고 Wikidata 편집 지침에 따라 정의역·치역을 포함한 용법 설명을 짧게 쓴다.",
+  "온톨로지 대응: 추출한 속성의 설명을 문장 임베딩으로 바꿔 Wikidata 후보 속성 목록과 벡터 유사도 검색으로 가장 가까운 1개를 찾고, LLM이 두 속성이 의미상 같은지 예/아니오로 검증한다.",
+  "검증된 대응은 Wikidata 속성으로 대체하고, 대응이 없으면 확장을 허용하는 설정에서는 새 속성을 유지하고 목표 스키마로 제한하는 설정에서는 버린다.",
+  "온톨로지 형식화: Wikidata 속성은 설명·정의역·치역을 그대로 복사하고, 새 속성은 LLM이 정의역·치역 클래스를 추론·요약해 OWL 온톨로지(turtle 구문)를 만든다.",
+  "지식그래프 구축: 각 (CQ, 답) 쌍에서 LLM이 개체를 추출해 온톨로지에 정의된 속성만 써서 RDF 트리플로 출력한다.",
+  "출력 지식그래프를 RDF 파서로 읽어 유효한 트리플만 뽑아 평가한다."
+ ],
+ "knowledge_structure": "온톨로지와 지식그래프를 모두 쓴다. 온톨로지는 역량 질문에서 뽑은 속성(관계)을 Wikidata 속성에 대응시켜 만든 OWL 온톨로지로, 각 속성에 schema:description, rdfs:label, rdfs:domain, rdfs:range를 둔다. 새 속성의 정의역·치역 클래스는 LLM이 추론한다. 지식그래프는 온톨로지에 기반해 (CQ, 답) 쌍에서 추출한 RDF 트리플(turtle 형식)이며 개체는 wd:, 속성은 wdt: 이름공간을 쓴다. 속성 식별자(예: P19)는 PascalCase 문자 이름(예: PlaceOfBirth)으로 바꿨다. 구축은 LLM 프롬프트로 자동 수행한다(문서당 LLM 호출 3회에 추출된 관계당 1회 추가).",
+ "retrieval": "질의응답용 검색은 다루지 않는다. 온톨로지 대응 단계에서만 속성 설명의 문장 임베딩(bge-small-en)으로 벡터 유사도 검색을 해 상위 1개 후보를 찾는다. 벡터 DB·그래프 DB 제품명은 본문에 없음",
+ "llm_used": "Mistral-7B-instruct와 GPT-4o 두 가지로 파이프라인을 시험했다(GPT-4o는 비용 문제로 목표 스키마 제한 설정만).",
+ "llm_compared": "LLM 기준선: Wiki-NRE·WebNLG는 선행 연구 [19]의 같은 Mistral 모델 결과, SciERC는 선행 연구 [3]의 GPT-4 결과(모두 문헌 수치). 비LLM 기준선(미세조정 모델): GenIE(Wiki-NRE), PL-Marker(SciERC), ReGen(WebNLG)",
+ "finetuning": "하지 않음. 제로샷 프롬프트 방식이다. 향후 과제로 미세조정과 유도 디코딩을 언급했다.",
+ "deployment": "본문에 없음(GPU 사양·로컬·클라우드 구분 언급 없음). Mistral-7B가 비LLM 기준선의 T5 모델보다 매개변수가 10배 이상 크다는 계산 자원 논의만 있다.",
+ "evaluation": "자동 지표 평가. 지식그래프 트리플에 대한 partial F1. 평가 자료는 Wiki-NRE 1,000건, SciERC 974건, WebNLG 1,165건. 두 설정(목표 스키마 제한 / 스키마 제한 없음)으로 보고했다. 모든 실험은 1회 실행이다. 전문가 평가·LLM 평가는 없음. SciERC의 일부 관계(conjunction, evaluate for, compare, feature of)는 LLM이 제안한 가장 가까운 속성을 저자 주관으로 골랐다.",
+ "results": [
+  "Mistral 기반 제안 방법의 partial F1(목표 스키마 제한/제한 없음)은 Wiki-NRE 0.66/0.60, SciERC 0.73/0.58, WebNLG 0.74/0.68이었다.",
+  "GPT-4o 기반 제안 방법(목표 스키마 제한)은 Wiki-NRE 0.71, SciERC 0.77, WebNLG 0.76이었다.",
+  "비LLM 기준선은 Wiki-NRE 0.484, SciERC 0.532, WebNLG 0.767, LLM 기준선은 Wiki-NRE 0.647, SciERC 0.07, WebNLG 0.728이었다.",
+  "목표 스키마 제한 설정에서 Wiki-NRE와 SciERC는 모든 기준선을 넘었고, WebNLG는 미세조정 기준선(0.767)에 근접했으나 넘지는 못했다.",
+  "스키마 제한이 없으면 세 자료 모두에서 성능이 낮아졌는데, 저자는 LLM이 목표 스키마보다 풍부한 온톨로지를 찾아내기 때문이라고 설명했다."
+ ],
+ "limitations": "스키마 제한 없는 설정에서 성능이 떨어지며, 시험 자료 주석 밖의 온톨로지 항목은 자료로 직접 평가할 수 없어 향후 수동 평가가 필요하다고 했다. 긴 입력 문맥이 LLM에 부담이 될 수 있다고 추정했다. 문서당 LLM 호출이 3회에 관계당 1회가 더 들어 계산 부담이 있다. 비용 문제로 Wiki-NRE는 부분집합만, GPT-4o는 한 설정만 시험했다. 벤치마크 주석이 불완전할 수 있다고 적었다. 향후 새 온톨로지에 대한 few-shot 미세조정, 유도 디코딩, 해석 가능한 질의응답 시스템으로의 확장을 과제로 들었다.",
+ "key_figures": [
+  "Figure 1: Flowchart of proposed approach.",
+  "Table 1: Partial F1 scores on test datasets. Best result is bolded. Results of proposed pipeline under two settings are presented as Target schema constrained/no schema constraint."
+ ],
+ "quotes": [
+  "Proposed (Mistral) 0.66/0.60 0.73/0.58 0.74/0.68",
+  "Proposed (GPT-4o) 0.71/N/A 0.77/N/A 0.76/N/A",
+  "Non-LLM Baseline 0.484 0.532 0.767",
+  "LLM Baseline 0.647 0.07 0.728",
+  "We used a subset Wiki-NRE’s test dataset containing 1,000 samples with 45 relation types",
+  "SciERC’s test set contain 974 samples under a schema with 7 relation types.",
+  "we used test set in Semantic Parsing (SP) task, with 1,165 samples and 159 relation types",
+  "This pipeline consumes three separate LLM calls per document, plus one call per extracted relation."
+ ],
+ "note_for_dam_operation": "댐 운영 문서에서 온톨로지와 지식그래프를 만들 때 절차로 삼을 만한 사례다. 문서에서 역량 질문을 먼저 뽑아 지식 범위를 정하고, 거기서 관계를 추출해 기존 스키마에 맞춘 뒤, 그 온톨로지에 묶어 트리플을 만들게 하는 순서가 명확하고 프롬프트 전문이 부록에 있다. 7B급 소형 모델(Mistral-7B)로도 스키마를 제한하면 미세조정 모델에 견줄 수치가 나왔다는 점은 폐쇄망 구축에 유리한 근거다. 반대로 스키마를 제한하지 않으면 성능이 떨어지므로, 댐 운영처럼 범위가 좁은 분야에서는 전문가가 정한 간결한 관계 목록으로 묶는 편이 낫다는 뜻으로 읽힌다. Wikidata 속성은 댐·수문 전문 관계를 덮지 못할 가능성이 크고, 이 논문은 구축된 지식그래프를 질의응답에 쓴 결과는 제시하지 않았다."
+}

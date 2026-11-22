@@ -1,0 +1,56 @@
+{
+ "file": "01_KAIST금융RAG.txt",
+ "title": "Optimizing Retrieval Strategies for Financial Question Answering Documents in Retrieval-Augmented Generation Systems",
+ "authors": "Sejong Kim, Hyunseo Song, Hyunwoo Seo, Hyunjun Kim (KAIST, 공동 제1저자, 교신저자 Hyunjun Kim)",
+ "year": "2025",
+ "venue": "ICLR 2025: Advances in Financial AI Workshop (arXiv:2503.15191v1, 2025년 3월 19일)",
+ "venue_type": "학술대회",
+ "domain": "금융 문서(10-K 보고서 등) 질의응답을 위한 RAG 검색 최적화",
+ "problem": "금융 문서는 분야 고유 어휘와 다층 구조의 표 자료 때문에 일반 RAG의 검색 성능이 떨어진다. 검색 전·검색·검색 후 3단계를 금융 분야에 맞게 조정해 검색과 생성 품질을 높이려 한다.",
+ "data": "FinanceRAG Challenge에서 제공한 금융 질의응답 자료 7종(FinDER, FinQABench, FinanceBench, TATQA, FinQA, ConvFinQA, MultiHiertt). 각 글은 512토큰 단위로 나눔. 자료별 문서 수·질의 수는 본문에 없음.",
+ "method_steps": [
+  "검색 전 단계: 질의는 원문 그대로, 핵심어 추출+LLMLingua, LLM 질의 확장의 세 가지를 비교하고, 문서는 원문 그대로, 마크다운 재구성, 표 주석 보강, 표 추출의 네 가지를 비교한다.",
+  "검색 모델 선정: MTEB 순위를 참고해 e5-large-v2, GritLM-7B, FinBERT, TAPAS, stella_en_400M_v5, stella_en_1.5B_v5의 6개 후보를 NDCG@10으로 비교한다.",
+  "임베딩 모델 미세조정: stella_en_400M_v5와 stella_en_1.5B_v5를 질의-문서 쌍(학습 8 : 평가 2)으로 대조 학습(Multiple Negatives Ranking Loss)한다.",
+  "하이브리드 검색: 밀집 점수와 희소 점수를 S_total = α·S_dense + (1−α)·S_sparse로 합치고, α를 0에서 1까지 0.025 간격으로 바꿔 자료별 최적값을 찾는다.",
+  "재순위화: 미세조정한 stella_en_1.5B_v5의 상위 20건을 bge-reranker-v2-m3와 voyage-rerank-2로 재순위화한다.",
+  "문서 선택: 선택 에이전트가 상위 10건 중 답에 실제로 필요한 문서의 번호만 고른다.",
+  "생성: gpt-4o-2024-08-06이 온도 0.1과 1.0으로 만든 답을 선호·비선호 쌍으로 나눠 gpt-4o-mini-2024-07-18을 DPO로 학습시키고, 이 모델로 최종 답을 만든다."
+ ],
+ "knowledge_structure": "사용하지 않음",
+ "retrieval": "밀집+희소 하이브리드 검색(선형 가중 합, 자료별 α 조정). 임베딩 모델은 미세조정한 stella_en_1.5B_v5(및 stella_en_400M_v5). 희소 점수의 예로 BM25를 든다. 재순위화는 voyage-rerank-2, bge-reranker-v2-m3. 그림 1에 'Vector DB', 'Sparse DB'가 표시돼 있으나 제품 이름은 본문에 없음.",
+ "llm_used": "DPO로 학습한 GPT-4o mini(gpt-4o-mini-2024-07-18)를 답 생성에 사용. gpt-4o-2024-08-06은 DPO 학습용 답 쌍 생성에 사용. 질의 확장에 쓴 LLM의 이름은 본문에 없음. 선택 에이전트의 모델 이름은 명시돼 있지 않음(표 9에는 'Selection Agent + DPO-trained GPT-4o mini'로 묶여 있음).",
+ "llm_compared": "GPT-4o(생성 비교 대상). 검색 모델 비교 대상으로 e5-large-v2, GritLM-7B, FinBERT, TAPAS.",
+ "finetuning": "함. (1) 임베딩 모델: stella_en_400M_v5와 stella_en_1.5B_v5를 대조 학습(MNRLoss)으로 미세조정. 부록 표 11의 400M 모델 설정은 학습:평가 8:2, 2 에폭, 학습률 2×10^-5, warmup 0.1, 배치 16, fp16. 학습 쌍의 수는 본문에 없음. (2) 생성 모델: gpt-4o-mini-2024-07-18을 OpenAI API로 DPO 학습(beta = 0.1). 학습 쌍의 수는 본문에 없음.",
+ "deployment": "Google Colab 노트북 환경, 40GB NVIDIA A100 GPU. 생성 모델과 DPO 학습은 OpenAI API 사용. 폐쇄망·현장 운영에 대한 언급은 본문에 없음.",
+ "evaluation": "자동 지표. 검색은 7개 자료의 제공 정답 표지로 NDCG@10(전체 가중 점수)을 계산. 생성은 RAGAS의 Answer Relevance와 Context Precision(정답 참조 없는 방식, GPT-4o mini가 판정). 문항 수는 본문에 없음. 전문가 평가는 없음.",
+ "results": [
+  "검색 모델 6종 비교에서 stella 1.5B가 NDCG@10 0.32178로 가장 높았다(stella 400M 0.32006, e5-large-v2 0.29746, FinBERT 0.25595, GritLM 0.21262, TAPAS 0.10124).",
+  "미세조정 후 NDCG@10은 FT stella 400M 0.40186, FT stella 1.5B 0.50864였다.",
+  "질의 전처리는 LLM 질의 확장이 0.48601로 가장 높았다(원문 0.40186, 핵심어 추출+LLMLingua 0.43613).",
+  "문서 전처리는 마크다운 재구성이 0.48645로 가장 높았고, 표 주석 보강(0.45411)과 표 추출(0.43604)은 기본값(0.48601)보다 낮았다.",
+  "하이브리드 검색의 최적 α는 자료마다 달랐다(FinDER 0.85, FinQABench 0.6, FinanceBench 0.85, FinQA 0.25, TATQA 0.5, ConvFinQA 0.375, MultiHiertt 0.525).",
+  "voyage-rerank-2 재순위화로 7개 중 6개 자료의 NDCG@10이 올랐고(예: MultiHiertt 0.24736→0.45837, FinanceBench 0.80464→0.91191), FinQABench는 0.93214→0.89974로 내렸다.",
+  "최종 NDCG@10은 1.5B FT+voyage-rerank-2가 0.59898, 1.5B FT+bge-reranker-v2-m3가 0.51508이었다.",
+  "생성 평가에서 선택 에이전트+DPO 학습 GPT-4o mini는 Answer Relevance 0.8924, Context Precision 0.3962로 GPT-4o(0.8663, 0.3418)보다 높았다."
+ ],
+ "limitations": "빠르게 바뀌는 금융 자료(공시, 뉴스, 주가)를 반영하기 어려워 실시간 자료의 검색·색인 기법 연구가 필요하다. 다국어 확장이 필요하다. 악의적 프롬프트 공격 등 보안 문제에 대한 다층 보안 전략(LLaMA Guard 등)이 필요하다. 금융 분야 윤리 규정과 AI 거버넌스 지침을 지키기 위한 감시·감독 체계, 민감 자료 노출 차단이 향후 과제다.",
+ "key_figures": [
+  "Figure 1: Our enhanced RAG pipeline",
+  "Figure 2: α-NDCG@10 Graphs by each task"
+ ],
+ "quotes": [
+  "each text is chunked at 512 tokens, following the results of Yepes et al. (2024).",
+  "Google Colab, with access to 40GB NVIDIA A100 GPUs.",
+  "FT stella 1.5B achieved an NDCG@10 score of 0.50864.",
+  "the “stella en 400M v5 (NovaSearch)” model, which achieved an NDCG@10 score of 0.40186.",
+  "Query Expansion with LLM                 0.48601",
+  "Corpus Markdown Restructuring         0.48645",
+  "We incremented alpha from 0 to 1 in steps of 0.025",
+  "1.5B FT + reranking with voyage-rerank-2             0.59898",
+  "Selection Agent + DPO-trained GPT-4o mini             0.8924                 0.3962",
+  "GPT-4o                                                0.8663                 0.3418",
+  "These pairs were used to fine-tune gpt-4o-mini-2024-07-18 via OpenAI’s API (beta = 0.1)."
+ ],
+ "note_for_dam_operation": "표와 글이 섞인 기술 문서에서는 표를 따로 뽑거나 주석을 붙이는 것보다 마크다운으로 구조를 살리는 편이 검색에 유리했다는 결과는, 수위·방류량 표가 많은 댐 운영 규정·매뉴얼 색인에 참고할 만하다. 밀집·희소 가중치(α)의 최적값이 질의 유형마다 크게 달랐으므로(정확한 수치·용어 질의는 희소 쪽, 의미 해석 질의는 밀집 쪽) 댐 운영 질의도 유형별로 가중치를 따로 맞출 필요가 있다. 분야 자료로 임베딩 모델을 미세조정하고 재순위화를 더한 효과가 컸다. 다만 생성 모델은 외부 API(OpenAI)에 의존하므로 폐쇄망 운영에는 그대로 적용할 수 없다."
+}

@@ -1,0 +1,57 @@
+{
+ "file": "05_IWMS-LLM.txt",
+ "title": "IWMS-LLM: an intelligent water resources management system based on large language models",
+ "authors": "Guo He, Jungang Luo(교신저자), Feixiong Luo, Xue Yang, Xin Jing, Huhu Cui — Xi'an University of Technology(State Key Laboratory of Water Engineering Ecology and Environment in Arid Area)",
+ "year": "2025",
+ "venue": "Journal of Hydroinformatics Vol 27 No 11, 1685 (doi: 10.2166/hydro.2025.130), 온라인 공개 2025년 11월 6일",
+ "venue_type": "학술지",
+ "domain": "수자원 관리 업무 시스템(홍수 추적 모의, 수문 자료 조회, 홍수 비상 계획 조회). 적용 대상은 Weihe(Wei) River 유역 Shaanxi 구간",
+ "problem": "기존 수자원 정보 시스템은 고정된 규칙과 사전 정의된 절차에 의존해 돌발 상황이나 환경 변화에 유연하게 대응하지 못하고, 기술 매뉴얼·회의록·사례 같은 비정형 자료가 의사결정에 충분히 쓰이지 않는다. LLM을 핵심 엔진으로 삼아 작업 흐름을 편성·실행하는 지능형 수자원 관리 시스템을 제안한다.",
+ "data": "사례 연구에서 Linjiacun 단면의 모의 시간별 홍수 유량 자료, Qianyang 등 지역의 강우·증발 자료를 가져오고, 홍수 비상 관리 관련 지식 글(비상 계획 등)을 방안 지식베이스로 변환함. 자료의 건수·기간·문서 수는 본문에 없음. 자료는 공개하지 않는다고 밝힘.",
+ "method_steps": [
+  "데이터 모듈(비정형): 이용자가 올린 PDF·DOCX 등을 텍스트로 표준화하고, 이용자가 정한 chunk-size(최대 문자 수)와 chunk-overlap(겹침 문자 수)으로 나누되 정규식으로 문장 끝 기호를 맞춰 의미가 끊기지 않게 한 뒤, bge-large-zh로 벡터화해 Milvus 벡터 데이터베이스에 저장한다.",
+  "데이터 모듈(정형): 관계형 데이터베이스(MySQL 등) 접속 정보나 CSV·Excel 파일로 자료를 등록하고, 표 이름·필드 이름·자료형 같은 메타데이터를 추출하며, 이용자가 각 열에 설명과 동의어를 주석으로 달아 프롬프트 문맥으로 쓴다(의미 매핑).",
+  "컴포넌트 모듈(절차 컴포넌트): 문제 수집, 의도 인식, 병렬 계산, 조건 판단, 결과 집계의 5가지를 둔다(앞의 둘은 LLM 사용, 나머지는 전통적 모듈).",
+  "컴포넌트 모듈(기능 컴포넌트): LLMs 컴포넌트, 지식 검색 컴포넌트(RAG, 코사인 유사도 + bge-reranker-large 재순위화), 데이터 검색 컴포넌트(Text-to-SQL, 실행 오류 시 오류 메시지를 LLM에 되돌려 반복 한도 안에서 SQL을 고침), 모델 컴포넌트(수문·수리·저수지 운영 모델을 통일된 API로 등록·호출)를 둔다.",
+  "작업 흐름 편성 모듈: 순차(Then), 병렬(When), 선택(Switch), 조건(If) 편성을 조합하고, Expression Language(EL)로 논리를 기술해 Abstract Syntax Tree와 JSON 형식 작업 흐름 모델로 변환하며, AntV X6 캔버스로 시각적으로 설계하고 LiteFlow 규칙 엔진과 LLM이 실행을 제어한다.",
+  "의사결정 상호작용 모듈: 임베딩 유사도 검색으로 질의 범주에 맞는 작업 흐름 정보를 찾아 프롬프트 문맥으로 넣고, Agent의 추론으로 작업 흐름 라이브러리에서 최적의 작업 흐름을 골라 실행하며 단계별 결과를 보여 준다.",
+  "사례 연구: Weihe River 유역의 Linjiacun~Weijiabao 구간에 대해 'Linjiacun Water Conditions'(자료 조회), 'Weijiabao Water Conditions'(모델 구동), 'Emergency Plan Query'(지식 검색)의 세 시나리오를 편성해 시연한다."
+ ],
+ "knowledge_structure": "사용하지 않음(온톨로지·지식그래프 없이 벡터 지식베이스와 정형 DB 메타데이터 주석을 씀. 지식그래프는 관련 연구 소개에서만 언급됨)",
+ "retrieval": "비정형 자료는 밀집 검색(질의 임베딩과 저장 벡터의 코사인 유사도, 지식베이스 종류·최대 검색 건수·최소 일치 임계값 지정 가능) + 필요할 때만 켜는 bge-reranker-large 재순위화. 임베딩 모델은 bge-large-zh, 저장소는 Milvus 벡터 데이터베이스. 정형 자료는 Text-to-SQL로 관계형 데이터베이스를 질의. 작업 흐름 선택에도 임베딩 유사도 검색을 씀. 희소 검색·그래프 질의는 쓰지 않음.",
+ "llm_used": "사례 적용에서 이용자 입력의 의도 해석에 GLM-4-Plus를 사용. LLMs 컴포넌트는 OpenAI GPT 계열, GLM 등 주류 모델과의 연동을 지원한다고 적혀 있으나, 사례에서 각 컴포넌트가 실제로 쓴 모델은 GLM-4-Plus 외에는 명시돼 있지 않음. 모델 규모는 본문에 없음.",
+ "llm_compared": "없음(비교 실험 없음). WaterGPT, GPT-4 기반 조수, HydroSuite-AI 등은 관련 연구로만 언급됨.",
+ "finetuning": "하지 않음(축적된 운영 자료로 LLM을 미세조정해 작업 흐름을 자동 생성하는 것을 향후 과제로 제시)",
+ "deployment": "본문에 없음(하드웨어·GPU 사양, 로컬·클라우드 여부 언급 없음). 구현 요소로 수문 예측·홍수 추적·저수지 운영 모델을 RESTful API로 감싸 등록하고, 프런트엔드에 AntV X6, 작업 흐름 엔진에 Java 기반 LiteFlow를 쓴다고만 적혀 있음.",
+ "evaluation": "정량 평가 없음. Weihe River 유역 홍수 추적 모의 사례에서 세 시나리오의 실행 화면을 보여 주는 시연 방식. 평가 자료의 문항 수와 지표는 본문에 없음. '다회 상호작용 시험에서 일관되게 질의 요구를 식별하고 규격에 맞는 SQL을 안정적으로 생성했다'고 서술하나 횟수·정확도 수치는 없음.",
+ "results": [
+  "'Linjiacun Water Conditions' 시나리오에서 LLMs 컴포넌트가 질의 속 날짜(2025년 1월 1일)를 식별하고 데이터 검색 컴포넌트가 SQL로 변환해 조회했으며, 8:00~22:00의 유량 변화 과정을 꺾은선 그래프로 보여 주었다.",
+  "'Weijiabao Water Conditions' 시나리오에서 상류 세 갈래(Fengjiashan Reservoir 방류, Qingjiang River, Linjiacun Station)의 홍수 과정을 병렬로 계산해 합류점에서 합치고 Muskingum 모델로 Weijiabao 단면까지 추적했으며, LLMs 컴포넌트가 첨두 유량과 도달 시간을 추출했다(수치는 본문에 없음).",
+  "북쪽 지류(Qian River) 계산에는 GR4J 수문 모델, Muskingum 홍수 추적 모델, NSGA-II 저수지 운영 모델을 이어서 썼다.",
+  "'Emergency Plan Query' 시나리오에서 홍수 비상 방안 지식베이스를 검색해 관련 대응 조치를 제시했고, 수작업 대비 검색 시간이 크게 줄었다고 서술한다(수치 없음).",
+  "성능·정확도에 관한 정량 수치는 본문 전체에 없다."
+ ],
+ "limitations": "작업 흐름 편성을 전문가가 수작업으로 해야 해 시간이 많이 든다. 향후 과제로 LLM과 운영 컴포넌트 사이의 상호작용을 강화해 실행 중에 컴포넌트를 바꿀 수 있게 하는 것, GIS 등 다중 모달 상호작용의 통합, 축적된 운영 자료로 LLM을 미세조정해 편성안을 자동 생성하는 것, '자동 편성 + 전문가 수정' 전략을 든다.",
+ "key_figures": [
+  "Figure 1: Architecture and components of the IWMS -LLM framework.",
+  "Figure 2: Retrieval Augmented Generation (RAG) process.",
+  "Figure 3: Relationships between EL expressions, AST abstract trees, and data structures.",
+  "Figure 4: Decision interaction module process.",
+  "Figure 5: Overview map of the Weihe River Basin (Shaanxi section).",
+  "Figure 6: Workflow orchestration for water condition computation in Linjiacun.",
+  "Figure 7: Workflow orchestration for water condition computation in Weijiabao.",
+  "Figure 8: Demonstration of water condition application scenarios in Linjiacun.",
+  "Figure 9: Demonstration of water condition application scenarios in Linjiacun. (본문 설명상 Weijiabao 시나리오 그림이나 캡션은 Linjiacun으로 적혀 있음)",
+  "Figure 10: Demonstration of emergency plan query application scenarios."
+ ],
+ "quotes": [
+  "simulated hourly flood flow data for the Linjiacun section, along with rainfall and evaporation data from regions such as Qianyang, are imported",
+  "knowledge texts related to flood emergency management (e.g., emergency plans) are transformed into a scheme knowledge base.",
+  "The GLM-4-Plus model is employed to perform intent parsing on user inputs",
+  "the encoded results are stored in the Milvus vector database",
+  "this study employs the ‘bge-reranker-large’ re-ranking model (Xiao et al. 2024).",
+  "the flow variation process of the Linjiacun hydrological section from 8:00 to 22:00 on January 1, 2025, in a line chart.",
+  "Data cannot be made publicly available; readers should contact the corresponding author for details."
+ ],
+ "note_for_dam_operation": "댐 운영 의사결정 지원과 가장 가까운 구조 사례다. 질의응답을 (1) 실시간·이력 자료 조회(Text-to-SQL), (2) 수문·홍수 추적·저수지 운영 모델 호출, (3) 비상 계획 등 문서 검색(RAG)의 세 갈래로 나누고, LLM이 의도를 해석해 미리 편성해 둔 작업 흐름을 고르는 방식은 댐 운영 프레임워크의 기능 구분에 참고할 수 있다. 약어로 된 DB 필드에 설명과 동의어를 주석으로 달아 LLM에 문맥으로 주는 의미 매핑, SQL 실행 오류를 LLM에 되돌려 고치는 반복 장치, 저수지 운영 모델을 표준 API로 등록해 호출하는 방식, 수위가 임계값을 넘으면 경보 절차로 분기하는 조건 편성, 단계별 결과를 보여 주어 계산 과정을 추적할 수 있게 한 점이 구체적 참고 요소다. 다만 정량 평가가 전혀 없는 시제품 시연이고, 지식그래프·온톨로지는 쓰지 않으며, 운영 환경(폐쇄망 여부)과 모델 규모에 대한 정보가 없다."
+}

@@ -1,0 +1,52 @@
+{
+ "file": "39_GraphAide.txt",
+ "title": "GraphAide: Advanced Graph-Assisted Query and Reasoning System",
+ "authors": "Sumit Purohit, George Chin, Patrick S Mackey, Joseph A Cottam (Pacific Northwest National Laboratory)",
+ "year": "2024",
+ "venue": "2024 IEEE International Conference on Big Data (BigData)",
+ "venue_type": "학술대회",
+ "domain": "분야 특화 디지털 조수(질의·추론 시스템) 구축을 위한 범용 참조 구조. 시연 대상은 우크라이나-러시아 정치 분쟁 관련 뉴스 기사(DARPA AIDA 자료)",
+ "problem": "정형·비정형이 섞인 여러 출처의 지식을 정리해 질의하는 일이 어렵고, 벡터 검색 기반 RAG는 의미 유사도에만 의존해 문서 간 관계 같은 구조적 맥락을 쓰지 못한다. 온톨로지 기반 지식그래프와 벡터 검색을 결합한 RAG 시스템을 제안한다.",
+ "data": "AIDA 원자료(텍스트 형식) 뉴스 기사 1,846건, OWL 온톨로지(TURTLE 형식, 약 190개 개체 유형·140개 사건 유형·50개 관계 유형), 개체 중의성 해소용 참조 지식베이스 DARPA WikiData(DWD). 평가용 질의 문항 수는 본문에 없음",
+ "method_steps": [
+  "자료 수집: 텍스트·CSV·PDF 등의 원자료를 받아 BPE 기반 토크나이저와 RecursiveCharacterTextSplitter로 분할·청크화한다(청크 크기·겹침은 고정값, 수치는 본문에 없음).",
+  "저장: 청크 임베딩을 벡터 데이터베이스에 저장하고, 구조 정보는 그래프 데이터베이스에 저장한다.",
+  "지식그래프 생성: 온톨로지 또는 노드·간선 유형 목록으로 응답 스키마를 제한한 few-shot 프롬프트로 LLM이 입력 글에서 속성 부분 그래프(개체 언급 추출, 관계 추출, 유형 부여)를 생성하고 Pydantic으로 스키마 일관성을 검증한다.",
+  "개체 중의성 해소: DWD 식별자(QID)의 자연어 설명을 벡터 데이터베이스에 넣어 두고, 검색된 후보를 LLM이 재순위화해 언급을 최상위 QID에 연결한다.",
+  "청크별 부분 지식그래프를 반복 생성해 Neo4j에 적재한다.",
+  "질의 단계: 템플릿 기반으로 원 질의의 핵심 개체·관계를 유지한 확장 질의를 만들고, LLM이 확장 질의를 속성 부분 그래프 매칭 템플릿(Cypher 질의)으로 변환한다.",
+  "부분 그래프 매칭 결과와 벡터 유사도 검색 결과를 합쳐 문맥을 만들고, 확장 질의별로 LLM에 병렬 요청한 뒤 2차 호출로 응답을 하나로 합쳐 설명과 함께 제시한다."
+ ],
+ "knowledge_structure": "온톨로지 기반 지식그래프를 쓴다. 기존 DARPA AIDA 온톨로지(OWL, TURTLE; 약 190개 개체 유형, 140개 사건 유형, 50개 관계 유형)를 입력으로 받아 LLM 출력 스키마를 제한하며, 노드 유형은 계층형(예: GPE.UrbanArea.City, Conflict.Attack.FirearmAttack)으로 가장 구체적인 개념을 부여한다. 개체는 DWD(WikiData)의 QID로 연결한다. 구축은 LLM few-shot 프롬프트 추출 + Pydantic 검증 + 벡터 검색 기반 중의성 해소로 자동 수행하고 Neo4j에 저장한다. 온톨로지를 템플릿으로 바꿔 같은 원자료에서 여러 판의 지식그래프를 만들 수 있다고 한다.",
+ "retrieval": "하이브리드 방식: 임베딩 기반 밀집 검색(Chroma 벡터 데이터베이스)과 그래프 부분 그래프 매칭(Neo4j, LLM이 Cypher 질의 자동 생성)을 결합하고, LLM 기반 질의 확장을 적용한다. 임베딩 모델명은 본문에 없음(BPE 인코딩이 OpenAI 임베딩 모델에서도 지원된다고만 언급). 개발 틀은 LangChain",
+ "llm_used": "OpenAI GPT-4o(지식그래프 생성, 중의성 해소, 질의 변환, 응답 생성). 규모(파라미터 수)는 본문에 없음",
+ "llm_compared": "다른 LLM과의 비교는 없음. 비교는 증강 수준별(GPT-4o 직접 질의, WikiData 참조, 분야 문서 벡터 검색, 지식그래프 보강)과 기준 지식그래프(GAIA 생성 KG)에 대해 수행",
+ "finetuning": "하지 않음(프롬프트 기반 few-shot 방식)",
+ "deployment": "OpenAI LLM(GPT-4o), Chroma, Neo4j, LangChain으로 구성. 벡터 데이터베이스는 로컬에 저장한다고 언급. GPU·폐쇄망 등 그 밖의 운영 환경은 본문에 없음",
+ "evaluation": "주로 정성 평가. (1) 생성한 지식그래프를 GAIA가 생성한 기준 지식그래프와 노드·관계 유형 분포로 비교. (2) 노드 유형 부여(의미 주석)를 RAGAS 라이브러리의 answer relevancy, answer correctness, semantic similarity로 평가(문항 수·평균값은 본문에 없음). (3) 질의 단계는 증강 수준별 응답을 한 가지 예시 질의로 정성 비교. 구성 요소별 지표 목록(Table I)을 제시하나 정식 정량 평가는 향후 과제로 남김",
+ "results": [
+  "뉴스 기사 1,846건을 처리해 지식그래프를 생성하고 Neo4j에 적재했다.",
+  "기준 지식그래프는 노드 유형이 'PER'에 치우치고 관계는 'Evaluate', 'GeneralAffiliation'이 지배적이었으나, GraphAide는 더 다양하고 조밀한 노드 유형 분포를 보이고 사건 기반 간선 유형을 더 잘 추출했다고 서술한다(수치 없음).",
+  "유형 부여 평가의 한 예시에서 answer correctness는 0.230700이었으나 예측 유형이 정답과 의미상 가까워 semantic similarity는 0.922801이었다.",
+  "질의 예시에서 LLM에 제공하는 문맥을 보강할수록(직접 질의 → 참조 지식베이스 → 분야 문서 → 지식그래프) 응답의 구체성이 높아졌고, 지식그래프 기반 검색은 서로 다른 문서에 흩어진 개체를 부분 그래프로 연결해 문맥 관련성을 높였다고 서술한다(수치 없음)."
+ ],
+ "limitations": "정식 정량 평가를 하지 않았으며, 정확도·관련성 등 지표의 정량적 개선 보고는 향후 과제다. 향후 평가 자료와 지표를 자동 생성하는 API 개발, 여러 제약·절을 가진 복잡한 질의 템플릿의 자동 생성(few-shot 프롬프트 활용), 중의성 해소에 개체의 시간 속성 반영, 개체 중의성 해소·유형 부여·KG 생성에 대한 precision·recall·retrieval relevancy 측정을 계획한다.",
+ "key_figures": [
+  "Fig. 1: GraphAide Architecture, representing different phases and agentic workflow",
+  "Fig. 2: DARPA WikiData (DWD) Embeddings Used in Retrieval",
+  "Fig. 3: GraphAide generated KG from News Sources",
+  "Fig. 4: Type Distributions (Top-10 ) of GraphAide generated KG",
+  "Fig. 5: Type Distributions of Baseline KG. Node (left), Relationship (right)",
+  "Fig. 6: Evaluation of Semantic Annotation Process",
+  "Fig. 7: GraphAide results for a user query ‘Describe the role of Russia in the of war of Odessa in 100 words and list how many deaths and damage happened there. Also list other key actors involved.’"
+ ],
+ "quotes": [
+  "GraphAide’s generation phase processed 1,846 news articles and generated a KG, as shown in Figure 3.",
+  "An ontology [23] is also constructed containing approximately 190 entity types, 140 event types, and 50 relation types.",
+  "answer correctness is measured as 0.230700",
+  "which leads to a high semantic similarity of 0.922801",
+  "we instantiated GraphAide using OpenAI LLM, Chroma vector database, Neo4j graph database, and LangChain application development framework",
+  "Future work will focus on formal evaluation to report quantitative improvements in metrics such as accuracy and relevancy."
+ ],
+ "note_for_dam_operation": "온톨로지로 LLM의 추출 스키마를 제한하고(Pydantic 검증), 벡터 검색과 Cypher 부분 그래프 매칭을 합쳐 문맥을 만드는 하이브리드 구조는 댐 운영 질의응답 시스템의 참조 구조로 삼을 만하다. 시계열 데이터베이스 같은 외부 자료를 함수 호출로 불러와 문맥을 보강하는 기능을 언급한 점도 수위·유량 자료 연계에 참고가 된다. 다만 성능은 정성 사례 위주이고 정량 근거가 거의 없으며, 외부 API(GPT-4o) 기반이라 폐쇄망 적용 근거로 쓰기는 어렵다."
+}

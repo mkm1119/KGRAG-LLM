@@ -1,0 +1,61 @@
+{
+ "file": "arxiv_2603.13307.txt",
+ "title": "Suppressing Domain-Specific Hallucination in Construction LLMs: A Knowledge Graph Foundation for GraphRAG and QLoRA on River and Sediment Control Technical Standards",
+ "authors": "Takato Yasuno 단독",
+ "year": "2026 (arXiv:2603.13307v1, 2026년 3월 3일)",
+ "venue": "arXiv (cs.IR)",
+ "venue_type": "사전 공개본",
+ "domain": "하천·사방 기술기준 질의응답. 일본 국토교통성(MLIT)의 하천사방기술기준(조사·계획·설계·유지관리편: 제방, 호안, 댐, 사방댐, 산사태 방지 시설 등)에 대한 일본어 기술 질문에 로컬 공개 LLM으로 답하는 시스템",
+ "problem": "일반 말뭉치로 학습한 LLM은 건설 분야 기술기준과 어긋나는 그럴듯한 오답(분야 특화 환각)을 자주 내고, 상용 API는 보안이 필요한 정부·현장 환경에서 쓰기 어렵다. 기술기준에서 만든 지식그래프를 바탕으로 GraphRAG와 QLoRA 미세조정 중 어느 쪽이 환각을 더 잘 억제하는지 로컬 환경에서 비교한다.",
+ "data": "원천 자료는 하천사방기술기준의 Markdown 문서 8개(조사·계획·설계·유지관리편)라고 적혀 있다(단, 그래프의 Standard 노드는 7개). 지식그래프는 노드 200개(구조 노드 141, 도메인 노드 59), 관계 268개, 노드 유형 9종, 관계 유형 11종. 학습용 QA는 그래프 관계에서 자동 생성한 715쌍(목표 268×3=804쌍 중 중복 제거·실패 후 남은 것). 평가용은 수작업으로 만든 100문항(8개 범주).",
+ "method_steps": [
+  "기술기준 Markdown 문서에서 노드·관계를 수작업으로 정리해 CSV 4개(nodes_standard, nodes_chapter_section_item, nodes_domain, relations)로 만들고 스크립트로 Neo4j에 적재한다(MERGE 중복 제거, B-tree·전문 색인 생성).",
+  "Case A(기준선): 20B 일반 일본어 LLM(GPT-OSS Swallow-20B, Q4_K_M 양자화)에 질문만 넣어 답하게 한다.",
+  "Case C(GraphRAG): 질문에서 키워드를 뽑아 5종의 Cypher 질의(전문 키워드 검색, 시설 문맥 2홉, 재해-시설 대응, 유지관리 절차 순서, 시설 비교)를 병렬 실행한다.",
+  "검색 결과를 중복 제거하고 점수화(전문 검색은 Neo4j 점수×10, 나머지는 키워드 일치 수)한 뒤 상위 80%를 골라 2,000자 이내 문맥으로 만들어 프롬프트 앞에 붙인다. 검색 건수가 25건 미만이면 TOP_K를 2배로 하고 부분 문자열 검색으로 넓혀 재시도한다.",
+  "Case B(QLoRA): 그래프의 관계 268개 각각을 문맥으로 주고 20B 모델이 관계당 QA 3쌍을 JSON으로 생성하게 한 뒤, 문자 바이그램 Jaccard 유사도(임계 0.45)로 중복을 제거해 715쌍을 얻는다.",
+  "Llama-3-Swallow-8B-Instruct-v0.1을 4비트 NF4로 올려 unsloth로 QLoRA 학습(3 에폭)을 하고, 어댑터를 병합해 GGUF Q4_K_M으로 양자화한 뒤 Ollama로 서비스한다.",
+  "수작업 100문항을 세 경우에 각각 묻고, 독립된 심사 LLM(Qwen2.5-14B)이 0~3점 기준표로 채점한다. 시험 문항은 학습 QA와 바이그램 Jaccard 유사도 0.45 이상이면 제외해 누출을 막는다."
+ ],
+ "knowledge_structure": "Neo4j 속성 그래프를 사용한다. 노드 유형 9종: 구조 노드 Standard(7), Chapter(76), Section(33), Item(25)과 도메인 노드 FacilityType(20), HazardType(8), TechnicalConcept(22), RequirementType(5), ProcessConcept(4). 관계 유형 11종: 문서 구조(HAS_CHAPTER, HAS_SECTION, HAS_ITEM), 규정 위치(DESCRIBED_IN: 시설→장/절, DEFINED_IN: 기술개념→장/절), 도메인 의미(SUBJECT_TO: 시설→재해, MITIGATES: 시설→재해, REQUIRES: 시설→기술개념, USED_IN: 기술개념→절차, PRECEDES: 절차→절차, AFFECTS: 재해→시설). 문서 위계(기준→장→절→항)와 도메인 개체를 교차 연결해 한 번의 그래프 탐색으로 개체와 근거 위치를 함께 찾도록 했다. 구축은 수작업 정리(CSV)이며 자동 추출은 향후 과제이다.",
+ "retrieval": "그래프 질의 방식. 키워드 추출 후 Neo4j에서 Cypher 질의 5종을 병렬 실행(Lucene 전문 색인 검색 1종 + 관계 탐색 4종)하고 점수 기반 재순위화, 상위 80% 선택, 2,000자 절단. GRAPH_TOP_K=20. 임베딩 모델과 벡터 DB는 쓰지 않는 것으로 보이며 관련 언급은 본문에 없음. 저장소는 Neo4j 2026.01.4 Desktop.",
+ "llm_used": "Case A·C: GPT-OSS-Swallow-20B-RL-v0.1(20B, GGUF Q4_K_M, 15.8 GB). Case B: Llama-3-Swallow-8B-Instruct-v0.1(8B)을 QLoRA 미세조정한 swallow8b-lora-n715(4.9 GB). 학습용 QA 생성에도 Swallow-20B를 사용. 심사 모델은 Qwen2.5-14B(본문 설명 기준. 다만 Figure 2 그림 안 상자에는 'GPT-4o Judge'로 적혀 있어 캡션·본문과 어긋난다).",
+ "llm_compared": "세 경우 모두 자체 구성으로 서로를 비교했다(20B 기준선 대 20B GraphRAG 대 8B QLoRA). 외부 상용 모델과의 비교는 본문에 없음",
+ "finetuning": "QLoRA 미세조정을 했다. 기반 모델 Llama-3-Swallow-8B-Instruct-v0.1, 4비트 NF4, unsloth 2026.2.1 사용. lora_r 16, lora_alpha 16, dropout 0.0, 대상 모듈 q/k/v/o/gate/up/down proj, 3 에폭, 장치당 배치 2(누적 4, 유효 배치 8), 학습률 2e-4, cosine 스케줄, max_seq_length 2,048. 학습 자료는 그래프 유래 QA 715쌍이며 715쌍 학습에 28.5분, 최종 손실 0.5565.",
+ "deployment": "전부 로컬·오프라인 환경. NVIDIA GeForce RTX 4060 Ti(16 GB VRAM) 워크스테이션 1대, Windows 11, Python 3.12, Ollama로 모델 서비스, FastAPI 엔드포인트(localhost:8080), Neo4j Desktop. 상용 API는 보안이 필요한 정부·현장 환경에 부적합하다고 전제한다.",
+ "evaluation": "LLM 심사(LLM-as-Judge). 수작업 100문항(범주 8개: Survey 7, Planning 8, Design 15, Maintenance River 20, Maintenance Dam 15, Maintenance Sabo 15, Hazard 10, Cross-domain 10)을 Qwen2.5-14B가 0~3점으로 채점. 지표는 평균 점수, 3점 비율, 저품질(0·1점) 비율, 지연 시간. 사람 평가는 없다. 대표 10문항에 대한 정성 분석 포함.",
+ "results": [
+  "심사 평균은 Case B(8B QLoRA) 2.92/3, Case C(20B GraphRAG) 2.62/3, Case A(20B 기준선) 2.29/3으로, 작은 미세조정 모델이 가장 높았다.",
+  "3점 비율은 A 60%, C 77%, B 92%였고, 저품질(0·1점) 비율은 A 28%, C 13%, B 0%였다.",
+  "평균 지연 시간은 A 42.2초, C 31.1초, B 14.2초로 B가 A보다 3.0배, C보다 2.2배 빨랐다.",
+  "GraphRAG는 기준선 대비 +0.33, QLoRA는 +0.63 향상됐다.",
+  "범주별로 B가 8개 범주 모두에서 최고였고, 댐 유지관리 범주(15문항)는 A 2.47, B 2.93, C 2.73이었다.",
+  "C는 Planning 범주에서만 A보다 낮았다(2.62 대 2.75). 저자는 Chapter 메타데이터 노드의 과다 검색이 생성을 오도한 탓으로 본다.",
+  "적응형 재시도로 100문항 중 96문항에서 비어 있지 않은 문맥을 얻었고, 나머지 4문항은 문맥 없이 답해 C의 저품질 13%에 기여했다.",
+  "단일 수치를 묻는 짧은 사실 회상 문항(Q26 댐 퇴사율, Q52 유역 평균 강우, Q95 산사태 활동 분류)에서는 20B 기준선(3점)이 8B 미세조정 모델(2점)보다 높았다.",
+  "Case A는 열린 질문 3개(Q5, Q24, Q82)에서 같은 구절을 수백 번 반복하는 붕괴로 0점을 받았다."
+ ],
+ "limitations": "저자가 밝힌 한계: (1) 그래프(노드 200, 관계 268)를 수작업으로 만들어 정밀하지만 포괄 범위가 낮다. (2) 심사 모델이 Qwen2.5-14B 하나뿐이어서 답변 형식에 대한 체계적 편향 가능성이 있으며 사람 평가나 다중 심사가 필요하다. (3) 100문항으로 시험 규모가 작다. (4) 일본어로만 평가했다. 또한 학습 QA가 관계 유형별로 불균형하다(HAS_CHAPTER 29.7%, PRECEDES 1.0%). 향후 과제: 미세조정 모델과 GraphRAG를 결합한 Case D 실험, LLM 기반 개체·관계 자동 추출로 그래프 구축 자동화, 적대적 표현·다중 홉 문항을 포함한 500문항 확대, RAGAS 기반 충실도·문맥 재현율 지표 적용.",
+ "key_figures": [
+  "Figure 1: Knowledge graph schema (Node & Relation Map). The Structural Hierarchy (left, orange) encodes four-level document structure. The Domain Semantics (right, blue) encodes engineering entities and their mutual relations.",
+  "Figure 2: GraphRAG inference pipeline (Case C). At query time, keywords extracted from the user question drive five parallel Neo4j Cypher queries whose results are deduplicated and scored.",
+  "Figure 3: Approach trade-off: inference speed vs. answer quality (normalised).",
+  "Figure 4: Judge score distributions (0–3) for Cases A, B, and C across 100 questions.",
+  "Figure 5: Evolution of approaches: accuracy improvement across experimental phases."
+ ],
+ "quotes": [
+  "the 8B QLoRA fine-tuned model (Case B) achieves a judge average of 2.92/3 — surpassing both the 20B plain baseline (Case A: 2.29/3, +0.63)",
+  "running at 3× faster latency (14.2 s vs. 42.2 s for Case A)",
+  "The Score-3 rate rises from 60% (A) to 77% (C) to 92% (B)",
+  "a zero low-quality rate versus 28% for Case A and 13% for Case C",
+  "nodes VD (|VD | = 59), totalling |V| = 200",
+  "268 relations are defined across 11 relation types",
+  "715 unique QA pairs are retained from a target of 268 × 3 = 804",
+  "The source corpus consists of eight Markdown-formatted technical standard documents",
+  "NVIDIA GeForce RTX 4060 Ti (16 GB VRAM), Windows 11, Python 3.12",
+  "Maint. (Dam)   15  2.47 2.93    2.73",
+  "This adaptive mechanism recovered non-empty context in 96 of 100 test questions",
+  "Case C outperforms Case A in all categories except Planning (C: 2.62 vs. A: 2.75, −0.13)"
+ ],
+ "note_for_dam_operation": "댐을 포함한 하천 기술기준을 대상으로 폐쇄형(로컬) 환경에서 지식그래프·GraphRAG·QLoRA를 직접 비교한 사례여서 댐 운영 질의응답과 조건이 가장 가깝다. 참고할 점: (1) 문서 위계(기준-장-절-항)와 도메인 개체(시설·재해·기술개념·절차)를 한 그래프에 두고 근거 위치 관계로 잇는 스키마는 운영 규정에 그대로 응용할 수 있다. (2) 그래프가 작고 수작업이면 검색 문맥이 비거나 빗나가 GraphRAG가 미세조정보다 낮게 나올 수 있다는 결과는, 그래프 포괄 범위가 성능을 좌우함을 보여준다. (3) 다만 평가가 단일 LLM 심사·100문항·사람 평가 없음이라 결론의 일반화에는 주의가 필요하고, 정확한 수치를 묻는 문항은 미세조정 모델이 오히려 약했다는 점은 수위·방류량 같은 수치 질의에서 검색 근거가 필요함을 시사한다. (4) 저자도 GraphRAG의 가치를 근거 추적 가능성에 두고 두 방식의 결합(Case D)을 다음 과제로 든다. 본문 안에 심사 모델 표기(Figure 2 그림의 GPT-4o와 본문의 Qwen2.5-14B), 평균 답변 길이(A·C의 글자 수 서술), 원천 문서 수(8개와 Standard 노드 7개)가 서로 어긋나는 곳이 있어 인용 시 확인이 필요하다."
+}

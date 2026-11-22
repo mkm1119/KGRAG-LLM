@@ -1,0 +1,61 @@
+{
+ "file": "23_WaterGPT후속.txt",
+ "title": "Towards domain-adapted large language models for water and wastewater management: methods, datasets and benchmarking",
+ "authors": "Boyan Xu, Guanlan Wu, Zihao Li, Guangming Xu, Huabin Zeng, Rui Tong, How Yong Ng (Beijing Normal University, Xiamen University, Google DeepMind, National University of Singapore)",
+ "year": "2025 (Received: 30 July 2025; Accepted: 4 August 2025)",
+ "venue": "npj Clean Water (2025) 8:82, 글 종류는 Perspective, https://doi.org/10.1038/s41545-025-00509-8",
+ "venue_type": "학술지",
+ "domain": "상하수도(물·폐수) 관리 전반. 수처리 기술자·관리자·정책 분석가·연구자를 위한 분야 특화 LLM(WaterGPT로 총칭)을 만드는 방법을 정리한 전망 논문이며, 적용 예시는 하수처리장 활성슬러지 공정 관리",
+ "problem": "범용 기반 모델은 물 관리 전문 지식이 부족해 오류율이 약 30%를 넘고, 기술 절차를 지어내거나 기준을 잘못 인용한다. 기반 모델을 물·폐수 관리용으로 맞춤화하는 방법, 자료, 평가 기준의 길잡이를 제시한다.",
+ "data": "자체 실험 자료 없음(본문에 'No datasets were generated or analysed during the current study'). 선행 연구의 그림·수치를 재인용하고, 맞춤화에 쓸 자료 종류(설계 편람, 운영·유지관리 절차, 고장 대응 사례, 내부 보고서·자산관리 계획, 규제 문서, 학술 논문, 실험 보고서, 물질·화학 DB)와 공개 출처(IWA 공개 도서 22권, EPA Environmental Dataset Gateway, Water Quality Portal, EEA, World Bank, FAO AQUASTAT 등)를 제안함",
+ "method_steps": [
+  "기반 모델이 물 관리 과제에서 실패하는 유형을 이해관계자(기술자·관리자·정책 분석가·연구자)별로 정리한다.",
+  "프롬프트 엔지니어링(구체적 세부 제시, 역할 부여, few-shot, 출력 형식 지정, CoT)의 효과와 한계를 선행 연구 수치로 설명한다.",
+  "지식 증강(RAG, 지식그래프)과 도구 증강(외부 계산·예측 도구 호출)의 원리와 한계를 설명한다.",
+  "미세조정(LoRA 포함)의 사례와 한계(초매개변수 민감, 과제별 어댑터, 자료 구축 비용)를 정리한다.",
+  "자료 선정 기준(관련성, 다양성)과 수집 방법(고급 LLM으로 합성 질의응답을 만들고 사람이 검수)을 제안한다.",
+  "저작권·개인정보 문제에 대해 익명화, 공개 허가 자료 우선, 자료 이용 위원회 구성을 제안한다.",
+  "평가 벤치마크의 요건(실무 영향, 평가 방법, 동적 갱신)과 문자열 일치·의미 일치·사람 평가·LLM 평가의 장단점을 비교한다.",
+  "활성슬러지 관리용 WaterGPT의 작업 흐름과 모델 규모별 추론 에너지·GPU 비용을 이론적으로 계산해 제시한다."
+ ],
+ "knowledge_structure": "이 논문 자체는 구축하지 않음. 방법론 소개로만 다룸: 지식그래프는 정보를 주어–술어–목적어 3항으로 구조화하고 유사 개체를 정규화·통합해 중복을 줄이며, 비정형 검색에 의존하는 RAG의 한계(다단계 추론 부족)를 보완하는 대안으로 제시됨. 사례로 지식그래프 기반 검색 증강을 쓰는 ChatMOF를 인용함",
+ "retrieval": "자체 구현 없음. 개념 설명만 있음: 질의를 벡터로 바꿔 절차서 저장소에서 가장 관련 있는 문장 임베딩을 찾고, 검색된 구절을 질의와 합쳐 LLM에 넣는 방식. 청크 크기·겹침이 성능을 좌우하고 핵심 정보가 가운데에 있으면 성능이 떨어진다는 점, 청크 재배열·보정 기법(Found-in-the-Middle)을 언급함. 임베딩 모델·벡터 DB·그래프 DB 이름은 본문에 없음",
+ "llm_used": "이 논문이 직접 구축·실험한 모델 없음. 에너지 계산에서 가정한 WaterGPT 변형의 기반 모델은 Llama3-8B, Llama3-70B, GPT-3.5, DeepSeek-V2, DeepSeek-V3임",
+ "llm_compared": "배경·선행 연구로 언급만 한 모델: GPT-3.5, GPT-4, GPT-4.5, Gemini, Gemini-2.5, DeepSeek-R1, Llama3, Llama3-8B(Xu et al.의 LoRA 미세조정), OceanGPT, Vicuna-1.5-7B, Llama2-Chat-7B, ChatGLM2-6B, ChatMOF, Stanford Alpaca(Llama-7B), GPT-3(QSAR 미세조정)",
+ "finetuning": "이 논문에서는 하지 않음. 선행 사례로 Xu et al.의 Llama3-8B LoRA 미세조정, Zhu et al.의 IWA 문서 기반 GPT 미세조정, OceanGPT를 소개함. LoRA는 모델 매개변수의 5% 미만을 쓰며 학습률(약 3×10–5)과 어댑터 rank 조정이 민감하다고 서술함",
+ "deployment": "현장(하수처리장) 설치를 가정한 이론 계산만 있음. GPU 전력 가정(A100 400 W, A10 150 W), 236B 매개변수 모델은 NVIDIA A100 8개가 필요하고 GPU 값만 80,000–120,000 USD라고 추정함. 10B 이하의 작은 모델을 좁은 분야에 맞춰 미세조정하는 편이 효율적이라고 제안함. 폐쇄망 여부 언급은 본문에 없음",
+ "evaluation": "자체 평가 실험 없음. 평가 방법론을 논의함: 문자열 일치(ROUGE, BLEU), 의미 일치(BERTScore), 사람 평가(인증된 위원회, 표준 절차, 블라인드 심사), LLM-as-a-judge. 기존 물 분야 벤치마크로 WaterER, ELLE를 언급함. 평가 기준으로 형식, 사실 정확도, 관련성, 추론 타당성을 제시하고, 벤치마크는 과제 분류·문항·채점 방법·조건(프롬프트 틀, temperature, 토큰 한도)을 정의해야 한다고 제안함",
+ "results": [
+  "기반 모델(GPT-3.5, Gemini, Llama3 등)은 물 관리 전문 과제에서 오류율이 약 30%를 넘는다(선행 연구 인용).",
+  "few-shot 학습은 zero-shot 대비 물 공학 과제 성능을 최대 22.6% 높였으나, five-shot 같은 프롬프트 전략은 일관되지 않거나 역효과가 나기도 했다(선행 연구 인용).",
+  "Xu et al.이 LoRA로 미세조정한 Llama3-8B는 기준 성능 대비 공학 과제에서 135.4% 이상, 연구 과제에서 18.8% 높았다(선행 연구 인용).",
+  "미세조정은 영어 공학 과제에서 53.6–147.3% 개선을 보였고 프롬프트 엔지니어링은 −15.8~22.6% 변화에 그쳤다(선행 연구 인용).",
+  "도구 증강 사례에서 랜덤 포레스트 등 소형 모델을 도구로 호출한 하수처리장 이상 진단은 예측 정확도 95%를 넘었다(선행 연구 인용).",
+  "ChatMOF는 검색 96.9%, MOF 설계 예측 95.7%, 복잡한 MOF 구조 생성 87.5%의 정확도를 보였다(선행 연구 인용).",
+  "이론 계산상 8B WaterGPT는 671B 판보다 하루 에너지가 약 200배 적고, WaterGPT 모델들의 추론 에너지는 0.1~18 kWh/d로 ASM3 모의(약 0.05–0.1 kWh/d)보다 크지만 10,000 m3/d 처리장 운영 에너지(약 50,000 kWh/d)에 비하면 매우 작다.",
+  "사람 평가는 한 번의 벤치마크에 평가자 3–10명이 100시간 넘게 들 수 있다고 서술한다."
+ ],
+ "limitations": "전망 논문이라 자체 실험이 없다. 저자가 꼽은 과제: 프롬프트 엔지니어링은 지식 기반을 넓히지 못함, RAG는 문장 유사도 의존으로 불완전하거나 중복된 출력을 내고 다단계 추론이 약함, LoRA는 초매개변수에 민감하고 과제마다 어댑터와 고품질 자료가 필요함, 물 분야 자료는 비공개·규제 대상이라 부족하고 저작권·개인정보 문제가 있음, 물 분야 벤치마크가 소수·소규모임, 학습·추론의 CAPEX·OPEX를 계산·비교하는 표준 방법이 없음. 향후 동적·다중 과제·선호 기반 미세조정, 이해관계자 참여형 동적 벤치마크, 비용 기준 마련을 제안함",
+ "key_figures": [
+  "Fig. 1: Representative evaluation tasks for LLMs in water and wastewater management.",
+  "Fig. 2: A roadmap and strategies for customizing LLMs in water and wastewater management.",
+  "Fig. 3: Evaluation framework, potential application, and theoretical cost of LLMs in water and wastewater management.",
+  "Table 1: Illustrative use cases, data needs, and benchmark datasets when customizing foundation models into WaterGPT for different stakeholders in water and wastewater management"
+ ],
+ "quotes": [
+  "lack specialized water management expertise, exhibiting error rates exceeding approximately 30% (Fig. 1c)",
+  "can notably enhance LLM performance on water engineering by up to 22.6% as compared to zero-shot settings",
+  "which exceeded baseline performance by over 135.4% in engineering tasks (e.g., wastewater treatment process) and 18.8% in research tasks",
+  "yielding 53.6–147.3% improvements on English engineering challenges versus −15.8 to 22.6% changes with prompt engineering",
+  "achieving prediction accuracies exceeding 95%",
+  "ChatMOF achieved high performance with 96.9% accuracy in search tasks, 95.7% in MOF design predictions, and 87.5% in complex MOF structure generation.",
+  "LoRA reduces resource and data requirements by using less than 5% of an LLM’s parameters",
+  "an 8 B-parameter WaterGPT would theoretically consume about 200 × less energy per day than a 671 B-parameter version",
+  "Although every WaterGPT model (ranging from 0.1 to 18 kWh/d) requires more energy than ASM3 simulation (~0.05–0.1 kWh/d)",
+  "running a 236 B-parameter WaterGPT typically requires eight NVIDIA-A100 GPUs, and at 10,000–15,000 USD per card, the GPU hardware alone costs 80,000–120,000 USD.",
+  "one-time benchmarking domain-specific LLMs can require a team of 3–10 evaluators investing over 100 hours",
+  "including 22 open-access books focused on wastewater engineering",
+  "No datasets were generated or analysed during the current study."
+ ],
+ "note_for_dam_operation": "(정리자 해석) 실험 논문이 아니라 물 분야 LLM 맞춤화의 길잡이여서, 댐 운영 질의응답 체계의 설계 근거를 댈 때 인용하기 좋다. 쓸 만한 논점은 다음과 같다. 첫째, 비정형 문서 검색(RAG)의 한계를 짚고 3항 구조의 지식그래프를 보완책으로 명시한다. 둘째, 수치 계산은 LLM에 맡기지 말고 외부 예측·계산 도구를 호출하게 하라는 도구 증강 논리는 수문 모형·방류량 계산 연동에 그대로 대응한다. 셋째, 이해관계자별로 쓰임새·필요 자료·평가 문항을 나눈 표 1의 틀과 '형식·사실 정확도·관련성·추론 타당성' 네 평가 기준은 댐 운영 평가 설계에 옮겨 쓸 수 있다. 넷째, 현장 설치 시 큰 모델보다 10B 이하 모델을 좁은 과제에 맞추는 편이 낫다는 비용 논거가 있다. 본문 안에서 Zhu et al.의 미세조정 대상 모델이 한 곳은 GPT-4, 다른 곳은 GPT-3.5로 적혀 서로 어긋나고, 수치는 모두 선행 연구 재인용이므로 인용할 때 원 논문을 확인해야 한다."
+}

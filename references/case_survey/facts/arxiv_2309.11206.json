@@ -1,0 +1,61 @@
+{
+ "file": "arxiv_2309.11206.txt",
+ "title": "Retrieve-Rewrite-Answer: A KG-to-Text Enhanced LLMs Framework for Knowledge Graph Question Answering",
+ "authors": "Yike Wu, Nan Hu, Sheng Bi, Guilin Qi, Jie Ren, Anhuan Xie, Wei Song (Southeast University, Zhejiang Lab)",
+ "year": "2023 (arXiv:2309.11206v2, 21 Sep 2023)",
+ "venue": "arXiv (cs.CL). 학술지·학술대회 게재처는 본문에 없음",
+ "venue_type": "사전 공개본",
+ "domain": "일반 지식그래프 질의응답(KGQA). 영화 분야(MetaQA), Freebase 기반 일반 질문(WebQSP, WebQ), 로봇 분야 중국어 질문(ZJQA)에 적용",
+ "problem": "지식그래프에서 검색한 트리플을 LLM 프롬프트에 넣어 주는 기존 방식은 트리플을 단순히 이어 붙이거나 기성 KG-to-Text 모델을 써서, 그래프 표현과 글 표현 사이의 간극을 무시한다. 질의응답에 가장 도움이 되는 문장 형태로 그래프 지식을 바꾸는 방법이 필요하다.",
+ "data": "MetaQA 2-hop(vanilla) 148,724문항(train 118,980, dev 14,872, test 14,872; KG는 트리플 135k, 개체 43k, 관계 9개). WebQSP 4,737문항(train 3,098, test 1,639; 가지치기한 KG는 개체 180만, 관계 627개, 트리플 570만). WebQ는 WebQSP에서 SPARQL이 제공되는 같은 4,737문항 부분집합을 사용. ZJQA(Zhejiang Lab 제공 중국어 KGQA) 20,491문항(train 14,999, dev 2,147, test 3,345; KG는 트리플 11k 이상, 개체 9k, 관계 39개). KG-to-Text 미세조정용 그래프-글 쌍은 WebQSP/WebQ 12k 이상, MetaQA 13k 이상, ZJQA 13k 이상을 자동 생성했다.",
+ "method_steps": [
+  "Retrieve(부분그래프 검색) 1단계: PLM(Bert-base-uncased, 중국어는 bert-base-chinese) 분류기로 질문의 홉 수를 예측한다.",
+  "Retrieve 2단계: 예측한 홉 수만큼 단계별로 관계를 분류 예측하여(각 단계에서 상위 K개 관계 유지) 관계 경로를 만들고, 경로 점수는 관계 확률의 곱으로 계산한다.",
+  "Retrieve 3단계: 점수 내림차순으로 관계 경로를 따라 KG에서 트리플로 된 추론 경로를 M개까지 표본 추출한다.",
+  "Rewrite(KG-to-Text): 각 추론 경로를 주어·관계·목적어를 이어 붙인 triple-form text로 만든 뒤 템플릿 T1 프롬프트로 미세조정된 LLM에 넣어 자유 서술 문장으로 바꾸고, 이를 한 문단으로 합친다.",
+  "Answer: 생성된 지식 문단과 질문을 템플릿 T2('Below are the facts that might be relevant to answer the question: ... Question: ... Answer:')에 넣어 질의응답 LLM에 주고 답을 받는다.",
+  "KG-to-Text 학습 말뭉치 자동 생성: 정답 주석(관계 경로 또는 SPARQL)으로 질문 관련 부분그래프를 뽑고, ChatGPT로 자유 서술 글을 생성한 뒤, 그 글을 넣었을 때 질의응답 모델(ChatGPT)의 답이 정답 개체를 하나 이상 포함하면(hit@1) 그 그래프-글 쌍을 학습 자료로 채택한다.",
+  "채택된 그래프-글 쌍으로 공개 LLM(Llama-2-chat, Flan-T5 등)을 LoRA로 미세조정하여 KG-to-Text 모델로 쓴다."
+ ],
+ "knowledge_structure": "기존에 공개된 지식그래프를 그대로 쓴다(새로 구축하지 않음). KG는 (주어, 관계, 목적어) 트리플의 집합으로 정의하며, MetaQA 제공 KG, Freebase에서 질문에 언급된 관계와 언급 개체 2홉 이내 트리플만 남겨 가지치기한 KG(WebQSP/WebQ), ZJQA 제공 KG를 사용한다. 온톨로지(클래스 체계) 설계에 대한 내용은 본문에 없음.",
+ "retrieval": "그래프 경로 기반 검색이다. BERT 분류기로 홉 수와 관계 경로를 예측한 뒤 KG에서 추론 경로(트리플 열)를 표본 추출한다(WebQSP/WebQ는 K=5, M=5, MetaQA/ZJQA는 K=3, M=5). 임베딩 유사도 검색은 쓰지 않는다(비교 대상 KAPING이 문장 임베딩 검색을 씀). 벡터 DB·그래프 DB 제품명은 본문에 없음.",
+ "llm_used": "KG-to-Text(Rewrite)용: Llama-2-chat (7B, 13B), Flan-T5-XL (3B), 중국어 ZJQA에는 Chinese-Alpaca-2 (7B, 13B). 질의응답용: Llama-2-chat (7B, 13B), T5 (0.8B, 3B, 11B, LM-adapted 판), Flan-T5 (80M, 3B, 11B), T0 (3B, 11B), ChatGPT(GPT-3.5 Turbo, API). 말뭉치 생성기와 말뭉치 품질 판정용 질의응답 모델은 ChatGPT.",
+ "llm_compared": "기성 KG-to-Text 모델 MVP(MVP-data-to-text)와 MTL(MTL-data-to-text)을 지식 표현 방식 비교 대상으로 사용. 기준 방법은 KAPING, Sen et al.(Rigel 기반 검색)이며 그 수치는 원 논문에서 옮겨 온 것이다.",
+ "finetuning": "한다. KG-to-Text 모델을 LoRA로 미세조정한다(LoRA rank 64, alpha 128, dropout 0.05, AdamW, 초기 학습률 1e-4, 10 epoch, 총 배치 크기 128). 학습 자료는 ChatGPT로 자동 생성한 그래프-글 쌍으로 벤치마크별 12k~13k 이상이다. 홉 예측·관계 경로 예측용 BERT 분류기도 교차 엔트로피로 학습한다. 질의응답 모델 자체의 미세조정은 본문에 없음(ChatGPT는 미세조정 불가라고 명시).",
+ "deployment": "KG-to-Text 모델 학습은 NVIDIA Tesla V100 GPU 4장, KG-to-Text와 질의응답 모델 추론은 NVIDIA Tesla V100 GPU 1장에서 수행했다. ChatGPT는 OpenAI API로 호출했다. 구현은 Pytorch, Transformers, Peft 라이브러리. 실제 운영 환경 배치에 대한 언급은 본문에 없음.",
+ "evaluation": "자동 지표 hit@1(생성된 답이 정답 개체를 하나 이상 포함하면 정답, 소문자로 변환해 비교)만 사용. 평가 자료는 WebQSP/WebQ 시험 집합(답이 없는 11개 표본 제외), MetaQA 2-hop 시험 집합, ZJQA 시험 집합. 추가로 MetaQA에서 기준 방식이 틀렸는데 맞힌 문항 수(Helpful)와 기준 방식이 맞혔는데 틀린 문항 수(Harmful)를 셌다. 전문가 평가·LLM 평가는 하지 않았다.",
+ "results": [
+  "WebQSP에서 제안 방법의 hit@1은 T5(0.8B) 69.41, T5(3B) 72.11, T5(11B) 79.36, T0(3B) 74.02, T0(11B) 68.55로, KAPING의 34.70, 25.41, 24.91, 52.28, 62.85보다 높다.",
+  "WebQ에서 제안 방법의 hit@1은 Flan-T5(80M) 59.95, Flan-T5(3B) 68.92, Flan-T5(11B) 73.71로, Sen et al.의 45.52, 55.58, 59.79보다 높다.",
+  "MetaQA에서 지식 없이 답하면 hit@1이 Llama-2-chat(7B) 34.31, (13B) 34.08, ChatGPT 60.58인데, 트리플 지식을 주면 96.98, 96.78, 93.19로 오른다.",
+  "MetaQA에서 Llama-2-chat(13B)로 만든 자유 서술 지식을 쓰면 질의응답 모델별 hit@1이 97.77, 99.07, 97.63으로, 트리플 지식보다 높다.",
+  "ZJQA에서 지식 없이 답하면 14.95, 15.75, 15.25이고, 트리플 지식은 88.67, 84.48, 92.02, Llama-2-chat(7B)(Chinese-Alpaca-2) KG-to-Text 지식은 93.09, 93.21, 92.91이다.",
+  "기성 모델 MTL 지식은 MetaQA에서 86.32, 87.18, 80.66으로 트리플 지식보다 낮고, MVP 지식은 96.13, 98.04, 92.91로 트리플 지식과 비슷하다.",
+  "MetaQA(질의응답 모델 Llama-2-chat 13B)에서 트리플 지식 기준 대비 Llama-2-chat(13B) KG-to-Text 지식은 Helpful 459문항, Harmful 119문항이고, MTL 지식은 Helpful 334, Harmful 1,761문항이다."
+ ],
+ "limitations": "저자가 밝힌 한계: 이 프레임워크는 그래프-글 말뭉치로 KG-to-Text 모델을 미세조정해야 하고, KG 외의 추가 자료원을 쓰지 않는다. 향후 과제로 추가 지식 자원의 통합과, zero-shot 상황에서 질문 관련 지식을 생성할 수 있는 방법 설계를 들었다. (그 밖에 방법이 관계 경로 또는 SPARQL 주석을 요구한다고 5.1절에 적혀 있다.)",
+ "key_figures": [
+  "Figure 1: Two forms of knowledge representation: triple-form text and free-form text. Triple-form text transforms subgraph to text via simple linear concatenation while free-form text adopts the KG-to-Text method to generate a semantically coherent textual description.",
+  "Figure 2: Comparison between Retrieve-then-Answer framework and our proposed Retrieve-Rewrite-Answer framework. We use a rewriter module to transform the retrieved subgraphs into textual descriptions.",
+  "Figure 3: Our proposed framework, Retrieve-Rewrite-Answer has three steps: subgraph retrieval, KG-to-Text, and knowledge text enhanced reasoning.",
+  "Figure 4: Our retrieve module consists of three steps: hop prediction, relation path prediction, and triple sampling.",
+  "Figure 5: Our designed KG-to-Text corpus generation method has three steps: subgraph extraction, text generation, and quality evaluation."
+ ],
+ "quotes": [
+  "totaling 148,724 questions (118,980 train, 14,872 dev, 14,872 test)",
+  "The remaining 4,737 questions (3,098 train, 1,639 test) are either 1-hop or 2-hop questions",
+  "The pruned KG includes 1.8 million entities, 627 relations, and 5.7 million triples.",
+  "ZhejiangQA (ZJQA) is a Chinese KGQA dataset of 20,491 questions provided by Zhejiang Lab.",
+  "Over 12k graph-text pairs are generated and utilized for supervised fine-tuning.",
+  "We randomly sample 17k questions from train split for corpus generation and generate more than 13k graph-text pairs for KG-to-Text fine-tuning.",
+  "We randomly sample 14k questions from train split for corpus generation and obtain over 13k KG-to-Text annotations.",
+  "Ours 69.41 72.11 79.36 74.02 68.55 59.95 68.92 73.71 74.02 68.55 (Table 1 행)",
+  "KAPING 34.70 25.41 24.91 52.28 62.85 (Table 1 행)",
+  "No Knowledge 34.31 34.08 60.58 14.95 15.75 15.25 (Table 2 행)",
+  "Triple Knowledge 96.98 96.78 93.19 88.67 84.48 92.02 (Table 2 행)",
+  "Llama-2-chat (13B) 97.77 99.07 97.63 91.48 92.11 92.11 (Table 2 행)",
+  "Llama-2-chat (13B) 9,703 38 459 119 (Table 3 행)",
+  "The LoRA rank, LoRA alpha, and LoRA dropout are 64, 128, and 0.05."
+ ],
+ "note_for_dam_operation": "(정리자 해석) 댐 운영 지식그래프에서 검색한 트리플을 그대로 프롬프트에 넣는 것보다 자연스러운 문장으로 풀어 주면 답변 정확도가 조금 더 오른다는 근거로 쓸 수 있다(MetaQA 기준 트리플 지식 대비 약 1~4점, ZJQA는 ChatGPT를 빼면 약 4~9점). 7B급 공개 모델을 LoRA로 미세조정해도 KG-to-Text에는 충분했다는 점, 학습 자료를 사람 주석 없이 '그 글을 넣었을 때 정답이 나오는가'로 걸러 자동 생성한 점은 폐쇄망·소규모 모델 환경에 참고할 만하다. 다만 평가는 정답 개체 포함 여부(hit@1)뿐이고, 수치 계산이나 시간 조건이 걸린 질문, 실제 운영 배치는 다루지 않았으며, 관계 경로 주석이 있는 학습 질문이 있어야 한다."
+}

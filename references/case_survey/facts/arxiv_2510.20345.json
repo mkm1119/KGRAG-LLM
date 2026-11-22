@@ -1,0 +1,43 @@
+{
+ "file": "arxiv_2510.20345.txt",
+ "title": "LLM-Empowered Knowledge Graph Construction: A Survey",
+ "authors": "Haonan Bian (Xidian University) 단독",
+ "year": "2025 (arXiv:2510.20345v1, 2025년 10월 23일)",
+ "venue": "ICAIS 2025 학술대회 논문으로 게재되었다고 표기되어 있고, arXiv(cs.AI)에도 공개됨",
+ "venue_type": "학술대회",
+ "domain": "특정 응용 분야가 아닌 일반론. LLM을 이용한 지식그래프 구축(온톨로지 공학, 지식 추출, 지식 융합) 연구 동향 조사",
+ "problem": "기존 지식그래프 구축 방식은 확장성·자료 희소성, 전문가 의존과 경직성, 단계 분리로 인한 오류 누적이라는 세 가지 한계가 있다. LLM이 온톨로지 공학·지식 추출·지식 융합의 3단계를 어떻게 바꾸고 있는지를 체계적으로 정리한다.",
+ "data": "조사(서베이) 논문이어서 자체 실험 자료가 없다. 검토한 문헌 수나 문헌 선정 기준은 본문에 없음",
+ "method_steps": [
+  "LLM 이전의 전통적 지식그래프 구축(온톨로지 공학, 지식 추출, 지식 융합)을 먼저 정리한다.",
+  "LLM 기반 온톨로지 구축을 하향식(LLM을 온톨로지 설계 보조자로 사용: 역량 질문(CQ) 기반, 자연어 기반)과 상향식(LLM을 위한 KG: 자료에서 스키마를 귀납)으로 나누어 검토한다.",
+  "LLM 기반 지식 추출을 스키마 기반(정적 스키마, 동적·적응형 스키마)과 스키마 없는 방식(구조화된 생성 추출, 개방형 정보 추출)으로 나누어 검토한다.",
+  "LLM 기반 지식 융합을 스키마 수준, 개체(인스턴스) 수준, 종합·혼합 프레임워크로 나누어 검토한다.",
+  "향후 방향으로 KG 기반 LLM 추론, 에이전트용 동적 지식 메모리, 다중 양식 KG 구축, RAG를 넘어선 KG의 새 역할을 제시한다."
+ ],
+ "knowledge_structure": "논문 자체가 구축한 온톨로지·지식그래프는 없다. 다른 연구의 구축 방식을 분류해 소개한다. 하향식은 역량 질문·사용자 스토리·도메인 설명을 OWL 등 형식 온톨로지(클래스, 객체 속성, 데이터 속성, 논리 공리)로 옮기는 방식(Ontogenia, CQbyCQ, LLMs4OL, NeOn-GPT, LLMs4Life, LKD-KGC)이고, 상향식은 원문에서 개방형 정보 추출로 개체 수준 그래프를 먼저 만들고 군집화·일반화로 개념과 관계를 추상화하는 방식(GraphRAG, OntoRAG, EDC, AdaKGC, AutoSchemaKG)이라고 정리한다.",
+ "retrieval": "자체 검색 시스템 없음. 소개된 사례로 검색으로 유사 예시를 문맥에 넣는 검색 증강 프롬프트(Papaluca et al.), 클래스-하위클래스 계층과 개체 설명을 활용한 RAG 기반 융합(Pons et al.)을 언급한다. 임베딩 모델·저장소는 본문에 없음",
+ "llm_used": "조사 논문이어서 직접 사용한 생성 모델 없음. 본문에서 이름이 나온 모델은 선행 연구가 평가한 GPT-4뿐이다(Saeedizade & Blomqvist, Lippolis et al.의 평가 대상으로 언급).",
+ "llm_compared": "본문에 없음",
+ "finetuning": "하지 않음(조사 논문). 선행 사례로 AutoRE의 지시문 미세조정(RHF 파이프라인), Mateiu & Groza의 미세조정 모델로 자연어를 OWL 공리로 변환한 사례를 언급만 한다.",
+ "deployment": "본문에 없음",
+ "evaluation": "자체 평가 없음. 정량 비교표나 벤치마크 수치는 본문에 없음",
+ "results": [
+  "LLM 기반 KG 구축 방법을 온톨로지 구축(하향식/상향식), 지식 추출(스키마 기반/스키마 없음), 지식 융합(스키마 수준/개체 수준/혼합)으로 나눈 분류 체계를 제시했다(수치 없음).",
+  "선행 연구 평가를 인용해, LLM이 클래스·객체 속성·데이터 속성을 스스로 식별하고 논리 공리를 생성하며 그 일관성이 초급 인간 모델러와 비슷한 수준이라고 정리했다(수치 없음).",
+  "스키마 기반 추출은 정밀도·논리 일관성·해석 가능성이 높지만 고정 온톨로지 틀에 의존해 확장성과 분야 간 일반화가 제한된다고 정리했다.",
+  "전체 흐름을 세 가지 추세로 요약했다: 정적 스키마에서 동적 귀납으로, 모듈식 파이프라인에서 생성형 통합으로, 기호적 경직성에서 의미적 적응성으로."
+ ],
+ "limitations": "저자는 이 조사 자체의 한계는 밝히지 않았다. 분야의 남은 과제로 확장성, 신뢰성, 지속적 적응을 들고, 향후 프롬프트 설계·다중 양식 통합·지식 기반 추론의 발전이 필요하다고 적었다. 다중 양식 KG에서는 양식 이질성, 정렬 잡음, 확장성, 양식 누락·불균형에서의 강건성이 과제라고 했다.",
+ "key_figures": [
+  "Figure 1: Taxonomy of LLM for KGC"
+ ],
+ "quotes": [
+  "systematically analyzing how LLMs reshape the classical three-layered pipeline of ontology engineering, knowledge extraction, and knowledge fusion",
+  "generating corresponding logical axioms with consistency comparable to that of junior human modelers",
+  "its dependence on rigid ontological templates restricts scalability and cross-domain generalization",
+  "(1) the evolution from static schemas to dynamic induction, (2) the integration of pipeline modularity into generative unification, and (3) the transition from symbolic rigidity to semantic adaptability",
+  "challenges remain in scalability, reliability, and continual adaptation"
+ ],
+ "note_for_dam_operation": "댐 운영 규정처럼 개념과 관계가 비교적 정해진 분야는 이 조사가 말하는 '하향식(역량 질문 기반) 온톨로지 설계 + 스키마 기반 추출' 유형에 해당한다. 운영자가 물을 질문(역량 질문)을 먼저 정하고 그로부터 클래스·관계를 도출한 뒤, 문서에서 그 스키마에 맞춰 개체를 채우는 절차의 근거 문헌으로 쓸 수 있다. 실험 수치가 없는 조사 논문이므로 성능 근거로는 쓸 수 없고, 분류 체계와 대표 사례 이름(Ontogenia, EDC, GraphRAG, ODKE+ 등)을 인용하는 용도로 적합하다."
+}

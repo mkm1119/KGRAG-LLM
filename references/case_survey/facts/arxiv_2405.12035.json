@@ -1,0 +1,58 @@
+{
+ "file": "arxiv_2405.12035.txt",
+ "title": "KG-RAG: Bridging the Gap Between Knowledge and Creativity",
+ "authors": "Diego Sanmartín",
+ "year": "2024",
+ "venue": "arXiv(arXiv:2405.12035v1 [cs.AI], 20 May 2024)",
+ "venue_type": "사전 공개본",
+ "domain": "LLM 기반 에이전트(LMA)의 지식 보강. 비정형 글에서 지식그래프를 만들고 그 위에서 질의응답(KGQA)하는 일반 분야 파이프라인(ComplexWebQuestions로 시험)",
+ "problem": "LLM 에이전트는 환각, 파국적 망각, 긴 문맥 처리 한계를 겪으며, 글 조각 단위의 밀집 벡터 검색에만 의존하는 기존 RAG는 복잡한 질의에 필요한 정보만 골라 가져오지 못한다. 구조화된 지식그래프를 외부 지식 저장소로 써서 LLM 내부 지식 의존을 줄이고자 한다.",
+ "data": "ComplexWebQuestions(CWQ) v1.1. 전체 34,689문항이며 문항당 평균 367개의 Google 웹 스니펫과 Freebase용 SPARQL이 붙어 있다. 개발 분할에서 100문항을 무작위 표집하되 정답이 스니펫 어디에도 없는 11문항은 제외했다고 적혀 있다(최종 평가 문항 수가 100인지 89인지는 본문만으로 확정할 수 없음). 비용 절감을 위해 정답이 들어 있는 스니펫만 골라 지식그래프를 만들었고, 연결된 노드 9604개(일반 노드 8141개, 트리플 하이퍼노드 1463개)와 고유 관계 이름 3175개 규모이다.",
+ "method_steps": [
+  "저장: 글 조각을 LLM에 6-shot 프롬프트로 넣어 (entity)-[relationship]->(entity) 트리플을 최대한 많이 추출한다.",
+  "날짜 같은 맥락이 붙는 사실은 트리플 자체를 하나의 노드로 삼는 '트리플 하이퍼노드(triple hypernode)'로 표현하고, 하이퍼노드에 전체 의미를 레이블로 달아 그래프 DB에 저장한다.",
+  "모든 노드·하이퍼노드·관계의 임베딩을 계산해 메타데이터와 함께 벡터 DB에 저장한다.",
+  "검색(Chain of Explorations, CoE) 계획: few-shot 프롬프트로 LLM이 질의에 맞는 그래프 탐색 단계 계획을 세운다.",
+  "노드 탐색 단계에서는 키워드로 벡터 유사도 검색을 하여 상위 k개 시작 노드 후보를 찾고 LLM이 관련 노드를 고른다.",
+  "관계 탐색 단계에서는 Cypher 질의로 현재 노드에 연결된 관계를 가져와 벡터 유사도로 순위를 매기고 LLM이 관련 관계를 골라 다음 노드로 이동한다.",
+  "평가 단계에서 LLM이 지금까지의 경로를 질의에 비추어 계속 탐색·계획 재정의·응답 가운데 하나를 정한다(실패 3회 미만까지 반복, 못 찾으면 답을 찾지 못했다고 응답).",
+  "답 생성: 찾은 경로(노드 트리플의 연쇄)만을 근거로 답하도록 지시한 표준 RAG 프롬프트로 LLM이 답을 만든다."
+ ],
+ "knowledge_structure": "지식그래프를 쓴다. 미리 정한 온톨로지 없이 노드 종류와 관계 종류가 하나뿐인 동질(homogeneous) 지식그래프로, 분야에 얽매이지 않는 유연한 구조를 택했다. 개체를 노드로, LLM이 뽑은 자유로운 관계 이름을 간선으로 두고, 중첩된 사실은 트리플 하이퍼노드로 표현한다(예: ((Seth MacFarlane)-[created]->(Family Guy))-[in]->(1999)). LLM의 6-shot 추출로 구축했다.",
+ "retrieval": "그래프 질의(Cypher)와 밀집 벡터 유사도 검색을 결합한 단계별 탐색(CoE)이며, 각 단계에서 LLM이 후보를 고른다. 임베딩 모델은 SentenceTransformer multi-qa-mpnet-base-dot-v1, 벡터 저장소는 로컬 RedisDB(Redis Search 모듈), 그래프 DB는 NebulaGraph이다.",
+ "llm_used": "GPT-4 Turbo 1106-Preview(Azure Cloud에서 호스팅, temperature 1). 모델 규모는 본문에 없음.",
+ "llm_compared": "별도의 다른 LLM과 비교하지 않았다. 비교 대상은 방식으로서 Embedding-RAG(벡터 유사도 검색 RAG), RAG 없는 LLM(그림 5의 예시), CWQ 순위표의 MHQA-GRN, Human 기준이다. llama-3-70B는 향후 미세조정 대상으로 언급만 했다.",
+ "finetuning": "하지 않음(few-shot 프롬프트만 사용). 향후 과제로 트리플 하이퍼노드 구축용 데이터셋을 만들어 공개 모델을 미세조정하는 방안을 든다.",
+ "deployment": "실험 틀은 로컬 장비(M2 Ultra, 통합 메모리 128 GB)에서 돌렸고 RedisDB도 로컬 인스턴스이다. LLM은 Azure Cloud API로 호출했다. CoE 평균 응답 시간은 Azure API 다중 호출 때문에 30초라고 적혀 있다.",
+ "evaluation": "자동 지표 Exact Match(EM), F1 Score, Accuracy(정답과 겹치는 단어가 하나라도 있으면 정답), Hallucination(정밀도가 완전하지 않고 'I don't know' 같은 표지가 없는 응답의 비율이며, 환각으로 표시된 응답은 수작업 검토). CWQ 개발 분할에서 표집한 문항으로 평가했고 Embedding-RAG 및 CWQ 순위표 모델과 비교했다.",
+ "results": [
+  "KG-RAG는 EM 19%, F1 25%로, Embedding-RAG(EM 28%, F1 37%)보다 낮다.",
+  "Accuracy는 KG-RAG 32%, Embedding-RAG 46%이다.",
+  "환각 비율은 KG-RAG 15%로 Embedding-RAG의 30%보다 낮다.",
+  "CWQ 순위표의 사람 EM은 63%, 스니펫을 쓰는 기계 최고 성능(MHQA-GRN)은 33.2%이다.",
+  "CoE는 답 노드에 이르기까지 평균 4~5단계를 거쳤다.",
+  "CoE 평균 응답 시간은 30초이다."
+ ],
+ "limitations": "저자가 밝힌 한계는 다음과 같다. 비용 제약으로 문항별 스니펫 전체를 쓰지 못했고 개발 분할 전체를 시험하지 못했다. CWQ 웹 스니펫의 품질이 매우 낮은 경우가 많아 결과의 신뢰도에 영향을 주었을 수 있다. 지식그래프 구축에 쓴 LLM이 틀린 트리플을 만들거나 추출을 놓쳐 그 오류가 CoE 성능으로 번졌을 수 있다. 정답이 없는 스니펫을 처리하지 않아 시작 노드를 찾지 못한 질문이 있었다. 향후 과제로 개체 해소(entity resolution)와 연결(linking) 도입, 트리플 하이퍼노드 구축용 데이터셋 개발과 공개 모델(llama-3-70B 등) 미세조정에 의한 저비용 로컬 구축을 든다. 저자 스스로 실험이 예비적(preliminary)이라고 밝힌다.",
+ "key_figures": [
+  "Figure 1: shows the three core components of an AI agent: perception, brain, and action. The brain component integrates LLMs for dynamic reasoning and decision-making, alongside KGs for structured knowledge and memory storage.",
+  "Figure 2: Illustrations of triple hypernode behaviors and representations. 2a) Represents the behavior of hyperobject (triple hypernode) which allows them to connect their internal components to other nodes. 2b) Illustrates our approach to storing triple hypernodes (the orange node) in a traditional KG database.",
+  "Figure 3: Diagram illustrating the components to perform KGQA over a KG using Chain of Explorations (CoE).",
+  "Figure 4: An illustrative scenario demonstrating the Chain of Explorations methodology on a complex query involving historical and personal data.",
+  "Figure 5: An example comparison of responses to a complex query by (a) LLM without RAG, (b) LLM with vector similarity search RAG, (c) LLM with KG-RAG",
+  "Algorithm 1 Chain of Exploration for KG Retrieval"
+ ],
+ "quotes": [
+  "The dataset contains 34,689 complex questions, each associated with an average of 367 Google web snippets",
+  "we randomly sampled 100 questions from the development split, excluding 11 questions where the correct answers were not present in any of the provided snippets.",
+  "build a KG of 9604 connected nodes (of which 8141 are normal nodes and 1463 triple hypernodes) and 3175 unique relationship names.",
+  "KG-RAG achieved an EM of 19% and an F1 Score of 25%.",
+  "Embedding-RAG, which achieved an EM of 28% and an F1 Score of 37%.",
+  "KG-RAG demonstrated an accuracy of 32%, compared to 46% for Embedding-RAG.",
+  "the hallucination rate for KG-RAG stands at 15%, which is significantly lower than the 30% observed in Embedding-RAG.",
+  "the highest EM by human benchmarks is 63%, and the best machine performance using the provided Google snippets is 33.2%.",
+  "The average CoE took between 4 and 5 steps over the KG until reaching the answer nodes.",
+  "the average response time currently stands at 30 seconds due to multiple calls to the Azure API."
+ ],
+ "note_for_dam_operation": "LLM으로 글에서 뽑은 무온톨로지 지식그래프 위의 단계별 탐색은 벡터 RAG보다 정확도(EM·F1)는 낮았지만 환각은 절반으로 줄었다는 결과가 핵심이다. 댐 운영처럼 틀린 답의 비용이 큰 분야에서는 '모르면 모른다고 답하는' 성질이 장점이 될 수 있으나, 그래프 구축 단계의 추출 누락·오류가 그대로 검색 실패로 이어진다는 점과 질문당 30초의 응답 시간은 부담이다. 날짜·조건이 붙는 사실을 트리플 하이퍼노드로 담는 방식은 '어느 시점·어느 조건의 운영 기준'처럼 맥락이 붙는 댐 운영 사실의 표현에 참고할 수 있다. 평가 문항이 100개 안팎의 예비 실험이라는 점을 감안해 인용해야 한다."
+}

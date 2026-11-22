@@ -1,0 +1,61 @@
+{
+ "file": "22_OceanGPT.txt",
+ "title": "OceanGPT: A Large Language Model for Ocean Science Tasks",
+ "authors": "Zhen Bi, Ningyu Zhang, Yida Xue, Yixin Ou, Daxiong Ji, Guozhou Zheng, Huajun Chen (Zhejiang University, Donghai Laboratory 등)",
+ "year": "2024 (arXiv 표기 3 Sep 2024, v8). 최초 게재 연도는 본문에 없음",
+ "venue": "arXiv:2310.02031v8 [cs.CL]. 감사의 글에 익명 심사자 언급이 있으나 학술대회·학술지 이름은 본문에 없음",
+ "venue_type": "사전 공개본",
+ "domain": "해양 과학 분야 질의응답·지시 수행(해양 과학·연구, 자원·개발, 생태·환경, 기술·공학, 생활·문화 등)과 수중 로봇 제어 명령 생성",
+ "problem": "기존 LLM은 해양 자료가 방대·복잡하고 더 세밀하고 풍부한 지식이 필요해 해양학자의 요구를 충족하지 못한다. 해양 분야 지시 자료를 구하기 어려운 문제를 다중 에이전트 협업으로 풀어 해양 특화 LLM을 만든다.",
+ "data": "사전학습: 공개 접근 문헌 67,633건(pdfminer로 글 추출, 정규식 정제, 해시 기반 중복 제거). 종자 지시 자료: 해양 과학 배경의 주석자 수십 명이 작성·검수한 5개 대분류, 500개 이상 소분류, 10,000건 이상. DoInstruct로 15만 건 이상의 지시로 확장. 문헌 추출 에이전트용 gpt-3.5-turbo 미세조정에 쓴 고품질 표본 약 2,000건. 평가용 OceanBench: 15개 과제(과제별 149~1,246건)",
+ "method_steps": [
+  "공개 접근 해양 문헌 67,633건을 수집·정제해 사전학습 말뭉치를 만든다.",
+  "LLaMA-2를 기반으로 해양 말뭉치로 사전학습한다(A800 GPU 6개, 7일).",
+  "해양 과학을 5개 주제로 나누고 전문 주석자가 종자 지시 자료(10,000건 이상)를 만든다.",
+  "진화 생성 에이전트(gpt-3.5-turbo 2개)가 종자 표본에 배경지식을 덧붙이고(enrich) 개념을 더 깊게 분석(refine)하는 과정을 반복해 자료를 늘린다.",
+  "전문가 주석 말뭉치를 질의로 BM25로 더 큰 해양 말뭉치에서 고품질 문장을 찾고, 종자 자료로 미세조정한 gpt-3.5-turbo가 그 문장(output)에서 지시(inst)를 뽑아 (inst, output) 쌍을 만든다.",
+  "검사 에이전트(gpt-3.5-turbo)가 자연어로 적은 규칙(구문·의미 제약, 해양 분야 기본 정의)으로 생성 자료를 걸러 낸다.",
+  "추가 gpt-3.5-turbo 에이전트 2개가 자료 품질을 토론해 고품질 지시만 남긴다.",
+  "수중 로봇용 코드 지시를 따로 합성해 학습 자료에 넣는다.",
+  "사전학습된 모델을 LoRA로 지시 미세조정해 OceanGPT를 얻는다.",
+  "OceanBench(15개 과제)에서 GPT-4 평가자와 사람 평가자로 기준 모델과 쌍대 비교한다."
+ ],
+ "knowledge_structure": "사용하지 않음(온톨로지·지식그래프 없음). 해양 과학을 5개 대주제·500개 이상 소주제로 나눈 분류만 사용",
+ "retrieval": "OceanGPT의 추론 단계 검색은 본문에 없음. 학습 자료 생성 단계에서만 BM25(희소 검색)로 해양 말뭉치에서 고품질 후보 문장을 검색함. 임베딩 모델·벡터 DB·그래프 DB는 본문에 없음",
+ "llm_used": "OceanGPT(LLaMA-2 기반, 공개판은 7B인 OceanGPT-7B-v0.1). 각주에 2B(MiniCPM-2B-sft-bf16)·8B(Meta-Llama-3-8B-Instruct) 판을 추가 공개했다고 적혀 있음. 자료 생성 에이전트로 gpt-3.5-turbo(일부는 미세조정), 자동 평가자로 GPT-4 사용",
+ "llm_compared": "Llama-2-7b-chat-hf(llama2-chat-7b), Vicuna-1.5(vicuna-1.5-7b), ChatGLM2-6B",
+ "finetuning": "수행함. (1) LLaMA-2를 해양 말뭉치로 사전학습(A800 6개, 7일). (2) LoRA로 지시 미세조정: 배치 512, 학습률 1e-4, LoRA r 8, α 16, dropout 0.05, epoch 10, 지시 자료 15만 건 이상. (3) 자료 생성용으로 gpt-3.5-turbo를 종자 자료 약 2,000건으로 미세조정",
+ "deployment": "학습에 NVIDIA A800 GPU 6개 사용. 모델은 Hugging Face(zjunlp)에 공개. 자료 생성과 평가는 OpenAI API(gpt-3.5-turbo, GPT-4)에 의존. 추론 운영 환경(로컬·폐쇄망)은 본문에 없음",
+ "evaluation": "OceanBench 15개 과제(Analysis 674, Judgment 655, Open-ended Generation 930, Recommendation 1,089, Summary 149, Identification 464, Question Answering 1,230, Commonsense Reasoning 1,024, Classification 895, Letter Writing 359, Extraction 1,078, Description 1,246, Editing 1,075, Transformation 401, Others 157). 자동 평가는 GPT-4가 두 모델 출력을 비교하고 위치 편향을 줄이려고 순서를 바꿔 두 번 판정. 사람 평가는 해양 과학 배경 학생 5명이 설정마다 200개 예시를 선호 순위로 평가. 지표는 과제 단위·사례 단위 승률(win/tie/loss). 에이전트별 생성 효과는 품질·전문성·다양성 1~5점 수동 평가",
+ "results": [
+  "과제 단위 자동 평가에서 OceanGPT는 15개 과제 중 vicuna-1.5-7b 대비 12승 3무, llama2-chat-7b 대비 14승 1무, chatglm2-6b 대비 15승이다.",
+  "과제 단위 사람 평가에서 vicuna-1.5-7b 대비 12승 2무 1패, llama2-chat-7b 대비 13승 2무, chatglm2-6b 대비 14승 1무이다.",
+  "사례 단위 자동 평가 승/무/패 비율은 vicuna-1.5-7b 대비 0.60/0.35/0.05, llama2-chat-7b 대비 0.65/0.32/0.03이고 chatglm2-6b 대비 승 0.84이다(무·패 값 0.02와 0.14는 그림 글자 순서만으로는 확정하기 어려움).",
+  "생성 지시 자료의 10%를 표본 검수한 주석자 간 일치도(IAA)는 0.82이다.",
+  "Gazebo 모의 환경에서 OceanGPT가 수중 로봇에 이중 나선 경로를 내는 명령을 생성했다(정량 수치 없음).",
+  "에이전트별 품질·전문성·다양성 점수는 그림으로만 제시되어 수치는 본문 글이 깨져 확인 불가이다."
+ ],
+ "limitations": "저자가 밝힌 한계는 자료 분포의 편향(사전학습·지시 자료가 작성자 편향을 담을 수 있음)과 LLM의 환각이다. 향후 더 큰 말뭉치와 더 큰 모델(예: 30B, 70B)로 학습하고 OceanBench에 자료·과제를 추가할 계획이다. 로봇 상호작용은 초보적 시도라고 밝힘",
+ "key_figures": [
+  "Figure 1: Capabilities of OCEANGPT. Our proposed model not only shows a higher level of knowledge expertise for oceans science tasks but also gains preliminary embodied intelligence capabilities in ocean technology.",
+  "Figure 2: Overall framework of OCEANGPT.",
+  "Figure 3: Procedure of our proposed DOINSTRUCT. We use agents (gpt-3.5-turbo) as experts for each ocean topic and make them rapidly expand the instructions by collaboration.",
+  "Figure 4: Statistics of our final instruction dataset. We use DOINSTRUCT to expand more than 150,000 instructions (data-evolving, data-extracting).",
+  "Figure 5: Ocean task-level results. Left: Automatic evaluation. Right: Human evaluation.",
+  "Figure 7: Performance analysis for different agents. We design three indicators to measure the generation effect.",
+  "Figure 9: Our model can be instructed for underwater robot control in the simulation platform of Gazebo which shows OCEANGPT gains preliminary embodied intelligence capabilities."
+ ],
+ "quotes": [
+  "we firstly collect a raw corpus of 67,633 documents from open-access literature.",
+  "The final seed instruction dataset includes 5 major categories, over 500 sub-categories and a total of more than 10,000 data samples.",
+  "We use DOINSTRUCT to expand more than 150,000 instructions (data-evolving, data-extracting).",
+  "The final IAA (inter-annotator agreement) score for our dataset is 0.82, which satisfies the research purpose.",
+  "we pre-train our OCEANGPT based on the LLaMA-2 (Touvron et al., 2023b) for seven days with six A800 Nvidia GPUs.",
+  "Our benchmark includes a total of 15 ocean-related tasks such as question-answering, extraction, and description.",
+  "We employ 5 students with an ocean science background as human annotators.",
+  "For each evaluation setting, we sample a set of 200 examples and human annotators will rank the outputs they prefer.",
+  "spending a total of nearly 500 US dollars (with the number of high-quality training samples being around 2000).",
+  "Win:12 Tie:3 (OceanGPT vs vicuna-1.5-7b), Win:14 Tie:1 (vs llama2-chat-7b), Win:15 (vs chatglm2-6b) [Figure 5 왼쪽, 그림 안 글자]"
+ ],
+ "note_for_dam_operation": "(정리자 해석) 검색 증강이나 지식그래프 없이 '분야 문헌 사전학습 + LoRA 지시 미세조정'만으로 간 사례이고, 핵심 기여는 학습용 질의-응답 자료를 싸게 늘리는 절차다. 전문가가 만든 소량의 종자 자료를 LLM 에이전트로 불리고, 실제 문헌 문장에서 거꾸로 질문을 뽑아 내며, 규칙 검사와 토론으로 거르는 흐름은 댐 운영 규정·보고서에서 평가 문항이나 학습 자료를 만들 때 참고할 수 있다. 다만 평가가 GPT-4와 학생의 선호 비교(승률)뿐이라 사실 정확도를 직접 재지 않았고, 외부 상용 API에 의존하므로 폐쇄망 환경에는 그대로 옮기기 어렵다."
+}

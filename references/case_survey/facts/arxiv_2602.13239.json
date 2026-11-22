@@ -1,0 +1,59 @@
+{
+ "file": "arxiv_2602.13239.txt",
+ "title": "CrisiSense-RAG: Crisis Sensing Multimodal Retrieval-Augmented Generation for Rapid Disaster Impact Assessment",
+ "authors": "Yiming Xiao(교신), Kai Yin, Ali Mostafavi (Texas A&M University)",
+ "year": "2026 (arXiv v2 표기일 2026년 3월 26일)",
+ "venue": "arXiv:2602.13239v2 [cs.CY]",
+ "venue_type": "사전 공개본",
+ "domain": "재난 피해 신속 평가. 허리케인 Harvey(2017, 미국 휴스턴 권역) 때 ZIP 코드 단위 침수 범위와 건물 피해 정도 추정",
+ "problem": "실시간 사람 보고는 침수 최고조를 담고 고해상도 영상은 물이 빠진 뒤에 촬영되어 시점이 어긋나며, 이를 단순 융합하면 사후 영상이 최고조 침수 기록을 덮어 피해를 과소 추정한다. 재난별 미세조정 없이 범용 기초 모델로 공간 단위 정량 피해 추정이 가능한지를 다룬다.",
+ "data": "다섯 가지 자료. (1) NOAA Emergency Response Imagery 항공 영상 타일 3,507장(0.5 m 해상도)과 Gemini 2.0 Flash로 만든 영상 설명문 3,507건, (2) FEMA Individual Assistance 과거 손실 기록(2010–2016), (3) 약 2,400만 건에서 걸러 낸 트윗 458,453건, (4) 휴스턴시 311 신고 26,107건(2017년 8월 20일–9월 10일, ZIP 125개), (5) Harris County Flood Control District 우량계 자료(일 기록 8,397건). 정답 자료는 FEMA Harvey Flood Depth Grid(침수 면적 비율)와 Property Damage Extent(PDE) 72,755건(ZIP 139개). 평가 질의는 ZIP 207개이며 그중 영상이 있는 110개가 핵심 평가 구역",
+ "method_steps": [
+  "트윗을 리트윗 제거, 허용·차단 키워드 여과, 스팸 제거의 여러 단계로 걸러 말뭉치를 만든다.",
+  "항공 영상 타일 전부에 대해 Gemini 2.0 Flash로 자연어 설명문을 만들어 검색 가능한 글 문서로 색인한다.",
+  "ZIP 코드와 기간을 지정한 질의에 대해 글 자료는 밀집 검색(all-MiniLM-L6-v2, FAISS)과 BM25 희소 검색을 Reciprocal Rank Fusion(k=60)으로 합치고 상위 20개 후보를 교차 인코더(BAAI/bge-reranker-base)로 재순위화한다.",
+  "영상 타일은 ZIP 다각형 안에 중심점이 드는 타일을 고르고, 부족하면 반경 검색(5 km, 그다음 30 km)으로 넓히며, 선택적으로 CLIP(ViT-B/32)으로 의미 재순위화한다.",
+  "Text Analyst가 검색된 트윗·311 신고·최대 강우량을 분석하고, Visual Analyst가 항공 영상 타일을 분석해 각각 구조화된 JSON 추정치와 신뢰도를 낸다.",
+  "시점 인지 융합 엔진이 침수 범위는 글 추정을 우선하고(기본 가중 0.75:0.25 또는 0.80:0.20), 피해 정도는 글 추정을 하한으로 두고 영상은 올리는 쪽으로만 반영한다.",
+  "시스템 프롬프트에 글과 영상의 시점 차이를 명시하고(시점 맥락), damage_severity_pct를 ZIP 내 전체 건물의 평균 피해 비율로 정의한다(지표 정렬 제약).",
+  "출력 JSON에 추정치와 함께 근거 문서 식별자(트윗 ID, 311 신고 ID, 영상 타일 ID)를 evidence_refs로 남긴다."
+ ],
+ "knowledge_structure": "사용하지 않음. 온톨로지·지식그래프 언급이 본문에 없다. FEMA 과거 손실 기록을 'FEMA knowledge base' 또는 사전 지식(prior)으로 프롬프트에 넣는다.",
+ "retrieval": "글 자료는 하이브리드(밀집+희소) 검색. 밀집 임베딩 all-MiniLM-L6-v2(384차원), 색인 FAISS, 희소 BM25, 결합 Reciprocal Rank Fusion(k=60), 재순위화 BAAI/bge-reranker-base(상위 20개 후보). 영상은 공간 포함 관계 기준 선택과 반경 검색, 선택적 CLIP(ViT-B/32) 의미 재순위화. 그래프 DB는 쓰지 않음",
+ "llm_used": "분석기(글·영상) 역할로 네 가지 모델을 각각 시험했다: Gemini 2.5 Flash, Gemini 3 Flash, Qwen 3.5-397B-A17B(본문에서 Qwen 3.5로 표기), GPT-5-mini. 영상 설명문 생성에는 Gemini 2.0 Flash를 썼다.",
+ "llm_compared": "네 모델을 서로 비교했다. 다른 연구의 방법(R2RAG-Flood, FloodDamageCast, Arachchige & Pradhan, Flood-DamageSense)은 문헌 수치로만 비교했다.",
+ "finetuning": "하지 않음. 모델 가중치는 공개된 그대로 쓰고 재난 대응 프롬프트와 FEMA 과거 사전 지식만 넣었다(저자가 말하는 zero-shot).",
+ "deployment": "본문에 없음(GPU 사양·로컬·폐쇄망 언급 없음). 자연어 대화 인터페이스용 질의 해석 프롬프트가 부록에 있고, 코드는 GitHub, 자료는 Hugging Face에 공개했다고 적었다.",
+ "evaluation": "자동 지표 평가. Mean Absolute Error(MAE, 퍼센트포인트)를 침수 범위(Flood Extent)와 피해 정도(Damage Severity)에 대해 따로 계산하고 부트스트랩 95% 신뢰구간을 붙였다. 침수 범위는 N=110, 피해는 N=104(PDE 정답이 있는 ZIP). 네 가지 구성(Text-Only, Text+Caption, No-Tweets, Full Multimodal)의 제거 실험, 207개 ZIP 전체에 대한 글 전용 보충 분석, 잔차의 Moran's I 공간 자기상관 진단, 실패·성공 사례 분석을 했다. 검색 품질은 검색된 트윗 4,140건의 키워드·지명 포함 비율로 확인했다. 전문가 평가·LLM 평가는 없음",
+ "results": [
+  "전체 다중양식 구성의 Extent MAE는 GPT-5-mini 8.86, Gemini 3 Flash 11.11, Gemini 2.5 Flash 12.98, Qwen 3.5 19.64였다.",
+  "전체 다중양식 구성의 Damage MAE는 Gemini 3 Flash 10.14, Qwen 3.5 11.23, Gemini 2.5 Flash 12.31, GPT-5-mini 14.47이었다.",
+  "항공 영상을 더하면 침수 범위 MAE가 GPT-5-mini에서 17.48%에서 8.86%로(−8.62 pp), Qwen 3.5에서 22.06%에서 19.64%로(−2.42 pp) 줄었고, Gemini 두 모델은 거의 변화가 없었다(+0.10 pp, +0.01 pp).",
+  "피해 MAE는 영상을 더했을 때 네 모델 중 세 모델에서 개선이 없거나 나빠졌다(Gemini 2.5 Flash +0.43 pp, Gemini 3 Flash +0.07 pp, GPT-5-mini +3.33 pp, Qwen −0.65 pp).",
+  "트윗을 빼면 침수 범위 MAE가 네 모델 모두에서 +4.44~+7.46 pp 나빠졌다.",
+  "가장 좋은 피해 MAE는 10.09%(Gemini 3 Flash, Text-Only)였다.",
+  "검색된 트윗 4,140건 가운데 99.7%가 재난 관련 키워드를, 60.0%가 명시적 지명을 담고 있었다.",
+  "잔차의 Moran's I는 침수 범위 0.175(p=0.003), 피해 정도 0.391(p=0.001)로 오차가 공간적으로 뭉쳐 있었다.",
+  "207개 ZIP 전체 글 전용 결과의 침수 범위 MAE는 12.74(Gemini 3 Flash)~21.34(Qwen 3.5)였다."
+ ],
+ "limitations": "점 추정만 내고 보정된 불확실성 범위가 없으며 출력의 confidence는 LLM이 스스로 보고한 값이다. 평가가 단일 사건(Hurricane Harvey, Harris County)에 한정되어 다른 재해 유형과 미국 밖 지역으로의 일반화는 검증되지 않았다. 의미 검색이 이웃 ZIP의 트윗을 끌어와 공간 잡음을 만들 수 있다. 피해 평가는 207개 ZIP 중 139개에만 정답이 있다. 오류 유형으로 도로 축 기반 과소 추정, 눈에 띄는 표현의 과대 확장, 평상시 수면을 침수로 오인, 자료 희소를 들었다. 향후 다중 재해 확장, 실시간 자료 연결, 불확실성 보정, 전문가 검증용 사람 개입 인터페이스를 과제로 들었다.",
+ "key_figures": [
+  "Figure 1: Overview of the proposed CrisiSense-RAG architecture.",
+  "Figure 3: Ground truth (top), predictions (middle), and residuals (bottom) for Flood Extent (left, GPT-5-mini Multimodal) and Damage Severity (right, Gemini 3 Flash Multimodal) across 104 ZIP codes. Blue indicates underestimation and red overestimation.",
+  "Figure 4: MAE change relative to the Full Multimodal baseline for Text-Only, Text+Caption, and No-Tweets configurations across four model backends. Absolute MAE values are reported in Table 5.",
+  "Algorithm 1: Asynchronous Multimodal Fusion Logic"
+ ],
+ "quotes": [
+  "Extent MAE ranging from 8.86% (GPT-5-mini) to 19.64% (Qwen 3.5) and Damage MAE ranging from 10.14% (Gemini 3 Flash) to 14.47% (GPT-5-mini)",
+  "GPT-5-mini improves from 17.48% to 8.86% (−8.62 pp) and Qwen 3.5 from 22.06% to 19.64% (−2.42 pp)",
+  "with degradations of +4.44 to +7.46 pp, confirming that social media is the primary real-time signal for hazard estimation",
+  "Our best observed damage MAE of 10.09% (Gemini 3 Flash, Text-Only) outperforms this reasoning-based system",
+  "99.7% contained disaster-relevant keywords, and 60.0% included explicit geographic mentions",
+  "This pipeline yielded a final corpus of 458,453 unique tweets, representing an acceptance rate of approximately 1.9%.",
+  "The dataset comprises 3,507 georeferenced tiles covering the Greater Houston metropolitan area at 0.5 m spatial resolution.",
+  "The dataset contains 26,107 records from August 20–September 10, 2017, covering 125 unique ZIP codes",
+  "Flood extent residuals exhibit moderate positive spatial autocorrelation (I = 0.175, p = 0.003)",
+  "The two retrieval methods are fused using Reciprocal Rank Fusion (RRF) with constant k = 60."
+ ],
+ "note_for_dam_operation": "지식그래프는 쓰지 않지만 검색 구성(밀집+BM25, RRF, 교차 인코더 재순위화)이 구체적으로 적혀 있어 댐 운영 문서 검색의 기준 구성으로 참고할 수 있다. 수치 답변에서 지표의 정의를 프롬프트에 명시하지 않으면 모델이 정성적 강도로 해석한다는 지적(지표 정렬)은 수위·방류량처럼 정의가 엄격한 값을 답하게 할 때 그대로 적용된다. 시점이 다른 자료(실시간 보고와 사후 관측)를 무엇을 우선할지 규칙으로 정해 융합한 점, 모든 추정치에 근거 문서 식별자를 붙여 검증 가능하게 한 점도 운영 질의응답 설계에 쓸 만하다. 다만 상용 클라우드 모델 위주의 평가이고 불확실성 보정이 없어 폐쇄망 운영 근거로는 한계가 있다."
+}

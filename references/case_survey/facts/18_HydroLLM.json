@@ -1,0 +1,60 @@
+{
+ "file": "18_HydroLLM.txt",
+ "title": "Towards HydroLLM: approaches for building a domain-specific language model for hydrology",
+ "authors": "Dilara Kizilkaya, Yusuf Sermet, Ibrahim Demir",
+ "year": "2025",
+ "venue": "Journal of Hydroinformatics Vol 27 No 10, 1652 (doi: 10.2166/hydro.2025.100)",
+ "venue_type": "학술지",
+ "domain": "수문학 분야 지식 질의응답(객관식·참거짓·빈칸 채우기·서술형)용 분야 특화 언어 모델 구축을 위한 미세조정 실험",
+ "problem": "범용 LLM은 수문학의 전문 용어 적응이 약하고 분야 말뭉치와 표준 평가 자료가 부족함. 자료가 적은 조건에서 어떤 모델 구조·규모와 미세조정 전략이 수문학 특화 모델(HydroLLM) 구축에 적합한지 진단하고자 함.",
+ "data": "학습 자료: 교과서 Fundamentals of Hydrology (Davie 2019)와 2022~2024년 Journal of Hydrology, Advances in Water Resources, Journal of Hydrology: Regional Studies에 실린 연구 논문 2,000편에서 GPT-4o-mini로 만든 질의응답 약 8,800쌍. 각 문항은 문맥 구절(Context), 질문(객관식·참거짓·빈칸 채우기·서술형 중 하나), 기준 답으로 구성됨. 전체의 약 5%를 연구자 1인이 무작위 점검함. 평가 자료: 학습 자료와 독립적으로 만들어진 HydroLLM-Benchmark (Kizilkaya et al. 2025). 평가 자료의 문항 수는 본문에 없음. 자료는 공개하지 않음(교신저자 문의).",
+ "method_steps": [
+  "수문학 교과서와 연구 논문 2,000편을 원천 자료로 선정한다.",
+  "GPT-4o-mini에 문맥 선택, 질문 생성, 답 선택 단계로 이루어진 프롬프트를 적용해 네 가지 형식의 질의응답 약 8,800쌍을 생성하고, 프롬프트 틀을 반복 개선하며 중복·형식 오류·주제 이탈 항목을 제거한다.",
+  "생성 자료의 약 5%를 무작위로 점검해 원문 구절에 충실한지 확인한다.",
+  "규모와 구조가 다른 모델들(DeepSeek-R1-Distill-Qwen 32B·14B·1.5B, DeepSeek-R1-Distill-Llama-8B, Llama-2-7b-chat-hf, Qwen1.5-1.8B-Chat)에 LoRA 미세조정을 적용한다.",
+  "학습·검증 손실 곡선을 살펴 과적합을 진단하고, 과적합이 없는 모델에 대해 초매개변수를 조정한다.",
+  "HydroLLM-Benchmark에서 객관식·참거짓은 정확도, 서술형·빈칸 채우기는 기준 답과의 코사인 유사도로 평가하여 모델을 비교한다."
+ ],
+ "knowledge_structure": "사용하지 않음(서론에서 수질 평가의 자료 통합 수단으로 지식그래프 접근을 배경으로 언급만 함).",
+ "retrieval": "검색 구성 없음(본문에 없음). 임베딩 모델 sentence-transformers/all-MiniLM-L6-v2는 검색이 아니라 평가의 코사인 유사도 계산에만 사용됨. 벡터 DB·그래프 DB 언급 없음.",
+ "llm_used": "미세조정 대상: DeepSeek-R1-Distill-Qwen 32B, 14B, 1.5B, DeepSeek-R1-Distill-Llama-8B, Llama-2-7b-chat-hf, Qwen1.5-1.8B-Chat. 학습용 질의응답 생성에는 GPT-4o-mini만 사용(자료 생성 전용).",
+ "llm_compared": "미세조정 전 기본(base) 모델들의 성능을 미세조정 후와 비교함. GPT-4o-mini와 o3-mini는 선행 연구에서 빈칸 채우기에 약했다는 맥락으로 언급만 됨. WaterGPT, GPT-5는 향후 비교 대상으로 언급만 됨.",
+ "finetuning": "수행함. 모든 모델에 LoRA 적용(rank r = 8, α = 16, dropout p = 0.05, attention projection 행렬에 적용). 학습 자료 약 8,800쌍. 32B 모델은 과적합으로 조기 종료했고 2차 실험에서 dropout 0.05→0.1, 학습률과 weight decay(0.01→0.05) 조정을 시도함(학습률 표기는 본문 글이 깨져 '2e4 → 5e6'으로 적혀 있어 정확한 값 확인 불가).",
+ "deployment": "전용 고성능 컴퓨팅 설비에서 실험(NVIDIA H100 NVL 94 GB 2장, NVLink로 총 188 GB vRAM). 운영 배포 환경(로컬·폐쇄망·클라우드)에 대한 언급은 본문에 없음. 향후 과제로 양자화·지식 증류를 통한 추론 자원 절감을 언급함.",
+ "evaluation": "자동 지표만 사용. HydroLLM-Benchmark에서 교과서(TextBook) 출처와 논문(Article) 출처 문항을 나누어, 객관식(MC)·참거짓(TF)은 분류 정확도, 빈칸 채우기(FITB)·서술형(OE)은 all-MiniLM-L6-v2 임베딩의 코사인 유사도로 평가. 학습·검증 손실 곡선으로 과적합 진단. 평가 문항 수는 본문에 없음. 전문가 평가는 하지 않음(향후 과제).",
+ "results": [
+  "DeepSeek-R1-Distill-Llama-8B 미세조정 모델이 평균 75.7%로 가장 높았다(교과서 MC 93.7, TF 81.8, FITB 55.7, OE 78.4 / 논문 MC 95.0, TF 78.6, FITB 43.7, OE 78.4).",
+  "DeepSeek-R1-Distill-Qwen-14B는 교과서 문항에서 MC 96.1%, TF 88.0%로 개별 최고점을 냈으나 FITB는 28.4, 22.9로 낮았고 평균은 Table 1에 71.0(본문 문장에는 71.1)으로 적혀 있다.",
+  "Llama-2-7B-chat-hf는 평균 70.5%, Qwen1.5-1.8B-Chat는 평균 68.9%였고, DeepSeek-R1-Distill-Qwen-1.5B는 평균 54.4%로 가장 낮았다.",
+  "32B 모델은 약 8.8k 자료에 심하게 과적합하여, 학습 손실이 약 200 단계 안에 약 5.5에서 0 가까이로 떨어지는 동안 검증 손실은 6.53에서 6.74로 올랐다.",
+  "빈칸 채우기(FITB)가 모든 모델에서 가장 어려웠으며, 기본 모델의 FITB 성능은 16.70~31.80% 범위였고 DeepSeek-R1-Distill-Llama-8B는 미세조정으로 교과서 16.7→55.7%, 논문 21.4→43.7%로 올랐다.",
+  "객관식은 기본 모델이 38.6~78.4%였고 미세조정 후 교과서 문항에서 모두 80.7% 이상이었으며, 참거짓은 기본 42.7~62.2%에서 미세조정 후 69.7~81.8%가 되었다.",
+  "서술형은 기본 모델 73.0~78.4%, 미세조정 후 76.3~78.4%로 변화 폭이 작았다."
+ ],
+ "limitations": "자료 규모가 LLM 학습 기준으로 작아 일반화·견고성이 제한될 수 있음. 영어 자료만 사용했고 도표·시계열·원격탐사 영상 등 다중 모달 자료를 포함하지 않음. 평가가 자동 의미 유사도 지표와 정확도에 의존해 과학적 추론의 깊이를 충분히 반영하지 못할 수 있음. 공개 모델의 사전학습 말뭉치와 자료가 겹쳤을 가능성(자료 누출)을 완전히 배제할 수 없음. 자료 검증을 연구자 1인이 했고 주석자 간 일치도를 계산하지 않음. 향후 과제: 세부 분야(지하수, 도시 배수, 생태수문 등)와 원천(학회 발표문, 기술 보고서, 기관 간행물) 확대, 다중 모달·다국어 자료, 합성 자료 생성, 다수 주석자 검토, 다단계 학습 전략과 LoRA 외 방식(prefix tuning, adapters, mixture-of-experts), 전문가 참여 평가와 불확실성 정량화, WaterGPT·범용 모델과의 비교, FITB 난이도 구분, SWAT·MODFLOW·HEC-RAS 등 기존 도구와의 연계, 양자화·증류.",
+ "key_figures": [
+  "Figure 1: Q&A generation prompt workflow.",
+  "Figure 2: Overview of the HydroLLM experiment pipeline.",
+  "Figure 3: Overall model performance ranking based on average scores across all tasks.",
+  "Figure 4: Fine-tuned model performance across question types and content sources.",
+  "Figure 5: Base model performance across question types and content sources.",
+  "Table 1: Comprehensive performance results (%) across all models for multiple-choice (MC), true/false (TF), fill-in-the-blanks (FITB), and open-ended (OE) questions"
+ ],
+ "quotes": [
+  "we curated a dataset of approximately 8,800 question–answer (QA) pairs using advanced prompting techniques with GPT-4o-mini.",
+  "a corpus of 2,000 research articles published between 2022 and 2024 in Journal of Hydrology, Advances in Water Resources, and Journal of Hydrology: Regional Studies.",
+  "we conducted random spot checks on approximately 5% of the dataset",
+  "(2 NVIDIA H100 NVL 94 GB, 188 GB total vRAM via NVLink)",
+  "the reported configuration (rank r = 8, α = 16, dropout p = 0.05) to be a stable and representative choice across models",
+  "training loss dropped precipitously from ∼5.5 to near-zero within approximately 200 steps, while validation loss not only stagnated but actually increased from 6.53 to 6.74",
+  "DS-R1-Distill-Llama-8B 93.7 81.8 55.7 78.4 95.0 78.6 43.7 78.4 75.7",
+  "DS-R1-Distill-Qwen-14B 96.1 88.0 28.4 78.9 95.8 81.7 22.9 77.3 71.0",
+  "Llama-2-7B-chat-hf achieved 70.5%, Qwen1.5-1.8B-Chat reached 68.9%, both substantially exceeding the DeepSeek-R1-Distill-Qwen-1.5B baseline of 54.4%.",
+  "the base versions struggled significantly with terminology completion, with performance ranging from 16.70 to 31.80% across different architectures and content sources",
+  "achieved 55.7% accuracy on book questions and 43.7% on article questions, compared with its base performance of 16.7 and 21.4%, respectively.",
+  "Base model true/false performance ranged from 42.7 to 62.2%, with fine-tuned variants achieving 69.7 to 81.8% across different content sources.",
+  "with base models ranging from 73.0 to 78.4% and fine-tuned versions reaching 76.3 to 78.4%."
+ ],
+ "note_for_dam_operation": "(정리자 해석) 분야 자료가 수천 건 수준일 때는 모델을 키운다고 좋아지지 않고(32B 과적합, 8B가 최고) 자료 규모에 맞는 모델 용량을 골라야 한다는 점이 댐 운영 질의응답용 모델 선정에 직접 참고가 됨. 정확한 전문 용어를 채워 넣는 과업이 가장 약했으므로, 댐 운영 규정의 수치·용어처럼 정확한 표기가 필요한 답변은 미세조정만으로는 부족하고 근거 문서 검색을 병행할 필요가 있음을 시사함. 평가를 문항 형식별(객관식·참거짓·빈칸·서술형)로 나누는 설계와, 생성 모델과 대상 모델을 달리해 편향을 줄이는 자료 제작 방식도 참고할 만함. 다만 전문가 평가가 없고 평가 문항 수가 본문에 없으며, Table 1과 본문 문장 사이에 14B 평균(71.0/71.1)과 FITB(28.4/0.285) 표기가 조금씩 다르므로 인용 시 표의 값을 기준으로 하는 것이 안전함."
+}

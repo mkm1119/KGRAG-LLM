@@ -1,0 +1,49 @@
+{
+ "file": "30_온톨로지학습KG구축.txt",
+ "title": "온톨로지 학습 기반 지식 그래프 구축 (Developing a Knowledge Graph based on Ontology Learning)",
+ "authors": "류민우, 차시호",
+ "year": "2022",
+ "venue": "컴퓨터교육학회 논문지 2022년 제25권 제1호",
+ "venue_type": "학술지",
+ "domain": "다중 도메인 지식 서비스용 지식 그래프 구축(특정 산업 분야 적용 대상은 본문에 없음)",
+ "problem": "여러 도메인의 지식을 하나의 지식 그래프로 모을 때 생기는 지식의 중복 저장과 의미 충돌 문제를 풀려 한다. 이를 위해 온톨로지 학습에 기반한 지식 그래프 구축 방법을 제안한다.",
+ "data": "웹에서 수집한 평문 지식 문장(네이버, 카카오, 구글 등에서 얻은 웹 수집 데이터라고만 적힘)이며 규모는 본문에 없음. 형태소 분석 사전은 위키피디아 데이터로 구축했다고 하나 규모는 본문에 없음.",
+ "method_steps": [
+  "Domain, Knowledge, Sentence, Grounding, Description 모델로 이루어진 Top-level 온톨로지를 정의한다.",
+  "지식 관리자나 개발자가 외부 지식을 수집해 입력하거나 자체 생성한 지식을 입력한다(지식의 URI를 입력해 웹 기반 지식을 수집하고 위치를 기록).",
+  "Stemming Analyzer(형태소 분석기)로 지식 문장의 형태소와 품사(명사, 동사 등)를 추출한다.",
+  "Semantic Discoverer가 온톨로지의 Sentence 모델을 기준으로 문장 성분에 따라 지식 데이터 포맷으로 변환한다.",
+  "Knowledge Sentence Maker가 추출된 명사(NN)를 기존 주어와, 동사(VV)를 그 주어의 술어와 비교해 중복 여부를 판단하고 새 술어 또는 새 지식을 생성한다.",
+  "Semantic Annotator가 개별 지식을 온톨로지 모델의 인스턴스(Subject, Object, Predicate 형태)로 적용한다.",
+  "Knowledge 모델의 Axiom 클래스에 정의된 공리로 새 지식과 기존 지식의 의미 충돌을 판별한다."
+ ],
+ "knowledge_structure": "온톨로지와 지식 그래프를 사용함. Top-level 온톨로지를 Domain(Domain, Service 클래스), Knowledge(Axiom, Knowledge 클래스), Sentence(KnowledgeFormat, Part 클래스), Grounding(Protocol, Method, Location 클래스), Description 모델로 구성하고, 모델 사이를 presents, hasKnowledge, express, useGrounding 객체 속성으로 연결함. 지식 문장은 형태소 분석 결과에 따라 Subject, Object, Predicate 형태의 Sentence 모델 인스턴스로 정의됨. 온톨로지 모델은 Protege로 구현하고, 문장 구성 요소 의미 식별에 SKOS를 정의한다고 적혀 있음.",
+ "retrieval": "객체 속성을 통한 온톨로지 시맨틱 검색(Apache Jena API로 검색·어노테이션 기능 구현). 임베딩 모델과 벡터 DB·그래프 DB 저장소는 본문에 없음.",
+ "llm_used": "사용하지 않음(생성 모델 언급 없음). 형태소 분석기 khaii(카카오)를 사용함.",
+ "llm_compared": "본문에 없음",
+ "finetuning": "하지 않음",
+ "deployment": "자바 가상 머신(JVM)에서 동작하도록 구현했다는 언급만 있음. GPU 사양, 폐쇄망·클라우드 여부는 본문에 없음.",
+ "evaluation": "본문에 없음(정량 평가 없이 Protege 온톨로지 구현 결과와 khaii 기반 Stemming Analyzer 구현 결과 화면만 제시)",
+ "results": [
+  "Protege로 온톨로지 모델을 구현하고 khaii로 Stemming Analyzer를 구현한 결과를 그림으로 보였다(수치 결과는 본문에 없음).",
+  "저자는 제안 방법으로 다중 도메인 지식의 의미 충돌과 중복 지식 문제를 해결했다고 서술했으나 이를 뒷받침하는 정량 수치는 본문에 없음."
+ ],
+ "limitations": "데이터를 여전히 수동으로 수집하고 입력해야 한다는 점을 한계로 밝힘. 향후 과제로 크롤링으로 다양한 지식을 자동 수집하고 이를 바탕으로 자가 학습을 수행하는 자가 학습형 지식 그래프 구축 방법 연구를 듦.",
+ "key_figures": [
+  "Figure 1: Top-level ontology",
+  "Figure 2: Domain model ontology",
+  "Figure 3: Knowledge model ontology",
+  "Figure 4: Sentence model ontology",
+  "Figure 5: Grounding model ontology",
+  "Figure 6: How to build a knowledge graph based on ontology learning",
+  "Figure 7: The result of the ontology model implementation using Protege",
+  "Figure 8: The results of implementation of Stemming Analyzer using khaii",
+  "Table 1: Algorithm for generating knowledge and determining redundancy"
+ ],
+ "quotes": [
+  "이때 수집되는 데이터는 일반적인 평문으로 우리가 이미 잘 알고 있는 네이버, 카카오, 구글 등으로부터 얻은 웹 수집 데이터를 말한다.",
+  "위키피디아의 데이터를 이용하여 사전을 구축하였고, 해당 사전을 khaii와 연동하여 지식 문장의 형태소 분석이 가능하도록 구현하였다.",
+  "여전히 데이터들을 수동으로 수집하고 입력해야하는 문제점을 가지고 있다."
+ ],
+ "note_for_dam_operation": "(정리자 해석) LLM 이전 방식의 한국어 지식 그래프 구축 사례로, 한국어 문장을 형태소 분석해 주어·술어·목적어 단위로 나누고 기존 주어·술어와 비교해 중복을 걸러 내는 절차를 보여 준다. 댐 운영 규정·매뉴얼 문장을 지식 그래프에 넣을 때 중복·충돌 검사 단계(주어 일치 후 술어 비교, 공리 기반 충돌 판별)를 두는 발상과, 지식의 출처 위치를 따로 기록하는 Grounding 모델 개념은 참고할 수 있다. 다만 정량 평가가 없어 효과의 근거로 인용하기는 어렵다."
+}

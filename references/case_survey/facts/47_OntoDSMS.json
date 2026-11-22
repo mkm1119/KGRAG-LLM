@@ -1,0 +1,56 @@
+{
+ "file": "47_OntoDSMS.txt",
+ "title": "BIM and ontology-based knowledge management for dam safety monitoring",
+ "authors": "Yuhang Zhou, Tengfei Bao, Xiaosong Shu, Yueyang Li, Yangtao Li",
+ "year": "2023",
+ "venue": "Automation in Construction 145 (2023) 104649",
+ "venue_type": "학술지",
+ "domain": "댐 안전 감시(계측) 시스템(DSMS)의 정보 통합·지식 관리 — 중국의 콘크리트 댐 1개 사례",
+ "problem": "댐 운영 중 여러 출처에서 나오는 이질적인 감시 자료를 통합하는 통일된 방법이 없어 지식 추출과 지능형 분석이 어렵고 수작업 부담이 크다. BIM과 영역 온톨로지를 결합해 정적 정보와 동적 계측 자료를 하나의 그래프로 통합하고 추론·질의를 가능하게 하려 한다.",
+ "data": "중국의 콘크리트 댐 1개(12개 구간, 센서 179개)의 BIM(Autodesk Revit) 문맥 정보와 MySQL 관계형 DB의 이력·실시간 계측 자료. 두 시스템에 포함된 개체 수는 492,875개. 저자는 Data availability에 'No data was used'라고 적었다.",
+ "method_steps": [
+  "Noy & McGuiness 방식의 하향식 7단계(범위 결정, 기존 온톨로지 재사용 검토, 용어 열거, 클래스·계층 정의, 속성(slot) 정의, facet 정의, 인스턴스 생성)로 OntoDSMS를 설계한다.",
+  "W3C의 SSN/SOSA 온톨로지의 핵심 클래스와 공리를 확장·수정해 재사용한다.",
+  "Protégé로 영역 온톨로지를 구축한다.",
+  "Revit BIM 모델에서 구조물·센서의 문맥 정보(Name, Material, Elevation, Manufacture, MonitorType 등)를 뽑아 스프레드시트로 내보내고 MySQL에 저장한다.",
+  "D2RQ로 관계형 DB를 온톨로지에 사상한다(표→클래스, 열→DatatypeProperty, 행→인스턴스, 셀 값→Literal). 자동 생성된 사상 파일을 온톨로지 용어에 맞게 수정하고 가상 RDF 그래프로 접근한다.",
+  "Apache Jena 기반으로 SPARQL 질의와 규칙 기반 추론기를 구현한다(허용 최대·최소값을 경보 지표로 두고 벗어나면 센서를 Abnormal로 추론).",
+  "SPARQL Update로 자료 갱신 시 온톨로지를 확장·수정한다(센서 추가, 센서 번호 변경).",
+  "같은 질의를 SQL로도 실행해 결과 건수와 응답 시간을 비교한다."
+ ],
+ "knowledge_structure": "온톨로지(OntoDSMS, OWL)를 사용하며 인스턴스를 채운 것을 지식그래프라 부른다. 구조 관점 클래스: LeftBankDam, RightBankDam, DrainGate, CrossSection, Element, Material(최상위 Structure). 안전 감시 관점 클래스: EnvironmentQuantity, Transformation, Seepage, StressStrainAndTemperature, SensorType, System, Platform, Sensor, Observation, ObservableProperty, Abnormal. 객체 속성: hasSection/isSectionOf, hasElement/isElementOf, hosts/isHostedBy, observes, isObservedBy, madeObservation/madeBySensor, hasType/isTypeOf, observedProperty, hasMaterial. 자료 속성: hasResult, resultTime(원문 표기 reultTime), hasName, hasManufactures, hasElevation. SSN/SOSA를 재사용하고 Noy & McGuiness 방식, Protégé, D2RQ 사상으로 구축했다.",
+ "retrieval": "SPARQL 그래프 질의와 규칙 기반 추론(Apache Jena). 저장은 MySQL 관계형 DB를 D2RQ 가상 RDF 그래프로 접근하는 방식. 임베딩 모델·벡터 DB는 본문에 없음.",
+ "llm_used": "사용하지 않음(LLM을 쓰지 않는 연구)",
+ "llm_compared": "본문에 없음",
+ "finetuning": "하지 않음",
+ "deployment": "본문에 없음(사용 도구로 Autodesk Revit, MySQL, D2RQ, Protégé, Apache Jena만 언급)",
+ "evaluation": "대표 질의 예시로 기능을 보이고, 질의 3건에 대해 SPARQL과 SQL의 결과 건수와 응답 시간을 비교했다. 같은 조건에서 10회 실행한 평균값이다. 전문가 평가·LLM 평가는 없음.",
+ "results": [
+  "Query 1: 결과 건수는 SPARQL과 SQL 모두 2989건, 응답 시간은 SPARQL 0.26초, SQL 2.72초였다.",
+  "Query 2: 결과 건수는 둘 다 39건, 응답 시간은 SPARQL 0.19초, SQL 1.57초였다.",
+  "Query 3(이상 상태 센서 추론): 결과 건수는 둘 다 2건, 응답 시간은 SPARQL 2.35초, SQL 7.26초였다.",
+  "두 시스템에 포함된 개체 수는 492,875개였다."
+ ],
+ "limitations": "(1) BIM 기반 온톨로지를 만들 때 구조물의 비기하 속성만 고려해, 도형 자료가 갱신되면 시스템 부담이 커질 수 있다. (2) 온톨로지에 기반한 댐 구조 손상 식별, 이상 감시, 계측 자료의 안전 평가는 아직 과제로 남아 있다.",
+ "key_figures": [
+  "Fig. 1: Top-down modeling process using the Noy & McGuiness approach.",
+  "Fig. 2: Classes and relationships involved in Observation (SOSA).",
+  "Fig. 3: Schema of the modified mapping file (partial view).",
+  "Fig. 4: Framework of managing monitoring information based on the OntoDSMS.",
+  "Fig. 5: Class hierarchy of OntoDSMS established in Protégé.",
+  "Fig. 6: Knowledge graph related to Sensor, Observation and Structure.",
+  "Fig. 7: Extracting context information from the BIM environment and the corresponding description in OWL.",
+  "Fig. 8: Table structures in MySQL (partial view).",
+  "Fig. 9: SPARQL query 1 and SPARQL query 2.",
+  "Fig. 10: SPARQL query 3 and rule involved.",
+  "Fig. 11: SPARQL query 4 and SPARQL query 5."
+ ],
+ "quotes": [
+  "the dam is divided into 12 sections and contains 179 sensors.",
+  "Query 1 2989 2989 0.26 2.72 492,875",
+  "Query 2 39 39 0.19 1.57",
+  "Query 3 2 2 2.35 7.26",
+  "The number of entities included in both systems is 492,875, while all other data in the table are retrieved 10 times under the same conditions"
+ ],
+ "note_for_dam_operation": "(정리자 해석) LLM 이전 세대의 댐 온톨로지 사례로, 계측 센서–관측값–구조물 관계를 SSN/SOSA 표준 온톨로지로 표현하고 기존 관계형 DB를 복제 없이 D2RQ 가상 그래프로 연결한 점이 참고가 된다. 댐 운영 질의응답에서 수위·계측 등 실시간 수치 자료를 지식그래프와 잇는 방식(DB는 그대로 두고 사상만 정의), 허용 범위 규칙으로 이상 상태를 추론하는 방식에 활용할 수 있다. 다만 자연어 질의가 아니라 SPARQL을 직접 작성해야 하고, 평가는 질의 3건의 응답 시간 비교뿐이다."
+}

@@ -1,0 +1,55 @@
+{
+ "file": "arxiv_2508.14654.txt",
+ "title": "Entropy-Constrained Strategy Optimization in Urban Floods: A Multi-Agent Framework with LLM and Knowledge Graph Integration",
+ "authors": "Peilin Ji, Xiao Xue(교신), Simeng Wang, Wenhao Yan (Tianjin University)",
+ "year": "2025",
+ "venue": "arXiv:2508.14654v1 [cs.AI] (2025년 8월 20일), 본문 머리말에 'A PREPRINT - AUGUST 21, 2025' 표기",
+ "venue_type": "사전 공개본",
+ "domain": "도시 홍수(극한 강우) 시 비상 배차·교통 스케줄링. 버스·주민 이동을 대상으로 한 다중 에이전트 전략 생성",
+ "problem": "도시 침수 상황에서 교통 흐름·과업 완수·위험 완화라는 상충 목표를 동적으로 조율해야 하는데, 정적 규칙은 급변하는 환경에 맞지 않고 LLM이 만든 전략은 의미 불안정과 실행 불일치를 보인다. 인지·전역 최적화·다중 에이전트 협조를 하나의 폐루프로 묶는 틀이 없다는 문제를 다룬다.",
+ "data": "(1) 동아시아의 한 시 기상국의 지역 강우·침수 자료(제휴 수자원 관리 기관 경유), (2) Hexi District 버스 노선망(동적 우회 포함), (3) POI와 A* 경로 탐색으로 모형화한 주민 이동. 부록에서는 강우 시나리오가 과거 기상 통계에서 생성한 합성 강우 패턴이라고 적고 있다. 모의 설정은 구역 분할 64개, 초기 에이전트 500개. 자료의 건수·기간 등 규모는 본문에 없음",
+ "method_steps": [
+  "다중 출처 인지: 강우·침수, 대중교통, 주민 이동 자료를 Mesa ABM 기반 격자 모의 환경에 통합해 전역 상태 S(t)를 만든다.",
+  "이중 채널 지식 색인: 도시 홍수 지식그래프는 GraphSAGE로, 비상 보고서·과거 로그는 사전학습 BGE-Encoder로 부호화한다.",
+  "상황 인지 검색: 현재 상태 st를 질의 벡터로 부호화해 지식그래프에서 과업 관련 부분 그래프를 추출하고, 비정형 자료에서는 유사도 기준 top-K 조각을 검색한다.",
+  "프롬프트 구성: 검색 결과를 상태·그래프·텍스트·과업으로 이루어진 혼합 프롬프트 Pt로 융합한다.",
+  "계층적 전략 생성: 전역 Policy Agent가 거시 전략을 내고 지역(기능) 에이전트가 이를 세부 행동으로 구체화하며, 상위 전략의 엔트로피를 임계값 τ 이하로 묶는 엔트로피 제약 손실을 적용한다.",
+  "전략 번역·실행: 지역 자연어 전략을 제로샷 명령 분류기와 미리 정의한 행동 라이브러리로 실행 가능한 명령으로 바꾸고, Accuracy Command Wrapper가 현지 맥락·도로 상태·실행 가능성에 맞춰 조정한 뒤 병렬 배포한다.",
+  "피드백 최적화: 가중 목적함수 J(침수 위험 f, 교통 혼잡 t, 통행 취소 c, 도착률 r)로 결과를 평가하고, ObjectiveGap이 임계값 δ 이상이면 실패 피드백을 넣어 프롬프트를 다시 만들어 재계획한다.",
+  "지식 갱신: 생성 중 나온 새 개체·관계와 피드백 신호를 지식그래프에 추가한다."
+ ],
+ "knowledge_structure": "도시 홍수 지식그래프 G=(V,E)를 사용한다. 노드는 지역(regions), 도로(roads), 침수 지점(flood spots)이다. G(t+1)=G(t)∪{v_new, e_new} 식으로 생성 과정에서 새 개체·관계를 추가하고, 피드백 신호도 그래프에 넣는다. 관계 유형, 그래프 규모, 초기 구축 절차는 본문에 없음. 온톨로지 언급은 본문에 없음",
+ "retrieval": "이중 채널(구조화+비정형) 혼합 검색. 구조화 채널은 GraphSAGE 다중 홉 집계 임베딩과 상태 기반 부분 그래프 추출(SubgraphExtract), 비정형 채널은 사전학습 BGE-Encoder 임베딩과 유사도 기반 top-K 검색. 핵심 기제 설명에서 'GraphSAGE and FAISS retrieval'이라고 적고 있다. 그래프 DB 제품명과 BGE의 구체 모델명은 본문에 없음",
+ "llm_used": "상위(전역) 모델 Qwen-7B-Chat(LoRA + Entropy Loss), 지역 정책 모델 GLM-6B(LoRA) (Table 1)",
+ "llm_compared": "LLM 비교 대상 없음. 비교 기준은 Empty(계획 없음), Ruled(정적 규칙), PPO(강화학습)이다. HuggingGPT는 관련 연구로 언급만 함",
+ "finetuning": "미세조정함. LoRA와 4비트 양자화로 엔트로피 정규화 미세조정을 수행했다. 최적화기 AdamW(β1=0.9, β2=0.98), 학습률 3e-5, 배치 32, 엔트로피 임계값 τ=1.2, 벌점 계수 λ 초기값 1.0(동적), α=0.05. 상위 수준 조정 후 지역 수준 조정의 단계별 학습. 학습 자료의 규모는 본문에 없음",
+ "deployment": "RTX 4090 GPU(24GB) 2장에서 실험. Mesa + HuggingFace 통합 플랫폼. 로컬·폐쇄망·클라우드 구분에 대한 명시는 본문에 없음. 한계로 높은 배치 비용과 대규모 추론 자원 의존을 밝힘",
+ "evaluation": "모의실험 기반 자동 지표 평가. 세 강우 시나리오(극한 강우, 간헐적 집중, 일상 약한 비)에서 전략마다 5회 반복해 평균·분산을 기록. 거시 지표는 목적함수 J와 그 구성 요소(평균 수심 f, 평균 통행 시간 t, 실패 과업 비율 c, 도착 성공 비율 r). 의미 수준 지표는 Semantic Consistency Score(SCS, 동일 프롬프트 응답 간 Sentence-BERT 임베딩 코사인 유사도 평균), Semantic Diversity Score(SDS), Execution Stability(반복 간 f,t,c,r 분산). 모듈별 제거 실험(w/o Dual Indexing, w/o Entropy Control, w/o Feedback Loop) 수행. 전문가 평가·LLM 평가 없음. 질의응답 문항 평가가 아니다",
+ "results": [
+  "전체 H–J 프레임워크는 Stability 0.0047, SCS 0.872, SDS 0.443으로 제거 실험 설정 가운데 가장 좋았다(Table 2).",
+  "이중 색인을 빼면 SCS가 0.762로 떨어져, 이중 색인이 SCS를 0.11 이상 높인다고 보고했다(Stability 0.0071, SDS 0.421).",
+  "엔트로피 제어를 빼면 SDS가 0.312로 떨어지고(전체 0.443), SCS는 0.851로 전체보다 0.021 낮았다(Stability 0.0061).",
+  "피드백을 빼면 Stability 0.0059, SCS 0.858, SDS 0.397이었고, 저자는 피드백이 분산을 20% 줄인다고 적었다.",
+  "네 전략 비교에서 H–J가 가장 안정적인 J 궤적을 보였다고 서술했으나, 비교 실험의 수치는 그림(Fig. 4)으로만 제시되어 본문 글에는 없다.",
+  "간헐적 집중 강우 시나리오에서는 PPO가 도착률에서 H–J를 약간 앞섰다고 보고했다(수치 본문에 없음).",
+  "H–J는 일상 약한 비 조건에서 가장 좋은 결과를 냈고 극한 강우에서도 견고했다고 서술했다(수치 본문에 없음)."
+ ],
+ "limitations": "높은 배치 비용과 대규모 추론 자원 의존을 실용상 한계로 밝혔다. 향후 더 가벼운 협조 방식, 더 효율적인 모듈형 지식 융합, computational-experiment/CPSS 패러다임 아래 파이프라인 체계화를 과제로 들었다. 부록에서는 목적함수 가중치를 고정값으로 썼으며 적응형 가중은 향후 과제라고 적었다(본문 3.4.1절은 가중치가 경험 재생으로 적응된다고 적어 서술이 서로 다르다).",
+ "key_figures": [
+  "Figure 1: System-level overview of the proposed H–J framework. The architecture integrates multi-source perception, knowledge-guided policy generation, entropy-based threshold adjustment, and simulation-based feedback, forming a closed-loop scheduling cycle for urban flood scenarios.",
+  "Figure 2: Overview of the H–J framework, which integrates: (1) Multisource Knowledge Indexing for structured-unstructured prompt fusion; (2) Entropy-Constrained Strategy Generation for robust planning; (3) Strategy Translation and Execution for agent-level control; (4) Feedback Optimization for adaptive rescheduling based on objective evaluation.",
+  "Figure 4: Comparative performance under three rainfall scenarios. H–J consistently outperforms baselines across key indicators.",
+  "Figure 5: Ablation results under three rainfall scenarios. Removing any module causes performance drops, especially under challenging conditions, confirming the necessity of all three components."
+ ],
+ "quotes": [
+  "H–J Full Framework 0.0047 0.872 0.443",
+  "Notably, entropy control raises SDS from 0.312 to 0.443 and improves SCS by 0.021",
+  "Dual indexing boosts SCS by over 0.11 (from 0.762 to 0.872)",
+  "Meanwhile, feedback reduces variance by 20%, stabilizing long-horizon strategy adaptation.",
+  "Experiments were conducted on dual RTX 4090 GPUs (24GB), using LoRA with 4-bit quantization for entropy-regularized fine-tuning.",
+  "All strategies run under identical initialization across three rainfall scenarios, each repeated five times with mean and variance reported.",
+  "regional rainfall and waterlogging data from a municipal meteorological bureau in East Asia (via an affiliated water management institute)",
+  "In the intermittent burst scenario, PPO slightly surpasses H–J in arrival rate"
+ ],
+ "note_for_dam_operation": "질의응답이 아니라 모의환경에서의 전략 생성·실행 연구이므로 직접 대응하지는 않는다. 다만 (1) 지식그래프(구조화)와 문서·로그(비정형)를 따로 검색해 한 프롬프트로 합치는 이중 채널 구성, (2) 제거 실험에서 이중 색인을 뺐을 때 응답 일관성(SCS)이 가장 크게 떨어진 점, (3) 같은 질문에 대한 응답 일관성을 임베딩 유사도로 재는 SCS 지표, (4) 7B·6B급 소형 모델을 LoRA와 4비트 양자화로 RTX 4090 2장에서 돌린 점은 폐쇄망 댐 운영 질의응답 설계에 참고할 수 있다. 비교 실험 수치가 그림으로만 제시되고 지식그래프 규모·구축 절차가 없어 재현 근거로 쓰기에는 정보가 부족하다."
+}

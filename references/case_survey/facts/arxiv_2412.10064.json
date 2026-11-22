@@ -1,0 +1,53 @@
+{
+ "file": "arxiv_2412.10064.txt",
+ "title": "Text2Cypher: Bridging Natural Language and Graph Databases",
+ "authors": "Makbule Gulcin Ozsoy, Leila Messallem, Jon Besga, Gianandrea Minneci (모두 Neo4j 소속)",
+ "year": "2024 (arXiv:2412.10064v1, 2024년 12월 13일)",
+ "venue": "arXiv (cs.LG). 학술지·학술대회 게재 정보는 본문에 없음",
+ "venue_type": "사전 공개본",
+ "domain": "그래프 데이터베이스 질의 생성. 자연어 질문을 Cypher 질의로 바꾸는 Text2Cypher 과제(특정 산업 분야 아님)",
+ "problem": "Cypher는 전문 지식이 필요해 비전문가가 지식그래프를 쓰기 어렵고, 기반 LLM은 복잡한 다중 홉 질의에서 불완전하거나 틀린 Cypher를 낸다. 미세조정이 유망하지만 공개된 고품질 Text2Cypher 자료가 부족하고 서로 따로 만들어져 함께 쓰기 어렵다.",
+ "data": "공개 자료원 25개를 찾아 그중 조건(질문-Cypher 쌍, 스키마 정보, 라이선스·접근성)을 만족한 16개 자료집합을 합쳤다. 최종 44,387건이며 학습 39,554건(약 89%), 시험 4,833건(약 11%). 각 건의 필드는 question, schema, cypher, data_source, database_reference, instance_id. 실제 실행 가능한 데이터베이스 접근이 있는 건은 학습 22,093건(55.85%), 시험 2,471건(51.12%).",
+ "method_steps": [
+  "Neo4j 자료(Neo4jLabs 포함), HuggingFace 자료집합, 학술 논문에서 공개 Text2Cypher 자료를 찾아 수집한다.",
+  "모든 자료를 하나의 형식(질문, 스키마, Cypher, 출처, DB 참조, 일련번호)으로 통일한다.",
+  "수작업 검토로 Cypher의 불필요한 문자(백틱 등)를 고치고 무관한 질문을 지우며 [question, cypher] 쌍 기준으로 중복을 제거한다.",
+  "로컬 Neo4j에서 각 Cypher에 EXPLAIN을 실행해 구문 오류가 나는 질의를 제거한다.",
+  "파일 이름에 train이 있으면 학습, test·dev가 있으면 시험으로 배정하고 나머지는 90:10으로 나눈 뒤 각 분할을 섞는다.",
+  "시험 분할로 기존 미세조정 모델, 공개 가중치 모델, 폐쇄형 모델을 벤치마크한다(번역 기반 평가와 실행 기반 평가).",
+  "벤치마크 결과를 바탕으로 고른 기준 모델 6개를 학습 분할로 미세조정하고 같은 절차로 다시 평가한다."
+ ],
+ "knowledge_structure": "이 연구가 온톨로지·지식그래프를 새로 구축하지는 않는다. 기존 그래프 데이터베이스의 스키마(노드 라벨, 관계 유형, 속성)를 프롬프트에 넣어 주고 그 스키마에 있는 관계 유형과 속성만 쓰도록 지시해 Cypher를 생성하게 한다.",
+ "retrieval": "검색 증강 구조가 아니라 질의 생성(자연어→Cypher) 방식이다. 생성된 Cypher를 Neo4j 그래프 DB에서 실행해 결과를 얻는다. 임베딩 모델·벡터 DB는 사용하지 않음(임베딩 유사도는 평가 지표 계산에만 쓰였다).",
+ "llm_used": "미세조정 대상 6종: Meta/LLama-3.1-8B-instruct, Google/Gemma-2-9B-it(공개 가중치), OpenAI/GPT-4o, OpenAI/GPT-4o-mini, Google/Gemini-1.0-Pro, Google/Gemini-1.5-Flash(폐쇄형). 미세조정한 Gemma-2-9B-it 모델(neo4j/text2cypher-gemma-2-9b-it-finetuned-2024v1)을 공개했다.",
+ "llm_compared": "벤치마크에만 쓴 모델: 기존 미세조정 모델 hf_ft_lakkeo_stable_cypher_instruct3B(Stable-code-instruct-3b 기반), hf_ft_tomasonjo_text2cypher(Llama-3-8b-Instruct 기반), hf_ft_neo4j_text2cypher_23_codellama(CodeLlama13B 기반), openai_ft_neo4j_text2cypher_23_gpt3_5(GPT3.5 기반)와 기반 모델 CodeLLama-7B-instruct, CodeGemma-7B-it, GPT-3.5, Gemini-1.5-Pro. (LLama-3.1-8B-instruct, Gemma-2-9B-it, GPT-4o, GPT-4o-mini, Gemini-1.0-Pro, Gemini-1.5-Flash는 기준선으로도 측정됨)",
+ "finetuning": "미세조정을 했다. 학습 분할 39,554건 사용. 폐쇄형 모델은 각 회사 API로, 공개 가중치 모델은 HuggingFace 또는 Unsloth 인터페이스로 RunPod의 GPU 장비에서 학습했다. LoRA 여부, 순위(rank), 에폭 등 구체적 초매개변수는 본문에 없음. 공개 가중치 모델은 자원 사용(비용·메모리)을 최소화하는 방향으로 학습했다고만 적혀 있다.",
+ "deployment": "폐쇄형 모델은 각 회사의 클라우드 API, 공개 모델은 RunPod 환경의 GPU로 평가·학습했다. GPU 사양은 본문에 없음. 구문 검증에는 로컬 Neo4j 데이터베이스를 썼다.",
+ "evaluation": "자동 지표 평가. (1) 번역 기반 평가: 생성 Cypher와 정답 Cypher를 글자 내용만으로 비교. (2) 실행 기반 평가: 두 질의를 대상 DB에서 실행해 결과를 문자열로 바꿔 비교(DB 접근이 있는 건만). HuggingFace Evaluate로 ROUGE, BLEU, METEOR, BERTScore, FrugalScore, Cosine·Jaro-Winkler 유사도, Exact Match를 계산했고, 논문에서는 번역 기반에는 Google-BLEU, 실행 기반에는 Exact Match를 주로 보고한다. 평가 자료는 시험 분할 4,833건(실행 기반은 그중 DB 접근 가능한 2,471건).",
+ "results": [
+  "미세조정한 모든 모델이 자기 기준 모델보다 나은 결과를 냈고, 향상 폭은 최대 Google-BLEU 0.34, Exact Match 0.11이었다.",
+  "모델별 향상(Google-BLEU / Exact Match): LLama3.1-8B-it 약 0.14 / 0.11, Gemma2-9B-it 약 0.13 / 0.07, Gemini-1.0-Pro-002 약 0.34 / 0.11, Gemini-1.5-Flash-001 약 0.27 / 0.09, GPT-4o-mini 약 0.20 / 0.06, GPT-4o 약 0.18 / 0.01.",
+  "미세조정 후 가장 좋은 결과는 Finetuned GPT-4o, GPT-4o-mini, Gemini-1.5-Flash-001에서 나왔다(절대 점수는 그림으로만 제시되어 글 파일에서 확인 불가).",
+  "미세조정 전 벤치마크에서는 폐쇄형 기반 모델(GPT-4o, GPT-4o-mini, Gemini-1.5-Pro-001)이 가장 좋았고, 공개 가중치 모델 중에서는 Gemma-2-9B-it가 가장 좋았다.",
+  "코드 특화 모델(CodeGemma 등)은 예상과 달리 일반 기준 모델보다 낫지 않았다. 저자는 Cypher가 자연어에 비교적 가까워서라고 추정한다.",
+  "기존 미세조정 모델 중 tomasonjo_text2cypher가 가장 좋았으나 시험 자료의 14.4%를 학습 때 본 적이 있어 결과가 부풀려졌을 수 있다고 밝혔다."
+ ],
+ "limitations": "저자가 밝힌 위험과 한계: (1) [question, cypher] 쌍으로 중복을 제거했어도 같은 질문에 다른 Cypher가 붙은 건이 학습·시험에 나뉘어 들어갔을 수 있다. (2) 공개 자료를 합쳤기 때문에 같은 질문의 바꿔 쓴 표현이 섞여 미세조정 성능이 부풀려질 수 있다. (3) 학습·시험이 같은 분포에서 나와 분포가 바뀌면 결과가 유지되지 않을 수 있다. (4) 자료가 공개되어 있어 앞으로 기반 모델이 학습·시험 자료를 접할 수 있다. 향후 과제는 시험 집합 정제 후 재평가, 어려운 사례 분석, 모델 크기와 프롬프트 설계 효과 탐구이다.",
+ "key_figures": [
+  "Figure 1: User wants to write a Cypher query for 'What are the movies of Tom Hanks'. A Text2Cypher model translates the input natural language question into Cypher",
+  "Figure 2: Relational databases uses SQL-based query languages, while Graph databases commonly uses Cypher query language.",
+  "Figure 3: Data distribution: The train and test splits consist ∼89% and ∼11% of the overall data, respectively.",
+  "Figure 4: Performance comparison of the baseline and finetuned models"
+ ],
+ "quotes": [
+  "The final dataset includes 44, 387 instances, with a training and test split, of 39, 554 instances for training and 4, 833 for testing",
+  "We have identified 25 different resources",
+  "we were able to utilize 16 of those datasets",
+  "the training set contains 22, 093 such instances (55.85% of the total), while the test set has 2, 471 instances (51.12% of the total)",
+  "achieving up to a 0.34 increase in Google-BLEU score and a 0.11 increase in Exact Match score",
+  "OpenAI/Gpt-4o          ∼0.18          ∼0.01",
+  "it had encountered 14.4% of the test data during training",
+  "The figure shows that all the fine-tuned models achieve better results than their baseline models."
+ ],
+ "note_for_dam_operation": "댐 운영 지식그래프를 Neo4j에 두고 자연어 질문을 Cypher로 바꿔 질의하는 경로(그래프 질의형 검색)를 택할 때 참고할 기준 문헌이다. 참고할 점: (1) 프롬프트에 그래프 스키마를 넣고 '스키마에 있는 관계·속성만 쓰라'고 지시하는 문구(Table 3)를 그대로 본뜰 수 있다. (2) 8~9B급 공개 모델도 미세조정으로 질의 생성 정확도가 올라가므로 폐쇄망용 소형 모델에 적용 여지가 있다. (3) 평가를 글자 일치(Google-BLEU)와 실행 결과 일치(Exact Match) 두 가지로 나누는 방식, EXPLAIN으로 구문을 미리 검증하는 방식은 운영 시스템의 질의 검증 절차에 쓸 수 있다. 다만 이 자료집합은 영화 등 일반 공개 DB 위주여서 댐 분야 스키마에서의 성능은 이 논문으로 알 수 없고, 절대 점수는 그림에만 있어 글 파일에서 확인되지 않는다."
+}

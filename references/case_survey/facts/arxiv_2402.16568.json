@@ -1,0 +1,60 @@
+{
+ "file": "arxiv_2402.16568.txt",
+ "title": "Two-stage Generative Question Answering on Temporal Knowledge Graph Using Large Language Models",
+ "authors": "Yifu Gao, Linbo Qiao, Zhigang Kan, Zhihua Wen, Yongquan He, Dongsheng Li (National University of Defense Technology, Xiangjiang Laboratory, Meituan)",
+ "year": "2024 (arXiv:2402.16568v2, 24 Jul 2024)",
+ "venue": "arXiv (cs.CL). 게재처는 본문에 명시되어 있지 않음(윤리 선언에 'ACL's ethics policy' 언급만 있음)",
+ "venue_type": "사전 공개본",
+ "domain": "시간 지식그래프 질의응답(TKGQA). Wikidata 계열의 시간 정보가 붙은 사실(직위, 소속 팀 등)에 대한 일반 분야 질문",
+ "problem": "시간 제약이 숨어 있는 질문에 대해, 구조와 시간 두 차원으로 넓은 탐색 공간에서 관련 사실을 정확히 검색하기 어렵고, 검색한 사실을 글 형태로만 프롬프트에 넣으면 LLM이 사실 간의 시간 순서와 구조적 의존 관계를 이해하지 못해 복잡한 질문에서 틀린다.",
+ "data": "CronQuestions: 질문-답 쌍 410K(train 350,000, dev 30,000, test 30,000; 유형은 Simple Entity, Simple Time, Before/After, First/Last, Time Join). TimeQuestions(Sharma et al. 2023 확장판): 13.5k 문항(train 7k, dev 3.2k, test 3.2k; 각주에 실제 6,970, 3,236, 3,237; 유형은 Explicit, Implicit, Temporal, Ordinal).",
+ "method_steps": [
+  "1단계 부분그래프 검색 - 관계 순위화: 질문과 후보 관계 목록을 LLM(ChatGPT)에 주고 few-shot(예시 5개) 프롬프트로 질문과 가장 관련된 상위 k개 관계를 고르게 한다(k=1).",
+  "1단계 부분그래프 검색 - 시간 마이닝: 질문, 질문 속 개체·관계로 찾은 사실의 유효 기간(지식 맥락), 질문 유형을 LLM에 주고 'before/after/between and' 형식의 시간 제약을 뽑게 한다(예시 5개, 추가 학습 없음).",
+  "구조 제약(관계)과 시간 제약으로 좁힌 범위에서 관련 사실을 최대 n=10개 골라 추가 지식으로 쓴다.",
+  "2단계 답변 생성 - 시간 GNN: 부분그래프의 개체·관계·시간 표현을 TKG 임베딩(Lacroix et al. 2020)으로 초기화하고, 시간 임베딩을 메시지에 더한 그래프 어텐션 변형(T-GNN)을 링크 예측 과제로 사전 학습한다.",
+  "2단계 답변 생성 - 가상 지식 지시자: [SUB], [REL], [OBJ] 세 가상 토큰에 부분그래프의 주어·관계·목적어 T-GNN 임베딩을 max 또는 mean pooling한 값과 부분그래프 최소·최대 시간 임베딩을 더해 넣고, 선형 층으로 LLM의 글 표현 공간에 사상한다.",
+  "가상 지시자 토큰, 지시문, 질문, 관련 사실([head, relation, tail, start_time, end_time] 형식)을 이어 붙인 프롬프트로 공개 LLM(Llama 2-7B)을 LoRA instruction tuning하여 답(가장 관련된 답 10개)을 생성하게 한다."
+ ],
+ "knowledge_structure": "기존 시간 지식그래프를 그대로 쓴다(새로 구축하지 않음). TKG는 개체·관계·시각 집합과 사실로 이루어지며 각 사실은 4원소 (주어, 관계, 목적어, 시각)이고, 프롬프트에서는 [head, relation, tail, start_time, end_time] 형식으로 나타낸다. TimeQuestions는 모든 사실을 (주어 개체, 관계, 목적어 개체, [시작 시각, 종료 시각]) 형식으로 전처리하고 시간을 연 단위로 제한한 판을 쓴다. 온톨로지 설계에 대한 내용은 본문에 없음.",
+ "retrieval": "LLM의 내부 지식을 이용한 그래프 부분그래프 검색이다. ChatGPT에 few-shot 프롬프트를 주어 관계를 순위화하고 시간 제약을 뽑아, 구조·시간 두 차원에서 사실 범위를 좁힌다(상위 관계 k=1, 관련 사실 최대 n=10). 밀집 벡터 검색은 쓰지 않는다. 답변 단계에서 쓰는 그래프 표현은 차원 512의 TKG 임베딩(Lacroix et al. 2020)과 T-GNN이다. 벡터 DB·그래프 DB는 본문에 없음.",
+ "llm_used": "부분그래프 검색 단계: ChatGPT(gpt-3.5-turbo-0613, OpenAI API). 답변 생성 단계: Llama 2-7B(LoRA instruction tuning).",
+ "llm_compared": "ChatGPT(gpt-3.5-turbo-0613)를 TKG 정보 없이(w/o tkg), 그리고 1단계에서 검색한 사실을 주고(w/ tkg) 답하게 한 기준. 언어 모델 기준으로 BERT, RoBERTa. 그 밖의 기준은 임베딩 기반 모델(EmbedKGQA, EaE, CronKGQA, EntityQR, TMA, TSQA, TempoQR, TwiRGCN).",
+ "finetuning": "한다. Llama 2-7B를 LoRA(rank 64)로 instruction tuning한다(4 epoch, 학습률 3e-4, AdamW, 배치 크기 8). 가상 지식 지시자를 LLM 표현 공간으로 사상하는 선형 층 Wp는 512×4096이다. 학습 자료는 각 데이터셋의 학습 집합(CronQuestions train 350,000문항)이며, 학습 자료 비율을 20~100%로 바꾼 실험이 있다. T-GNN은 링크 예측으로 별도 사전 학습한다. 1단계 검색에는 추가 학습이 없다.",
+ "deployment": "모든 실험을 NVIDIA A100 GPU로 수행했다(장수는 본문에 없음). ChatGPT는 OpenAI API로 호출했다. 실제 운영 환경 배치에 대한 언급은 본문에 없음.",
+ "evaluation": "자동 지표 Hits@1과 Hits@10. 평가 자료는 CronQuestions 시험 집합 30,000문항과 TimeQuestions 시험 집합(약 3.2k문항)이며, 질문 유형(Complex/Simple)과 답 유형(Entity/Time)별로 보고한다. 각 실험 결과는 3회 실행 평균이다. 절제 실험(w/o SR, w/o SR inference, w/ SR random, w/o T-GNN, w/o VKI), 학습 자료 크기·관련 사실 개수 민감도 분석, ChatGPT w/ tkg와의 사례 비교를 했다. 전문가 평가·LLM 평가는 없다.",
+ "results": [
+  "CronQuestions에서 GenTKGQA의 Hits@1은 Overall 0.978, Complex 0.962, Simple 0.999, Entity 0.967, Time 0.990으로, 차순위 TempoQR(0.918, 0.864, 0.990, 0.926, 0.903)보다 높다.",
+  "저자는 차순위 방법 대비 Complex 질문 유형에서 11.3%, Time 답 유형에서 9.6%의 Hits@1 향상이라고 적었다.",
+  "ChatGPT는 TKG 정보 없이 Hits@1 Overall 0.151이고, 1단계에서 검색한 사실을 주면 Overall 0.754, Simple 0.987이 되지만 Complex는 0.579에 그친다.",
+  "TimeQuestions에서 GenTKGQA의 Hits@1은 Overall 0.584로 TwiRGCN(average 0.605, interval 0.603)보다 낮지만, Implicit 0.611과 Ordinal 0.578은 가장 높다(저자 표현으로 각각 1.3%, 11.6% 향상).",
+  "절제 실험(CronQuestions Hits@1 Overall): 부분그래프 검색을 학습·추론 모두에서 빼면 0.119, 추론에서만 빼면 0.475, 관련 사실을 무작위로 고르면 0.766, T-GNN을 빼면 0.935, 가상 지식 지시자를 빼면 0.843이다.",
+  "학습 자료의 20%만 쓸 때 Complex 유형 Hits@1에서 차순위 모델보다 32% 높다고 적었다.",
+  "관련 사실 개수 n=3에서는 성능이 낮고 n=10에서 약간 오른다(그림 3(b) 수치는 본문 글이 깨져 개별 값 확인 불가)."
+ ],
+ "limitations": "저자가 밝힌 한계: CronQuestions의 복잡한 시간 질문은 여러 사실을 포함하지만 각 사실 안의 개체 간 연결이 단일 홉이어서 k=1로 두었고, 현재 TKGQA 데이터셋 대부분이 단일 홉 사실이므로 다중 홉 복잡 시간 질문은 향후 과제로 남긴다. ChatGPT 기준은 in-context learning 프롬프트로 답하게 했으므로 템플릿 설계에 따라 수작업 확인 결과와 완전히 일치하지 않을 수 있다. 그 밖에 본문에서, 여러 답을 생성할 때 무관한 답을 무작위로 내는 경우가 있어 Entity 유형 Hits@10 향상이 작다고 적었다.",
+ "key_figures": [
+  "Figure 1: Examples of the responses of LLM and GenTKGQA to the simple and complex temporal questions.",
+  "Figure 2: The overall architecture of our proposed GenTKGQA can be divided into two stages, subgraph retrieval and answer generation. Given a temporal question, we mark the entities provided, the implied time constraints and the links between the entities with underline, blue font and orange font, respectively.",
+  "Figure 3: Parameter sensitivity on our GenTKGQA.",
+  "Table 7: Relation Ranking Prompt. This prompt is used to extract structural links between entities in the question.",
+  "Table 8: Time Mining Prompt. This prompt is used to find the time constraints involved in the complex question.",
+  "Table 9: This is the template for instruction tuning."
+ ],
+ "quotes": [
+  "contains 410K unique question-answer pairs, including annotated entities and timestamps, with 350k for training and 30k for validation and testing",
+  "has 13.5k manually edited questions and is divided into three parts: training, validation, and testing, containing 7k, 3.2k, and 3.2k questions",
+  "GenTKGQA 0.978 0.962 0.999 0.967 0.990 0.983 0.971 0.999 0.974 0.994 (Table 1 행)",
+  "TempoQR 0.918 0.864 0.990 0.926 0.903 0.978 0.967 0.993 0.980 0.974 (Table 1 행)",
+  "ChatGPT w/ tkg 0.754 0.579 0.987 0.689 0.873 (Table 1 행, Hits@1)",
+  "ChatGPT w/o tkg 0.151 0.144 0.160 0.134 0.182 (Table 1 행, Hits@1)",
+  "achieves significant improvements of 11.3% in the \"Complex\" question type and 9.6% in the \"Time\" answer type on the Hits@1 metric over the second best method",
+  "GenTKGQA 0.584 0.596 0.611 0.563 0.578 (Table 2 행)",
+  "TwiRGCN(average) 0.605 0.602 0.586 0.641 0.518 (Table 2 행)",
+  "improving on the \"Implicit\" and \"Ordinal\" question types by 1.3% and 11.6%, respectively",
+  "w/o SR 0.119 / w/o SR inference 0.475 / w/ SR random 0.766 / w/o T-GNN 0.935 / w/o VKI 0.843 (Table 3 Overall 열)",
+  "at 20% of the training data, our model outperforms the second best model by 32%",
+  "We fine-tune Llama 2-7B using LoRA (Hu et al., 2022) with rank 64. The number of epochs is set to 4 and the learning rate is 3e-4."
+ ],
+ "note_for_dam_operation": "(정리자 해석) 댐 운영 기록도 '언제부터 언제까지 유효한 사실'(수문 개도, 방류 지시, 제한수위 적용 기간 등)이 많아 시간 지식그래프 질의응답과 문제 구조가 비슷하다. 이 논문은 (1) 질문에서 관계와 시간 제약('~ 이후', '~ 사이')을 먼저 뽑아 검색 범위를 좁히는 2단 분해, (2) 사실을 [주어, 관계, 목적어, 시작, 종료] 형식으로 프롬프트에 넣는 방식, (3) 7B급 공개 모델을 LoRA로 조정하면 시간 순서가 필요한 복잡 질문에서 범용 ChatGPT(사실 제공 시 Complex 0.579)보다 크게 나아진다(0.962)는 결과를 보여 준다. 다만 1단계 검색이 외부 ChatGPT API에 의존해 폐쇄망에서는 대체가 필요하고, 학습에 수십만 문항의 주석 자료를 썼으며, 사람이 편집한 질문(TimeQuestions)에서는 전체 정확도가 기존 방법보다 낮았고, 수치 계산이나 다중 홉 질문은 다루지 않았다."
+}

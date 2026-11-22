@@ -1,0 +1,55 @@
+{
+ "file": "31_시설물안전점검LLM.txt",
+ "title": "시설물 안전점검보고서의 LLM을 이용한 디지털 트윈 통합용 위험도 정량화 및 시계열 분석 (Time-Series Quantification of Infrastructure Inspection Reports via LLMs for Digital Twin Integration)",
+ "authors": "성지연, 나종호, 오윤석, 정유석 (한국건설기술연구원)",
+ "year": "2025",
+ "venue": "대한공간정보학회지 (Journal of Korean Society for Geospatial Information Science) Vol.33 No.4 December 2025 pp.45-53",
+ "venue_type": "학술지",
+ "domain": "시설물 안전점검(옹벽의 정기안전점검 보고서) 자료의 위험도 정량화와 디지털 트윈 연계",
+ "problem": "정기안전점검 보고서가 서술형 비정형 PDF로 쌓여 있어 상태를 정량적으로 예측하거나 유지보수 우선순위를 정하기 어렵다. LLM으로 보고서에서 자료를 뽑아 정량적 시계열 자료와 종합 위험도 지수로 바꾸는 방법을 제안한다.",
+ "data": "옹벽 12개의 PDF 정기안전점검 보고서(계측관리 보고서 형식은 제외). 시설물마다 약 20쪽 내외이며 도면·외관 사진을 포함함. 그중 '기존 안전점검·정밀안전진단 실시결과' 표에 담긴 정보만 분석에 사용함. 시계열은 2016년부터 2024년까지 연도 구간임. 보고서 건수(문서 수)와 표의 행 수는 본문에 없음.",
+ "method_steps": [
+  "VLM(gpt-4.1)에 표가 담긴 PDF 페이지를 이미지 형태로 넣고 예시 출력 형식이 든 프롬프트로 점검 결과 표를 JSON 배열로 변환한다.",
+  "사전 정의한 13개 손상 범주와 표현 예시를 프롬프트에 넣어, LLM(gpt-4o-mini)이 주요 점검 소견 문장마다 손상 유형별 위험도 점수(0~4점)와 근거를 JSON으로 내도록 한다.",
+  "상태 등급(A~E 또는 '양호' 같은 서술 표현)을 정규화한 뒤 등급에 따라 A~E 순으로 {–0.3, 0, 0.3, 0.6, 1.0}의 편향을 초기 위험도 점수에 더한다.",
+  "편향을 더한 점수를 연도별로 합산해 시계열 벡터를 만든다.",
+  "시계열에서 AUC, 최근 경향 점수(trend), 위험 변동성(volatility), 최대 급등폭(max spike) 네 지표를 계산하고 Min-Max 정규화 후 가중합해 0~1 범위의 종합 위험 점수(composite score)를 구한다.",
+  "연도별 누적 위험 점수를 시계열 그래프로, 종합 점수를 우선순위 막대 그래프로 시각화한다.",
+  "시설물 ID, 점검일, 종합 점수, 등급, 손상 유형별 점수를 담은 디지털 트윈 연계용 JSON을 출력한다."
+ ],
+ "knowledge_structure": "사용하지 않음(온톨로지·지식그래프 언급 없음). 13개 손상 범주(Crack, Spalling/Scaling, Detachment/Displacement, Joint/Block separation, Efflorescence, Settlement, Clogging/Blockage, Sealant/Joint deterioration, Corrosion, Vegetation, Surface deterioration, Bulging/Expansion, Leakage, Loss로 표에 나열됨)의 고정 분류표와 디지털 트윈 연계용 JSON 출력 구조를 정의함. 표에 나열된 범주 이름은 14개로 읽히나 본문은 13개라고 적고 있어 표 글이 깨졌을 수 있음.",
+ "retrieval": "본문에 없음(검색 단계 없이 표 추출과 문장별 평가로 구성. RAG는 관련 연구 소개에서만 언급)",
+ "llm_used": "표 추출용 VLM으로 OpenAI 'gpt-4.1', 텍스트 처리(위험도 평가)용 LLM으로 'gpt-4o-mini'를 사용함. 모델 규모는 본문에 없음.",
+ "llm_compared": "본문에 없음(StructGPT, HySem, TableVLM은 관련 연구로만 언급)",
+ "finetuning": "하지 않음(프롬프트만 사용)",
+ "deployment": "Python 3.12에서 실험했다는 언급만 있음. OpenAI 모델을 사용했으나 호출 방식(API 등), GPU 사양, 폐쇄망 여부는 본문에 없음. 디지털 트윈 플랫폼과의 실제 통합과 API 설계는 연구 범위 밖이며 향후 단계로 둠.",
+ "evaluation": "추출·점수화 정확도에 대한 정량 평가(정답 대비 지표, 전문가 평가)는 본문에 없음. 12개 옹벽에 방법을 적용해 종합 위험 점수와 우선순위를 산출하고 시계열 그래프로 제시한 사례 적용 결과만 보고함.",
+ "results": [
+  "12개 옹벽에 대해 종합 위험 점수를 산출했으며 값의 범위는 0.273(3번)에서 0.433(9번)이었다.",
+  "점수 상위 3개는 9번 0.433, 6번 0.399, 1번 0.384였다(Table 6 값 기준).",
+  "12개 옹벽은 모두 상태 등급이 A 또는 '양호' 위주로 평가된 시설이었으며, 상위 3개 옹벽은 같은 등급 안에서도 손상 진행성과 위험 변동성이 상대적으로 커 보수 우선순위가 높게 도출되었다."
+ ],
+ "limitations": "가중치는 사고 이력이 있는 옹벽의 보고서를 분석해 정하는 것이 이상적이나 그런 자료를 수집할 수 없어 임의로 설정했다고 밝힘(설정한 가중치 값은 본문 글이 깨져 확인 불가). 디지털 트윈 플랫폼과의 통합은 향후 단계로 남김. 결론부에 별도의 한계·향후 과제 절은 없음.",
+ "key_figures": [
+  "Figure 1: Overall pipeline of the inspection report analysis",
+  "Figure 2: Time-series visualization of walls",
+  "Figure 3: Maintenance priority ranking based on composite risk scores",
+  "Table 2: Prompt used in the VLM",
+  "Table 3: Defined damage categories and example expressions",
+  "Table 4: Prompt for risk labeling",
+  "Table 5: Example JSON output",
+  "Table 6: Composite risk scores"
+ ],
+ "quotes": [
+  "보고서는 개별 시설물에 대하여 시설물마다 약 20쪽 내외의 분량으로 이루어져 있으며 도면 및 외관 사진 등이 포함되어 있다.",
+  "사용된 VLM은 OpenAI 사의 ‘gpt-4.1’, 텍스트 처리를 위하여 LLM으로 사용된 모델은 ‘gpt-4o-mini’이다.",
+  "손상 유형은 13개의 손상 범주를 사전 정의하여 프롬프트에 포함하였다.",
+  "등급에 따라 A부터 E까지 차례로 {–0.3, 0, 0.3, 0.6, 1.0}의 편향이 더해진다.",
+  "2016년부터 2024년까지의 연도 구간으로 정규화였다.",
+  "이를 통해 12개 옹벽에 대한 종합 위험 점수를 산출하고 점수 순으로 우선순위를 부여하였다.",
+  "9                       0.433",
+  "3                       0.273",
+  "실험 결과, 상위 3개 옹벽은 “양호” 및 “A” 등급 내에서 상대적으로 높은 손상 진행성과 위험 변동성을 보였으며"
+ ],
+ "note_for_dam_operation": "(정리자 해석) 댐·부속 시설의 정기점검 보고서처럼 표와 서술이 섞인 PDF를 다룰 때, 복잡한 표는 OCR 대신 VLM으로 JSON화하고, 손상 범주를 미리 정해 프롬프트에 넣어 문장별 점수를 받는 절차를 참고할 수 있다. '양호' 등급 안에 숨은 위험을 서술 소견에서 다시 뽑아 시계열로 본다는 발상도 댐 안전 점검 이력 질의에 쓸 만하다. 다만 추출·점수화의 정확도 검증이 없고 가중치가 임의값이며 상용 API 모델을 썼으므로, 폐쇄망 적용이나 신뢰도 근거로 삼기에는 부족하다. 본문 안에서 종합 점수 계산 설명이 '가중합'과 'Z-Score 절댓값 합산'으로 엇갈리고 Fig. 7을 언급하나 해당 그림은 Fig. 3으로 실려 있는 등 서술이 일치하지 않는 곳이 있다."
+}

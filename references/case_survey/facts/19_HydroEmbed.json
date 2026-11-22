@@ -1,0 +1,59 @@
+{
+ "file": "19_HydroEmbed.txt",
+ "title": "Domain-specific embedding models for hydrology and environmental sciences: enhancing semantic retrieval and question answering",
+ "authors": "Ramteja Sajja, Yusuf Sermet, Ibrahim Demir",
+ "year": "2025",
+ "venue": "Water Science & Technology Vol 92 No 9, 1328 (doi: 10.2166/wst.2025.156)",
+ "venue_type": "학술지",
+ "domain": "수문학·환경과학 분야의 의미 검색과 질의응답(RAG)용 문장 임베딩 모델. 객관식·참거짓·빈칸 채우기·서술형 네 가지 질문 형식을 대상으로 함",
+ "problem": "범용 임베딩 모델은 수문·환경 분야의 전문 용어와 복잡한 문장 구조를 잘 담지 못해 검색 품질이 떨어지고, 비공개 상용 임베딩은 투명성·재현성이 낮음. 이를 해결하기 위해 공개 임베딩 모델을 분야·과업별로 미세조정한 HydroEmbed를 제안함.",
+ "data": "HydroLLM Benchmark (Kizilkaya et al. 2025): 수문학 교과서와 심사 논문에서 만든 질의응답으로, 문항마다 기준 답과 원문 발췌가 연결됨. 평가 자료: 교과서 유래 문항을 형식별 100개씩 무작위로 뽑은 400문항. 학습 자료(평가 자료 제외분): 서술형 2,169건, 빈칸 채우기 1,120건, 객관식·참거짓 2,542건, 빈칸 채우기용 삼중항(anchor, positive, hard negative) 1,120건 추가. 논문 유래 문항은 평가에서 빼고 학습에는 모두 포함함. 검색 대상 말뭉치는 교과서 본문을 약 300자 단위로(겹침 없이) 나눈 조각.",
+ "method_steps": [
+  "HydroLLM Benchmark에서 형식별 100문항씩 400문항을 평가용으로 떼어 내고 나머지를 학습 자료로 삼는다.",
+  "교과서 본문을 겹침 없이 약 300자 고정 길이 조각으로 나눈다.",
+  "all-MiniLM-L6-v2를 기반으로 질문 형식별 임베딩 모델 세 개를 대조 학습으로 미세조정한다: 객관식·참거짓은 MultipleNegativesRankingLoss(MNRL), 빈칸 채우기는 TripletLoss + CosineSimilarityLoss, 서술형은 CosineSimilarityLoss + MNRL.",
+  "평가 대상 임베딩 모델(기준 모델 또는 미세조정 모델)로 모든 조각의 임베딩을 미리 만들어 둔다.",
+  "평가 질문을 같은 모델로 임베딩하고 모든 조각과 코사인 유사도를 계산해 상위 3개(k = 3) 조각을 가져온다.",
+  "가져온 문맥과 질문을 형식별 시스템 지시와 함께 GPT-4o-mini에 주어 답을 생성한다(생성 모델은 모든 실험에서 고정).",
+  "객관식·참거짓은 정확도, 빈칸 채우기·서술형은 생성 답과 기준 답의 코사인 유사도로 평가해 상용·공개 기준 임베딩 모델과 비교한다."
+ ],
+ "knowledge_structure": "사용하지 않음. 서론에서 분야 온톨로지(is-a, part-of, has-property 관계)가 임베딩 성능과 해석 가능성을 높일 수 있다는 선행 연구를 배경으로 소개하고, 온톨로지 기반 임베딩 보정과 외부 지식베이스·온톨로지 연계를 향후 과제로 언급함.",
+ "retrieval": "밀집(dense) 검색. 질문 벡터와 모든 문서 조각 벡터의 코사인 유사도로 순위를 매겨 상위 3개 조각을 사용(k = 3 고정). 임베딩 모델은 all-MiniLM-L6-v2를 미세조정한 HydroEmbed-MCQTF-MiniLM-MNRL, HydroEmbed-FITB-MiniLM-DualLoss, HydroEmbed-OpenQA-MiniLM-DualLoss. 문서 임베딩은 오프라인으로 미리 계산하고 최근접 이웃 조회를 한다고 서술하나, 벡터 DB 제품 이름은 본문에 없음. 그래프 DB 사용하지 않음. 재순위화·MMR 등은 향후 과제.",
+ "llm_used": "GPT-4o-mini(답 생성용 고정 모델). 생성 모델 자체는 연구 대상이 아니며 임베딩 모델이 연구 대상임. 원고 문장 다듬기에 ChatGPT(GPT-4o)를 썼다고 밝힘.",
+ "llm_compared": "생성 모델 비교는 없음. 비교한 임베딩 모델: 상용 text-embedding-ada-002, text-embedding-3-small, text-embedding-3-large / 공개 all-MiniLM-L6-v2, multi-qa-MiniLM-L6-cos-v1, msmarco-distilbert-base-v4, nli-roberta-base-v2. GPT-4, Claude, BERT, ClinicalBERT, BioBERT는 배경으로 언급만 됨.",
+ "finetuning": "생성 모델은 미세조정하지 않음. 임베딩 모델(all-MiniLM-L6-v2, 22.7M 매개변수)을 대조 학습으로 미세조정함(LoRA 아님). AdamW, weight decay 0.01, Warmup Cosine 스케줄러(서술형 10%, 빈칸·객관식/참거짓 15% warmup), AMP 사용. 서술형 20 epoch(코사인 유사도 학습 batch 32, MNRL batch 64), 빈칸 채우기 15 epoch(batch 32), 객관식/참거짓 20 epoch(batch 32). 학습률은 본문에 '2.e5'로 적혀 있어 본문 글이 깨져 확인 불가. 학습 자료는 서술형 2,169건, 빈칸 1,120건(+삼중항 1,120건), 객관식·참거짓 2,542건.",
+ "deployment": "임베딩 모델은 공개(Hugging Face, https://huggingface.co/HydroEmbed). 각 모델 22.7M 매개변수(디스크 약 86 MB), NVIDIA RTX 3060 GPU에서 인코딩 시 최대 VRAM 약 0.10 GB, 단일 문장 지연 4~6 ms(p50)·5~6 ms(p95), batch 32에서 초당 3,600~5,800문장, CPU에서 단일 질의 지연 50 ms 미만. 문서 임베딩은 오프라인 사전 계산. 답 생성은 GPT-4o-mini(OpenAI 모델)를 사용했으며 폐쇄망 운영에 대한 언급은 본문에 없음.",
+ "evaluation": "자동 지표. 교과서 유래 400문항(객관식 100, 참거짓 100, 빈칸 100, 서술형 100; 표에서는 MCQ/TF 200, FITB 100, Open-Ended 100). 객관식·참거짓은 기준 답과 정확히 일치하는지로 정확도, 빈칸·서술형은 생성 답과 기준 답을 '같은 인코더 모델'로 임베딩한 코사인 유사도 평균. 미세조정 모델은 자신이 학습한 형식에서만 평가함. 형식별 50개 표본으로 정성적 오류 분석을 추가 수행. 전문가 평가·통계적 유의성 검정은 하지 않음(향후 과제).",
+ "results": [
+  "객관식/참거짓에서 HydroEmbed-MCQTF-MiniLM-MNRL은 정확도 93.5%로, text-embedding-3-large·3-small(각 95.5%)과 ada-002(95.0%)보다 조금 낮고 all-MiniLM-L6-v2(93.0%)·msmarco-distilbert-base-v4(93.0%)보다 조금 높았으며 multi-qa-MiniLM-L6-cos-v1(94.5%)보다는 낮았다.",
+  "빈칸 채우기에서 HydroEmbed-FITB-MiniLM-DualLoss는 평균 코사인 유사도 0.9312로 ada-002(0.9483)에 근접했고 text-embedding-3-large(0.8357), 3-small(0.8280)과 공개 기준 모델(all-MiniLM-L6-v2 0.8060, multi-qa-MiniLM-L6-cos-v1 0.8048)을 넘었다.",
+  "서술형에서 HydroEmbed-OpenQA-MiniLM-DualLoss는 평균 코사인 유사도 0.8053으로 all-MiniLM-L6-v2(0.7540), nli-roberta-base-v2(0.6506), text-embedding-3-large(0.7750)보다 높았으나 ada-002(0.9242)보다는 낮았다.",
+  "예비 시험에서 k를 3보다 늘리면 중복되거나 주제에서 벗어난 구절이 들어와 답 품질이 떨어지는 경우가 많았다(수치는 본문에 없음).",
+  "오류 분석(형식별 50개 표본)에서 의미가 인접한 구절을 가져오는 오류, 용어의 중의성·동의어 혼동, 관련 내용이 여러 조각에 걸쳐 잘리는 문맥 절단이 주된 오류 유형이었고, 참거짓에서는 부정 표현 처리에 약점이 있었다.",
+  "각 HydroEmbed 모델은 22.7M 매개변수(약 86 MB)로 RTX 3060에서 단일 질의 지연이 6 ms 미만이었다."
+ ],
+ "limitations": "평가 말뭉치가 교과서 유래뿐이며, 논문 유래 문항은 조각화·색인된 원문이 없어 평가에서 제외됨(학습과 평가가 모두 교과서 출처여서 더 강한 분야 이동 조건의 일반화 검증 필요). 서술형 질의응답은 검색된 문맥 품질에 민감함. 코사인 기반 top-k 검색은 어휘 유사성에 치우칠 수 있음. 손실 함수 조합에 대한 별도 제거(ablation) 실험은 하지 않음. 통계적 유의성 검정을 하지 않음. 향후 과제: leave-one-textbook-out 평가, 논문 본문 색인을 통한 외부 영역 평가, adaptive-k·MMR·cross-encoder 재순위화·문장/절 경계를 보존하는 조각화, 생성 모델에 의존하지 않는 평가와 사람 평가, 온톨로지·외부 지식베이스 연계, 학습 자료 확대(현장 보고서, 센서 기반 서술, 정책·규제 문서, 합성 자료), 더 큰 기반 모델(MPNet, GTR 등), 여러 형식을 한 모델로 다루는 구조, 다국어 확장.",
+ "key_figures": [
+  "본문 글 파일에 그림(Figure) 캡션은 없음",
+  "Table 1: Example questions categorized by question type",
+  "Table 2: Overview of evaluated embedding models",
+  "Table 3: Comparative performance of baseline and fine-tuned embedding models across QA formats in hydrological domain"
+ ],
+ "quotes": [
+  "randomly selecting 100 textbook-derived questions for each QA format, resulting in a balanced and format-diverse set of 400 test items.",
+  "This training data includes 2,169 open-ended QA examples, 1,120 FITB examples, and 2,542 MCQ and TF examples.",
+  "an additional 1,120 triplet instances were constructed using an anchor (the FITB question), a positive (correct answer), and a hard negative",
+  "all textbook content was divided into approximately 300-character chunks",
+  "the top three most similar chunks are retrieved to serve as contextual support for answering the question.",
+  "the fine-tuned model trained using MNRL achieved 93.5% accuracy, which is comparable to or slightly below top proprietary baselines",
+  "text-embedding-3-large and text-embedding-3-small (both 95.5%) and ada-002 (95.0%).",
+  "yielded an average cosine similarity of 0.9312, closely rivaling the top-performing ada-002 (0.9483) and surpassing all open-source baselines",
+  "fine-tuned model reached an average cosine similarity of 0.8053.",
+  "text-embedding-ada-002 200 95.0% 100 0.9483 100 0.9242",
+  "text-embedding-3-large 200 95.5% 100 0.8357 100 0.7750",
+  "Each model contains 22.7M parameters (∼86 MB on disk) and was evaluated on an NVIDIA RTX 3060 GPU.",
+  "batch throughput (batch size = 32) ranged from 3,600 to 5,800 sentences per second, depending on the QA format.",
+  "we conducted a qualitative error analysis on a random subset of 50 examples per QA format."
+ ],
+ "note_for_dam_operation": "(정리자 해석) 댐 운영 질의응답의 검색 단계에서 소형 공개 임베딩 모델(22.7M, 약 86 MB)을 분야 질의응답 쌍으로 미세조정하면 GPU 자원이 적은 폐쇄 환경에서도 상용 임베딩에 근접한 검색 품질을 기대할 수 있다는 근거로 쓸 수 있음. 학습 신호를 (질문, 답) 쌍과 어려운 부정 예로 구성하고 질문 형식별로 손실 함수를 달리한 방식, k를 3으로 고정한 이유(늘리면 잡음 증가), 문맥 절단·동의어 혼동·부정 표현 오류 유형은 댐 규정 문서의 조각화와 검색 설계에 참고가 됨. 주의할 점: 빈칸·서술형 점수는 각 모델 자신의 임베딩 공간에서 계산한 코사인 유사도여서 모델 간 점수의 직접 비교에는 한계가 있고, 객관식/참거짓에서는 상용 모델과 일부 공개 모델(multi-qa-MiniLM-L6-cos-v1)보다 낮았으며, 평가가 교과서 문항 400개와 GPT-4o-mini 생성에 의존함. 검색 정확도(Recall@k 등)를 직접 잰 지표는 없음."
+}

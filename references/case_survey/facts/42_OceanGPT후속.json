@@ -1,0 +1,59 @@
+{
+ "file": "42_OceanGPT후속.txt",
+ "title": "OKG-LLM: Aligning Ocean Knowledge Graph With Observation Data via LLMs for Global Sea Surface Temperature Prediction",
+ "authors": "Hanchen Yang, Jiaqi Wang(공동 제1저자), Jiannong Cao, Wengen Li(교신), Jialun Zheng, Yangning Li, Chunyu Miao, Jihong Guan(교신), Shuigeng Zhou, Philip S. Yu",
+ "year": "2026 (게재 확정 2026년 3월 8일, 권호 표기 MAY 2026)",
+ "venue": "IEEE Transactions on Knowledge and Data Engineering, Vol. 38, No. 5, May 2026, pp. 3009-",
+ "venue_type": "학술지",
+ "domain": "해양 과학의 전 지구 해수면 온도(SST) 시계열 예측. 질의응답 시스템이 아니라 지식그래프와 관측 수치를 LLM으로 정렬해 예측하는 연구이다. (OceanGPT는 이 연구의 선행 연구로 인용되고 백본 후보 중 하나로 쓰였다.)",
+ "problem": "기존 자료 기반 SST 예측 방법은 수십 년간 쌓인 해양 분야 지식(기후대, 해류, 계절풍 등)을 활용하지 못하고, LLM 기반 시계열 방법도 자료 전체에 거친 글 프롬프트 하나만 쓴다. 거시적·기호적 해양 지식과 미시적·수치적 SST 관측 자료의 입도 차이를 메워 정렬하는 것이 과제이다.",
+ "data": "NOAA Optimum Interpolation Sea Surface Temperature(OISST) version 2.1 자료이다. 1991년부터의 주간 전 지구 SST 관측이며 공간 해상도 5°×5°로 약 1,800개 해양 격자이다(지식그래프 구축 설명에서는 해양 영역을 1,715개로 적는다). 시간 순서로 학습/검증/시험을 7/1/2 비율로 나눈다. 직접 구축한 Ocean Knowledge Graph(OKG)는 개체 1,829개, 삼중항 4,602개이다.",
+ "method_steps": [
+  "OKG 온톨로지를 정하고, NOAA 기술 보고서·해양 지도첩·주요 논문의 기후학적 경계를 디지털화해 개체 경계를 정의한다.",
+  "각 해양 영역의 격자 중심 좌표에 point-in-polygon 알고리즘을 적용해 영역을 해류·계절풍·대양 등 현상 개체에 대응시킨다(겹치면 양쪽 모두에 관계를 부여한다).",
+  "Time-series Encoding 모듈에서 SST 시계열을 RevIN으로 정규화하고 패치로 나눈 뒤 MLP로 임베딩한다.",
+  "Knowledge Graph Encoding 모듈에서 OKG에 사전학습한 TransE 개체 임베딩(구조 지식, 예측 모델 학습 중 고정)을 얻는다.",
+  "대상 영역 개체의 k-hop(실제로는 1-hop) 이웃 삼중항을 미리 정한 틀로 문장화해 LLM에 넣어 토큰 임베딩(의미 지식)을 얻는다.",
+  "가벼운 학습형 adapter(작은 MLP)로 구조 임베딩과 글 임베딩을 합쳐 지식 강화 임베딩을 만든다.",
+  "영역 개체 임베딩을 시계열 임베딩 앞에 붙여 질의로 삼고 지식그래프 임베딩을 Key/Value로 하는 cross-attention으로 세밀하게 정렬한다.",
+  "정렬된 임베딩을 매개변수를 모두 고정한 사전학습 LLM의 transformer 층에 직접 입력해 고수준 특징을 얻는다.",
+  "학습형 transformer decoder와 선형층으로 최종 예측을 내며 L1 손실로 학습한다."
+ ],
+ "knowledge_structure": "지식그래프(Ocean Knowledge Graph, OKG)를 쓰고 온톨로지를 먼저 정의했다. 가장 세밀한 개체 유형은 Region(예측 단위 공간)이며, Region은 Sea에 'located_in', Sea는 Ocean에 'part_of' 관계이다. Ocean Currents, Monsoon Climates 같은 현상도 개체로 둔다. 주요 관계는 'located_in, part_of, influenced_by, adjacent_to'이다. 개체는 5개 범주(regions, currents, monsoons, oceans, sea areas) 1,829개, 삼중항 4,602개이다. 개체·관계에 글 설명(description) 집합이 있으며 Region 개체의 설명은 그 영역의 일정 기간 평균 SST에서 만든다. 구축은 권위 있는 외부 자료의 기후학적(정적) 경계를 디지털화한 뒤 point-in-polygon 연산으로 영역을 대응시키는 방식이다. LLM으로 지식그래프를 추출·구축했다는 서술은 없다.",
+ "retrieval": "문서 검색(RAG)은 쓰지 않는다. 지식그래프에서 대상 영역 개체의 k-hop 이웃(실제 1-hop)을 가져와 문장으로 풀어 LLM 토큰 임베딩을 얻는 'region neighbors retrieval'과, 영역별 개체 임베딩을 가져와 cross-attention으로 정렬하는 'region-wise retrieval'을 쓴다. 지식그래프 임베딩 모델은 TransE(사전학습)이며 ConvE, RotatE로 바꿔 비교했다. 벡터 DB·그래프 DB 저장소는 본문에 없음.",
+ "llm_used": "매개변수를 모두 고정(frozen)한 사전학습 decoder-only LLM을 특징 추출기로 쓴다. 백본으로 GPT-2, Llama2-7b, Deepseek-R1, OceanGPT를 시험했고 GPT-2와 결합했을 때 전체 성능이 가장 좋았다고 적혀 있다. 글 생성(질의응답)에는 쓰지 않는다.",
+ "llm_compared": "LLM 기반 시계열 기준 모델: GPT4TS, UniTime, TimeLLM, TimesFM(본문에 TimeFM으로도 표기). 일반 예측 기준 모델: Informer, FEDformer, DLinear, FreTS, TimeMixer+(기준 모델 설명 목록에는 TimeXer++로 표기), 그리고 물리 정보 기반 PGAN. 본문은 기준 모델 수를 'nine'과 'ten'으로 섞어 적는다.",
+ "finetuning": "LLM은 미세조정하지 않음(모든 매개변수 고정). TransE 개체 임베딩은 OKG에 사전학습 후 고정한다. 학습되는 부분은 시계열 MLP, adapter, cross-attention 정렬 모듈, transformer decoder, 선형층이다. Adam, 최대 50 epoch, 조기 종료, 초기 학습률 0.0001(4 epoch마다 절반), 배치 크기 64/16/16(예측 길이 8/16/32)이다.",
+ "deployment": "NVIDIA 4090 GPU 4장을 단 서버에서 실행했다(Python, Pytorch 1.13.1). GPU 자원 제한과 효율·성능 절충 때문에 frozen LLM 설정을 택했다고 적혀 있다. 코드는 https://github.com/Neoyanghc/OKGLLM 에 공개했다고 적혀 있다. 폐쇄망·클라우드 API 언급은 본문에 없음.",
+ "evaluation": "자동 지표 MAE와 MSE로 평가했다. 과거 T 시점으로 미래 τ 시점을 예측하며 예측 길이는 8, 16, 32(주)이다. 기준 모델과의 비교(Table I), 효율 분석(Table II: 총 매개변수, 메모리, 배치당 처리 시간), 구성 요소 제거 실험(Fig. 4), LLM 백본 비교(Table III), 지식그래프 완전성 민감도(Table IV), 지식그래프 임베딩 방법 비교(Table V), 공간·시간 시각화, t-SNE 임베딩 시각화를 수행했다. 반복 횟수는 본문에 'ten times'(매개변수 설정)와 '5 runs'(Table I 제목)로 다르게 적혀 있다.",
+ "results": [
+  "OKG-LLM은 모든 지표와 예측 길이에서 모든 기준 모델보다 좋았고, 두 번째로 좋은 TimeLLM 대비 MSE가 7.5%~15.1% 개선되었다.",
+  "패치 크기 P = 2, 4, 8 가운데 P = 4에서 가장 좋았다.",
+  "제거 실험에서 KG Encoding을 뺐을 때 성능 저하가 가장 컸고, 시계열 MLP Encoding이나 Fine-grained Alignment를 빼도 오차가 늘었다(수치는 그림에만 있어 본문 글에 없음).",
+  "지식그래프에서 Monsoons, Currents, Sea Areas, Oceans 개체 유형을 빼면 성능이 떨어졌다(Table IV 수치는 본문 글에 없음).",
+  "TransE를 ConvE, RotatE로 바꿔도 성능이 일관되게 유지되었다(Table V 수치는 본문 글에 없음).",
+  "백본 비교에서 GPT-2와 결합했을 때 전체 성능이 가장 좋았고, Llama2-7b에서는 TimeLLM의 MSE가 약간 낮았으나 OKG-LLM의 MAE가 더 좋았다(Table III 수치는 본문 글에 없음).",
+  "Table I, II, III, IV, V의 수치는 글 파일에 표 내용이 뽑히지 않아 확인할 수 없다."
+ ],
+ "limitations": "OKG는 안정성과 재현성을 위해 정적 속성(기후학적 평균 경계)을 채택하여 동적 해양 사건(예: 극단적 태풍, 체제 전환)의 시간적 변동을 명시적으로 모델링하지 않는다. 시간에 따라 변하는 사건을 해양 지식으로 넣는 것이 향후 과제이다.",
+ "key_figures": [
+  "Fig. 1: Overview of OKG, where the left panel displays the global topology of the entire graph, and the right panel depicts a specific subgraph.",
+  "Fig. 2: The proposed prediction framework, OKG-LLM, is designed for time series forecasting by unifying observational data with external ocean knowledge. (이하 생략)",
+  "Fig. 3: Overview of the Region Neighbor Retrieval Module for Regional Semantic Representation Learning.",
+  "Fig. 4: The ablation study on different variants of OKG-LLM.",
+  "Fig. 5: Spatial visual comparison of MAE on different prediction models, i.e., FreTS, TimeMixer+, TimeLLM, and OKG-LLM, where the color indicates the MAE and lighter shades represent lower error.",
+  "Fig. 7: Comparison of embeddings visualized with t-SNE. (이하 생략)"
+ ],
+ "quotes": [
+  "The graph comprises 1,829 distinct entities across five categories (i.e., regions, currents, monsoons, oceans, and sea areas).",
+  "These entities are interconnected by 4,602 triples, which form the factual basis of OKG.",
+  "Each of the 1,715 ocean regions is represented by the latitude and longitude of its grid cell center.",
+  "weekly global sea surface temperature observations from 1991 to the present, with a spatial resolution of 5◦ × 5◦ , resulting in approximately 1,800 oceanic grid cells",
+  "the time series is split into training, validation, and test sets in chronological order with the 7/1/2 ratio",
+  "OKG-LLM, achieves an obvious improvement of 7.5% to 15.1% in terms of MSE across all prediction lengths",
+  "OKG-LLM achieves the best results when P = 4",
+  "We run all the models on a server with four NVIDIA 4090 GPUs",
+  "Notably, when paired with GPT-2, our framework achieves the best overall performance"
+ ],
+ "note_for_dam_operation": "질의응답이 아니라 수치 예측 연구이지만, 정적인 분야 지식(여기서는 해역·해류·계절풍)을 지식그래프로 만들고 관측 시계열과 영역 단위로 정렬하는 구조는 댐·유역·하천·관측소의 관계 지식을 수위·유입량 시계열과 결합할 때 참고할 수 있다. 영역 좌표를 다각형 경계에 대응시키는 point-in-polygon 방식은 관측소나 소유역을 유역·하천 구간 개체에 연결하는 데 쓸 수 있다. LLM 규모보다 지식 정렬이 성능을 좌우했다는 관찰(작은 GPT-2가 더 큰 모델보다 좋음)과, 분야 특화 LLM(OceanGPT)보다 구조화된 지식 주입의 이득이 컸다는 저자 해석은 폐쇄망에서 작은 모델을 쓸 때의 근거로 참고할 만하다. 다만 표 수치가 글 파일에 없어 정량 근거는 원문 PDF에서 다시 확인해야 한다."
+}

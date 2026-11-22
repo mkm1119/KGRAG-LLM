@@ -1,0 +1,53 @@
+{
+ "file": "24_HydroLLM후속.txt",
+ "title": "A Blueprint for Modern Floodplain Management: System Requirements and Architecture for AI-Ready Platforms",
+ "authors": "Dilara Kizilkaya, Yusuf Sermet, Ibrahim Demir (University of Iowa, Tulane University)",
+ "year": "본문에 없음(게재 연도 표기 없음. 본문에 2026 ASFPM Conference와 GulfCon 2026에서 검증했다는 언급과 2026년 참고문헌이 있음)",
+ "venue": "EarthArXiv preprint(동료 심사 학술지에 투고했으며 아직 심사를 거치지 않았다고 표기)",
+ "venue_type": "사전 공개본",
+ "domain": "미국 지방정부의 홍수터(범람원) 관리 실무. 인허가 검토, 표고 확인, 규제 준수, 보고, 주민 소통을 지원하는 AI 대응 통합 플랫폼의 요구사항과 개념 구조",
+ "problem": "홍수 분야 AI 도구는 예측 정확도나 단편적 규정 질의응답에 치우쳐, 관할마다 다르고 사람 중심인 홍수터 관리 실무와 동떨어져 개발되어 왔다. 실무자의 업무 흐름·병목·신뢰 조건을 조사해 AI 지원 플랫폼 설계의 근거를 마련한다.",
+ "data": "정량 자료 없음. 세 갈래의 요구사항 도출 자료를 사용: (1) 미국 본토 해당 카운티의 공개 홍수터 관리 지침·지방 조례의 체계적 수집·분석, (2) Iowa, Massachusetts, Colorado, Montana, Vermont, Minnesota, Illinois, Washington, D.C.의 홍수터 관리 실무자 및 Johnson County(Iowa) 책임자와의 전문가 협의(협의 중 기록한 메모), (3) 2026 ASFPM Conference, GulfCon 2026에서의 반복 검증. 조례 건수와 협의 인원수는 본문에 없음",
+ "method_steps": [
+  "미국 본토 카운티의 공개 홍수터 관리 지침과 지방 조례를 수집·분석한다.",
+  "8개 역량 영역(역할과 맥락, 도구와 자료, 업무 흐름, 문서화·보고, 소통·참여, 관할 간 차이, AI·자동화, 희망 기능)의 역량 질문을 틀로 삼아 여러 관할의 실무자와 협의한다.",
+  "협의 메모에서 기존 업무 흐름, 반복되는 어려움, 쓰는 소프트웨어·자료, 희망 기능을 정리해 공통 패턴과 관할별 고려사항을 종합한다.",
+  "종합 결과를 다섯 가지 운영 병목으로 묶고 영역별 설계 시사점을 도출한다.",
+  "병목을 풀기 위한 모듈형 개념 구조(공통 핵심 기반 + 주별 모듈, 전 계층에 걸친 거버넌스·보안)를 제안한다.",
+  "제안한 구조 개념을 분야 학회에서 실무 공동체에 반복 검증한다.",
+  "온프레미스 AI 배치, 클라이언트 측 실행, 기계 판독형 규제 자료, 지능형 보조, 기관 간 상호운용성을 향후 방향으로 제시한다."
+ ],
+ "knowledge_structure": "사용하지 않음(온톨로지·지식그래프 언급 없음). 다만 요구사항 도출에 'Competency Questions'(역량 질문) 틀을 썼고, 향후 과제로 지역 규제를 기계 판독형 공개 벤치마크 자료로 만들 것을 제안함",
+ "retrieval": "구현된 검색 체계 없음. 향후 방향으로 지역 조례에 대한 자연어 질문을 RAG 구조로 해석해 선별된 지역 자료에서 사실 답을 뽑는 지능형 규제 보조를 제안함. 검색 방식·임베딩 모델·저장소는 본문에 없음",
+ "llm_used": "실제로 쓴 생성 모델 없음. 제안 구조의 주별 Regulatory Assistant는 주 규정·FEMA 지침·지방 조례로 적응시킬 수 있는 '오픈소스 언어 모델'로 구동한다고만 적혀 있고 모델 이름·규모는 본문에 없음(원고 문장 다듬기에 ChatGPT와 Gemini를 썼다는 선언은 있음)",
+ "llm_compared": "본문에 없음(비교 실험 없음)",
+ "finetuning": "하지 않음. 향후 '미세조정한 지역화 모델'을 온프레미스에 배치하자는 제안만 있고 방식·학습 자료 규모는 본문에 없음",
+ "deployment": "제안 수준. 클라우드 대신 지방정부 내부(온프레미스) 모델 호스팅과 클라이언트 측(웹 브라우저) 실행을 우선해 반복되는 클라우드 연산 비용을 없애고 민감한 주민·기반시설 자료를 관할 보안 환경 안에 두자고 주장함. 오픈소스 모델·소프트웨어 사용, 역할 기반 접근 제어(RBAC), 변경 불가 감사 기록, FOIA 대응 내보내기를 포함. GPU 사양은 본문에 없음",
+ "evaluation": "정량 평가 없음. 전문가 협의 결과의 정성적 종합과 학회(2026 ASFPM Conference, GulfCon 2026)에서의 공동체 검증만 수행. 평가 문항·지표는 본문에 없음. 향후 시범 관할에 배치해 검증할 계획",
+ "results": [
+  "실무의 다섯 가지 운영 병목을 확인했다: FEMA 지도의 분절과 자료 통합 한계, 수작업·종이 기반 업무 의존, 주민 대상 위험 소통의 구조적 장벽, 주·지방 규제의 차이, 전문가 책임과 AI 설명가능성 제약.",
+  "FEMA 홍수터 지도가 모든 참여 관할에서 주된 공간 자료였으나 단독으로는 부족해 지역 자료와 수작업 대조가 필요했다.",
+  "실무자들은 효율을 높이는 AI에 관심을 보이면서도 규제 해석과 대민 소통에 AI를 쓰는 데는 정확성·투명성·책임성을 이유로 유보적이었고, AI는 전문가 판단을 대체하지 않는 의사결정 지원이어야 한다고 보았다.",
+  "EPA-Net, HEC-RAS, SWMM 같은 기존 공학·수문 모형이 실무의 기반으로 거듭 지목되었고 AI는 이를 대체가 아니라 보완해야 한다고 정리했다.",
+  "설계 시사점으로 사람 개입(human-in-the-loop) 설계, 신뢰도 임계값, 인용을 붙인 설명, 관할별 설정 가능한 규칙 집합, 자료 출처·버전 관리, 감사 추적을 도출했다.",
+  "주별 Regulatory Assistant, 통합 자료 대시보드, 자동 보고·문서화, 주민 소통 도구, 전자 인허가 처리로 이루어진 통합 웹 플랫폼 개념 구조를 제안했다(수치 결과 없음)."
+ ],
+ "limitations": "전문가 협의는 과제 기간 안에 참여 가능했던 실무자에 한정되었고, 협의 단계가 끝난 뒤 추가 참여 의사가 나와 향후 더 넓은 참여가 필요하다. 제안한 구조는 개념 단계로 아직 개발·평가되지 않았으며, 홍수가 잦은 지역을 포함한 더 많은 관할에서 일반화 가능성을 검증할 예정이다. 홍수터 관리 분야에 AI 대응 자료(기계 판독형 규제 자료)가 없는 점도 장벽으로 꼽는다",
+ "key_figures": [
+  "Figure 1. Systems engineering lifecycle including stages and steps for deployment strategy.",
+  "Figure 2. Conceptual architecture of the proposed floodplain management platform",
+  "Table 1: Competency domains, questions, and representative operational topics explored during domain engagement.",
+  "Table 2: Summary of synthesized observations and corresponding design implications."
+ ],
+ "quotes": [
+  "Professional consultations were held with practitioners representing Iowa, Massachusetts, Colorado, Montana, Vermont, Minnesota, Illinois, and Washington, D.C.",
+  "This cross-cutting analysis revealed five major emergent topics that characterize the current state, challenges, and technological opportunities in floodplain management practice.",
+  "iterative community validation of proposed architectural concepts at targeted domain venues, including the 2026 ASFPM Conference and GulfCon 2026.",
+  "The novelty of this work lies not in developing a new AI algorithm, but in establishing the empirical and design foundation",
+  "A central feature of the platform is a state-specific Regulatory Assistant powered by open-source language models",
+  "Human oversight is incorporated by directing users to qualified professionals whenever queries exceed the system’s confidence or scope",
+  "Deploying fine-tuned, localized models on-premise entirely eliminates recurring external cloud computational fees",
+  "This manuscript is an EarthArXiv preprint and has been submitted for possible publication in a peer reviewed journal."
+ ],
+ "note_for_dam_operation": "(정리자 해석) 파일 이름은 'HydroLLM후속'이지만 본문은 HydroLLM 모델 개발 논문이 아니라 같은 연구진의 홍수터 관리 플랫폼 요구사항·구조 제안 논문이다. 모델·검색·평가 수치는 없으므로 기술 비교표가 아니라 요구사항 도출과 운영 원칙의 근거로 쓰는 것이 맞다. 댐 운영에 옮겨 볼 점은 다음과 같다. 첫째, 실무자 협의를 '역량 질문' 틀로 구조화해 요구사항을 뽑는 방식은 댐 운영 의사결정 프레임워크의 요구 정의와 온톨로지 범위 설정에 그대로 쓸 수 있다. 둘째, 규제 해석처럼 법적·안전 책임이 걸린 답에는 근거 인용, 신뢰도 임계값, 범위를 넘으면 담당자에게 넘기는 사람 개입 설계, 감사 기록이 필요하다는 실무자 요구가 정리되어 있다. 셋째, 기존 수문·수리 모형(HEC-RAS 등)을 대체하지 않고 보완해야 한다는 점, 넷째, 예산과 자료 보안 때문에 온프레미스·오픈소스 모델을 택한다는 논거는 폐쇄망 운영 환경의 근거로 인용할 수 있다."
+}

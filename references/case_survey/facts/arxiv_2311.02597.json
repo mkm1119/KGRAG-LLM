@@ -1,0 +1,60 @@
+{
+ "file": "arxiv_2311.02597.txt",
+ "title": "FloodBrain: Flood Disaster Reporting by Web-based Retrieval Augmented Generation with an LLM",
+ "authors": "Grace Colverd, Paul Darm, Leonard Silverberg, Noah Kasmanoff",
+ "year": "2023",
+ "venue": "6th Workshop on Artificial Intelligence for Humanitarian Assistance and Disaster Response (NeurIPS 2023), arXiv:2311.02597v1",
+ "venue_type": "학술대회",
+ "domain": "홍수 재난 피해 보고서 자동 작성(인도적 지원 기관의 상황 보고서)",
+ "problem": "홍수 피해 보고서 작성은 시간과 전문 인력이 필요해 일부 사건만 보고되며, LLM은 학습 이후 사건을 모르고 사실과 다른 내용을 만들어 낼 수 있다. 웹 검색 결과를 근거로 삼아 홍수 피해 보고서를 빠르게 만들고 출처를 확인할 수 있게 하려 한다.",
+ "data": "웹 검색으로 모은 웹사이트 본문을 출처로 쓴다. 대상 사건 목록은 Copernicus Emergency Management Service(EMSR), GDACS, ReliefWeb에서 모은다. 평가용으로 ReliefWeb의 사람이 쓴 보고서 10건과 LLM 3종이 각각 만든 보고서 10건씩을 썼고, 제거 실험에서는 FloodBrain/ReliefWeb 보고서 쌍 26건(출처 611개)을 썼다.",
+ "method_steps": [
+  "홍수의 날짜와 장소를 담은 핵심 구절(예: \"Flooding Paraguay Mar 2023\")을 정한다.",
+  "핵심 구절로 웹 검색을 해 관련 웹사이트를 모으고 본문 글을 뽑아 출처로 저장한다.",
+  "LLM에게 원래 질의를 다른 관련 검색 질의로 확장하게 해 출처를 더 모은다.",
+  "LLM이 각 출처가 해당 홍수 사건과 관련 있는지 판정해 잘못 검색된 웹사이트를 걸러 낸다.",
+  "관련 출처마다 LLM에게 정해진 질문 묶음(피해 인원·지역·원인·경과·2차 피해)에 답하게 한다.",
+  "답변을 하나의 보고서로 요약한다.",
+  "출처와 질문 쌍마다 답의 근거가 된 글 조각을 데이터베이스에 기록해 사용자가 Inspect 화면에서 확인하게 한다."
+ ],
+ "knowledge_structure": "사용하지 않음",
+ "retrieval": "웹 검색(Google 검색) 결과를 가져와 LLM이 질의를 확장하고 출처 관련성을 걸러 내는 방식이다. 임베딩 모델과 벡터 DB·그래프 DB는 본문에 없음. 출처별 근거 글 조각은 도구의 데이터베이스에 저장한다고만 적혀 있다.",
+ "llm_used": "보고서 생성 파이프라인의 기반 모델로 GPT-4, GPT-3.5, PaLM-Text-Bison 세 가지를 시험했다(모델 규모는 본문에 없음). 제거 실험은 Bison 모델로 했다. 챗봇은 ReAct 기반 추론 방식을 쓴다.",
+ "llm_compared": "세 모델이 서로 비교 대상이다. GPT-4는 G-EVAL 채점자로도 쓰였다.",
+ "finetuning": "하지 않음(작은 모델 미세조정용 자료 선별에 G-EVAL이 도움이 될 수 있다는 언급과, 과제 특화 모델 배치를 향후 과제로 든 것뿐이다)",
+ "deployment": "웹 기반 사용자 화면(floodbrain.com)으로 제공하며 LLM은 API 호출로 쓴다. Google Cloud가 계산 자원을 제공했다고 감사의 글에 적혀 있다. GPU 사양은 본문에 없음.",
+ "evaluation": "사람이 쓴 ReliefWeb 보고서를 기준으로 세 가지로 평가했다: ROUGE recall(1, 2, L), G-EVAL(GPT-4가 1~5점 채점, temperature 1로 10회 호출), 사람 평가(평가자 4명이 G-EVAL과 같은 방식으로 기준 보고서와의 일관성을 채점). 평가 자료는 ReliefWeb 보고서 10건과 모델별 생성 보고서 10건이며, 제거 실험은 26쌍에 대해 ROUGE recall로 했다.",
+ "results": [
+  "G-EVAL 사람 점수는 GPT-4 3.23, GPT-3.5 2.78, PaLM-Text-Bison 2.76이고, GPT-4 채점 점수는 각각 3.27, 2.96, 2.34이다(5점 만점).",
+  "ROUGE recall(1/2/L)은 GPT-4 52.53/15.76/41.83, GPT-3.5 51.02/13.62/40.10, PaLM-Text-Bison 41.43/10.20/32.08이다.",
+  "사람 평가 평균과의 Pearson 상관은 G-EVAL 평균 0.78, ROUGE-1 0.54, ROUGE-2 0.62, ROUGE-L 0.59이다.",
+  "제거 실험에서 전체 파이프라인의 ROUGE recall은 36.64/8.38/29.46이고, LLM 검색 확장을 빼면 34.35/7.86/27.34로 각각 6.3%, 6.2%, 7.2% 떨어진다.",
+  "출처 관련성 확인을 빼면 ROUGE-1은 4.2% 떨어지고 ROUGE-2와 ROUGE-L은 5.8%, 1% 오른다.",
+  "출처 관련성 확인은 계산 비용을 59% 줄였으며, 611개 출처 중 252개(41%)만 통과해 LLM API 호출 1,795회를 줄였다.",
+  "부록에서 사건 코드를 주면 몇 분 안에 보고서가 나온다고 적었다(구체적 시간 수치는 본문에 없음)."
+ ],
+ "limitations": "화면은 외부 기관이 재난으로 분류한 홍수 사건만 다루므로 감시가 덜한 지역이 빠질 수 있다. 미리 정해진 홍수 밖으로 범위를 넓히고, 다른 인도적·재난 분야로 확장하며, 과제 특화 효율 모델 배치를 탐색하는 것을 향후 과제로 든다. Inspect 확인 단계를 건너뛰면 틀린 정보가 보고서에 들어갈 수 있어 공식 공유 전 검증을 권한다. 상용 폐쇄형 모델 사용의 윤리 문제와 환경 부담도 언급한다.",
+ "key_figures": [
+  "Figure 1: Sequential tasks in FloodBrain report generation.",
+  "Figure 2: FloodBrain UI",
+  "Figure 3: Inspect tab of the FloodBrain UI. Given a question, the user can see what the LLM responds with based on each source article.",
+  "Figure 4: FloodBrain UI. In addition to the report created, a chatbot and flood extent map are also available.",
+  "Figure 5: FloodBrain report-maker pipeline.",
+  "Figure 6: Example of ReliefWeb report for Mauritania"
+ ],
+ "quotes": [
+  "a dataset compromising 10 ReliefWeb reports together with 10 generated reports each for three different LLMs (GPT-4, GPT-3.5, and PaLM-Text-Bison)",
+  "prompting it ten times with a temperature setting set \"1\"",
+  "involving four annotators assigned to perform an equivalent evaluation to G-EVAL",
+  "GPT-4 3.23 3.27 52.53 15.76 41.83",
+  "GPT-3.5 2.78 2.96 51.02 13.62 40.10",
+  "PaLM-Text-Bison 2.76 2.34 41.43 10.20 32.08",
+  "Human mean 0.78 0.54 0.62 0.59",
+  "the dataset is expanded to include 26 FloodBrain/ReliefWeb report pairs",
+  "Full pipeline 36.64 8.38 29.46",
+  "Removing LLM-assisted search decreases report quality across all ROUGE metrics: 6.3% for ROUGE-1, 6.2% for ROUGE-2, and 7.2% for ROUGE-L",
+  "ROUGE-1 declines by 4.2%, while ROUGE-2 and ROUGE-L increase by 5.8% and 1% respectively",
+  "41% of sources pass the relevancy check (252 out of 611 for 26 reports), averting an additional 1,795 LLM API calls"
+ ],
+ "note_for_dam_operation": "출처와 질문 쌍마다 근거 글 조각을 기록해 사용자가 확인하게 하는 방식은 댐 운영 답변에 근거 문서를 붙이는 설계에 참고할 수 있다. 검색 전에 출처 관련성을 LLM으로 걸러 뒤 단계 호출을 줄이는 방법과, 정해진 질문 묶음으로 보고서 뼈대를 채우는 방법도 상황 보고서 자동 작성에 쓸 만하다. 다만 웹 검색과 상용 API에 의존하므로 폐쇄망에는 그대로 옮길 수 없고, 평가 규모가 보고서 10건으로 작다."
+}
