@@ -73,5 +73,8 @@
  "arxiv_2603.13307": "Yasuno(2026), \"Suppressing Domain-Specific Hallucination in Construction LLMs: A Knowledge Graph Foundation for GraphRAG and QLoRA on River and Sediment Control Technical Standards\", arXiv:2603.13307",
  "arxiv_2605.17792": "Li 외(2026), \"HydroAgent: Closing the Gap Between Frontier LLMs and Human Experts in Hydrologic Model Calibration via Simulator-Grounded RL\", arXiv:2605.17792",
  "arxiv_2607.23983": "Yang 외(2026), \"Community HydroAgent: Formalizing Forecaster Expertise into Skill-Orchestrated Flood Forecasting Workflows\", arXiv:2607.23983",
- "arxiv_2611.15904": "Kong 외(2026), \"HeriKGQA: Grounded Knowledge-Graph Question Answering over Cultural Heritage Sensor Data\", arXiv:2611.15904"
+ "arxiv_2611.15904": "Kong 외(2026), \"HeriKGQA: Grounded Knowledge-Graph Question Answering over Cultural Heritage Sensor Data\", arXiv:2611.15904",
+ "Noy2001": "Noy, N. F., McGuinness, D. L.(2001), \"Ontology Development 101: A Guide to Creating Your First Ontology\", Stanford Knowledge Systems Laboratory Technical Report KSL-01-05",
+ "Lewis2020": "Lewis, P. 외(2020), \"Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks\", Advances in Neural Information Processing Systems, Vol. 33, pp. 9459-9474",
+ "Angles2008": "Angles, R., Gutierrez, C.(2008), \"Survey of Graph Database Models\", ACM Computing Surveys, Vol. 40, No. 1, Article 1"
 }
