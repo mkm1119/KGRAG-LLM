@@ -118,7 +118,7 @@
  {
   "id": "34_국방지휘통제후속",
   "case": "제미나이 기반 AI 작전 참모",
-  "source": "지현진·오윤중(연도 미상)",
+  "source": "지현진·오윤중(2026)",
   "venue": "국방논단",
   "venue_type": "기타",
   "country": "국내",
@@ -659,7 +659,7 @@
    "water": "수자원 외",
    "knowledge_type": "온톨로지+KG",
    "kg_build": "혼합",
-   "retrieval_type": "그래프 질의",
+   "retrieval_type": "방식 미기재",
    "llm_type": "둘 다",
    "finetune_type": "안 함",
    "eval_type": "자동+LLM 평가",
