@@ -99,11 +99,31 @@ def rect(slide_or_layout, x, y, w, h, fill, line=None, round_=False, prst=None, 
 # 본문 레이아웃에 제목 띠와 아래 선을 넣는다(슬라이드마다 그리지 않고 바탕에 둠)
 _lay = prs.slide_layouts[1]
 _b1 = rect(_lay, 0, 0, 12192000, BAND_H, PALE); _b2 = rect(_lay, 0, BAND_H, 12192000, 36576, NAVY); _b3 = rect(_lay, L, 6373368, W, 12700, 'B6BCC6')
-_b4 = rect(_lay, 7132320, 0, 12192000 - 7132320, BAND_H, 'FFFFFF')      # 로고 바탕(로고 그림의 바탕이 흰색이므로 띠의 오른쪽을 흰색으로 둔다)
-for _b in (_b4, _b3, _b2, _b1):                          # 로고보다 뒤로 보낸다
+for _b in (_b3, _b2, _b1):                               # 로고보다 뒤로 보낸다
     _lay.shapes._spTree.remove(_b._element); _lay.shapes._spTree.insert(2, _b._element)
+
+
+def _clear_white(pic):
+    """로고 그림의 흰 바탕을 투명하게 바꾼다(띠의 색 위에 흰 네모가 보이지 않게)."""
+    import io
+    from PIL import Image
+    im = Image.open(io.BytesIO(pic.image.blob)).convert('RGBA')
+    px = im.load()
+    for y in range(im.height):
+        for x in range(im.width):
+            r, g, b, a = px[x, y]
+            m = min(r, g, b)
+            if m >= 250: px[x, y] = (r, g, b, 0)
+            elif m >= 215: px[x, y] = (r, g, b, int(a * (250 - m) / 35))     # 가장자리는 서서히
+    buf = io.BytesIO(); im.save(buf, 'PNG'); buf.seek(0)
+    part, rid = pic.part.get_or_add_image_part(buf)
+    pic._element.blipFill.blip.set('{http://schemas.openxmlformats.org/officeDocument/2006/relationships}embed', rid)
+
+
 _pics = sorted([sh for sh in _lay.shapes if sh.shape_type == 13], key=lambda sh: sh.left)
 print('레이아웃 로고', [(sh.name, sh.left, sh.top, sh.width, sh.height) for sh in _pics])
+for _pc in _pics:
+    _clear_white(_pc)
 if len(_pics) == 2:                                      # 두 로고의 높이를 띠 안에 맞추고 세로 가운데에 둔다
     _k, _u = _pics                                       # 왼쪽: 한국수력원자력, 오른쪽: 국민대학교
     _uh = 521208; _uw = int(_u.width * _uh / _u.height)
