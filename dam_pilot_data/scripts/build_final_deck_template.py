@@ -361,8 +361,8 @@ s = page(C1, '3. 공정률')
 dot(s, L, 859536, '추진 계획')
 PLAN_C, ACT_C, RED = '8A94A3', BLUE, 'C0392B'
 for k, (col, t) in enumerate(((PLAN_C, '계획'), (ACT_C, '실적(12월 조기 준공 반영)'), (RED, '최종보고회'))):
-    x = 2286000 + (0, 1097280, 3566160)[k]
-    rect(s, x, 941832, 384048, 118872, col)
+    x = 2272283 + (0, 1097280, 3566160)[k]
+    rect(s, x, 888044, 384048, 118872, col)
     put(s, 'sub', x + 438912, 859536, 2377440, 283464, t, size=12)
 M = ["'26.8", "'26.9", "'26.10", "'26.11", "'26.12", "'27.1"]
 # (이름, 계획한 달, 실적 달) : 달은 1('26.8)~6('27.1). 분야 줄은 None
@@ -399,7 +399,7 @@ for i, (n, pl, ac) in enumerate(SCH, 1):
             if pl2 != 'mark': kids += ac2
         x, w = span(kids); rect(s, x, y + 91440, w, 76200, NAVY)
     elif pl == 'mark':
-        rect(s, X0 + 4 * CW + int(CW * 9 / 31) - 64008, y + 45720, 128016, 167640, RED)
+        rect(s, X0 + 4 * CW, y + 45720, CW, 82296, RED)
     else:
         x, w = span(pl); rect(s, x + 18288, y + 45720, w - 36576, 64008, PLAN_C)
         x, w = span(ac); rect(s, x + 18288, y + 128016, w - 36576, 91440, ACT_C)
@@ -489,7 +489,16 @@ def chk2(lhead, lchecks, rhead, rchecks, size=13):
 
 # 1-1은 작성 예시 2장만 둔다(글과 표, 글과 그림). 내용은 최종보고서 1.1절에서 일부만 가져왔다.
 # 예시 ①: 상자 하나에 소제목, 체크 줄(요지), 표 제목, 표
+EX_C = 'C0392B'
+
+
+def ex_note(s, text):
+    """번호 띠 오른쪽에 작성 예시임을 적는다."""
+    put(s, 'bold14', L + W - 6583680, BAR_Y + 54864, 6492240, 283464, text, size=12, color=EX_C, align=PP_ALIGN.RIGHT)
+
+
 s = page(C2, ITEMS[0][0], '수자원 분야 사례 조사', '1-1')
+ex_note(s, '[작성 예시 ①] 주요 내용(체크 줄)과 표의 배치 예시 · 내용은 작성 시 교체')
 yy = panel(s, L, PY, W, PH, 'RAG 기반 질의응답의 구성 방식', [
     '모델을 다시 학습시키지 않고 문서·KG·DB에서 찾은 근거를 프롬프트에 넣어 응답을 생성하는 방식',
     '규정이 개정되면 저장소의 자료만 교체하면 되고 응답에 근거 출처를 붙일 수 있어 댐 운영 질의응답에 직접 대응'], size=13)
@@ -503,32 +512,43 @@ ty = yy + 320040
 tbl(s, rows, [15, 27, 27, 31], x=L + 100584, y=ty, w=W - 201168, row_h=(PY + PH - 91440 - 283464 - ty) // len(rows), size=13, head_fill=HEADC, tight=True)
 put(s, 'sub', L + 100584, PY + PH - 347472, W - 201168, 256032, '자료: Zhai 외(2026), Han 외(2026), Vickneswaran 외(2026), Yan 외(2025)', size=11)
 order.append(s)
-# 예시 ②: 왼쪽 상자에 체크 줄(요지), 오른쪽 상자에 그림과 그림 제목
+# 예시 ②: 왼쪽 상자에 체크 줄(주요 내용)과 표, 오른쪽 상자에 그림과 그림 제목. 상자 안을 아래까지 채운다
 s = page(C2, ITEMS[0][0], '수자원 분야 사례 조사', '1-1')
-panel(s, L, PY, HW, PH, '댐 운영 의사결정 지원에 적합한 구성', [
+ex_note(s, '[작성 예시 ②] 주요 내용, 표, 그림의 배치 예시 · 내용은 작성 시 교체')
+yy = panel(s, L, PY, HW, PH, '댐 운영 의사결정 지원에 적합한 구성', [
     '검색 근거에 기반한 응답을 기본으로 하고, 운영지식 KG와 수문 자료 조회를 결합한 구성이 적합',
-    '운영 규정·매뉴얼은 문서 검색으로, 운영 기준과 시설·상태의 관계는 KG로, 수위·방류량은 측정자료 조회로 처리',
     '근거를 찾지 못한 질의에는 답하지 않도록 구성',
     'LLM은 근거 자료의 검색과 정리를 맡고 최종 판단은 운영자가 수행'], size=13)
+put(s, 'bold14', L + 100584, yy + 18288, HW - 201168, 283464, '표 2. 자료별 처리 방식', size=12, color=NAVY, align=PP_ALIGN.CENTER)
+rows = [['자료', '처리 방식', '근거 사례'],
+        ['운영 규정·매뉴얼', '문서 검색으로 근거 조항을 찾아 출처와 함께 제시', 'WaterRAG'],
+        ['운영 기준, 시설·상태의 관계', '온톨로지와 KG로 정리하여 조회', 'DDKG'],
+        ['수위·방류량 등 수문 자료', '측정자료 저장소에 두고 조회 도구로 연결', 'OntoDSMS, WaterCopilot']]
+ty = yy + 320040
+tbl(s, rows, [30, 46, 24], x=L + 100584, y=ty, w=HW - 201168, row_h=(PY + PH - 91440 - ty) // len(rows), size=12, head_fill=HEADC, tight=True)
 panel(s, XR, PY, HW, PH, '자료별 처리 경로', [])
 FX, FW = XR + 182880, HW - 365760                       # 그림 영역
-fy = PY + 640080
+fy = PY + 630936
+BH1, BH2, BH3, GAP = 822960, 594360, 640080, 256032        # 자료 상자, 처리 상자, LLM·운영자 상자, 잇는 선
 CWD = (FW - 2 * 137160) // 3
 for k, (src, how) in enumerate((('운영 규정·매뉴얼\n(문서 자료)', '문서 검색'), ('운영 기준, 시설·상태\n(운영지식)', 'KG 조회'), ('수위·방류량\n(수문 자료)', '측정자료 조회'))):
     x = FX + k * (CWD + 137160)
-    rect(s, x, fy, CWD, 685800, PALE, line='7F9CC0', round_=True)
-    _mid(put(s, 'bold14', x, fy, CWD, 685800, src, size=12, color=NAVY, align=PP_ALIGN.CENTER))
-    rect(s, x + CWD // 2 - 9144, fy + 685800, 18288, 228600, NAVY)
-    rect(s, x, fy + 914400, CWD, 502920, BLUE, round_=True)
-    _mid(put(s, 'bold14', x, fy + 914400, CWD, 502920, how, size=13, color='FFFFFF', align=PP_ALIGN.CENTER))
-    rect(s, x + CWD // 2 - 9144, fy + 1417320, 18288, 228600, NAVY)
-rect(s, FX + CWD // 2, fy + 1645920 - 9144, FW - CWD, 18288, NAVY)
-rect(s, FX + FW // 2 - 9144, fy + 1645920, 18288, 228600, NAVY)
-rect(s, FX + FW // 6, fy + 1874520, FW * 2 // 3, 548640, NAVY, round_=True)
-_mid(put(s, 'bold14', FX + FW // 6, fy + 1874520, FW * 2 // 3, 548640, 'LLM: 근거 정리와 응답 생성', size=14, color='FFFFFF', align=PP_ALIGN.CENTER))
-rect(s, FX + FW // 2 - 9144, fy + 2423160, 18288, 228600, NAVY)
-rect(s, FX + FW // 6, fy + 2651760, FW * 2 // 3, 548640, 'FFFFFF', line=NAVY, round_=True)
-_mid(put(s, 'bold14', FX + FW // 6, fy + 2651760, FW * 2 // 3, 548640, '운영자: 근거 확인과 최종 판단', size=14, color=NAVY, align=PP_ALIGN.CENTER))
+    rect(s, x, fy, CWD, BH1, PALE, line='7F9CC0', round_=True)
+    _mid(put(s, 'bold14', x, fy, CWD, BH1, src, size=13, color=NAVY, align=PP_ALIGN.CENTER))
+    rect(s, x + CWD // 2 - 9144, fy + BH1, 18288, GAP, NAVY)
+    rect(s, x, fy + BH1 + GAP, CWD, BH2, BLUE, round_=True)
+    _mid(put(s, 'bold14', x, fy + BH1 + GAP, CWD, BH2, how, size=14, color='FFFFFF', align=PP_ALIGN.CENTER))
+    rect(s, x + CWD // 2 - 9144, fy + BH1 + GAP + BH2, 18288, GAP // 2, NAVY)
+y1 = fy + BH1 + GAP + BH2 + GAP // 2
+rect(s, FX + CWD // 2 - 9144, y1 - 9144, FW - CWD + 18288, 18288, NAVY)
+rect(s, FX + FW // 2 - 9144, y1, 18288, GAP // 2, NAVY)
+y2 = y1 + GAP // 2
+rect(s, FX + FW // 8, y2, FW * 3 // 4, BH3, NAVY, round_=True)
+_mid(put(s, 'bold14', FX + FW // 8, y2, FW * 3 // 4, BH3, 'LLM: 근거 정리와 응답 생성', size=15, color='FFFFFF', align=PP_ALIGN.CENTER))
+rect(s, FX + FW // 2 - 9144, y2 + BH3, 18288, GAP, NAVY)
+y3 = y2 + BH3 + GAP
+rect(s, FX + FW // 8, y3, FW * 3 // 4, BH3, 'FFFFFF', line=NAVY, round_=True)
+_mid(put(s, 'bold14', FX + FW // 8, y3, FW * 3 // 4, BH3, '운영자: 근거 확인과 최종 판단', size=15, color=NAVY, align=PP_ALIGN.CENTER))
 put(s, 'bold14', XR + 100584, PY + PH - 640080, HW - 201168, 283464, '그림 1. 댐 운영 자료별 처리 경로(안)', size=12, color=NAVY, align=PP_ALIGN.CENTER)
 put(s, 'sub', XR + 100584, PY + PH - 356616, HW - 201168, 256032, '자료: 논문 그림을 옮긴 경우 "저자(연도)의 그림을 재구성"으로 표기', size=11, align=PP_ALIGN.CENTER)
 order.append(s)
