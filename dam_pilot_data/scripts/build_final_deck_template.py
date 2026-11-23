@@ -4,7 +4,7 @@
 새 슬라이드는 기준 발표자료의 도형을 복사해 만들므로 서식이 같다.
 사용: python3 -I dam_pilot_data/scripts/build_final_deck_template.py <기준 발표자료.pptx> <출력.pptx>
 """
-import copy, sys
+import copy, sys, os
 from pptx.enum.dml import MSO_LINE
 from pptx import Presentation
 from pptx.util import Emu, Pt
@@ -527,31 +527,13 @@ rows = [['자료', '처리 방식', '근거 사례'],
         ['수위·방류량 등 수문 자료', '측정자료 저장소에 두고 조회 도구로 연결', 'OntoDSMS, WaterCopilot']]
 ty = yy + 320040
 tbl(s, rows, [30, 46, 24], x=L + 100584, y=ty, w=HW - 201168, row_h=(PY + PH - 91440 - ty) // len(rows), size=12, head_fill=HEADC, tight=True)
-panel(s, XR, PY, HW, PH, '자료별 처리 경로', [])
-FX, FW = XR + 182880, HW - 365760                       # 그림 영역
-fy = PY + 630936
-BH1, BH2, BH3, GAP = 822960, 594360, 640080, 256032        # 자료 상자, 처리 상자, LLM·운영자 상자, 잇는 선
-CWD = (FW - 2 * 137160) // 3
-for k, (src, how) in enumerate((('운영 규정·매뉴얼\n(문서 자료)', '문서 검색'), ('운영 기준, 시설·상태\n(운영지식)', 'KG 조회'), ('수위·방류량\n(수문 자료)', '측정자료 조회'))):
-    x = FX + k * (CWD + 137160)
-    rect(s, x, fy, CWD, BH1, PALE, line='7F9CC0', round_=True)
-    _mid(put(s, 'bold14', x, fy, CWD, BH1, src, size=13, color=NAVY, align=PP_ALIGN.CENTER))
-    rect(s, x + CWD // 2 - 9144, fy + BH1, 18288, GAP, NAVY)
-    rect(s, x, fy + BH1 + GAP, CWD, BH2, BLUE, round_=True)
-    _mid(put(s, 'bold14', x, fy + BH1 + GAP, CWD, BH2, how, size=14, color='FFFFFF', align=PP_ALIGN.CENTER))
-    rect(s, x + CWD // 2 - 9144, fy + BH1 + GAP + BH2, 18288, GAP // 2, NAVY)
-y1 = fy + BH1 + GAP + BH2 + GAP // 2
-rect(s, FX + CWD // 2 - 9144, y1 - 9144, FW - CWD + 18288, 18288, NAVY)
-rect(s, FX + FW // 2 - 9144, y1, 18288, GAP // 2, NAVY)
-y2 = y1 + GAP // 2
-rect(s, FX + FW // 8, y2, FW * 3 // 4, BH3, NAVY, round_=True)
-_mid(put(s, 'bold14', FX + FW // 8, y2, FW * 3 // 4, BH3, 'LLM: 근거 정리와 응답 생성', size=15, color='FFFFFF', align=PP_ALIGN.CENTER))
-rect(s, FX + FW // 2 - 9144, y2 + BH3, 18288, GAP, NAVY)
-y3 = y2 + BH3 + GAP
-rect(s, FX + FW // 8, y3, FW * 3 // 4, BH3, 'FFFFFF', line=NAVY, round_=True)
-_mid(put(s, 'bold14', FX + FW // 8, y3, FW * 3 // 4, BH3, '운영자: 근거 확인과 최종 판단', size=15, color=NAVY, align=PP_ALIGN.CENTER))
-put(s, 'bold14', XR + 100584, PY + PH - 640080, HW - 201168, 283464, '그림 1. 댐 운영 자료별 처리 경로(안)', size=12, color=NAVY, align=PP_ALIGN.CENTER)
-put(s, 'sub', XR + 100584, PY + PH - 356616, HW - 201168, 256032, '자료: 연구진 작성', size=11, align=PP_ALIGN.CENTER)
+panel(s, XR, PY, HW, PH, '문서 검색과 수문 자료 조회를 결합한 사례', [])
+_fig = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'project_khnp', 'fig', 'deck_example_WaterCopilot_Fig1.png')      # 논문 그림을 옮긴 예시
+_aw = HW - 320040; _ah = int(_aw * 545 / 1070)
+_pic = s.shapes.add_picture(_fig, Emu(XR + 160020), Emu(PY + 620000 + (PH - 1340000 - _ah) // 2), Emu(_aw), Emu(_ah))
+_pic.line.color.rgb = RGBColor.from_string('B6BCC6'); _pic.line.width = Pt(0.75)
+put(s, 'bold14', XR + 100584, PY + PH - 640080, HW - 201168, 283464, '그림 1. WaterCopilot 에이전트와 플러그인의 구조', size=12, color=NAVY, align=PP_ALIGN.CENTER)
+put(s, 'sub', XR + 100584, PY + PH - 356616, HW - 201168, 256032, '자료: Vickneswaran 외(2026)의 Figure 1', size=11, align=PP_ALIGN.CENTER)
 order.append(s)
 # --- 나머지 항목: 항목마다 2장, 번호 띠와 빈 상자 2개. 인공지능학과 담당 쪽에는 메모를 단다
 for fi, (field, subs) in enumerate(ITEMS):
