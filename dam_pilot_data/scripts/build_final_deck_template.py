@@ -256,7 +256,6 @@ def set_text(shape, text):
 cover, toc, thanks = S[0], S[1], S[24]
 for sh in cover.shapes:
     if sh.name == 'Text 5': set_text(sh, '최종보고회')
-    if sh.name == 'Text 7': set_text(sh, '(발표자료 작성 템플릿)')
     if sh.name == 'Text 11': set_text(sh, '2026. 12. 9.')
 T = {'Text 2': '발표 순서', 'Text 4': '과업개요, 과업 항목별 수행 결과, 향후 추진계획의 순서로 발표',
      'Text 7': '과업개요', 'Text 11': '사업수행 결과', 'Text 15': '향후 추진계획'}
@@ -280,6 +279,8 @@ for sh in cover.shapes:
     if sh.name == 'Text 11': sh.top = Emu(5634000)
 set_text(_t10, '수행기관  ┃  국민대학교 산학협력단')
 _new.top = Emu(5132040); set_text(_new, '연구책임자  ┃  신주영')
+for sh in list(cover.shapes):
+    if sh.name == 'Text 7': sh._element.getparent().remove(sh._element)      # 표지의 '(작성 템플릿)' 글은 두지 않는다
 order = [cover]
 # 목차: 참고 발표자료와 같은 배치(왼쪽 색 면에 '목 차', 오른쪽에 장 목록)
 s = new(0)
@@ -550,7 +551,7 @@ y3 = y2 + BH3 + GAP
 rect(s, FX + FW // 8, y3, FW * 3 // 4, BH3, 'FFFFFF', line=NAVY, round_=True)
 _mid(put(s, 'bold14', FX + FW // 8, y3, FW * 3 // 4, BH3, '운영자: 근거 확인과 최종 판단', size=15, color=NAVY, align=PP_ALIGN.CENTER))
 put(s, 'bold14', XR + 100584, PY + PH - 640080, HW - 201168, 283464, '그림 1. 댐 운영 자료별 처리 경로(안)', size=12, color=NAVY, align=PP_ALIGN.CENTER)
-put(s, 'sub', XR + 100584, PY + PH - 356616, HW - 201168, 256032, '자료: 논문 그림을 옮긴 경우 "저자(연도)의 그림을 재구성"으로 표기', size=11, align=PP_ALIGN.CENTER)
+put(s, 'sub', XR + 100584, PY + PH - 356616, HW - 201168, 256032, '자료: 연구진 작성', size=11, align=PP_ALIGN.CENTER)
 order.append(s)
 # --- 나머지 항목: 항목마다 2장, 번호 띠와 빈 상자 2개. 인공지능학과 담당 쪽에는 메모를 단다
 for fi, (field, subs) in enumerate(ITEMS):
