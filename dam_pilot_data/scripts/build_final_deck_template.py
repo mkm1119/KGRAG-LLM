@@ -5,6 +5,7 @@
 사용: python3 -I dam_pilot_data/scripts/build_final_deck_template.py <기준 발표자료.pptx> <출력.pptx>
 """
 import copy, sys
+from pptx.enum.dml import MSO_LINE
 from pptx import Presentation
 from pptx.util import Emu, Pt
 from pptx.dml.color import RGBColor
@@ -74,7 +75,7 @@ GOLD = 'FFD166'
 BAND_H, BAR_Y, BAR_H, TOP = 667512, 1005840, 393192, 1554480          # 제목 띠 높이, 세부 항목 띠 위치·높이, 본문 시작
 
 
-def rect(slide_or_layout, x, y, w, h, fill, line=None, round_=False):
+def rect(slide_or_layout, x, y, w, h, fill, line=None, round_=False, prst=None, dash=False):
     e = copy.deepcopy(P['card']); slide_or_layout.shapes._spTree.append(e)
     sh = slide_or_layout.shapes[-1]
     _n[0] += 1; e.nvSpPr.cNvPr.set('id', str(_n[0]))
@@ -83,9 +84,13 @@ def rect(slide_or_layout, x, y, w, h, fill, line=None, round_=False):
         e.spPr.find(NS + 'prstGeom').set('prst', 'rect')
         for av in e.spPr.find(NS + 'prstGeom').findall(NS + 'avLst'):
             for g in list(av): av.remove(g)
+    if prst:
+        e.spPr.find(NS + 'prstGeom').set('prst', prst)
     sh.fill.solid(); sh.fill.fore_color.rgb = RGBColor.from_string(fill)
     if line:
-        sh.line.color.rgb = RGBColor.from_string(line); sh.line.width = Pt(1.25)
+        sh.line.color.rgb = RGBColor.from_string(line); sh.line.width = Pt(0.75 if dash else 1.25)
+        if dash:
+            sh.line.dash_style = MSO_LINE.DASH
     else:
         sh.line.fill.background()
     return sh
@@ -98,28 +103,49 @@ for _b in (_b3, _b2, _b1):                               # 로고보다 뒤로 �
     _lay.shapes._spTree.remove(_b._element); _lay.shapes._spTree.insert(2, _b._element)
 
 
-def page(label, title, sub, num=None):
-    """label: 장 이름(오른쪽 위 꼬리표), title: 과업 분야(제목 띠), sub: 세부 항목 이름(번호 띠), num: 세부 항목 번호"""
+def page(label, title, sub=None, num=None):
+    """label: 장 이름(오른쪽 위 꼬리표), title: 제목 띠, sub: 번호 띠의 이름(없으면 띠를 그리지 않음), num: 번호"""
     s = new(1)
     put(s, 'title', L - 91440, 100584, 6400800, 466344, title, size=24)
     rect(s, 9601200, BAND_H + 36576, 2590800, 301752, NAVY)
     put(s, 'bold14', 9601200, BAND_H + 54864, 2590800, 265176, label, size=11, color='FFFFFF', align=PP_ALIGN.CENTER)
-    rect(s, L, BAR_Y, W, BAR_H, 'DCE9F7', round_=True)
-    if num:
-        rect(s, L, BAR_Y, 960120, BAR_H, NAVY, round_=True)
-        put(s, 'bold14', L, BAR_Y + 45720, 960120, 301752, num, size=15, color=GOLD, align=PP_ALIGN.CENTER)
-    put(s, 'bold14', L + (1051560 if num else 182880), BAR_Y + 45720, W - 1234440, 301752, sub, size=15, color=NAVY)
+    if sub:
+        rect(s, L, BAR_Y, W, BAR_H, 'DCE9F7', round_=True)
+        if num:
+            rect(s, L, BAR_Y, 960120, BAR_H, NAVY, round_=True)
+            put(s, 'bold14', L, BAR_Y + 45720, 960120, 301752, num, size=15, color=GOLD, align=PP_ALIGN.CENTER)
+        put(s, 'bold14', L + (1051560 if num else 182880), BAR_Y + 45720, W - 1234440, 301752, sub, size=15, color=NAVY)
     put(s, 'num', 11155680, 6446520, 548640, 274320, '0')
     return s
 
 
-def panel(s, x, y, w, h, head=None, hints=None, ink=False):
-    """머리 칸이 있는 테두리 상자. head: 소제목, hints: ✓ 요지(줄 목록). 둘 다 비우면 작성용 빈 상자(ㅇ)"""
-    rect(s, x, y, w, h, 'FFFFFF', line='7F9CC0', round_=True)
-    rect(s, x, y, w, 420624, PALE, line='7F9CC0', round_=True)
-    rect(s, x + 137160, y - 45720, 201168, 384048, NAVY)
-    put(s, 'bold14', x + 430000, y + 54864, w - 520000, 301752, head or 'ㅇ', size=14, color=NAVY)
-    put(s, 'body', x + 182880, y + 530352, w - 365760, 320040, '\n'.join('✓ ' + t for t in (hints or ['ㅇ'])), size=13, color=INK if ink else GRAY)
+FRAME, INNER = 'A9BEDB', 'F6F9FD'
+
+
+def panel(s, x, y, w, h, head=None, checks=None):
+    """참고 발표자료의 상자: 바깥 틀 + 머리 칸(꼬리표와 소제목) + 안쪽 상자 + 체크 줄. 비우면 'ㅇ'만 둔다."""
+    rect(s, x, y, w, h, FRAME, round_=True)
+    rect(s, x + 54864, y + 64008, w - 109728, 384048, 'DCE9F7')
+    rect(s, x + 146304, y, 301752, 448056, NAVY, prst='flowChartOffpageConnector')
+    put(s, 'bold14', x + 521208, y + 100584, w - 640080, 301752, head or 'ㅇ', size=14, color=NAVY)
+    rect(s, x + 45720, y + 521208, w - 91440, h - 566928, INNER, round_=True)
+    if checks is None:
+        check(s, x + 100584, y + 603504, min(w - 201168, 3840480), 'ㅇ')
+    else:
+        for k, t in enumerate(checks):
+            check(s, x + 100584, y + 603504 + k * 393192, w - 201168, t)
+    return y + 603504 + len(checks or [1]) * 393192          # 체크 줄 아래의 시작 높이
+
+
+def check(s, x, y, w, text):
+    rect(s, x, y, w, 320040, 'FFFFFF', line='B6BCC6', round_=True)
+    rect(s, x + 18288, y + 18288, 283464, 283464, NAVY, prst='ellipse')
+    put(s, 'bold14', x + 18288, y + 22860, 283464, 265176, '✓', size=11, color='FFFFFF', align=PP_ALIGN.CENTER)
+    put(s, 'body', x + 347472, y + 13716, w - 420624, 292608, text, size=12, color=INK)
+
+
+def dot(s, x, y, text, w=6400800):
+    put(s, 'bold14', x, y, w, 301752, '● ' + text, size=14, color=NAVY)
 
 
 def conclusion(s, text, y=5806440):
@@ -200,22 +226,7 @@ for sh in toc.shapes:
             for r in p.runs: r.text = ''
 
 order = [cover]
-# ------------------------------------------------------------------ 작성 안내(제출 전 삭제)
-GUIDE = '작성 안내 (제출 전 삭제)'
-s = page(GUIDE, '작성 기준', '아래 기준에 맞춰 Ⅱ장의 담당 슬라이드를 작성. 이 슬라이드는 제출 전에 삭제')
-tbl(s, [['구분', '기준'],
-        ['글꼴', '한컴산뜻돋움 (모든 글)'],
-        ['슬라이드 머리', '제목 띠: 과업 분야 이름 / 오른쪽 위 꼬리표: 장 이름 / 번호 띠: 세부 항목 번호(1-1)와 이름'],
-        ['본문 글', '개조식 명사형 종결("~을 정리", "~으로 구성"). 본문 14~16pt, 표 안의 글 11~13pt'],
-        ['색', '남색 003B71(제목·강조), 파랑 0070C0(구분), 연한 파랑 EEF5FC·DCE9F7(바탕), 회색 6B7280(설명), 본문 2B2B2B'],
-        ['슬라이드 구성', '세부 항목마다 번호 띠 아래에 상자를 두고, 상자 머리에 소제목, 상자 안에 ✓ 요지 2~4줄과 표·그림을 배치. 상자의 수와 크기는 내용에 맞게 조정하고, 한 장을 넘으면 슬라이드를 복제하여 사용'],
-        ['작성 예시', 'Ⅱ장의 1-1 슬라이드 3장(글과 표, 표 중심, 글과 그림)을 예시로 작성해 두었으며, 나머지 항목은 같은 방식으로 작성'],
-        ['표와 그림', '표 제목은 표 위, 그림 제목은 그림 아래. 출처가 있으면 아래에 "자료: 저자(연도)"로 표기'],
-        ['분량', '세부 항목마다 1~3장. 전체 발표 시간에 맞춰 조정']],
-    [16, 84], y=TOP, row_h=440000, size=13)
-order.append(s)
-HW = (W - 182880) // 2
-# 목차는 기준 슬라이드의 카드 3개를 그대로 쓰고 머리글만 새 양식에 맞춘다
+# 목차: 기준 슬라이드의 카드 3개를 쓰고 머리글만 본문 양식에 맞춘다
 for sh in list(toc.shapes):
     if sh.name == 'Text 2':
         sh._element.getparent().remove(sh._element)
@@ -226,37 +237,67 @@ for sh in list(toc.shapes):
         sh.top = Emu(1005840)
 order.append(toc)
 
-# ------------------------------------------------------------------ Ⅰ 과업개요
-order.append(divider('Ⅰ', '과업개요', '목적 및 배경, 과업범위, 추진 일정, 수행조직'))
+# ================================================================== Ⅰ 과업개요
+order.append(divider('Ⅰ', '과업개요', '목적 및 배경, 과업범위, 공정률, 수행조직'))
 C1 = 'Ⅰ. 과업개요'
-s = page(C1, '1. 목적 및 배경', '과업의 기본 정보와 추진 배경, 목적')
-tbl(s, [['구분', '내용'],
-        ['과업명', '댐 운영 의사결정 프레임워크 구축 자문 용역'],
-        ['발주기관', '한국수력원자력(주)'],
-        ['수행기관', '국민대학교 산학협력단'],
-        ['과업기간', '2026. 07. 23. ~ 2027. 01. 22. (착수일로부터 6개월)'],
-        ['책임연구원', '국민대학교 신주영 교수']],
-    [22, 78], y=TOP, w=HW, row_h=700000, size=14)
-X2 = L + HW + 182880
-panel(s, X2, TOP, HW, 2011680, '추진 배경', ['댐 운영은 수문 자료뿐 아니라 과거 운영 경험, 매뉴얼, 관련 법령 등 비정형 자료에 대한 종합 판단이 필요', '이를 정형화하여 의사결정에 연결하는 모델·시스템이 부재'])
-panel(s, X2, TOP + 2194560, HW, 2011680, '목적', ['sLLM 기반 댐 운영 의사결정 및 발전 최적화 프레임워크 구축을 위한 기술적 타당성 검토'])
+# --- 1. 목적 및 배경 (1): 과업 기본 정보 (이름표 + 내용 띠 + 점선)
+s = page(C1, '1. 목적 및 배경')
+INFO = [('과업명', '댐 운영 의사결정 프레임워크 구축 자문 용역', NAVY), ('발주기관', '한국수력원자력(주)', BLUE), ('수행기관', '국민대학교 산학협력단', NAVY),
+        ('과업기간', '2026. 07. 23. ~ 2027. 01. 22. (착수일로부터 6개월)', BLUE), ('책임연구원', '국민대학교 신주영 교수', NAVY)]
+for k, (lab, val, col) in enumerate(INFO):
+    y = 1234440 + k * 978408
+    rect(s, 696000, y, 10800000, 476717, PALE, round_=True)
+    rect(s, 681832, y - 9047, 1526573, 476717, col, round_=True)
+    put(s, 'bold14', 681832, y + 82296, 1526573, 301752, lab, size=16, color='FFFFFF', align=PP_ALIGN.CENTER)
+    put(s, 'bold14', 2208405, y + 82296, 9287595, 301752, val, size=16, color=INK, align=PP_ALIGN.CENTER)
+    rect(s, 696000, y + 722376, 10800000, 9144, 'FFFFFF', line='9AA3AF', dash=True)
 order.append(s)
-s = page(C1, '2. 과업범위', '4개 분야, 세부 항목 12개')
-tbl(s, [['과업 분야', '세부 항목', '담당'],
-        ['1. 국내외 기술 트렌드 조사', '1-1 수자원 분야 사례 조사\n1-2 국내 운영 여건 조사\n1-3 적용 기술요소 및 모델 제안', '수자원 연구실'],
-        ['2. LLM 활용 데이터 파이프라인 조사', '2-1 수집 경로 조사\n2-2 온톨로지·메타데이터 설계방안 조사\n2-3 RAG-LLM 통합 파이프라인(안) 제시', '수자원 연구실'],
-        ['3. sLLM 후보군 평가 방향', '3-1 후보 모델 조사\n3-2 모델 구조 및 특성 검토\n3-3 후보군 적용방안 제시', '인공지능학과'],
-        ['4. 도메인 특화 성능 향상 전략', '4-1 RAG 기반 적용방안 조사\n4-2 경량 미세조정 방식 검토\n4-3 성능 향상 전략 제시', '인공지능학과']],
-    [32, 50, 18], y=TOP, row_h=930000, size=14)
+# --- 1. 목적 및 배경 (2): 배경 글 + 목표
+s = page(C1, '1. 목적 및 배경', '목적 및 배경', '1.')
+BG = [('댐 운영 판단에 필요한 비정형 자료의 활용 체계 부재',
+       ['댐 운영은 수문 자료뿐 아니라 과거 운영 경험, 매뉴얼, 관련 법령 등 비정형 자료에 대한 종합 판단이 필요',
+        '비정형 자료를 정형화하여 의사결정에 연결하는 모델·시스템이 부재']),
+      ('sLLM 기반 의사결정 지원 기술에 대한 수요',
+       ['sLLM 기반 스마트 의사결정 체계를 통한 비숙련 운영자 보조',
+        '방류 시점을 정밀 제어하는 수력발전 운영 효율화 기술에 대한 수요'])]
+y = TOP + 91440
+for hd, subs in BG:
+    dot(s, L + 91440, y, hd, w=W - 182880); y += 393192
+    for t in subs:
+        put(s, 'body', L + 502920, y, W - 640080, 292608, '▪  ' + t, size=13, color=INK); y += 356616
+    y += 182880
+rect(s, L + 91440, 5120640, W - 182880, 877824, 'EEF1F5')
+rect(s, L + 91440, 5065776, 1413050, 987552, BLUE, prst='homePlate')
+put(s, 'bold14', L + 91440, 5403456, 1234440, 301752, '목 표', size=16, color='FFFFFF', align=PP_ALIGN.CENTER)
+put(s, 'body', L + 1737360, 5385816, W - 2011680, 320040, '▪  sLLM 기반 댐 운영 의사결정 및 발전 최적화 프레임워크 구축을 위한 기술적 타당성 검토', size=13, color=INK)
 order.append(s)
-s = page(C1, '3. 추진 일정', '세부 항목별 수행 기간 (착수 후 6개월)')
+# --- 2. 과업범위: 번호 띠 + ● 과업범위 + 표
+s = page(C1, '2. 과업범위', '과업범위', '2.')
+dot(s, L + 91440, TOP - 27432, '과업범위')
+tbl(s, [['과업 대상', '▪  댐 운영 의사결정 지원을 위한 sLLM·RAG 기술의 국내외 적용 사례, 자료 수집 경로, 지식 구조화 방안, 후보 모델\n▪  국내 댐 운영 현장의 업무 절차와 자료 활용 방식'],
+        ['내용적 범위', '▪  국내외 기술 트렌드 조사: 수자원 분야 사례 조사, 국내 운영 여건 조사, 적용 기술요소 및 모델 제안\n'
+                   '▪  LLM 활용 데이터 파이프라인 조사: 수집 경로 조사, 온톨로지·메타데이터 설계방안 조사, RAG-LLM 통합 파이프라인(안) 제시\n'
+                   '▪  sLLM 후보군 평가 방향: 후보 모델 조사, 모델 구조 및 특성 검토, 후보군 적용방안 제시\n'
+                   '▪  도메인 특화 성능 향상 전략: RAG 기반 적용방안 조사, 경량 미세조정 방식 검토, 성능 향상 전략 제시']],
+    [16, 84], y=TOP + 365760, row_h=1900000, size=13, head_fill='FFFFFF')
+_g = s.shapes[-1].table
+_g.rows[0].height = Emu(1280160); _g.rows[1].height = Emu(2651760)
+for _i in (0, 1):
+    for _p in _g.cell(_i, 1).text_frame.paragraphs:                 # 내용 칸은 왼쪽 맞춤, 보통 굵기
+        _p.alignment = PP_ALIGN.LEFT
+        for _r in _p.runs:
+            _r.font.bold = False; _r.font.color.rgb = RGBColor.from_string(INK)
+order.append(s)
+# --- 3. 공정률: ● 추진 계획 + 공정표
+s = page(C1, '3. 공정률')
+dot(s, L, 868680, '추진 계획')
 M = ["'26.8", "'26.9", "'26.10", "'26.11", "'26.12", "'27.1"]
-SCH = [('1. 국내외 기술 트렌드 조사', None), ('1-1 수자원 분야 사례 조사', [1]), ('1-2 국내 운영 여건 조사', [1]), ('1-3 적용 기술요소 및 모델 제안', [2, 3]),
-       ('2. LLM 활용 데이터 파이프라인 조사', None), ('2-1 수집 경로 조사', [2]), ('2-2 온톨로지·메타데이터 설계방안 조사', [2]), ('2-3 RAG-LLM 통합 파이프라인(안) 제시', [3, 4]),
-       ('3. sLLM 후보군 평가 방향', None), ('3-1 후보 모델 조사', [3]), ('3-2 모델 구조 및 특성 검토', [3, 4]), ('3-3 후보군 적용방안 제시', [5]),
-       ('4. 도메인 특화 성능 향상 전략', None), ('4-1 RAG 기반 적용방안 조사', [4]), ('4-2 경량 미세조정 방식 검토', [4, 5]), ('4-3 성능 향상 전략 제시', [6]),
+SCH = [('1. 국내외 기술 트렌드 조사', None), ('수자원 분야 사례 조사', [1]), ('국내 운영 여건 조사', [1]), ('적용 기술요소 및 모델 제안', [2, 3]),
+       ('2. LLM 활용 데이터 파이프라인 조사', None), ('수집 경로 조사', [2]), ('온톨로지·메타데이터 설계방안 조사', [2]), ('RAG-LLM 통합 파이프라인(안) 제시', [3, 4]),
+       ('3. sLLM 후보군 평가 방향', None), ('후보 모델 조사', [3]), ('모델 구조 및 특성 검토', [3, 4]), ('후보군 적용방안 제시', [5]),
+       ('4. 도메인 특화 성능 향상 전략', None), ('RAG 기반 적용방안 조사', [4]), ('경량 미세조정 방식 검토', [4, 5]), ('성능 향상 전략 제시', [6]),
        ('5. 최종 보고서 작성', [5, 6])]
-gt = tbl(s, [['수행 내용'] + M] + [[('' if ms is None or n.startswith('5.') else '   ') + n] + ['' for _ in M] for n, ms in SCH], [40, 10, 10, 10, 10, 10, 10], y=TOP, row_h=262000, size=11, first_col_bold=False, tight=True)
+gt = tbl(s, [['과업 내용'] + M] + [[('' if ms is None or n.startswith('5.') else '      ') + n] + ['' for _ in M] for n, ms in SCH], [40, 10, 10, 10, 10, 10, 10], y=1188720, row_h=262000, size=11, first_col_bold=False, tight=True, head_fill='C9D9EE')
 for i, (n, ms) in enumerate(SCH, 1):
     if ms is None:
         for j in range(7):
@@ -266,103 +307,76 @@ for i, (n, ms) in enumerate(SCH, 1):
     for j in ms:
         c = gt.cell(i, j); c.fill.solid(); c.fill.fore_color.rgb = RGBColor.from_string(BLUE)
 order.append(s)
+# --- 4. 수행조직: 번호 띠 + 조직도 + 분야별 표 2개
 s = page(C1, '4. 수행조직', '사업수행 조직 구성', '4.')
-CX, BWD, BH = L + W // 2, 3383280, 347472
-
-
-def obox(s, x, y, w, h, text, fill, color, line=None, size=13):
-    rect(s, x, y, w, h, fill, line=line, round_=True)
-    put(s, 'bold14', x, y + (h - 290000) // 2 - (110000 if '\n' in text else 0), w, 290000, text, size=size, color=color, align=PP_ALIGN.CENTER)
-
-
-y0 = TOP
-for k, (t, fill, col, ln) in enumerate([('발주기관  |  한국수력원자력(주)', NAVY, 'FFFFFF', None), ('수행기관  |  국민대학교 산학협력단', BLUE, 'FFFFFF', None), ('책임연구원  |  신주영 (수공학)', PALE, NAVY, '7F9CC0')]):
-    obox(s, CX - BWD // 2, y0 + k * (BH + 118872), BWD, BH, t, fill, col, ln)
-    rect(s, CX - 6350, y0 + k * (BH + 118872) + BH, 12700, 118872, NAVY)
-yb = y0 + 3 * (BH + 118872)                       # 가지가 갈라지는 높이
-XL, XR = L + W // 4, L + 3 * W // 4
-rect(s, XL, yb - 6350, XR - XL, 12700, NAVY)
-for xc, t in ((XL, '수자원 분야 (과업 1·2)\n책임연구원 신주영, 연구보조원 문경민'), (XR, '인공지능 분야 (과업 3·4)\n연구원 김장호, 연구보조원 황솔희')):
-    rect(s, xc - 6350, yb, 12700, 118872, NAVY)
-    obox(s, xc - 2286000, yb + 118872, 4572000, 594360, t, 'FFFFFF', NAVY, '7F9CC0', size=12)
-tbl(s, [['구분', '성명', '전공 분야', '학위', '담당 업무'],
-        ['책임연구원', '신주영', '수공학', '박사', '용역 총괄, 댐 운영 의사결정 및 수자원 분야 기술 검토'],
-        ['연구원', '김장호', '인공지능', '박사', 'sLLM 후보군 평가, 모델 구조·특성 검토'],
-        ['연구보조원', '문경민', '수공학', '학사', '데이터 파이프라인·온톨로지 조사 지원'],
-        ['연구보조원', '황솔희', '인공지능', '학사', 'sLLM 후보 모델 조사·비교 지원']],
-    [15, 12, 14, 9, 50], y=yb + 118872 + 594360 + 182880, row_h=380000, size=12)
+CX, OW = L + W // 2, 2514600
+y = TOP - 45720
+for k, (hd, val) in enumerate([('발 주 처', '한국수력원자력(주)'), ('수 행 기 관', '국민대학교 산학협력단'), ('책임연구원(1인)', '신주영 교수')]):
+    rect(s, CX - OW // 2, y, OW, 265176, NAVY)
+    put(s, 'bold14', CX - OW // 2, y + 9144, OW, 256032, hd, size=12, color='FFFFFF', align=PP_ALIGN.CENTER)
+    rect(s, CX - OW // 2, y + 265176, OW, 301752, 'E5E7EB')
+    put(s, 'bold14', CX - OW // 2, y + 283464, OW, 265176, val, size=12, color=INK, align=PP_ALIGN.CENTER)
+    y += 566928
+    rect(s, CX - 6350, y, 12700, 91440, NAVY); y += 91440
+TW = 5040000
+XA, XB = L + 182880, L + W - 182880 - TW
+rect(s, XA + TW // 2, y - 6350, XB - XA, 12700, NAVY)
+for x in (XA, XB):
+    rect(s, x + TW // 2 - 6350, y, 12700, 164592, NAVY)
+ty = y + 164592
+for x, hd, rows in ((XA, '수자원 분야 (과업 1·2)', [['책임연구원', '수공학 · 박사', '신주영'], ['연구보조원', '수공학 · 학사', '문경민']]),
+                    (XB, '인공지능 분야 (과업 3·4)', [['연구원', '인공지능 · 박사', '김장호'], ['연구보조원', '인공지능 · 학사', '황솔희']])):
+    g = tbl(s, [[hd, '', '']] + rows, [30, 35, 35], x=x, y=ty, w=TW, row_h=420000, size=13, head_fill='C9D9EE')
+    g.cell(0, 0).merge(g.cell(0, 2))
+    for _i in (1, 2):
+        for _j in (1, 2):
+            g.cell(_i, _j).text_frame.paragraphs[0].alignment = PP_ALIGN.CENTER
 order.append(s)
 
-# ------------------------------------------------------------------ Ⅱ 사업수행 결과
+# ================================================================== Ⅱ 사업수행 결과
 order.append(divider('Ⅱ', '사업수행 결과', '과업 4개 분야, 세부 항목 12개의 수행 결과'))
-ITEMS = [('1. 국내외 기술 트렌드 조사', '수자원 연구실', ['1-1 수자원 분야 사례 조사', '1-2 국내 운영 여건 조사', '1-3 적용 기술요소 및 모델 제안']),
-         ('2. LLM 활용 데이터 파이프라인 조사', '수자원 연구실', ['2-1 수집 경로 조사', '2-2 온톨로지·메타데이터 설계방안 조사', '2-3 RAG-LLM 통합 파이프라인(안) 제시']),
-         ('3. sLLM 후보군 평가 방향', '인공지능학과', ['3-1 후보 모델 조사', '3-2 모델 구조 및 특성 검토', '3-3 후보군 적용방안 제시']),
-         ('4. 도메인 특화 성능 향상 전략', '인공지능학과', ['4-1 RAG 기반 적용방안 조사', '4-2 경량 미세조정 방식 검토', '4-3 성능 향상 전략 제시'])]
-HW = (W - 182880) // 2
-PH = 4663440                                      # 상자 높이(번호 띠 아래부터 아래 선 위까지)
+ITEMS = [('1. 국내외 기술 트렌드 조사', ['1-1 수자원 분야 사례 조사', '1-2 국내 운영 여건 조사', '1-3 적용 기술요소 및 모델 제안']),
+         ('2. LLM 활용 데이터 파이프라인 조사', ['2-1 수집 경로 조사', '2-2 온톨로지·메타데이터 설계방안 조사', '2-3 RAG-LLM 통합 파이프라인(안) 제시']),
+         ('3. sLLM 후보군 평가 방향', ['3-1 후보 모델 조사', '3-2 모델 구조 및 특성 검토', '3-3 후보군 적용방안 제시']),
+         ('4. 도메인 특화 성능 향상 전략', ['4-1 RAG 기반 적용방안 조사', '4-2 경량 미세조정 방식 검토', '4-3 성능 향상 전략 제시'])]
 C2 = 'Ⅱ. 사업수행 결과'
-F1 = ITEMS[0][0]
-# --- 1-1 작성 예시 ①: 글과 표
-s = page(C2, F1, '수자원 분야 사례 조사', '1-1')
-panel(s, L, TOP, W, PH, '조사 대상 문헌의 구성', [
-    '수자원 관리 분야의 LLM 활용 사례를 RAG 기반 질의응답, 도메인 특화 LLM, 운영지식 구조화의 세 유형으로 나누어 63편 조사',
-    '수자원 분야(댐·수리시설, 홍수, 수문·수자원 일반) 문헌은 36편이며, 댐·수리시설 14편 중 7편이 운영지식 구조화 유형',
-    '2025~2026년 게재 문헌이 46편으로 조사 대상의 대부분이 최근 2년의 문헌'], ink=True)
-put(s, 'bold14', L + 182880, TOP + 1600200, W - 365760, 290000, '표 1. 조사 대상 문헌의 유형별·대상 분야별 구성 [단위: 편]', size=12, color=NAVY)
-tbl(s, [['유형', '합계', '댐·수리시설', '홍수', '수문·수자원 일반', '수자원 외'],
-        ['RAG 기반 질의응답', '21', '4', '7', '6', '4'],
-        ['도메인 특화 LLM', '18', '3', '1', '6', '8'],
-        ['운영지식 구조화(온톨로지·KG)', '24', '7', '2', '0', '15'],
-        ['합계', '63', '14', '10', '12', '27']],
-    [30, 14, 14, 14, 14, 14], x=L + 182880, y=TOP + 1920240, w=W - 365760, row_h=480000, size=13)
-order.append(s)
-# --- 1-1 작성 예시 ②: 표 중심
-s = page(C2, F1, '수자원 분야 사례 조사', '1-1')
-panel(s, L, TOP, W, PH, '유형 간 비교', [
-    '세 유형은 분야 지식을 두는 곳(문서 저장소, 모델의 가중치, 온톨로지·KG)에서 구분',
-    'RAG 기반 질의응답 21편 중 7편이 KG를 근거 저장소로 함께 사용하여, 유형을 결합한 구성이 확인'], ink=True)
-put(s, 'bold14', L + 182880, TOP + 1234440, W - 365760, 290000, '표 2. 세 유형의 비교', size=12, color=NAVY)
+PY, PH = TOP - 45720, 4754880
+HW = (W - 182880) // 2
+# --- 1-1: 작성 예시(상자 하나에 소제목, 체크 줄, 표)
+s = page(C2, ITEMS[0][0], '수자원 분야 사례 조사', '1-1')
+yy = panel(s, L, PY, W, PH, '수자원 분야 LLM 활용 사례의 유형별 비교 및 시사점', [
+    '수자원 분야의 LLM 활용 사례 63편을 RAG 기반 질의응답(21편), 도메인 특화 LLM(18편), 운영지식 구조화(24편)의 세 유형으로 조사',
+    '세 유형은 분야 지식을 두는 곳(문서 저장소, 모델의 가중치, 온톨로지·KG)에서 구분되며, RAG 21편 중 7편이 KG를 함께 사용',
+    '운영 판단을 지원하는 응답에는 근거 제시가 필요하므로, 검색 근거나 KG 항목을 응답에 연결하는 구성이 적합'])
 tbl(s, [['항목', 'RAG 기반 질의응답', '도메인 특화 LLM', '운영지식 구조화'],
+        ['조사 문헌', '21편', '18편', '24편'],
         ['지식을 두는 곳', '문서 저장소(벡터·희소 색인)', '모델의 가중치', '온톨로지와 KG의 개체·관계'],
         ['지식의 반영 방법', '질의 시점에 검색하여 프롬프트에 포함', '추가 사전학습, 미세조정', '자료에서 개체·관계를 추출하여 구축'],
         ['자료의 갱신', '저장소의 문서를 교체', '모델을 다시 학습', 'KG의 개체·관계를 추가·수정'],
         ['응답의 근거 제시', '검색한 문서나 KG 항목을 근거로 제시 가능', '가중치에 학습된 지식은 출처 제시가 어려움', '개체·관계와 출처 속성으로 근거 추적 가능'],
         ['확인된 한계', '표·그림이 든 문서의 처리', '분야 미세조정에 따른 일반 능력 하락 보고 2편', 'KG 자체의 완전성 평가 부재, 시계열 자료 통합']],
-    [16, 28, 28, 28], x=L + 182880, y=TOP + 1554480, w=W - 365760, row_h=480000, size=12)
+    [16, 28, 28, 28], x=L + 100584, y=yy + 45720, w=W - 201168, row_h=356616, size=11, head_fill='C9D9EE', tight=True)
 order.append(s)
-# --- 1-1 작성 예시 ③: 글과 그림
-s = page(C2, F1, '수자원 분야 사례 조사', '1-1')
-panel(s, L, TOP, HW, PH, '댐 운영 의사결정 지원에 대한 시사점', [
-    '근거 제시: 지식을 가중치에만 두는 구성보다 검색 근거나 KG 항목을 응답에 연결하는 구성이 적합',
-    '자료 구분: 규정·매뉴얼 등 문서는 검색으로, 수위·방류량 등 수치 자료는 조회 도구나 DB 연결로 구분',
-    '운영지식 구조화: 댐 운영(방류 승인, 운영 기준, 수문 상태)을 대상으로 한 온톨로지는 별도 설계 필요',
-    '운용 환경: 내부 자료를 다루므로 공개 모델의 내부 구동을 전제로 구성 검토',
-    '적용 범위: LLM은 근거 자료의 검색과 정리를 맡고 최종 판단은 운영자가 수행'], ink=True)
-panel(s, L + HW + 182880, TOP, HW, PH, '유형을 결합한 구성 사례', ['그림과 함께 요지를 1~2줄로 작성'])
-rect(s, L + HW + 365760, TOP + 1005840, HW - 365760, 3108960, 'F7F9FC', line='B6BCC6')
-put(s, 'sub', L + HW + 365760, TOP + 2400300, HW - 365760, 320040, '(그림 자리)', align=PP_ALIGN.CENTER)
-put(s, 'sub', L + HW + 365760, TOP + 4160520, HW - 365760, 290000, '그림 1. 그림 제목 / 자료: 저자(연도)', size=11, align=PP_ALIGN.CENTER)
-order.append(s)
-# --- 나머지 항목: 번호 띠와 빈 상자만 둔다
-for field, owner, subs in ITEMS:
+# --- 나머지 항목: 항목마다 2장, 번호 띠와 빈 상자 2개
+for field, subs in ITEMS:
     for sub in subs:
         num, name = sub.split(' ', 1)
         if num == '1-1':
             continue
-        s = page(C2, field, name, num)
-        put(s, 'sub', L + W - 2011680, BAR_Y + 73152, 1920240, 265176, '담당: ' + owner, size=11, align=PP_ALIGN.RIGHT)
-        panel(s, L, TOP, HW, PH)
-        panel(s, L + HW + 182880, TOP, HW, PH)
-        order.append(s)
+        for _ in range(2):
+            s = page(C2, field, name, num)
+            panel(s, L, PY, HW, PH)
+            panel(s, L + HW + 182880, PY, HW, PH)
+            order.append(s)
 
-# ------------------------------------------------------------------ Ⅲ 향후 추진계획, 맺음
-order.append(divider('Ⅲ', '향후 추진계획', '향후 연구개발 방향과 추진 계획(안)'))
-s = page('Ⅲ. 향후 추진계획', '향후 추진계획', '연구개발 추진 방향 및 로드맵(안)')
-put(s, 'sub', L + W - 2011680, BAR_Y + 73152, 1920240, 265176, '담당: 책임연구원', size=11, align=PP_ALIGN.RIGHT)
-for k in range(3):
-    panel(s, L, TOP + k * 1584960, W, 1493520)
-order.append(s)
+# ================================================================== Ⅲ 향후 추진계획
+order.append(divider('Ⅲ', '향후 추진계획', '과업 분야별 향후 추진계획'))
+for k, (field, subs) in enumerate(ITEMS, 1):
+    s = page('Ⅲ. 향후 추진계획', '향후 추진계획', field.split('. ', 1)[1], '과업%d' % k)
+    for y, h in ((TOP - 45720, 762000), (TOP + 1371600, 1357971), (TOP + 3383280, 762000)):
+        put(s, 'bold14', L, y, 502920, 283464, 'ㅇ', size=14, color=NAVY)
+        rect(s, L + 137160, y + 347472, W - 137160, h, INNER, line=FRAME, round_=True)
+    order.append(s)
 order.append(thanks)
 
 # ------------------------------------------------------------------ 순서 정리: 기준 발표자료의 나머지 슬라이드는 뺀다
