@@ -139,7 +139,7 @@ def page(label, title, sub=None, num=None):
     s = new(1)
     put(s, 'title', L - 91440, 100584, 6400800, 466344, title, size=24)
     rect(s, 9601200, BAND_H + 36576, 2590800, 301752, NAVY)
-    put(s, 'bold14', 9601200, BAND_H + 54864, 2590800, 265176, label, size=11, color='FFFFFF', align=PP_ALIGN.CENTER)
+    _mid(put(s, 'bold14', 9601200, BAND_H + 36576, 2590800, 301752, label, size=13, color='FFFFFF', align=PP_ALIGN.CENTER))
     if sub:
         rect(s, L, BAR_Y, W, BAR_H, 'DCE9F7', round_=True)
         if num:
@@ -549,12 +549,12 @@ for fi, (field, subs) in enumerate(ITEMS):
                 MEMO[len(order)] = '[인공지능학과 작성] %s %s: 상자 머리(ㅇ)에 소제목, 체크 줄에 요지, 그 아래에 표나 그림을 넣어 작성. 1-1의 예시 2장(글과 표, 글과 그림)을 참고. 상자 수와 크기는 내용에 맞게 조정하고, 장이 모자라면 슬라이드를 복제' % (num, name)
             order.append(s)
     # 분야가 끝날 때마다 수행 결과와 산출물을 모으는 쪽
-    s = page(C2, field, '수행 결과 및 산출물', '%d.' % (fi + 1))
-    g = tbl(s, [['세부 항목', '주요 수행 결과', '산출물']] + [[x, 'ㅇ', 'ㅇ'] for x in subs], [24, 48, 28], y=TOP - 45720, row_h=457200, size=14, head_fill=HEADC)
-    for i in (1, 2, 3):
-        g.rows[i].height = Emu(1432560)
+    s = page(C2, field, '수행 결과 종합', '%d.' % (fi + 1))            # 세부 항목별이 아니라 분야 전체를 다룬다
+    for title, y, h in (('● 주요 수행 결과', TOP - 45720, 2651760), ('● 종합 결론', TOP + 3108960, 1188720)):
+        put(s, 'bold14', L, y, 4572000, 283464, title, size=14, color=NAVY)
+        rect(s, L + 137160, y + 347472, W - 137160, h if h > 2000000 else h - 347472, INNER, line=FRAME, round_=True)
     if fi >= 2:
-        MEMO[len(order)] = '[인공지능학과 작성] %s의 수행 결과 요약: 세부 항목별 주요 수행 결과와 산출물을 간단히 작성' % field
+        MEMO[len(order)] = '[인공지능학과 작성] %s의 수행 결과 종합: 세부 항목별이 아니라 분야 전체의 주요 수행 결과와 종합 결론을 간단히 작성' % field
     order.append(s)
 
 # ================================================================== Ⅲ 향후 추진계획
