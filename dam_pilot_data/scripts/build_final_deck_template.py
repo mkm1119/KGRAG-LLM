@@ -399,7 +399,7 @@ for i, (n, pl, ac) in enumerate(SCH, 1):
             if pl2 != 'mark': kids += ac2
         x, w = span(kids); rect(s, x, y + 91440, w, 76200, NAVY)
     elif pl == 'mark':
-        rect(s, X0 + 4 * CW, y + 45720, CW, 82296, RED)
+        rect(s, X0 + 4 * CW + 18288, y + 45720, CW - 36576, 82296, RED)
     else:
         x, w = span(pl); rect(s, x + 18288, y + 45720, w - 36576, 64008, PLAN_C)
         x, w = span(ac); rect(s, x + 18288, y + 128016, w - 36576, 91440, ACT_C)
@@ -498,7 +498,7 @@ def ex_note(s, text):
 
 
 s = page(C2, ITEMS[0][0], '수자원 분야 사례 조사', '1-1')
-ex_note(s, '[작성 예시 ①] 주요 내용(체크 줄)과 표의 배치 예시 · 내용은 작성 시 교체')
+ex_note(s, '[작성 예시 ①] 주요 내용(체크 줄)과 표의 배치 예시')
 yy = panel(s, L, PY, W, PH, 'RAG 기반 질의응답의 구성 방식', [
     '모델을 다시 학습시키지 않고 문서·KG·DB에서 찾은 근거를 프롬프트에 넣어 응답을 생성하는 방식',
     '규정이 개정되면 저장소의 자료만 교체하면 되고 응답에 근거 출처를 붙일 수 있어 댐 운영 질의응답에 직접 대응'], size=13)
@@ -571,7 +571,7 @@ order.append(divider('Ⅲ', '향후 추진계획', '과업 분야별 향후 추�
 for k, (field, subs) in enumerate(ITEMS, 1):
     s = page('Ⅲ. 향후 추진계획', '향후 추진계획', field.split('. ', 1)[1], '과업%d' % k)
     for y, h in ((TOP - 45720, 762000), (TOP + 1371600, 1357971), (TOP + 3383280, 762000)):
-        put(s, 'bold14', L, y, 502920, 283464, 'ㅇ', size=14, color=NAVY)
+        put(s, 'bold14', L, y, 914400, 283464, '● ㅇ', size=14, color=NAVY)
         rect(s, L + 137160, y + 347472, W - 137160, h, INNER, line=FRAME, round_=True)
     if k >= 3:
         MEMO[len(order)] = '[인공지능학과 작성] 과업%d %s의 향후 추진계획: ㅇ에 소제목, 상자 안에 내용을 작성' % (k, field.split('. ', 1)[1])
