@@ -608,6 +608,9 @@ def add_memos(path, memos, author='Claude'):
     PNS = 'xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main"'
     REL = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/'
     HEAD = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n'
+    _rel = {re.search(r'Id="([^"]+)"', m).group(1): re.search(r'Target="([^"]+)"', m).group(1) for m in re.findall(r'<Relationship [^>]*/>', zi.read('ppt/_rels/presentation.xml.rels').decode())}
+    _ord = [_rel[r].split('/')[-1] for r in re.findall(r'<p:sldId [^>]*r:id="([^"]+)"', zi.read('ppt/presentation.xml').decode())]
+    byfile = {_ord[i]: i for i in memos}                      # 슬라이드 파일 이름은 발표 순서와 다르므로 순서 목록에서 찾는다
     for it in zi.infolist():
         data = zi.read(it.filename)
         if it.filename == 'ppt/commentAuthors.xml':
@@ -621,9 +624,9 @@ def add_memos(path, memos, author='Claude'):
             data = re.sub(r'<Relationship [^>]*commentAuthors[^>]*/>', '', data.decode()).encode()
             data = data.decode().replace('</Relationships>', '<Relationship Id="rIdCmAuth" Type="%scommentAuthors" Target="commentAuthors.xml"/></Relationships>' % REL).encode()
         else:
-            m = re.match(r'ppt/slides/_rels/slide(\d+)\.xml\.rels$', it.filename)
-            if m and int(m.group(1)) - 1 in memos:
-                k = sorted(memos).index(int(m.group(1)) - 1) + 1
+            m = re.match(r'ppt/slides/_rels/(slide[0-9]+[.]xml)[.]rels$', it.filename)
+            if m and m.group(1) in byfile:
+                k = sorted(memos).index(byfile[m.group(1)]) + 1
                 data = data.decode().replace('</Relationships>', '<Relationship Id="rIdCm" Type="%scomments" Target="../comments/comment%d.xml"/></Relationships>' % (REL, k)).encode()
         zo.writestr(it, data)
     zo.writestr('ppt/commentAuthors.xml', HEAD + '<p:cmAuthorLst %s><p:cmAuthor id="1" name="%s" initials="C" lastIdx="%d" clrIdx="0"/></p:cmAuthorLst>' % (PNS, author, len(memos)))
