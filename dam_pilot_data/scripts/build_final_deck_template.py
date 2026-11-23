@@ -561,7 +561,7 @@ for fi, (field, subs) in enumerate(ITEMS):
 order.append(divider('Ⅲ', '향후 추진계획', '연구개발 추진 방향 및 로드맵(안)'))
 # 최종보고이므로 과업별 계획이 아니라 연구개발 추진 방향과 로드맵(안)을 둔다(책임연구원 담당, 틀만 제공)
 s = page('Ⅲ. 향후 추진계획', '향후 추진계획', '연구개발 추진 방향 및 로드맵(안)')      # 한 쪽으로 두고 비운다
-MEMO[len(order)] = '아직 구성 형식을 몰라 비워 둠'
+MEMO[len(order)] = '내용과 구성이 정해지지 않아 비워둠'
 order.append(s)
 order.append(thanks)
 
