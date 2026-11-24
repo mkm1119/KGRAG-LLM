@@ -69,12 +69,18 @@ def clone(kind, src, fn):
     return new
 
 
+# 목차의 점선: 오른쪽 끝에 채움선이 있는 탭을 정의한다(자동 오른쪽 탭에는 채움선이 없다)
+TAB3 = ('<hh:tabPr id="3" autoTabLeft="0" autoTabRight="0"><hp:switch><hp:case hp:required-namespace="http://www.hancom.co.kr/hwpml/2016/HwpUnitChar">'
+        '<hh:tabItem pos="49600" type="RIGHT" leader="DASH" unit="HWPUNIT"/></hp:case><hp:default><hh:tabItem pos="99200" type="RIGHT" leader="DASH"/></hp:default></hp:switch></hh:tabPr>')
+OLD_TAB = '<hh:tabPr id="2" autoTabLeft="0" autoTabRight="1"/>'
+assert '<hh:tabProperties itemCnt="3">' in head and OLD_TAB in head
+head = head.replace('<hh:tabProperties itemCnt="3">', '<hh:tabProperties itemCnt="4">').replace(OLD_TAB, OLD_TAB + TAB3)
 line = lambda b, v: re.sub(r'(<hh:lineSpacing type="PERCENT" value=")\d+', r'\g<1>%d' % v, b)
 ids = [clone('charPr', 22, lambda b: b.replace('height="1500"', 'height="2000"')),                                   # 33: 목차 제목 20pt 굵게
        clone('charPr', 26, lambda b: b.replace('height="1200"', 'height="1500"')),                                   # 34: 목차의 장 15pt
        clone('paraPr', 33, lambda b: b.replace('horizontal="JUSTIFY"', 'horizontal="CENTER"')),                      # 55: 목차 제목 가운데
-       clone('paraPr', 51, lambda b: line(margins(b.replace('tabPrIDRef="0"', 'tabPrIDRef="2"').replace('horizontal="LEFT"', 'horizontal="JUSTIFY"'), left=0, prev=0), 150)),   # 56: 목차 줄(오른쪽 끝 탭, 150%)
-       clone('paraPr', 51, lambda b: line(margins(b.replace('tabPrIDRef="0"', 'tabPrIDRef="2"').replace('horizontal="LEFT"', 'horizontal="JUSTIFY"'), left=0, prev=0), 160)),   # 57: 표·그림 목차 줄(160%)
+       clone('paraPr', 51, lambda b: line(margins(b.replace('tabPrIDRef="0"', 'tabPrIDRef="3"').replace('horizontal="LEFT"', 'horizontal="JUSTIFY"'), left=0, prev=0), 150)),   # 56: 목차 줄(오른쪽 끝 탭, 150%)
+       clone('paraPr', 51, lambda b: line(margins(b.replace('tabPrIDRef="0"', 'tabPrIDRef="3"').replace('horizontal="LEFT"', 'horizontal="JUSTIFY"'), left=0, prev=0), 160)),   # 57: 표·그림 목차 줄(160%)
        clone('paraPr', 46, lambda b: line(b, 150))]                                                                  # 58: PAGE 줄(오른쪽)
 assert ids == [33, 34, 55, 56, 57, 58], ids
 

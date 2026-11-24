@@ -62,7 +62,9 @@ def first_pass(items, ch):
 def resolve(t):
     t = re.sub(r'⟦문헌:([^⟧]+)⟧', cite, t)
     t = re.sub(r'⟦(표|그림):([^⟧]+)⟧', lambda m: labels.get((m.group(1), m.group(2).strip()), '%s ?(%s)' % (m.group(1), m.group(2))), t)
-    return form_refs(re.sub(r'\s+\[', ' [', t))
+    t = form_refs(re.sub(r'\s+\[', ' [', t))
+    # '표 2.3과 같다'처럼 번호의 끝 숫자에 맞는 조사를 쓴다(0·1·3·6·7·8은 받침이 있다)
+    return re.sub(r'((?:표|그림) \d+\.\d*(\d))(?:와|과)(?= 같| ((?:표|그림)) )', lambda m: m.group(1) + ('과' if m.group(2) in '013678' else '와'), t)
 
 
 def render(items):

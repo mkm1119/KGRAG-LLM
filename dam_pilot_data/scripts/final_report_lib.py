@@ -47,7 +47,7 @@ def REF(t): return _p(t, 48, 50, 26)          # 참고문헌
 def BLANK(): return _p('', 38, 39, 26)
 
 # 목차 쪽(발주처 양식): 제목 20pt 굵게 가운데, 줄마다 점선과 쪽 번호 자리. 문단·글자 모양 번호는 upgrade_template_khnp.py가 덧붙인 것이다.
-_TAB = '<hp:tab width="20000" leader="3" type="2"/>'
+_TAB = '<hp:tab width="20000" leader="3" type="2"/>'      # 점선은 문단 모양의 탭 정의(오른쪽 탭, 채움선)에서 나온다
 ROMAN = '<hp:ctrl><hp:pageNum pos="BOTTOM_CENTER" formatType="ROMAN_SMALL" sideChar="-"/></hp:ctrl>'
 
 
@@ -109,11 +109,39 @@ def _cell(text, r, c, w, kind, pos, align, header, colspan=1, rowspan=1):
             % (1 if header else 0, bf, paras, c, r, colspan, rowspan, w))
 
 
+def _em(word):
+    """낱말의 너비(글자 수 기준, 한글·전각은 1, 영문·숫자·기호는 0.55)."""
+    return sum(1.0 if ord(c) > 0x2E7F or c in '①②③④⑤⑥⑦⑧⑨⑩·' else 0.55 for c in word)
+
+
+def _fit_widths(ws, rows, size=1000, pad=1020 + 160):
+    """낱말이 칸 안에서 글자 단위로 끊기지 않도록 열 너비를 고친다.
+    머리줄은 모든 낱말이, 내용 칸은 6글자 이하의 낱말이 한 줄에 들어가는 너비를 최소로 하고, 모자라는 만큼은 여유가 있는 열에서 줄인다."""
+    n = len(ws); need = [0] * n
+    for r, row in enumerate(rows):
+        for c, v in enumerate(row):
+            for w in re.split(r'[\s]+', str(v)):
+                e = _em(w)
+                if r == 0 or e <= 6:
+                    need[c] = max(need[c], int(e * size * 1.06) + pad)
+    if sum(need) > sum(ws):                                   # 다 넣을 수 없으면 비율대로 줄인다
+        need = [int(x * sum(ws) / sum(need)) for x in need]
+    for _ in range(10):
+        short = sum(max(0, need[c] - ws[c]) for c in range(n))
+        if short <= 0: break
+        spare = [max(0, ws[c] - need[c]) for c in range(n)]
+        tot = sum(spare)
+        if tot <= 0: break
+        ws = [max(ws[c], need[c]) - int(round(spare[c] * short / tot)) for c in range(n)]
+    return ws
+
+
 def table(caption, rows, widths, align=None, unit=None, note=None):
     """표 제목, (단위), 표, (주·자료) 문단의 목록을 돌려준다. rows[0]은 머리줄. widths는 비율. align은 열마다 'c'(가운데)나 'l'(왼쪽)."""
     n = len(rows[0])
     assert all(len(r) == n for r in rows), [len(r) for r in rows]
-    tot = float(sum(widths)); ws = [int(round(w * WIDTH / tot)) for w in widths]; ws[-1] += WIDTH - sum(ws)
+    tot = float(sum(widths)); ws = [int(round(w * WIDTH / tot)) for w in widths]
+    ws = _fit_widths(ws, rows); ws[-1] += WIDTH - sum(ws)
     align = align or (['c'] + ['l'] * (n - 1))
     trs = ''
     for r, row in enumerate(rows):
@@ -129,7 +157,6 @@ def table(caption, rows, widths, align=None, unit=None, note=None):
     out = [TCAP(caption)]
     if unit: out.append(UNIT(unit))
     out.append(tbl)
-    if note: out.append(NOTE(note))
     out.append(BLANK())
     return out
 
