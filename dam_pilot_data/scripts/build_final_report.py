@@ -28,9 +28,11 @@ PLAN = {
     '2.1 수자원 분야 사례 조사': ['1_1_1', '1_1_2', '1_1_3', '1_1_4', '1_1_5'],
     '2.2 국내 운영 여건 조사': ['1_2'],
     '2.3 적용 기술요소 및 모델 제안': ['1_3'],
+    '2.4 최종 산출물': ['1_4'],
     '3.1 수집 경로 조사': ['2_1'],
     '3.2 온톨로지·메타데이터 설계방안 조사': ['2_2'],
     '3.3 RAG-LLM 통합 파이프라인(안) 제시': ['2_3'],
+    '3.4 최종 산출물': ['2_4'],
 }
 MAKE = {'H3': H3, 'H4': H4, 'H5': H5, 'BODY': BODY, 'SQ': SQ, 'CI': CI, 'DS': DS, 'NOTE': NOTE}
 FORM = {'H3': form_h3, 'H4': form_h4, 'H5': form_h5}        # 발주처 양식의 제목 번호로 바꾼다
@@ -98,7 +100,7 @@ for heading, items in loaded.items():
     first_pass(items, chapter_of(heading))
 for heading, items in loaded.items():
     if items:
-        doc.fill(form_h2(heading), render(items))
+        doc.fill(form_h2(heading), render(items), chapter_of(heading))
 doc.references([BIB[k] for k in refs] or ['(작성 중)'])
 if ONLY:
     doc.keep_only(ONLY)

@@ -226,9 +226,12 @@ class Report:
                    + [TITLE('그 림 목 차'), TBLANK()] + (figs or [TBLANK()]) + self.ps[bs:])
         return len(ent), len(tabs), len(figs)
 
-    def fill(self, heading, items):
+    def fill(self, heading, items, chapter=None):
         """본문에서 제목이 heading인 절 아래의 빈 문단을 items로 바꾼다."""
-        i = [k for k in range(self.body_start(), len(self.ps)) if self._style(k) == 35 and text_of(self.ps[k]) == heading][0]
+        start = self.body_start()
+        if chapter:                                      # 같은 제목의 절(라. 최종 산출물)이 장마다 있으므로 그 장 안에서 찾는다
+            start = [k for k in range(start, len(self.ps)) if self._style(k) == 34 and text_of(self.ps[k]).startswith(chapter + '.')][0]
+        i = [k for k in range(start, len(self.ps)) if self._style(k) == 35 and text_of(self.ps[k]) == heading][0]
         j = i + 1
         while j < len(self.ps) and text_of(self.ps[j]) == '' and '<hp:tbl' not in self.ps[j] and '<hp:pic' not in self.ps[j]:
             j += 1
