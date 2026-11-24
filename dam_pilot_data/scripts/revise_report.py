@@ -9,6 +9,7 @@
 사용: python3 dam_pilot_data/scripts/revise_report.py
 """
 import json, os, re
+raise SystemExit('이 스크립트는 2026-11-24 이전 단계의 것이다. 다시 실행하면 이후 수정(apply_feedback_1124.py)이 지워지므로 막아 둔다.')
 HERE = os.path.dirname(os.path.abspath(__file__))
 SEC = os.path.join(HERE, '..', '..', 'project_khnp', 'final_report', 'sections')
 load = lambda n: json.load(open(os.path.join(SEC, '_old2', n + '.json'), encoding='utf-8'))

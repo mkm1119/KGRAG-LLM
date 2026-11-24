@@ -7,6 +7,7 @@
 사용: python3 dam_pilot_data/scripts/rewrite_1_1.py
 """
 import json, os, re
+raise SystemExit('이 스크립트는 2026-11-24 이전 단계의 것이다. 다시 실행하면 이후 수정(apply_feedback_1124.py)이 지워지므로 막아 둔다.')
 HERE = os.path.dirname(os.path.abspath(__file__))
 SEC = os.path.join(HERE, '..', '..', 'project_khnp', 'final_report', 'sections')
 BAD = re.compile(r'제시되지 않|어긋나|일치하지 않|확인되지 않|본문 설명과 표|직접 비교할 수 없|[0-9]편|미제시|평가되지 않|수행되지 않|나란히 놓아|상세 비교에서 제외')

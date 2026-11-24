@@ -15,7 +15,7 @@ from xml.sax.saxutils import escape
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 TEMPLATE = os.path.join(HERE, '..', '..', 'project_khnp', 'final_report', '최종보고서_템플릿.hwpx')
-WIDTH = 42520                      # 본문 폭(템플릿 표의 폭)
+WIDTH = 49606                      # 본문 폭(발주처 양식의 여백: 210 - 15 - 12 - 제본 8 = 175mm)
 _id = [1950000000]
 
 
@@ -45,6 +45,8 @@ def UNIT(t): return _p(t, 46, 48, 28)         # [단위: ]
 def NOTE(t): return _p(t, 47, 49, 28)         # 주·자료
 def REF(t): return _p(t, 48, 50, 26)          # 참고문헌
 def BLANK(): return _p('', 38, 39, 26)
+def TOC1(t): return _p(t, 50, 52, 17)        # 목차: 장
+def TOC2(t): return _p(t, 51, 53, 26)        # 목차: 절, 소절, 표·그림
 
 # 표 칸의 테두리 번호(템플릿 예시 표에서 읽은 값): 머리줄·가운데 줄·마지막 줄 × 왼쪽·가운데·오른쪽 칸
 _BF = {}
@@ -85,7 +87,7 @@ def table(caption, rows, widths, align=None, unit=None, note=None):
         tcs = ''.join(_cell(v, r, c, ws[c], kind, 0 if c == 0 else (2 if c == n - 1 else 1), align[c], r == 0) for c, v in enumerate(row))
         trs += '<hp:tr>%s</hp:tr>' % tcs
     tbl = ('<hp:p id="0" paraPrIDRef="49" styleIDRef="51" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="20">'
-           '<hp:tbl id="%d" zOrder="%d" numberingType="TABLE" textWrap="TOP_AND_BOTTOM" textFlow="BOTH_SIDES" lock="0" dropcapstyle="None" pageBreak="CELL" repeatHeader="1" rowCnt="%d" colCnt="%d" cellSpacing="0" borderFillIDRef="4" noAdjust="0">'
+           '<hp:tbl id="%d" zOrder="%d" numberingType="TABLE" textWrap="TOP_AND_BOTTOM" textFlow="BOTH_SIDES" lock="0" dropcapstyle="None" pageBreak="TABLE" repeatHeader="1" rowCnt="%d" colCnt="%d" cellSpacing="0" borderFillIDRef="4" noAdjust="0">'
            '<hp:sz width="%d" widthRelTo="ABSOLUTE" height="%d" heightRelTo="ABSOLUTE" protect="0"/>'
            '<hp:pos treatAsChar="0" affectLSpacing="0" flowWithText="1" allowOverlap="0" holdAnchorAndSO="0" vertRelTo="PARA" horzRelTo="COLUMN" vertAlign="TOP" horzAlign="LEFT" vertOffset="0" horzOffset="0"/>'
            '<hp:outMargin left="0" right="0" top="0" bottom="0"/><hp:inMargin left="510" right="510" top="141" bottom="141"/>%s</hp:tbl><hp:t/></hp:run></hp:p>'
@@ -134,11 +136,33 @@ class Report:
         assert hit, starts
         return hit[0]
 
+    def _style(self, i):
+        return int(re.search(r'styleIDRef="(\d+)"', self.ps[i]).group(1))
+
+    def body_start(self):
+        """목차 뒤에서 본문이 시작하는 문단(1. 서론)의 위치."""
+        toc = self._find('목    차')
+        return [k for k in range(toc + 1, len(self.ps)) if self._style(k) == 34 and text_of(self.ps[k]).startswith('1. 서론')][0]
+
+    def rebuild_toc(self):
+        """본문의 장·절·소절 제목과 표·그림 제목으로 목차, 표 목차, 그림 목차를 다시 만든다(쪽 번호는 한글에서 넣는다)."""
+        toc, bs = self._find('목    차'), self.body_start()
+        ent, tabs, figs = [], [], []
+        for k in range(bs, len(self.ps)):
+            st, t = self._style(k), text_of(self.ps[k])
+            if not t: continue
+            if st == 34: ent.append(TOC1(t))
+            elif st == 35: ent.append(TOC2(t))
+            elif st == 36: ent.append(TOC2('\u3000' + t))
+            elif st == 43: tabs.append(TOC2(t))
+            elif st == 44: figs.append(TOC2(t))
+        self.ps = (self.ps[:toc + 1] + ent + [_p('표 목 차', 33, 34, 22, 1)] + (tabs or [BLANK()])
+                   + [_p('그림 목차', 33, 34, 22, 1)] + (figs or [BLANK()]) + self.ps[bs:])
+        return len(ent), len(tabs), len(figs)
+
     def fill(self, heading, items):
         """본문에서 제목이 heading인 절 아래의 빈 문단을 items로 바꾼다."""
-        toc = self._find('목    차')
-        first_body = self._find('1. 국내외 기술 트렌드 조사', toc + 2)      # 목차 뒤의 본문 시작
-        i = self._find(heading, first_body)
+        i = self._find(heading, self.body_start())
         j = i + 1
         while j < len(self.ps) and text_of(self.ps[j]) == '' and '<hp:tbl' not in self.ps[j] and '<hp:pic' not in self.ps[j]:
             j += 1
@@ -146,7 +170,7 @@ class Report:
         self.stats[heading] = sum(len(text_of(x)) for x in items)
 
     def references(self, refs):
-        i = self._find('참고문헌', self._find('5. 연구개발 추진 방향', self._find('목    차') + 20))
+        i = [k for k in range(self.body_start(), len(self.ps)) if self._style(k) == 34 and text_of(self.ps[k]).startswith('참고문헌')][0]
         j = i + 1
         while j < len(self.ps) and not text_of(self.ps[j]).startswith('부록'):
             j += 1
