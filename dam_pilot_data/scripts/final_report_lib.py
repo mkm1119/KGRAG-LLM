@@ -242,6 +242,14 @@ class Report:
             j += 1
         self.ps = self.ps[:i + 1] + [REF('%d. %s' % (k + 1, r)) for k, r in enumerate(refs)] + self.ps[j:]
 
+    def appendix(self, items):
+        """'부    록' 제목 아래의 빈 문단을 items로 바꾼다."""
+        i = [k for k in range(self.body_start(), len(self.ps)) if nospace(self.ps[k]) == '부록' and 'paraPrIDRef="55"' in self.ps[k]][0]
+        j = i + 1
+        while j < len(self.ps) and text_of(self.ps[j]) == '':
+            j += 1
+        self.ps = self.ps[:i + 1] + list(items) + self.ps[j:]
+
     def set_cover(self, date_text):
         i = self._find('(작성 템플릿)'); self.ps[i] = self.ps[i].replace('(작성 템플릿)', '')
         i = self._find('20  .   .'); self.ps[i] = self.ps[i].replace('20  .   .', date_text)

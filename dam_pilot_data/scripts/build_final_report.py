@@ -93,10 +93,15 @@ for heading, files in PLAN.items():
     loaded[heading] = items
 for heading, items in loaded.items():
     first_pass(items, chapter_of(heading))
+APP = json.load(open(os.path.join(SEC, 'A_1.json'), encoding='utf-8')) if os.path.exists(os.path.join(SEC, 'A_1.json')) else []
+first_pass(APP, 'A')                                  # 부록의 표·그림은 '표 A.1'로 매긴다
 for heading, items in loaded.items():
     if items:
         doc.fill(form_h2(heading), render(items))
+app_ps = render(APP)                                    # 부록의 인용도 참고문헌에 들어가도록 먼저 만든다
 doc.references([BIB[k] for k in refs] or ['(작성 중)'])
+if app_ps:
+    doc.appendix(app_ps)
 toc_n = doc.rebuild_toc()
 doc.save(OUT)
 unres = [l for l in re.findall(r'(?:표|그림) \?\([^)]*\)', ''.join(doc.ps))]
