@@ -8,7 +8,7 @@
 import os, re, shutil, sys, zipfile
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-from final_report_lib import TEMPLATE, _top_paragraphs, text_of, H1, H2, BLANK, TOC1, TOC2, _p, form_h2
+from final_report_lib import TEMPLATE, _top_paragraphs, text_of, H1, H2, BLANK, _p, form_h2, TITLE, TOCC, TOCE, LISTE, PAGELINE, TBLANK, ROMAN
 
 src = TEMPLATE.replace('.hwpx', '_v1.hwpx')
 if not os.path.exists(src):
@@ -35,6 +35,48 @@ for pid in range(33, 39):                            # 제목과 본문의 줄�
     para(pid, lambda b: re.sub(r'(<hh:lineSpacing type="PERCENT" value=")\d+', r'\g<1>160', b))
 for pid in (38, 39, 40, 41, 47, 48):                 # 본문, □, ◦, -, 주·자료, 참고문헌: 문단 보호
     para(pid, lambda b: b.replace('keepLines="0"', 'keepLines="1"'))
+
+# 제목 서식을 양식에 맞춘다: 장 제목은 15pt 굵게 왼쪽, '가.' 이하는 12pt 보통 굵기에 수준마다 한 칸씩 들여쓰기
+para(33, lambda b: b.replace('<hh:align horizontal="CENTER"', '<hh:align horizontal="JUSTIFY"'))
+for cid in (17, 23, 24, 25):
+    m = re.search(r'<hh:charPr id="%d".*?</hh:charPr>' % cid, head, re.S)
+    head = head[:m.start()] + re.sub(r'height="\d+"', 'height="1200"', m.group(0).replace('<hh:bold/>', ''), 1) + head[m.end():]
+
+
+def margins(b, left=None, prev=None, intent=None):
+    """문단 모양의 여백을 바꾼다(hp:case에는 값, hp:default에는 두 배 값이 들어 있다)."""
+    case, default = b.split('<hp:default>')
+    for name, v in (('left', left), ('prev', prev), ('intent', intent)):
+        if v is not None:
+            case = re.sub(r'(<hc:%s value=")-?\d+' % name, r'\g<1>%d' % v, case)
+            default = re.sub(r'(<hc:%s value=")-?\d+' % name, r'\g<1>%d' % (2 * v), default)
+    return case + '<hp:default>' + default
+
+
+for pid, left in ((34, 600), (35, 1200), (36, 1800), (37, 2400)):
+    para(pid, lambda b, left=left: margins(b, left=left))
+
+
+def clone(kind, src, fn):
+    """글자 모양(charPr)이나 문단 모양(paraPr)을 복사하여 새 번호로 덧붙이고 새 번호를 돌려준다."""
+    global head
+    m = re.search(r'<hh:%s id="%d".*?</hh:%s>' % (kind, src, kind), head, re.S)
+    new = max(map(int, re.findall(r'<hh:%s id="(\d+)"' % kind, head))) + 1
+    block = fn(m.group(0).replace('id="%d"' % src, 'id="%d"' % new, 1))
+    end = head.index('</hh:%s>' % ('charProperties' if kind == 'charPr' else 'paraProperties'))
+    head = head[:end] + block + head[end:]
+    head = re.sub(r'(<hh:%s itemCnt=")(\d+)' % ('charProperties' if kind == 'charPr' else 'paraProperties'), lambda g: g.group(1) + str(int(g.group(2)) + 1), head)
+    return new
+
+
+line = lambda b, v: re.sub(r'(<hh:lineSpacing type="PERCENT" value=")\d+', r'\g<1>%d' % v, b)
+ids = [clone('charPr', 22, lambda b: b.replace('height="1500"', 'height="2000"')),                                   # 33: 목차 제목 20pt 굵게
+       clone('charPr', 26, lambda b: b.replace('height="1200"', 'height="1500"')),                                   # 34: 목차의 장 15pt
+       clone('paraPr', 33, lambda b: b.replace('horizontal="JUSTIFY"', 'horizontal="CENTER"')),                      # 55: 목차 제목 가운데
+       clone('paraPr', 51, lambda b: line(margins(b.replace('tabPrIDRef="0"', 'tabPrIDRef="2"').replace('horizontal="LEFT"', 'horizontal="JUSTIFY"'), left=0, prev=0), 150)),   # 56: 목차 줄(오른쪽 끝 탭, 150%)
+       clone('paraPr', 51, lambda b: line(margins(b.replace('tabPrIDRef="0"', 'tabPrIDRef="2"').replace('horizontal="LEFT"', 'horizontal="JUSTIFY"'), left=0, prev=0), 160)),   # 57: 표·그림 목차 줄(160%)
+       clone('paraPr', 46, lambda b: line(b, 150))]                                                                  # 58: PAGE 줄(오른쪽)
+assert ids == [33, 34, 55, 56, 57, 58], ids
 
 # ---------------------------------------------------------------- section0.xml: 용지 여백
 sec, n = re.subn(r'<hp:margin header="\d+" footer="\d+" gutter="\d+" left="\d+" right="\d+" top="\d+" bottom="\d+"/>',
@@ -70,6 +112,10 @@ for a, b in (('중목차 (1.1)', '중목차 (가.)'), ('소목차 (1.1.1)', '소
     assert a in sec, a
     sec = sec.replace(a, b)
 
+for a, b in (('<hp:t>13pt 굵게</hp:t>', '<hp:t>12pt</hp:t>'), ('<hp:t>12pt 굵게</hp:t>', '<hp:t>12pt</hp:t>'), ('가운데, 새 쪽에서 시작', '왼쪽, 새 쪽에서 시작')):
+    assert a in sec, a
+    sec = sec.replace(a, b)
+
 sp = _top_paragraphs(sec)
 pre, post = sec[:sp[0][0]], sec[sp[-1][1]:]
 ps = [sec[a:b] for a, b in sp]
@@ -80,19 +126,25 @@ body = [i for i, p in enumerate(ps) if i > toc and is_h1(p) and text_of(p).start
 CTRL = '<hp:ctrl><hp:pageNum pos="BOTTOM_CENTER" formatType="DIGIT" sideChar="-"/></hp:ctrl><hp:ctrl><hp:newNum num="1" numType="PAGE"/></hp:ctrl>'
 assert CTRL in ps[body]
 ps[body] = ps[body].replace(CTRL, '')
-intro_h1 = H1('1. 서론').replace('<hp:t>', CTRL + '<hp:t>', 1)
+intro_h1 = H1('1. 서  론').replace('<hp:t>', CTRL + '<hp:t>', 1)
 intro = [intro_h1]
 for t in ('가. 과업의 배경 및 목적', '나. 과업 범위', '다. 추진 경위'):
     intro += [H2(t), BLANK(), BLANK()]
 ref = [i for i, p in enumerate(ps) if i > body and is_h1(p) and text_of(p).startswith('참고문헌')][0]
-concl = [H1('7. 결론'), BLANK()]
-# 목차: 조립할 때 본문의 제목과 표·그림 제목으로 다시 만든다. 템플릿에는 자리만 둔다.
-toc_entries = [TOC1('1. 서론'), TOC2('가. 과업의 배경 및 목적'), TOC2('나. 과업 범위'), TOC2('다. 추진 경위')]
+concl = [H1('7. 결  론'), BLANK()]
+# 목차: 양식의 차례 쪽(제목 20pt, PAGE 줄, 점선과 쪽 번호 자리). 조립할 때 본문의 제목과 표·그림 제목으로 다시 만든다.
+toc_entries = [TBLANK(), PAGELINE(), TOCE('목    차'), TOCE('표 목 차'), TOCE('그림목차'), TBLANK(), PAGELINE(), TBLANK(),
+               TOCC('1. 서  론'), TOCE(' 가. 과업의 배경 및 목적'), TOCE(' 나. 과업 범위'), TOCE(' 다. 추진 경위'), TBLANK()]
 for t in OLD:
     new = str(int(t[0]) + 1) + t[1:]
-    toc_entries.append(TOC1(new) if new[1:3] == '. ' else TOC2(form_h2(new)))
-toc_entries += [TOC1('7. 결론'), TOC1('참고문헌'), TOC1('부록'),
-                _p('표 목 차', 33, 34, 22, 1), TOC2('표 1.1 ○○○○○'), _p('그림 목차', 33, 34, 22, 1), TOC2('그림 1.1 ○○○○○')]
+    if new[1:3] == '. ' and new[0] != '2': toc_entries.append(TBLANK())
+    toc_entries.append(TOCC(new) if new[1:3] == '. ' else TOCE(' ' + form_h2(new)))
+toc_entries += [TBLANK(), TOCC('7. 결  론'), TBLANK(), TOCE('참고문헌'), TOCE('부    록'),
+                TITLE('표 목 차'), TBLANK(), LISTE('표 1.1 ○○○○○'), TITLE('그 림 목 차'), TBLANK(), LISTE('그림 1.1 ○○○○○')]
+ps[toc] = TITLE('목   차').replace('<hp:t>', ROMAN + '<hp:t>', 1)          # 앞부분 쪽 번호는 로마 숫자(-ⅱ-)
+ps[ref] = TITLE('참 고 문 헌')
+app = [i for i, p in enumerate(ps) if i > ref and is_h1(p) and text_of(p).startswith('부록')][0]
+ps[app] = TITLE('부    록')
 ps = ps[:toc + 1] + toc_entries + intro + ps[body:ref] + concl + ps[ref:]
 strip = lambda p: p if ('<hp:tbl' in p or '<hp:pic' in p) else re.sub(r'<hp:linesegarray>.*?</hp:linesegarray>', '', p, flags=re.S)
 out_sec = pre + ''.join(strip(p) for p in ps) + post

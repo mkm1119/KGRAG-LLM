@@ -45,8 +45,25 @@ def UNIT(t): return _p(t, 46, 48, 28)         # [단위: ]
 def NOTE(t): return _p(t, 47, 49, 28)         # 주·자료
 def REF(t): return _p(t, 48, 50, 26)          # 참고문헌
 def BLANK(): return _p('', 38, 39, 26)
-def TOC1(t): return _p(t, 50, 52, 17)        # 목차: 장
-def TOC2(t): return _p(t, 51, 53, 26)        # 목차: 절, 소절, 표·그림
+
+# 목차 쪽(발주처 양식): 제목 20pt 굵게 가운데, 줄마다 점선과 쪽 번호 자리. 문단·글자 모양 번호는 upgrade_template_khnp.py가 덧붙인 것이다.
+_TAB = '<hp:tab width="20000" leader="3" type="2"/>'
+ROMAN = '<hp:ctrl><hp:pageNum pos="BOTTOM_CENTER" formatType="ROMAN_SMALL" sideChar="-"/></hp:ctrl>'
+
+
+def _toc(t, para, char, page=''):
+    return ('<hp:p id="0" paraPrIDRef="%d" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="%d"><hp:t>%s%s%s</hp:t></hp:run></hp:p>'
+            % (para, char, escape(t), _TAB, escape(page)))
+
+
+def TITLE(t): return _p(t, 55, 0, 33, 1)        # 목 차, 표 목 차, 그 림 목 차, 참 고 문 헌 (새 쪽)
+def TOCC(t, page=''): return _toc(t, 56, 34, page)   # 목차: 장(15pt)
+def TOCE(t, page=''): return _toc(t, 56, 26, page)   # 목차: 가. 수준(12pt)
+def LISTE(t, page=''): return _toc(t, 57, 26, page)  # 표 목차, 그림 목차의 줄
+def PAGELINE(): return _p('PAGE', 58, 0, 26)
+def TBLANK(): return _p('', 56, 0, 26)
+def nospace(p): return text_of(p).replace(' ', '')
+
 
 # 발주처 양식의 제목 번호: 1. -> 가. -> 1) -> 가) -> ①. 소절 파일은 2.1.3, 가., (1)로 적어 두고 조립할 때 바꾼다.
 KA = '가나다라마바사아자차카타파하'
@@ -144,7 +161,7 @@ class Report:
         ex = [p for p in self.ps if '<hp:tbl' in p and '사례 수' in p]
         _load_borderfills(ex[0])
         if drop_guide:                       # [작성 안내]부터 '목 차' 앞까지(안내와 예시)를 뺀다
-            a = self._find('[작성 안내]'); b = self._find('목    차')
+            a = self._find('[작성 안내]'); b = self.toc_start()
             self.ps = self.ps[:a] + self.ps[b:]
         self.stats = {}
 
@@ -158,22 +175,28 @@ class Report:
 
     def body_start(self):
         """목차 뒤에서 본문이 시작하는 문단(1. 서론)의 위치."""
-        toc = self._find('목    차')
-        return [k for k in range(toc + 1, len(self.ps)) if self._style(k) == 34 and text_of(self.ps[k]).startswith('1. 서론')][0]
+        return [k for k in range(self.toc_start() + 1, len(self.ps)) if self._style(k) == 34 and nospace(self.ps[k]) == '1.서론'][0]
+
+    def toc_start(self):
+        return [k for k, p in enumerate(self.ps) if nospace(p) == '목차' and 'paraPrIDRef="55"' in p][0]
 
     def rebuild_toc(self):
         """본문의 장·절·소절 제목과 표·그림 제목으로 목차, 표 목차, 그림 목차를 다시 만든다(쪽 번호는 한글에서 넣는다)."""
-        toc, bs = self._find('목    차'), self.body_start()
-        ent, tabs, figs = [], [], []
+        toc, bs = self.toc_start(), self.body_start()
+        ent, tabs, figs, first = [], [], [], True
         for k in range(bs, len(self.ps)):
             st, t = self._style(k), text_of(self.ps[k])
             if not t: continue
-            if st == 34: ent.append(TOC1(t))
-            elif st == 35: ent.append(TOC2(t))
-            elif st == 43: tabs.append(TOC2(t))
-            elif st == 44: figs.append(TOC2(t))
-        self.ps = (self.ps[:toc + 1] + ent + [_p('표 목 차', 33, 34, 22, 1)] + (tabs or [BLANK()])
-                   + [_p('그림 목차', 33, 34, 22, 1)] + (figs or [BLANK()]) + self.ps[bs:])
+            if st == 34:
+                if not first: ent.append(TBLANK())
+                ent.append(TOCC(t)); first = False
+            elif st == 35: ent.append(TOCE(' ' + t))
+            elif st == 43: tabs.append(LISTE(t))
+            elif st == 44: figs.append(LISTE(t))
+        front = [TBLANK(), PAGELINE(), TOCE('목    차'), TOCE('표 목 차'), TOCE('그림목차'), TBLANK(), PAGELINE(), TBLANK()]
+        back = [TBLANK(), TOCE('참고문헌'), TOCE('부    록')]
+        self.ps = (self.ps[:toc + 1] + front + ent + back + [TITLE('표 목 차'), TBLANK()] + (tabs or [TBLANK()])
+                   + [TITLE('그 림 목 차'), TBLANK()] + (figs or [TBLANK()]) + self.ps[bs:])
         return len(ent), len(tabs), len(figs)
 
     def fill(self, heading, items):
@@ -186,9 +209,9 @@ class Report:
         self.stats[heading] = sum(len(text_of(x)) for x in items)
 
     def references(self, refs):
-        i = [k for k in range(self.body_start(), len(self.ps)) if self._style(k) == 34 and text_of(self.ps[k]).startswith('참고문헌')][0]
+        i = [k for k in range(self.body_start(), len(self.ps)) if nospace(self.ps[k]) == '참고문헌' and 'paraPrIDRef="55"' in self.ps[k]][0]
         j = i + 1
-        while j < len(self.ps) and not text_of(self.ps[j]).startswith('부록'):
+        while j < len(self.ps) and nospace(self.ps[j]) != '부록':
             j += 1
         self.ps = self.ps[:i + 1] + [REF('%d. %s' % (k + 1, r)) for k, r in enumerate(refs)] + self.ps[j:]
 
