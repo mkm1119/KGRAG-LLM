@@ -145,12 +145,12 @@ for t in OLD:
     new = str(int(t[0]) + 1) + t[1:]
     if new[1:3] == '. ' and new[0] != '2': toc_entries.append(TBLANK())
     toc_entries.append(TOCC(new) if new[1:3] == '. ' else TOCE(' ' + form_h2(new)))
-toc_entries += [TBLANK(), TOCC('7. 결  론'), TBLANK(), TOCE('참고문헌'), TOCE('부    록'),
+toc_entries += [TBLANK(), TOCC('7. 결  론'), TBLANK(), TOCE('참고문헌'),
                 TITLE('표 목 차'), TBLANK(), LISTE('표 1.1 ○○○○○'), TITLE('그 림 목 차'), TBLANK(), LISTE('그림 1.1 ○○○○○')]
 ps[toc] = TITLE('목   차').replace('<hp:t>', ROMAN + '<hp:t>', 1)          # 앞부분 쪽 번호는 로마 숫자(-ⅱ-)
 ps[ref] = TITLE('참 고 문 헌')
 app = [i for i, p in enumerate(ps) if i > ref and is_h1(p) and text_of(p).startswith('부록')][0]
-ps[app] = TITLE('부    록')
+del ps[app:]                                   # 부록은 쓰지 않는다(참고문헌까지)
 ps = ps[:toc + 1] + toc_entries + intro + ps[body:ref] + concl + ps[ref:]
 strip = lambda p: p if ('<hp:tbl' in p or '<hp:pic' in p) else re.sub(r'<hp:linesegarray>.*?</hp:linesegarray>', '', p, flags=re.S)
 out_sec = pre + ''.join(strip(p) for p in ps) + post

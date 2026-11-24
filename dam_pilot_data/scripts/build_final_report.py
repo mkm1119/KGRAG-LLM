@@ -15,6 +15,9 @@ from final_report_lib import *          # noqa
 ROOT = os.path.join(HERE, '..', '..')
 SEC = os.path.join(ROOT, 'project_khnp', 'final_report', 'sections')
 BIB = json.load(open(os.path.join(ROOT, 'references', 'case_survey', 'bib.json'), encoding='utf-8'))
+ONLY = None
+if '--only' in sys.argv:                                 # 한 장만 남긴 검토용 파일: --only 2 출력.hwpx
+    k = sys.argv.index('--only'); ONLY = sys.argv[k + 1]; del sys.argv[k:k + 2]
 OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(ROOT, 'project_khnp', 'final_report', '최종보고서_초안.hwpx')
 
 # 절 제목(템플릿의 제목) -> 그 절에 들어갈 소절 파일(순서대로)
@@ -93,15 +96,12 @@ for heading, files in PLAN.items():
     loaded[heading] = items
 for heading, items in loaded.items():
     first_pass(items, chapter_of(heading))
-APP = json.load(open(os.path.join(SEC, 'A_1.json'), encoding='utf-8')) if os.path.exists(os.path.join(SEC, 'A_1.json')) else []
-first_pass(APP, 'A')                                  # 부록의 표·그림은 '표 A.1'로 매긴다
 for heading, items in loaded.items():
     if items:
         doc.fill(form_h2(heading), render(items))
-app_ps = render(APP)                                    # 부록의 인용도 참고문헌에 들어가도록 먼저 만든다
 doc.references([BIB[k] for k in refs] or ['(작성 중)'])
-if app_ps:
-    doc.appendix(app_ps)
+if ONLY:
+    doc.keep_only(ONLY)
 toc_n = doc.rebuild_toc()
 doc.save(OUT)
 unres = [l for l in re.findall(r'(?:표|그림) \?\([^)]*\)', ''.join(doc.ps))]

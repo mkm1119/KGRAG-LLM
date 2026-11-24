@@ -202,7 +202,7 @@ class Report:
 
     def body_start(self):
         """목차 뒤에서 본문이 시작하는 문단(1. 서론)의 위치."""
-        return [k for k in range(self.toc_start() + 1, len(self.ps)) if self._style(k) == 34 and nospace(self.ps[k]) == '1.서론'][0]
+        return [k for k in range(self.toc_start() + 1, len(self.ps)) if self._style(k) == 34 and re.match(r'\d+\.', text_of(self.ps[k]))][0]
 
     def toc_start(self):
         return [k for k, p in enumerate(self.ps) if nospace(p) == '목차' and 'paraPrIDRef="55"' in p][0]
@@ -221,7 +221,7 @@ class Report:
             elif st == 43: tabs.append(LISTE(t))
             elif st == 44: figs.append(LISTE(t))
         front = [TBLANK(), PAGELINE(), TOCE('목    차'), TOCE('표 목 차'), TOCE('그림목차'), TBLANK(), PAGELINE(), TBLANK()]
-        back = [TBLANK(), TOCE('참고문헌'), TOCE('부    록')]
+        back = [TBLANK(), TOCE('참고문헌')]
         self.ps = (self.ps[:toc + 1] + front + ent + back + [TITLE('표 목 차'), TBLANK()] + (tabs or [TBLANK()])
                    + [TITLE('그 림 목 차'), TBLANK()] + (figs or [TBLANK()]) + self.ps[bs:])
         return len(ent), len(tabs), len(figs)
@@ -238,17 +238,17 @@ class Report:
     def references(self, refs):
         i = [k for k in range(self.body_start(), len(self.ps)) if nospace(self.ps[k]) == '참고문헌' and 'paraPrIDRef="55"' in self.ps[k]][0]
         j = i + 1
-        while j < len(self.ps) and nospace(self.ps[j]) != '부록':
-            j += 1
+        j = len(self.ps)                                  # 참고문헌이 마지막이다(부록 없음)
         self.ps = self.ps[:i + 1] + [REF('%d. %s' % (k + 1, r)) for k, r in enumerate(refs)] + self.ps[j:]
 
-    def appendix(self, items):
-        """'부    록' 제목 아래의 빈 문단을 items로 바꾼다."""
-        i = [k for k in range(self.body_start(), len(self.ps)) if nospace(self.ps[k]) == '부록' and 'paraPrIDRef="55"' in self.ps[k]][0]
-        j = i + 1
-        while j < len(self.ps) and text_of(self.ps[j]) == '':
-            j += 1
-        self.ps = self.ps[:i + 1] + list(items) + self.ps[j:]
+    def keep_only(self, chapter):
+        """본문에서 한 장만 남긴다(나누어 검토할 때). chapter는 장 번호 문자열."""
+        bs = self.body_start()
+        h1 = [k for k in range(bs, len(self.ps)) if self._style(k) == 34]
+        ref = [k for k in range(bs, len(self.ps)) if nospace(self.ps[k]) == '참고문헌' and 'paraPrIDRef="55"' in self.ps[k]][0]
+        a = [k for k in h1 if text_of(self.ps[k]).startswith(chapter + '.')][0]
+        b = min([k for k in h1 if k > a] + [ref])
+        self.ps = self.ps[:bs] + self.ps[a:b] + self.ps[ref:]
 
     def set_cover(self, date_text):
         i = self._find('(작성 템플릿)'); self.ps[i] = self.ps[i].replace('(작성 템플릿)', '')
