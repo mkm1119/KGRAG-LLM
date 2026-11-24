@@ -48,6 +48,23 @@ def BLANK(): return _p('', 38, 39, 26)
 def TOC1(t): return _p(t, 50, 52, 17)        # 목차: 장
 def TOC2(t): return _p(t, 51, 53, 26)        # 목차: 절, 소절, 표·그림
 
+# 발주처 양식의 제목 번호: 1. -> 가. -> 1) -> 가) -> ①. 소절 파일은 2.1.3, 가., (1)로 적어 두고 조립할 때 바꾼다.
+KA = '가나다라마바사아자차카타파하'
+CIRC = '①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮'
+
+
+def form_h2(t): return re.sub(r'^\d\.(\d) ', lambda m: KA[int(m.group(1)) - 1] + '. ', t)            # 2.1 제목 -> 가. 제목
+def form_h3(t): return re.sub(r'^\d\.\d\.(\d+) ', lambda m: m.group(1) + ') ', t)                    # 2.1.3 제목 -> 3) 제목
+def form_h4(t): return re.sub(r'^([가-하])\. ', r'\1) ', t)                                            # 가. 제목 -> 가) 제목
+def form_h5(t): return re.sub(r'^\((\d+)\) ', lambda m: CIRC[int(m.group(1)) - 1] + ' ', t)            # (1) 제목 -> ① 제목
+
+
+def form_refs(t):
+    """본문의 절 참조를 양식의 번호로 바꾼다: 3.2.4 -> 3장 나절 4), 3.2절 -> 3장 나절."""
+    t = re.sub(r'(?<![\w.\-])([1-7])\.(\d)\.(\d{1,2})(?![\d.])', lambda m: '%s장 %s절 %s)' % (m.group(1), KA[int(m.group(2)) - 1], m.group(3)), t)
+    return re.sub(r'(?<![\w.\-])([1-7])\.(\d)절', lambda m: '%s장 %s절' % (m.group(1), KA[int(m.group(2)) - 1]), t)
+
+
 # 표 칸의 테두리 번호(템플릿 예시 표에서 읽은 값): 머리줄·가운데 줄·마지막 줄 × 왼쪽·가운데·오른쪽 칸
 _BF = {}
 
@@ -153,7 +170,6 @@ class Report:
             if not t: continue
             if st == 34: ent.append(TOC1(t))
             elif st == 35: ent.append(TOC2(t))
-            elif st == 36: ent.append(TOC2('\u3000' + t))
             elif st == 43: tabs.append(TOC2(t))
             elif st == 44: figs.append(TOC2(t))
         self.ps = (self.ps[:toc + 1] + ent + [_p('표 목 차', 33, 34, 22, 1)] + (tabs or [BLANK()])
@@ -162,7 +178,7 @@ class Report:
 
     def fill(self, heading, items):
         """본문에서 제목이 heading인 절 아래의 빈 문단을 items로 바꾼다."""
-        i = self._find(heading, self.body_start())
+        i = [k for k in range(self.body_start(), len(self.ps)) if self._style(k) == 35 and text_of(self.ps[k]) == heading][0]
         j = i + 1
         while j < len(self.ps) and text_of(self.ps[j]) == '' and '<hp:tbl' not in self.ps[j] and '<hp:pic' not in self.ps[j]:
             j += 1

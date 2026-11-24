@@ -30,6 +30,7 @@ PLAN = {
     '3.3 RAG-LLM 통합 파이프라인(안) 제시': ['2_3'],
 }
 MAKE = {'H3': H3, 'H4': H4, 'H5': H5, 'BODY': BODY, 'SQ': SQ, 'CI': CI, 'DS': DS, 'NOTE': NOTE}
+FORM = {'H3': form_h3, 'H4': form_h4, 'H5': form_h5}        # 발주처 양식의 제목 번호로 바꾼다
 
 refs, labels, missing_bib = [], {}, set()
 counters = {}
@@ -61,7 +62,7 @@ def first_pass(items, ch):
 def resolve(t):
     t = re.sub(r'⟦문헌:([^⟧]+)⟧', cite, t)
     t = re.sub(r'⟦(표|그림):([^⟧]+)⟧', lambda m: labels.get((m.group(1), m.group(2).strip()), '%s ?(%s)' % (m.group(1), m.group(2))), t)
-    return re.sub(r'\s+\[', ' [', t)
+    return form_refs(re.sub(r'\s+\[', ' [', t))
 
 
 def render(items):
@@ -73,7 +74,7 @@ def render(items):
         elif kind == 'FIGPLACE':
             out += [BODY('[그림 자리] %s' % resolve(v.get('source', ''))), FCAP('%s %s' % (labels[('그림', v['label'])], v['caption'])), BLANK()]
         else:
-            out.append(MAKE[kind](resolve(v)))
+            out.append(MAKE[kind](resolve(FORM[kind](v)) if kind in FORM else resolve(v)))
     return out
 
 
@@ -92,7 +93,7 @@ for heading, items in loaded.items():
     first_pass(items, chapter_of(heading))
 for heading, items in loaded.items():
     if items:
-        doc.fill(heading, render(items))
+        doc.fill(form_h2(heading), render(items))
 doc.references([BIB[k] for k in refs] or ['(작성 중)'])
 toc_n = doc.rebuild_toc()
 doc.save(OUT)

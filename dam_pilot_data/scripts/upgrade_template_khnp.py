@@ -8,7 +8,7 @@
 import os, re, shutil, sys, zipfile
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-from final_report_lib import TEMPLATE, _top_paragraphs, text_of, H1, H2, BLANK, TOC1, TOC2, _p
+from final_report_lib import TEMPLATE, _top_paragraphs, text_of, H1, H2, BLANK, TOC1, TOC2, _p, form_h2
 
 src = TEMPLATE.replace('.hwpx', '_v1.hwpx')
 if not os.path.exists(src):
@@ -58,6 +58,18 @@ for a, b in (('(1~2번)', '(2~3장)'), ('1번과 2번을', '2장과 3장을'), (
     assert a in sec, a
     sec = sec.replace(a, b)
 
+# 제목 번호를 양식(1. -> 가. -> 1) -> 가) -> ①)에 맞춘다: 절 제목과 안내·예시의 글
+for t in OLD:
+    new = str(int(t[0]) + 1) + t[1:]
+    if new[1:3] != '. ':
+        sec = sec.replace('<hp:t>%s</hp:t>' % new, '<hp:t>%s</hp:t>' % form_h2(new))
+for a, b in (('중목차 (1.1)', '중목차 (가.)'), ('소목차 (1.1.1)', '소목차 (1))'), ('세목차 (가.)', '세목차 (가))'), ('세세목차 ((1))', '세세목차 (①)'),
+             ('<hp:t>1.1.1 조사 개요</hp:t>', '<hp:t>1) 조사 개요</hp:t>'), ('<hp:t>가. 조사 대상 및 방법</hp:t>', '<hp:t>가) 조사 대상 및 방법</hp:t>'),
+             ('<hp:t>(1) 조사 대상</hp:t>', '<hp:t>① 조사 대상</hp:t>'),
+             ('표·그림 번호는 큰 목차 번호를 앞에 붙입니다(표 1.1, 그림 2.3).', '제목 번호는 발주처 양식에 따라 1. → 가. → 1) → 가) → ① 순서로 붙입니다. 표·그림 번호는 큰 목차 번호를 앞에 붙입니다(표 1.1, 그림 2.3).')):
+    assert a in sec, a
+    sec = sec.replace(a, b)
+
 sp = _top_paragraphs(sec)
 pre, post = sec[:sp[0][0]], sec[sp[-1][1]:]
 ps = [sec[a:b] for a, b in sp]
@@ -70,15 +82,15 @@ assert CTRL in ps[body]
 ps[body] = ps[body].replace(CTRL, '')
 intro_h1 = H1('1. 서론').replace('<hp:t>', CTRL + '<hp:t>', 1)
 intro = [intro_h1]
-for t in ('1.1 과업의 배경 및 목적', '1.2 과업 범위', '1.3 추진 경위'):
+for t in ('가. 과업의 배경 및 목적', '나. 과업 범위', '다. 추진 경위'):
     intro += [H2(t), BLANK(), BLANK()]
 ref = [i for i, p in enumerate(ps) if i > body and is_h1(p) and text_of(p).startswith('참고문헌')][0]
 concl = [H1('7. 결론'), BLANK()]
 # 목차: 조립할 때 본문의 제목과 표·그림 제목으로 다시 만든다. 템플릿에는 자리만 둔다.
-toc_entries = [TOC1('1. 서론'), TOC2('1.1 과업의 배경 및 목적'), TOC2('1.2 과업 범위'), TOC2('1.3 추진 경위')]
+toc_entries = [TOC1('1. 서론'), TOC2('가. 과업의 배경 및 목적'), TOC2('나. 과업 범위'), TOC2('다. 추진 경위')]
 for t in OLD:
     new = str(int(t[0]) + 1) + t[1:]
-    toc_entries.append(TOC1(new) if new[1:3] == '. ' else TOC2(new))
+    toc_entries.append(TOC1(new) if new[1:3] == '. ' else TOC2(form_h2(new)))
 toc_entries += [TOC1('7. 결론'), TOC1('참고문헌'), TOC1('부록'),
                 _p('표 목 차', 33, 34, 22, 1), TOC2('표 1.1 ○○○○○'), _p('그림 목차', 33, 34, 22, 1), TOC2('그림 1.1 ○○○○○')]
 ps = ps[:toc + 1] + toc_entries + intro + ps[body:ref] + concl + ps[ref:]
