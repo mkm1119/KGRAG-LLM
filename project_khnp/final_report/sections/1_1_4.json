@@ -510,7 +510,7 @@
  ],
  [
   "SQ",
-  "온톨로지의 구성"
+  "기술 원리"
  ],
  [
   "CI",
@@ -522,7 +522,7 @@
  ],
  [
   "DS",
-  "c1 Dam, c2 Properties, c3 Location, c4 Parameter"
+  "c1 Dam, c2 Properties, c3 Location, c4 Parameter, c5 HazardForm, c6 HazardComponent, c7 SafetyEvaluation"
  ],
  [
   "CI",
@@ -531,10 +531,6 @@
  [
   "DS",
   "속성·위치·제원을 잇는 객체 속성은 hasProperties, isLocatedIn, hasParameter"
- ],
- [
-  "SQ",
-  "KG 구축 방법"
  ],
  [
   "CI",
@@ -561,16 +557,24 @@
   "a단계: LoRA로 미세조정한 LLM이 위험 서술 단위를 c5·c6의 3수준 라벨로 분류"
  ],
  [
+  "DS",
+  "b단계: 온도 설정을 바꾸어 여러 번 추론한 뒤 다수결로 라벨을 결정"
+ ],
+ [
+  "DS",
+  "c단계: 온톨로지 계층에서 양립할 수 없는 c5·c6 라벨 쌍이면 오류로 판정"
+ ],
+ [
+  "DS",
+  "d단계: 오류로 판정된 건은 전문가가 검토하여 라벨을 고치거나 온톨로지에 노드를 추가"
+ ],
+ [
   "CI",
   "초벌 라벨링에는 DeepSeek-V3-671B를, 분류에는 LoRA로 미세조정한 GLM4-32B를 사용"
  ],
  [
   "DS",
   "미세조정 자료는 Table 5 기준 전문가 교정 표본 1300건과 증강 표본 6500건"
- ],
- [
-  "SQ",
-  "저장과 질의"
  ],
  [
   "CI",
@@ -613,6 +617,10 @@
   "GLM4-32B 기준선의 F1은 c5 55.65%, c6 58.66%"
  ],
  [
+  "DS",
+  "네 단계를 모두 거친 뒤의 F1은 c5 92.87%, c6 90.76%"
+ ],
+ [
   "H5",
   "(2) OntoDSMS: Zhou 외(2023) ⟦문헌:47_OntoDSMS⟧"
  ],
@@ -630,11 +638,11 @@
  ],
  [
   "SQ",
-  "온톨로지의 구성"
+  "기술 원리"
  ],
  [
   "CI",
-  "Noy & McGuiness 방식의 하향식 7단계로 OWL 온톨로지(OntoDSMS)를 설계하고 Protégé로 구축"
+  "Noy & McGuinness 방식의 하향식 7단계로 OWL 온톨로지(OntoDSMS)를 설계하고 Protégé로 구축"
  ],
  [
   "DS",
@@ -649,16 +657,16 @@
   "구조 관점: LeftBankDam, RightBankDam, DrainGate, CrossSection, Element, Material"
  ],
  [
+  "DS",
+  "안전 감시 관점: Sensor, Observation, ObservableProperty, Abnormal 등"
+ ],
+ [
   "CI",
   "관계는 구조물–센서–관측값을 잇는 객체 속성과 값을 담는 자료 속성으로 구성"
  ],
  [
   "DS",
   "객체 속성: hasSection, hasElement, hosts, observes, madeObservation, hasMaterial 등"
- ],
- [
-  "SQ",
-  "KG 구축 방법"
  ],
  [
   "CI",
@@ -671,10 +679,6 @@
  [
   "CI",
   "온톨로지에 인스턴스를 채운 결과를 KG로 지칭"
- ],
- [
-  "SQ",
-  "저장과 질의"
  ],
  [
   "CI",
@@ -730,7 +734,7 @@
  ],
  [
   "SQ",
-  "온톨로지의 구성"
+  "기술 원리"
  ],
  [
   "CI",
@@ -742,7 +746,7 @@
  ],
  [
   "DS",
-  "failure modes(파괴 양상), defect types(결함 유형), evolution paths(진전 경로)"
+  "failure modes(파괴 양상), defect types(결함 유형), evolution paths(진전 경로), risk sources(위험 요인), 계측 특성"
  ],
  [
   "CI",
@@ -753,8 +757,8 @@
   "'may cause'는 결함 개체 사이의 확률적 잠재 인과를 나타냄"
  ],
  [
-  "SQ",
-  "KG 구축 방법"
+  "DS",
+  "'represent'는 계측 특성과 다른 개체의 연관을 나타냄"
  ],
  [
   "CI",
@@ -771,10 +775,6 @@
  [
   "DS",
   "예시 트리플의 관계는 'Exist', 'Lack', 'Store in'으로 온톨로지의 두 관계와 다름"
- ],
- [
-  "SQ",
-  "저장과 질의"
  ],
  [
   "CI",
@@ -825,14 +825,6 @@
   "감쇠 계수 0.40에서 주된 요인으로 장기 저수지 침식과 국부 차수막 손상을 도출"
  ],
  [
-  "SQ",
-  "세 사례의 비교"
- ],
- [
-  "DS",
-  "온톨로지 설계는 세 사례 모두 7단계 방법과 Protégé를 사용"
- ],
- [
   "TABLE",
   {
    "label": "kg_detail",
@@ -877,7 +869,7 @@
     [
      "온톨로지 설계",
      "7단계 방법, OWL, Protégé",
-     "Noy & McGuiness 7단계, SSN/SOSA 재사용, Protégé",
+     "Noy & McGuinness 7단계, SSN/SOSA 재사용, Protégé",
      "7단계 방법과 하향식 접근, Protégé"
     ],
     [
@@ -926,7 +918,7 @@
      "평가 방법",
      "c5·c6 분류 macro P·R·F1",
      "질의 3건의 결과 건수와 응답 시간",
-     "추출 P·R·F1 변화, 댐 2개 사례 정성 대조"
+     "추출 P·R·F1 변화, TZ 댐 사례 정성 대조"
     ],
     [
      "대표 결과",
