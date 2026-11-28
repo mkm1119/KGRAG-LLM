@@ -154,8 +154,17 @@ def page(label, title, sub=None, num=None):
 FRAME, INNER = 'A9BEDB', 'F6F9FD'
 
 
-def panel(s, x, y, w, h, head=None, checks=None, size=12):
+def fit_size(checks, w, h, sizes=(18, 17, 16, 15, 14, 13)):
+    """체크 줄들이 상자(w, h)에 들어가는 가장 큰 글자 크기."""
+    avail = h - 603504 - 109728; cw = w - 201168
+    for sz in sizes:
+        if sum(check_h(t, cw, sz) for t in checks) + CHECK_GAP * (len(checks) - 1) <= avail: break
+    return sz
+
+
+def panel(s, x, y, w, h, head=None, checks=None, size=12, fill=False):
     """참고 발표자료의 상자: 바깥 틀 + 머리 칸(꼬리표와 소제목) + 안쪽 상자 + 체크 줄. 비우면 'ㅇ'만 둔다.
+    fill=True이면 체크 줄만 있는 상자로 보고, 글자를 키우고 줄 높이를 늘려 상자를 아래까지 채운다.
     체크 줄 아래의 시작 높이를 돌려준다."""
     rect(s, x, y, w, h, FRAME, round_=True)
     rect(s, x + 54864, y + 64008, w - 109728, 384048, 'DCE9F7')
@@ -165,6 +174,14 @@ def panel(s, x, y, w, h, head=None, checks=None, size=12):
     yy = y + 603504
     if checks is None:
         yy += check(s, x + 100584, yy, min(w - 201168, 3840480), 'ㅇ')
+    elif fill and checks:
+        avail = y + h - 109728 - yy; cw = w - 201168; n = len(checks)
+        for sz in ((fill,) if fill is not True else (18, 17, 16, 15, 14, 13)):   # fill에 숫자를 주면 그 크기로 고정
+            hs = [check_h(t, cw, sz) for t in checks]
+            if sum(hs) + CHECK_GAP * (n - 1) <= avail: break
+        extra = max(0, (avail - sum(hs) - CHECK_GAP * (n - 1)) // n)
+        for t, h0 in zip(checks, hs):
+            yy += check(s, x + 100584, yy, cw, t, sz, h=h0 + extra)
     else:
         for t in checks:
             yy += check(s, x + 100584, yy, w - 201168, t, size)
@@ -178,18 +195,26 @@ def _mid(sh):
     return sh
 
 
-def check(s, x, y, w, text, size=12):
-    """체크 줄 하나. 글이 길면 줄 수만큼 높이를 늘린다. 차지한 높이(간격 포함)를 돌려준다."""
+CHECK_GAP = 64008
+
+
+def check_h(text, w, size):
+    """체크 줄 하나의 높이(글자 크기와 줄 수에 맞춤)."""
     import math
     wid = sum(1.0 if ord(c) > 0x2E7F else 0.55 for c in text) * size * 12700
     lines = max(1, math.ceil(wid / ((w - 457200) * 0.80)))
-    h = 320040 + (lines - 1) * 219456
+    return int((lines * size * 1.32 + 8) * 12700)
+
+
+def check(s, x, y, w, text, size=12, h=None):
+    """체크 줄 하나. 글이 길면 줄 수만큼 높이를 늘린다. 차지한 높이(간격 포함)를 돌려준다."""
+    h = h or check_h(text, w, size)
     D = 265176
     rect(s, x, y, w, h, 'FFFFFF', line='B6BCC6', round_=True)
     rect(s, x + 27432, y + (h - D) // 2, D, D, NAVY, prst='ellipse')
     _mid(put(s, 'bold14', x + 27432, y + (h - D) // 2, D, D, '✓', size=10, color='FFFFFF', align=PP_ALIGN.CENTER))
     _mid(put(s, 'body', x + 347472, y, w - 420624, h, text, size=size, color=INK))
-    return h + 64008
+    return h + CHECK_GAP
 
 
 def dot(s, x, y, text, w=6400800):
@@ -456,6 +481,31 @@ KFIG = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'pro
 _tn, _fn = [0], [0]
 
 
+def ftbl(s, rows, widths, x, y, w, avail, sizes=(15, 14, 13, 12, 11)):
+    """표를 높이 avail에 맞춰 채운다. 내용이 들어가는 가장 큰 글자 크기를 고르고 행 높이는 줄 수에 비례해 나눈다."""
+    import math
+    tot = float(sum(widths)); n = len(rows)
+    def need(sz):
+        out = []
+        for r in rows:
+            ln = 1
+            for j, v in enumerate(r):
+                cw = w * widths[j] / tot - 182880
+                for part in str(v).split('\n'):
+                    tw = sum(1.0 if ord(c) > 0x2E7F else 0.55 for c in part) * sz * 12700
+                    ln = max(ln, sum(max(1, math.ceil(sum(1.0 if ord(c) > 0x2E7F else 0.55 for c in p) * sz * 12700 / (cw * 0.86))) for p in str(v).split('\n')))
+            out.append(int((ln * sz * 1.25 + 5) * 12700))
+        return out
+    for sz in sizes:
+        hs = need(sz)
+        if sum(hs) <= avail: break
+    g = tbl(s, rows, widths, x=x, y=y, w=w, row_h=avail // n, size=sz, head_fill=HEADC, tight=True)
+    extra = max(0, avail - sum(hs)) // n
+    for i, h0 in enumerate(hs):
+        g.rows[i].height = Emu(h0 + extra)
+    return g
+
+
 def tcap(s, x, y, w, text):
     _tn[0] += 1
     put(s, 'bold14', x, y, w, 283464, '표 %d. %s' % (_tn[0], text), size=12, color=NAVY, align=PP_ALIGN.CENTER)
@@ -532,7 +582,7 @@ def full(field, num, name, head, checks, caption, rows, widths, size=12, src=Non
     tcap(s, L + 100584, yy + 9144, W - 201168, caption)
     ty = yy + 301752
     bottom = PY + PH - 91440 - (265176 if src else 0)
-    tbl(s, rows, widths, x=L + 100584, y=ty, w=W - 201168, row_h=min((bottom - ty) // len(rows), max_rh), size=size, head_fill=HEADC, tight=True)
+    ftbl(s, rows, widths, L + 100584, ty, W - 201168, bottom - ty)
     if src:
         put(s, 'sub', L + 100584, PY + PH - 338328, W - 201168, 256032, '자료: ' + src, size=11)
     order.append(s)
@@ -543,11 +593,11 @@ def split_fig(field, num, name, lhead, checks, rhead, path, caption, src=None, r
     """왼쪽 상자: 체크 줄(과 표), 오른쪽 상자: 그림. lw는 왼쪽 상자의 폭 비율."""
     s = page(label or C2, field, name, num)
     LW = int((W - 182880) * lw); RX = L + LW + 182880; RW = L + W - RX
-    yy = panel(s, L, PY, LW, PH, lhead, checks, size=csize)
+    yy = panel(s, L, PY, LW, PH, lhead, checks, size=csize, fill=not rows)
     if rows:
         tcap(s, L + 100584, yy + 9144, LW - 201168, tcaption)
         ty = yy + 301752
-        tbl(s, rows, widths, x=L + 100584, y=ty, w=LW - 201168, row_h=min((PY + PH - 91440 - ty) // len(rows), 640080), size=size, head_fill=HEADC, tight=True)
+        ftbl(s, rows, widths, L + 100584, ty, LW - 201168, PY + PH - 91440 - ty, sizes=(14, 13, 12, 11))
     panel(s, RX, PY, RW, PH, rhead, [])
     fig(s, path, RX + 137160, PY + 594360, RW - 274320, PH - 685800, caption, src)
     order.append(s)
@@ -578,7 +628,7 @@ def mixed(field, num, name, head, checks, tcaption, rows, widths, path, caption,
     TW1 = int((W - 201168) * lw)
     tcap(s, L + 100584, yy + 9144, TW1, tcaption)
     ty = yy + 301752
-    tbl(s, rows, widths, x=L + 100584, y=ty, w=TW1, row_h=min((PY + PH - 91440 - ty) // len(rows), 640080), size=size, head_fill=HEADC, tight=True)
+    ftbl(s, rows, widths, L + 100584, ty, TW1, PY + PH - 91440 - ty, sizes=(14, 13, 12, 11))
     fx = L + 100584 + TW1 + 137160
     fig(s, path, fx, yy + 9144, L + W - 100584 - fx, PY + PH - 91440 - yy - 9144, caption, src)
     order.append(s)
@@ -589,8 +639,9 @@ def quad(field, num, name, cells, size=13):
     """상자 네 개(2×2): cells = [(소제목, [체크 줄...]), ...]"""
     s = page(C2, field, name, num)
     QH = (PH - 137160) // 2
+    fs = min(fit_size(chk, HW, QH) for _, chk in cells)          # 네 상자의 글자 크기를 같게
     for k_, (hd, chk) in enumerate(cells):
-        panel(s, L if k_ % 2 == 0 else XR, PY + (k_ // 2) * (QH + 137160), HW, QH, hd, chk, size=size)
+        panel(s, L if k_ % 2 == 0 else XR, PY + (k_ // 2) * (QH + 137160), HW, QH, hd, chk, size=size, fill=fs)
     order.append(s)
     return s
 
@@ -607,14 +658,30 @@ full(F1, '1-1', '수자원 분야 사례 조사', '조사 범위와 세 유형�
     ['자료의 갱신', '저장소의 문서를 교체', '모델을 다시 학습', 'KG의 개체·관계를 추가·수정'],
     ['응답의 근거 제시', '검색한 문서나 KG 항목을 근거로 제시 가능', '가중치에 학습된 지식은 출처 제시가 어려움', '개체·관계와 출처 속성으로 근거 추적 가능'],
     ['강점', '규정 개정의 즉시 반영, 근거 제시', '분야 용어와 정해진 과업의 성능', '자료 사이의 관계 파악, 근거 추적']], [16, 30, 26, 28])
-split_fig(F1, '1-1', '수자원 분야 사례 조사', '주요 사례의 기술 원리', [
+split_fig(F1, '1-1', '수자원 분야 사례 조사', 'RAG 기반 질의응답 사례의 기술 원리', [
     '세 사례 모두 생성 모델을 미세조정하지 않고, 검색한 근거를 입력에 결합하여 응답'],
     'KG와 문서 검색의 경로를 나눈 사례', os.path.join(FIGS, 'rag_fig2.png'), '수리 지식 QA 라우팅 시스템의 전체 구조', 'Han 외(2026)',
     rows=[['사례', '풀려는 문제', '기술 원리'],
-          ['KGL 수리시설 점검 QA', '위험 유형·발생 부위가 빠진 점검 질의', 'KG에서 얻은 명확화 경로로 되물어 질의를 단계적으로 명확화'],
-          ['수리 지식 QA 라우팅', '단일 출처 질의응답의 답변 범위 불완전', '질의 의도에 따라 KG, 문서 RAG, LLM 단독의 세 경로 중 하나로 분기'],
+          ['KGL 수리시설\n점검 QA', '위험 유형·발생 부위가 빠진 점검 질의', 'KG에서 얻은 명확화 경로로 되물어 질의를 단계적으로 명확화'],
+          ['수리 지식\nQA 라우팅', '단일 출처 질의응답의 답변 범위 불완전', '질의 의도에 따라 KG, 문서 RAG, LLM 단독의 세 경로 중 하나로 분기'],
           ['WaterCopilot', '흩어진 정책 문서와 실시간 수문 자료', '문서 검색과 수문 자료 API 호출을 결합하고 출처와 함께 응답']],
-    widths=[24, 34, 42], tcaption='RAG 기반 질의응답 주요 사례')
+    widths=[29, 30, 41], tcaption='RAG 기반 질의응답 주요 사례')
+split_fig(F1, '1-1', '수자원 분야 사례 조사', '도메인 특화 LLM 사례의 기술 원리', [
+    '기반 모델은 가중치가 공개된 7B~14B 규모가 쓰였고, 검색 근거를 기본으로 하고 미세조정은 보완 수단으로 쓰는 구성이 적합'],
+    '검색과 KG를 결합한 사례', os.path.join(FIGS, 'llm_fig3.png'), 'CSKR-LLM-HWCEC의 전체 처리 과정', 'Chen 외(2026)',
+    rows=[['사례', '풀려는 문제', '기술 원리'],
+          ['WaterGPT', '범용 LLM의 수문·수자원 전문 지식과 용어 부족', '추가 사전학습 후 전체 미세조정, 다중 에이전트가 도구를 호출'],
+          ['HydroLLM', '자료가 적은 조건에 적합한 모델 규모와 미세조정 전략', '공개 모델 6종(1.5B~32B)에 LoRA 미세조정을 적용하여 비교'],
+          ['CSKR-LLM-HWCEC', '시공 안전 기준 질의의 추론 부족과 RAG 단독의 오답', '공개 모델에 벡터 검색과 KG를 결합, 재학습 없이 프롬프트로 지식 주입']],
+    widths=[24, 36, 40], tcaption='도메인 특화 LLM 주요 사례')
+split_fig(F1, '1-1', '수자원 분야 사례 조사', '운영지식 구조화(온톨로지·KG) 사례의 기술 원리', [
+    '댐 분야 사례는 구조, 계측, 결함을 대상으로 하므로 방류 승인, 운영 기준, 수문 상태를 대상으로 한 온톨로지는 별도 설계가 필요'],
+    '댐을 중심으로 자료를 연결한 사례', os.path.join(FIGS, 'kg_fig_ddkg.png'), 'DDKG의 구축 구조', 'Huang 외(2026)',
+    rows=[['사례', '풀려는 문제', '기술 원리'],
+          ['DDKG', '댐 결함 정보가 보고서에 흩어져 구조화와 재사용이 어려움', '7단계로 온톨로지를 설계하고, LLM 분류 결과를 온톨로지 제약과 전문가 검토로 점검'],
+          ['OntoDSMS', '여러 출처의 이질적인 감시 자료를 통합하는 방법의 부재', '계측 자료는 DB에 그대로 두고 사상 규칙으로 온톨로지에 연결'],
+          ['중력댐 결함 진단 KG', '결함 진단의 전문가 의존, 결함 사이의 전파 관계 미표현', '결함 온톨로지와 KG를 구축하고 그래프 경로를 따라 추론']],
+    widths=[22, 38, 40], tcaption='운영지식 구조화 주요 사례')
 full(F1, '1-1', '수자원 분야 사례 조사', '댐 운영 의사결정 지원에 적합한 구성', [
     '검색 근거에 기반한 응답을 기본으로 하고 운영지식 KG와 수문 자료 조회를 결합한 구성이 적합',
     '근거를 찾지 못한 질의에는 답하지 않고, 근거를 제시하여 최종 판단은 운영자가 수행하는 구성'],
@@ -695,14 +762,22 @@ stack_fig(F2, '2-2', '온톨로지·메타데이터 설계방안 조사', '온�
     '단계적 설계 방법과 LLM을 쓴 반자동 방법을 조사: 초기 판을 만든 뒤 전문가 검토로 반복하여 보완하는 절차가 공통',
     '댐 분야 선행 온톨로지는 구조, 계측, 결함, 안전평가를 대상으로 하여, 댐 운영을 대상으로 한 Class는 새로 정의'],
     's22_fig_noy', '온톨로지의 단계적 설계 절차(7단계)', 'Noy·McGuinness(2001)의 절차를 도식으로 재구성')
-stack_fig(F2, '2-2', '온톨로지·메타데이터 설계방안 조사', '메타데이터 설계요소와 자료 유형별 전처리 체계(안)', [
-    '메타데이터는 식별 키, 출처 정보, 시점 정보, 단위·표기 형식, 자료 유형의 다섯 설계요소로 구성',
+full(F2, '2-2', '온톨로지·메타데이터 설계방안 조사', '메타데이터 설계요소(안)', [
+    '메타데이터는 자료 한 건이 어느 대상의, 어느 시점의, 어느 출처의 값인지를 적은 정보로, 응답의 근거를 추적할 수 있게 하는 역할'],
+    '메타데이터 설계요소(안)', [
+    ['설계요소', '자료의 현황', '설계(안)'],
+    ['식별 키', '기관마다 코드 체계가 다르고 규정 별표에는 코드가 없음', '원자료의 키 값으로 개체 식별 키를 구성, 기관별 코드·명칭 대응표 관리'],
+    ['출처 정보', '제공 기관, 제공 방식, 파일·문서가 자료마다 다름', '개체마다 자료 이름, 자료 종류, 자료 안의 위치를 근거자료 개체로 연결'],
+    ['시점 정보', '주기와 시각 표기가 자료마다 다름', '자료가 제공하는 정밀도를 유지, 승인일자와 방류 시작시간을 구분'],
+    ['단위·표기 형식', '쉼표가 든 문자열, 빈 값, 8자리 일자, 문자로 그린 표', '속성별 형식으로 통일, 단위는 별도 속성, 원본 값은 보존'],
+    ['자료 유형', '수치 시계열, 건별 기록, 규정 문서가 함께 있음', '구조화 자료·수치 시계열·문서 자료로 구분하여 보관 위치를 지정']], [16, 38, 46])
+stack_fig(F2, '2-2', '온톨로지·메타데이터 설계방안 조사', '자료 유형별 전처리 체계(안)', [
     '자료를 구조화 자료, 수치 시계열, 문서 자료로 구분하여 처리 경로와 보관 위치를 지정',
     '표기 형식을 통일하고 출처·시점 정보를 유지하며, 원본은 변경하지 않고 정리 내용을 기록'],
     's22_fig_prep', '자료 유형별 전처리 경로(안)')
 mixed(F2, '2-2', '온톨로지·메타데이터 설계방안 조사', '댐 운영 온톨로지 설계(안)', [
     '댐 Class를 중심으로 상태, 운영행위, 방류 승인, 운영기준을 연결하고 각 개체는 근거자료에 연결하여 출처를 추적',
-    '질문·범위 정의, 온톨로지 정의, KG 구축, 점검, 보완의 절차를 전문가 검토와 함께 반복'],
+    '수문·기상 상태는 댐별 관측 항목을 개체로 두고, 시점별 값은 측정자료 저장소에서 조회'],
     '댐 운영 온톨로지(안)의 Class', [['Class', '나타내는 대상'],
           ['댐', '댐·보 등 운영 대상 시설'],
           ['수문·기상 상태', '댐별 수문·기상 관측 항목'],
@@ -711,6 +786,12 @@ mixed(F2, '2-2', '온톨로지·메타데이터 설계방안 조사', '댐 운�
           ['운영기준', '홍수기 제한수위 등 운영 기준값'],
           ['근거자료', '값이 적힌 자료와 그 위치']], [36, 64],
     's22_fig_onto', '댐 운영 온톨로지(안)의 Class와 관계', lw=0.36)
+stack_fig(F2, '2-2', '온톨로지·메타데이터 설계방안 조사', '온톨로지 설계·보완 절차(안)', [
+    '① 온톨로지가 다룰 분야, 용도, 질문의 종류를 정하고 ② 질문에 답하는 데 필요한 Class, 관계, 속성을 정의',
+    '③ 전처리된 자료를 개체로 만들고 근거 출처를 연결하며, 자료에 적힌 값이 일치하는 개체 쌍에만 관계를 생성',
+    '④ 구축한 KG가 온톨로지의 정의에 맞는지, 질문에 필요한 개체에 정해진 경로로 도달하는지 점검',
+    '⑤ 도달하지 못하면 부족한 관계나 속성을 보완하고, 보완 내용은 전문가 검토를 거쳐 반영'],
+    's22_fig_proc', '온톨로지 설계·보완 절차(안)')
 # ------------------------------------------------------------------ 2-3 RAG-LLM 통합 파이프라인(안) 제시
 stack_fig(F2, '2-3', 'RAG-LLM 통합 파이프라인(안) 제시', '지식기반 구축(①~③)과 질의응답(④~⑦)으로 구성한 통합 파이프라인(안)', [
     '지식기반 구축은 자료의 수집, 전처리, 지식기반 구성의 순서로 KG와 외부 저장소를 구성',
@@ -795,7 +876,7 @@ rows = [['질문 범주', '확인하는 내용', '시연 질문'],
         ['현재 상태 + 운영기준', '현재 상태와 운영기준을 함께 확인', '충주댐 지금 수위가 홍수기 제한수위보다 높아?'],
         ['운영행위 → 과거 상태', '운영행위를 찾고 그 시점의 상태를 확인', '2011년 7월 충주댐 방류 조작 시점마다 수위와 유입량은?']]
 ty = yy + 301752
-tbl(s, rows, [22, 34, 44], x=L + 100584, y=ty, w=W - 201168, row_h=(PY + PH - 91440 - ty) // len(rows), size=12, head_fill=HEADC, tight=True)
+ftbl(s, rows, [22, 34, 44], L + 100584, ty, W - 201168, PY + PH - 91440 - ty)
 order.append(s)
 s = page(C3, '2. 현장 시연', '시연 화면과 진행 순서', '2.')
 LW3 = int(W * 0.36); RX3 = L + LW3 + 182880; RW3 = L + W - RX3
@@ -804,7 +885,7 @@ panel(s, L, PY, LW3, PH, '진행 순서', [
     '② 질문 범주별 질문을 차례로 입력하고 응답의 근거와 판단을 확인',
     '③ 응답의 출처 번호를 눌러 측정값, 승인 기록, 규정 원문을 확인',
     '④ 두 범주를 이어서 묻는 질문으로 근거가 함께 구성되는지 확인',
-    '⑤ 참석자가 직접 질문을 입력'], size=13)
+    '⑤ 참석자가 직접 질문을 입력'], size=13, fill=True)
 panel(s, RX3, PY, RW3, PH, '시연 화면', [])
 fig(s, os.path.join(KFIG, 'demo_screen.png'), RX3 + 137160, PY + 594360, RW3 - 274320, PH - 685800, '시범 구성의 질의응답 화면')
 MEMO[len(order)] = '현장 시연: 노트북으로 직접 시연하는 것을 목표로 함. 접속 방식(연구실 서버 연결 또는 노트북 단독 구동)과 예비용 시연 영상 사용 여부를 정한 뒤 진행 순서를 확정'
