@@ -114,8 +114,8 @@ def _rect(x, y, w, h, lines, fill='#FFFFFF', border=True, grouped=True):
             + '<hp:lineShape color="#404040" width="%d" style="%s" endCap="FLAT" headStyle="NORMAL" tailStyle="NORMAL" headfill="1" tailfill="1" headSz="MEDIUM_MEDIUM" tailSz="MEDIUM_MEDIUM" outlineStyle="NORMAL" alpha="0"/>' % (57 if border else 0, 'SOLID' if border else 'NONE')
             + brush
             + '<hp:shadow type="NONE" color="#B2B2B2" offsetX="0" offsetY="0" alpha="0"/>'
-            + '<hp:drawText lastWidth="%d" name="" editable="0"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0">%s</hp:subList>'
-              '<hp:textMargin left="283" right="283" top="283" bottom="283"/></hp:drawText>' % (w, paras)
+            + (('<hp:drawText lastWidth="%d" name="" editable="0"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0">%s</hp:subList>'
+                '<hp:textMargin left="283" right="283" top="283" bottom="283"/></hp:drawText>' % (w, paras)) if lines else '')   # 글이 없는 상자는 글 영역을 두지 않는다(빈 글 영역은 한글에서 열리지 않음)
             + '<hc:pt0 x="0" y="0"/><hc:pt1 x="%d" y="0"/><hc:pt2 x="%d" y="%d"/><hc:pt3 x="0" y="%d"/>' % (w, w, h, h)
             + _shape_tail('rect', x, y, w, h, grouped))
 
