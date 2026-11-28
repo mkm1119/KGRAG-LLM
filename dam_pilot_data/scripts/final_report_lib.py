@@ -273,6 +273,38 @@ class Report:
         self.ps = self.ps[:i + 1] + list(items) + self.ps[j:]
         self.stats[heading] = sum(len(text_of(x)) for x in items)
 
+    def _lines(self, p):
+        """문단 하나가 차지하는 줄 수의 어림값(쪽 나눔 판단용)."""
+        if '<hp:pic' in p:
+            m = re.search(r'<hp:sz width="\d+"[^>]*height="(\d+)"', p)
+            return (int(m.group(1)) if m else 20000) / 1900.0 + 1
+        if '<hp:tbl' in p:
+            rows = len(re.findall(r'<hp:tr>', p)) or 1
+            return max(rows * 1.3, len(text_of(p)) / 42.0 * 1.5) + 1
+        return max(1, -(-len(text_of(p)) // 42))
+
+    def page_breaks(self, min_lines=70, verbose=False):
+        """절(가. 나.)은 새 쪽에서 시작한다. 그 아래 꼭지(1) 2))는 분량이 두 쪽 안팎 이상일 때만 새 쪽에서 시작한다.
+        장 제목 바로 아래의 절, 절 제목 바로 아래의 꼭지, 내용이 없는 절은 그대로 둔다."""
+        bs = self.body_start()
+        heads = [k for k in range(bs, len(self.ps)) if self._style(k) in (34, 35, 36) and text_of(self.ps[k])]
+        done = []
+        for n, k in enumerate(heads):
+            st = self._style(k)
+            if st == 34 or text_of(self.ps[k]).replace(' ', '') == '참고문헌':
+                continue
+            prev = [j for j in range(k - 1, bs - 1, -1) if text_of(self.ps[j]) or '<hp:tbl' in self.ps[j] or '<hp:pic' in self.ps[j]]
+            if prev and self._style(prev[0]) in (34, 35) and '<hp:tbl' not in self.ps[prev[0]]:
+                continue                                  # 윗 제목 바로 아래이면 붙여 둔다
+            end = next((h for h in heads[n + 1:] if self._style(h) <= st), len(self.ps))
+            size = sum(self._lines(p) for p in self.ps[k + 1:end])
+            if (st == 35 and size >= 3) or (st == 36 and size >= min_lines):
+                self.ps[k] = self.ps[k].replace('pageBreak="0"', 'pageBreak="1"', 1)
+                done.append((text_of(self.ps[k]), round(size / 35.0, 1)))
+            elif verbose and st == 36:
+                done.append(('  (붙임) ' + text_of(self.ps[k]), round(size / 35.0, 1)))
+        return done
+
     def references(self, refs):
         i = [k for k in range(self.body_start(), len(self.ps)) if nospace(self.ps[k]) == '참고문헌' and 'paraPrIDRef="55"' in self.ps[k]][0]
         j = i + 1

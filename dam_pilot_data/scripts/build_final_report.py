@@ -28,6 +28,8 @@ FIG_SRC = {
 }
 BIB = json.load(open(os.path.join(ROOT, 'references', 'case_survey', 'bib.json'), encoding='utf-8'))
 ONLY = None
+SHOW_BREAKS = '--breaks' in sys.argv                    # 새 쪽에서 시작하는 제목과 어림 분량을 출력
+if SHOW_BREAKS: sys.argv.remove('--breaks')
 if '--only' in sys.argv:                                 # 한 장만 남긴 검토용 파일: --only 2 출력.hwpx
     k = sys.argv.index('--only'); ONLY = sys.argv[k + 1]; del sys.argv[k:k + 2]
 OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(ROOT, 'project_khnp', 'final_report', '최종보고서_초안.hwpx')
@@ -121,6 +123,9 @@ for heading, items in loaded.items():
 doc.references([BIB[k] for k in refs] or ['(작성 중)'])
 if ONLY:
     doc.keep_only(ONLY)
+breaks = doc.page_breaks(min_lines=52, verbose=SHOW_BREAKS)
+if SHOW_BREAKS:
+    for t, n in breaks: print('  새 쪽 %4.1f쪽  %s' % (n, t))
 toc_n = doc.rebuild_toc()
 doc.save(OUT)
 unres = [l for l in re.findall(r'(?:표|그림) \?\([^)]*\)', ''.join(doc.ps))]
