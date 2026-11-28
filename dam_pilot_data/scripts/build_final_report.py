@@ -14,6 +14,14 @@ sys.path.insert(0, HERE)
 from final_report_lib import *          # noqa
 ROOT = os.path.join(HERE, '..', '..')
 SEC = os.path.join(ROOT, 'project_khnp', 'final_report', 'sections')
+FIGDIR = os.path.join(ROOT, 'project_khnp', 'final_report', 'figures')
+# 논문에서 가져온 그림: 그림 라벨 -> (저자 표기, 문헌 키). 그림 제목 끝에 출처로 붙인다.
+FIG_SRC = {
+    'rag_fig3': ('Vickneswaran 외(2026)', '09_WaterCopilot'), 'kg_fig_ddkg': ('Huang 외(2026)', '46_DDKG'),
+    'kg_fig_ontodsms': ('Zhou 외(2023)', '47_OntoDSMS'), 's22_fig_li': ('Li 외(2025)', '36_FloodOntology'),
+    's13_fig_railmain': ('Papadakis 외(2023)', '38_TrainMaintenanceKG'), 's23_fig_kong': ('Kong 외(2026)', 'arxiv_2611.15904'),
+    's23_fig_yasuno': ('Yasuno(2026)', 'arxiv_2603.13307'), 's13_fig_rra': ('Wu 외(2023)', 'arxiv_2309.11206'),
+}
 BIB = json.load(open(os.path.join(ROOT, 'references', 'case_survey', 'bib.json'), encoding='utf-8'))
 ONLY = None
 if '--only' in sys.argv:                                 # 한 장만 남긴 검토용 파일: --only 2 출력.hwpx
@@ -77,7 +85,14 @@ def render(items):
             rows = [[resolve(str(c)) for c in r] for r in v['rows']]
             out += table('%s %s' % (labels[('표', v['label'])], v['caption']), rows, v['widths'], v.get('align'), v.get('unit'), resolve(v['note']) if v.get('note') else None)
         elif kind == 'FIGPLACE':
-            out += [BODY('[그림 자리] %s' % resolve(v.get('source', ''))), FCAP('%s %s' % (labels[('그림', v['label'])], v['caption'])), BLANK()]
+            png = os.path.join(FIGDIR, v['label'] + '.png')
+            if os.path.exists(png):                      # 그림 파일이 있으면 그림을 넣고, 논문 그림은 제목에 출처를 붙인다
+                cap = '%s %s' % (labels[('그림', v['label'])], v['caption'])
+                if v['label'] in FIG_SRC:
+                    cap += '(%s)' % resolve('%s ⟦문헌:%s⟧' % FIG_SRC[v['label']])
+                out += [PIC(png), FCAP(cap), BLANK()]
+            else:
+                out += [BODY('[그림 자리] %s' % resolve(v.get('source', ''))), FCAP('%s %s' % (labels[('그림', v['label'])], v['caption'])), BLANK()]
         else:
             out.append(MAKE[kind](resolve(FORM[kind](v)) if kind in FORM else resolve(v)))
     return out

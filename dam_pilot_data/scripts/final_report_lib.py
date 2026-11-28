@@ -51,6 +51,41 @@ _TAB = '<hp:tab width="20000" leader="3" type="2"/>'      # 점선은 문단 모
 ROMAN = '<hp:ctrl><hp:pageNum pos="BOTTOM_CENTER" formatType="ROMAN_SMALL" sideChar="-"/></hp:ctrl>'
 
 
+
+# ── 그림(이미지) 삽입 ─────────────────────────────────────────────
+PICS = []                     # (binary item id, 파일 경로) — save()에서 BinData와 manifest에 넣는다
+
+
+def _png_size(path):
+    import struct
+    with open(path, 'rb') as f:
+        head = f.read(24)
+    return struct.unpack('>II', head[16:24])
+
+
+def PIC(path, max_w=None, max_h=40000):
+    """PNG 그림을 글자처럼 취급하는 개체로 넣은 가운데 정렬 문단을 만든다(그림 제목 문단과 같은 정렬)."""
+    wpx, hpx = _png_size(path)
+    ow, oh = wpx * 75, hpx * 75                      # 96dpi 기준 hwpunit
+    cw = min(max_w or int(WIDTH * 0.92), ow); ch = int(cw * oh / ow)
+    if ch > max_h:
+        ch = max_h; cw = int(ch * ow / oh)
+    bid = 'fig%d' % (len(PICS) + 1); PICS.append((bid, path))
+    sx, sy = cw / ow, ch / oh
+    pic = ('<hp:pic id="%d" zOrder="0" numberingType="PICTURE" textWrap="TOP_AND_BOTTOM" textFlow="BOTH_SIDES" lock="0" dropcapstyle="None" href="" groupLevel="0" instid="%d" reverse="0">'
+           '<hp:offset x="0" y="0"/><hp:orgSz width="%d" height="%d"/><hp:curSz width="%d" height="%d"/><hp:flip horizontal="0" vertical="0"/>'
+           '<hp:rotationInfo angle="0" centerX="%d" centerY="%d" rotateimage="1"/><hp:renderingInfo><hc:transMatrix e1="1" e2="0" e3="0" e4="0" e5="1" e6="0"/>'
+           '<hc:scaMatrix e1="%.6f" e2="0" e3="0" e4="0" e5="%.6f" e6="0"/><hc:rotMatrix e1="1" e2="0" e3="0" e4="0" e5="1" e6="0"/></hp:renderingInfo>'
+           '<hp:imgRect><hc:pt0 x="0" y="0"/><hc:pt1 x="%d" y="0"/><hc:pt2 x="%d" y="%d"/><hc:pt3 x="0" y="%d"/></hp:imgRect>'
+           '<hp:imgClip left="0" right="%d" top="0" bottom="%d"/><hp:inMargin left="0" right="0" top="0" bottom="0"/><hp:imgDim dimwidth="%d" dimheight="%d"/>'
+           '<hc:img binaryItemIDRef="%s" bright="0" contrast="0" effect="REAL_PIC" alpha="0"/><hp:effects/>'
+           '<hp:sz width="%d" widthRelTo="ABSOLUTE" height="%d" heightRelTo="ABSOLUTE" protect="0"/>'
+           '<hp:pos treatAsChar="1" affectLSpacing="0" flowWithText="1" allowOverlap="0" holdAnchorAndSO="0" vertRelTo="PARA" horzRelTo="PARA" vertAlign="TOP" horzAlign="LEFT" vertOffset="0" horzOffset="0"/>'
+           '<hp:outMargin left="0" right="0" top="0" bottom="0"/></hp:pic>') % (
+        nid(), nid(), ow, oh, cw, ch, cw // 2, ch // 2, sx, sy, ow, ow, oh, oh, ow, oh, ow, oh, bid, cw, ch)
+    p = FCAP('')
+    return re.sub(r'<hp:run ([^>]*)>.*?</hp:run>', lambda m: '<hp:run %s>%s<hp:t/></hp:run>' % (m.group(1), pic), p, count=1, flags=re.S) if '<hp:run' in p else p
+
 def _toc(t, para, char, page=''):
     return ('<hp:p id="0" paraPrIDRef="%d" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="%d"><hp:t>%s%s%s</hp:t></hp:run></hp:p>'
             % (para, char, escape(t), _TAB, escape(page)))
@@ -266,5 +301,11 @@ class Report:
                 n = it.filename
                 if n in ('mimetype', 'Preview/PrvImage.png'):
                     continue
-                zo.writestr(n, body.encode('utf8') if n == 'Contents/section0.xml' else self.z.read(n), compress_type=zipfile.ZIP_DEFLATED)
+                data = body.encode('utf8') if n == 'Contents/section0.xml' else self.z.read(n)
+                if n == 'Contents/content.hpf' and PICS:      # 넣은 그림을 manifest에 등록
+                    items = ''.join('<opf:item id="%s" href="BinData/%s.png" media-type="image/png" isEmbeded="1"/>' % (b, b) for b, _ in PICS)
+                    data = data.decode('utf8').replace('</opf:manifest>', items + '</opf:manifest>').encode('utf8')
+                zo.writestr(n, data, compress_type=zipfile.ZIP_DEFLATED)
+            for b, path in PICS:
+                zo.write(path, 'BinData/%s.png' % b, compress_type=zipfile.ZIP_DEFLATED)
         return body
