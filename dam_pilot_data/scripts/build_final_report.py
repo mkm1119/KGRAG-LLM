@@ -21,6 +21,10 @@ FIG_SRC = {
     'kg_fig_ontodsms': ('Zhou 외(2023)', '47_OntoDSMS'), 's22_fig_li': ('Li 외(2025)', '36_FloodOntology'),
     's13_fig_railmain': ('Papadakis 외(2023)', '38_TrainMaintenanceKG'), 's23_fig_kong': ('Kong 외(2026)', 'arxiv_2611.15904'),
     's23_fig_yasuno': ('Yasuno(2026)', 'arxiv_2603.13307'), 's13_fig_rra': ('Wu 외(2023)', 'arxiv_2309.11206'),
+    'rag_fig1': ('Yang 외(2024)', '07_수리시설점검QA'), 'rag_fig2': ('Han 외(2026)', '12_수자원지식QA라우팅'),
+    'llm_fig1': ('Ren 외(2024)', '17_WaterGPT'), 'llm_fig2': ('Kizilkaya 외(2025)', '18_HydroLLM'),
+    'llm_fig3': ('Chen 외(2026)', '27_CSKRLLMHWCEC'), 'kg_fig_gravitydam': ('Pei 외(2026)', '43_중력댐결함진단'),
+    's13_fig_dsas': ('Shu 외(2025)', '48_댐구조안전온톨로지평가'), 's23_fig_lsmkg': ('Zhang 외(2025)', '11_LSMKG'),
 }
 BIB = json.load(open(os.path.join(ROOT, 'references', 'case_survey', 'bib.json'), encoding='utf-8'))
 ONLY = None
