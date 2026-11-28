@@ -86,6 +86,71 @@ def PIC(path, max_w=None, max_h=40000):
     p = FCAP('')
     return re.sub(r'<hp:run ([^>]*)>.*?</hp:run>', lambda m: '<hp:run %s>%s<hp:t/></hp:run>' % (m.group(1), pic), p, count=1, flags=re.S) if '<hp:run' in p else p
 
+# ---- 한글 도형(사각형, 화살표 선)으로 그리는 그림 ----
+_IDM = '<hc:scaMatrix e1="1" e2="0" e3="0" e4="0" e5="1" e6="0"/><hc:rotMatrix e1="1" e2="0" e3="0" e4="0" e5="1" e6="0"/>'
+
+
+def _shape_head(tag, x, y, w, h, grouped, extra=''):
+    wrap = 'TOP_AND_BOTTOM'
+    return ('<hp:%s id="%d" zOrder="%d" numberingType="NONE" textWrap="%s" textFlow="BOTH_SIDES" lock="0" dropcapstyle="None" href="" groupLevel="%d" instid="%d"%s>'
+            '<hp:offset x="%d" y="%d"/><hp:orgSz width="%d" height="%d"/><hp:curSz width="%d" height="%d"/><hp:flip horizontal="0" vertical="0"/>'
+            '<hp:rotationInfo angle="0" centerX="%d" centerY="%d" rotateimage="1"/><hp:renderingInfo><hc:transMatrix e1="1" e2="0" e3="%d" e4="0" e5="1" e6="%d"/>%s</hp:renderingInfo>'
+            % (tag, nid(), nid() % 1000, wrap, 1 if grouped else 0, nid(), extra,
+               x if grouped else 0, y if grouped else 0, w, h, w, h, w // 2, h // 2, x if grouped else 0, y if grouped else 0, _IDM))
+
+
+def _shape_tail(tag, x, y, w, h, grouped):
+    if grouped:
+        return '</hp:%s>' % tag
+    return ('<hp:sz width="%d" widthRelTo="ABSOLUTE" height="%d" heightRelTo="ABSOLUTE" protect="0"/>'
+            '<hp:pos treatAsChar="0" affectLSpacing="0" flowWithText="1" allowOverlap="1" holdAnchorAndSO="0" vertRelTo="PARA" horzRelTo="COLUMN" vertAlign="TOP" horzAlign="LEFT" vertOffset="%d" horzOffset="%d"/>'
+            '<hp:outMargin left="0" right="0" top="0" bottom="0"/></hp:%s>' % (w, h, y, x, tag))
+
+
+def _rect(x, y, w, h, lines, fill='#FFFFFF', border=True, grouped=True):
+    paras = ''.join('<hp:p id="0" paraPrIDRef="44" styleIDRef="46" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="20"><hp:t>%s</hp:t></hp:run></hp:p>' % escape(t) for t in lines)
+    return (_shape_head('rect', x, y, w, h, grouped, ' ratio="0"')
+            + '<hp:lineShape color="#404040" width="%d" style="%s" endCap="FLAT" headStyle="NORMAL" tailStyle="NORMAL" headfill="1" tailfill="1" headSz="MEDIUM_MEDIUM" tailSz="MEDIUM_MEDIUM" outlineStyle="NORMAL" alpha="0"/>' % (57 if border else 0, 'SOLID' if border else 'NONE')
+            + '<hc:fillBrush><hc:winBrush faceColor="%s" hatchColor="#000000" alpha="0"/></hc:fillBrush>' % fill
+            + '<hp:shadow type="NONE" color="#B2B2B2" offsetX="0" offsetY="0" alpha="0"/>'
+            + '<hp:drawText lastWidth="%d" name="" editable="0"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0">%s</hp:subList>'
+              '<hp:textMargin left="283" right="283" top="283" bottom="283"/></hp:drawText>' % (w, paras)
+            + '<hc:pt0 x="0" y="0"/><hc:pt1 x="%d" y="0"/><hc:pt2 x="%d" y="%d"/><hc:pt3 x="0" y="%d"/>' % (w, w, h, h)
+            + _shape_tail('rect', x, y, w, h, grouped))
+
+
+def _arrow(x1, y1, x2, y2, grouped=True):
+    """(x1, y1)에서 (x2, y2)로 가는 화살표 선."""
+    x, y, w, h = min(x1, x2), min(y1, y2), abs(x2 - x1), abs(y2 - y1)
+    return (_shape_head('line', x, y, max(w, 1), max(h, 1), grouped, ' isReverseHV="0"')
+            + '<hp:lineShape color="#404040" width="85" style="SOLID" endCap="FLAT" headStyle="NORMAL" tailStyle="ARROW" headfill="1" tailfill="1" headSz="MEDIUM_MEDIUM" tailSz="MEDIUM_MEDIUM" outlineStyle="NORMAL" alpha="0"/>'
+            + '<hp:shadow type="NONE" color="#B2B2B2" offsetX="0" offsetY="0" alpha="0"/>'
+            + '<hc:startPt x="%d" y="%d"/><hc:endPt x="%d" y="%d"/>' % (x1 - x, y1 - y, x2 - x, y2 - y)
+            + _shape_tail('line', x, y, max(w, 1), max(h, 1), grouped))
+
+
+def DRAWING(shapes, W, H, mode='group'):
+    """도형 목록으로 그림 문단을 만든다. shapes: ('box', x, y, w, h, [줄...], 채움색) / ('text', x, y, w, h, [줄...]) / ('arrow', x1, y1, x2, y2).
+    mode 'group': 묶음 개체 하나를 글자처럼 취급 / 'free': 도형을 하나씩 문단 기준 위치에 둔다."""
+    g = mode == 'group'
+    xs = []
+    for sh in shapes:
+        if sh[0] == 'box': xs.append(_rect(sh[1], sh[2], sh[3], sh[4], sh[5], sh[6] if len(sh) > 6 else '#FFFFFF', True, g))
+        elif sh[0] == 'text': xs.append(_rect(sh[1], sh[2], sh[3], sh[4], sh[5], '#FFFFFF', False, g))
+        else: xs.append(_arrow(sh[1], sh[2], sh[3], sh[4], g))
+    if g:
+        obj = ('<hp:container id="%d" zOrder="0" numberingType="PICTURE" textWrap="TOP_AND_BOTTOM" textFlow="BOTH_SIDES" lock="0" dropcapstyle="None" href="" groupLevel="0" instid="%d">'
+               '<hp:offset x="0" y="0"/><hp:orgSz width="%d" height="%d"/><hp:curSz width="%d" height="%d"/><hp:flip horizontal="0" vertical="0"/>'
+               '<hp:rotationInfo angle="0" centerX="%d" centerY="%d" rotateimage="1"/><hp:renderingInfo><hc:transMatrix e1="1" e2="0" e3="0" e4="0" e5="1" e6="0"/>%s</hp:renderingInfo>%s'
+               '<hp:sz width="%d" widthRelTo="ABSOLUTE" height="%d" heightRelTo="ABSOLUTE" protect="0"/>'
+               '<hp:pos treatAsChar="1" affectLSpacing="0" flowWithText="1" allowOverlap="0" holdAnchorAndSO="0" vertRelTo="PARA" horzRelTo="PARA" vertAlign="TOP" horzAlign="LEFT" vertOffset="0" horzOffset="0"/>'
+               '<hp:outMargin left="0" right="0" top="0" bottom="0"/></hp:container>') % (nid(), nid(), W, H, W, H, W // 2, H // 2, _IDM, ''.join(xs), W, H)
+    else:
+        obj = ''.join(xs)
+    p = FCAP('')
+    return re.sub(r'<hp:run ([^>]*)>.*?</hp:run>', lambda m: '<hp:run %s>%s<hp:t/></hp:run>' % (m.group(1), obj), p, count=1, flags=re.S)
+
+
 def _toc(t, para, char, page=''):
     return ('<hp:p id="0" paraPrIDRef="%d" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="%d"><hp:t>%s%s%s</hp:t></hp:run></hp:p>'
             % (para, char, escape(t), _TAB, escape(page)))
