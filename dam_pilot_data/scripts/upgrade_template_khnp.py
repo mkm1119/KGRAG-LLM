@@ -145,7 +145,6 @@ for t in OLD:
     new = str(int(t[0]) + 1) + t[1:]
     if new[1:3] == '. ' and new[0] != '2': toc_entries.append(TBLANK())
     toc_entries.append(TOCC(new) if new[1:3] == '. ' else TOCE(' ' + form_h2(new)))
-    if new[1:3] == '.3': toc_entries.append(TOCE(' 라. 최종 산출물'))          # 장의 끝에 최종 산출물
 toc_entries += [TBLANK(), TOCC('7. 결  론'), TBLANK(), TOCE('참고문헌'),
                 TITLE('표 목 차'), TBLANK(), LISTE('표 1.1 ○○○○○'), TITLE('그 림 목 차'), TBLANK(), LISTE('그림 1.1 ○○○○○')]
 ps[toc] = TITLE('목   차').replace('<hp:t>', ROMAN + '<hp:t>', 1)          # 앞부분 쪽 번호는 로마 숫자(-ⅱ-)
@@ -153,10 +152,6 @@ ps[ref] = TITLE('참 고 문 헌')
 app = [i for i, p in enumerate(ps) if i > ref and is_h1(p) and text_of(p).startswith('부록')][0]
 del ps[app:]                                   # 부록은 쓰지 않는다(참고문헌까지)
 ps = ps[:toc + 1] + toc_entries + intro + ps[body:ref] + concl + ps[ref:]
-# 과업 항목의 장(2~5장) 끝에 '라. 최종 산출물'을 둔다
-for nxt in ('6.', '5.', '4.', '3.'):
-    k = [i for i, p in enumerate(ps) if is_h1(p) and text_of(p).startswith(nxt)][0]
-    ps[k:k] = [H2('라. 최종 산출물'), BLANK(), BLANK()]
 strip = lambda p: p if ('<hp:tbl' in p or '<hp:pic' in p) else re.sub(r'<hp:linesegarray>.*?</hp:linesegarray>', '', p, flags=re.S)
 out_sec = pre + ''.join(strip(p) for p in ps) + post
 
