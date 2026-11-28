@@ -108,10 +108,11 @@ def _shape_tail(tag, x, y, w, h, grouped):
 
 
 def _rect(x, y, w, h, lines, fill='#FFFFFF', border=True, grouped=True):
+    brush = '<hc:fillBrush><hc:winBrush faceColor="%s" hatchColor="#000000" alpha="0"/></hc:fillBrush>' % fill if fill else ''
     paras = ''.join('<hp:p id="0" paraPrIDRef="44" styleIDRef="46" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="20"><hp:t>%s</hp:t></hp:run></hp:p>' % escape(t) for t in lines)
     return (_shape_head('rect', x, y, w, h, grouped, ' ratio="0"')
             + '<hp:lineShape color="#404040" width="%d" style="%s" endCap="FLAT" headStyle="NORMAL" tailStyle="NORMAL" headfill="1" tailfill="1" headSz="MEDIUM_MEDIUM" tailSz="MEDIUM_MEDIUM" outlineStyle="NORMAL" alpha="0"/>' % (57 if border else 0, 'SOLID' if border else 'NONE')
-            + '<hc:fillBrush><hc:winBrush faceColor="%s" hatchColor="#000000" alpha="0"/></hc:fillBrush>' % fill
+            + brush
             + '<hp:shadow type="NONE" color="#B2B2B2" offsetX="0" offsetY="0" alpha="0"/>'
             + '<hp:drawText lastWidth="%d" name="" editable="0"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0">%s</hp:subList>'
               '<hp:textMargin left="283" right="283" top="283" bottom="283"/></hp:drawText>' % (w, paras)
@@ -136,7 +137,7 @@ def DRAWING(shapes, W, H, mode='group'):
     xs = []
     for sh in shapes:
         if sh[0] == 'box': xs.append(_rect(sh[1], sh[2], sh[3], sh[4], sh[5], sh[6] if len(sh) > 6 else '#FFFFFF', True, g))
-        elif sh[0] == 'text': xs.append(_rect(sh[1], sh[2], sh[3], sh[4], sh[5], '#FFFFFF', False, g))
+        elif sh[0] == 'text': xs.append(_rect(sh[1], sh[2], sh[3], sh[4], sh[5], None, False, g))
         else: xs.append(_arrow(sh[1], sh[2], sh[3], sh[4], g))
     if g:
         obj = ('<hp:container id="%d" zOrder="0" numberingType="PICTURE" textWrap="TOP_AND_BOTTOM" textFlow="BOTH_SIDES" lock="0" dropcapstyle="None" href="" groupLevel="0" instid="%d">'

@@ -26,25 +26,9 @@ FIG_SRC = {
     'llm_fig3': ('Chen 외(2026)', '27_CSKRLLMHWCEC'), 'kg_fig_gravitydam': ('Pei 외(2026)', '43_중력댐결함진단'),
     's13_fig_dsas': ('Shu 외(2025)', '48_댐구조안전온톨로지평가'), 's23_fig_lsmkg': ('Zhang 외(2025)', '11_LSMKG'),
 }
-DRAW_TEST = '--drawtest' in sys.argv
-if DRAW_TEST: sys.argv.remove('--drawtest')
-
-
-def _noy():
-    bw, bh, gap, x0 = 10000, 5800, 2400, 600
-    X = [x0 + i * (bw + gap) for i in range(4)]; y1, y2 = 0, 8400; B, G = '#E8EDFA', '#EDF4EC'
-    t = [('1단계', '분야와 범위의 결정'), ('2단계', '기존 온톨로지의', '재사용 검토'), ('3단계', '중요한 용어의 나열'), ('4단계', 'Class와 계층의 정의'),
-         ('5단계', 'Class의 속성 정의'), ('6단계', '속성의 제약 정의'), ('7단계', '인스턴스의 생성')]
-    sh = [('box', X[i], y1, bw, bh, list(t[i]), B) for i in range(4)]
-    sh += [('arrow', X[i] + bw, y1 + bh // 2, X[i + 1], y1 + bh // 2) for i in range(3)]
-    sh += [('arrow', X[3] + bw // 2, y1 + bh, X[3] + bw // 2, y2)]
-    sh += [('box', X[3 - i], y2, bw, bh, list(t[4 + i]), G) for i in range(3)]
-    sh += [('arrow', X[3 - i], y2 + bh // 2, X[2 - i] + bw, y2 + bh // 2) for i in range(2)]
-    sh += [('text', X[1], y2 + bh + 500, X[3] + bw - X[1], 2200, ['초기 판을 만든 뒤 반복하여 수정'])]
-    return sh, X[3] + bw + x0, y2 + bh + 2700
-
-
-DRAWN = {'s22_fig_noy': _noy()}
+from final_report_drawings import DRAWN      # 직접 그린 그림은 한글 도형으로 넣는다(--png를 주면 그림 파일로 넣는다)
+USE_PNG = '--png' in sys.argv
+if USE_PNG: sys.argv.remove('--png')
 BIB = json.load(open(os.path.join(ROOT, 'references', 'case_survey', 'bib.json'), encoding='utf-8'))
 ONLY = None
 SHOW_BREAKS = '--breaks' in sys.argv                    # 새 쪽에서 시작하는 제목과 어림 분량을 출력
@@ -110,11 +94,10 @@ def render(items):
             rows = [[resolve(str(c)) for c in r] for r in v['rows']]
             out += table('%s %s' % (labels[('표', v['label'])], v['caption']), rows, v['widths'], v.get('align'), v.get('unit'), resolve(v['note']) if v.get('note') else None)
         elif kind == 'FIGPLACE':
-            if DRAW_TEST and v['label'] in DRAWN:        # 한글 도형으로 그린 시험본: 묶음 방식과 낱개 방식을 나란히 넣는다
+            if v['label'] in DRAWN and not USE_PNG:
                 sh, W, H = DRAWN[v['label']]
-                cap = '%s %s' % (labels[('그림', v['label'])], v['caption'])
-                out += [BODY('[시험 A] 도형을 하나로 묶어 글자처럼 넣은 방식'), DRAWING(sh, W, H, 'group'), FCAP(cap), BLANK(),
-                        BODY('[시험 B] 도형을 하나씩 문단 기준 위치에 둔 방식'), DRAWING(sh, W, H, 'free'), FCAP(cap), BLANK(), BODY('[비교] 기존 그림 파일')]
+                out += [DRAWING(sh, W, H, 'group'), FCAP('%s %s' % (labels[('그림', v['label'])], v['caption'])), BLANK()]
+                continue
             png = os.path.join(FIGDIR, v['label'] + '.png')
             if os.path.exists(png):                      # 그림 파일이 있으면 그림을 넣고, 논문 그림은 제목에 출처를 붙인다
                 cap = '%s %s' % (labels[('그림', v['label'])], v['caption'])
